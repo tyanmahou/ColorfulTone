@@ -1,14 +1,24 @@
 ﻿
+#include"MahouSoundBeat.h"
 # include <Siv3D.hpp>
-
+#include"Preview.h"
 void Main()
 {
-	const Font font(30);
+	Window::SetTitle(L"ColorfulTone-NotesViewer");
+	Window::Resize(800, 600);
+	System::SetExitEvent((Input::KeyAlt + Input::KeyF4).clicked | WindowEvent::CloseButton);
+
+	//ゲームコンフィグの初期化
+	//キー入力やハイスピ等
+	Game::Instance()->m_config.init();
+
+	Preview viewer;
+
+	viewer.init();
 
 	while (System::Update())
 	{
-		font(L"ようこそ、Siv3D の世界へ！").draw();
-
-		Circle(Mouse::Pos(), 50).draw({ 255, 0, 0, 127 });
+		viewer.update();
+		viewer.draw();
 	}
 }

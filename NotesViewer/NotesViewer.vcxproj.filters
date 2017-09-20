@@ -81,6 +81,9 @@
     <ClCompile Include="Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
@@ -275,7 +278,7 @@
     </None>
     <None Include="Engine\Shaders\D3D11\DeferredMesh_Shadow.vs">
       <Filter>リソース ファイル\Engine\Shaders\D3D11</Filter>
-    </None>    
+    </None>
     <None Include="Engine\Shaders\D3D11\DeferredMesh_Textured.ps">
       <Filter>リソース ファイル\Engine\Shaders\D3D11</Filter>
     </None>
@@ -379,7 +382,7 @@
     </Text>
     <Text Include="Example\Shaders\Wave2DPointSprites.hlsl">
       <Filter>リソース ファイル\Example\Shaders</Filter>
-    </Text>   
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Example\Sound.mp3">
@@ -393,5 +396,10 @@
     <Font Include="Example\YomogiFont.ttf">
       <Filter>リソース ファイル\Example</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
