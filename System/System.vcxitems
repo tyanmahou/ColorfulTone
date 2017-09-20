@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{45d41acc-2c3c-43d2-bc10-02aa73ffc7c7}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AudioSpectrum.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AutoPlayManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BPMChanger.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CourseData.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CoursePlay.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CourseScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)eJudge.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Fade.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FCAPAnimeManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileLoad.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FontKinetic.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Game.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameConfig.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GenreData.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GenreManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GIFTexture.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HighSpeedDemo.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JudgeEffect.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfig.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfigScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LongNote.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MahouSoundBeat.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MainScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MusicData.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelectScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Note.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NotesData.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Object.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayKey.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayMusicGame.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Preview.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RepeatNote.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ResultEffect.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ResultRank.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ResultScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ResultTweet.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SceneInfo.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Score.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SerialImage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Singleton.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StartAnime.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Stop.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TapEffect.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TextObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Tutorial.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VideoAsset.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AudioSpectrum.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BPMChanger.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CourseData.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CoursePlay.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CourseScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)eJudge.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Fade.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileLoad.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FontKinetic.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameConfig.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GenreManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GIFTexture.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HighSpeedDemo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfig.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfigScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)LongNote.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MainScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MusicData.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MusicSelectScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Note.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NotesData.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Object.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayKey.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayMusicGame.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Preview.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RepeatNote.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ResultRank.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ResultScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ResultTweet.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SerialImage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StartAnime.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Stop.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TextObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Tutorial.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VideoAsset.cpp" />
+  </ItemGroup>
+</Project>

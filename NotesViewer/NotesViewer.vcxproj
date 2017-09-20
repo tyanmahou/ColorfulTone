@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9F5A5474-73E0-4FF4-B48D-EB59009B9D4A}</ProjectGuid>
+    <ProjectGuid>{06238E83-0D04-4C5C-BEB8-E8D6F6F1FD3B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NotesViewer</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>

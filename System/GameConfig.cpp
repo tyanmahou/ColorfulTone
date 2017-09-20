@@ -1,0 +1,136 @@
+#include"GameConfig.h"
+#include"PlayKey.h"
+GameConfig::GameConfig() :
+	m_scrollRate(1.0f),
+	m_perfectSE(L"Resource/Sound/SE/tapP.wav"),
+	m_greatSE(L"Resource/Sound/SE/tapGR.wav"),
+	m_goodSE(L"Resource/Sound/SE/tapGD.wav")
+{
+	m_red1 = Input::KeyF;
+	m_red2 = Input::KeyD;
+	m_red3 = Input::KeyS;
+
+	m_blue1 = Input::KeySpace;
+	m_blue2 = Input::KeyC;
+	m_blue3 = Input::KeyM;
+
+	m_yellow1 = Input::KeyJ;
+	m_yellow2 = Input::KeyK;
+	m_yellow3 = Input::KeyL;
+
+}
+namespace
+{
+	void InitKey(const INIReader& ini, const String& str, Key& key, const uint8 defaultCode=0)
+	{
+		const KeyDeviceType device = static_cast<KeyDeviceType>(ini.getOr<int>(L"Key." + str + L"_Device", 0));
+		int code = ini.getOr<int>(L"Key." + str + L"_Code", -1);
+		if (code == -1)
+			code = defaultCode;
+		const uint8 userIndex = ini.getOr<uint8>(L"Key." + str + L"_User", 0);
+		if (device == KeyDeviceType::Gamepad)
+		{
+			key = Key(userIndex, code, Key::GamepadKeyCode{});
+		}
+		else if (device == KeyDeviceType::XInput)
+		{
+			key = Key(userIndex, code, Key::XInputKeyCode{});
+		}
+		else
+		{
+			key = Key(code, Key::VirtualKeyCode{});
+		}
+	}
+}
+void GameConfig::init()
+{
+	INIReader ini(L"config.ini");
+
+	//F-70 GHIJ-74 KLMNOPQRS
+	InitKey(ini, L"Red1", m_red1, 70);
+	InitKey(ini, L"Red2", m_red2, 68);
+	InitKey(ini, L"Red3", m_red3, 83);
+
+	InitKey(ini, L"Blue1", m_blue1, 32);
+	InitKey(ini, L"Blue2", m_blue2, 67);
+	InitKey(ini, L"Blue3", m_blue3, 77);
+
+	InitKey(ini, L"Yellow1", m_yellow1, 74);
+	InitKey(ini, L"Yellow2", m_yellow2, 75);
+	InitKey(ini, L"Yellow3", m_yellow3, 76);
+
+	InitKey(ini, L"Up", m_up);
+	InitKey(ini, L"Down", m_down);
+	InitKey(ini, L"Left", m_left);
+	InitKey(ini, L"Right", m_right);
+
+	InitKey(ini, L"Start", m_start);
+	InitKey(ini, L"SmallBack", m_smallBack);
+	InitKey(ini, L"BigBack", m_bigBack);
+
+	PlayKey::Init();
+
+	m_scrollRate = ini.getOr<float>(L"Config.SpeedRate", 1.0f);
+
+	m_isCirleCut = ini.getOr<bool>(L"Config.CirleCut", false);
+	m_isClearRateDownType = ini.getOr<bool>(L"Config.IndicateRate", false);
+
+	m_playScale = ini.getOr<float>(L"Config.PlayScale", 1.0f);
+
+	m_perfectSE = ini.getOr<String>(L"Tap.Perfect", L"Resource/Sound/SE/tapP.wav");
+	m_greatSE = ini.getOr<String>(L"Tap.Great", L"Resource/Sound/SE/tapGR.wav");
+	m_goodSE = ini.getOr<String>(L"Tap.Good", L"Resource/Sound/SE/tapGD.wav");
+
+	SoundAsset::Register(L"PERFECT", m_perfectSE, { L"System" });
+	SoundAsset::Register(L"GREAT", m_greatSE, { L"System" });
+	SoundAsset::Register(L"GOOD", m_goodSE, { L"System" });
+
+}
+namespace
+{
+	void SaveKey(INIWriter& ini, const String& str, Key& key)
+	{
+		ini.write(L"Key", str + L"_Device", static_cast<int>(key.device));
+		ini.write(L"Key", str + L"_Code", key.code);
+		ini.write(L"Key", str + L"_User", key.userIndex);
+	}
+}
+
+void GameConfig::save()
+{
+	INIWriter ini(L"config.ini");
+
+	//キーの保存
+	SaveKey(ini, L"Red1", m_red1);
+	SaveKey(ini, L"Red2", m_red2);
+	SaveKey(ini, L"Red3", m_red3);
+	SaveKey(ini, L"Blue1", m_blue1);
+	SaveKey(ini, L"Blue2", m_blue2);
+	SaveKey(ini, L"Blue3", m_blue3);
+	SaveKey(ini, L"Yellow1", m_yellow1);
+	SaveKey(ini, L"Yellow2", m_yellow2);
+	SaveKey(ini, L"Yellow3", m_yellow3);
+
+	SaveKey(ini, L"Up", m_up);
+	SaveKey(ini, L"Down", m_down);
+	SaveKey(ini, L"Left", m_left);
+	SaveKey(ini, L"Right", m_right);
+
+	SaveKey(ini, L"Start", m_start);
+	SaveKey(ini, L"SmallBack", m_smallBack);
+	SaveKey(ini, L"BigBack", m_bigBack);
+
+	//タップ音の保存
+	ini.write(L"Tap", L"Perfect", m_perfectSE);
+	ini.write(L"Tap", L"Great", m_greatSE);
+	ini.write(L"Tap", L"Good", m_goodSE);
+
+	//その他設定の保存
+	ini.write(L"Config", L"SpeedRate", m_scrollRate);
+	ini.write(L"Config", L"PlayScale", m_playScale);
+	ini.write(L"Config", L"CirleCut", m_isCirleCut);
+	ini.write(L"Config", L"IndicateRate", m_isClearRateDownType);
+
+
+
+}
