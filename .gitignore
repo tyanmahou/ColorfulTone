@@ -331,3 +331,13 @@ $RECYCLE.BIN/
 [Ee]xample/
 [Ss]creenshot/
 *.html
+
+# =========================
+# ColorfulTone
+# =========================
+
+ColorfulTone/Music/
+ColorfulTone/Course/
+ColorfulTone/CustomFolder/
+ColorfulTone/Score/
+ColorfulTone/TapSE/
