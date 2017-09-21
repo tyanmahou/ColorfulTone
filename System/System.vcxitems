@@ -14,6 +14,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AppBase.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioSpectrum.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AutoPlayManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayKey.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayMusicGame.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Preview.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Util.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RepeatNote.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultEffect.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultRank.h" />
@@ -64,6 +66,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VideoAsset.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AppBase.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AudioSpectrum.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BPMChanger.cpp" />

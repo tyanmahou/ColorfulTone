@@ -83,7 +83,7 @@ void MainScene::draw()const
 
 	if (!m_isCourse)
 	{
-		PutText(L"Press Esc or BackSpace").at(100, 600 - 20);
+		PutText(L"Press Esc or BackSpace").at(100, Window::Height() - 20);
 
 		if (PlayKey::BigBack().pressed)
 			m_font2(L"Esc長押しで戻る").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));
@@ -93,7 +93,7 @@ void MainScene::draw()const
 	}
 	else
 	{
-		PutText(L"Press Esc").at(100, 600 - 20);
+		PutText(L"Press Esc").at(100, Window::Height() - 20);
 
 		if (PlayKey::BigBack().pressed)
 			m_font2(L"Esc長押しで諦める").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));

@@ -205,7 +205,6 @@ bool Game::updateAndDraw(){
 
 	if (!m_scene.updateAndDraw())
 		return false;
-
 	return true;
 }
 

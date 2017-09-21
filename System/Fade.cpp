@@ -5,14 +5,14 @@ void Fade::Default(double t)
 {
 	if (t > 0.75)
 	{
-		Window::ClientRect().draw(ColorF(0.0));
+		Window::BaseClientRect().draw(ColorF(0.0));
 		return;
 	}
 
 	t *= (1 / 0.75);
 
 
-	Window::ClientRect().draw(ColorF(0.0,t));
+	Window::BaseClientRect().draw(ColorF(0.0,t));
 
 
 }
@@ -20,7 +20,7 @@ void Fade::SmoothCircle(double t)
 {
 	if (t > 0.75)
 	{
-		Window::ClientRect().draw(ColorF(0.0));
+		Window::BaseClientRect().draw(ColorF(0.0));
 		return;
 	}
 
@@ -31,10 +31,10 @@ void Fade::SmoothCircle(double t)
 	};
 	Graphics2D::SetStencilState(StencilState::Replace);
 	Graphics2D::SetStencilValue(1);
-	Circle(Window::Center(), Window::Width() * func(1.0 - t)).draw();
+	Circle(Window::BaseCenter(), Window::BaseWidth() * func(1.0 - t)).draw();
 	Graphics2D::SetStencilState(StencilState::Test(StencilFunc::NotEqual));
 
-	Window::ClientRect().draw(ColorF(0.0, 1));
+	Window::BaseClientRect().draw(ColorF(0.0, 1));
 	Graphics2D::SetStencilState(StencilState::Default);
 
 }

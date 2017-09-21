@@ -61,11 +61,6 @@ void AudioSpectrum::draw(const Sound & sound) const
 
 	Graphics2D::SetBlendState(BlendState::Additive);
 
-	//static RenderTexture tex(Window::Size(), Palette::Black);
-	//tex.clear(Palette::Black);
-
-	//Graphics2D::SetRenderTarget(tex);
-
 	constexpr int devide = 2;
 	for (auto i : step(360/devide))
 	{
@@ -84,13 +79,13 @@ void AudioSpectrum::draw(const Sound & sound) const
 
 		const double strength = sliderStrength * Pow(size, 2.0) * Log(di) / 10000000.0;
 
-		//const Vec2 pos = Circular(size / 2.0, radian) + Window::Center();
+		//const Vec2 pos = Circular(size / 2.0, radian) + Window::BaseCenter();
 
 		Color col = HSV(240 - Log(di) * 100, 1.0, strength).toColor(150);
 
 		//grad.resize(width, size).rotate(radian).drawAt(pos, col);
 
-		const Vec2 posOuter = Circular(m_radius, radian) + Window::Center();
+		const Vec2 posOuter = Circular(m_radius, radian) + Window::BaseCenter();
 
 		grad.resize(width * 2, width * 2).rotate(radian).drawAt(posOuter, col);
 

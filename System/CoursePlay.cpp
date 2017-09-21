@@ -2,7 +2,7 @@
 #include"Fade.h"
 #include"SceneInfo.h"
 #include"PlayKey.h"
-
+#include"Util.h"
 CoursePlay::CoursePlay():
 	m_font1(16, Typeface::Bold),
 	m_font2(12)
@@ -70,16 +70,7 @@ namespace
 		TextureAsset(L"bannerbg").resize(200, 270).drawAt(x + offsetX, y + 25 + offstY);
 		musics[index].getTexture().resize(160, 160).drawAt(x + offsetX, y - 15 + offstY).drawFrame(0, 2);
 
-		const auto nameLength = font(musics[index].getMusicName()).region().w;
-		if (nameLength > 195)
-		{
-			const auto scale = 195.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(Vec2{ (x + offsetX)*(1.0 / scale - 1.0),0 })*Mat3x2::Scale(Vec2{ scale, 1.0 }));
-		}
-
-		font(musics[index].getMusicName()).drawCenter(x + offsetX, y + 100 + offstY);
-		Graphics2D::SetTransform(Mat3x2::Identity());
-
+		util::ContractionDrawbleString(font(musics[index].getMusicName()), { x + offsetX, y + 100 + offstY },195);
 	}
 }
 void CoursePlay::highSpeedDraw()const
@@ -144,29 +135,13 @@ void CoursePlay::musicInfoDraw() const
 	//‹Èî•ñ
 
 	//ì‹È‰Æ
-	{
-		auto&str = music.getArtistName();
-		const auto nameLength = m_font2(str).region().w;
-		if (nameLength > 280)
-		{
-			const auto scale = 280.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(Vec2{ 400.0*(1.0 / scale - 1.0),0 })*Mat3x2::Scale(Vec2{ scale, 1.0 }));
-		}
-		m_font2(str).drawCenter(400, 440, Palette::White);
-	}
+	util::ContractionDrawbleString(m_font2(music.getArtistName()), { 400, 440 }, 280);
+
 	//BPM
 	m_font2(Format(L"BPM:", music.getBPM())).draw(440, 470, Palette::Black);
 
 	//•¶Žš‚Ì•`‰æ”ÍˆÍ’²®
-	const auto nameLength = m_font1(music.getMusicName()).region().w;
-	if (nameLength > 280)
-	{
-		const auto scale = 280.0 / nameLength;
-		Graphics2D::SetTransform(Mat3x2::Translate(Vec2{ 400.0*(1.0 / scale - 1.0),0 })*Mat3x2::Scale(Vec2{ scale, 1.0 }));
-	}
-	//‹È–¼
-	m_font1(music.getMusicName()).drawCenter(400, 400);
-	Graphics2D::SetTransform(Mat3x2::Identity());
+	util::ContractionDrawbleString(m_font1(music.getMusicName()), { 400, 400 }, 280);
 
 }
 

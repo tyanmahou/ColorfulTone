@@ -399,6 +399,12 @@ void FileLoad::draw()const
 
 }
 
+void FileLoad::drawFadeIn(double t) const
+{
+	draw();
+	FadeIn(t, Fade::Default);
+}
+
 
 
 
@@ -407,7 +413,6 @@ void FileLoad::draw()const
 //--------------------------------------------------------------------------------
 void FileLoad::drawFadeOut(double t) const
 {
-
 	draw();
 	FadeOut(t, Fade::SmoothCircle);
 }

@@ -5,10 +5,10 @@
 #include"PlayKey.h"
 #include"FontKinetic.h"
 #include"ResultRank.h"
+#include"Util.h"
 
 
-
-PlayMusicGame::PlayMusicGame():
+PlayMusicGame::PlayMusicGame() :
 	m_nowCount(-10000.0),
 	m_scrollRate(1.0f),
 	m_totalNotes(0),
@@ -126,9 +126,6 @@ namespace
 
 void PlayMusicGame::drawBG(const MusicData & nowMusic, const double drawCount)const
 {
-
-
-
 	static PixelShader ps(L"Shaders/mainBg.ps");
 	static ConstantBuffer<Float4> cb;
 	cb->set(static_cast<float>(drawCount), 0, 0, 0);
@@ -142,7 +139,6 @@ void PlayMusicGame::drawBG(const MusicData & nowMusic, const double drawCount)co
 	m_spectrum.draw(m_sound);
 
 	TextureAsset(L"mainbg").draw();
-
 }
 
 void PlayMusicGame::draw(const MusicData & nowMusic) const
@@ -158,54 +154,51 @@ void PlayMusicGame::draw(const MusicData & nowMusic) const
 
 
 
-	Graphics2D::SetTransform(Mat3x2::Translate(-400, -300).scale(config.m_playScale).translate(400, 300));
-
 	if (config.m_isCirleCut)
 	{
-		const Circle mask(400, 300, 300 / config.m_playScale);
+		const Circle mask(400, 300, 300);
 		Graphics2D::SetStencilState(StencilState::Replace);
 		Graphics2D::SetStencilValue(6);
 		mask.draw();
 		Graphics2D::SetStencilState(StencilState::Test(StencilFunc::Equal));
 		Graphics2D::SetBlendState(BlendState::Subtractive);
-		mask.draw(ColorF(0.3,0.3));
+		mask.draw(ColorF(0.3, 0.3));
 		Graphics2D::SetBlendState(BlendState::Default);
-
 	}
 
+	{
+		util::Transformer2D t2d(Mat3x2::Scale(config.m_playScale,Vec2{400,300}));
+
+		//入力アクション
+		const bool redInput = isInput(AutoPlayManager::Instance()->m_isRedPressed, PlayKey::Red().pressed);
+		const bool blueInput = isInput(AutoPlayManager::Instance()->m_isBluePressed, PlayKey::Blue().pressed);
+		const bool yellowInput = isInput(AutoPlayManager::Instance()->m_isYellowPressed, PlayKey::Yellow().pressed);
 
 
-	//入力アクション
-	const bool redInput = isInput(AutoPlayManager::Instance()->m_isRedPressed, PlayKey::Red().pressed);
-	const bool blueInput = isInput(AutoPlayManager::Instance()->m_isBluePressed, PlayKey::Blue().pressed);
-	const bool yellowInput = isInput(AutoPlayManager::Instance()->m_isYellowPressed, PlayKey::Yellow().pressed);
+		if (redInput)
+			TextureAsset(L"center_redlight").drawAt(400, 300);
+
+		if (blueInput)
+			TextureAsset(L"center_bluelight").drawAt(400, 300);
+
+		if (yellowInput)
+			TextureAsset(L"center_yellowlight").drawAt(400, 300);
 
 
-	if (redInput)
-		TextureAsset(L"center_redlight").drawAt(400, 300);
+		TextureAsset(L"center_base").drawAt(400, 300);
 
-	if (blueInput)
-		TextureAsset(L"center_bluelight").drawAt(400, 300);
+		static constexpr Color judgeLineColor(255, 165, 0, 255);
 
-	if (yellowInput)
-		TextureAsset(L"center_yellowlight").drawAt(400, 300);
+		//判定円
+		constexpr  Circle judgeLine(400, 300, 40);
+		judgeLine.drawFrame(2, 2, judgeLineColor);
 
+		PlayMusicGame::GetEffect().update();
+		//ノーツオブジェクト
+		m_notesData.draw(drawCount, m_scrollRate);
 
-	TextureAsset(L"center_base").drawAt(400, 300);
-
-	static constexpr Color judgeLineColor(255, 165, 0, 255);
-
-	//判定円
-	constexpr  Circle judgeLine(400, 300, 40);
-	judgeLine.drawFrame(2, 2, judgeLineColor);
-
-	PlayMusicGame::GetEffect().update();
-	//ノーツオブジェクト
-	m_notesData.draw(drawCount, m_scrollRate);
-
-	Graphics2D::SetTransform(Mat3x2::Identity());
-	Graphics2D::SetStencilState(StencilState::Default);
-
+		Graphics2D::SetStencilState(StencilState::Default);
+	}
 	this->uiDraw();
 
 }
@@ -240,14 +233,14 @@ void PlayMusicGame::uiDraw() const
 		font(Pad(combo, { 6,L' ' })).drawKinetic(x, 300, FontKinetic::DeleteSpace, Palette::Black);
 
 	}
-	const auto rate = m_isCourse?
-		m_life:
-		Game::Instance()->m_config.m_isClearRateDownType?
-		ResultRank::calcClearRateAsDownType(m_score, m_notesData.getTotalNotes()):
+	const auto rate = m_isCourse ?
+		m_life :
+		Game::Instance()->m_config.m_isClearRateDownType ?
+		ResultRank::calcClearRateAsDownType(m_score, m_notesData.getTotalNotes()) :
 		ResultRank::calcClearRate(m_score, m_notesData.getTotalNotes());
 
-	font(L"{:.2f}%"_fmt, rate).draw(551, 301, Palette::White);
-	font(L"{:.2f}%"_fmt, rate).draw(550, 300, Palette::Black);
+	font(L"{:.2f}%"_fmt, rate).draw(501, 301, Palette::White);
+	font(L"{:.2f}%"_fmt, rate).draw(500, 300, Palette::Black);
 
 
 	//曲の現在地
@@ -282,13 +275,13 @@ void PlayMusicGame::uiDraw() const
 		}
 	}
 
-	PutText(m_title).at(400, 20);
+	PutText(m_title).at(Window::Center().x, 20);
 
 	if (AutoPlayManager::Instance()->m_autoPlay)
-		PutText(L"AutoPlay").at(400, 40);
+		PutText(L"AutoPlay").at(Window::Center().x, 40);
 
 	const auto levelName = Format(m_notesData.getLevel()) + L" - " + m_notesData.getLevelName();
-	PutText(levelName).at(400, 600 - 20);
+	PutText(levelName).at(Window::Center().x, Window::Height() - 20);
 
 }
 

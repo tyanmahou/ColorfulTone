@@ -228,6 +228,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AudioSpectrum.cpp">
       <Filter>util</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AppBase.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -372,6 +375,12 @@
       <Filter>Scene\Result</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioSpectrum.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AppBase.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Util.h">
       <Filter>util</Filter>
     </ClInclude>
   </ItemGroup>

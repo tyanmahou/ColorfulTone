@@ -60,9 +60,9 @@ void Tutorial::draw()const
 {
 	m_musicGame.draw(m_music);
 
-	PutText(L"TutoRial").at(400, 40);
+	PutText(L"Tutorial").at(Window::Center().x, 40);
 
-	PutText(L"Press Ese or BackSpace").at(100, 600 - 20);
+	PutText(L"Press Ese or BackSpace").at(100, Window::Height() - 20);
 
 	if (PlayKey::BigBack().pressed)
 		m_font2(L"Ese’·‰Ÿ‚µ‚Å–ß‚é").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));

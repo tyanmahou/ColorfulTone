@@ -3,6 +3,7 @@
 #include"SceneInfo.h"
 #include"AutoPlayManager.h"
 #include"PlayKey.h"
+#include"Util.h"
 CourseSelectScene::CourseSelectScene() :
 	m_levelFont(12),
 	m_font(16, Typeface::Bold)
@@ -69,20 +70,6 @@ void CourseSelectScene::update()
 namespace
 {
 
-	//テキストをうまくリサイズする
-	void ResizeText(const Font& font, const String& text, const Vec2& pos, const Color& color = Palette::White, double size = 280)
-	{
-		const auto nameLength = font(text).region().w;
-		if (nameLength > size)
-		{
-			const auto scale = size / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(-pos.x, -pos.y).scale(scale, 1).translate(pos.x, pos.y));
-		}
-		font(text).draw(pos.x, pos.y,color);
-		Graphics2D::SetTransform(Mat3x2::Identity());
-
-	}
-
 }
 //譜面情報の表示
 void CourseSelectScene::musicInfo(int y, int musicID, int notesID) const
@@ -94,11 +81,11 @@ void CourseSelectScene::musicInfo(int y, int musicID, int notesID) const
 	Rect(x, y, 800, size + 20).draw(ColorF(0, 0.8));
 	musics[musicID].getTexture().resize(size, size).draw(x + 10, y + 10);
 
-	ResizeText(m_font, musics[musicID].getMusicName(), { x + 120 ,y + 30 });
+	util::ContractionDrawbleString(m_font(musics[musicID].getMusicName()), { x + 120 ,y + 30 },280,Palette::White,false);
 	{
 		const auto& note = musics[musicID].getNotesData().at(notesID);
 		const String name = note.getLevelName() + L" Lv" + Format(note.getLevel());
-		ResizeText(m_levelFont, name, { x + 120 ,y + 60 },note.getColor());
+		util::ContractionDrawbleString(m_levelFont(name), { x + 120 ,y + 60 },280,note.getColor(),false);
 	}
 }
 
@@ -123,21 +110,10 @@ void CourseSelectScene::draw() const
 			TextureAsset(L"levelbg").draw(430 + offset, 60 * i, uiColor);
 			const auto index = (m_selectCourse + i - 4 + courses.size()*Abs(i - 4)) % courses.size();
 
-			{
-				const auto nameLength = m_font(courses[index].getTitle()).region().w;
-				if (nameLength > 206.0)
-				{
-					const auto scale = 206.0 / nameLength;
-					Graphics2D::SetTransform(Mat3x2::Translate(-(430 + 90 + offset), -(10 + 60 * i)).scale(scale, 1).translate(430 + 90 + offset, 10 + 60 * i));
-				}
-				m_font(courses[index].getTitle()).draw(430 + 90 + offset, 10 + 60 * i);
-				Graphics2D::SetTransform(Mat3x2::Identity());
-			}
+			util::ContractionDrawbleString(m_font(courses[index].getTitle()), { 430 + 90 + offset, 10 + 60 * i }, 206, Palette::White, false);
+
 			if(courses[index].isClear())
 			m_font(L"★").draw(455 + offset, 10 + 60 * i);
-
-			//TextureAsset(ResultRank::getRankTextureName(notesData[index].clearRate)).scale(0.1).drawAt(430 + 320 + offset, 10 + 15 + 60 * i);
-
 		}
 
 	}

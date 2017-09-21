@@ -5,6 +5,7 @@
 #include"ResultRank.h"
 #include"SceneInfo.h"
 #include"PlayKey.h"
+#include"Util.h"
 namespace {
 
 	static unsigned int g_nowPlayMusic = 0;
@@ -179,7 +180,7 @@ void MusicSelectScene::update()
 
 	const unsigned int levelSelectMax = m_musicsSize ? m_musics[m_selectMusic].getNotesData().size() : 0;
 
-	m_selectLevel = levelSelectMax? m_selectLevel%levelSelectMax:0;
+	m_selectLevel = levelSelectMax ? m_selectLevel%levelSelectMax : 0;
 
 	//キーボード操作
 	if (!m_isMusicDefineEasing.isActive() && !Input::KeyControl.pressed && !m_isGenreDefineEasing.isActive())
@@ -189,61 +190,61 @@ void MusicSelectScene::update()
 		{
 			if (!m_rightShift.isActive() && !m_leftShift.isActive())
 			{
-					//曲の選択
-					if (PlayKey::Left().pressed)
+				//曲の選択
+				if (PlayKey::Left().pressed)
+				{
+					SoundAsset(L"select").playMulti(0.5);
+					EasingStartBySelectMusic();
+					m_rightShift.start();
+				}
+				else if (PlayKey::Right().pressed)
+				{
+					SoundAsset(L"select").playMulti(0.5);
+					EasingStartBySelectMusic();
+					m_leftShift.start();
+				}
+				//曲,ジャンルの決定
+				if (PlayKey::Start().clicked)
+				{
+					if (m_mode == Mode::MusicSelect)
 					{
-						SoundAsset(L"select").playMulti(0.5);
-						EasingStartBySelectMusic();
-						m_rightShift.start();
-					}
-					else if (PlayKey::Right().pressed)
-					{
-						SoundAsset(L"select").playMulti(0.5);
-						EasingStartBySelectMusic();
-						m_leftShift.start();
-					}
-					//曲,ジャンルの決定
-					if (PlayKey::Start().clicked)
-					{
-						if (m_mode == Mode::MusicSelect)
+						if (m_musicsSize)
 						{
+
+							SoundAsset(L"desisionSmall").playMulti(0.5);
+							m_mode = Mode::LevelSelect;
+							m_isMusicDefineEasing.start();
+						}
+					}
+					else if (m_mode == Mode::GenreSelect)
+					{
+						SoundAsset(L"desisionSmall").playMulti(0.5);
+						static unsigned int nowGenre = 0;
+						if (m_selectGenre != nowGenre)
+						{
+							m_audioResult.wait();
+							AudioStop();
+
+							nowGenre = m_selectGenre;
+
+							m_musics = Game::Instance()->m_musics;
+							Erase_if(m_musics, GenreManager::m_refiners[m_selectGenre].m_refiner);
+							m_musicsSize = m_musics.size();
+
 							if (m_musicsSize)
 							{
+								m_selectMusic %= m_musicsSize;
 
-								SoundAsset(L"desisionSmall").playMulti(0.5);
-								m_mode = Mode::LevelSelect;
-								m_isMusicDefineEasing.start();
+								m_audioResult = std::async(std::launch::async, AudioPlay, m_musics[m_selectMusic].getSoundNameID(), m_musics[m_selectMusic].getLoopRange());
 							}
 						}
-						else if (m_mode == Mode::GenreSelect)
-						{
-							SoundAsset(L"desisionSmall").playMulti(0.5);
-							static unsigned int nowGenre = 0;
-							if (m_selectGenre != nowGenre)
-							{
-								m_audioResult.wait();
-								AudioStop();
-
-								nowGenre = m_selectGenre;
-
-								m_musics = Game::Instance()->m_musics;
-								Erase_if(m_musics, GenreManager::m_refiners[m_selectGenre].m_refiner);
-								m_musicsSize = m_musics.size();
-
-								if (m_musicsSize)
-								{
-									m_selectMusic %= m_musicsSize;
-
-									m_audioResult = std::async(std::launch::async, AudioPlay, m_musics[m_selectMusic].getSoundNameID(), m_musics[m_selectMusic].getLoopRange());
-								}
-							}
-							m_mode = Mode::MusicSelect;
-							m_isGenreDefineEasing.start();
+						m_mode = Mode::MusicSelect;
+						m_isGenreDefineEasing.start();
 
 
-						}
 					}
-				
+				}
+
 				//ジャンル選択に戻る
 				if (m_mode == Mode::MusicSelect&&PlayKey::SmallBack().clicked)
 				{
@@ -348,16 +349,7 @@ namespace
 
 		TextureAsset(L"bannerbg").resize(200, 270).drawAt(x + offsetX, y + 25 + offstY);
 		musics[index].getTexture().resize(160, 160).drawAt(x + offsetX, y - 15 + offstY).drawFrame(0, 2);
-
-		const auto nameLength = font(musics[index].getMusicName()).region().w;
-		if (nameLength > 195)
-		{
-			const auto scale = 195.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(Vec2{ (x + offsetX)*(1.0 / scale - 1.0),0 })*Mat3x2::Scale(Vec2{ scale, 1.0 }));
-		}
-
-		font(musics[index].getMusicName()).drawCenter(x + offsetX, y + 100 + offstY);
-		Graphics2D::SetTransform(Mat3x2::Identity());
+		util::ContractionDrawbleString(font(musics[index].getMusicName()), { x + offsetX, y + 100 + offstY }, 195);
 
 	}
 	void NonSelectGenreBannerBG(int x, int y, int index, int offsetX, int offstY, const Font& font)
@@ -369,15 +361,7 @@ namespace
 		genres[index].getTexture().resize(160, 160).drawAt(x + offsetX, y - 15 + offstY).drawFrame(0, 2);
 
 
-		const auto nameLength = font(genres[index].m_name).region().w;
-		if (nameLength > 195)
-		{
-			const auto scale = 195.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(Vec2{ (x + offsetX)*(1.0 / scale - 1.0),0 })*Mat3x2::Scale(Vec2{ scale, 1.0 }));
-		}
-
-		font(genres[index].m_name).drawCenter(x + offsetX, y + 100 + offstY);
-		Graphics2D::SetTransform(Mat3x2::Identity());
+		util::ContractionDrawbleString(font(genres[index].m_name), { x + offsetX, y + 100 + offstY }, 195);
 
 	}
 }
@@ -411,12 +395,8 @@ void MusicSelectScene::genreBannerAndInfoDraw()const
 	Graphics2D::SetStencilState(StencilState::Test(StencilFunc::Equal));
 
 	//文字の描画範囲調整
-	const auto nameLength = m_font1(genres[m_selectGenre].m_name).region().w;
-	if (nameLength > 280)
-	{
-		const auto scale = 280.0 / nameLength;
-		Graphics2D::SetTransform(Mat3x2::Translate(Vec2{ 400.0*(1.0 / scale - 1.0),genreOffsetY })*Mat3x2::Scale(Vec2{ scale, 1.0 }));
-	}
+	util::ContractionDrawbleString(m_font1(genres[m_selectGenre].m_name), { 400,400 + genreOffsetY }, 280);
+
 	//曲名
 	m_font1(genres[m_selectGenre].m_name).drawCenter(400, 400 + genreOffsetY);
 	Graphics2D::SetStencilState(StencilState::Default);
@@ -424,15 +404,8 @@ void MusicSelectScene::genreBannerAndInfoDraw()const
 	//移動中の処理
 	if (!(m_bannerSize.isActive() || m_bannerSize.isEnd()))
 	{
-		const auto nameLength = m_font2(genres[m_selectGenre].m_name).region().w;
-		if (nameLength > 210)
-		{
-			const auto scale = 210.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(Vec2{ (400 + easingOffsetX)*(1.0 / scale - 1.0),genreOffsetY })*Mat3x2::Scale(Vec2{ scale, 1.0 }));
-		}
-		m_font2(genres[m_selectGenre].m_name).drawCenter(400 + easingOffsetX, y + 100 + genreOffsetY);
+		util::ContractionDrawbleString(m_font2(genres[m_selectGenre].m_name), { 400 + easingOffsetX, y + 100 + genreOffsetY }, 210);
 	}
-	Graphics2D::SetTransform(Mat3x2::Identity());
 	//--------------------------------------------------------------------------------------------------------------
 
 
@@ -457,59 +430,42 @@ void MusicSelectScene::musicBannerAndInfoDraw()const
 	//--------------------------------------------------------------------------------------------------------------
 	//選択中の曲
 	//--------------------------------------------------------------------------------------------------------------
-	Graphics2D::SetTransform(Mat3x2::Translate(Vec2{ -easingOffestY / 3,genreOffsetY }));
-
-	//ジャケ絵部分
-	TextureAsset(L"bannerbg").resize(m_bannerBGSize.easeInOut()).drawAt(400 + easingOffsetX, m_bannerBGY.easeInOut());
-	musics[m_selectMusic].getTexture().resize(m_bannerSize.easeInOut(), m_bannerSize.easeInOut()).drawAt(400 + easingOffsetX, y - 15).drawFrame(0, 2);
-
-	//曲情報
-	Graphics2D::SetStencilState(StencilState::Replace);
-	Graphics2D::SetStencilValue(2);
-	Rect(400 - m_infoSeat.easeInOut() / 2, 350 - m_infoSeat.easeInOut() / 2, m_infoSeat.easeInOut(), m_infoSeat.easeInOut()).draw(ColorF(1, 0.5));
-
-	Graphics2D::SetStencilState(StencilState::Test(StencilFunc::Equal));
-
-	//作曲家
 	{
-		auto&str = musics[m_selectMusic].getArtistName();
-		const auto nameLength = m_font2(str).region().w;
-		if (nameLength > 280)
+		util::Transformer2D t2d(Mat3x2::Translate(Vec2{ -easingOffestY / 3,genreOffsetY }));
+
+		//ジャケ絵部分
+		TextureAsset(L"bannerbg").resize(m_bannerBGSize.easeInOut()).drawAt(400 + easingOffsetX, m_bannerBGY.easeInOut());
+		musics[m_selectMusic].getTexture().resize(m_bannerSize.easeInOut(), m_bannerSize.easeInOut()).drawAt(400 + easingOffsetX, y - 15).drawFrame(0, 2);
+
+		//曲情報
+		Graphics2D::SetStencilState(StencilState::Replace);
+		Graphics2D::SetStencilValue(2);
+		Rect(400 - m_infoSeat.easeInOut() / 2, 350 - m_infoSeat.easeInOut() / 2, m_infoSeat.easeInOut(), m_infoSeat.easeInOut()).draw(ColorF(1, 0.5));
+
+		Graphics2D::SetStencilState(StencilState::Test(StencilFunc::Equal));
+
+
+		//作曲家
+		util::ContractionDrawbleString(m_font2(musics[m_selectMusic].getArtistName()), { 400,440 }, 280);
+
+
+		//BPM
+		m_font2(Format(L"BPM:", musics[m_selectMusic].getBPM())).draw(440, 470, Palette::Black);
+
+		//文字の描画範囲調整
+		util::ContractionDrawbleString(m_font1(musics[m_selectMusic].getMusicName()), { 400,400 }, 280);
+
+		Graphics2D::SetStencilState(StencilState::Default);
+
+
+		//移動中の処理
+		if (!(m_bannerSize.isActive() || m_bannerSize.isEnd()))
 		{
-			const auto scale = 280.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(Vec2{ 400.0*(1.0 / scale - 1.0) - easingOffestY / 3.0 / scale,genreOffsetY })*Mat3x2::Scale(Vec2{ scale, 1.0 }));
+			util::ContractionDrawbleString(m_font2(musics[m_selectMusic].getMusicName()), { 400 + easingOffsetX, y + 100 }, 210);
 		}
-		m_font2(str).drawCenter(400, 440, Palette::White);
-		Graphics2D::SetTransform(Mat3x2::Translate(Vec2{ -easingOffestY / 3,genreOffsetY }));
+
 	}
 
-	//BPM
-	m_font2(Format(L"BPM:", musics[m_selectMusic].getBPM())).draw(440, 470, Palette::Black);
-
-	//文字の描画範囲調整
-	{
-		const auto nameLength = m_font1(musics[m_selectMusic].getMusicName()).region().w;
-		if (nameLength > 280)
-		{
-			const auto scale = 280.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(Vec2{ 400.0*(1.0 / scale - 1.0) - easingOffestY / 3.0 / scale,genreOffsetY })*Mat3x2::Scale(Vec2{ scale, 1.0 }));
-		}
-		//曲名
-		m_font1(musics[m_selectMusic].getMusicName()).drawCenter(400, 400);
-	}
-	Graphics2D::SetStencilState(StencilState::Default);
-	//移動中の処理
-	if (!(m_bannerSize.isActive() || m_bannerSize.isEnd()))
-	{
-		const auto nameLength = m_font2(musics[m_selectMusic].getMusicName()).region().w;
-		if (nameLength > 210)
-		{
-			const auto scale = 210.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(Vec2{ (400 + easingOffsetX)*(1.0 / scale - 1.0),genreOffsetY })*Mat3x2::Scale(Vec2{ scale, 1.0 }));
-		}
-		m_font2(musics[m_selectMusic].getMusicName()).drawCenter(400 + easingOffsetX, y + 100);
-	}
-	Graphics2D::SetTransform(Mat3x2::Identity());
 	//--------------------------------------------------------------------------------------------------------------
 
 
@@ -561,77 +517,56 @@ void MusicSelectScene::levelSelectDraw()const
 			FontAsset(L"info")(notesData[i].getLevel()).drawCenter(rect.center, Palette::Black);
 	}
 
-	const auto  transformMat = Mat3x2::Translate({ 400 - m_isMusicDefineEasing.easeInOut() * 400 / 600,0 });
-	Graphics2D::SetTransform(transformMat);
-
-
-	for (int i = 0; i < 10; ++i)
 	{
-		const auto offset = i == 4 ? !m_isMusicDefineEasing.isActive() && (PlayKey::Up().clicked || PlayKey::Down().clicked) && !Input::KeyControl.pressed ? -25 : -30 : 0;
-		Color uiColor = i == 4 ? Palette::Yellow : Palette::White;
-		TextureAsset(L"levelbg").draw(430 + offset, 60 * i, uiColor);
-		const auto index = (m_selectLevel + i - 4 + notesData.size()*Abs(i - 4)) % notesData.size();
+		//const Vec2 tp = Graphics2D::GetTransform().transform();
+		util::Transformer2D tran2d(Mat3x2::Translate(Vec2{ 400 - m_isMusicDefineEasing.easeInOut() * 400 / 600,0 }));
 
+		for (int i = 0; i < 10; ++i)
 		{
-			const auto nameLength = m_font1(notesData[index].getLevelName()).region().w;
-			if (nameLength > 206.0)
-			{
-				const auto scale = 206.0 / nameLength;
-				Graphics2D::SetTransform(Mat3x2::Translate(-(430 + 90 + offset), -(10 + 60 * i)).scale(scale, 1).translate(430 + 90 + offset, 10 + 60 * i)*transformMat);
-			}
-			m_font1(notesData[index].getLevelName()).draw(430 + 90 + offset, 10 + 60 * i, notesData[index].getColor());
-			Graphics2D::SetTransform(transformMat);
+			const auto offset = i == 4 ? !m_isMusicDefineEasing.isActive() && (PlayKey::Up().clicked || PlayKey::Down().clicked) && !Input::KeyControl.pressed ? -25 : -30 : 0;
+			Color uiColor = i == 4 ? Palette::Yellow : Palette::White;
+			TextureAsset(L"levelbg").draw(430 + offset, 60 * i, uiColor);
+			const auto index = (m_selectLevel + i - 4 + notesData.size()*Abs(i - 4)) % notesData.size();
+
+			util::ContractionDrawbleString(m_font1(notesData[index].getLevelName()), { 430 + 90 + offset, 10 + 60 * i }, 206, notesData[index].getColor(),false);
+
+			m_rateFont(notesData[index].getLevel()).drawCenter(430 + 40 + offset, 10 + 15 + 60 * i);
+			TextureAsset(ResultRank::getRankTextureName(notesData[index].clearRate)).scale(0.1).drawAt(430 + 320 + offset, 10 + 15 + 60 * i);
 		}
+		TextureAsset(L"levelMask").draw(430, 0, Palette::Black);
 
-		m_rateFont(notesData[index].getLevel()).drawCenter(430 + 40 + offset, 10 + 15 + 60 * i);
-		TextureAsset(ResultRank::getRankTextureName(notesData[index].clearRate)).scale(0.1).drawAt(430 + 320 + offset, 10 + 15 + 60 * i);
+		//INFO
+		Rect(400 + 50, 300 + 50, 300, 200).draw(ColorF(0, 0.8)).drawFrame(1, 0, Palette::White);
 
+		if (m_selectLevel >= notesData.size())
+			return;
+
+		const auto clearRate = notesData[m_selectLevel].clearRate;
+		TextureAsset(ResultRank::getRankTextureName(clearRate)).scale(0.25).drawAt(675, 400);
+
+
+		m_font3(L"Rate").draw(460, 365);
+		m_rateFont(L"{:.2f}%"_fmt, clearRate).drawCenter(600 - 60, 400);
+
+		m_font3(L"NotesArtist").draw(460, 430);
+
+		util::ContractionDrawbleString(m_font2(notesData[m_selectLevel].getNotesArtistName()), { 548, 462 }, 196);
+
+		m_font3(L"TotalNotes").draw(460, 480);
+		m_font2(notesData[m_selectLevel].getTotalNotes()).drawCenter(548, 514);
+		if (notesData[m_selectLevel].isClear)
+			TextureAsset(L"iconClear").scale(0.5).drawAt(600 + 75, 452);
+		if (notesData[m_selectLevel].specialResult == SpecialResult::All_Perfect)
+			TextureAsset(L"iconAP").scale(0.5).drawAt(600 + 75, 504);
+		else if (notesData[m_selectLevel].specialResult == SpecialResult::Full_Combo)
+			TextureAsset(L"iconFC").scale(0.5).drawAt(600 + 75, 504);
 	}
-	TextureAsset(L"levelMask").draw(430, 0, Palette::Black);
-
-	//INFO
-	Rect(400 + 50, 300 + 50, 300, 200).draw(ColorF(0, 0.8)).drawFrame(1, 0, Palette::White);
-
-	if (m_selectLevel >= notesData.size())
-		return;
-
-	const auto clearRate = notesData[m_selectLevel].clearRate;
-	TextureAsset(ResultRank::getRankTextureName(clearRate)).scale(0.25).drawAt(675, 400);
-
-
-	m_font3(L"Rate").draw(460, 365);
-	m_rateFont(L"{:.2f}%"_fmt, clearRate).drawCenter(600 - 60, 400);
-
-	m_font3(L"NotesArtist").draw(460, 430);
-	//
-	{
-		const auto nameLength = m_font2(notesData[m_selectLevel].getNotesArtistName()).region().w;
-		if (nameLength > 196)
-		{
-			const auto scale = 196.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(-548, -462).scale(scale, 1).translate(548, 462)*transformMat);
-		}
-		m_font2(notesData[m_selectLevel].getNotesArtistName()).drawCenter(548, 462);
-		Graphics2D::SetTransform(transformMat);
-	}
-	m_font3(L"TotalNotes").draw(460, 480);
-	m_font2(notesData[m_selectLevel].getTotalNotes()).drawCenter(548, 514);
-	if (notesData[m_selectLevel].isClear)
-		TextureAsset(L"iconClear").scale(0.5).drawAt(600 + 75, 452);
-	if (notesData[m_selectLevel].specialResult == SpecialResult::All_Perfect)
-		TextureAsset(L"iconAP").scale(0.5).drawAt(600 + 75, 504);
-	else if (notesData[m_selectLevel].specialResult == SpecialResult::Full_Combo)
-		TextureAsset(L"iconFC").scale(0.5).drawAt(600 + 75, 504);
-
-	Graphics2D::SetTransform(Mat3x2::Identity());
 }
 //--------------------------------------------------------------------------------
 //関数：draw
 //--------------------------------------------------------------------------------
 void MusicSelectScene::draw()const
 {
-	//TextureAsset(L"selectbg").draw(-((m_timer/2)%800),0);
-	//TextureAsset(L"selectbg").draw(-((m_timer/2)% 800)+800, 0);
 
 	TextureAsset(L"selectbg").uv((m_timer % 800) / 800.0, 0, 1, 1).draw(0, 0);
 
@@ -644,35 +579,22 @@ void MusicSelectScene::draw()const
 	{
 		//レベル描画**********************************************************************************************
 
-		levelSelectDraw();
+		this->levelSelectDraw();
 		//**********************************************************************************************
 
-
-		//TextureAsset(L"levelbg").resize(400,60).draw(400, 300);
-
 		//楽曲情報
-		musicBannerAndInfoDraw();
+		this->musicBannerAndInfoDraw();
 	}
 	//ジャンル情報
 	genreBannerAndInfoDraw();
 
 
-	{
-		TextureAsset(L"modeBack").drawAt(100, 50, Palette::Black);
-		auto& genres = GenreManager::m_refiners;
-		const auto nameLength = m_font1(genres[m_selectGenre].m_name).region().w;
-		if (nameLength > 180)
-		{
-			const auto scale = 180.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(-100, -50).scale(scale, 1).translate(100, 50));
-		}
-		m_font1(genres[m_selectGenre].m_name).drawCenter(100, 50);
-		Graphics2D::SetTransform(Mat3x2::Identity());
-	}
-
+	TextureAsset(L"modeBack").drawAt(100, 50, Palette::Black);
+	auto& genres = GenreManager::m_refiners;
+	util::ContractionDrawbleString(m_font1(genres[m_selectGenre].m_name), { 100,50 }, 180);
 
 	//ハイスピ
-	highSpeedDraw();
+	this->highSpeedDraw();
 
 	//オートプレイ
 	if (AutoPlayManager::Instance()->m_autoPlay)

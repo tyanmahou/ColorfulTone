@@ -3,7 +3,7 @@
 
 #include"PlayKey.h"
 #include"SceneInfo.h"
-
+#include"Util.h"
 namespace
 {
 	//表示クリアレート
@@ -174,7 +174,7 @@ void ConfigScene::draw()const
 	Graphics2D::EndPS();
 
 	{
-		Graphics2D::SetTransform(Mat3x2::Translate(0, m_keyConfigEasing.easeInOut() - 600));
+		util::Transformer2D t2d(Mat3x2::Translate(0, m_keyConfigEasing.easeInOut() - 600));
 
 		TextureAsset(L"label").draw();
 
@@ -216,19 +216,15 @@ void ConfigScene::draw()const
 
 			}
 		}
-
-		Graphics2D::SetTransform(Mat3x2::Identity());
 	}
 
 	{
-		Graphics2D::SetTransform(Mat3x2::Translate(0, m_keyConfigEasing.easeInOut()));
+		util::Transformer2D t2d(Mat3x2::Translate(0, m_keyConfigEasing.easeInOut()));
 
 		m_keyConfig.draw();
-
-		Graphics2D::SetTransform(Mat3x2::Identity());
 	}
 
-	SceneInfo::Draw(L"Enter:決定 BackSpace 戻る Esc:タイトルに戻る");
+	SceneInfo::Draw(L"Enter:決定 BackSpace:戻る Esc:タイトルに戻る");
 }
 
 //--------------------------------------------------------------------------------

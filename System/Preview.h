@@ -37,7 +37,7 @@ public:
 		m_gui.add(L"CountText", GUIText::Create(L"ˆÊ’u"));
 		m_gui.add(L"Slider", GUISlider::Create(0.0, 1.0, 0.0, 500));
 
-		m_gui.setPos((Window::Width() - m_gui.getRect().w) / 2, 360);
+		m_gui.setPos((Window::BaseWidth() - m_gui.getRect().w) / 2, 360);
 	}
 
 	void update();

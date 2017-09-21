@@ -68,7 +68,7 @@ public:
 
 		if (const auto result = EvaluateOpt(tmp))
 		{
-			PutText(tmp+L"=",result.value()).from(20, 500);
+			PutText(tmp+L"=",result.value()).from(20, Window::Height()-100);
 		}
 
 	}

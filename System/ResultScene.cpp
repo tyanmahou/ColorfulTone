@@ -6,6 +6,7 @@
 #include"SceneInfo.h"
 #include"FontKinetic.h"
 #include"PlayKey.h"
+#include"Util.h"
 ResultScene::ResultScene() :
 	m_timer(0),
 	m_font(8, L"Straight", FontStyle::Outline),
@@ -243,40 +244,16 @@ void ResultScene::draw()const
 
 	//文字の描画範囲調整
 	{
-		const auto nameLength = m_nameFont(music.getMusicName()).region().w;
-		if (nameLength > 280)
-		{
-			const auto scale = 280.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(-155, -400).scale(scale, 1).translate(155, 400));
-		}
-		//曲名
-		m_nameFont(music.getMusicName()).drawCenter(155, 400);
-		Graphics2D::SetTransform(Mat3x2::Identity());
+		util::ContractionDrawbleString(m_nameFont(music.getMusicName()), { 155,400 }, 280);
 	}
 
 	{
 		const auto note = music.getNotesData()[m_data->m_selectLevel];
 		const auto name = note.getLevelName() + L" Lv" + Format(note.getLevel());
-		const auto nameLength = m_artistFont(name).region().w;
-		if (nameLength > 280)
-		{
-			const auto scale = 280.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(-155, -430).scale(scale, 1).translate(155, 430));
-		}
-		//レベル名
-		m_artistFont(name).drawCenter(155, 430,note.getColor());
-		Graphics2D::SetTransform(Mat3x2::Identity());
+		util::ContractionDrawbleString(m_artistFont(name), { 155,430 }, 280,note.getColor());
 	}
 	{
-		const auto nameLength = m_artistFont(music.getArtistName()).region().w;
-		if (nameLength > 280)
-		{
-			const auto scale = 280.0 / nameLength;
-			Graphics2D::SetTransform(Mat3x2::Translate(-155, -460).scale(scale, 1).translate(155, 460));
-		}
-		//レベル名
-		m_artistFont(music.getArtistName()).drawCenter(155, 460);
-		Graphics2D::SetTransform(Mat3x2::Identity());
+		util::ContractionDrawbleString(m_artistFont(music.getArtistName()), { 155,460 }, 280);
 	}
 	m_effect.update();
 
@@ -324,14 +301,14 @@ void ResultScene::draw()const
 	m_font(L"MAX COMBO").drawKinetic(baseX, baseY + 160, FontKinetic::DeleteSpace);
 	m_font(Pad(m_maxComboEasing.easeInOut(), { 6,L' ' })).drawKinetic(baseX + 120, baseY + 160, FontKinetic::DeleteSpace);
 
-	SceneInfo::Draw(L"Press Enter");
+	SceneInfo::Draw(L"T:リザルトをツイート   Press Enter");
 
 	//合格エフェクト
 	if (m_passEffect != PassEffect::None)
 	{
 		if (!m_isPassEffectEnd&&(m_passEffectEasing.isActive()|| m_passEffectEasing.isEnd()))
 		{
-			Window::ClientRect().draw(ColorF(0, 0.8));
+			Window::BaseClientRect().draw(ColorF(0, 0.8));
 
 			if (m_passEffect == PassEffect::Pass)
 			{

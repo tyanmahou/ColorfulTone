@@ -1,7 +1,10 @@
 #include"HighSpeedDemo.h"
 #include"PlayKey.h"
-HighSpeedDemo::HighSpeedDemo():m_offset(-300,0,Easing::Quad,400), m_bgRect(400 - 45, 0, 90, 500),m_judgeCircle(400, 300, 40)
-
+#include"Util.h"
+HighSpeedDemo::HighSpeedDemo():
+	m_offset(-300,0,Easing::Quad,400), 
+	m_bgRect(400 - 45, 0, 90, 500),
+	m_judgeCircle(400, 300, 40)
 {
 //***********************************************************
 	//wavŽæ“¾
@@ -96,14 +99,13 @@ void HighSpeedDemo::drawDemoNotes(const Mahou::SoundBar& bar, float scrollRate, 
 }
 void HighSpeedDemo::draw(const Mahou::SoundBar& min, const Mahou::SoundBar& max, float scrollRate)const
 {
-
-	Graphics2D::SetTransform(Mat3x2::Translate({ m_offset.easeInOut() -350,0}));
-	drawDemoNotes(min, scrollRate,3);
-	Graphics2D::SetTransform(Mat3x2::Identity());
-
-	Graphics2D::SetTransform(Mat3x2::Translate({ m_offset.easeInOut() -250,0 }));
-	drawDemoNotes(max, scrollRate,4);
-	Graphics2D::SetTransform(Mat3x2::Identity());
-
+	{
+		util::Transformer2D t2d(Mat3x2::Translate({ m_offset.easeInOut() - 350,0 }));
+		drawDemoNotes(min, scrollRate, 3);
+	}
+	{
+		util::Transformer2D t2d(Mat3x2::Translate({ m_offset.easeInOut() - 250,0 }));
+		drawDemoNotes(max, scrollRate, 4);
+	}
 
 }
