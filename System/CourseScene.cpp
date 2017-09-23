@@ -27,14 +27,14 @@ void CourseSelectScene::update()
 	{
 		if (PlayKey::Up().clicked)
 		{
-			SoundAsset(L"select").playMulti(0.5);
+			SoundManager::SE::Play(L"select");
 			m_selectCourse--;
 			if (m_selectCourse < 0)
 				m_selectCourse += courses.size();
 		}
 		else if (PlayKey::Down().clicked)
 		{
-			SoundAsset(L"select").playMulti(0.5);
+			SoundManager::SE::Play(L"select");
 			m_selectCourse++;
 		}
 		m_selectCourse %= courses.size();
@@ -43,7 +43,7 @@ void CourseSelectScene::update()
 		{
 			if (courses.at(m_selectCourse).canPlay())
 			{
-				SoundAsset(L"desisionLarge").playMulti();
+				SoundManager::SE::Play(L"desisionLarge");
 				m_data->m_currentCourseIndex = 0;
 				m_data->m_isCoursePlay = true;
 				m_data->m_selectCourse = m_selectCourse;
@@ -59,7 +59,7 @@ void CourseSelectScene::update()
 	//–ß‚é
 	if (PlayKey::BigBack().clicked)
 	{
-		SoundAsset(L"cancel").playMulti(0.5);
+		SoundManager::SE::Play(L"cancel");
 		changeScene(L"title", 3000);
 		m_data->m_isCoursePlay = false;
 	}

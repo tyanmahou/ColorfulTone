@@ -12,7 +12,7 @@ namespace
 			PlayMusicGame::GetEffect().add<TapEffect>(Pi / 2, 2);
 		if (yellow)
 			PlayMusicGame::GetEffect().add<TapEffect>(11 * Pi / 6, 3);
-		SoundAsset(L"PERFECT").playMulti();
+		SoundManager::SE::Play(L"PERFECT");
 	}
 
 	const Color ConvertColor(const Color& color)

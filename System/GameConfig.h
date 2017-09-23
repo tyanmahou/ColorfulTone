@@ -1,7 +1,7 @@
 #pragma once
 
 #include<Siv3D.hpp>
-
+#include"PlayBG.h"
 //コンフィグ設定変数
 class GameConfig
 {
@@ -23,6 +23,13 @@ public:
 
 	 //タップ音
 	 String m_perfectSE, m_greatSE, m_goodSE;
+
+	 //BGM SE音量
+	 float m_bgmVolume, m_seVolume;
+
+	 //背景演出
+	 BGType m_bgType=BGType::Default;
+	 bool m_isSpectrum=true;
 
 	 void init();
 	 void save();

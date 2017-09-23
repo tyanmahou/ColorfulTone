@@ -196,7 +196,7 @@ void ResultScene::update()
 	{
 		SoundAsset(L"result").stop();
 		SoundAsset::Release(L"result");
-		SoundAsset(L"desisionLarge").playMulti(0.5);
+		SoundManager::SE::Play(L"desisionLarge");
 
 		if (m_data->m_isCoursePlay)
 		{

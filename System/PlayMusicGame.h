@@ -34,6 +34,7 @@ private:
 
 	double m_nowCount;			//Œ»İ‚ÌƒJƒEƒ“ƒg
 
+	std::shared_ptr<IPlayBG> m_playBG;
 	AudioSpectrum m_spectrum;
 	void uiDraw()const;
 public:

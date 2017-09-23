@@ -42,6 +42,7 @@ void PlayMusicGame::init(MusicData & nowMusic, const int level, const float scro
 	m_finishSample = wav.lengthSample;
 	wav.insert(wav.end(), 44100 * 4, sam);
 	m_sound = Sound(wav);
+	m_sound.setVolume(SoundManager::BGM::GetVolume());
 	//譜面取得
 	m_notesData = nowMusic.getNotesData()[level];
 	//譜面の初期化
@@ -57,6 +58,9 @@ void PlayMusicGame::init(MusicData & nowMusic, const int level, const float scro
 
 	m_score = Score();
 
+	m_playBG = ::CreateBG(Game::Instance()->m_config.m_bgType);
+
+	m_playBG->init(nowMusic);
 
 }
 
@@ -126,16 +130,11 @@ namespace
 
 void PlayMusicGame::drawBG(const MusicData & nowMusic, const double drawCount)const
 {
-	static PixelShader ps(L"Shaders/mainBg.ps");
-	static ConstantBuffer<Float4> cb;
-	cb->set(static_cast<float>(drawCount), 0, 0, 0);
-	Graphics2D::SetConstant(ShaderStage::Pixel, 1, cb);
-	Graphics2D::BeginPS(ps);
-	nowMusic.getTexture().resize(1920, 1920).drawAt(400, 300);
-
-	Graphics2D::EndPS();
+	
+	m_playBG->apply(drawCount);
 
 	//スペクトラム描画
+	if(Game::Instance()->m_config.m_isSpectrum)
 	m_spectrum.draw(m_sound);
 
 	TextureAsset(L"mainbg").draw();

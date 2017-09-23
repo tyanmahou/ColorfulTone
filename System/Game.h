@@ -7,6 +7,8 @@
 
 #include"Score.h"
 #include"GameConfig.h"
+
+#include"SoundManager.h"
 //共有データ
 struct GameData
 {

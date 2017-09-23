@@ -1,10 +1,13 @@
 #include"GameConfig.h"
 #include"PlayKey.h"
+#include"SoundManager.h"
 GameConfig::GameConfig() :
 	m_scrollRate(1.0f),
 	m_perfectSE(L"Resource/Sound/SE/tapP.wav"),
 	m_greatSE(L"Resource/Sound/SE/tapGR.wav"),
-	m_goodSE(L"Resource/Sound/SE/tapGD.wav")
+	m_goodSE(L"Resource/Sound/SE/tapGD.wav"),
+	m_bgmVolume(1.0),
+	m_seVolume(0.5)
 {
 	m_red1 = Input::KeyF;
 	m_red2 = Input::KeyD;
@@ -85,6 +88,15 @@ void GameConfig::init()
 	SoundAsset::Register(L"GREAT", m_greatSE, { L"System" });
 	SoundAsset::Register(L"GOOD", m_goodSE, { L"System" });
 
+	m_bgmVolume = ini.getOr<float>(L"Config.BGMVolume", 1.0f);
+	m_seVolume = ini.getOr<float>(L"Config.SEVolume",0.5f);
+
+	SoundManager::BGM::SetVolume(m_bgmVolume);
+	SoundManager::SE::SetVolume(m_seVolume);
+
+	m_isSpectrum = ini.getOr<bool>(L"Config.IsSpectrum", true);
+	m_bgType = static_cast<BGType>(ini.getOr<int>(L"Config.BGType", 0));
+
 }
 namespace
 {
@@ -131,6 +143,11 @@ void GameConfig::save()
 	ini.write(L"Config", L"CirleCut", m_isCirleCut);
 	ini.write(L"Config", L"IndicateRate", m_isClearRateDownType);
 
+	ini.write(L"Config", L"BGMVolume", m_bgmVolume);
+	ini.write(L"Config", L"SEVolume", m_seVolume);
 
+	ini.write(L"Config",L"IsSpectrum",m_isSpectrum);
+
+	ini.write(L"Config", L"BGType", static_cast<int>(m_bgType));
 
 }

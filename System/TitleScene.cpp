@@ -59,17 +59,17 @@ void TitleScene::update()
 	m_timer++;
 	if (PlayKey::Up().clicked)
 	{
-		SoundAsset(L"select").playMulti(0.5);
+		SoundManager::SE::Play(L"select");
 		--m_mode;
 	}
 	else 	if (PlayKey::Down().clicked)
 	{
-		SoundAsset(L"select").playMulti(0.5);
+		SoundManager::SE::Play(L"select");
 		++m_mode;
 	}
 	if (PlayKey::Start().clicked)
 	{
-		SoundAsset(L"desisionLarge").playMulti(0.5);
+		SoundManager::SE::Play(L"desisionLarge");
 		switch (m_mode)
 		{
 		case Mode::GameStart:
@@ -96,7 +96,7 @@ void TitleScene::update()
 
 	if (PlayKey::BigBack().clicked)
 	{
-		SoundAsset(L"select").playMulti(0.5);
+		SoundManager::SE::Play(L"select");
 		m_mode = Mode::Exit;
 	}
 

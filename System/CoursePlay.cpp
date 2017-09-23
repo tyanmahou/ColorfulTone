@@ -51,7 +51,7 @@ void CoursePlay::update()
 	if (PlayKey::Start().clicked)
 	{
 		auto& notesID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex];
-		SoundAsset(L"desisionLarge").playMulti();
+		SoundManager::SE::Play(L"desisionLarge");
 		m_data->m_nowMusics = musics[notesID.first];
 		m_data->m_selectMusic = musics[notesID.first].getIndex();
 		m_data->m_selectLevel = notesID.second;

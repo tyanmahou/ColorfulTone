@@ -321,7 +321,7 @@ void Note::tapUpdate(Score::Judge judge, Score& score)
 		m_isActive = false;
 		return;
 	}
-	SoundAsset(scoreMap.at(judge)).playMulti();
+	SoundManager::SE::Play(scoreMap.at(judge));
 
 
 	if (m_type <= 7)

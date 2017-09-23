@@ -25,7 +25,7 @@ namespace {
 
 		g_sampleSound = Sound(wav);
 		SoundAsset::Release(id);
-
+		g_sampleSound.setVolume(SoundManager::BGM::GetVolume());
 		if (!g_sampleSound.isPlaying())
 		{
 			g_sampleSound.setLoopBySec(true, loop.x + 0.5, loop.y + 0.5);
@@ -193,13 +193,13 @@ void MusicSelectScene::update()
 				//曲の選択
 				if (PlayKey::Left().pressed)
 				{
-					SoundAsset(L"select").playMulti(0.5);
+					SoundManager::SE::Play(L"select");
 					EasingStartBySelectMusic();
 					m_rightShift.start();
 				}
 				else if (PlayKey::Right().pressed)
 				{
-					SoundAsset(L"select").playMulti(0.5);
+					SoundManager::SE::Play(L"select");
 					EasingStartBySelectMusic();
 					m_leftShift.start();
 				}
@@ -211,14 +211,14 @@ void MusicSelectScene::update()
 						if (m_musicsSize)
 						{
 
-							SoundAsset(L"desisionSmall").playMulti(0.5);
+							SoundManager::SE::Play(L"desisionSmall");
 							m_mode = Mode::LevelSelect;
 							m_isMusicDefineEasing.start();
 						}
 					}
 					else if (m_mode == Mode::GenreSelect)
 					{
-						SoundAsset(L"desisionSmall").playMulti(0.5);
+						SoundManager::SE::Play(L"desisionSmall");
 						static unsigned int nowGenre = 0;
 						if (m_selectGenre != nowGenre)
 						{
@@ -248,7 +248,7 @@ void MusicSelectScene::update()
 				//ジャンル選択に戻る
 				if (m_mode == Mode::MusicSelect&&PlayKey::SmallBack().clicked)
 				{
-					SoundAsset(L"cancel").playMulti(0.5);
+					SoundManager::SE::Play(L"cancel");
 					m_mode = Mode::GenreSelect;
 					m_isGenreDefineEasing.start();
 				}
@@ -260,7 +260,7 @@ void MusicSelectScene::update()
 			//曲選択に戻る
 			if (PlayKey::SmallBack().clicked)
 			{
-				SoundAsset(L"cancel").playMulti(0.5);
+				SoundManager::SE::Play(L"cancel");
 				m_mode = Mode::MusicSelect;
 				m_isMusicDefineEasing.start();
 			}
@@ -268,20 +268,20 @@ void MusicSelectScene::update()
 			{
 				if (PlayKey::Up().clicked)
 				{
-					SoundAsset(L"select").playMulti(0.5);
+					SoundManager::SE::Play(L"select");
 					m_selectLevel += m_musics[m_selectMusic].getNotesData().size();
 					m_selectLevel--;
 				}
 				else
 					if (PlayKey::Down().clicked)
 					{
-						SoundAsset(L"select").playMulti(0.5);
+						SoundManager::SE::Play(L"select");
 						m_selectLevel++;
 					}
 				//レベル決定とシーン遷移
 				if (PlayKey::Start().clicked)
 				{
-					SoundAsset(L"desisionLarge").playMulti();
+					SoundManager::SE::Play(L"desisionLarge");
 					m_data->m_nowMusics = m_musics[m_selectMusic];
 					m_data->m_selectMusic = m_musics[m_selectMusic].getIndex();
 					m_data->m_selectLevel = m_selectLevel;
@@ -321,7 +321,7 @@ void MusicSelectScene::update()
 	//戻る
 	if (PlayKey::BigBack().clicked)
 	{
-		SoundAsset(L"cancel").playMulti(0.5);
+		SoundManager::SE::Play(L"cancel");
 		m_audioResult.wait();
 		Quit();
 		changeScene(L"title", 3000);
@@ -330,14 +330,14 @@ void MusicSelectScene::update()
 	//プレイモード
 	if (Input::KeyF1.clicked)
 	{
-		SoundAsset(L"desisionSmall").playMulti(0.5);
+		SoundManager::SE::Play(L"desisionSmall");
 		AutoPlayManager::Instance()->m_autoPlay = !(AutoPlayManager::Instance()->m_autoPlay);
 	}
 
 	//情報切り替え
 	if (Input::KeyShift.clicked)
 	{
-		SoundAsset(L"desisionSmall").playMulti(0.5);
+		SoundManager::SE::Play(L"desisionSmall");
 		m_levelInfoMode = !m_levelInfoMode;
 	}
 }

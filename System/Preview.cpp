@@ -83,7 +83,7 @@ void Preview::loadProject(Optional<FilePath>& path)
 		{
 			if (elm.includes(L"ini"))
 			{
-				SoundAsset(L"desisionSmall").playMulti(0.5);
+				SoundManager::SE::Play(L"desisionSmall");
 
 				m_musicData.emplace(genre, *path, elm);
 				m_selectLevel %= m_musicData->getNotesData().size();
@@ -133,7 +133,7 @@ void Preview::update()
 	//プレイモード
 	if (Input::KeyF1.clicked)
 	{
-		SoundAsset(L"desisionSmall").playMulti(0.5);
+		SoundManager::SE::Play(L"desisionSmall");
 		AutoPlayManager::Instance()->m_autoPlay = !(AutoPlayManager::Instance()->m_autoPlay);
 	}
 	if (Input::KeyF5.clicked)

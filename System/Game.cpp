@@ -155,23 +155,22 @@ void loadSound()
 #pragma region BGM 
 
 	SoundAsset::Register(L"title",L"Resource/Sound/BGM/title.wav",SoundLoop(true), { L"System" });
+
+	SoundManager::BGM::Register(L"title");
 	SoundAsset::Register(L"result", L"Resource/Sound/BGM/result.wav", SoundLoop(true),{ L"System" });
+	SoundManager::BGM::Register(L"result");
+
 
 
 #pragma endregion BGMのロード
 
 #pragma region SE
 
-	//SoundAsset::Register(L"PERFECT", L"Resource/Sound/SE/tapP.wav", {L"System"});
-	//SoundAsset::Register(L"GREAT", L"Resource/Sound/SE/tapGR.wav", { L"System" });
-	//SoundAsset::Register(L"GOOD", L"Resource/Sound/SE/tapGD.wav", { L"System" });
-
 	SoundAsset::Register(L"select", L"Resource/Sound/SE/Select.wav", { L"System" });
 	SoundAsset::Register(L"desisionSmall", L"Resource/Sound/SE/Desision_Small.wav", { L"System" });
 	SoundAsset::Register(L"desisionLarge", L"Resource/Sound/SE/Desision_Large.wav", { L"System" });
 
 	SoundAsset::Register(L"cancel", L"Resource/Sound/SE/cancel.wav", { L"System" });
-
 #pragma endregion SEのロード
 
 	SoundAsset::PreloadByTag(L"System");
@@ -198,7 +197,6 @@ void Game::init(){
 	m_scene.add<CoursePlay>(L"course");
 
 	AssetLoad();
-
 }
 
 bool Game::updateAndDraw(){
@@ -220,6 +218,10 @@ void AssetLoad()
 	FontAsset::Register(L"info", 10, Typeface::Default, FontStyle::Bold);
 	FontAsset::Register(L"TextObject", 17, Typeface::Default, FontStyle::Outline);
 	FontAsset(L"TextObject").changeOutlineStyle(TextOutlineStyle(Palette::Black, Palette::White, 1));
+
+	FontAsset::Register(L"configTitle", 15,Typeface::Default,FontStyle::Italic);
+
+	FontAsset::Register(L"configSelect", 13);
 
 
 	loadTexture();

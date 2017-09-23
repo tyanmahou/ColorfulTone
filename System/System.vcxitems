@@ -19,9 +19,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AutoPlayManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BPMChanger.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Config.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CoursePlay.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayBG.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)eJudge.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Fade.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FCAPAnimeManager.h" />
@@ -47,6 +49,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayKey.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayMusicGame.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Preview.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Util.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RepeatNote.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultEffect.h" />

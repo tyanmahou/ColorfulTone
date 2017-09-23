@@ -383,5 +383,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Util.h">
       <Filter>util</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Config.h">
+      <Filter>Scene\KeyConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayBG.h">
+      <Filter>MusicGame\Play</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

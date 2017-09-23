@@ -374,27 +374,27 @@ private:
 	{
 		if (PlayKey::Right().clicked)
 		{
-			SoundAsset(L"select").playMulti(0.5);
+			SoundManager::SE::Play(L"select");
 			m_select = moveRight(m_select);
 		}
 		else if (PlayKey::Left().clicked)
 		{
-			SoundAsset(L"select").playMulti(0.5);
+			SoundManager::SE::Play(L"select");
 			m_select = moveLeft(m_select);
 		}
 		else if (PlayKey::Up().clicked)
 		{
-			SoundAsset(L"select").playMulti(0.5);
+			SoundManager::SE::Play(L"select");
 			m_select = moveUp(m_select);
 		}
 		else if (PlayKey::Down().clicked)
 		{
-			SoundAsset(L"select").playMulti(0.5);
+			SoundManager::SE::Play(L"select");
 			m_select = moveDown(m_select);
 		}
 		if (PlayKey::Start().clicked)
 		{
-			SoundAsset(L"desisionSmall").playMulti(0.5);
+			SoundManager::SE::Play(L"desisionSmall");
 
 			if (m_select <= Select::Yellow3)
 			{
@@ -466,7 +466,7 @@ private:
 		if (isChange)
 		{
 			PlayKey::Update();
-			SoundAsset(L"desisionSmall").playMulti(0.5);
+			SoundManager::SE::Play(L"desisionSmall");
 			m_mode = Mode::Select;
 		}
 	}
@@ -554,7 +554,7 @@ private:
 	{
 		if (PlayKey::Down().clicked)
 		{
-			SoundAsset(L"select").playMulti(0.5);
+			SoundManager::SE::Play(L"select");
 
 			if (m_select < Select::SIZE - 1)
 			{
@@ -564,7 +564,7 @@ private:
 		}
 		if (PlayKey::Up().clicked)
 		{
-			SoundAsset(L"select").playMulti(0.5);
+			SoundManager::SE::Play(L"select");
 
 			if (m_select > 0)
 			{
@@ -573,13 +573,13 @@ private:
 		}
 		if (PlayKey::Start().clicked)
 		{
-			SoundAsset(L"desisionSmall").playMulti(0.5);
+			SoundManager::SE::Play(L"desisionSmall");
 
 			m_mode = Mode::ChangeKey;
 		}
 		if (PlayKey::SmallBack().clicked)
 		{
-			SoundAsset(L"cancel").playMulti(0.5);
+			SoundManager::SE::Play(L"cancel");
 			this->changeMode<PlayKeyConfig>();
 		}
 
@@ -627,7 +627,7 @@ private:
 		if (isChange)
 		{
 			PlayKey::Update();
-			SoundAsset(L"desisionSmall").playMulti(0.5);
+			SoundManager::SE::Play(L"desisionSmall");
 			m_mode = Mode::Select;
 		}
 	}
