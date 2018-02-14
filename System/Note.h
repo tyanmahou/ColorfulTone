@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include"Object.h"
 #include"Stop.h"
 #include<functional>
@@ -24,7 +24,7 @@ private:
 	const String m_textureName;
 	const double m_textureAngle;
 
-	const NoteType m_type;	//Ç†Ç∆Ç≈enumÇ…ÅH
+	const NoteType m_type;	//„ÅÇ„Å®„Åßenum„Å´Ôºü
 	Color m_color;
 	std::function<bool(void)> m_judge;
 
@@ -45,5 +45,6 @@ public:
 	const Vec2 getPos(double angle, double count,float scrollRate)const;
 	const Vec2 getPos(double count, float scrollRate)const;
 	const  NoteType getType()const { return m_type; }
+	const double& getSpeed()const {	return m_scrollSpeed;}
 	virtual bool isFirstTap()const;
 };

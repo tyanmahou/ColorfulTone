@@ -7,7 +7,7 @@ struct JudgeEffect : IEffect
 
 	const String m_name;
 
-	JudgeEffect(String name, const Vec2& from):
+	JudgeEffect(const String& name, const Vec2& from):
 		m_from(from),
 		m_name(name){}
 

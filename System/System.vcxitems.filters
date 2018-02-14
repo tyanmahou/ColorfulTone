@@ -112,6 +112,9 @@
     <Filter Include="MusicGame\Data\CourseData">
       <UniqueIdentifier>{93832dc4-bc6a-4b89-bb27-2096d0aaff7d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MusicGame\PlayStyle">
+      <UniqueIdentifier>{a6ba7873-e668-40c2-9ae4-583af7d7bead}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp">
@@ -230,6 +233,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)AppBase.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\NormalStyle.cpp">
+      <Filter>MusicGame\PlayStyle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -391,6 +397,15 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayBG.h">
       <Filter>MusicGame\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\NormalStyle.h">
+      <Filter>MusicGame\PlayStyle</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\IPlayStyle.h">
+      <Filter>MusicGame\PlayStyle</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\PlayStyle.h">
+      <Filter>MusicGame\PlayStyle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

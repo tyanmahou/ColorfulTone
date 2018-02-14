@@ -1,28 +1,22 @@
-#include"RepeatNote.h"
-#include"TapEffect.h"
+ï»¿#include"RepeatNote.h"
+
 #include"AutoPlayManager.h"
 #include"PlayMusicGame.h"
+#include"PlayStyle.h"
 namespace
 {
 	void EffectUpdate(bool red, bool blue, bool yellow)
 	{
 		if (red)
-			PlayMusicGame::GetEffect().add<TapEffect>(7 * Pi / 6, 1);
+			PlayStyle::Instance()->drawTapEffect(1);
 		if (blue)
-			PlayMusicGame::GetEffect().add<TapEffect>(Pi / 2, 2);
+			PlayStyle::Instance()->drawTapEffect(2);
 		if (yellow)
-			PlayMusicGame::GetEffect().add<TapEffect>(11 * Pi / 6, 3);
+			PlayStyle::Instance()->drawTapEffect(3);
 		SoundManager::SE::Play(L"PERFECT");
 	}
 
-	const Color ConvertColor(const Color& color)
-	{
-		HSV hsv;
-		hsv.convertFrom(color.r / 255.0, color.g / 255.0, color.b / 255.0);
-		hsv.s = Min(0.5, hsv.s);
-		hsv.v = 1.0;
-		return hsv.toColor();
-	}
+
 
 }
 
@@ -35,13 +29,13 @@ bool RepeatEnd::update(double & nowCount, double & countPerFrame, Score & score,
 
 	auto count = m_count - nowCount;
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	if (!m_isStart)
 	{
 		m_isStart = true;
 		m_lastCount = nowCount;
 	}
-	//ƒI[ƒgƒvƒŒƒC----------------------
+	//ã‚ªãƒ¼ãƒˆãƒ—ãƒ¬ã‚¤----------------------
 	if (AutoPlayManager::Instance()->m_autoPlay)
 	{
 		if (m_lastCount == nowCount||nowCount > m_lastCount + NotesData::RESOLUTION / (m_interval * 2))
@@ -70,7 +64,7 @@ bool RepeatEnd::update(double & nowCount, double & countPerFrame, Score & score,
 	}
 
 
-	if (count <= 0)//ƒƒ“ƒO‚ÌI“_
+	if (count <= 0)//ãƒ­ãƒ³ã‚°ã®çµ‚ç‚¹
 	{
 		if (m_isTap)
 			perfect(score);
@@ -79,11 +73,11 @@ bool RepeatEnd::update(double & nowCount, double & countPerFrame, Score & score,
 
 		return false;
 	}
-	//8•ªŠÔŠuˆÈ“à‚Å˜A‘Å‚µ‚È‚¢‚Æƒ~ƒX
+	//8åˆ†é–“éš”ä»¥å†…ã§é€£æ‰“ã—ãªã„ã¨ãƒŸã‚¹
 	if (nowCount > m_lastCount + NotesData::RESOLUTION / m_interval)
 	{
 		auto aCount = Abs(count);
-		//ƒp[ƒtƒFƒNƒg”ÍˆÍ“à‚Å‚Ì˜b‚ÍƒZ[ƒt
+		//ãƒ‘ãƒ¼ãƒ•ã‚§ã‚¯ãƒˆç¯„å›²å†…ã§ã®è©±ã¯ã‚»ãƒ¼ãƒ•
 		if (aCount <= JudgeRange(countPerFrame, Judge::Perfect) && m_isTap)
 			perfect(score);
 		else
@@ -94,44 +88,11 @@ bool RepeatEnd::update(double & nowCount, double & countPerFrame, Score & score,
 
 void RepeatEnd::diffDraw(double count, float scrollRate) const
 {
-	auto angle = m_parent->getAngle();
-	Vec2 pos;
-	pos.x = 400 + 40 * cos(angle) + (count / Object::RESOLUTION * scrollRate*m_scrollSpeed)*cos(angle);
-	pos.y = 300 + 40 * sin(angle) + (count / Object::RESOLUTION * scrollRate*m_scrollSpeed)*sin(angle);
+	PlayStyle::Instance()->draw(*this, count, scrollRate);
+}
 
-	const double nowCount = m_drawCount - count;
-	auto pCount = m_parent->getDrawCount() - nowCount;
-	if (m_parent->isFirstTap())
-		pCount = 0;
-	auto pPos = m_parent->getPos(pCount, scrollRate);
-
-	if (!CanDraw(pPos) && !CanDraw(pos))
-		return;
-
-
-
-	{
-		auto& texture = TextureAsset(L"comet_rainbow_tail");
-		{
-			const Vec2 pos = m_parent->getPos((3 + (-pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, m_scrollSpeed);
-			const Vec2 pPos = m_parent->getPos((3 + (-pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate);
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, { ConvertColor(Palette::Blue),ConvertColor(Palette::Orange) });
-			texture.drawAt(pos);
-		}
-		{
-			const Vec2 pos = m_parent->getPos((7 + (-pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, m_scrollSpeed);
-			const Vec2 pPos = m_parent->getPos((7 + (-pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate);
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, { ConvertColor(Palette::Red),ConvertColor(Palette::Green) });
-			texture.rotate(-4.0*Pi / 3.0).drawAt(pos);
-		}
-		{
-			const Vec2 pos = m_parent->getPos((11 + (-pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, m_scrollSpeed);
-			const Vec2 pPos = m_parent->getPos((11 + (-pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate);
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, { ConvertColor(Palette::Yellow),ConvertColor(Palette::Purple) });
-			texture.rotate(-2.0*Pi / 3.0).drawAt(pos);
-		}
-
-	}
-
+void RepeatNote::diffDraw(double count, float scrollRate) const
+{
+	PlayStyle::Instance()->draw(*this, count, scrollRate);
 
 }

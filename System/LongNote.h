@@ -5,7 +5,7 @@ class LongNote :public Object
 private:
 
 
-	const int m_type;
+	const NoteType m_type;
 	String m_textureName;
 	double m_textureAngle;
 	Color m_color;
@@ -21,4 +21,12 @@ public:
 	virtual ~LongNote() = default;
 	virtual bool update(double& nowCount, double& countPerFrame, Score& score, Sound& sound)override;
 	virtual void diffDraw(double count, float scrollRate)const override;
+	const double& getSpeed()const { return m_scrollSpeed; }
+	const  NoteType getType()const { return m_type; }
+
+	const Color& getColor()const { return m_color; }
+	std::shared_ptr<Note> getParent()const
+	{
+		return m_parent;
+	}
 };

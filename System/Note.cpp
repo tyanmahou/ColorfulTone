@@ -1,17 +1,17 @@
-#include"Note.h"
+ï»¿#include"Note.h"
 #include"PlayKey.h"
 #include"eJudge.h"
 #include"AutoPlayManager.h"
-#include"TapEffect.h"
-#include"JudgeEffect.h"
+
 #include"PlayMusicGame.h"
 
 #include"RepeatNote.h"
+#include"PlayStyle.h"
 namespace {
 	//--------------------------------------------------------------------------------
-	//ŠÖ”FIsNeedBuutonClick
+	//é–¢æ•°ï¼šIsNeedBuutonClick
 	//--------------------------------------------------------------------------------
-	//ŠT—vF•K—v‚Èƒ{ƒ^ƒ“‚ªƒNƒŠƒbƒN‚³‚ê‚½‚©
+	//æ¦‚è¦ï¼šå¿…è¦ãªãƒœã‚¿ãƒ³ãŒã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸã‹
 	//--------------------------------------------------------------------------------
 
 	bool IsNeedBuutonClick(const NoteType type)
@@ -31,9 +31,9 @@ namespace {
 	}
 
 	//--------------------------------------------------------------------------------
-	//ŠÖ”FGetColor
+	//é–¢æ•°ï¼šGetColor
 	//--------------------------------------------------------------------------------
-	//ŠT—vFƒm[ƒc‚ÌF‚ğæ“¾
+	//æ¦‚è¦ï¼šãƒãƒ¼ãƒ„ã®è‰²ã‚’å–å¾—
 	//--------------------------------------------------------------------------------
 
 	Color GetColor(const NoteType type)
@@ -52,9 +52,9 @@ namespace {
 	}
 
 	//--------------------------------------------------------------------------------
-	//ŠÖ”FGetAngle
+	//é–¢æ•°ï¼šGetAngle
 	//--------------------------------------------------------------------------------
-	//ŠT—vFƒm[ƒc‚ª—ˆ‚éŠp“x‚ğæ“¾
+	//æ¦‚è¦ï¼šãƒãƒ¼ãƒ„ãŒæ¥ã‚‹è§’åº¦ã‚’å–å¾—
 	//--------------------------------------------------------------------------------
 
 	double GetAngle(NoteType type) {
@@ -76,9 +76,9 @@ namespace {
 	}
 
 	//--------------------------------------------------------------------------------
-	//ŠÖ”FGetTextureAngle
+	//é–¢æ•°ï¼šGetTextureAngle
 	//--------------------------------------------------------------------------------
-	//ŠT—vFƒm[ƒc‚ÌƒeƒNƒXƒ`ƒƒ‚ÌŠp“x‚ğæ“¾
+	//æ¦‚è¦ï¼šãƒãƒ¼ãƒ„ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®è§’åº¦ã‚’å–å¾—
 	//--------------------------------------------------------------------------------
 
 	double GetTextureAngle(NoteType type)
@@ -101,9 +101,9 @@ namespace {
 	}
 
 	//--------------------------------------------------------------------------------
-	//ŠÖ”FGetTxetureName
+	//é–¢æ•°ï¼šGetTxetureName
 	//--------------------------------------------------------------------------------
-	//ŠT—vFƒm[ƒc‚ÌƒeƒNƒXƒ`ƒƒ‚Ì–¼‘O‚ğæ“¾
+	//æ¦‚è¦ï¼šãƒãƒ¼ãƒ„ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®åå‰ã‚’å–å¾—
 	//--------------------------------------------------------------------------------
 
 	String GetTxetureName(NoteType type)
@@ -135,7 +135,7 @@ namespace {
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//é–¢æ•°ï¼šã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //--------------------------------------------------------------------------------
 
 
@@ -153,7 +153,7 @@ Note::Note(const NoteType type, double firstCount, double speed) :
 
 	m_color = GetColor(type);
 
-	//ƒAƒNƒVƒ‡ƒ“
+	//ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
 	switch (type)
 	{
 	case 1:
@@ -284,9 +284,9 @@ Note::Note(const NoteType type, double firstCount, double speed) :
 };
 
 //--------------------------------------------------------------------------------
-//ŠÖ”Finit
+//é–¢æ•°ï¼šinit
 //--------------------------------------------------------------------------------
-//ŠT—vF‰Šú‰»
+//æ¦‚è¦ï¼šåˆæœŸåŒ–
 //--------------------------------------------------------------------------------
 
 void Note::init()
@@ -300,9 +300,9 @@ void Note::init()
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FtapUpdate
+//é–¢æ•°ï¼štapUpdate
 //--------------------------------------------------------------------------------
-//ŠT—vFƒ^ƒbƒv¬Œ÷‚Ìˆ—
+//æ¦‚è¦ï¼šã‚¿ãƒƒãƒ—æˆåŠŸæ™‚ã®å‡¦ç†
 //--------------------------------------------------------------------------------
 void Note::tapUpdate(Score::Judge judge, Score& score)
 {
@@ -316,7 +316,7 @@ void Note::tapUpdate(Score::Judge judge, Score& score)
 	if (m_type == 9)
 	{
 		score.m_currentCombo = 0;
-		PlayMusicGame::GetEffect().add<JudgeEffect>(L"MISS", getPos(3 * Pi / 2, 2400, 1.0f, 1.0));
+		PlayStyle::Instance()->drawJudgeEffect(L"MISS",9);
 		score.m_judgeCount[Score::Miss]++;
 		m_isActive = false;
 		return;
@@ -331,31 +331,30 @@ void Note::tapUpdate(Score::Judge judge, Score& score)
 	score.m_judgeCount[judge]++;
 	if (m_type % 10 == 7)
 	{
-		PlayMusicGame::GetEffect().add<TapEffect>(1 * Pi / 6, 7);
-		PlayMusicGame::GetEffect().add<TapEffect>(9 * Pi / 6, 7);
-		PlayMusicGame::GetEffect().add<TapEffect>(5 * Pi / 6, 7);
-		PlayMusicGame::GetEffect().add<JudgeEffect>(scoreMap.at(judge), getPos(3 * Pi / 2, 2400, 1.0f, 1.0));
+		PlayStyle::Instance()->drawTapEffect(7);
+		PlayStyle::Instance()->drawJudgeEffect(scoreMap.at(judge),7);
 	}
 	else
 	{
-		PlayMusicGame::GetEffect().add<TapEffect>(m_angle, m_type % 10);
-		PlayMusicGame::GetEffect().add<JudgeEffect>(scoreMap.at(judge), getPos(m_angle, 2400, 1.0f, 1.0));
+		PlayStyle::Instance()->drawTapEffect(m_type%10);
+		PlayStyle::Instance()->drawJudgeEffect(scoreMap.at(judge), m_type%10);
 	}
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FtapMiss
+//é–¢æ•°ï¼štapMiss
 //--------------------------------------------------------------------------------
-//ŠT—vFƒ^ƒbƒvƒ~ƒX‚Ìˆ—
+//æ¦‚è¦ï¼šã‚¿ãƒƒãƒ—ãƒŸã‚¹æ™‚ã®å‡¦ç†
 //--------------------------------------------------------------------------------
 
 void Note::tapMiss(Score& score)
 {
 	if (m_type == 9)
 	{
-		PlayMusicGame::GetEffect().add<TapEffect>(0, 9);
-		PlayMusicGame::GetEffect().add<TapEffect>(Pi, 9);
-		PlayMusicGame::GetEffect().add<JudgeEffect>(L"PERFECT", getPos(3 * Pi / 2, 2400, 1.0f, 1.0));
+		PlayStyle::Instance()->drawTapEffect(9);
+		PlayStyle::Instance()->drawTapEffect(9);
+
+		PlayStyle::Instance()->drawJudgeEffect(L"PERFECT", 9);
 		score.m_judgeCount[Score::Perfect]++;
 		score.m_currentCombo++;
 		m_isActive = false;
@@ -363,14 +362,14 @@ void Note::tapMiss(Score& score)
 	}
 	score.m_currentCombo = 0;
 	if (m_type % 10 == 7)
-		PlayMusicGame::GetEffect().add<JudgeEffect>(L"MISS", getPos(3 * Pi / 2, 2400, 1.0f, 1.0));
+		PlayStyle::Instance()->drawJudgeEffect(L"MISS", 7);
 	else
-		PlayMusicGame::GetEffect().add<JudgeEffect>(L"MISS", getPos(m_angle, 2400, 1.0f, 1.0));
+		PlayStyle::Instance()->drawJudgeEffect(L"MISS",m_type%10);
 
 	score.m_judgeCount[Score::Miss]++;
 
 	/*
-	ƒƒ“ƒOƒm[ƒc‚Ìê‡‚ÍAn“_‚ª‰Ÿ‚¹‚È‚©‚Á‚½“_‚ÅI“_•ª‚à“¯‚Éƒ~ƒX‚Æ‚·‚éB
+	ãƒ­ãƒ³ã‚°ãƒãƒ¼ãƒ„ã®å ´åˆã¯ã€å§‹ç‚¹ãŒæŠ¼ã›ãªã‹ã£ãŸæ™‚ç‚¹ã§çµ‚ç‚¹åˆ†ã‚‚åŒæ™‚ã«ãƒŸã‚¹ã¨ã™ã‚‹ã€‚
 	*/
 	if (m_type >= 11)
 	{
@@ -379,7 +378,7 @@ void Note::tapMiss(Score& score)
 	m_isActive = false;
 }
 //--------------------------------------------------------------------------------
-//ŠÖ”Fupdate
+//é–¢æ•°ï¼šupdate
 //--------------------------------------------------------------------------------
 
 bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& sound)
@@ -387,7 +386,7 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 	if (!m_isActive)
 		return true;
 
-	//ƒƒ“ƒO—p n“_‚ª‰Ÿ‚³‚ê‚Ä‚½‚ç‚»‚Ì‚Ü‚Ü‚Â‚¬‚Ì‚Ì[‚Â‚Ì”»’è‚É
+	//ãƒ­ãƒ³ã‚°ç”¨ å§‹ç‚¹ãŒæŠ¼ã•ã‚Œã¦ãŸã‚‰ãã®ã¾ã¾ã¤ãã®ã®ãƒ¼ã¤ã®åˆ¤å®šã«
 	if (isFirstTap())
 	{
 		if (AutoPlayManager::Instance()->m_autoPlay)
@@ -397,18 +396,18 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 	auto count = m_count - nowCount;
 	m_isAnyClicked = false;
 
-	//ƒ~ƒX
+	//ãƒŸã‚¹
 	if (count < -JudgeRange(countPerFrame, Judge::Good) || (m_type == 9 && count <= 0))
 	{
 		tapMiss(score);
 		return true;
 	}
 
-	//”»’è”ÍˆÍ‚Ü‚Å“’B‚µ‚Ä‚È‚¯‚ê‚Îƒ^ƒbƒvˆ—‚ğs‚í‚È‚¢
+	//åˆ¤å®šç¯„å›²ã¾ã§åˆ°é”ã—ã¦ãªã‘ã‚Œã°ã‚¿ãƒƒãƒ—å‡¦ç†ã‚’è¡Œã‚ãªã„
 	if (count > JudgeRange(countPerFrame, Judge::Good))
 		return true;
 
-	//ƒI[ƒgƒvƒŒƒC---------------------------------
+	//ã‚ªãƒ¼ãƒˆãƒ—ãƒ¬ã‚¤---------------------------------
 	if (AutoPlayManager::Instance()->m_autoPlay)
 	{
 		if (count <= countPerFrame&&m_type != 9)
@@ -426,7 +425,7 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 
 	//---------------------------------------------
 
-	//’x‚ê‚Ä‚µ‚Ü‚Á‚½‚©
+	//é…ã‚Œã¦ã—ã¾ã£ãŸã‹
 	if (m_judge())
 	{
 		auto aCount = Abs(count);
@@ -451,40 +450,18 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 }
 
 //----------------------------------------------------------------------------
-//ŠÖ”Fdraw
+//é–¢æ•°ï¼šdraw
 //----------------------------------------------------------------------------
 
 void Note::diffDraw(double count, float scrollRate) const
 {
-
-	if (m_type >= 11 && (count <= 0 && isFirstTap() || isFirstTap()))
-		count = 0;
-
-	const auto pos = getPos(count, scrollRate);
-
-	if (!CanDraw(pos))
-		return;
-
-	if (m_type % 10 == 7)
-	{
-
-		TextureAsset(m_textureName).rotate(-Pi / 3.0).drawAt(getPos((1 + (count*scrollRate) / 10000.0)*Pi / 6, count, scrollRate));
-		TextureAsset(m_textureName).rotate(-5.0*Pi / 3.0).drawAt(getPos((5 + (count*scrollRate) / 10000.0)* Pi / 6, count, scrollRate));
-		TextureAsset(m_textureName).rotate(-Pi).drawAt(getPos((9 + (count*scrollRate) / 10000.0)* Pi / 6, count, scrollRate));
-		return;
-	}
-	else if (m_type == 9)
-	{
-		TextureAsset(L"note_white").drawAt(getPos(Pi, count, scrollRate));
-	}
-
-	TextureAsset(m_textureName).rotate(m_textureAngle).drawAt(pos);
+	PlayStyle::Instance()->draw(*this, count, scrollRate);
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FgetPos
+//é–¢æ•°ï¼šgetPos
 //--------------------------------------------------------------------------------
-//ŠT—vF•`‰æÀ•Wæ“¾
+//æ¦‚è¦ï¼šæç”»åº§æ¨™å–å¾—
 //--------------------------------------------------------------------------------
 const Vec2 Note::getPos(double angle, double count, float scrollRate, double scrollSpeed) const
 {
@@ -505,9 +482,9 @@ const Vec2 Note::getPos(double count, float scrollRate) const
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FisFirstTap
+//é–¢æ•°ï¼šisFirstTap
 //--------------------------------------------------------------------------------
-//ŠT—vF‚Æ‚è‚ ‚¦‚¸ˆê‰ñ‚Í‚¨‚³‚ê‚½‚©‚Ç‚¤‚©
+//æ¦‚è¦ï¼šã¨ã‚Šã‚ãˆãšä¸€å›ã¯ãŠã•ã‚ŒãŸã‹ã©ã†ã‹
 //--------------------------------------------------------------------------------
 bool Note::isFirstTap() const
 {

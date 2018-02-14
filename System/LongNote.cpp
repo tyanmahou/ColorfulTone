@@ -1,11 +1,9 @@
-#include"LongNote.h"
+ï»¿#include"LongNote.h"
 #include"PlayKey.h"
 #include"eJudge.h"
 #include"AutoPlayManager.h"
-#include"TapEffect.h"
-#include"JudgeEffect.h"
 #include"PlayMusicGame.h"
-
+#include"PlayStyle.h"
 namespace 
 {
 	const Vec2 GetPos(double angle, double count, float scrollRate, double scrollSpeed)
@@ -63,7 +61,7 @@ LongNote::LongNote(int type, double firstCount,  double speed, std::shared_ptr<N
 	hsv.s = Min(0.5,hsv.s);
 	hsv.v = 1.0;
 	m_color=hsv.toColor();
-	//”»’èˆ—
+	//åˆ¤å®šå‡¦ç†
 	switch (type)
 	{
 	case 11:
@@ -112,8 +110,7 @@ LongNote::LongNote(int type, double firstCount,  double speed, std::shared_ptr<N
 //
 void LongNote::perfect(Score& score)
 {
-
-	PlayMusicGame::GetEffect().add<JudgeEffect>(L"PERFECT", m_parent->getPos(m_parent->getAngle(), 2400, 1.0f, 1.0));
+	PlayStyle::Instance()->drawJudgeEffect(L"PERFECT", m_parent->getType()%10);
 	score.m_currentCombo++;
 	score.m_judgeCount[Score::Perfect]++;
 	m_isActive = false;
@@ -122,7 +119,7 @@ void LongNote::perfect(Score& score)
 
 void LongNote::miss(Score& score)
 {
-	PlayMusicGame::GetEffect().add<JudgeEffect>(L"MISS", m_parent->getPos(m_parent->getAngle(), 2400, 1.0f, 1.0));
+	PlayStyle::Instance()->drawJudgeEffect(L"MISS", m_parent->getType() % 10);
 	score.m_currentCombo = 0;
 	score.m_judgeCount[Score::Miss]++;
 	m_isActive = false;
@@ -131,7 +128,7 @@ void LongNote::miss(Score& score)
 
 bool LongNote::update(double& nowCount, double& countPerFrame, Score& score, Sound& sound)
 {
-	m_isActive = m_parent->m_isActive;//e‚Ìƒm[ƒc‚Ì‘¶İ‚Æ“¯Šú
+	m_isActive = m_parent->m_isActive;//è¦ªã®ãƒãƒ¼ãƒ„ã®å­˜åœ¨ã¨åŒæœŸ
 
 	if (!m_isActive||!m_parent->isFirstTap())
 		return true;
@@ -139,7 +136,7 @@ bool LongNote::update(double& nowCount, double& countPerFrame, Score& score, Sou
 	auto count = m_count  - nowCount;
 
 
-	if (count <= 0)//ƒƒ“ƒO‚ÌI“_
+	if (count <= 0)//ãƒ­ãƒ³ã‚°ã®çµ‚ç‚¹
 	{
 		perfect(score);
 
@@ -149,13 +146,11 @@ bool LongNote::update(double& nowCount, double& countPerFrame, Score& score, Sou
 	{
 		if (m_type == 17)
 		{
-			PlayMusicGame::GetEffect().add<TapEffect>(1 * Pi / 6, 7);
-			PlayMusicGame::GetEffect().add<TapEffect>(9 * Pi / 6, 7);
-			PlayMusicGame::GetEffect().add<TapEffect>(5 * Pi / 6, 7);
+			PlayStyle::Instance()->drawTapEffect(7);
 		}else
-		PlayMusicGame::GetEffect().add<TapEffect>(m_parent->getAngle(), m_parent->getType() % 10);
+			PlayStyle::Instance()->drawTapEffect(m_parent->getType() % 10);
 	}
-	//ƒI[ƒgƒvƒŒƒC----------------------
+	//ã‚ªãƒ¼ãƒˆãƒ—ãƒ¬ã‚¤----------------------
 	if (AutoPlayManager::Instance()->m_autoPlay) 
 	{
 
@@ -163,12 +158,12 @@ bool LongNote::update(double& nowCount, double& countPerFrame, Score& score, Sou
 	}
 	//----------------------------------
 
-	//e‚ğ‰Ÿ‚µ‚½‚Ì‚É“r’†‚Å—£‚µ‚½
+	//è¦ªã‚’æŠ¼ã—ãŸã®ã«é€”ä¸­ã§é›¢ã—ãŸ
 	{
 		if (!m_judge())
 		{
 			auto aCount = Abs(count);
-			//ƒp[ƒtƒFƒNƒg”ÍˆÍ“à‚Å‚Ì˜b‚ÍƒZ[ƒt
+			//ãƒ‘ãƒ¼ãƒ•ã‚§ã‚¯ãƒˆç¯„å›²å†…ã§ã®è©±ã¯ã‚»ãƒ¼ãƒ•
 			if (aCount <= JudgeRange(countPerFrame, Judge::Great))
 				perfect(score);
 			else
@@ -179,43 +174,5 @@ bool LongNote::update(double& nowCount, double& countPerFrame, Score& score, Sou
 }
 void LongNote::diffDraw(double count, float scrollRate)const
 {
-	auto angle = m_parent->getAngle();
-	Vec2 pos;
-	pos.x = 400 + 40 * cos(angle) + (count / Object::RESOLUTION * scrollRate*m_scrollSpeed)*cos(angle);
-	pos.y = 300 + 40 * sin(angle) + (count / Object::RESOLUTION * scrollRate*m_scrollSpeed)*sin(angle);
-
-	const double nowCount = m_drawCount-count;
-	auto pCount = m_parent->getDrawCount() - nowCount;
-	if(m_parent->isFirstTap())
-	pCount = 0;
-	auto pPos = m_parent->getPos(pCount, scrollRate);
-
-	if (!CanDraw(pPos)&& !CanDraw(pos))
-		return;
-
-	if (m_type == 17)
-	{
-		{
-			const Vec2 pos = GetPos((1 + (pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, m_scrollSpeed);
-			const Vec2 pPos= m_parent->getPos((1 + (pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate);
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, m_color);
-			TextureAsset(m_textureName).rotate(-4.0*Pi / 3.0).drawAt(pos);
-		}
-		{
-			const Vec2 pos = GetPos((5 + (pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, m_scrollSpeed);
-			const Vec2 pPos = m_parent->getPos((5 + (pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate);
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, m_color);
-			TextureAsset(m_textureName).rotate(-2.0*Pi / 3.0).drawAt(pos);
-		}
-		{
-			const Vec2 pos = GetPos((9 + (pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, m_scrollSpeed);
-			const Vec2 pPos = m_parent->getPos((9 + (pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate);
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, m_color);
-			TextureAsset(m_textureName).drawAt(pos);
-		}
-		return;
-	}
-	Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4,m_color);
-	
-	TextureAsset(m_textureName).rotate(m_textureAngle).drawAt(pos);
+	PlayStyle::Instance()->draw(*this, count, scrollRate);
 }

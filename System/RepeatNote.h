@@ -1,14 +1,14 @@
-#pragma once
+ï»¿#pragma once
 #include"LongNote.h"
 #include"PlayKey.h"
 #include"eJudge.h"
 
-//˜A‘Åƒm[ƒc
+//é€£æ‰“ãƒãƒ¼ãƒ„
 class RepeatNote:public Note 
 {
 private:
 
-	//˜A‘ÅŠJn
+	//é€£æ‰“é–‹å§‹
 	bool m_isStart=false;
 
 public:
@@ -29,7 +29,7 @@ public:
 
 		const double count= m_count - nowCount;
 
-		//”»’è”ÍˆÍ‚Ü‚Å“’B‚µ‚Ä‚È‚¯‚ê‚Îƒ^ƒbƒvˆ—‚ğs‚í‚È‚¢
+		//åˆ¤å®šç¯„å›²ã¾ã§åˆ°é”ã—ã¦ãªã‘ã‚Œã°ã‚¿ãƒƒãƒ—å‡¦ç†ã‚’è¡Œã‚ãªã„
 		if (count > JudgeRange(countPerFrame, Judge::Good))
 			return true;
 
@@ -44,22 +44,7 @@ public:
 
 		return true;
 	}
-	void diffDraw(double count, float scrollRate)const override
-	{
-		if(this->isFirstTap())
-		count = 0;
-		const auto pos = getPos(count, scrollRate);
-
-		if (!CanDraw(pos))
-			return;
-
-		{
-			auto& texture = TextureAsset(L"comet_rainbow_head");
-			texture.drawAt(getPos((3 + (-count*scrollRate) / 10000.0)*Pi / 6, count, scrollRate));
-			texture.rotate(-4.0*Pi / 3.0).drawAt(getPos((7 + (-count*scrollRate) / 10000.0)* Pi / 6, count, scrollRate));
-			texture.rotate(-2.0*Pi / 3.0).drawAt(getPos((11 + (-count*scrollRate) / 10000.0)* Pi / 6, count, scrollRate));
-		}
-	}
+	void diffDraw(double count, float scrollRate)const override;
 
 	bool isFirstTap()const override
 	{
@@ -67,14 +52,14 @@ public:
 	}
 };
 
-//˜A‘Å‚ÌI“_
+//é€£æ‰“ã®çµ‚ç‚¹
 class RepeatEnd :public LongNote
 {
 private:
 	double m_lastCount = 0;
 	bool m_isStart = false;
 	bool m_isTap = false;
-	double m_interval;//˜A‘ÅŠÔŠu
+	double m_interval;//é€£æ‰“é–“éš”
 public:
 	static double notesTapCount;
 
@@ -82,7 +67,7 @@ public:
 		LongNote(10,firstCount,speed,parent),
 		m_interval(interval)
 	{
-		//‚Ç‚ê‚©‚¨‚µ‚½‚ç
+		//ã©ã‚Œã‹ãŠã—ãŸã‚‰
 		m_judge = []()
 		{
 			return PlayKey::Red().clicked || PlayKey::Blue().clicked || PlayKey::Yellow().clicked;

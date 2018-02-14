@@ -23,6 +23,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CoursePlay.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NormalStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayBG.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)eJudge.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Fade.h" />
@@ -48,6 +50,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayKey.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayMusicGame.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Preview.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Util.h" />
@@ -91,6 +94,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MainScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MusicData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MusicSelectScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NormalStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Note.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NotesData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Object.cpp" />

@@ -1,4 +1,4 @@
-#include"PlayMusicGame.h"
+ï»¿#include"PlayMusicGame.h"
 #include"StartAnime.h"
 #include"AutoPlayManager.h"
 #include"MainScene.h"
@@ -6,7 +6,7 @@
 #include"FontKinetic.h"
 #include"ResultRank.h"
 #include"Util.h"
-
+#include"PlayStyle.h"
 
 PlayMusicGame::PlayMusicGame() :
 	m_nowCount(-10000.0),
@@ -26,26 +26,26 @@ void PlayMusicGame::init(MusicData & nowMusic, const int level, const float scro
 	m_soundNameID = nowMusic.getSoundNameID();
 
 	SoundAsset::Preload(m_soundNameID);
-	//wavæ“¾
+	//wavå–å¾—
 	Wave wav = nowMusic.getSound().getWave();
 
 	SoundAsset::Release(m_soundNameID);// .release();
 
-									   //Vwav‚ÌƒTƒ“ƒvƒŠƒ“ƒO”
+									   //æ–°wavã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°æ•°
 	const size_t sample = 44100 * 8 + wav.lengthSample;
 
-	//–³‰¹ì¬
+	//ç„¡éŸ³ä½œæˆ
 	auto sam = WaveSample(0, 0);
 	wav.reserve(sample);
-	//wav‚É4•bŠÔ‚ÌƒIƒtƒZƒbƒg’Ç‰Á
+	//wavã«4ç§’é–“ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆè¿½åŠ 
 	wav.insert(wav.begin(), 44100 * 4, sam);
 	m_finishSample = wav.lengthSample;
 	wav.insert(wav.end(), 44100 * 4, sam);
 	m_sound = Sound(wav);
 	m_sound.setVolume(SoundManager::BGM::GetVolume());
-	//•ˆ–Êæ“¾
+	//è­œé¢å–å¾—
 	m_notesData = nowMusic.getNotesData()[level];
-	//•ˆ–Ê‚Ì‰Šú‰»
+	//è­œé¢ã®åˆæœŸåŒ–
 	m_notesData.init();
 
 	m_totalNotes = m_notesData.getTotalNotes();
@@ -74,17 +74,17 @@ void PlayMusicGame::update()
 		m_isStart = true;
 		return;
 	}
-	//ƒI[ƒgƒvƒŒƒC‚ÌƒL[“ü—ÍXV
+	//ã‚ªãƒ¼ãƒˆãƒ—ãƒ¬ã‚¤ã®ã‚­ãƒ¼å…¥åŠ›æ›´æ–°
 	if (AutoPlayManager::Instance()->m_autoPlay)
 		AutoPlayManager::Instance()->update();
 
-	//ƒm[ƒcˆ—
+	//ãƒãƒ¼ãƒ„å‡¦ç†
 	m_notesData.update(m_sound, m_nowCount, m_score);
 
-	//ƒRƒ“ƒ{XV
+	//ã‚³ãƒ³ãƒœæ›´æ–°
 	m_score.m_maxCombo = Max(m_score.m_maxCombo, m_score.m_currentCombo);
 
-	//ƒtƒ‹ƒRƒ“‰‰o
+	//ãƒ•ãƒ«ã‚³ãƒ³æ¼”å‡º
 	if (m_score.m_maxCombo >= m_totalNotes && !m_FCAPAnime.isStart())
 	{
 		m_FCAPAnime.play(m_score);
@@ -99,7 +99,7 @@ void PlayMusicGame::update()
 
 #endif
 
-	//‹È‚ÌI‚í‚è
+	//æ›²ã®çµ‚ã‚ã‚Š
 	if (!m_isFinish)
 	{
 		if (sample >= m_finishSample || m_nowCount >= m_notesData.getMaxBarCount())
@@ -130,12 +130,12 @@ namespace
 
 void PlayMusicGame::drawBG(const MusicData & nowMusic, const double drawCount)const
 {
-	
+
 	m_playBG->apply(drawCount);
 
-	//ƒXƒyƒNƒgƒ‰ƒ€•`‰æ
-	if(Game::Instance()->m_config.m_isSpectrum)
-	m_spectrum.draw(m_sound);
+	//ã‚¹ãƒšã‚¯ãƒˆãƒ©ãƒ æç”»
+	if (Game::Instance()->m_config.m_isSpectrum)
+		m_spectrum.draw(m_sound);
 
 	TextureAsset(L"mainbg").draw();
 }
@@ -145,59 +145,24 @@ void PlayMusicGame::draw(const MusicData & nowMusic) const
 
 	const double drawCount = m_notesData.calDrawCount(m_nowCount);
 
-	const auto& config = Game::Instance()->m_config;
+
 
 	/**********/
-	//”wŒi
+	//èƒŒæ™¯
 	this->drawBG(nowMusic, drawCount);
 
+	//å…¥åŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+	const bool redInput = isInput(AutoPlayManager::Instance()->m_isRedPressed, PlayKey::Red().pressed);
+	const bool blueInput = isInput(AutoPlayManager::Instance()->m_isBluePressed, PlayKey::Blue().pressed);
+	const bool yellowInput = isInput(AutoPlayManager::Instance()->m_isYellowPressed, PlayKey::Yellow().pressed);
 
 
-	if (config.m_isCirleCut)
-	{
-		const Circle mask(400, 300, 300);
-		Graphics2D::SetStencilState(StencilState::Replace);
-		Graphics2D::SetStencilValue(6);
-		mask.draw();
-		Graphics2D::SetStencilState(StencilState::Test(StencilFunc::Equal));
-		Graphics2D::SetBlendState(BlendState::Subtractive);
-		mask.draw(ColorF(0.3, 0.3));
-		Graphics2D::SetBlendState(BlendState::Default);
-	}
+	PlayStyle::Instance()->drawFrame(redInput, blueInput, yellowInput,
+		[&] {m_notesData.draw(drawCount, m_scrollRate); });
 
-	{
-		util::Transformer2D t2d(Mat3x2::Scale(config.m_playScale,Vec2{400,300}));
-
-		//“ü—ÍƒAƒNƒVƒ‡ƒ“
-		const bool redInput = isInput(AutoPlayManager::Instance()->m_isRedPressed, PlayKey::Red().pressed);
-		const bool blueInput = isInput(AutoPlayManager::Instance()->m_isBluePressed, PlayKey::Blue().pressed);
-		const bool yellowInput = isInput(AutoPlayManager::Instance()->m_isYellowPressed, PlayKey::Yellow().pressed);
+	Graphics2D::SetStencilState(StencilState::Default);
 
 
-		if (redInput)
-			TextureAsset(L"center_redlight").drawAt(400, 300);
-
-		if (blueInput)
-			TextureAsset(L"center_bluelight").drawAt(400, 300);
-
-		if (yellowInput)
-			TextureAsset(L"center_yellowlight").drawAt(400, 300);
-
-
-		TextureAsset(L"center_base").drawAt(400, 300);
-
-		static constexpr Color judgeLineColor(255, 165, 0, 255);
-
-		//”»’è‰~
-		constexpr  Circle judgeLine(400, 300, 40);
-		judgeLine.drawFrame(2, 2, judgeLineColor);
-
-		PlayMusicGame::GetEffect().update();
-		//ƒm[ƒcƒIƒuƒWƒFƒNƒg
-		m_notesData.draw(drawCount, m_scrollRate);
-
-		Graphics2D::SetStencilState(StencilState::Default);
-	}
 	this->uiDraw();
 
 }
@@ -206,43 +171,29 @@ void PlayMusicGame::previewDraw(const MusicData & nowMusic, const double count) 
 {
 	const double drawCount = m_notesData.calDrawCount(count);
 
-	//”wŒi
+	//èƒŒæ™¯
 	this->drawBG(nowMusic, drawCount);
 
-	static constexpr Color judgeLineColor(255, 165, 0, 255);
 
-	//”»’è‰~
-	Circle(400, 300, 40).drawFrame(2, 2, judgeLineColor);
-
+	PlayStyle::Instance()->drawJudgeLine();
 
 	m_notesData.previewDraw(drawCount, m_scrollRate);
 }
 
 void PlayMusicGame::uiDraw() const
 {
-	const auto& font = FontAsset(L"combo");
+
 	//UI***************************************************************
 
-	if (auto combo = m_score.m_currentCombo)
-	{
-		const int x = 115;
-		TextureAsset(L"combo").draw(x + 121, 299, Palette::White);
-		TextureAsset(L"combo").draw(x + 120, 298, Palette::Black);
-		font(Pad(combo, { 6,L' ' })).drawKinetic(x + 1, 301, FontKinetic::DeleteSpace, Palette::White);
-		font(Pad(combo, { 6,L' ' })).drawKinetic(x, 300, FontKinetic::DeleteSpace, Palette::Black);
-
-	}
 	const auto rate = m_isCourse ?
 		m_life :
 		Game::Instance()->m_config.m_isClearRateDownType ?
 		ResultRank::calcClearRateAsDownType(m_score, m_notesData.getTotalNotes()) :
 		ResultRank::calcClearRate(m_score, m_notesData.getTotalNotes());
 
-	font(L"{:.2f}%"_fmt, rate).draw(501, 301, Palette::White);
-	font(L"{:.2f}%"_fmt, rate).draw(500, 300, Palette::Black);
+	PlayStyle::Instance()->drawComboAndRate(m_score.m_currentCombo, rate);
 
-
-	//‹È‚ÌŒ»İ’n
+	//æ›²ã®ç¾åœ¨åœ°
 	const int barY = 50;
 	{
 		TextureAsset(L"streamPosBase").draw(725 - m_barXEasing.easeInOut(), barY);
@@ -262,10 +213,10 @@ void PlayMusicGame::uiDraw() const
 		TextureAsset(L"bar1").draw(m_barXEasing.easeInOut(), barY);
 	}
 
-	//ƒXƒ^[ƒgƒAƒjƒ
+	//ã‚¹ã‚¿ãƒ¼ãƒˆã‚¢ãƒ‹ãƒ¡
 	StartAnime::Draw();
 
-	//FCƒAƒjƒ
+	//FCã‚¢ãƒ‹ãƒ¡
 	if (m_FCAPAnime.isStart())
 	{
 		if (!m_FCAPAnime.isEnd())

@@ -10,4 +10,8 @@ public:
 	virtual ~Bar() = default;
 	virtual bool update(double& nowCount, double& countPerFrame, Score& score, Sound& sound)override;
 	virtual void diffDraw(double count, float scrollRate)const override;
+	const double& getSpeed()const
+	{
+		return m_speed;
+	}
 };
