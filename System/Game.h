@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include"Singleton.h"
 # include <Siv3D.hpp>
 # include <HamFramework.hpp>
@@ -9,7 +9,7 @@
 #include"GameConfig.h"
 
 #include"SoundManager.h"
-//‹¤—Lƒf[ƒ^
+//å…±æœ‰ãƒ‡ãƒ¼ã‚¿
 struct GameData
 {
 	MusicData m_nowMusics;
@@ -30,22 +30,22 @@ struct GameData
 using MyApp = SceneManager<String, GameData>;
 
 
-//ƒQ[ƒ€ƒNƒ‰ƒX
+//ã‚²ãƒ¼ãƒ ã‚¯ãƒ©ã‚¹
 class Game :public Singleton<Game>
 {
 public:
-	static constexpr auto Version = L"Ver2.1.0";
+	static constexpr auto Version = L"Ver2.2.1";
 private:
 
-	MyApp m_scene;			//ƒV[ƒ“
+	MyApp m_scene;			//ã‚·ãƒ¼ãƒ³
 
 
-	void init();			//‰Šú‰»
+	void init();			//åˆæœŸåŒ–
 
 	Game():m_isMusicLoadEnd(false)
 	{ 
 		init();
-	};		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	};		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 
 
 public:
@@ -53,13 +53,13 @@ public:
 	Array<CourseData> m_courses;
 	Array<String> m_tapSEPaths;
 
-	Effect m_effect;		//ƒGƒtƒFƒNƒg
+	Effect m_effect;		//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	GameConfig m_config;
 
 	bool m_isMusicLoadEnd;
 
 
-	bool updateAndDraw();	//XV‚Æ•`‰æ
+	bool updateAndDraw();	//æ›´æ–°ã¨æç”»
 
 	friend Singleton < Game >;
 };

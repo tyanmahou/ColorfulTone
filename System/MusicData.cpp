@@ -1,4 +1,4 @@
-#include"MusicData.h"
+Ôªø#include"MusicData.h"
 #include"GenreManager.h"
 
 int MusicData::Index;
@@ -6,20 +6,20 @@ MusicData::MusicData(const String& genreName, const String& dirPath, const Strin
 {
 	m_index = Index;
 	Index++;
-	m_fileName = FileSystem::BaseName(dirPath);
+	m_fileName = FileSystem::FileName(dirPath);
 	m_genreName = genreName;
 
 	INIReader iniReader(iniPath);
 	if (!iniReader)
 		return;
-	//É^ÉCÉgÉã
+	//„Çø„Ç§„Éà„É´
 	m_musicName.assign(iniReader.getOr<String>(L"Data.TITLE",L"None"));
 
-	//ÉWÉÉÉPäG
+	//„Ç∏„É£„Ç±Áµµ
 	m_texture = Texture(dirPath + iniReader.get<String>(L"Data.IMG"));
 	auto wavPath = dirPath + iniReader.get<String>(L"Data.MUSIC");
 
-	//äyã»
+	//Ê•ΩÊõ≤
 	m_soundNameID = genreName + L"." + m_fileName;
 	m_loop = iniReader.getOr<ABLoop>(L"Data.LOOP", ABLoop(0, 10));
 
@@ -34,7 +34,7 @@ MusicData::MusicData(const String& genreName, const String& dirPath, const Strin
 	m_maxBar = Mahou::SoundBar(0, m_maxbpm);
 
 	m_bpm = EasingController<BPMType>(m_minbpm, m_maxbpm, Easing::Linear, 1000);
-	//ïàñ ÉfÅ[É^
+	//Ë≠úÈù¢„Éá„Éº„Çø
 	for (int i = 0;true; ++i) 
 	{
 		String notePath =iniReader.get<String>(Format(L"Level.NOTES", i));

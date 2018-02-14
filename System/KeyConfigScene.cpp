@@ -1,4 +1,4 @@
-#include"KeyConfigScene.h"
+ï»¿#include"KeyConfigScene.h"
 #include"Fade.h"
 
 #include"PlayKey.h"
@@ -9,12 +9,12 @@ namespace
 {
 	void InitTapSE(Config& config, String& configParm, const String& assetTag, const String& defaultSEPath)
 	{
-		config.add(L"‚È‚µ", [=, &configParm]() {
+		config.add(L"ãªã—", [=, &configParm]() {
 			configParm = L"Resource/Sound/SE/none.mp3";
 			SoundAsset::Unregister(assetTag);
 			SoundAsset::Register(assetTag, L"Resource/Sound/SE/none.mp3", { L"System" });
 		});
-		config.add(L"ƒfƒtƒHƒ‹ƒg", [=, &configParm]() {
+		config.add(L"ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ", [=, &configParm]() {
 			configParm = defaultSEPath;
 			SoundAsset::Unregister(assetTag);
 			SoundAsset::Register(assetTag, defaultSEPath, { L"System" });
@@ -32,11 +32,11 @@ namespace
 			});
 		}
 
-		config.setDefault(L"ƒfƒtƒHƒ‹ƒg");
+		config.setDefault(L"ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ");
 		if (configParm == L"Resource/Sound/SE/none.mp3")
-			config.init(L"‚È‚µ");
+			config.init(L"ãªã—");
 		else if (configParm == defaultSEPath)
-			config.init(L"ƒfƒtƒHƒ‹ƒg");
+			config.init(L"ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ");
 		else
 			config.init(FileSystem::Relative(configParm, L"TapSE"));
 	}
@@ -46,8 +46,8 @@ namespace
 		{
 			Perfect,
 			Great,
-			Good, //ƒRƒ“ƒtƒBƒO‚Ì”
-			TOTAL_CONFIG //ƒRƒ“ƒtƒBƒO‚Ì”
+			Good, //ã‚³ãƒ³ãƒ•ã‚£ã‚°ã®æ•°
+			TOTAL_CONFIG //ã‚³ãƒ³ãƒ•ã‚£ã‚°ã®æ•°
 		};
 
 	public:
@@ -86,6 +86,14 @@ namespace
 			{ 1.0f, L"x1.0" },
 			{ 1.1f, L"x1.1" },
 			{ 1.2f, L"x1.2" },
+			{ 1.3f, L"x1.3" },
+			{ 1.4f, L"x1.4" },
+			{ 1.5f, L"x1.5" },
+			{ 1.6f, L"x1.6" },
+			{ 1.7f, L"x1.7" },
+			{ 1.8f, L"x1.8" },
+			{ 1.9f, L"x1.9" },
+			{ 2.0f, L"x2.0" },
 		};
 		for (auto&& pair : map)
 		{
@@ -116,30 +124,30 @@ namespace
 
 			m_configs[SEVolume].setName(L"SE");
 			VolumeInit(m_configs[SEVolume], SoundManager::SE::SetVolume,
-				Game::Instance()->m_config.m_seVolume, L"x0.5");
+				Game::Instance()->m_config.m_seVolume);
 		}
 	};
 }
 
 namespace
 {
-	//•\¦ƒNƒŠƒAƒŒ[ƒg
+	//è¡¨ç¤ºã‚¯ãƒªã‚¢ãƒ¬ãƒ¼ãƒˆ
 	void ClearRateInit(Config& config)
 	{
-		config.setName(L"•\¦‚·‚éƒNƒŠƒAƒŒ[ƒg");
-		config.add(L"‰ÁZ®", []() {Game::Instance()->m_config.m_isClearRateDownType = false; });
-		config.add(L"Œ¸Z®", []() {Game::Instance()->m_config.m_isClearRateDownType = true; });
+		config.setName(L"è¡¨ç¤ºã™ã‚‹ã‚¯ãƒªã‚¢ãƒ¬ãƒ¼ãƒˆ");
+		config.add(L"åŠ ç®—å¼", []() {Game::Instance()->m_config.m_isClearRateDownType = false; });
+		config.add(L"æ¸›ç®—å¼", []() {Game::Instance()->m_config.m_isClearRateDownType = true; });
 
 		if (Game::Instance()->m_config.m_isClearRateDownType)
-			config.init(L"Œ¸Z®");
+			config.init(L"æ¸›ç®—å¼");
 		else
-			config.init(L"‰ÁZ®");
+			config.init(L"åŠ ç®—å¼");
 
 	}
-	//‰~Œ`Ø‚èæ‚è‚Ì‰Šú‰»
+	//å††å½¢åˆ‡ã‚Šå–ã‚Šã®åˆæœŸåŒ–
 	void CircleCutInit(Config& config)
 	{
-		config.setName(L"‰~Œ`Ø‚èæ‚è");
+		config.setName(L"å††å½¢åˆ‡ã‚Šå–ã‚Š");
 		config.add(L"ON", []() {Game::Instance()->m_config.m_isCirleCut = true; });
 		config.add(L"OFF", []() {Game::Instance()->m_config.m_isCirleCut = false; });
 
@@ -148,10 +156,10 @@ namespace
 		else
 			config.init(L"OFF");
 	}
-	//ƒvƒŒƒCƒXƒP[ƒ‹
+	//ãƒ—ãƒ¬ã‚¤ã‚¹ã‚±ãƒ¼ãƒ«
 	void PlayScaleInit(Config& config)
 	{
-		config.setName(L"ƒvƒŒƒC‰æ–Ê‚ÌŠg‘å—¦");
+		config.setName(L"ãƒ—ãƒ¬ã‚¤ç”»é¢ã®æ‹¡å¤§ç‡");
 		static const std::map<float, String> map
 		{
 			{ 0.5f,L"x0.5" },
@@ -172,30 +180,30 @@ namespace
 	}
 	void PlayBGInit(Config& config)
 	{
-		config.setName(L"”wŒiİ’è");
+		config.setName(L"èƒŒæ™¯è¨­å®š");
 
-		config.add(L"ƒfƒtƒHƒ‹ƒg", []() {Game::Instance()->m_config.m_bgType = BGType::Default; });
-		config.add(L"ƒKƒEƒX‚Ú‚©‚µ", []() {Game::Instance()->m_config.m_bgType = BGType::Blur; });
-		config.add(L"•", []() {Game::Instance()->m_config.m_bgType = BGType::Black; });
-		config.add(L"”’", []() {Game::Instance()->m_config.m_bgType = BGType::White; });
+		config.add(L"ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ", []() {Game::Instance()->m_config.m_bgType = BGType::Default; });
+		config.add(L"ã‚¬ã‚¦ã‚¹ã¼ã‹ã—", []() {Game::Instance()->m_config.m_bgType = BGType::Blur; });
+		config.add(L"é»’", []() {Game::Instance()->m_config.m_bgType = BGType::Black; });
+		config.add(L"ç™½", []() {Game::Instance()->m_config.m_bgType = BGType::White; });
 
 		switch (Game::Instance()->m_config.m_bgType)
 		{
-		case BGType::Default: config.init(L"ƒfƒtƒHƒ‹ƒg");
+		case BGType::Default: config.init(L"ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ");
 			break;
-		case BGType::Blur: config.init(L"ƒKƒEƒX‚Ú‚©‚µ");
+		case BGType::Blur: config.init(L"ã‚¬ã‚¦ã‚¹ã¼ã‹ã—");
 			break;
-		case BGType::Black: config.init(L"•");
+		case BGType::Black: config.init(L"é»’");
 			break;
-		case BGType::White: config.init(L"”’");
+		case BGType::White: config.init(L"ç™½");
 			break;
 
 		}
 	}
-	//ƒI[ƒfƒBƒIƒXƒyƒNƒgƒ‰ƒ€‚Ì‰Šú‰»
+	//ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚¹ãƒšã‚¯ãƒˆãƒ©ãƒ ã®åˆæœŸåŒ–
 	void IsSpectrumInit(Config& config)
 	{
-		config.setName(L"ƒI[ƒfƒBƒIƒXƒyƒgƒ‰ƒ€‚Ì•\¦");
+		config.setName(L"ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚¹ãƒšãƒˆãƒ©ãƒ ã®è¡¨ç¤º");
 		config.add(L"ON", []() {Game::Instance()->m_config.m_isSpectrum = true; });
 		config.add(L"OFF", []() {Game::Instance()->m_config.m_isSpectrum = false; });
 
@@ -213,7 +221,7 @@ namespace
 			PlayScale,
 			BGType,
 			IsSpectrum,
-			TOTAL_CONFIG //ƒRƒ“ƒtƒBƒO‚Ì”
+			TOTAL_CONFIG //ã‚³ãƒ³ãƒ•ã‚£ã‚°ã®æ•°
 		};
 	public:
 		PlayConfig()
@@ -248,7 +256,7 @@ namespace
 			Volume,
 			TapSE,
 			KeyConfig,
-			TOTAL_CONFIG //ƒRƒ“ƒtƒBƒO‚Ì”
+			TOTAL_CONFIG //ã‚³ãƒ³ãƒ•ã‚£ã‚°ã®æ•°
 		};
 	public:
 		MainConfig() :
@@ -256,20 +264,20 @@ namespace
 		{
 
 			m_configs.resize(TOTAL_CONFIG);
-			m_configs[Play].setName(L"ƒvƒŒƒC‰æ–Ê");
+			m_configs[Play].setName(L"ãƒ—ãƒ¬ã‚¤ç”»é¢");
 			m_configs[Play].applyOnEnterd([this]() {
 				this->changePush<::PlayConfig>();
 			});
-			m_configs[Volume].setName(L"‰¹—Ê");
+			m_configs[Volume].setName(L"éŸ³é‡");
 			m_configs[Volume].applyOnEnterd([this]() {
 				this->changePush<::VolumeConfig>();
 			});
 
-			m_configs[TapSE].setName(L"ƒ^ƒbƒv‰¹");
+			m_configs[TapSE].setName(L"ã‚¿ãƒƒãƒ—éŸ³");
 			m_configs[TapSE].applyOnEnterd([this]() {
 				this->changePush<::TapSEConfig>();
 			});
-			m_configs[KeyConfig].setName(L"ƒL[ƒRƒ“ƒtƒBƒO");
+			m_configs[KeyConfig].setName(L"ã‚­ãƒ¼ã‚³ãƒ³ãƒ•ã‚£ã‚°");
 			m_configs[KeyConfig].applyOnEnterd([this]() {
 				m_isKeyConfig = true;
 				m_keyConfigEasing.start();
@@ -331,7 +339,7 @@ ConfigScene::~ConfigScene()
 
 
 //--------------------------------------------------------------------------------
-//ŠÖ”Fupdate
+//é–¢æ•°ï¼šupdate
 //--------------------------------------------------------------------------------
 
 
@@ -349,7 +357,7 @@ void ConfigScene::update()
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”Fdraw
+//é–¢æ•°ï¼šdraw
 //--------------------------------------------------------------------------------
 
 void ConfigScene::draw()const
@@ -365,11 +373,11 @@ void ConfigScene::draw()const
 
 	m_config.draw();
 
-	SceneInfo::Draw(L"Enter:Œˆ’è BackSpace:–ß‚é Esc:ƒ^ƒCƒgƒ‹‚É–ß‚é");
+	SceneInfo::Draw(L"Enter:æ±ºå®š BackSpace:æˆ»ã‚‹ Esc:ã‚¿ã‚¤ãƒˆãƒ«ã«æˆ»ã‚‹");
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FdrawFadeIn
+//é–¢æ•°ï¼šdrawFadeIn
 //--------------------------------------------------------------------------------
 void ConfigScene::drawFadeIn(double t) const
 {
@@ -380,7 +388,7 @@ void ConfigScene::drawFadeIn(double t) const
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FdrawFadeOut
+//é–¢æ•°ï¼šdrawFadeOut
 //--------------------------------------------------------------------------------
 void ConfigScene::drawFadeOut(double t) const
 {

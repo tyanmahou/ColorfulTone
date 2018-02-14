@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include<Siv3D.hpp>
 #include<stack>
 #include"PlayKey.h"
@@ -116,10 +116,10 @@ public:
 		}
 
 		if (m_select > 0)
-			FontAsset(L"configSelect")(L"Å©").drawCenter(500 - 130, y);
+			FontAsset(L"configSelect")(L"‚Üê").drawCenter(500 - 130, y);
 
 		if (m_select < m_actions.size() - 1)
-			FontAsset(L"configSelect")(L"Å®").drawCenter(500 + 130, y);
+			FontAsset(L"configSelect")(L"‚Üí").drawCenter(500 + 130, y);
 
 		FontAsset(L"configSelect")(m_actions.at(m_select).first).drawCenter(500, y);
 	}

@@ -1,4 +1,4 @@
-#include"GameConfig.h"
+Ôªø#include"GameConfig.h"
 #include"PlayKey.h"
 #include"SoundManager.h"
 GameConfig::GameConfig() :
@@ -7,7 +7,7 @@ GameConfig::GameConfig() :
 	m_greatSE(L"Resource/Sound/SE/tapGR.wav"),
 	m_goodSE(L"Resource/Sound/SE/tapGD.wav"),
 	m_bgmVolume(1.0),
-	m_seVolume(0.5)
+	m_seVolume(1.0)
 {
 	m_red1 = Input::KeyF;
 	m_red2 = Input::KeyD;
@@ -89,7 +89,7 @@ void GameConfig::init()
 	SoundAsset::Register(L"GOOD", m_goodSE, { L"System" });
 
 	m_bgmVolume = ini.getOr<float>(L"Config.BGMVolume", 1.0f);
-	m_seVolume = ini.getOr<float>(L"Config.SEVolume",0.5f);
+	m_seVolume = ini.getOr<float>(L"Config.SEVolume",1.0f);
 
 	SoundManager::BGM::SetVolume(m_bgmVolume);
 	SoundManager::SE::SetVolume(m_seVolume);
@@ -112,7 +112,7 @@ void GameConfig::save()
 {
 	INIWriter ini(L"config.ini");
 
-	//ÉLÅ[ÇÃï€ë∂
+	//„Ç≠„Éº„ÅÆ‰øùÂ≠ò
 	SaveKey(ini, L"Red1", m_red1);
 	SaveKey(ini, L"Red2", m_red2);
 	SaveKey(ini, L"Red3", m_red3);
@@ -132,12 +132,12 @@ void GameConfig::save()
 	SaveKey(ini, L"SmallBack", m_smallBack);
 	SaveKey(ini, L"BigBack", m_bigBack);
 
-	//É^ÉbÉvâπÇÃï€ë∂
+	//„Çø„ÉÉ„ÉóÈü≥„ÅÆ‰øùÂ≠ò
 	ini.write(L"Tap", L"Perfect", m_perfectSE);
 	ini.write(L"Tap", L"Great", m_greatSE);
 	ini.write(L"Tap", L"Good", m_goodSE);
 
-	//ÇªÇÃëºê›íËÇÃï€ë∂
+	//„Åù„ÅÆ‰ªñË®≠ÂÆö„ÅÆ‰øùÂ≠ò
 	ini.write(L"Config", L"SpeedRate", m_scrollRate);
 	ini.write(L"Config", L"PlayScale", m_playScale);
 	ini.write(L"Config", L"CirleCut", m_isCirleCut);

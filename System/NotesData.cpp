@@ -1,4 +1,4 @@
-#include"NotesData.h"
+ï»¿#include"NotesData.h"
 #include"GenreManager.h"
 #include<queue>
 #include"RepeatNote.h"
@@ -50,9 +50,9 @@ NotesData::NotesData(const String& genreName,const String& dirPath, const String
 	CSVReader csv(dirPath+filePath);
 	if (!csv)
 		return;
-	//ƒZ[ƒuƒf[ƒ^‚Ì“Ç‚İ‚İ
+	//ã‚»ãƒ¼ãƒ–ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
 	m_fileName = filePath.remove(L".csv");
-	BinaryReader saveReader(L"Score/"+genreName+L"/" + FileSystem::BaseName(dirPath) + L"/" + m_fileName + L".bin");
+	BinaryReader saveReader(L"Score/"+genreName+L"/" + FileSystem::FileName(dirPath) + L"/" + m_fileName + L".bin");
 
 
 	if (saveReader)
@@ -64,7 +64,7 @@ NotesData::NotesData(const String& genreName,const String& dirPath, const String
 		saveReader.read<float>(m_clearRate);
 	}
 
-	//‚±‚±‚©‚ç•ˆ–Êƒf[ƒ^
+	//ã“ã“ã‹ã‚‰è­œé¢ãƒ‡ãƒ¼ã‚¿
 	this->load(csv);
 
 
@@ -156,25 +156,25 @@ void NotesData::previewDraw(const double& nowCount, float scrollRate)const
 
 void NotesData::load(CSVReader & csv)
 {
-	auto rows = csv.rows;				//s”
-	String head;						//1—ñ–Ú‚Ìƒf[ƒ^‚ğ•¶š—ñ‚Å
-	int bar = 0;						//Œ»İ“ü—Í’†‚Ì¬ß
-	std::queue<double> noteSpeed;		//ƒm[ƒc‚ÌƒXƒs[ƒh•Ï‰»‚ğŠo‚¦‚Ä‚¨‚­
-	std::queue<double> barSpeed;		//¬ßü‚ÌƒXƒs[ƒh•Ï‰»‚ğŠo‚¦‚Ä‚¨‚­
-	std::queue<double> measures;		//”q‹L‰¯—p
-	double nowMeasure = 1.0;				//”q‚Ì‰Šú‰»
-	std::shared_ptr<Note> parentNote = std::make_shared<Note>(0, 0, 0);	//ƒm[ƒc‚Ì‹L‰¯(ƒƒ“ƒO—p)
-	int totalNotes = 0;					//ƒm[ƒc”
+	auto rows = csv.rows;				//è¡Œæ•°
+	String head;						//1åˆ—ç›®ã®ãƒ‡ãƒ¼ã‚¿ã‚’æ–‡å­—åˆ—ã§
+	int bar = 0;						//ç¾åœ¨å…¥åŠ›ä¸­ã®å°ç¯€
+	std::queue<double> noteSpeed;		//ãƒãƒ¼ãƒ„ã®ã‚¹ãƒ”ãƒ¼ãƒ‰å¤‰åŒ–ã‚’è¦šãˆã¦ãŠã
+	std::queue<double> barSpeed;		//å°ç¯€ç·šã®ã‚¹ãƒ”ãƒ¼ãƒ‰å¤‰åŒ–ã‚’è¦šãˆã¦ãŠã
+	std::queue<double> measures;		//æ‹å­è¨˜æ†¶ç”¨
+	double nowMeasure = 1.0;				//æ‹å­ã®åˆæœŸåŒ–
+	std::shared_ptr<Note> parentNote = std::make_shared<Note>(0, 0, 0);	//ãƒãƒ¼ãƒ„ã®è¨˜æ†¶(ãƒ­ãƒ³ã‚°ç”¨)
+	int totalNotes = 0;					//ãƒãƒ¼ãƒ„æ•°
 	double scrollBaseSpeed = 1.0;
-	double repeatInterval = 8.0;					//˜A‘ÅŠÔŠu
+	double repeatInterval = 8.0;					//é€£æ‰“é–“éš”
 
 	BPMType nowBPM = 120;
 
-	//•ˆ–Ê’â~—p
+	//è­œé¢åœæ­¢ç”¨
 	Array<StopInfo> stopInfos;
 	stopInfos.emplace_back();
 	stopInfos.emplace_back();
-	//bpm•ÏX—p
+	//bpmå¤‰æ›´ç”¨
 	Array<TempoInfo> tempoInfo;
 	double lastBPMChangeCount = 0;
 	int64 totalSample = 44100 * 4;
@@ -186,23 +186,23 @@ void NotesData::load(CSVReader & csv)
 
 		head = csv.get<String>(i, 0);
 
-		if (head.isEmpty)			//‹ós‚ÍƒXƒ‹[
+		if (head.isEmpty)			//ç©ºè¡Œã¯ã‚¹ãƒ«ãƒ¼
 		{
 			continue;
 		}
-		if (head[0] == '%')//ƒRƒƒ“ƒg
+		if (head[0] == '%')//ã‚³ãƒ¡ãƒ³ãƒˆ
 		{
 			continue;
 		}
-		if (head[0] != '#')			//ƒm[ƒc
+		if (head[0] != '#')			//ãƒãƒ¼ãƒ„
 		{
 			int col = csv.columns(i);
 
-			//¬ßü‚ÌƒXƒs[ƒh•Û‘¶
+			//å°ç¯€ç·šã®ã‚¹ãƒ”ãƒ¼ãƒ‰ä¿å­˜
 			double bs = noteSpeed.empty() ? scrollBaseSpeed : noteSpeed.front();
 			barSpeed.push(bs);
 
-			for (int j = 0; j < col; ++j) //‚±‚Ì¬ß‚Ìƒm[ƒc“Ç‚İ‚İ
+			for (int j = 0; j < col; ++j) //ã“ã®å°ç¯€ã®ãƒãƒ¼ãƒ„èª­ã¿è¾¼ã¿
 			{
 
 				int type = csv.get<int>(i, j);
@@ -210,19 +210,19 @@ void NotesData::load(CSVReader & csv)
 				if (!type) {
 					if (!noteSpeed.empty())
 						noteSpeed.pop();
-					continue;	//0‚Ìê‡ƒXƒ‹[
+					continue;	//0ã®å ´åˆã‚¹ãƒ«ãƒ¼
 				}
 
-				//ƒm[ƒc””‚¦‚é
+				//ãƒãƒ¼ãƒ„æ•°æ•°ãˆã‚‹
 				if (type != 10)
 					totalNotes++;
 
-				//ƒJƒEƒ“ƒg’l
+				//ã‚«ã‚¦ãƒ³ãƒˆå€¤
 				double count = nowCount + NotesData::RESOLUTION*nowMeasure*j / col;
 
 				double judgeOffset = GetJudgeOffset(count, stopInfos);
 
-				//ƒm[ƒc‚ÌƒXƒs[ƒh
+				//ãƒãƒ¼ãƒ„ã®ã‚¹ãƒ”ãƒ¼ãƒ‰
 				double spd;
 				if (!noteSpeed.empty()) {
 					spd = noteSpeed.front();
@@ -231,22 +231,22 @@ void NotesData::load(CSVReader & csv)
 				else
 					spd = scrollBaseSpeed;
 
-				//ƒm[ƒc¶¬
+				//ãƒãƒ¼ãƒ„ç”Ÿæˆ
 				std::shared_ptr<Note> note;
 
-				if (type == 10)//˜A‘Åƒm[ƒc‚©‚Ç‚¤‚©
+				if (type == 10)//é€£æ‰“ãƒãƒ¼ãƒ„ã‹ã©ã†ã‹
 					note = std::make_shared<RepeatNote>(count + judgeOffset, spd);
 				else
 					note = std::make_shared<Note>(type, count + judgeOffset, spd);
 
-				if (type >= 10)//ƒƒ“ƒOƒm[ƒc‚Ìê‡eƒm[ƒc‚ğ•Û‘¶
+				if (type >= 10)//ãƒ­ãƒ³ã‚°ãƒãƒ¼ãƒ„ã®å ´åˆè¦ªãƒãƒ¼ãƒ„ã‚’ä¿å­˜
 					parentNote = note;
 
-				if (type != 8)	//ƒƒ“ƒOI“_‚Å‚È‚¢‚È‚çƒxƒNƒ^‚É’Ç‰Á
+				if (type != 8)	//ãƒ­ãƒ³ã‚°çµ‚ç‚¹ã§ãªã„ãªã‚‰ãƒ™ã‚¯ã‚¿ã«è¿½åŠ 
 					m_objects.emplace_back(note);
-				else //ƒƒ“ƒO‚ÌI“_”»’è
+				else //ãƒ­ãƒ³ã‚°ã®çµ‚ç‚¹åˆ¤å®š
 				{
-					if (parentNote->getType() == 10)//e‚ª˜A‘Åƒm[ƒc‚©
+					if (parentNote->getType() == 10)//è¦ªãŒé€£æ‰“ãƒãƒ¼ãƒ„ã‹
 						m_objects.emplace_back(std::make_shared<RepeatEnd>(count + judgeOffset, spd, parentNote, repeatInterval));
 					else
 						m_objects.emplace_back(std::make_shared<LongNote>(parentNote->getType(), count + judgeOffset, spd, parentNote));
@@ -254,9 +254,9 @@ void NotesData::load(CSVReader & csv)
 			}
 			measures.push(nowMeasure);
 			nowCount += NotesData::RESOLUTION*nowMeasure;
-			bar++;					//Ÿ‚Ì¬ß‚Ö
+			bar++;					//æ¬¡ã®å°ç¯€ã¸
 		}
-		else						//‚»‚Ì‘¼
+		else						//ãã®ä»–
 		{
 
 			if (head == L"#NOTE")
@@ -380,7 +380,7 @@ void NotesData::load(CSVReader & csv)
 
 	m_totalNotes = totalNotes;
 
-	//¬ßüì¬
+	//å°ç¯€ç·šä½œæˆ
 
 	double nowBarCount = 0;
 
@@ -407,7 +407,7 @@ void NotesData::load(CSVReader & csv)
 	m_tempoInfos.emplace_back(0, 44100 * 4 + m_offsetSample, m_bpm);
 	std::copy(tempoInfo.begin(), tempoInfo.end(), std::back_inserter(m_tempoInfos));
 
-	//“¯ŠúƒNƒ‰ƒXì¬“™‚Ì‰Šú‰»
+	//åŒæœŸã‚¯ãƒ©ã‚¹ä½œæˆç­‰ã®åˆæœŸåŒ–
 	init();
 
 
