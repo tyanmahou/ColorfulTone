@@ -6,46 +6,7 @@
 #include"PlayStyle.h"
 namespace 
 {
-	const Vec2 GetPos(double angle, double count, float scrollRate, double scrollSpeed)
-	{
-		Vec2 pos;
-		pos.x = 400 + 40 * cos(angle) + (count / Object::RESOLUTION * scrollRate*scrollSpeed)*cos(angle);
-		pos.y = 300 + 40 * sin(angle) + (count / Object::RESOLUTION * scrollRate*scrollSpeed)*sin(angle);
-		return pos;
-	}
-	double GetTextureAngle(NoteType type)
-	{
-		static const std::unordered_map<NoteType, double> textureAngleMap
-		{
-			{ 11,-Pi / 3.0 },
-			{ 12,-Pi },
-			{ 13,-5.0*Pi / 3.0 },
-			{ 14,-4.0*Pi / 3.0 },
-			{ 15,0.0 },
-			{ 16,-2.0*Pi / 3.0 },
-		};
-		if (textureAngleMap.count(type))
-			return textureAngleMap.at(type);
 
-		return 0.0;
-	}
-	String GetTxetureName(NoteType type)
-	{
-		static const std::unordered_map<NoteType, String> textureNameMap
-		{
-			{ 11,L"comet_red" },
-			{ 12,L"comet_blue" },
-			{ 13,L"comet_yellow" },
-			{ 14,L"comet_green" },
-			{ 15,L"comet_orange" },
-			{ 16,L"comet_purple" },
-			{ 17,L"comet_black" },
-		};
-		if (textureNameMap.count(type))
-			return textureNameMap.at(type);
-
-		return L"note_black";
-	}
 }
 LongNote::LongNote(int type, double firstCount,  double speed, std::shared_ptr<Note>& parent) :
 	Object(firstCount),
@@ -53,8 +14,6 @@ LongNote::LongNote(int type, double firstCount,  double speed, std::shared_ptr<N
 	m_scrollSpeed(speed), 
 	m_parent(parent)
 {
-	m_textureAngle = GetTextureAngle(m_parent->getType());
-	m_textureName = GetTxetureName(m_parent->getType());
 	m_color = m_parent->getColor();
 	HSV hsv;
 	hsv.convertFrom(m_color.r/255.0, m_color.g / 255.0, m_color.b / 255.0);

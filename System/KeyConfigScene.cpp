@@ -200,6 +200,26 @@ namespace
 
 		}
 	}
+	//style
+	void PlayStyleInit(Config& config)
+	{
+		config.setName(L"プレイモード");
+
+		config.add(L"通常モード", [] {
+			Game::Instance()->m_config.m_styleType = PlayStyleType::Default; 
+		});
+		config.add(L"縦レーン", [] {
+			Game::Instance()->m_config.m_styleType = PlayStyleType::Portrait;
+		});
+
+		switch (Game::Instance()->m_config.m_styleType)
+		{
+		case PlayStyleType::Default: config.init(L"通常モード");
+			break;
+		case PlayStyleType::Portrait: config.init(L"縦レーン");
+			break;
+		}
+	}
 	//オーディオスペクトラムの初期化
 	void IsSpectrumInit(Config& config)
 	{
@@ -221,6 +241,7 @@ namespace
 			PlayScale,
 			BGType,
 			IsSpectrum,
+			Style,
 			TOTAL_CONFIG //コンフィグの数
 		};
 	public:
@@ -232,7 +253,7 @@ namespace
 			::PlayScaleInit(m_configs[PlayScale]);
 			::PlayBGInit(m_configs[BGType]);
 			::IsSpectrumInit(m_configs[IsSpectrum]);
-
+			::PlayStyleInit(m_configs[Style]);
 		}
 	};
 

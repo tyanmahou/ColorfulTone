@@ -6,8 +6,6 @@ private:
 
 
 	const NoteType m_type;
-	String m_textureName;
-	double m_textureAngle;
 	Color m_color;
 protected:
 	std::shared_ptr<Note> m_parent;

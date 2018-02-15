@@ -144,8 +144,6 @@ void NormalStyle::drawFrame(bool red,bool blue,bool yellow, std::function<void()
 		//判定円
 		this->drawJudgeLine();
 
-		PlayMusicGame::GetEffect().update();
-
 		drawCallback();
 	}
 }
@@ -218,7 +216,7 @@ void NormalStyle::draw(const Bar & note, double count, float scrollRate) const
 
 	if (x <= 0 || x>1000)
 		return;
-	Circle(400, 300, x).drawFrame(1, 1, ColorF(0, 0.1));
+	Circle(400, 300, x).drawFrame(2, 2, ColorF(0, 0.2));
 }
 
 void NormalStyle::draw(const Note & note, double count, float scrollRate)const
@@ -323,7 +321,7 @@ void NormalStyle::draw(const RepeatNote & note, double count, float scrollRate) 
 void NormalStyle::draw(const RepeatEnd & note, double count, float scrollRate) const
 {
 	const auto parent = note.getParent();
-	const auto angle = parent->getAngle();
+	const auto angle = ::GetAngle(parent->getType());
 	const auto speed = note.getSpeed();
 	const Vec2 pos= ::GetPos(angle, count, scrollRate, speed);
 
@@ -331,7 +329,7 @@ void NormalStyle::draw(const RepeatEnd & note, double count, float scrollRate) c
 	auto pCount = parent->getDrawCount() - nowCount;
 	if (parent->isFirstTap())
 		pCount = 0;
-	auto pPos = GetPos(angle,pCount, scrollRate,speed);
+	auto pPos = GetPos(angle,pCount, scrollRate,parent->getSpeed());
 
 	if (!Note::CanDraw(pPos) && !Note::CanDraw(pos))
 		return;

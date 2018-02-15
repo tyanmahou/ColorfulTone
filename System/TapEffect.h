@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 
 #include"SerialImage.h"
 
 
 struct  TapEffect : public IEffect
 {
-	//ƒGƒtƒFƒNƒg‚Ì’†S
+	//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ä¸­å¿ƒ
 	const double m_angle;
-	//ƒIƒtƒZƒbƒg
+	//ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 	const int m_type;
 	SerialImage m_sImage;
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	TapEffect(const double angle,int type=0):
 		m_angle(angle+Pi),
 		m_type(type),
@@ -24,6 +24,26 @@ struct  TapEffect : public IEffect
 		m_sImage.rotate(m_angle).drawAt(400, 300);
 		const int alpha =  - t*10000.0/34.0+110;
 		Circle(400, 300, 40 + 70 * t).drawFrame(1, 0,static_cast<Color>(Palette::Blue).setAlpha(alpha));
+		return t <= 0.34;
+	}
+};
+
+struct  TapEffect2 : public IEffect
+{
+	double m_posX;
+	double m_width;
+
+	TapEffect2(double posX,double width):
+		m_posX(posX),
+		m_width(width)
+	{}
+
+	bool update(double t) override
+	{
+		double y = -100 * t+500;
+		double x = m_posX - m_width / 2;
+		const int alpha = -t*10000.0 / 34.0 + 110;
+		Line({x, y }, {x+m_width,y}).draw(2, static_cast<Color>(Palette::Blue).setAlpha(alpha));
 		return t <= 0.34;
 	}
 };

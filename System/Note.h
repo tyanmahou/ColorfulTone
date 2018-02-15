@@ -19,10 +19,6 @@ private:
 	bool m_isAnyClicked = false;
 	bool m_isClicked[3];
 
-	const double m_angle;
-
-	const String m_textureName;
-	const double m_textureAngle;
 
 	const NoteType m_type;	//あとでenumに？
 	Color m_color;
@@ -39,11 +35,7 @@ public:
 	virtual void init()override;
 	virtual bool update(double& nowCount, double& countPerFrame, Score& score,Sound& sound)override;
 	virtual void diffDraw(double count, float scrollRate)const override;
-	const double& getAngle()const { return m_angle;}
 	const Color& getColor()const { return m_color; }
-	const Vec2 getPos(double angle, double count, float scrollRate, double scrollSpeed)const;
-	const Vec2 getPos(double angle, double count,float scrollRate)const;
-	const Vec2 getPos(double count, float scrollRate)const;
 	const  NoteType getType()const { return m_type; }
 	const double& getSpeed()const {	return m_scrollSpeed;}
 	virtual bool isFirstTap()const;

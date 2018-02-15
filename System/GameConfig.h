@@ -1,8 +1,9 @@
-#pragma once
+ï»¿#pragma once
 
 #include<Siv3D.hpp>
 #include"PlayBG.h"
-//ƒRƒ“ƒtƒBƒOİ’è•Ï”
+#include"PlayStyle.h"
+//ã‚³ãƒ³ãƒ•ã‚£ã‚°è¨­å®šå¤‰æ•°
 class GameConfig
 {
 private:
@@ -15,21 +16,23 @@ public:
 	 Key m_up, m_down, m_right, m_left;
 	 Key m_start, m_smallBack, m_bigBack;
 
-	 //‰~Ø‚èæ‚è
+	 //å††åˆ‡ã‚Šå–ã‚Š
 	 bool m_isCirleCut = false;
-	 //Œ¸Z®‚É‚·‚é‚©
+	 //æ¸›ç®—å¼ã«ã™ã‚‹ã‹
 	 bool m_isClearRateDownType = false;
 	 float m_playScale=1.0;
 
-	 //ƒ^ƒbƒv‰¹
+	 //ã‚¿ãƒƒãƒ—éŸ³
 	 String m_perfectSE, m_greatSE, m_goodSE;
 
-	 //BGM SE‰¹—Ê
+	 //BGM SEéŸ³é‡
 	 float m_bgmVolume, m_seVolume;
 
-	 //”wŒi‰‰o
+	 //èƒŒæ™¯æ¼”å‡º
 	 BGType m_bgType=BGType::Default;
 	 bool m_isSpectrum=true;
+	 PlayStyleType m_styleType = PlayStyleType::Default;
+
 
 	 void init();
 	 void save();

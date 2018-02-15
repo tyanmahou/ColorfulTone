@@ -59,6 +59,7 @@ void PlayMusicGame::init(MusicData & nowMusic, const int level, const float scro
 	m_score = Score();
 
 	m_playBG = ::CreateBG(Game::Instance()->m_config.m_bgType);
+	PlayStyle::Instance()->setStyle(Game::Instance()->m_config.m_styleType);
 
 	m_playBG->init(nowMusic);
 
@@ -152,13 +153,16 @@ void PlayMusicGame::draw(const MusicData & nowMusic) const
 	this->drawBG(nowMusic, drawCount);
 
 	//入力アクション
-	const bool redInput = isInput(AutoPlayManager::Instance()->m_isRedPressed, PlayKey::Red().pressed);
-	const bool blueInput = isInput(AutoPlayManager::Instance()->m_isBluePressed, PlayKey::Blue().pressed);
-	const bool yellowInput = isInput(AutoPlayManager::Instance()->m_isYellowPressed, PlayKey::Yellow().pressed);
+	const bool redInput = isInput(AutoPlayManager::Instance()->isRedPressed(), PlayKey::Red().pressed);
+	const bool blueInput = isInput(AutoPlayManager::Instance()->isBluePressed(), PlayKey::Blue().pressed);
+	const bool yellowInput = isInput(AutoPlayManager::Instance()->isYellowPressed(), PlayKey::Yellow().pressed);
 
 
 	PlayStyle::Instance()->drawFrame(redInput, blueInput, yellowInput,
-		[&] {m_notesData.draw(drawCount, m_scrollRate); });
+		[&] {
+		PlayMusicGame::GetEffect().update();
+		m_notesData.draw(drawCount, m_scrollRate); 
+	});
 
 	Graphics2D::SetStencilState(StencilState::Default);
 

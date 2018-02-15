@@ -50,88 +50,6 @@ namespace {
 		}
 		return Palette::Black;
 	}
-
-	//--------------------------------------------------------------------------------
-	//関数：GetAngle
-	//--------------------------------------------------------------------------------
-	//概要：ノーツが来る角度を取得
-	//--------------------------------------------------------------------------------
-
-	double GetAngle(NoteType type) {
-		static const std::unordered_map<NoteType, double> angleMap
-		{
-			{ 1,7 * Pi / 6 },
-			{ 2, Pi / 2 },
-			{ 3,11 * Pi / 6 },
-			{ 4,Pi / 6 },
-			{ 5,3 * Pi / 2 },
-			{ 6,5 * Pi / 6 },
-			{ 7,0 },
-
-		};
-		if (angleMap.count(type))
-			return angleMap.at(type);
-
-		return 0.0;
-	}
-
-	//--------------------------------------------------------------------------------
-	//関数：GetTextureAngle
-	//--------------------------------------------------------------------------------
-	//概要：ノーツのテクスチャの角度を取得
-	//--------------------------------------------------------------------------------
-
-	double GetTextureAngle(NoteType type)
-	{
-		static const std::unordered_map<NoteType, double> textureAngleMap
-		{
-			{ 1,-4.0*Pi / 3.0 },
-			{ 2,0.0 },
-			{ 3,-2.0*Pi / 3.0 },
-			{ 4,-Pi / 3.0 },
-			{ 5,-Pi },
-			{ 6,-5.0*Pi / 3.0 },
-			{ 7,0.0 },
-
-		};
-		if (textureAngleMap.count(type))
-			return textureAngleMap.at(type);
-
-		return 0.0;
-	}
-
-	//--------------------------------------------------------------------------------
-	//関数：GetTxetureName
-	//--------------------------------------------------------------------------------
-	//概要：ノーツのテクスチャの名前を取得
-	//--------------------------------------------------------------------------------
-
-	String GetTxetureName(NoteType type)
-	{
-		static const std::unordered_map<NoteType, String> textureNameMap
-		{
-			{ 1,L"note_red"},
-			{ 2,L"note_blue"},
-			{ 3,L"note_yellow" },
-			{ 4,L"note_green" },
-			{ 5,L"note_orange" },
-			{ 6,L"note_purple" },
-			{ 7,L"note_black" },
-			{ 9,L"note_white" },
-			{ 11,L"comet_red" },
-			{ 12,L"comet_blue" },
-			{ 13,L"comet_yellow" },
-			{ 14,L"comet_green" },
-			{ 15,L"comet_orange" },
-			{ 16,L"comet_purple" },
-			{ 17,L"comet_black" },
-		};
-		if (textureNameMap.count(type))
-			return textureNameMap.at(type);
-
-		return L"note_black";
-	}
-
 }
 
 //--------------------------------------------------------------------------------
@@ -139,13 +57,10 @@ namespace {
 //--------------------------------------------------------------------------------
 
 
-Note::Note(const NoteType type, double firstCount, double speed) :
+Note::Note(const NoteType type, double firstCount, double speed):
 	Object(firstCount),
 	m_type(type),
-	m_scrollSpeed(speed),
-	m_textureName(GetTxetureName(type)),
-	m_angle(GetAngle(type % 10)),
-	m_textureAngle(GetTextureAngle(type % 10))
+	m_scrollSpeed(speed)
 {
 	m_isClicked[0] = false;
 	m_isClicked[1] = false;
@@ -458,28 +373,6 @@ void Note::diffDraw(double count, float scrollRate) const
 	PlayStyle::Instance()->draw(*this, count, scrollRate);
 }
 
-//--------------------------------------------------------------------------------
-//関数：getPos
-//--------------------------------------------------------------------------------
-//概要：描画座標取得
-//--------------------------------------------------------------------------------
-const Vec2 Note::getPos(double angle, double count, float scrollRate, double scrollSpeed) const
-{
-	Vec2 pos;
-	pos.x = 400 + 40 * cos(angle) + (count / Object::RESOLUTION * scrollRate*scrollSpeed)*cos(angle);
-	pos.y = 300 + 40 * sin(angle) + (count / Object::RESOLUTION * scrollRate*scrollSpeed)*sin(angle);
-	return pos;
-}
-
-const Vec2 Note::getPos(double angle, double count, float scrollRate)const
-{
-	return getPos(angle, count, scrollRate, m_scrollSpeed);
-}
-
-const Vec2 Note::getPos(double count, float scrollRate) const
-{
-	return getPos(m_angle, count, scrollRate);
-}
 
 //--------------------------------------------------------------------------------
 //関数：isFirstTap

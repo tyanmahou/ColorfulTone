@@ -42,6 +42,7 @@ bool RepeatEnd::update(double & nowCount, double & countPerFrame, Score & score,
 		{
 			static int tap = 0;
 			++tap %= 3;
+			AutoPlayManager::Instance()->input(tap+1);
 			EffectUpdate(tap == 0, tap == 1, tap == 2);
 			m_lastCount = nowCount;
 			m_isTap = true;

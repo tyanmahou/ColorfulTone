@@ -1,6 +1,7 @@
 #pragma once
 #include<Siv3d.hpp>
 #include"MusicData.h"
+#include"Util.h"
 enum class BGType
 {
 	Default=0,
@@ -62,8 +63,12 @@ private:
 		Graphics2D::SetRenderTarget(m_texture);
 		m_texture.clear(Palette::White);
 		Graphics2D::BeginPS(ps);
-		musicData.getTexture().resize(800,800).drawAt(400, 300, ColorF(1, 0.9));
+		{
+			util::Transformer2D t2d(Graphics2D::GetTransform().inverse());
+			musicData.getTexture().resize(800, 800).drawAt(Window::BaseCenter(), ColorF(1, 0.9));
+		}
 		Graphics2D::EndPS();
+
 		Graphics2D::SetRenderTarget(Graphics::GetSwapChainTexture());
 	}
 	void apply(double count)const override

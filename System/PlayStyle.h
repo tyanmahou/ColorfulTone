@@ -2,7 +2,14 @@
 
 #include"Singleton.h"
 #include"NormalStyle.h"
+#include"Portrait.h"
 
+enum class PlayStyleType
+{
+	Normal,
+	Portrait,
+	Default = Normal
+};
 
 class PlayStyle :public Singleton<PlayStyle>
 {
@@ -14,6 +21,17 @@ class PlayStyle :public Singleton<PlayStyle>
 	{}
 
 public:
+	void setStyle(PlayStyleType type)
+	{
+
+		static const std::unordered_map<PlayStyleType, std::shared_ptr<IPlayStyle>> factory
+		{
+			{PlayStyleType::Normal,std::make_shared<NormalStyle>()},
+			{ PlayStyleType::Portrait,std::make_shared<Portrait>() },
+		};
+
+		m_style = factory.at(type);
+	}
 	template<class T>
 	void draw(const T& note, double count, float scrollRate)const
 	{

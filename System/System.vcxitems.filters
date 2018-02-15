@@ -115,6 +115,12 @@
     <Filter Include="MusicGame\PlayStyle">
       <UniqueIdentifier>{a6ba7873-e668-40c2-9ae4-583af7d7bead}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MusicGame\PlayStyle\Normal">
+      <UniqueIdentifier>{d26adbd7-adb8-4b34-92a2-da7247acdd97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MusicGame\PlayStyle\Portrait">
+      <UniqueIdentifier>{51e31a8c-83be-4676-8e2f-289d6d918302}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp">
@@ -235,7 +241,10 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\NormalStyle.cpp">
-      <Filter>MusicGame\PlayStyle</Filter>
+      <Filter>MusicGame\PlayStyle\Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\Portrait.cpp">
+      <Filter>MusicGame\PlayStyle\Portrait</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -398,14 +407,17 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayBG.h">
       <Filter>MusicGame\Play</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\NormalStyle.h">
-      <Filter>MusicGame\PlayStyle</Filter>
-    </ClInclude>
     <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\IPlayStyle.h">
       <Filter>MusicGame\PlayStyle</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\PlayStyle.h">
       <Filter>MusicGame\PlayStyle</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\NormalStyle.h">
+      <Filter>MusicGame\PlayStyle\Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\Portrait.h">
+      <Filter>MusicGame\PlayStyle\Portrait</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
