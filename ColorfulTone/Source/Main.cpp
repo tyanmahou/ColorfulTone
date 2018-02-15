@@ -90,7 +90,6 @@ void Main()
 		Graphics2D::EndPS();
 	}
 #else
-
 	ColorfulTone game;
 
 	game.mainLoop();

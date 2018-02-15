@@ -100,14 +100,14 @@ namespace
 		return L"note_black";
 	}
 
-	const Color ConvertColor(const Color& color)
-	{
-		HSV hsv;
-		hsv.convertFrom(color.r / 255.0, color.g / 255.0, color.b / 255.0);
-		hsv.s = Min(0.5, hsv.s);
-		hsv.v = 1.0;
-		return hsv.toColor();
-	}
+	//const Color ConvertColor(const Color& color)
+	//{
+	//	HSV hsv;
+	//	hsv.convertFrom(color.r / 255.0, color.g / 255.0, color.b / 255.0);
+	//	hsv.s = Min(0.5, hsv.s);
+	//	hsv.v = 1.0;
+	//	return hsv.toColor();
+	//}
 }
 
 void NormalStyle::drawFrame(bool red,bool blue,bool yellow, std::function<void()> drawCallback) const
@@ -337,23 +337,26 @@ void NormalStyle::draw(const RepeatEnd & note, double count, float scrollRate) c
 
 
 	{
+		Color c1 = HSV(static_cast<int>(count / 10) % 360, 0.5, 1);
+		Color c2 = HSV((static_cast<int>(count / 10) + 72) % 360, 0.5, 1);
+
 		auto& texture = TextureAsset(L"comet_rainbow_tail");
 		{
 			const Vec2 pos = GetPos((3 + (-pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, speed);
 			const Vec2 pPos = GetPos((3 + (-pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate,parent->getSpeed());
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, { ConvertColor(Palette::Blue),ConvertColor(Palette::Orange) });
+			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, {c1,c2 });
 			texture.drawAt(pos);
 		}
 		{
 			const Vec2 pos = GetPos((7 + (-pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, speed);
 			const Vec2 pPos = GetPos((7 + (-pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate, parent->getSpeed());
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, { ConvertColor(Palette::Red),ConvertColor(Palette::Green) });
+			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, { c1,c2 });
 			texture.rotate(-4.0*Pi / 3.0).drawAt(pos);
 		}
 		{
 			const Vec2 pos = GetPos((11 + (-pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, speed);
 			const Vec2 pPos = GetPos((11 + (-pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate, parent->getSpeed());
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, { ConvertColor(Palette::Yellow),ConvertColor(Palette::Purple) });
+			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, { c1,c2 });
 			texture.rotate(-2.0*Pi / 3.0).drawAt(pos);
 		}
 

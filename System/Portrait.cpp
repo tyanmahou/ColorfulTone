@@ -130,7 +130,7 @@ void Portrait::drawTapEffect(int type)
 		return 360;
 	};
 
-	if (type % 10 == 5) 
+	if (type % 10 == 5)
 	{
 		PlayMusicGame::GetEffect().add<TapEffect2>(GetX(1), getWidth(1));
 		PlayMusicGame::GetEffect().add<TapEffect2>(GetX(3), getWidth(3));
@@ -198,7 +198,7 @@ namespace
 			break;
 		case 5:
 			Rect({ 400 - 180,y - h / 2 }, { 120,h }).draw(color).drawFrame(1, 1, Color(140, 70, 0));
-			Rect({ 400 + 60,y - h / 2 }, { 120,h }). draw(color).drawFrame(1, 1, Color(140, 70, 0));
+			Rect({ 400 + 60,y - h / 2 }, { 120,h }).draw(color).drawFrame(1, 1, Color(140, 70, 0));
 			break;
 		case 6:
 			Rect({ 400 - 180,y - h / 2 }, { 240,h }).draw(color).drawFrame(1, 1, Color(255, 115, 255));
@@ -214,6 +214,12 @@ namespace
 		default:
 			break;
 		}
+	}
+
+	void DrawLong(double x, double y, double w, double h, const Color& c1, const Color& c2)
+	{
+		Rect(x - w / 2, y, w, h).draw(ColorF(0, 0.5));
+		Rect(x - w / 2 + 5, y, w - 10, h + 5).draw({ c1,c1,c2,c2 });
 	}
 }
 void Portrait::draw(const Note & note, double count, float scrollRate) const
@@ -232,10 +238,6 @@ void Portrait::draw(const Note & note, double count, float scrollRate) const
 	Draw(y, type % 10);
 }
 
-namespace
-{
-
-}
 
 void Portrait::draw(const LongNote & note, double count, float scrollRate) const
 {
@@ -264,28 +266,17 @@ void Portrait::draw(const LongNote & note, double count, float scrollRate) const
 
 
 	Color c1 = color;
-	Color c2 = GetColor(type%10);
+	Color c2 = GetColor(type % 10);
 
 
 	if (type % 10 == 5)
 	{
-		{
-			double x = GetX(1);
-			Rect(x - 30, pY, 60, y - pY).draw(ColorF(0, 0.5));
-			Rect(x - 25, pY, 50, y - pY + 5).draw({ c1,c1,c2,c2 });
-		}
-		{
-			double x = GetX(3);
-			Rect(x - 30, pY, 60, y - pY).draw(ColorF(0, 0.5));
-			Rect(x - 25, pY, 50, y - pY + 5).draw({ c1,c1,c2,c2 });
-		}
+		DrawLong(GetX(1), pY, 30, y - pY, c1, c2);
+		DrawLong(GetX(3), pY, 30, y - pY, c1, c2);
 	}
 	else
 	{
-		double x = GetX(type);
-
-		Rect(x - 30, pY, 60, y - pY).draw(ColorF(0, 0.5));
-		Rect(x - 25, pY, 50, y - pY + 5).draw({ c1,c1,c2,c2 });
+		DrawLong(GetX(type), pY, 30, y - pY, c1, c2);
 	}
 }
 
@@ -322,8 +313,6 @@ void Portrait::draw(const RepeatEnd & note, double count, float scrollRate) cons
 	Color c1 = HSV(static_cast<int>(count / 10) % 360, 0.5, 1);
 	Color c2 = HSV((static_cast<int>(count / 10) + 72) % 360, 0.5, 1);
 
-	Rect(400 - 100, pY, 200, y - pY).draw(ColorF(0, 0.5));
-	Rect(400 - 95, pY , 190, y - pY + 5).draw({c1,c1,c2,c2});
-
+	DrawLong(400, pY, 200, y - pY, c1, c2);
 
 }

@@ -1,4 +1,4 @@
-#include"AppBase.h"
+ï»¿#include"AppBase.h"
 #include"Game.h"
 #include"FileLoad.h"
 #include"MusicSelectScene.h"
@@ -58,8 +58,8 @@ AppBase::AppBase(const String & appName, Size windowSize)
 	ham::ScalableWindow::Setup(windowSize);
 	System::SetExitEvent((Input::KeyAlt + Input::KeyF4).clicked | WindowEvent::CloseButton);
 
-	//ƒQ[ƒ€ƒRƒ“ƒtƒBƒO‚Ì‰Šú‰»
-	//ƒL[“ü—Í‚âƒnƒCƒXƒs“™
+	//ã‚²ãƒ¼ãƒ ã‚³ãƒ³ãƒ•ã‚£ã‚°ã®åˆæœŸåŒ–
+	//ã‚­ãƒ¼å…¥åŠ›ã‚„ãƒã‚¤ã‚¹ãƒ”ç­‰
 	Game::Instance()->m_config.init();
 }
 
