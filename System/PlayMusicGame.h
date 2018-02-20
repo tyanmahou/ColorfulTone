@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include"FCAPAnimeManager.h"
 #include"Score.h"
@@ -13,39 +13,38 @@ private:
 	float m_initRate = 100.0f;
 	float m_life = 100.0f;
 
-	Sound m_sound;				//Ä¶‚·‚é‹È
+	Sound m_sound;				//å†ç”Ÿã™ã‚‹æ›²
 	String m_soundNameID;
-	NotesData m_notesData;		//•ˆ–Êî•ñ
+	NotesData m_notesData;		//è­œé¢æƒ…å ±
 
-	FCAPANimeManager m_FCAPAnime;	//ƒtƒ‹ƒRƒ“APƒAƒjƒ
+	FCAPANimeManager m_FCAPAnime;	//ãƒ•ãƒ«ã‚³ãƒ³APã‚¢ãƒ‹ãƒ¡
 	Score m_score;
 
-	float m_scrollRate;			//ƒXƒNƒ[ƒ‹ƒŒ[ƒg
-	int m_totalNotes;			//ƒg[ƒ^ƒ‹ƒm[ƒc”
-	uint64 m_finishSample;		//I—¹‚ÌƒTƒ“ƒvƒŠƒ“ƒOˆÊ’u
+	float m_scrollRate;			//ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒ¬ãƒ¼ãƒˆ
+	int m_totalNotes;			//ãƒˆãƒ¼ã‚¿ãƒ«ãƒãƒ¼ãƒ„æ•°
+	uint64 m_finishSample;		//çµ‚äº†ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ä½ç½®
 
 
-	String m_title;				//ƒA[ƒeƒBƒXƒg–¼{‹È–¼
+	String m_title;				//ã‚¢ãƒ¼ãƒ†ã‚£ã‚¹ãƒˆåï¼‹æ›²å
 
-								//‰‰‘tŠJn‚ÆI—¹
+								//æ¼”å¥é–‹å§‹ã¨çµ‚äº†
 	bool m_isStart;
 	bool m_isFinish;
 	EasingController<int> m_barXEasing;
 
-	double m_nowCount;			//Œ»İ‚ÌƒJƒEƒ“ƒg
+	double m_nowCount;			//ç¾åœ¨ã®ã‚«ã‚¦ãƒ³ãƒˆ
 
 	std::shared_ptr<IPlayBG> m_playBG;
 	AudioSpectrum m_spectrum;
 	void uiDraw()const;
 public:
 
-	static Effect& GetEffect()
+	static Effect& GetEffect(std::size_t index=0)
 	{
-		static Effect effect;
+		static std::array<Effect,2> effects;
 
-		return effect;
+		return effects[index];
 	}
-
 
 	PlayMusicGame();
 
@@ -98,7 +97,7 @@ public:
 	}
 	void notesInit()
 	{
-		//•ˆ–Ê‚Ì‰Šú‰»
+		//è­œé¢ã®åˆæœŸåŒ–
 		m_notesData.init();
 		m_score = Score();
 		m_isFinish = false;

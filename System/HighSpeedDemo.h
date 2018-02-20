@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 #include"NotesData.h"
 class HighSpeedDemo 
 {
 private:
-	Array<std::shared_ptr<Object>> m_objects;//ƒfƒ‚—p•ˆ–Êƒf[ƒ^
+	Array<std::shared_ptr<Object>> m_objects;//ãƒ‡ãƒ¢ç”¨è­œé¢ãƒ‡ãƒ¼ã‚¿
 
 	EasingController<int> m_offset;
 
@@ -11,7 +11,7 @@ private:
 
 	const Rect m_bgRect;
 	const Circle m_judgeCircle;
-
+	Stopwatch m_stopwatch;
 	void drawDemoNotes(const Mahou::SoundBar& bar, float scrollRate,int stencilNum)const;
 public:
 	HighSpeedDemo();

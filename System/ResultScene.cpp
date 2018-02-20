@@ -1,4 +1,4 @@
-#include"ResultScene.h"
+Ôªø#include"ResultScene.h"
 #include"AutoPlayManager.h"
 #include"Fade.h"
 #include"ResultRank.h"
@@ -11,7 +11,7 @@ ResultScene::ResultScene() :
 	m_timer(0),
 	m_font(8, L"Straight", FontStyle::Outline),
 	m_artistFont(12),
-	m_rateFont(7, L"Straight",FontStyle::Outline),
+	m_rateFont(7, L"Straight", FontStyle::Outline),
 	m_nameFont(16, Typeface::Bold),
 	m_clearRate(0.0f),
 	m_notesSum(0),
@@ -19,63 +19,63 @@ ResultScene::ResultScene() :
 	m_isNewRecord(false),
 	m_isClear(false),
 	m_startEffect(false),
-	m_backLight(TextureAsset(L"backLight"),{5,8},1),
-	m_passEffectEasing(3,1, Easing::Quad, 800)
+	m_backLight(TextureAsset(L"backLight"), { 5,8 }, 1),
+	m_passEffectEasing(3, 1, Easing::Quad, 800)
 {
 	SoundAsset(L"result").play();
 	m_font.changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 1));
-	m_font.changeOutlineStyle(TextOutlineStyle(Palette::White,Palette::White, 1));
+	m_font.changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 1));
 }
 
-ResultScene::~ResultScene() 
+ResultScene::~ResultScene()
 {
 
 
 
 }
-void ResultScene::init() 
+void ResultScene::init()
 {
 	ClearPrint();
 	m_resultScore = m_data->m_resultScore;
 
 	auto& judges = m_resultScore.m_judgeCount;
 
-	//ÉmÅ[Écêî
+	//„Éé„Éº„ÉÑÊï∞
 	m_notesSum = m_data->m_nowMusics.getNotesData()[m_data->m_selectLevel].getTotalNotes();
 
-	//Ç`Çoèàóù
-	if (judges[Score::Perfect]  == m_notesSum) 
+	//Ôº°Ôº∞Âá¶ÁêÜ
+	if (judges[Score::Perfect] == m_notesSum)
 	{
 		m_specialResult = SpecialResult::All_Perfect;
 	}
-	//ÉtÉãÉRÉìèàóù
-	else if(m_resultScore.m_currentCombo==m_notesSum)
+	//„Éï„É´„Ç≥„É≥Âá¶ÁêÜ
+	else if (m_resultScore.m_currentCombo == m_notesSum)
 	{
 		m_specialResult = SpecialResult::Full_Combo;
 	}
 
 	m_clearRate = ResultRank::calcClearRate(m_resultScore, m_notesSum);
 
-	bool isClear = m_clearRate>=80?true:false;
+	bool isClear = m_clearRate >= 80 ? true : false;
 
 	m_isClear = isClear;
 
 	/*EasingSet*/
 	for (unsigned int i = 0; i < Score::TERM; ++i)
-		m_judgeEasing[i] = EasingController<int>(0, judges[i], Easing::Linear , 1500);
+		m_judgeEasing[i] = EasingController<int>(0, judges[i], Easing::Linear, 1500);
 
 	m_rateEasing = EasingController<double>(0, m_clearRate, Easing::Linear, 1500);
-	m_totalNotesEasing= EasingController<int>(0,m_notesSum , Easing::Linear, 1500);
-	m_maxComboEasing= EasingController<int>(0, m_resultScore.m_maxCombo, Easing::Linear, 1500);
+	m_totalNotesEasing = EasingController<int>(0, m_notesSum, Easing::Linear, 1500);
+	m_maxComboEasing = EasingController<int>(0, m_resultScore.m_maxCombo, Easing::Linear, 1500);
 
-		for (auto&& elm : m_judgeEasing)
-			elm.start();
+	for (auto&& elm : m_judgeEasing)
+		elm.start();
 
-		m_rateEasing.start();
-		m_maxComboEasing.start();
-		m_totalNotesEasing.start();
+	m_rateEasing.start();
+	m_maxComboEasing.start();
+	m_totalNotesEasing.start();
 
-	//autoPlayÇ»ÇÁÉfÅ[É^ï€ë∂ÇÕÇµÇ»Ç¢
+	//autoPlay„Å™„Çâ„Éá„Éº„Çø‰øùÂ≠ò„ÅØ„Åó„Å™„ÅÑ
 	if (AutoPlayManager::Instance()->m_autoPlay)
 		return;
 	bool newRecord = false;
@@ -89,9 +89,9 @@ void ResultScene::init()
 			newRecord = true;
 		}
 	}
-	if (m_specialResult >currentLevel.specialResult)
+	if (m_specialResult > currentLevel.specialResult)
 	{
-		currentLevel.specialResult=m_specialResult;
+		currentLevel.specialResult = m_specialResult;
 		newRecord = true;
 
 	}
@@ -101,10 +101,10 @@ void ResultScene::init()
 		newRecord = true;
 		m_isNewRecord = true;
 	}
-	if(newRecord)
-	{ 
-		BinaryWriter writer(L"Score/"+ currentMusic.getGenreName()+L"/"+currentMusic.getFileName()+L"/" + currentLevel.getFileName() + L".bin");
-		
+	if (newRecord)
+	{
+		BinaryWriter writer(L"Score/" + currentMusic.getGenreName() + L"/" + currentMusic.getFileName() + L"/" + currentLevel.getFileName() + L".bin");
+
 		writer.write(currentLevel.isClear);
 		writer.write(static_cast<unsigned int>(currentLevel.specialResult));
 		writer.write(currentLevel.clearRate);
@@ -113,12 +113,12 @@ void ResultScene::init()
 	if (m_data->m_isCoursePlay)
 	{
 		float life = m_data->m_life;
-		if(life<=0)
-		m_passEffect = PassEffect::Failure;
+		if (life <= 0)
+			m_passEffect = PassEffect::Failure;
 
 		m_data->m_currentCourseIndex++;
 
-		if (life>0&& m_data->m_currentCourseIndex >= Game::Instance()->m_courses[m_data->m_selectCourse].getNotesIDs().size())
+		if (life > 0 && m_data->m_currentCourseIndex >= Game::Instance()->m_courses[m_data->m_selectCourse].getNotesIDs().size())
 		{
 			m_passEffect = PassEffect::Pass;
 
@@ -130,7 +130,7 @@ void ResultScene::init()
 
 		}
 	}
-	
+
 }
 void ResultScene::update()
 {
@@ -142,7 +142,7 @@ void ResultScene::update()
 		}
 		if (m_passEffectEasing.isEnd())
 		{
-			if (PlayKey::Start().clicked&&!m_isPassEffectEnd)
+			if (PlayKey::Start().clicked && !m_isPassEffectEnd)
 			{
 				m_isPassEffectEnd = true;
 				return;
@@ -156,13 +156,13 @@ void ResultScene::update()
 		if (m_rateEasing.isEnd())
 		{
 
-			m_effect.add<ResultEffect>(ResultRank::getRankTextureName(m_clearRate), Vec2{640,170},0.5);
-			if(m_isNewRecord)
+			m_effect.add<ResultEffect>(ResultRank::getRankTextureName(m_clearRate), Vec2{ 640,170 }, 0.5);
+			if (m_isNewRecord)
 				m_effect.add<ResultEffect>(L"newRecord", Vec2{ 400, 300 });
 			if (m_isClear)
-				m_effect.add<ResultEffect>(L"resultClear", Vec2{ 200, 350 },0.2);
+				m_effect.add<ResultEffect>(L"resultClear", Vec2{ 200, 350 }, 0.2);
 			else
-				m_effect.add<ResultEffect>(L"resultFailed", Vec2{ 200, 350 },0.2);
+				m_effect.add<ResultEffect>(L"resultFailed", Vec2{ 200, 350 }, 0.2);
 
 			m_startEffect = true;
 		}
@@ -177,7 +177,10 @@ void ResultScene::update()
 		if (m_data->m_isCoursePlay)
 		{
 			auto& cource = Game::Instance()->m_courses[m_data->m_selectCourse];
-			String text = cource.getTitle() + (m_passEffect == PassEffect::Pass ? L"Ç…çáäi" : L"Ç…ïsçáäi") + L"\n#ColorfulTone";
+			String text = cource.getTitle() +
+				(m_passEffect == PassEffect::Pass ? L"„Å´ÂêàÊ†º" :
+				 m_passEffect == PassEffect::None ? L"„Çí„Éó„É¨„Ç§‰∏≠":
+													L"„Å´‰∏çÂêàÊ†º") + L"\n#ColorfulTone";
 			m_tweet.tweet(text);
 
 		}
@@ -186,13 +189,13 @@ void ResultScene::update()
 			auto& music = m_data->m_nowMusics;
 			String text =
 				music.getMusicName() + L"/"
-				+ music.getNotesData()[m_data->m_selectLevel].getLevelName() + L"Ç≈"
-				+ Format(m_clearRate) + L"%íBê¨\n#ColorfulTone";
+				+ music.getNotesData()[m_data->m_selectLevel].getLevelName() + L"„Åß"
+				+ Format(m_clearRate) + L"%ÈÅîÊàê\n#ColorfulTone";
 			m_tweet.tweet(text);
 		}
 	}
 
-	if (PlayKey::Start().clicked|| PlayKey::BigBack().clicked)
+	if (PlayKey::Start().clicked || PlayKey::BigBack().clicked)
 	{
 		SoundAsset(L"result").stop();
 		SoundAsset::Release(L"result");
@@ -200,7 +203,7 @@ void ResultScene::update()
 
 		if (m_data->m_isCoursePlay)
 		{
-			if (m_passEffect==PassEffect::Failure||m_data->m_currentCourseIndex >= Game::Instance()->m_courses[m_data->m_selectCourse].getNotesIDs().size())
+			if (m_passEffect == PassEffect::Failure || m_data->m_currentCourseIndex >= Game::Instance()->m_courses[m_data->m_selectCourse].getNotesIDs().size())
 			{
 				changeScene(L"courseSelect", 3000);
 			}
@@ -240,9 +243,9 @@ void ResultScene::draw()const
 	TextureAsset(L"label").draw();
 
 	FontAsset(L"label")(L"RESULT").draw(10, 33);
-	tex.resize(230,230).drawAt(155,250).drawFrame(0, 2);
+	tex.resize(230, 230).drawAt(155, 250).drawFrame(0, 2);
 
-	//ï∂éöÇÃï`âÊîÕàÕí≤êÆ
+	//ÊñáÂ≠ó„ÅÆÊèèÁîªÁØÑÂõ≤Ë™øÊï¥
 	{
 		util::ContractionDrawbleString(m_nameFont(music.getMusicName()), { 155,400 }, 280);
 	}
@@ -250,17 +253,17 @@ void ResultScene::draw()const
 	{
 		const auto note = music.getNotesData()[m_data->m_selectLevel];
 		const auto name = note.getLevelName() + L" Lv" + Format(note.getLevel());
-		util::ContractionDrawbleString(m_artistFont(name), { 155,430 }, 280,note.getColor());
+		util::ContractionDrawbleString(m_artistFont(name), { 155,430 }, 280, note.getColor());
 	}
 	{
 		util::ContractionDrawbleString(m_artistFont(music.getArtistName()), { 155,460 }, 280);
 	}
 	m_effect.update();
 
-	//ÉåÅ[Ég
+	//„É¨„Éº„Éà
 	m_rateFont(L"{:.2f}%"_fmt, m_rateEasing.easeInOut()).drawCenter(400, 300, Palette::Black);
 
-	//ÉXÉRÉA
+	//„Çπ„Ç≥„Ç¢
 	if (m_rateEasing.isEnd())
 	{
 
@@ -277,36 +280,36 @@ void ResultScene::draw()const
 
 		const String clearResult = m_isClear ? L"resultClear" : L"resultFailed";
 
-			TextureAsset(clearResult).scale(0.20).drawAt(202, 352,Palette::Black);
-			TextureAsset(clearResult).scale(0.20).drawAt(200, 350);
+		TextureAsset(clearResult).scale(0.20).drawAt(202, 352, Palette::Black);
+		TextureAsset(clearResult).scale(0.20).drawAt(200, 350);
 
 
 	}
 	const int baseX = 540;
 	const int baseY = 280;
-	
+
 	m_font(L"PERFECT").draw(baseX, baseY);
-	m_font(Pad(m_judgeEasing[Score::Perfect].easeInOut(), { 6,L' ' })).drawKinetic(baseX+120,baseY,FontKinetic::DeleteSpace);
-	m_font(L"GREAT").draw(baseX, baseY+30);
+	m_font(Pad(m_judgeEasing[Score::Perfect].easeInOut(), { 6,L' ' })).drawKinetic(baseX + 120, baseY, FontKinetic::DeleteSpace);
+	m_font(L"GREAT").draw(baseX, baseY + 30);
 	m_font(Pad(m_judgeEasing[Score::Great].easeInOut(), { 6,L' ' })).drawKinetic(baseX + 120, baseY + 30, FontKinetic::DeleteSpace);
-	m_font(L"GOOD").draw(baseX, baseY+60);
+	m_font(L"GOOD").draw(baseX, baseY + 60);
 	m_font(Pad(m_judgeEasing[Score::Good].easeInOut(), { 6,L' ' })).drawKinetic(baseX + 120, baseY + 60, FontKinetic::DeleteSpace);
-	m_font(L"MISS").draw(baseX, baseY+90);
+	m_font(L"MISS").draw(baseX, baseY + 90);
 	m_font(Pad(m_judgeEasing[Score::Miss].easeInOut(), { 6,L' ' })).drawKinetic(baseX + 120, baseY + 90, FontKinetic::DeleteSpace);
 
-	Line(baseX, baseY+117, baseX + 210, baseY+117).draw(2);
+	Line(baseX, baseY + 117, baseX + 210, baseY + 117).draw(2);
 
 	m_font(L"TOTAL").draw(baseX, baseY + 130);
 	m_font(Pad(m_totalNotesEasing.easeInOut(), { 6,L' ' })).drawKinetic(baseX + 120, baseY + 130, FontKinetic::DeleteSpace);
 	m_font(L"MAX COMBO").drawKinetic(baseX, baseY + 160, FontKinetic::DeleteSpace);
 	m_font(Pad(m_maxComboEasing.easeInOut(), { 6,L' ' })).drawKinetic(baseX + 120, baseY + 160, FontKinetic::DeleteSpace);
 
-	SceneInfo::Draw(L"T:ÉäÉUÉãÉgÇÉcÉCÅ[Ég   Press Enter");
+	SceneInfo::Draw(L"T:„É™„Ç∂„É´„Éà„Çí„ÉÑ„Ç§„Éº„Éà   Press Enter");
 
-	//çáäiÉGÉtÉFÉNÉg
+	//ÂêàÊ†º„Ç®„Éï„Çß„ÇØ„Éà
 	if (m_passEffect != PassEffect::None)
 	{
-		if (!m_isPassEffectEnd&&(m_passEffectEasing.isActive()|| m_passEffectEasing.isEnd()))
+		if (!m_isPassEffectEnd && (m_passEffectEasing.isActive() || m_passEffectEasing.isEnd()))
 		{
 			Window::BaseClientRect().draw(ColorF(0, 0.8));
 
@@ -324,7 +327,7 @@ void ResultScene::draw()const
 }
 
 //--------------------------------------------------------------------------------
-//ä÷êîÅFdrawFadeIn
+//Èñ¢Êï∞ÔºödrawFadeIn
 //--------------------------------------------------------------------------------
 void ResultScene::drawFadeIn(double t) const
 {
@@ -335,7 +338,7 @@ void ResultScene::drawFadeIn(double t) const
 }
 
 //--------------------------------------------------------------------------------
-//ä÷êîÅFdrawFadeOut
+//Èñ¢Êï∞ÔºödrawFadeOut
 //--------------------------------------------------------------------------------
 void ResultScene::drawFadeOut(double t) const
 {

@@ -75,7 +75,7 @@ void GameConfig::init()
 
 	m_scrollRate = ini.getOr<float>(L"Config.SpeedRate", 1.0f);
 
-	m_isCirleCut = ini.getOr<bool>(L"Config.CirleCut", false);
+	m_isCirleCut = ini.getOr<bool>(L"Config.CirleCut", true);
 	m_isClearRateDownType = ini.getOr<bool>(L"Config.IndicateRate", false);
 
 	m_playScale = ini.getOr<float>(L"Config.PlayScale", 1.0f);

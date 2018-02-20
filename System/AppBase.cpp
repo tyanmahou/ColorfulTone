@@ -72,7 +72,7 @@ void AppBase::mainLoop()
 {
 	static auto pLoadResult = &FileLoad::m_loadResult;
 	static auto pAudioResult = &MusicSelectScene::m_audioResult;
-
+	static bool showFps = false;
 	auto& mutex = GetMutex();
 	while (1)
 	{
@@ -84,10 +84,10 @@ void AppBase::mainLoop()
 		}
 		mutex.unlock();
 
-		if (Input::KeyF4.clicked)
-		{
-			::ChangeWindowSize();
-		}
+		//if (Input::KeyF4.clicked)
+		//{
+		//	::ChangeWindowSize();
+		//}
 		{
 			const auto transformer = ScalableWindow::CreateTransformer();
 
@@ -95,6 +95,13 @@ void AppBase::mainLoop()
 				break;
 		}
 		ScalableWindow::DrawBlackBars();
+
+		if (Input::KeyF7.clicked)
+		{
+			showFps^=true;
+		}
+		if (showFps)
+			PutText(Profiler::FPS()).from(Vec2{0,0});
 	}
 	pLoadResult->get();
 	pAudioResult->get();

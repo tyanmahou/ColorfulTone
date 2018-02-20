@@ -152,6 +152,19 @@ void PlayMusicGame::draw(const MusicData & nowMusic) const
 	//背景
 	this->drawBG(nowMusic, drawCount);
 
+	{
+		int beat = NotesData::RESOLUTION / 4;
+		double f = Abs(static_cast<double>(static_cast<int>(m_nowCount) % beat))
+			/ static_cast<double>(beat);
+
+		constexpr int w = 80;
+		ColorF c1 = ColorF(0, 0, 0, 0.6*(1 - f)); 
+		ColorF c2 = m_notesData.getColor();
+		c2.setAlpha(0);
+
+		Rect(0, 0, w, 600).draw({ c1,c2, c2,c1});
+		Rect(800, 0, -w, 600).draw({ c1,c2, c2,c1 });
+	}
 	//入力アクション
 	const bool redInput = isInput(AutoPlayManager::Instance()->isRedPressed(), PlayKey::Red().pressed);
 	const bool blueInput = isInput(AutoPlayManager::Instance()->isBluePressed(), PlayKey::Blue().pressed);

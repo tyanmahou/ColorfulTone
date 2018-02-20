@@ -17,7 +17,7 @@ public:
 	 Key m_start, m_smallBack, m_bigBack;
 
 	 //円切り取り
-	 bool m_isCirleCut = false;
+	 bool m_isCirleCut = true;
 	 //減算式にするか
 	 bool m_isClearRateDownType = false;
 	 float m_playScale=1.0;

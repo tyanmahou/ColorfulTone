@@ -1,4 +1,4 @@
-#include"MusicSelectScene.h"
+ï»¿#include"MusicSelectScene.h"
 #include"Fade.h"
 #include"GenreManager.h"
 #include"AutoPlayManager.h"
@@ -17,10 +17,10 @@ namespace {
 
 		const size_t sample = 22050 + wav.lengthSample;
 
-		//–³‰¹ì¬
+		//ç„¡éŸ³ä½œæˆ
 		auto sam = WaveSample(0, 0);
 		wav.reserve(sample);
-		//wav‚É4•bŠÔ‚ÌƒIƒtƒZƒbƒg’Ç‰Á
+		//wavã«4ç§’é–“ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆè¿½åŠ 
 		wav.insert(wav.begin() + 44100 * loop.x, 22050, sam);
 
 		g_sampleSound = Sound(wav);
@@ -40,18 +40,19 @@ namespace {
 	}
 }
 //--------------------------------------------------------------------------------
-//Ã“Iƒƒ“ƒo•Ï”
+//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 //--------------------------------------------------------------------------------
 
 unsigned int MusicSelectScene::m_selectMusic;
 unsigned int MusicSelectScene::m_selectLevel;
 unsigned int MusicSelectScene::m_selectGenre;
 bool MusicSelectScene::m_levelInfoMode;
+SortMode MusicSelectScene::m_sortMode;
 
 std::future<void> MusicSelectScene::m_audioResult = std::async(std::launch::async, []() {return; });
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//é–¢æ•°ï¼šã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //--------------------------------------------------------------------------------
 MusicSelectScene::MusicSelectScene() :
 	m_timer(0),
@@ -85,7 +86,7 @@ MusicSelectScene::MusicSelectScene() :
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FƒfƒXƒgƒ‰ƒNƒ^
+//é–¢æ•°ï¼šãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //--------------------------------------------------------------------------------
 MusicSelectScene::~MusicSelectScene()
 {
@@ -98,22 +99,23 @@ void Quit()
 	g_sampleSound.release();
 }
 //--------------------------------------------------------------
-//ŠÖ”Finit
+//é–¢æ•°ï¼šinit
 //--------------------------------------------------------------------------------
 
 void MusicSelectScene::init()
 {
-	//Šy‹È”
+	//æ¥½æ›²æ•°
 	m_musics = Game::Instance()->m_musics;
 	Erase_if(m_musics, GenreManager::m_refiners[m_selectGenre].m_refiner);
+	this->sort();
 	m_musicsSize = m_musics.size();
 
 	m_audioResult = std::async(std::launch::async, AudioPlay, m_musics[m_selectMusic].getSoundNameID(), m_musics[m_selectMusic].getLoopRange());
 }
 //--------------------------------------------------------------------------------
-//ŠÖ”FeasingStartBySelectMusic
+//é–¢æ•°ï¼šeasingStartBySelectMusic
 //--------------------------------------------------------------------------------
-//ŠT—vFƒAƒjƒ[ƒVƒ‡ƒ“—p
+//æ¦‚è¦ï¼šã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç”¨
 //--------------------------------------------------------------------------------
 
 void MusicSelectScene::EasingStartBySelectMusic()
@@ -125,9 +127,9 @@ void MusicSelectScene::EasingStartBySelectMusic()
 
 }
 //--------------------------------------------------------------------------------
-//ŠÖ”FeasingEndBySelectMusic
+//é–¢æ•°ï¼šeasingEndBySelectMusic
 //--------------------------------------------------------------------------------
-//ŠT—vFƒAƒjƒ[ƒVƒ‡ƒ“—p
+//æ¦‚è¦ï¼šã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç”¨
 //--------------------------------------------------------------------------------
 void MusicSelectScene::EasingEndBySelectMusic()
 {
@@ -139,12 +141,50 @@ void MusicSelectScene::EasingEndBySelectMusic()
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”Fupdate
+//é–¢æ•°ï¼šupdate
 //--------------------------------------------------------------------------------
+namespace
+{
+
+	SortMode NextMode(SortMode mode)
+	{
+		switch (mode)
+		{
+		case SortMode::FileName:return SortMode::MusicName;
+		case SortMode::MusicName:return SortMode::ArtistName;
+		case SortMode::ArtistName:return SortMode::FileName;
+		}
+		return SortMode::Default;
+	}
+	std::function<bool(const MusicData& l, const MusicData& r)> SortFunc(SortMode mode)
+	{
+		switch (mode)
+		{
+		case SortMode::FileName:return [](const MusicData& l, const MusicData& r)
+		{
+			return 	l.getIndex() < r.getIndex();
+		};
+		case SortMode::MusicName:return  [](const MusicData& l, const MusicData& r)
+		{
+			return 	l.getMusicName() < r.getMusicName();
+		};
+		case SortMode::ArtistName:return  [](const MusicData& l, const MusicData& r)
+		{
+			return 	l.getArtistName() < r.getArtistName();
+		};
+		}
+		return SortFunc(SortMode::Default);
+	}
+}
+void MusicSelectScene::sort()
+{
+	std::sort(m_musics.begin(), m_musics.end(), SortFunc(m_sortMode));
+}
 void MusicSelectScene::update()
 {
 	m_timer++;
 	const auto previousSelectIndex = m_selectMusic;
+
 
 	if (m_rightShift.isEnd())
 	{
@@ -182,15 +222,15 @@ void MusicSelectScene::update()
 
 	m_selectLevel = levelSelectMax ? m_selectLevel%levelSelectMax : 0;
 
-	//ƒL[ƒ{[ƒh‘€ì
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æ“ä½œ
 	if (!m_isMusicDefineEasing.isActive() && !Input::KeyControl.pressed && !m_isGenreDefineEasing.isActive())
 	{
-		//Šy‹È‘I‘ğ‚Ìˆ—
+		//æ¥½æ›²é¸æŠã®å‡¦ç†
 		if (m_mode == Mode::MusicSelect || m_mode == Mode::GenreSelect)
 		{
 			if (!m_rightShift.isActive() && !m_leftShift.isActive())
 			{
-				//‹È‚Ì‘I‘ğ
+				//æ›²ã®é¸æŠ
 				if (PlayKey::Left().pressed)
 				{
 					SoundManager::SE::Play(L"select");
@@ -203,7 +243,7 @@ void MusicSelectScene::update()
 					EasingStartBySelectMusic();
 					m_leftShift.start();
 				}
-				//‹È,ƒWƒƒƒ“ƒ‹‚ÌŒˆ’è
+				//æ›²,ã‚¸ãƒ£ãƒ³ãƒ«ã®æ±ºå®š
 				if (PlayKey::Start().clicked)
 				{
 					if (m_mode == Mode::MusicSelect)
@@ -233,6 +273,7 @@ void MusicSelectScene::update()
 
 							if (m_musicsSize)
 							{
+								this->sort();
 								m_selectMusic %= m_musicsSize;
 
 								m_audioResult = std::async(std::launch::async, AudioPlay, m_musics[m_selectMusic].getSoundNameID(), m_musics[m_selectMusic].getLoopRange());
@@ -245,7 +286,7 @@ void MusicSelectScene::update()
 					}
 				}
 
-				//ƒWƒƒƒ“ƒ‹‘I‘ğ‚É–ß‚é
+				//ã‚¸ãƒ£ãƒ³ãƒ«é¸æŠã«æˆ»ã‚‹
 				if (m_mode == Mode::MusicSelect&&PlayKey::SmallBack().clicked)
 				{
 					SoundManager::SE::Play(L"cancel");
@@ -255,9 +296,9 @@ void MusicSelectScene::update()
 
 			}
 		}
-		else	//ƒŒƒxƒ‹‘I‘ğ
+		else	//ãƒ¬ãƒ™ãƒ«é¸æŠæ™‚
 		{
-			//‹È‘I‘ğ‚É–ß‚é
+			//æ›²é¸æŠã«æˆ»ã‚‹
 			if (PlayKey::SmallBack().clicked)
 			{
 				SoundManager::SE::Play(L"cancel");
@@ -278,7 +319,7 @@ void MusicSelectScene::update()
 						SoundManager::SE::Play(L"select");
 						m_selectLevel++;
 					}
-				//ƒŒƒxƒ‹Œˆ’è‚ÆƒV[ƒ“‘JˆÚ
+				//ãƒ¬ãƒ™ãƒ«æ±ºå®šã¨ã‚·ãƒ¼ãƒ³é·ç§»
 				if (PlayKey::Start().clicked)
 				{
 					SoundManager::SE::Play(L"desisionLarge");
@@ -294,7 +335,7 @@ void MusicSelectScene::update()
 		}
 	}
 
-	//’®ˆ—
+	//è©¦è´å‡¦ç†
 	if (m_musicsSize)
 	{
 
@@ -315,10 +356,10 @@ void MusicSelectScene::update()
 
 
 
-	//ƒnƒCƒXƒs•ÏX
+	//ãƒã‚¤ã‚¹ãƒ”å¤‰æ›´
 	m_highSpeedDemo.update(m_data->m_scrollRate);
 
-	//–ß‚é
+	//æˆ»ã‚‹
 	if (PlayKey::BigBack().clicked)
 	{
 		SoundManager::SE::Play(L"cancel");
@@ -327,18 +368,36 @@ void MusicSelectScene::update()
 		changeScene(L"title", 3000);
 	}
 
-	//ƒvƒŒƒCƒ‚[ƒh
+	//ãƒ—ãƒ¬ã‚¤ãƒ¢ãƒ¼ãƒ‰
 	if (Input::KeyF1.clicked)
 	{
 		SoundManager::SE::Play(L"desisionSmall");
 		AutoPlayManager::Instance()->m_autoPlay = !(AutoPlayManager::Instance()->m_autoPlay);
 	}
 
-	//î•ñØ‚è‘Ö‚¦
+	//æƒ…å ±åˆ‡ã‚Šæ›¿ãˆ
 	if (Input::KeyShift.clicked)
 	{
 		SoundManager::SE::Play(L"desisionSmall");
 		m_levelInfoMode = !m_levelInfoMode;
+	}
+
+	//ã‚½ãƒ¼ãƒˆ
+	if (Input::KeyF2.clicked)
+	{
+		SoundManager::SE::Play(L"desisionSmall");
+		uint32 index = m_musics[m_selectMusic].getIndex();
+		m_sortMode = ::NextMode(m_sortMode);
+		this->sort();
+
+		for (uint32 i = 0; i < m_musics.size(); ++i) 
+		{
+			if (index == m_musics[i].getIndex())
+			{
+				m_selectMusic = i;
+				break;
+			}
+		}
 	}
 }
 
@@ -372,36 +431,36 @@ void MusicSelectScene::genreBannerAndInfoDraw()const
 	const auto easingOffsetX = m_rightShift.easeInOut() + m_leftShift.easeInOut();
 	const int y = 250;
 	const auto genreOffsetY = m_isGenreDefineEasing.easeInOut() - 600;
-	//¶‚Ì‹È
+	//å·¦ã®æ›²
 	NonSelectGenreBannerBG(-200, y, (genresSize + m_selectGenre - 2) % genresSize, easingOffsetX, genreOffsetY, m_font2);
 	NonSelectGenreBannerBG(100, y, (genresSize + m_selectGenre - 1) % genresSize, easingOffsetX, genreOffsetY, m_font2);
-	//‰E‚Ì‹È
+	//å³ã®æ›²
 	NonSelectGenreBannerBG(700, y, (m_selectGenre + 1) % genresSize, easingOffsetX, genreOffsetY, m_font2);
 	NonSelectGenreBannerBG(1000, y, (m_selectGenre + 2) % genresSize, easingOffsetX, genreOffsetY, m_font2);
 
 	//--------------------------------------------------------------------------------------------------------------
-	//‘I‘ğ’†‚Ì‹È
+	//é¸æŠä¸­ã®æ›²
 	//--------------------------------------------------------------------------------------------------------------
 
-	//ƒWƒƒƒPŠG•”•ª
+	//ã‚¸ãƒ£ã‚±çµµéƒ¨åˆ†
 	TextureAsset(L"bannerbg").resize(m_bannerBGSize.easeInOut()).drawAt(400 + easingOffsetX, m_bannerBGY.easeInOut() + genreOffsetY);
 	genres[m_selectGenre].getTexture().resize(m_bannerSize.easeInOut(), m_bannerSize.easeInOut()).drawAt(400 + easingOffsetX, y - 15 + genreOffsetY).drawFrame(0, 2);
 
-	//‹Èî•ñ
+	//æ›²æƒ…å ±
 	Graphics2D::SetStencilState(StencilState::Replace);
 	Graphics2D::SetStencilValue(2);
 	Rect(400 - m_infoSeat.easeInOut() / 2, 350 - m_infoSeat.easeInOut() / 2, m_infoSeat.easeInOut(), m_infoSeat.easeInOut()).draw(ColorF(1, 0.5));
 
 	Graphics2D::SetStencilState(StencilState::Test(StencilFunc::Equal));
 
-	//•¶š‚Ì•`‰æ”ÍˆÍ’²®
+	//æ–‡å­—ã®æç”»ç¯„å›²èª¿æ•´
 	util::ContractionDrawbleString(m_font1(genres[m_selectGenre].m_name), { 400,400 + genreOffsetY }, 280);
 
-	//‹È–¼
+	//æ›²å
 	m_font1(genres[m_selectGenre].m_name).drawCenter(400, 400 + genreOffsetY);
 	Graphics2D::SetStencilState(StencilState::Default);
 
-	//ˆÚ“®’†‚Ìˆ—
+	//ç§»å‹•ä¸­ã®å‡¦ç†
 	if (!(m_bannerSize.isActive() || m_bannerSize.isEnd()))
 	{
 		util::ContractionDrawbleString(m_font2(genres[m_selectGenre].m_name), { 400 + easingOffsetX, y + 100 + genreOffsetY }, 210);
@@ -410,6 +469,8 @@ void MusicSelectScene::genreBannerAndInfoDraw()const
 
 
 }
+
+
 
 void MusicSelectScene::musicBannerAndInfoDraw()const
 {
@@ -420,24 +481,24 @@ void MusicSelectScene::musicBannerAndInfoDraw()const
 
 	const auto easingOffestY = m_isMusicDefineEasing.easeInOut();
 	const auto genreOffsetY = m_isGenreDefineEasing.easeInOut();
-	//¶‚Ì‹È
+	//å·¦ã®æ›²
 	NonSelectMusicBannerBG(-200, y, musics, (m_musicsSize + m_selectMusic - 2) % m_musicsSize, easingOffsetX, genreOffsetY - easingOffestY, m_font2);
 	NonSelectMusicBannerBG(100, y, musics, (m_musicsSize + m_selectMusic - 1) % m_musicsSize, easingOffsetX, genreOffsetY - easingOffestY, m_font2);
-	//‰E‚Ì‹È
+	//å³ã®æ›²
 	NonSelectMusicBannerBG(700, y, musics, (m_selectMusic + 1) % m_musicsSize, easingOffsetX, genreOffsetY + easingOffestY, m_font2);
 	NonSelectMusicBannerBG(1000, y, musics, (m_selectMusic + 2) % m_musicsSize, easingOffsetX, genreOffsetY + easingOffestY, m_font2);
 
 	//--------------------------------------------------------------------------------------------------------------
-	//‘I‘ğ’†‚Ì‹È
+	//é¸æŠä¸­ã®æ›²
 	//--------------------------------------------------------------------------------------------------------------
 	{
 		util::Transformer2D t2d(Mat3x2::Translate(Vec2{ -easingOffestY / 3,genreOffsetY }));
 
-		//ƒWƒƒƒPŠG•”•ª
+		//ã‚¸ãƒ£ã‚±çµµéƒ¨åˆ†
 		TextureAsset(L"bannerbg").resize(m_bannerBGSize.easeInOut()).drawAt(400 + easingOffsetX, m_bannerBGY.easeInOut());
 		musics[m_selectMusic].getTexture().resize(m_bannerSize.easeInOut(), m_bannerSize.easeInOut()).drawAt(400 + easingOffsetX, y - 15).drawFrame(0, 2);
 
-		//‹Èî•ñ
+		//æ›²æƒ…å ±
 		Graphics2D::SetStencilState(StencilState::Replace);
 		Graphics2D::SetStencilValue(2);
 		Rect(400 - m_infoSeat.easeInOut() / 2, 350 - m_infoSeat.easeInOut() / 2, m_infoSeat.easeInOut(), m_infoSeat.easeInOut()).draw(ColorF(1, 0.5));
@@ -445,20 +506,20 @@ void MusicSelectScene::musicBannerAndInfoDraw()const
 		Graphics2D::SetStencilState(StencilState::Test(StencilFunc::Equal));
 
 
-		//ì‹È‰Æ
+		//ä½œæ›²å®¶
 		util::ContractionDrawbleString(m_font2(musics[m_selectMusic].getArtistName()), { 400,440 }, 280);
 
 
 		//BPM
 		m_font2(Format(L"BPM:", musics[m_selectMusic].getBPM())).draw(440, 470, Palette::Black);
 
-		//•¶š‚Ì•`‰æ”ÍˆÍ’²®
+		//æ–‡å­—ã®æç”»ç¯„å›²èª¿æ•´
 		util::ContractionDrawbleString(m_font1(musics[m_selectMusic].getMusicName()), { 400,400 }, 280);
 
 		Graphics2D::SetStencilState(StencilState::Default);
 
 
-		//ˆÚ“®’†‚Ìˆ—
+		//ç§»å‹•ä¸­ã®å‡¦ç†
 		if (!(m_bannerSize.isActive() || m_bannerSize.isEnd()))
 		{
 			util::ContractionDrawbleString(m_font2(musics[m_selectMusic].getMusicName()), { 400 + easingOffsetX, y + 100 }, 210);
@@ -563,7 +624,7 @@ void MusicSelectScene::levelSelectDraw()const
 	}
 }
 //--------------------------------------------------------------------------------
-//ŠÖ”Fdraw
+//é–¢æ•°ï¼šdraw
 //--------------------------------------------------------------------------------
 void MusicSelectScene::draw()const
 {
@@ -575,41 +636,58 @@ void MusicSelectScene::draw()const
 	if (m_musicsSize <= m_selectMusic&&m_musicsSize)
 		return;
 
+	{
+		TextureAsset(L"modeBack").drawAt(700, 50, Palette::Black);
+		static auto name = [](SortMode mode)
+		{
+			switch (mode)
+			{
+			case SortMode::FileName:return L"ãƒ•ã‚¡ã‚¤ãƒ«é †";
+			case SortMode::MusicName:return L"æ›²åé †";
+			case SortMode::ArtistName:return L"ã‚¢ãƒ¼ãƒ†ã‚£ã‚¹ãƒˆåé †";
+			}
+			return L"None";
+		};
+		util::ContractionDrawbleString(m_font1(name(m_sortMode)), { 700,50 }, 180);
+	}
+
 	if (m_musicsSize)
 	{
-		//ƒŒƒxƒ‹•`‰æ**********************************************************************************************
+		//ãƒ¬ãƒ™ãƒ«æç”»**********************************************************************************************
 
 		this->levelSelectDraw();
 		//**********************************************************************************************
 
-		//Šy‹Èî•ñ
+		//æ¥½æ›²æƒ…å ±
 		this->musicBannerAndInfoDraw();
 	}
-	//ƒWƒƒƒ“ƒ‹î•ñ
+	//ã‚¸ãƒ£ãƒ³ãƒ«æƒ…å ±
 	genreBannerAndInfoDraw();
 
 
-	TextureAsset(L"modeBack").drawAt(100, 50, Palette::Black);
-	auto& genres = GenreManager::m_refiners;
-	util::ContractionDrawbleString(m_font1(genres[m_selectGenre].m_name), { 100,50 }, 180);
+	{
+		TextureAsset(L"modeBack").drawAt(100, 50, Palette::Black);
+		auto& genres = GenreManager::m_refiners;
+		util::ContractionDrawbleString(m_font1(genres[m_selectGenre].m_name), { 100,50 }, 180);
+	}
 
-	//ƒnƒCƒXƒs
+	//ãƒã‚¤ã‚¹ãƒ”
 	this->highSpeedDraw();
 
-	//ƒI[ƒgƒvƒŒƒC
+	//ã‚ªãƒ¼ãƒˆãƒ—ãƒ¬ã‚¤
 	if (AutoPlayManager::Instance()->m_autoPlay)
 		m_font1(L"AutoPlay").draw(0, 0, Palette::Black);
 
 	if (m_timer % 400 <= 200)
-		SceneInfo::Draw(L"Enter:Œˆ’è@BackSpace:i‚è‚İ,–ß‚é@Esc:ƒ^ƒCƒgƒ‹–ß‚é ");
+		SceneInfo::Draw(L"Enter:æ±ºå®šã€€BackSpace:çµã‚Šè¾¼ã¿,æˆ»ã‚‹ã€€F2:ã‚½ãƒ¼ãƒˆã€€Esc:ã‚¿ã‚¤ãƒˆãƒ«æˆ»ã‚‹ ");
 	else
-		SceneInfo::Draw(L"Shift:•\¦ƒ‚[ƒhØ‘Ö@F1:ƒI[ƒg@Ctrl+ª«:ƒnƒCƒXƒs[ƒh•ÏX");
+		SceneInfo::Draw(L"Shift:è¡¨ç¤ºãƒ¢ãƒ¼ãƒ‰åˆ‡æ›¿ã€€F1:ã‚ªãƒ¼ãƒˆã€€Ctrl+â†‘â†“:ãƒã‚¤ã‚¹ãƒ”ãƒ¼ãƒ‰å¤‰æ›´");
 
 }
 
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FdrawFadeIn
+//é–¢æ•°ï¼šdrawFadeIn
 //--------------------------------------------------------------------------------
 void MusicSelectScene::drawFadeIn(double t) const
 {
@@ -620,7 +698,7 @@ void MusicSelectScene::drawFadeIn(double t) const
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FdrawFadeOut
+//é–¢æ•°ï¼šdrawFadeOut
 //--------------------------------------------------------------------------------
 void MusicSelectScene::drawFadeOut(double t) const
 {

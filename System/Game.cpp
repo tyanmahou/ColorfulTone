@@ -1,4 +1,4 @@
-#include"Game.h"
+ï»¿#include"Game.h"
 #include"TitleScene.h"
 #include"FileLoad.h"
 #include"Tutorial.h"
@@ -10,9 +10,9 @@
 #include"CourseScene.h"
 #include"CoursePlay.h"
 //--------------------------------------------------------------------------------
-//ŠÖ”FLoadTexture
+//é–¢æ•°ï¼šLoadTexture
 //--------------------------------------------------------------------------------
-//ŠT—vF‰æ‘œ‚Ì“o˜^
+//æ¦‚è¦ï¼šç”»åƒã®ç™»éŒ²
 //--------------------------------------------------------------------------------
 
 void loadTexture()
@@ -20,7 +20,7 @@ void loadTexture()
 
 	TextureAsset::Register(L"label", L"Resource/Img/label.png");
 
-	//ƒ^ƒCƒgƒ‹
+	//ã‚¿ã‚¤ãƒˆãƒ«
 	TextureAsset::Register(L"logo", L"Resource/Img/Title/logo.png");
 	TextureAsset::Register(L"modeBack", L"Resource/Img/Title/modeBack.png");
 
@@ -33,13 +33,13 @@ void loadTexture()
 	TextureAsset::Register(L"iconAccess", L"Resource/Img/Title/TitleIcon/access.png");
 
 
-	//ƒL[ƒRƒ“
+	//ã‚­ãƒ¼ã‚³ãƒ³
 	TextureAsset::Register(L"keyconBG", L"Resource/Img/KeyConfig/keyconBG.png");
 	TextureAsset::Register(L"keyconBG2", L"Resource/Img/KeyConfig/keyconBG2.png");
 
 
 
-	//‘I‹È
+	//é¸æ›²
 	TextureAsset::Register(L"bannerbg", L"Resource/Img/MusicSelect/panel.png");
 	TextureAsset::Register(L"selectbg", L"Resource/Img/MusicSelect/selectBG.png");
 	TextureAsset::Register(L"levelbg", L"Resource/Img/MusicSelect/select.png");
@@ -48,7 +48,7 @@ void loadTexture()
 	TextureAsset::Register(L"coursebg", L"Resource/Img/MusicSelect/courseBG.png");
 
 
-	//ƒWƒƒƒ“ƒ‹ƒAƒCƒRƒ“
+	//ã‚¸ãƒ£ãƒ³ãƒ«ã‚¢ã‚¤ã‚³ãƒ³
 	TextureAsset::Register(L"genre_level1", L"Resource/Img/MusicSelect/icon/level1.png");
 	TextureAsset::Register(L"genre_level2", L"Resource/Img/MusicSelect/icon/level2.png");
 	TextureAsset::Register(L"genre_level3", L"Resource/Img/MusicSelect/icon/level3.png");
@@ -62,7 +62,7 @@ void loadTexture()
 
 
 
-	//ƒŠƒUƒ‹ƒgƒV[ƒ“
+	//ãƒªã‚¶ãƒ«ãƒˆã‚·ãƒ¼ãƒ³
 	TextureAsset::Register(L"resultBG1", L"Resource/Img/Result/resultBG1.png");
 	TextureAsset::Register(L"resultBG2", L"Resource/Img/Result/resultBG2.png");
 	TextureAsset::Register(L"resultClear", L"Resource/Img/Result/clear.png");
@@ -82,28 +82,45 @@ void loadTexture()
 
 	TextureAsset::Register(L"newRecord", L"Resource/Img/Result/newrecord.png");
 
-	//ƒƒCƒ“
+	//ãƒ¡ã‚¤ãƒ³
+	//portrait
+
+	TextureAsset::Register(L"tapEffect2", L"Resource/Img/Main/tapeffect2.png");
+
+
+	TextureAsset::Register(L"portrait_notes9", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/portrait/portrait_notes.png");
+	TextureAsset::Register(L"portrait_notes1", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/portrait/portrait_notes1.png");
+	TextureAsset::Register(L"portrait_notes2", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/portrait/portrait_notes2.png");
+	TextureAsset::Register(L"portrait_notes3", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/portrait/portrait_notes3.png");
+	TextureAsset::Register(L"portrait_notes4", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/portrait/portrait_notes4.png");
+	TextureAsset::Register(L"portrait_notes5", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/portrait/portrait_notes5.png");
+	TextureAsset::Register(L"portrait_notes6", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/portrait/portrait_notes6.png");
+	TextureAsset::Register(L"portrait_notes7", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/portrait/portrait_notes7.png");
+	TextureAsset::Register(L"portrait_notes10", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/portrait/portrait_notes10.png");
+
+
+
 	TextureAsset::Register(L"mainbg", L"Resource/Img/Main/back.png");
-	//è¦Î
-	TextureAsset::Register(L"note_black", L"Resource/Img/Main/ƒm[ƒc/’Êí/kuro.png");
-	TextureAsset::Register(L"note_red",   L"Resource/Img/Main/ƒm[ƒc/’Êí/aka.png");
-	TextureAsset::Register(L"note_blue",  L"Resource/Img/Main/ƒm[ƒc/’Êí/ao.png");
-	TextureAsset::Register(L"note_yellow",L"Resource/Img/Main/ƒm[ƒc/’Êí/ki.png");
-	TextureAsset::Register(L"note_orange",L"Resource/Img/Main/ƒm[ƒc/’Êí/daidai.png");
-	TextureAsset::Register(L"note_green", L"Resource/Img/Main/ƒm[ƒc/’Êí/midori.png");
-	TextureAsset::Register(L"note_purple",L"Resource/Img/Main/ƒm[ƒc/’Êí/murasaki.png");
-	TextureAsset::Register(L"note_white", L"Resource/Img/Main/ƒm[ƒc/’Êí/siro.png");
-	TextureAsset::Register(L"note_rainbow", L"Resource/Img/Main/ƒm[ƒc/’Êí/rainbow.png");
-	//œa¯
-	TextureAsset::Register(L"comet_red",    L"Resource/Img/Main/ƒm[ƒc/ƒƒ“ƒO/aka.png");
-	TextureAsset::Register(L"comet_blue",   L"Resource/Img/Main/ƒm[ƒc/ƒƒ“ƒO/ao.png");
-	TextureAsset::Register(L"comet_yellow", L"Resource/Img/Main/ƒm[ƒc/ƒƒ“ƒO/ki.png");
-	TextureAsset::Register(L"comet_orange", L"Resource/Img/Main/ƒm[ƒc/ƒƒ“ƒO/daidai.png");
-	TextureAsset::Register(L"comet_green",  L"Resource/Img/Main/ƒm[ƒc/ƒƒ“ƒO/midori.png");
-	TextureAsset::Register(L"comet_purple", L"Resource/Img/Main/ƒm[ƒc/ƒƒ“ƒO/murasaki.png");
-	TextureAsset::Register(L"comet_black", L"Resource/Img/Main/ƒm[ƒc/ƒƒ“ƒO/kuro.png");
-	TextureAsset::Register(L"comet_rainbow_head", L"Resource/Img/Main/ƒm[ƒc/ƒƒ“ƒO/rainbow_head.png");
-	TextureAsset::Register(L"comet_rainbow_tail", L"Resource/Img/Main/ƒm[ƒc/ƒƒ“ƒO/rainbow_tail.png");
+	//éš•çŸ³
+	TextureAsset::Register(L"note_black", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/é€šå¸¸/kuro.png");
+	TextureAsset::Register(L"note_red",   L"Resource/Img/Main/ãƒãƒ¼ãƒ„/é€šå¸¸/aka.png");
+	TextureAsset::Register(L"note_blue",  L"Resource/Img/Main/ãƒãƒ¼ãƒ„/é€šå¸¸/ao.png");
+	TextureAsset::Register(L"note_yellow",L"Resource/Img/Main/ãƒãƒ¼ãƒ„/é€šå¸¸/ki.png");
+	TextureAsset::Register(L"note_orange",L"Resource/Img/Main/ãƒãƒ¼ãƒ„/é€šå¸¸/daidai.png");
+	TextureAsset::Register(L"note_green", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/é€šå¸¸/midori.png");
+	TextureAsset::Register(L"note_purple",L"Resource/Img/Main/ãƒãƒ¼ãƒ„/é€šå¸¸/murasaki.png");
+	TextureAsset::Register(L"note_white", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/é€šå¸¸/siro.png");
+	TextureAsset::Register(L"note_rainbow", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/é€šå¸¸/rainbow.png");
+	//å½—æ˜Ÿ
+	TextureAsset::Register(L"comet_red",    L"Resource/Img/Main/ãƒãƒ¼ãƒ„/ãƒ­ãƒ³ã‚°/aka.png");
+	TextureAsset::Register(L"comet_blue",   L"Resource/Img/Main/ãƒãƒ¼ãƒ„/ãƒ­ãƒ³ã‚°/ao.png");
+	TextureAsset::Register(L"comet_yellow", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/ãƒ­ãƒ³ã‚°/ki.png");
+	TextureAsset::Register(L"comet_orange", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/ãƒ­ãƒ³ã‚°/daidai.png");
+	TextureAsset::Register(L"comet_green",  L"Resource/Img/Main/ãƒãƒ¼ãƒ„/ãƒ­ãƒ³ã‚°/midori.png");
+	TextureAsset::Register(L"comet_purple", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/ãƒ­ãƒ³ã‚°/murasaki.png");
+	TextureAsset::Register(L"comet_black", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/ãƒ­ãƒ³ã‚°/kuro.png");
+	TextureAsset::Register(L"comet_rainbow_head", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/ãƒ­ãƒ³ã‚°/rainbow_head.png");
+	TextureAsset::Register(L"comet_rainbow_tail", L"Resource/Img/Main/ãƒãƒ¼ãƒ„/ãƒ­ãƒ³ã‚°/rainbow_tail.png");
 
 	//
 	TextureAsset::Register(L"center_base", L"Resource/Img/Main/center/base.png");
@@ -119,7 +136,7 @@ void loadTexture()
 	TextureAsset::Register(L"center_7", L"Resource/Img/Main/center/white.png");
 
 
-	//ƒo[
+	//ãƒãƒ¼
 	TextureAsset::Register(L"barBase", L"Resource/Img/Main/bar/base.png");
 	TextureAsset::Register(L"bar1", L"Resource/Img/Main/bar/bar1.png");
 	TextureAsset::Register(L"bar2", L"Resource/Img/Main/bar/bar2.png");
@@ -144,9 +161,9 @@ void loadTexture()
 
 }
 //--------------------------------------------------------------------------------
-//ŠÖ”FLoadSound
+//é–¢æ•°ï¼šLoadSound
 //--------------------------------------------------------------------------------
-//ŠT—vF‰¹‚Ì“o˜^
+//æ¦‚è¦ï¼šéŸ³ã®ç™»éŒ²
 //--------------------------------------------------------------------------------
 
 void loadSound()
@@ -162,7 +179,7 @@ void loadSound()
 
 
 
-#pragma endregion BGM‚Ìƒ[ƒh
+#pragma endregion BGMã®ãƒ­ãƒ¼ãƒ‰
 
 #pragma region SE
 
@@ -171,7 +188,7 @@ void loadSound()
 	SoundAsset::Register(L"desisionLarge", L"Resource/Sound/SE/Desision_Large.wav", { L"System" });
 
 	SoundAsset::Register(L"cancel", L"Resource/Sound/SE/cancel.wav", { L"System" });
-#pragma endregion SE‚Ìƒ[ƒh
+#pragma endregion SEã®ãƒ­ãƒ¼ãƒ‰
 
 	SoundAsset::PreloadByTag(L"System");
 
@@ -179,9 +196,9 @@ void loadSound()
 
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FInit
+//é–¢æ•°ï¼šInit
 //--------------------------------------------------------------------------------
-//ŠT—vFƒQ[ƒ€‚Ì‰Šú‰»
+//æ¦‚è¦ï¼šã‚²ãƒ¼ãƒ ã®åˆæœŸåŒ–
 //--------------------------------------------------------------------------------
 
 void Game::init(){

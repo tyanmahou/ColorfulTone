@@ -1,16 +1,17 @@
-#pragma once 
+Ôªø#pragma once 
 #include"PlayMusicGame.h"
-
+#include"HighSpeedDemo.h"
 class MainScene :public MyApp::Scene
 {
 private:
 	bool m_isCourse=false;
 
-	int m_timer;				//É^ÉCÉ}Å[
+	int m_timer;				//„Çø„Ç§„Éû„Éº
 
 	Font m_font2;
 
 	PlayMusicGame m_musicGame;
+	HighSpeedDemo m_highSpeed;
 public:
 	MainScene();
 	~MainScene();

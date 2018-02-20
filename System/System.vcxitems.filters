@@ -410,11 +410,11 @@
     <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\IPlayStyle.h">
       <Filter>MusicGame\PlayStyle</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\PlayStyle.h">
-      <Filter>MusicGame\PlayStyle</Filter>
-    </ClInclude>
     <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\NormalStyle.h">
       <Filter>MusicGame\PlayStyle\Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\PlayStyle.h">
+      <Filter>MusicGame\PlayStyle</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\Portrait.h">
       <Filter>MusicGame\PlayStyle\Portrait</Filter>

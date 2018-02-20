@@ -1,43 +1,54 @@
-#pragma once
+ï»¿#pragma once
 #include "Game.h"
 #include "HighSpeedDemo.h"
 #include<future>
+enum class SortMode
+{
+	FileName,
+	MusicName,
+	ArtistName,
+	Default = FileName
+};
+
 class MusicSelectScene :public MyApp::Scene
 {
 private:
+
 	enum class Mode :unsigned int
 	{
 		GenreSelect,
 		MusicSelect,
 		LevelSelect,
 	}m_mode;
-	int m_timer;				//ƒ^ƒCƒ}[
+	int m_timer;				//ã‚¿ã‚¤ãƒãƒ¼
 
 	Font m_font1;
 	Font m_font2;
 	Font m_font3;
 	Font m_rateFont;
 
-	static unsigned int m_selectMusic;			//‘I‘ğ’†‚ÌŠy‹È
-	static unsigned int m_selectLevel;			//‘I‘ğ’†‚Ì•ˆ–Ê“ïˆÕ“x
-	static unsigned int m_selectGenre;			//‘I‘ğ’†‚ÌƒWƒƒƒ“ƒ‹
-	static bool m_levelInfoMode;				//•\¦î•ñ
-
+	static unsigned int m_selectMusic;			//é¸æŠä¸­ã®æ¥½æ›²
+	static unsigned int m_selectLevel;			//é¸æŠä¸­ã®è­œé¢é›£æ˜“åº¦
+	static unsigned int m_selectGenre;			//é¸æŠä¸­ã®ã‚¸ãƒ£ãƒ³ãƒ«
+	static bool m_levelInfoMode;				//è¡¨ç¤ºæƒ…å ±
+	static SortMode m_sortMode;					//ã‚½ãƒ¼ãƒˆãƒ¢ãƒ¼ãƒ‰
 
 
 	mutable Array<MusicData> m_musics;
 	HighSpeedDemo m_highSpeedDemo;
-	unsigned int m_musicsSize;		//Šy‹È”
+	unsigned int m_musicsSize;		//æ¥½æ›²æ•°
 
 
 	bool m_changeMainScene;
+
+	void sort();
 
 	void musicBannerAndInfoDraw()const;
 	void genreBannerAndInfoDraw()const;
 	void levelSelectDraw()const;
 	void highSpeedDraw()const;
 
-	//‰‰o—pEasing
+	//æ¼”å‡ºç”¨Easing
 	void EasingStartBySelectMusic();
 	void EasingEndBySelectMusic();
 	EasingController<int> m_rightShift;

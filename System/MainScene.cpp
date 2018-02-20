@@ -67,6 +67,10 @@ void MainScene::update()
 			changeScene(L"courseSelect", 3000);
 		}
 	}
+
+	m_highSpeed.update(m_data->m_scrollRate);
+	m_musicGame.setScrollRate(m_data->m_scrollRate);
+
 }
 
 
@@ -78,7 +82,7 @@ void MainScene::draw()const
 {
 
 	m_musicGame.draw(m_data->m_nowMusics);
-
+	m_musicGame.drawCurrentBPM();
 
 
 	if (!m_isCourse)
@@ -99,6 +103,10 @@ void MainScene::draw()const
 			m_font2(L"Esc長押しで諦める").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));
 
 	}
+	m_highSpeed.draw(
+		m_data->m_nowMusics.getMinSoundBeat(),
+		m_data->m_nowMusics.getMaxSoundBeat(),
+		m_data->m_scrollRate);
 }
 
 

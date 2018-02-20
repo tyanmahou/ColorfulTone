@@ -48,3 +48,19 @@ struct  TapEffect2 : public IEffect
 	}
 };
 
+struct  TapEffect2_2 : public IEffect
+{
+	double m_posX;
+	TapEffect2_2(double posX) :
+		m_posX(posX)
+	{}
+
+	bool update(double t) override
+	{
+		t *= 5.0;
+		TextureAsset(L"tapEffect2").scale(1.2*EaseOut(Easing::Elastic,t)).drawAt(m_posX, 500,AlphaF(1-t));
+		return t <= 1.0;
+	}
+};
+
+
