@@ -4,6 +4,7 @@
 #include"SceneInfo.h"
 #include"FontKinetic.h"
 #include"PlayKey.h"
+#include"Setting.hpp"
 //--------------------------------------------------------------------------------
 //関数：コンストラクタ
 //--------------------------------------------------------------------------------
@@ -41,7 +42,7 @@ namespace
 
 	void AccessHomePage()
 	{
-		const FilePath url = L"http://www11.atpages.jp/tyanmahou/game/ColorfulTone/index.php";
+		const FilePath url = Setting::HOMEPAGE_URL;
 
 		if (Internet::IsConnected()) // インターネット接続をチェック
 		{
@@ -126,20 +127,7 @@ void TitleScene::draw()const
 	};
 
 	constexpr double x = 400;
-	//constexpr double y = 300;
 
-	//for (unsigned int i = 0; i <= static_cast<unsigned int>(Mode::Exit); ++i) 
-	//{
-	//	const bool isSelect = m_mode == static_cast<Mode>(i);
-	//	const int off = 40;
-	//	if(isSelect)
-	//		TextureAsset(L"modeBack").drawAt(x, y + off * i,ColorF(0.8,1,1,0.9+0.1*Sin(static_cast<double>(m_timer)/30.0)));
-	//	
-	//	const auto size=m_font(name[i].second).region().size;
-	//	m_font(name[i].second).drawKinetic(x-size.x/2.0, y + off * i-size.y/2.0, FontKinetic::DeleteSpace,Palette::Black);
-
-	//	TextureAsset(name[i].first).scale(0.15+ (isSelect?0.012*Sin(static_cast<double>(m_timer) / 20.0):0)).drawAt(x-150, y + off * i);
-	//}
 
 	constexpr double y = 350;
 	constexpr int off = 40;

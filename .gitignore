@@ -344,3 +344,5 @@ ColorfulTone/TapSE/
 
 ColorfulTone/Sample/
 ColorfulTone/Resource/
+ColorfulTone/config.ini
+Setting.hpp

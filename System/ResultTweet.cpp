@@ -1,16 +1,5 @@
 #include"ResultTweet.h"
-namespace
-{
-	//ƒAƒvƒŠ‚ÌŒ®
-	namespace Setting
-	{
-		static const String ApiKey = L"L7e6bVHtMTWaLNc03Aw9oj4pb";
-		static const String ApiSecret = L"EFCaR4hajsbXALi8msXjs9BGanWGav68eWLQN1n0z15CxXmwiK";
-	}
-
-
-
-}
+#include"Setting.hpp"
 
 class ResultTweet::CTweet
 {

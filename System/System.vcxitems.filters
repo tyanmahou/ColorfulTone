@@ -240,10 +240,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AppBase.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\NormalStyle.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)NormalStyle.cpp">
       <Filter>MusicGame\PlayStyle\Normal</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\Portrait.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)Portrait.cpp">
       <Filter>MusicGame\PlayStyle\Portrait</Filter>
     </ClCompile>
   </ItemGroup>
@@ -407,17 +407,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayBG.h">
       <Filter>MusicGame\Play</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\IPlayStyle.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h">
       <Filter>MusicGame\PlayStyle</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\NormalStyle.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)NormalStyle.h">
       <Filter>MusicGame\PlayStyle\Normal</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\PlayStyle.h">
-      <Filter>MusicGame\PlayStyle</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\Portrait.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Portrait.h">
       <Filter>MusicGame\PlayStyle\Portrait</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayStyle.h">
+      <Filter>MusicGame\PlayStyle</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Setting.hpp" />
   </ItemGroup>
 </Project>

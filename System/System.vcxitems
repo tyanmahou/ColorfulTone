@@ -53,6 +53,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Portrait.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Preview.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Setting.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Util.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RepeatNote.h" />

@@ -1,12 +1,12 @@
 #include"ColorfulTone.h"
 #include"Game.h"
-
+#include"Setting.hpp"
 namespace
 {
 
 	bool CheckVersion()
 	{
-		const FilePath url = L"http://www11.atpages.jp/tyanmahou/game/ColorfulTone/Version.txt";
+		const FilePath url = Setting::HOMEPAGE_URL+L"Version.txt";
 
 		if (!Internet::IsConnected()) // インターネット接続をチェック
 		{
