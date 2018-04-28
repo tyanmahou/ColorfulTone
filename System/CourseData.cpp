@@ -1,4 +1,4 @@
-#include"CourseData.h"
+ï»¿#include"CourseData.h"
 #include"Game.h"
 void CourseData::serchNotes(const String & notePath)
 {
@@ -52,11 +52,11 @@ bool CourseData::load(const String & path)
 		//saveReader.read<float>(m_clearRate);
 	}
 
-	//ƒ^ƒCƒgƒ‹
+	//ã‚¿ã‚¤ãƒˆãƒ«
 	m_title = ini.getOr<String>(L"Data.TITLE", L"None");
 
-	//•ˆ–Êƒf[ƒ^‚ÌƒCƒ“ƒfƒbƒNƒXŒŸõ
-	//•ˆ–Êƒf[ƒ^
+	//è­œé¢ãƒ‡ãƒ¼ã‚¿ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æ¤œç´¢
+	//è­œé¢ãƒ‡ãƒ¼ã‚¿
 	for (int i = 0; true; ++i)
 	{
 		String notePath = ini.get<String>(Format(L"Course.COURSE", i));
