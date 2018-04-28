@@ -8,7 +8,8 @@ class CourseData
 	using Data = std::pair<unsigned, unsigned>;
 private:
 	Array<Data> m_notesID;
-	String m_title;
+	String m_title;	//コースタイトル
+	String m_genre;	//ジャンル名
 
 	bool m_isClear = false;
 
