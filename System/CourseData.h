@@ -1,15 +1,15 @@
-#pragma once
+ï»¿#pragma once
 #include<utility>
 #include<Siv3D.hpp>
 
 class CourseData
 {
-	//Šy‹ÈID‚Æ•ˆ–ÊID‚ÌƒZƒbƒg
+	//æ¥½æ›²IDã¨è­œé¢IDã®ã‚»ãƒƒãƒˆ
 	using Data = std::pair<unsigned, unsigned>;
 private:
 	Array<Data> m_notesID;
-	String m_title;	//ƒR[ƒXƒ^ƒCƒgƒ‹
-	String m_genre;	//ƒWƒƒƒ“ƒ‹–¼
+	String m_title;	//ã‚³ãƒ¼ã‚¹ã‚¿ã‚¤ãƒˆãƒ«
+	String m_genre;	//ã‚¸ãƒ£ãƒ³ãƒ«å
 
 	bool m_isClear = false;
 

@@ -46,10 +46,6 @@ bool CourseData::load(const String & path)
 	if (saveReader)
 	{
 		saveReader.read<bool>(m_isClear);
-		//unsigned int ui_spResult;
-		//saveReader.read<unsigned int>(ui_spResult);
-		//m_specialResult = static_cast<SpecialResult>(ui_spResult);
-		//saveReader.read<float>(m_clearRate);
 	}
 
 	//タイトル

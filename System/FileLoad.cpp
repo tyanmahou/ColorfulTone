@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include<stack>
 
@@ -18,14 +18,14 @@ std::mutex& GetMutex()
 	return g_mutex;
 }
 //--------------------------------------------------------------------------------
-//ŠÖ”FLoadMusicDatas
+//é–¢æ•°ï¼šLoadMusicDatas
 //--------------------------------------------------------------------------------
-//ŠT—v:Šy‹È‚Ìƒ[ƒh
+//æ¦‚è¦:æ¥½æ›²ã®ãƒ­ãƒ¼ãƒ‰
 //--------------------------------------------------------------------------------
 void LoadCourses();
 void LoadCustomFolder();
 
-//se“Ç‚İ‚İ
+//seèª­ã¿è¾¼ã¿
 void LoadTapSE()
 {
 	g_mutex.lock();
@@ -69,7 +69,7 @@ void LoadMusicDatas()
 	musics.reserve(musicSize);
 
 	int curIndex = 0;
-	//‚±‚±‚©‚çŠy‹Èƒf[ƒ^“Ç‚İ‚İ
+	//ã“ã“ã‹ã‚‰æ¥½æ›²ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 	for (const auto& gPath : genrePaths)
 	{
 
@@ -77,9 +77,9 @@ void LoadMusicDatas()
 		const auto genreName = FileSystem::BaseName(gPath);
 		for (const auto& path : musicPaths)
 		{
-			//ŠeŠy‹È‚É“ü‚Á‚Ä‚¢‚éƒAƒZƒbƒg‚ÌƒpƒXæ“¾
+			//å„æ¥½æ›²ã«å…¥ã£ã¦ã„ã‚‹ã‚¢ã‚»ãƒƒãƒˆã®ãƒ‘ã‚¹å–å¾—
 			auto assets = FileSystem::DirectoryContents(path);
-			//iniƒtƒ@ƒCƒ‹‚ª‚ ‚é‚©ŒŸõ
+			//iniãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹ã‹æ¤œç´¢
 			for (const auto& elm : assets)
 			{
 				if (System::GetPreviousEvent() == ((Input::KeyAlt + Input::KeyF4).clicked | WindowEvent::CloseButton))
@@ -101,13 +101,13 @@ void LoadMusicDatas()
 		}
 	}
 
-	//ƒJƒXƒ^ƒ€ƒtƒHƒ‹ƒ_“Ç‚İ‚İ
+	//ã‚«ã‚¹ã‚¿ãƒ ãƒ•ã‚©ãƒ«ãƒ€èª­ã¿è¾¼ã¿
 	::LoadCustomFolder();
 
 	GenreManager::Add(GenreType::All, L"ALL", [](MusicData& music)->bool {return false; });
 	GenreManager::Sort();
 
-	//ƒ^ƒbƒvSE“Ç‚İ‚İ
+	//ã‚¿ãƒƒãƒ—SEèª­ã¿è¾¼ã¿
 	::LoadTapSE();
 
 	g_mutex.lock();
@@ -118,7 +118,7 @@ void LoadMusicDatas()
 	Game::Instance()->m_isMusicLoadEnd = true;
 }
 
-//”äŠr‰‰Z‚ÌŒˆ’è‚ğ‚µ‚ÄğŒ®‚Æ‚·‚é
+//æ¯”è¼ƒæ¼”ç®—ã®æ±ºå®šã‚’ã—ã¦æ¡ä»¶å¼ã¨ã™ã‚‹
 template<class _T>
 std::function<bool(MusicData& music)> OperationSet(const String& op, const _T& (MusicData::*f)()const, const _T& value)
 {
@@ -129,7 +129,7 @@ std::function<bool(MusicData& music)> OperationSet(const String& op, const _T& (
 	return func;
 }
 
-//˜_—‰‰Z‚ÌŒ‹‡
+//è«–ç†æ¼”ç®—ã®çµåˆ
 void ChainSet(const String& chain, std::function<bool(MusicData& music)>&func, std::function<bool(MusicData& music)>&f)
 {
 	if (chain == L"OR")
@@ -175,7 +175,7 @@ void LoadCustomFolder()
 {
 	const auto ctcfFiles = FileSystem::DirectoryContents(L"CustomFolder");
 
-	//‚±‚±‚©‚çƒf[ƒ^“Ç‚İ‚İ
+	//ã“ã“ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 	for (const auto& path : ctcfFiles)
 	{
 		if (path.includes(L"ctfolder"))
@@ -186,28 +186,28 @@ void LoadCustomFolder()
 			if (!csv)
 				continue;
 
-			//ƒ^ƒCƒgƒ‹
+			//ã‚¿ã‚¤ãƒˆãƒ«
 			String title = L"CustomFolder";
 
 			std::function<bool(MusicData& music)> func = [](MusicData& music)->bool {return true; };
 
 
-			auto rows = csv.rows;				//s”
-			String head;						//1—ñ–Ú‚Ìƒf[ƒ^‚ğ•¶š—ñ‚Å
+			auto rows = csv.rows;				//è¡Œæ•°
+			String head;						//1åˆ—ç›®ã®ãƒ‡ãƒ¼ã‚¿ã‚’æ–‡å­—åˆ—ã§
 			String chain = L"AND";				//AND or OR
-			std::stack<std::pair<std::function<bool(MusicData& music)>, String>> stack;//()—p
+			std::stack<std::pair<std::function<bool(MusicData& music)>, String>> stack;//()ç”¨
 
 			for (unsigned int i = 0; i < rows; ++i)
 			{
 
 				head = csv.get<String>(i, 0);
 
-				if (head.isEmpty)			//‹ós‚ÍƒXƒ‹[
+				if (head.isEmpty)			//ç©ºè¡Œã¯ã‚¹ãƒ«ãƒ¼
 				{
 					continue;
 				}
 
-				if (head[0] == '%')//ƒRƒƒ“ƒg
+				if (head[0] == '%')//ã‚³ãƒ¡ãƒ³ãƒˆ
 				{
 					continue;
 				}
@@ -313,36 +313,42 @@ void LoadCustomFolder()
 
 }
 
+//ã‚³ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 void LoadCourses()
 {
 	Array<CourseData>& courses = Game::Instance()->m_courses;
 
 	courses.clear();
 
-	const auto ctcFiles = FileSystem::DirectoryContents(L"Course");
+	const auto genreFiles = FileSystem::DirectoryContents(L"Course");
 
 	unsigned int musicSize = 0;
 
-	courses.reserve(ctcFiles.size());
+	//ãƒªã‚µãƒ¼ãƒ–
+	//courses.reserve(ctcFiles.size());
 
-	//‚±‚±‚©‚çŠy‹Èƒf[ƒ^“Ç‚İ‚İ
-	for (const auto& path : ctcFiles)
+	//ã“ã“ã‹ã‚‰æ¥½æ›²ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
+	for (const auto& gPath : genreFiles)
 	{
-		if (path.includes(L"ctc"))
+		const auto ctcPaths = FileSystem::DirectoryContents(gPath);
+		for (const auto& path : ctcPaths)
 		{
-			courses.emplace_back(path);
+			if (path.includes(L"ctc"))
+			{
+				courses.emplace_back(path);
+			}
 		}
 	}
 
 }
 
 //--------------------------------------------------------------------------------
-//Ã“Iƒƒ“ƒo’è‹`
+//é™çš„ãƒ¡ãƒ³ãƒå®šç¾©
 //--------------------------------------------------------------------------------
 std::future<void> FileLoad::m_loadResult = std::async(std::launch::async, []() {return; });
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//é–¢æ•°ï¼šã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //--------------------------------------------------------------------------------
 FileLoad::FileLoad() :m_timer(0), m_font(15)
 {
@@ -351,7 +357,7 @@ FileLoad::FileLoad() :m_timer(0), m_font(15)
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FƒfƒXƒgƒ‰ƒNƒ^
+//é–¢æ•°ï¼šãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //--------------------------------------------------------------------------------
 FileLoad::~FileLoad()
 {
@@ -365,7 +371,7 @@ void FileLoad::init()
 
 }
 //--------------------------------------------------------------------------------
-//ŠÖ”Fupdate
+//é–¢æ•°ï¼šupdate
 //--------------------------------------------------------------------------------
 void FileLoad::update()
 {
@@ -383,7 +389,7 @@ void FileLoad::update()
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”Fdraw
+//é–¢æ•°ï¼šdraw
 //--------------------------------------------------------------------------------
 void FileLoad::draw()const
 {
@@ -409,7 +415,7 @@ void FileLoad::drawFadeIn(double t) const
 
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FdrawFadeOut
+//é–¢æ•°ï¼šdrawFadeOut
 //--------------------------------------------------------------------------------
 void FileLoad::drawFadeOut(double t) const
 {
