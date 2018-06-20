@@ -421,7 +421,6 @@ namespace
 
 
 		util::ContractionDrawbleString(font(genres[index].m_name), { x + offsetX, y + 100 + offstY }, 195);
-
 	}
 }
 void MusicSelectScene::genreBannerAndInfoDraw()const

@@ -123,11 +123,8 @@ void ResultScene::init()
 			m_passEffect = PassEffect::Pass;
 
 			auto& course = Game::Instance()->m_courses[m_data->m_selectCourse];
-			BinaryWriter writer(L"Score/CourseScore/" + course.getFileName() + L".bin");
-
-			writer.write(true);
+			course.save(true);
 			course.setClear();
-
 		}
 	}
 

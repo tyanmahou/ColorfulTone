@@ -27,6 +27,8 @@ public:
 
 	bool load(const String& path);
 
+	void save(bool isClear = true);
+
 	bool canPlay()const
 	{
 		return m_canPlay;
@@ -44,6 +46,10 @@ public:
 	const String& getFileName()const
 	{
 		return m_fileName;
+	}
+	const String& getGenre()const
+	{
+		return m_genre;
 	}
 
 	void setClear(bool isClear = true)

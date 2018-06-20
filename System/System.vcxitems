@@ -20,7 +20,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BPMChanger.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Config.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CostumFolder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseData.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CourseGenre.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CoursePlay.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h" />
@@ -78,6 +80,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AudioSpectrum.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BPMChanger.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CostumFolder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CoursePlay.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseScene.cpp" />
