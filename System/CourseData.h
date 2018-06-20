@@ -10,6 +10,7 @@ private:
 	Array<Data> m_notesID;
 	String m_title;	//コースタイトル
 	String m_genre;	//ジャンル名
+	int m_index;	//ID
 
 	bool m_isClear = false;
 
@@ -20,8 +21,10 @@ private:
 	void serchNotes(const String& notePath);
 
 public:
+	static int Index;
 	CourseData(const String& path)
 	{
+		m_index = Index++;
 		this->load(path);
 	}
 
@@ -60,6 +63,9 @@ public:
 	bool isClear()const
 	{
 		return m_isClear;
+	}
+	int getIndex() {
+		return m_index;
 	}
 
 };

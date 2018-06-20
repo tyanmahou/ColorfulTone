@@ -13,7 +13,7 @@ public:
 	CourseGenre(String name):
 		m_name(name),
 		m_refiner([name](CourseData& course){
-		return course.getTitle() == name;
+		return !(course.getGenre() == name);
 	})
 	{}
 	const String& getName()const
@@ -60,5 +60,9 @@ public:
 	static bool Add(const String& genreName)
 	{
 		return CourseGenreManager::Instance()->add(genreName);
+	}
+	static const Array<CourseGenre>& Genres()
+	{
+		return CourseGenreManager::Instance()->getGenre();
 	}
 };

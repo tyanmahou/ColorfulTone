@@ -1,9 +1,10 @@
-#include"CourseScene.h"
+Ôªø#include"CourseScene.h"
 #include"Fade.h"
 #include"SceneInfo.h"
 #include"AutoPlayManager.h"
 #include"PlayKey.h"
 #include"Util.h"
+#include"CourseGenre.hpp"
 CourseSelectScene::CourseSelectScene() :
 	m_levelFont(12),
 	m_font(16, Typeface::Bold)
@@ -16,50 +17,83 @@ CourseSelectScene::CourseSelectScene() :
 void CourseSelectScene::init()
 {
 	m_selectCourse = m_data->m_selectCourse;
+	m_courses = Game::Instance()->m_courses;
 }
 
 void CourseSelectScene::update()
 {
-	auto& courses = Game::Instance()->m_courses;
-
+	auto& courses = m_courses; 
+	auto& genres = CourseGenreManager::Genres();
 	++m_timer;
-	if (!courses.empty())
+	if (!courses.empty() && !genres.empty())
 	{
 		if (PlayKey::Up().clicked)
 		{
 			SoundManager::SE::Play(L"select");
-			m_selectCourse--;
-			if (m_selectCourse < 0)
-				m_selectCourse += courses.size();
+			if (m_mode == Mode::Course)
+			{
+				m_selectCourse--;
+				if (m_selectCourse < 0)
+					m_selectCourse += courses.size();
+			}
+			else
+			{
+				m_selectGenre--;
+				if (m_selectGenre < 0)
+					m_selectGenre += genres.size();
+			}
 		}
 		else if (PlayKey::Down().clicked)
 		{
 			SoundManager::SE::Play(L"select");
-			m_selectCourse++;
+			if (m_mode == Mode::Course)
+				m_selectCourse++;
+			else
+				m_selectGenre++;
 		}
 		m_selectCourse %= courses.size();
+		m_selectGenre %= genres.size();
 
 		if (PlayKey::Start().clicked)
 		{
-			if (courses.at(m_selectCourse).canPlay())
+			if (m_mode == Mode::Course)
 			{
-				SoundManager::SE::Play(L"desisionLarge");
-				m_data->m_currentCourseIndex = 0;
-				m_data->m_isCoursePlay = true;
-				m_data->m_selectCourse = m_selectCourse;
-				m_data->m_life = 100.0f;
-				//ê‚ëŒAutoÇÕâèúÇ∑ÇÈ
-				AutoPlayManager::Instance()->m_autoPlay = false;
-				changeScene(L"course", 3000);
+				if (courses.at(m_selectCourse).canPlay())
+				{
+					SoundManager::SE::Play(L"desisionLarge");
+					m_data->m_currentCourseIndex = 0;
+					m_data->m_isCoursePlay = true;
+					m_data->m_selectCourse = m_courses[m_selectCourse].getIndex();
+					m_data->m_life = 100.0f;
+					//Áµ∂ÂØæAuto„ÅØËß£Èô§„Åô„Çã
+					AutoPlayManager::Instance()->m_autoPlay = false;
+					changeScene(L"course", 3000);
+				}
+				else
+					MessageBox::Show(L"ÂÖ®„Å¶„ÅÆË≠úÈù¢„Éá„Éº„Çø„ÅåÂ≠òÂú®„Åó„Å¶„ÅÑ„Å™„ÅÑ„ÅÆ„Åß„ÄÅ„Åì„ÅÆ„Ç≥„Éº„Çπ„ÅØ„Éó„É¨„Ç§„Åß„Åç„Åæ„Åõ„Çì„ÄÇ");
 			}
 			else
-				MessageBox::Show(L"ëSÇƒÇÃïàñ ÉfÅ[É^Ç™ë∂ç›ÇµÇƒÇ¢Ç»Ç¢ÇÃÇ≈ÅAÇ±ÇÃÉRÅ[ÉXÇÕÉvÉåÉCÇ≈Ç´Ç‹ÇπÇÒÅB");
+			{
+				SoundManager::SE::Play(L"desisionSmall");
+				m_mode = Mode::Course;
+				m_courses = Game::Instance()->m_courses;
+				Erase_if(m_courses,genres[m_selectGenre].getRefiner());
+				m_selectCourse %= m_courses.size();
+			}
 		}
 	}
-	//ñﬂÇÈ
+	//Êàª„ÇãÂ∞è
+	if (PlayKey::SmallBack().clicked && m_mode == Mode::Course)
+	{
+		SoundManager::SE::Play(L"cancel");
+		m_mode = Mode::Genre;
+	}
+
+	//Êàª„Çã
 	if (PlayKey::BigBack().clicked)
 	{
 		SoundManager::SE::Play(L"cancel");
+
 		changeScene(L"title", 3000);
 		m_data->m_isCoursePlay = false;
 	}
@@ -71,9 +105,8 @@ namespace
 {
 
 }
-//ïàñ èÓïÒÇÃï\é¶
+//Ë≠úÈù¢ÊÉÖÂ†±„ÅÆË°®Á§∫
 void CourseSelectScene::musicInfo(int y, int musicID, int notesID) const
-
 {
 	auto& musics = Game::Instance()->m_musics;
 	constexpr int x = 10;
@@ -81,11 +114,11 @@ void CourseSelectScene::musicInfo(int y, int musicID, int notesID) const
 	Rect(x, y, 800, size + 20).draw(ColorF(0, 0.8));
 	musics[musicID].getTexture().resize(size, size).draw(x + 10, y + 10);
 
-	util::ContractionDrawbleString(m_font(musics[musicID].getMusicName()), { x + 120 ,y + 30 },280,Palette::White,false);
+	util::ContractionDrawbleString(m_font(musics[musicID].getMusicName()), { x + 120 ,y + 30 }, 280, Palette::White, false);
 	{
 		const auto& note = musics[musicID].getNotesData().at(notesID);
 		const String name = note.getLevelName() + L" Lv" + Format(note.getLevel());
-		util::ContractionDrawbleString(m_levelFont(name), { x + 120 ,y + 60 },280,note.getColor(),false);
+		util::ContractionDrawbleString(m_levelFont(name), { x + 120 ,y + 60 }, 280, note.getColor(), false);
 	}
 }
 
@@ -93,8 +126,9 @@ void CourseSelectScene::draw() const
 {
 	TextureAsset(L"coursebg").uv((m_timer % 800) / 800.0, 0, 1, 1).draw(0, 0);
 
-	auto& courses = Game::Instance()->m_courses;
-	if (courses.size())
+	auto& courses = this->m_courses;
+	auto& genres = CourseGenreManager::Genres();
+	if (m_mode == Mode::Course&&courses.size())
 	{
 		int i = 0;
 		for (auto& notes : courses.at(m_selectCourse).getNotesIDs())
@@ -112,10 +146,22 @@ void CourseSelectScene::draw() const
 
 			util::ContractionDrawbleString(m_font(courses[index].getTitle()), { 430 + 90 + offset, 10 + 60 * i }, 206, Palette::White, false);
 
-			if(courses[index].isClear())
-			m_font(L"Åö").draw(455 + offset, 10 + 60 * i);
+			if (courses[index].isClear())
+				m_font(L"‚òÖ").draw(455 + offset, 10 + 60 * i);
 		}
 
+	}
+	else if (m_mode == Mode::Genre&&genres.size())
+	{
+		for (int i = 0; i < 10; ++i)
+		{
+			const auto offset = i == 4 ? (PlayKey::Up().clicked || PlayKey::Down().clicked) ? -25 : -30 : 0;
+			Color uiColor = i == 4 ? Palette::Yellow : Palette::White;
+			TextureAsset(L"levelbg").draw(430 + offset, 60 * i, uiColor);
+			const auto index = (m_selectGenre + i - 4 + genres.size()*Abs(i - 4)) % genres.size();
+
+			util::ContractionDrawbleString(m_font(genres[index].getName()), { 430 + 90 + offset, 10 + 60 * i }, 206, Palette::White, false);
+		}
 	}
 
 	TextureAsset(L"levelMask").draw(430, 0, Palette::Black);
@@ -124,11 +170,11 @@ void CourseSelectScene::draw() const
 
 	FontAsset(L"label")(L"Course").draw(10, 33);
 
-	SceneInfo::Draw(L"Enter:åàíË Esc:É^ÉCÉgÉãñﬂÇÈ ");
+	SceneInfo::Draw(L"Enter:Ê±∫ÂÆö Esc:„Çø„Ç§„Éà„É´Êàª„Çã ");
 
 }
 //--------------------------------------------------------------------------------
-//ä÷êîÅFdrawFadeIn
+//Èñ¢Êï∞ÔºödrawFadeIn
 //--------------------------------------------------------------------------------
 void CourseSelectScene::drawFadeIn(double t) const
 {
@@ -139,7 +185,7 @@ void CourseSelectScene::drawFadeIn(double t) const
 }
 
 //--------------------------------------------------------------------------------
-//ä÷êîÅFdrawFadeOut
+//Èñ¢Êï∞ÔºödrawFadeOut
 //--------------------------------------------------------------------------------
 void CourseSelectScene::drawFadeOut(double t) const
 {

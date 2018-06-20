@@ -250,7 +250,6 @@ void MusicSelectScene::update()
 					{
 						if (m_musicsSize)
 						{
-
 							SoundManager::SE::Play(L"desisionSmall");
 							m_mode = Mode::LevelSelect;
 							m_isMusicDefineEasing.start();
@@ -281,8 +280,6 @@ void MusicSelectScene::update()
 						}
 						m_mode = Mode::MusicSelect;
 						m_isGenreDefineEasing.start();
-
-
 					}
 				}
 

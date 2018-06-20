@@ -1,14 +1,13 @@
-#include"ColorfulTone.h"
+ï»¿#include"ColorfulTone.h"
 #include"Game.h"
 #include"Setting.hpp"
 namespace
 {
-
 	bool CheckVersion()
 	{
 		const FilePath url = Setting::HOMEPAGE_URL+L"Version.txt";
 
-		if (!Internet::IsConnected()) // ƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ğƒ`ƒFƒbƒN
+		if (!Internet::IsConnected()) // ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒƒãƒˆæ¥ç¶šã‚’ãƒã‚§ãƒƒã‚¯
 		{
 			return false;
 		}
@@ -19,7 +18,7 @@ namespace
 		{
 			String str = TextReader(std::move(reader)).readAll();
 			if (str != Game::Version)
-				MessageBox::Show(L"ÅV‚Ìƒo[ƒWƒ‡ƒ“‚Í" + str + L"‚Å‚·B");
+				MessageBox::Show(L"æœ€æ–°ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã¯" + str + L"ã§ã™ã€‚");
 
 			return true;
 		}
@@ -38,7 +37,7 @@ ColorfulTone::ColorfulTone():
 
 	Profiler::EnableWarning(false);
 
-	//ƒo[ƒWƒ‡ƒ“ƒ`ƒFƒbƒN
+	//ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãƒã‚§ãƒƒã‚¯
 	::CheckVersion();
 
 }

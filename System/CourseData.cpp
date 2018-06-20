@@ -1,5 +1,8 @@
 ﻿#include"CourseData.h"
 #include"Game.h"
+
+int CourseData::Index = 0;
+
 void CourseData::serchNotes(const String & notePath)
 {
 	auto& musics = Game::Instance()->m_musics;

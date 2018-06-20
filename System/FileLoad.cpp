@@ -121,6 +121,7 @@ void LoadMusicDatas()
 void LoadCourses()
 {
 	CourseGenreManager::Clear();
+	CourseData::Index = 0;
 
 	Array<CourseData>& courses = Game::Instance()->m_courses;
 
