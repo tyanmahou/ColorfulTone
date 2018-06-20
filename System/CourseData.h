@@ -1,14 +1,16 @@
-#pragma once
+﻿#pragma once
 #include<utility>
 #include<Siv3D.hpp>
 
 class CourseData
 {
-	//�y��ID�ƕ���ID�̃Z�b�g
+	//楽曲IDと譜面IDのセット
 	using Data = std::pair<unsigned, unsigned>;
 private:
 	Array<Data> m_notesID;
-	String m_title;
+	String m_title;	//コースタイトル
+	String m_genre;	//ジャンル名
+	int m_index;	//ID
 
 	bool m_isClear = false;
 
@@ -19,12 +21,16 @@ private:
 	void serchNotes(const String& notePath);
 
 public:
+	static int Index;
 	CourseData(const String& path)
 	{
+		m_index = Index++;
 		this->load(path);
 	}
 
 	bool load(const String& path);
+
+	void save(bool isClear = true);
 
 	bool canPlay()const
 	{
@@ -44,6 +50,10 @@ public:
 	{
 		return m_fileName;
 	}
+	const String& getGenre()const
+	{
+		return m_genre;
+	}
 
 	void setClear(bool isClear = true)
 	{
@@ -53,6 +63,9 @@ public:
 	bool isClear()const
 	{
 		return m_isClear;
+	}
+	int getIndex() {
+		return m_index;
 	}
 
 };

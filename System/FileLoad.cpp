@@ -1,12 +1,11 @@
-#pragma once
-
-#include<stack>
+ï»¿#pragma once
 
 #include"FileLoad.h"
 #include"Fade.h"
 #include"GenreManager.h"
 #include"VideoAsset.h"
-
+#include"CostumFolder.hpp"
+#include"CourseGenre.hpp"
 namespace
 {
 	std::mutex g_mutex;
@@ -18,14 +17,12 @@ std::mutex& GetMutex()
 	return g_mutex;
 }
 //--------------------------------------------------------------------------------
-//ŠÖ”FLoadMusicDatas
+//é–¢æ•°ï¼šLoadMusicDatas
 //--------------------------------------------------------------------------------
-//ŠT—v:Šy‹È‚Ìƒ[ƒh
+//æ¦‚è¦:æ¥½æ›²ã®ãƒ­ãƒ¼ãƒ‰
 //--------------------------------------------------------------------------------
 void LoadCourses();
-void LoadCustomFolder();
-
-//se“Ç‚İ‚İ
+//seèª­ã¿è¾¼ã¿
 void LoadTapSE()
 {
 	g_mutex.lock();
@@ -69,7 +66,7 @@ void LoadMusicDatas()
 	musics.reserve(musicSize);
 
 	int curIndex = 0;
-	//‚±‚±‚©‚çŠy‹Èƒf[ƒ^“Ç‚İ‚İ
+	//ã“ã“ã‹ã‚‰æ¥½æ›²ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 	for (const auto& gPath : genrePaths)
 	{
 
@@ -77,9 +74,9 @@ void LoadMusicDatas()
 		const auto genreName = FileSystem::BaseName(gPath);
 		for (const auto& path : musicPaths)
 		{
-			//ŠeŠy‹È‚É“ü‚Á‚Ä‚¢‚éƒAƒZƒbƒg‚ÌƒpƒXæ“¾
+			//å„æ¥½æ›²ã«å…¥ã£ã¦ã„ã‚‹ã‚¢ã‚»ãƒƒãƒˆã®ãƒ‘ã‚¹å–å¾—
 			auto assets = FileSystem::DirectoryContents(path);
-			//iniƒtƒ@ƒCƒ‹‚ª‚ ‚é‚©ŒŸõ
+			//iniãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹ã‹æ¤œç´¢
 			for (const auto& elm : assets)
 			{
 				if (System::GetPreviousEvent() == ((Input::KeyAlt + Input::KeyF4).clicked | WindowEvent::CloseButton))
@@ -101,13 +98,13 @@ void LoadMusicDatas()
 		}
 	}
 
-	//ƒJƒXƒ^ƒ€ƒtƒHƒ‹ƒ_“Ç‚İ‚İ
+	//ã‚«ã‚¹ã‚¿ãƒ ãƒ•ã‚©ãƒ«ãƒ€èª­ã¿è¾¼ã¿
 	::LoadCustomFolder();
 
 	GenreManager::Add(GenreType::All, L"ALL", [](MusicData& music)->bool {return false; });
 	GenreManager::Sort();
 
-	//ƒ^ƒbƒvSE“Ç‚İ‚İ
+	//ã‚¿ãƒƒãƒ—SEèª­ã¿è¾¼ã¿
 	::LoadTapSE();
 
 	g_mutex.lock();
@@ -118,240 +115,57 @@ void LoadMusicDatas()
 	Game::Instance()->m_isMusicLoadEnd = true;
 }
 
-//”äŠr‰‰Z‚ÌŒˆ’è‚ğ‚µ‚ÄğŒ®‚Æ‚·‚é
-template<class _T>
-std::function<bool(MusicData& music)> OperationSet(const String& op, const _T& (MusicData::*f)()const, const _T& value)
-{
-	std::function<bool(MusicData& music)> func = [](MusicData& m)->bool {return true; };
-
-	func = [value, f, op](MusicData& music)->bool {return CompareForOperator((music.*f)(), value, op); };
-
-	return func;
-}
-
-//˜_—‰‰Z‚ÌŒ‹‡
-void ChainSet(const String& chain, std::function<bool(MusicData& music)>&func, std::function<bool(MusicData& music)>&f)
-{
-	if (chain == L"OR")
-	{
-		func = [func, f](MusicData& music)->bool {return func(music) || f(music); };
-	}
-	else
-	{
-		func = [func, f](MusicData& music)->bool {return func(music) && f(music); };
-	}
-
-}
-
-template<class _T>
-void FunctionSet(CSVReader&csv,int index, const _T& (MusicData::*memfunc)()const, std::function<bool(MusicData& music)>&func,String& chain)
-{
-	const _T value = csv.get<_T>(index, 2);
-	const String op = csv.get<String>(index, 1);
-
-	auto f = ::OperationSet(op, memfunc, value);
-
-	::ChainSet(chain, func, f);
-
-	chain = L"AND";
-
-}
-
-template<class _T>
-void FunctionSetForNotesData(CSVReader&csv, int index, bool (MusicData::*memfunc)(const _T&,const String&)const, std::function<bool(MusicData&)>&func, String& chain)
-{
-	const _T value = csv.get<_T>(index, 2);
-	const String op = csv.get<String>(index, 1);
-
-	std::function<bool(MusicData&)>f = [value, memfunc, op](MusicData& music)->bool {return (music.*memfunc)(value,op); };
-
-	::ChainSet(chain, func, f);
-
-	chain = L"AND";
-
-}
-
-void LoadCustomFolder()
-{
-	const auto ctcfFiles = FileSystem::DirectoryContents(L"CustomFolder");
-
-	//‚±‚±‚©‚çƒf[ƒ^“Ç‚İ‚İ
-	for (const auto& path : ctcfFiles)
-	{
-		if (path.includes(L"ctfolder"))
-		{
-
-			CSVReader csv(path);
-
-			if (!csv)
-				continue;
-
-			//ƒ^ƒCƒgƒ‹
-			String title = L"CustomFolder";
-
-			std::function<bool(MusicData& music)> func = [](MusicData& music)->bool {return true; };
 
 
-			auto rows = csv.rows;				//s”
-			String head;						//1—ñ–Ú‚Ìƒf[ƒ^‚ğ•¶š—ñ‚Å
-			String chain = L"AND";				//AND or OR
-			std::stack<std::pair<std::function<bool(MusicData& music)>, String>> stack;//()—p
-
-			for (unsigned int i = 0; i < rows; ++i)
-			{
-
-				head = csv.get<String>(i, 0);
-
-				if (head.isEmpty)			//‹ós‚ÍƒXƒ‹[
-				{
-					continue;
-				}
-
-				if (head[0] == '%')//ƒRƒƒ“ƒg
-				{
-					continue;
-				}
-				if (head==L"(")
-				{
-					stack.emplace(func, chain);
-					func= [](MusicData& music)->bool {return true; };
-					chain = L"AND";
-				}
-				if (head == L")")
-				{
-					auto& top = stack.top();
-					ChainSet(top.second, func,top.first);
-					chain = L"AND";
-					stack.pop();
-				}
-				if (head == L"#TITLE")
-				{
-					title = csv.get<String>(i, 1);
-				}
-
-				if (head == L"AND" || head == L"OR")
-				{
-					chain = head;
-				}
-				if (head == L"BPM" || head == L"MINBPM")
-				{
-					::FunctionSet(csv, i, &(MusicData::getMinBPM), func, chain);
-				}
-
-				if (head == L"MAXBPM")
-				{
-					::FunctionSet(csv, i, &(MusicData::getMaxBPM), func, chain);
-				}
-
-				if (head == L"ARTIST")
-				{
-					::FunctionSet(csv, i, &(MusicData::getArtistName), func, chain);
-				}
-				if (head == L"MUSICNAME")
-				{
-					::FunctionSet(csv, i, &(MusicData::getMusicName), func, chain);
-				}
-				if (head == L"GENRE")
-				{
-					::FunctionSet(csv, i, &(MusicData::getGenreName), func, chain);
-				}
-				if (head == L"LEVEL")
-				{
-					::FunctionSetForNotesData(csv, i, &(MusicData::serchLevel), func, chain);
-				}
-				if (head == L"LEVELNAME")
-				{
-					::FunctionSetForNotesData(csv, i, &(MusicData::serchLevelName), func, chain);
-				}
-				if (head == L"NOTESARTIST")
-				{
-					::FunctionSetForNotesData(csv, i, &(MusicData::serchNotesArtistName), func, chain);
-				}
-				if (head == L"TOTALNOTE")
-				{
-					::FunctionSetForNotesData(csv, i, &(MusicData::serchTotalNotes), func, chain);
-				}
-				if (head == L"CLEARRATE")
-				{
-					::FunctionSetForNotesData(csv, i, &(MusicData::serchClearRate), func, chain);
-				}
-				if (head == L"CLEAR")
-				{
-					::FunctionSetForNotesData(csv, i, &(MusicData::serchClear), func, chain);
-				}
-				if (head == L"SPECIAL")
-				{
-					const String value = csv.get<String>(i, 2);
-					const String op = csv.get<String>(i, 1);
-
-					SpecialResult s;
-					if (value == L"AP")
-						s = SpecialResult::All_Perfect;
-					if (value == L"FC")
-						s = SpecialResult::Full_Combo;
-
-
-					std::function<bool(MusicData& music)>f = [value, op,s](MusicData& music)->bool {return music.serchSpecialResult(s, op); };
-
-					::ChainSet(chain, func, f);
-
-					chain = L"AND";
-
-				}
-
-
-
-			}
-
-
-
-			GenreManager::Add(GenreType::Custom, title, [func](MusicData& music)->bool {return !func(music); });
-
-
-		}
-	}
-
-}
-
+//ã‚³ãƒ¼ã‚¹ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 void LoadCourses()
 {
+	CourseGenreManager::Clear();
+	CourseData::Index = 0;
+
 	Array<CourseData>& courses = Game::Instance()->m_courses;
 
 	courses.clear();
 
-	const auto ctcFiles = FileSystem::DirectoryContents(L"Course");
+	const auto genreFiles = FileSystem::DirectoryContents(L"Course");
 
 	unsigned int musicSize = 0;
 
-	courses.reserve(ctcFiles.size());
+	//ãƒªã‚µãƒ¼ãƒ–
+	//courses.reserve(ctcFiles.size());
 
-	//‚±‚±‚©‚çŠy‹Èƒf[ƒ^“Ç‚İ‚İ
-	for (const auto& path : ctcFiles)
+	//ã“ã“ã‹ã‚‰æ¥½æ›²ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
+	for (const auto& gPath : genreFiles)
 	{
-		if (path.includes(L"ctc"))
-		{
-			courses.emplace_back(path);
-		}
-	}
+		const auto genreName = FileSystem::BaseName(gPath);
 
+		const auto ctcPaths = FileSystem::DirectoryContents(gPath);
+		for (const auto& path : ctcPaths)
+		{
+			if (path.includes(L"ctc"))
+			{
+				courses.emplace_back(path);
+			}
+		}
+		CourseGenreManager::Add(genreName);
+	}
 }
 
 //--------------------------------------------------------------------------------
-//Ã“Iƒƒ“ƒo’è‹`
+//é™çš„ãƒ¡ãƒ³ãƒå®šç¾©
 //--------------------------------------------------------------------------------
 std::future<void> FileLoad::m_loadResult = std::async(std::launch::async, []() {return; });
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//é–¢æ•°ï¼šã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //--------------------------------------------------------------------------------
 FileLoad::FileLoad() :m_timer(0), m_font(15)
 {
 	m_loadResult = std::async(std::launch::async, LoadMusicDatas);
-
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FƒfƒXƒgƒ‰ƒNƒ^
+//é–¢æ•°ï¼šãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //--------------------------------------------------------------------------------
 FileLoad::~FileLoad()
 {
@@ -360,12 +174,10 @@ FileLoad::~FileLoad()
 
 void FileLoad::init()
 {
-
 	m_data->m_scrollRate = Game::Instance()->m_config.m_scrollRate;
-
 }
 //--------------------------------------------------------------------------------
-//ŠÖ”Fupdate
+//é–¢æ•°ï¼šupdate
 //--------------------------------------------------------------------------------
 void FileLoad::update()
 {
@@ -378,12 +190,11 @@ void FileLoad::update()
 			System::Exit();
 
 		changeScene(L"title", 3000);
-
 	}
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”Fdraw
+//é–¢æ•°ï¼šdraw
 //--------------------------------------------------------------------------------
 void FileLoad::draw()const
 {
@@ -396,7 +207,6 @@ void FileLoad::draw()const
 	v.getFrameTexture().draw();
 
 	Rect(0,570, 800 * g_loadingRate, 30).draw(Color(0, 0, 0, 128));
-
 }
 
 void FileLoad::drawFadeIn(double t) const
@@ -409,7 +219,7 @@ void FileLoad::drawFadeIn(double t) const
 
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FdrawFadeOut
+//é–¢æ•°ï¼šdrawFadeOut
 //--------------------------------------------------------------------------------
 void FileLoad::drawFadeOut(double t) const
 {

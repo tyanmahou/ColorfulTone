@@ -1,5 +1,8 @@
-#include"CourseData.h"
+ï»¿#include"CourseData.h"
 #include"Game.h"
+
+int CourseData::Index = 0;
+
 void CourseData::serchNotes(const String & notePath)
 {
 	auto& musics = Game::Instance()->m_musics;
@@ -39,24 +42,20 @@ bool CourseData::load(const String & path)
 		return false;
 
 	m_fileName = FileSystem::BaseName(path);
+	m_genre = FileSystem::FileName(FileSystem::ParentPath(path));
 
-	BinaryReader saveReader(L"Score/CourseScore/" + m_fileName + L".bin");
-
+	BinaryReader saveReader(L"Score/CourseScore/" + m_genre + L"/" + m_fileName + L".bin");
 
 	if (saveReader)
 	{
 		saveReader.read<bool>(m_isClear);
-		//unsigned int ui_spResult;
-		//saveReader.read<unsigned int>(ui_spResult);
-		//m_specialResult = static_cast<SpecialResult>(ui_spResult);
-		//saveReader.read<float>(m_clearRate);
 	}
 
-	//ƒ^ƒCƒgƒ‹
+	//ã‚¿ã‚¤ãƒˆãƒ«
 	m_title = ini.getOr<String>(L"Data.TITLE", L"None");
 
-	//•ˆ–Êƒf[ƒ^‚ÌƒCƒ“ƒfƒbƒNƒXŒŸõ
-	//•ˆ–Êƒf[ƒ^
+	//è­œé¢ãƒ‡ãƒ¼ã‚¿ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æ¤œç´¢
+	//è­œé¢ãƒ‡ãƒ¼ã‚¿
 	for (int i = 0; true; ++i)
 	{
 		String notePath = ini.get<String>(Format(L"Course.COURSE", i));
@@ -73,4 +72,11 @@ bool CourseData::load(const String & path)
 		m_canPlay = false;
 
 	return true;
+}
+
+void CourseData::save(bool isClear)
+{
+	BinaryWriter writer(L"Score/CourseScore/" + this->m_genre + L"/" + this->m_fileName + L".bin");
+
+	writer.write(isClear);
 }
