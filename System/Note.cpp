@@ -256,6 +256,15 @@ void Note::tapUpdate(Score::Judge judge, Score& score)
 		PlayStyle::Instance()->drawTapEffect(7);
 		PlayStyle::Instance()->drawJudgeEffect(scoreMap.at(judge), 7);
 	}
+	else if (m_type == 18)
+	{
+		int type = m_isClicked[ColorIndex::Red] ? 1
+			: m_isClicked[ColorIndex::Blue] ? 2
+			: 3;
+
+		PlayStyle::Instance()->drawTapEffect(type);
+		PlayStyle::Instance()->drawJudgeEffect(scoreMap.at(judge), type);
+	}
 	else
 	{
 		PlayStyle::Instance()->drawTapEffect(m_type);
@@ -334,11 +343,21 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 	{
 		if (count <= countPerFrame && m_type != 9)
 		{
-			m_isClicked[ColorIndex::Red] = true;
-			m_isClicked[ColorIndex::Blue] = true;
-			m_isClicked[ColorIndex::Yellow] = true;
+			int type = m_type;
+			if (type == 18)
+			{
+				static int tap = 0;
+				++tap %= 3;
+				type = tap + 1;
+				m_isClicked[tap] = true;
+			}else {
+				m_isClicked[ColorIndex::Red] = true;
+				m_isClicked[ColorIndex::Blue] = true;
+				m_isClicked[ColorIndex::Yellow] = true;
+			}
 			tapUpdate(Score::Perfect, score);
-			AutoPlayManager::Instance()->input(m_type);
+
+			AutoPlayManager::Instance()->input(type);
 			return false;
 		}
 		return true;
