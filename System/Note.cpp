@@ -9,28 +9,6 @@
 #include"PlayStyle.h"
 namespace {
 	//--------------------------------------------------------------------------------
-	//関数：IsNeedBuutonClick
-	//--------------------------------------------------------------------------------
-	//概要：必要なボタンがクリックされたか
-	//--------------------------------------------------------------------------------
-
-	bool IsNeedBuutonClick(const NoteType type)
-	{
-		const auto tmp = type % 10;
-		switch (tmp)
-		{
-		case 1:return PlayKey::Red().clicked;
-		case 2:return PlayKey::Blue().clicked;
-		case 3:return PlayKey::Yellow().clicked;
-		case 4:return PlayKey::Blue().clicked || PlayKey::Yellow().clicked;
-		case 5:return PlayKey::Red().clicked || PlayKey::Yellow().clicked;
-		case 6:return PlayKey::Blue().clicked || PlayKey::Red().clicked;
-		case 7:return PlayKey::Blue().clicked || PlayKey::Yellow().clicked || PlayKey::Red().clicked;
-		}
-		return true;
-	}
-
-	//--------------------------------------------------------------------------------
 	//関数：GetColor
 	//--------------------------------------------------------------------------------
 	//概要：ノーツの色を取得
@@ -38,15 +16,20 @@ namespace {
 
 	Color GetColor(const NoteType type)
 	{
-		switch (type % 10)
+		switch (type)
 		{
-		case 1:return Palette::Red;
-		case 2:return Palette::Blue;
-		case 3:return Palette::Yellow;
-		case 4:return Palette::Green;
-		case 5:return Palette::Orange;
-		case 6:return Palette::Purple;
-
+		case 1:
+		case 11:return Palette::Red;
+		case 2:
+		case 12:return Palette::Blue;
+		case 3:
+		case 13:return Palette::Yellow;
+		case 4:
+		case 14:return Palette::Green;
+		case 5:
+		case 15:return Palette::Orange;
+		case 6:
+		case 16:return Palette::Purple;
 		}
 		return Palette::Black;
 	}
@@ -57,7 +40,7 @@ namespace {
 //--------------------------------------------------------------------------------
 
 
-Note::Note(const NoteType type, double firstCount, double speed):
+Note::Note(const NoteType type, double firstCount, double speed) :
 	Object(firstCount),
 	m_type(type),
 	m_scrollSpeed(speed)
@@ -122,7 +105,6 @@ Note::Note(const NoteType type, double firstCount, double speed):
 				m_isClicked[ColorIndex::Yellow] = true;
 			}
 			return m_isClicked[ColorIndex::Blue] && m_isClicked[ColorIndex::Yellow];
-
 		};
 		break;
 	case 5:
@@ -157,33 +139,53 @@ Note::Note(const NoteType type, double firstCount, double speed):
 				m_isClicked[ColorIndex::Blue] = true;
 			}
 			return m_isClicked[ColorIndex::Red] && m_isClicked[ColorIndex::Blue];
-
-
 		};
 		break;
+	case 7:
 	case 17:
-	case 7:m_judge = [&]()
-	{
-		if (PlayKey::Red().clicked && !m_isClicked[ColorIndex::Red])
+		m_judge = [&]()
 		{
-			m_isAnyClicked = true;
-			m_isClicked[ColorIndex::Red] = true;
-		}
-		if (PlayKey::Blue().clicked && !m_isClicked[ColorIndex::Blue])
+			if (PlayKey::Red().clicked && !m_isClicked[ColorIndex::Red])
+			{
+				m_isAnyClicked = true;
+				m_isClicked[ColorIndex::Red] = true;
+			}
+			if (PlayKey::Blue().clicked && !m_isClicked[ColorIndex::Blue])
+			{
+				m_isAnyClicked = true;
+				m_isClicked[ColorIndex::Blue] = true;
+			}
+			if (PlayKey::Yellow().clicked && !m_isClicked[ColorIndex::Yellow])
+			{
+				m_isAnyClicked = true;
+				m_isClicked[ColorIndex::Yellow] = true;
+			}
+			return m_isClicked[ColorIndex::Red] && m_isClicked[ColorIndex::Blue] && m_isClicked[ColorIndex::Yellow];
+		};
+		break;
+	case 18:
+		m_judge = [&]()
 		{
-			m_isAnyClicked = true;
-			m_isClicked[ColorIndex::Blue] = true;
-		}
-		if (PlayKey::Yellow().clicked && !m_isClicked[ColorIndex::Yellow])
-		{
-			m_isAnyClicked = true;
-			m_isClicked[ColorIndex::Yellow] = true;
-		}
-		return m_isClicked[ColorIndex::Red] && m_isClicked[ColorIndex::Blue] && m_isClicked[ColorIndex::Yellow];
-	};
-		   break;
+			if (PlayKey::Red().clicked)
+			{
+				m_isAnyClicked = true;
+				m_isClicked[ColorIndex::Red] = true;
+			}
+			if (PlayKey::Blue().clicked)
+			{
+				m_isAnyClicked = true;
+				m_isClicked[ColorIndex::Blue] = true;
+			}
+			if (PlayKey::Yellow().clicked)
+			{
+				m_isAnyClicked = true;
+				m_isClicked[ColorIndex::Yellow] = true;
+			}
+			return m_isClicked[ColorIndex::Red] || m_isClicked[ColorIndex::Blue] || m_isClicked[ColorIndex::Yellow];
+		};
 	case 9:
-		m_judge = [&]() {
+		m_judge = [&]()
+		{
 			if (PlayKey::Red().clicked)
 				m_isClicked[ColorIndex::Red] = true;
 			if (PlayKey::Blue().clicked)
@@ -211,7 +213,6 @@ void Note::init()
 	m_isClicked[ColorIndex::Blue] = false;
 	m_isClicked[ColorIndex::Yellow] = false;
 	m_isAnyClicked = false;
-
 }
 
 //--------------------------------------------------------------------------------
@@ -231,28 +232,34 @@ void Note::tapUpdate(Score::Judge judge, Score& score)
 	if (m_type == 9)
 	{
 		score.m_currentCombo = 0;
-		PlayStyle::Instance()->drawJudgeEffect(L"MISS",9);
+		PlayStyle::Instance()->drawJudgeEffect(L"MISS", 9);
 		score.m_judgeCount[Score::Miss]++;
 		m_isActive = false;
 		return;
 	}
+	//虹色単ノーツは必ずパフェ
+	if (m_type == 18)
+	{
+		judge = Score::Perfect;
+	}
 	SoundManager::SE::Play(scoreMap.at(judge));
 
 
-	if (m_type <= 7)
+	if (m_type <= 7 || m_type == 18)
 		m_isActive = false;
 
 	score.m_currentCombo++;
 	score.m_judgeCount[judge]++;
-	if (m_type % 10 == 7)
+
+	if (m_type == 7 || m_type == 17)
 	{
 		PlayStyle::Instance()->drawTapEffect(7);
-		PlayStyle::Instance()->drawJudgeEffect(scoreMap.at(judge),7);
+		PlayStyle::Instance()->drawJudgeEffect(scoreMap.at(judge), 7);
 	}
 	else
 	{
-		PlayStyle::Instance()->drawTapEffect(m_type%10);
-		PlayStyle::Instance()->drawJudgeEffect(scoreMap.at(judge), m_type%10);
+		PlayStyle::Instance()->drawTapEffect(m_type);
+		PlayStyle::Instance()->drawJudgeEffect(scoreMap.at(judge), m_type);
 	}
 }
 
@@ -276,17 +283,17 @@ void Note::tapMiss(Score& score)
 		return;
 	}
 	score.m_currentCombo = 0;
-	if (m_type % 10 == 7)
+	if (m_type == 7 || m_type == 17)
 		PlayStyle::Instance()->drawJudgeEffect(L"MISS", 7);
 	else
-		PlayStyle::Instance()->drawJudgeEffect(L"MISS",m_type%10);
+		PlayStyle::Instance()->drawJudgeEffect(L"MISS", m_type);
 
 	score.m_judgeCount[Score::Miss]++;
 
 	/*
 	ロングノーツの場合は、始点が押せなかった時点で終点分も同時にミスとする。
 	*/
-	if (m_type >= 11)
+	if (m_type >= 11 && m_type <=17)
 	{
 		score.m_judgeCount[Score::Miss]++;
 	}
@@ -325,7 +332,7 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 	//オートプレイ---------------------------------
 	if (AutoPlayManager::Instance()->m_autoPlay)
 	{
-		if (count <= countPerFrame&&m_type != 9)
+		if (count <= countPerFrame && m_type != 9)
 		{
 			m_isClicked[ColorIndex::Red] = true;
 			m_isClicked[ColorIndex::Blue] = true;
@@ -356,12 +363,12 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 		{
 			tapUpdate(Score::Good, score);
 		}
-		
+
 		RepeatEnd::notesTapCount = nowCount;
 
-		return false; //count < -JudgeRange(countPerFrame, Judge::Perfect);
+		return false;
 	}
-	return !m_isAnyClicked;//IsNeedBuutonClick(m_type);
+	return !m_isAnyClicked;
 }
 
 //----------------------------------------------------------------------------
@@ -404,7 +411,8 @@ bool Note::isFirstTap() const
 	case 7:
 	case 17:
 		return m_isClicked[ColorIndex::Red] && m_isClicked[ColorIndex::Blue] && m_isClicked[ColorIndex::Yellow];
-
+	case 18:
+		return m_isClicked[ColorIndex::Red] || m_isClicked[ColorIndex::Blue] || m_isClicked[ColorIndex::Yellow];
 	}
 	return false;
 }

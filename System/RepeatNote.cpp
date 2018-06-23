@@ -15,12 +15,27 @@ namespace
 			PlayStyle::Instance()->drawTapEffect(3);
 		SoundManager::SE::Play(L"PERFECT");
 	}
-
-
-
 }
 
 double RepeatEnd::notesTapCount = 0;
+
+RepeatEnd::RepeatEnd(double firstCount, double speed, std::shared_ptr<Note>& parent, double interval):
+	LongNote(10, firstCount, speed, parent),
+	m_interval(interval)
+{
+	//どれかおしたら
+	m_judge = []()
+	{
+		return PlayKey::Red().clicked || PlayKey::Blue().clicked || PlayKey::Yellow().clicked;
+	};
+}
+
+void RepeatEnd::init()
+{
+	m_isTap = false;
+	m_isStart = false;
+	LongNote::init();
+}
 
 bool RepeatEnd::update(double & nowCount, double & countPerFrame, Score & score, Sound & sound)
 {
@@ -47,7 +62,6 @@ bool RepeatEnd::update(double & nowCount, double & countPerFrame, Score & score,
 			m_lastCount = nowCount;
 			m_isTap = true;
 		}
-
 	}
 	else
 		//----------------------------------
@@ -92,6 +106,30 @@ void RepeatEnd::diffDraw(double count, float scrollRate) const
 	PlayStyle::Instance()->draw(*this, count, scrollRate);
 }
 
+void RepeatNote::init()
+{
+	m_isStart = false;
+	Note::init();
+}
+bool RepeatNote::update(double & nowCount, double & countPerFrame, Score & score, Sound & sound)
+{
+	if (!m_isActive)
+		return true;
+
+	const double count = m_count - nowCount;
+
+	//判定範囲まで到達してなければタップ処理を行わない
+	if (count > JudgeRange(countPerFrame, Judge::Good))
+		return true;
+
+	bool judge = PlayKey::Red().clicked || PlayKey::Blue().clicked || PlayKey::Yellow().clicked;
+
+	if ((judge || count <= 0) && m_isStart == false)
+	{
+		m_isStart = true;
+	}
+	return true;
+}
 void RepeatNote::diffDraw(double count, float scrollRate) const
 {
 	PlayStyle::Instance()->draw(*this, count, scrollRate);

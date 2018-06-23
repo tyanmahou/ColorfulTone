@@ -17,7 +17,6 @@
 
 void loadTexture()
 {
-
 	TextureAsset::Register(L"label", L"Resource/Img/label.png");
 
 	//タイトル
@@ -32,12 +31,9 @@ void loadTexture()
 	TextureAsset::Register(L"iconPlayCourse", L"Resource/Img/Title/TitleIcon/playCourse.png");
 	TextureAsset::Register(L"iconAccess", L"Resource/Img/Title/TitleIcon/access.png");
 
-
 	//キーコン
 	TextureAsset::Register(L"keyconBG", L"Resource/Img/KeyConfig/keyconBG.png");
 	TextureAsset::Register(L"keyconBG2", L"Resource/Img/KeyConfig/keyconBG2.png");
-
-
 
 	//選曲
 	TextureAsset::Register(L"bannerbg", L"Resource/Img/MusicSelect/panel.png");
@@ -47,7 +43,6 @@ void loadTexture()
 
 	TextureAsset::Register(L"coursebg", L"Resource/Img/MusicSelect/courseBG.png");
 
-
 	//ジャンルアイコン
 	TextureAsset::Register(L"genre_level1", L"Resource/Img/MusicSelect/icon/level1.png");
 	TextureAsset::Register(L"genre_level2", L"Resource/Img/MusicSelect/icon/level2.png");
@@ -56,11 +51,6 @@ void loadTexture()
 	TextureAsset::Register(L"genre_level5", L"Resource/Img/MusicSelect/icon/level5.png");
 	TextureAsset::Register(L"genre_file",   L"Resource/Img/MusicSelect/icon/file.png");
 	TextureAsset::Register(L"genre_all",    L"Resource/Img/MusicSelect/icon/red.png");
-
-
-
-
-
 
 	//リザルトシーン
 	TextureAsset::Register(L"resultBG1", L"Resource/Img/Result/resultBG1.png");
@@ -87,7 +77,6 @@ void loadTexture()
 
 	TextureAsset::Register(L"tapEffect2", L"Resource/Img/Main/tapeffect2.png");
 
-
 	TextureAsset::Register(L"portrait_notes9", L"Resource/Img/Main/ノーツ/portrait/portrait_notes.png");
 	TextureAsset::Register(L"portrait_notes1", L"Resource/Img/Main/ノーツ/portrait/portrait_notes1.png");
 	TextureAsset::Register(L"portrait_notes2", L"Resource/Img/Main/ノーツ/portrait/portrait_notes2.png");
@@ -97,8 +86,6 @@ void loadTexture()
 	TextureAsset::Register(L"portrait_notes6", L"Resource/Img/Main/ノーツ/portrait/portrait_notes6.png");
 	TextureAsset::Register(L"portrait_notes7", L"Resource/Img/Main/ノーツ/portrait/portrait_notes7.png");
 	TextureAsset::Register(L"portrait_notes10", L"Resource/Img/Main/ノーツ/portrait/portrait_notes10.png");
-
-
 
 	TextureAsset::Register(L"mainbg", L"Resource/Img/Main/back.png");
 	//隕石
@@ -135,7 +122,6 @@ void loadTexture()
 	TextureAsset::Register(L"center_6", L"Resource/Img/Main/center/purple.png");
 	TextureAsset::Register(L"center_7", L"Resource/Img/Main/center/white.png");
 
-
 	//バー
 	TextureAsset::Register(L"barBase", L"Resource/Img/Main/bar/base.png");
 	TextureAsset::Register(L"bar1", L"Resource/Img/Main/bar/bar1.png");
@@ -158,7 +144,6 @@ void loadTexture()
 	Mahou::VideoAsset::Register(L"titleBG",L"Resource/Movie/titleBG.avi", true);
 	Mahou::VideoAsset::Register(L"loading",L"Resource/Movie/loading.avi", true);
 	Mahou::VideoAsset::Register(L"start", L"Resource/Movie/start.avi", false);
-
 }
 //--------------------------------------------------------------------------------
 //関数：LoadSound

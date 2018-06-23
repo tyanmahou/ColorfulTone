@@ -23,7 +23,6 @@ namespace
 	//--------------------------------------------------------------------------------
 	//概要：ノーツが来る角度を取得
 	//--------------------------------------------------------------------------------
-
 	double GetAngle(NoteType type) {
 		static const std::unordered_map<NoteType, double> angleMap
 		{
@@ -34,20 +33,17 @@ namespace
 			{ 5,3 * Pi / 2 },
 			{ 6,5 * Pi / 6 },
 			{ 7,0 },
-
 		};
-		if (angleMap.count(type))
-			return angleMap.at(type);
+		if (angleMap.count(type % 10))
+			return angleMap.at(type % 10);
 
 		return 0.0;
 	}
-
 	//--------------------------------------------------------------------------------
 	//関数：GetTextureAngle
 	//--------------------------------------------------------------------------------
 	//概要：ノーツのテクスチャの角度を取得
 	//--------------------------------------------------------------------------------
-
 	double GetTextureAngle(NoteType type)
 	{
 		static const std::unordered_map<NoteType, double> textureAngleMap
@@ -59,21 +55,18 @@ namespace
 			{ 5,-Pi },
 			{ 6,-5.0*Pi / 3.0 },
 			{ 7,0.0 },
-
 		};
-		if (textureAngleMap.count(type))
-			return textureAngleMap.at(type);
+		if (textureAngleMap.count(type % 10))
+			return textureAngleMap.at(type % 10);
 
 		return 0.0;
 	}
-
 
 	//--------------------------------------------------------------------------------
 	//関数：GetTxetureName
 	//--------------------------------------------------------------------------------
 	//概要：ノーツのテクスチャの名前を取得
 	//--------------------------------------------------------------------------------
-
 	const String& GetTxetureName(NoteType type)
 	{
 		static const std::unordered_map<NoteType, String> textureNameMap
@@ -93,21 +86,13 @@ namespace
 			{ 15,L"comet_orange" },
 			{ 16,L"comet_purple" },
 			{ 17,L"comet_black" },
+			{ 18,L"note_rainbow" },
 		};
 		if (textureNameMap.count(type))
 			return textureNameMap.at(type);
 
 		return L"note_black";
 	}
-
-	//const Color ConvertColor(const Color& color)
-	//{
-	//	HSV hsv;
-	//	hsv.convertFrom(color.r / 255.0, color.g / 255.0, color.b / 255.0);
-	//	hsv.s = Min(0.5, hsv.s);
-	//	hsv.v = 1.0;
-	//	return hsv.toColor();
-	//}
 }
 
 void NormalStyle::drawFrame(bool red,bool blue,bool yellow, std::function<void()> drawCallback) const
@@ -124,7 +109,6 @@ void NormalStyle::drawFrame(bool red,bool blue,bool yellow, std::function<void()
 		mask.draw(ColorF(0.3, 0.3));
 		Graphics2D::SetBlendState(BlendState::Default);
 	}
-
 	{
 		util::Transformer2D t2d(Mat3x2::Scale(config.m_playScale, Vec2{ 400,300 }));
 
@@ -137,9 +121,7 @@ void NormalStyle::drawFrame(bool red,bool blue,bool yellow, std::function<void()
 		if (yellow)
 			TextureAsset(L"center_yellowlight").drawAt(400, 300);
 
-
 		TextureAsset(L"center_base").drawAt(400, 300);
-
 
 		//判定円
 		this->drawJudgeLine();
@@ -180,16 +162,21 @@ void NormalStyle::drawTapEffect(int type)
 	{
 		PlayMusicGame::GetEffect().add<TapEffect>(0, 9);
 		PlayMusicGame::GetEffect().add<TapEffect>(Pi, 9);
-	}else
-	if (type == 7)
+	}else if (type == 7 || type == 17)
 	{
 		PlayMusicGame::GetEffect().add<TapEffect>(1 * Pi / 6, 7);
 		PlayMusicGame::GetEffect().add<TapEffect>(9 * Pi / 6, 7);
 		PlayMusicGame::GetEffect().add<TapEffect>(5 * Pi / 6, 7);
 	}
+	else if (type == 18)
+	{
+		PlayMusicGame::GetEffect().add<TapEffect>(3 * Pi / 6, 7);
+		PlayMusicGame::GetEffect().add<TapEffect>(7 * Pi / 6, 7);
+		PlayMusicGame::GetEffect().add<TapEffect>(11 * Pi / 6, 7);
+	}
 	else
 	{
-		PlayMusicGame::GetEffect().add<TapEffect>(GetAngle(type), type);
+		PlayMusicGame::GetEffect().add<TapEffect>(GetAngle(type % 10), type % 10);
 	}
 }
 
@@ -199,7 +186,7 @@ void NormalStyle::drawJudgeEffect(const String & str, int type)
 	{
 		PlayMusicGame::GetEffect().add<JudgeEffect>(str, GetPos(3 * Pi / 2, 2400, 1.0f, 1.0));
 	}
-	else if (type == 7)
+	else if (type == 7 || type == 17)
 	{
 		PlayMusicGame::GetEffect().add<JudgeEffect>(str, GetPos(3 * Pi / 2, 2400, 1.0f, 1.0));
 	}
@@ -223,7 +210,7 @@ void NormalStyle::draw(const Note & note, double count, float scrollRate)const
 {
 	const NoteType type = note.getType();
 	const String& textureName = GetTxetureName(type);
-	const double angle = GetAngle(type%10);
+	const double angle = GetAngle(type);
 	const double& speed = note.getSpeed();
 
 	if (type >= 11 && note.isFirstTap())
@@ -233,12 +220,19 @@ void NormalStyle::draw(const Note & note, double count, float scrollRate)const
 
 	if (!Note::CanDraw(pos))
 		return;
-
-	if (type % 10 == 7)
+	const auto& texture = TextureAsset(textureName);
+	if (type == 7 || type == 17)
 	{
-		TextureAsset(textureName).rotate(-Pi / 3.0).drawAt(::GetPos((1 + (count*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, speed));
-		TextureAsset(textureName).rotate(-5.0*Pi / 3.0).drawAt(::GetPos((5 + (count*scrollRate) / 10000.0)* Pi / 6, count, scrollRate, speed));
-		TextureAsset(textureName).rotate(-Pi).drawAt(::GetPos((9 + (count*scrollRate) / 10000.0)* Pi / 6, count, scrollRate, speed));
+		texture.rotate(-Pi / 3.0).drawAt(::GetPos((1 + (count*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, speed));
+		texture.rotate(-5.0*Pi / 3.0).drawAt(::GetPos((5 + (count*scrollRate) / 10000.0)* Pi / 6, count, scrollRate, speed));
+		texture.rotate(-Pi).drawAt(::GetPos((9 + (count*scrollRate) / 10000.0)* Pi / 6, count, scrollRate, speed));
+		return;
+	}
+	else if (type == 18)
+	{
+		texture.drawAt(GetPos((3 + (-count * scrollRate) / 10000.0)*Pi / 6, count, scrollRate, speed));
+		texture.rotate(-4.0*Pi / 3.0).drawAt(GetPos((7 + (-count * scrollRate) / 10000.0)* Pi / 6, count, scrollRate, speed));
+		texture.rotate(-2.0*Pi / 3.0).drawAt(GetPos((11 + (-count * scrollRate) / 10000.0)* Pi / 6, count, scrollRate, speed));
 		return;
 	}
 	else if (type == 9)
@@ -246,21 +240,31 @@ void NormalStyle::draw(const Note & note, double count, float scrollRate)const
 		TextureAsset(L"note_white").drawAt(::GetPos(Pi, count, scrollRate,speed));
 	}
 
-	double textureAngle = ::GetTextureAngle(type % 10);
-	TextureAsset(textureName).rotate(textureAngle).drawAt(pos);
+	double textureAngle = ::GetTextureAngle(type);
+	texture.rotate(textureAngle).drawAt(pos);
 }
 
+namespace
+{
+	template<class ColorType>
+	void DrawLongTail(double count, double pCount,double speed,double pSpeed,float scrollRate,double offset,const Texture& texture,const ColorType& color,bool isReturn = false)
+	{
+		const float scroll = isReturn ? -scrollRate : scrollRate;
+		const Vec2 pos = ::GetPos((offset + (pCount*scroll) / 10000.0)*Pi / 6, count, scrollRate, speed);
+		const Vec2 pPos = ::GetPos((offset + (pCount*scroll) / 10000.0)*Pi / 6, pCount, scrollRate, pSpeed);
+		Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, color);
+		texture.rotate(Pi*(-(9-offset)/6.0)).drawAt(pos);
+	}
+}
 void NormalStyle::draw(const LongNote & note, double count, float scrollRate) const
 {
 	const auto parent = note.getParent();
-	const auto angle = ::GetAngle(parent->getType() % 10);
+	const auto angle = ::GetAngle(parent->getType());
 	const auto& speed = note.getSpeed();
 	const NoteType type = note.getType();
 	const String& textureName = GetTxetureName(type);
 	const Color& color = note.getColor();
 	Vec2 pos = ::GetPos(angle, count, scrollRate, speed);
-
-
 
 	const double nowCount = note.getDrawCount() - count;
 	auto pCount = parent->getDrawCount() - nowCount;
@@ -273,29 +277,15 @@ void NormalStyle::draw(const LongNote & note, double count, float scrollRate) co
 
 	if (type == 17)
 	{
-		{
-			const Vec2 pos = ::GetPos((1 + (pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, speed);
-			const Vec2 pPos = ::GetPos((1 + (pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate, parent->getSpeed());
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, color);
-			TextureAsset(textureName).rotate(-4.0*Pi / 3.0).drawAt(pos);
-		}
-		{
-			const Vec2 pos = GetPos((5 + (pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, speed);
-			const Vec2 pPos = GetPos((5 + (pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate, parent->getSpeed());
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, color);
-			TextureAsset(textureName).rotate(-2.0*Pi / 3.0).drawAt(pos);
-		}
-		{
-			const Vec2 pos = GetPos((9 + (pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, speed);
-			const Vec2 pPos = GetPos((9 + (pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate, parent->getSpeed());
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, color);
-			TextureAsset(textureName).drawAt(pos);
-		}
+		const TextureAsset& texture = TextureAsset(textureName);
+		::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 1,texture, color);
+		::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 5,texture, color);
+		::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 9,texture, color);
 		return;
 	}
 	Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, color);
 
-	double textureAngle = ::GetTextureAngle(type%10)-Pi;
+	double textureAngle = ::GetTextureAngle(type)-Pi;
 	TextureAsset(textureName).rotate(textureAngle).drawAt(pos);
 }
 
@@ -311,7 +301,7 @@ void NormalStyle::draw(const RepeatNote & note, double count, float scrollRate) 
 		return;
 
 	{
-		auto& texture = TextureAsset(L"comet_rainbow_head");
+		const auto& texture = TextureAsset(L"comet_rainbow_head");
 		texture.drawAt(GetPos((3 + (-count*scrollRate) / 10000.0)*Pi / 6, count, scrollRate,speed));
 		texture.rotate(-4.0*Pi / 3.0).drawAt(GetPos((7 + (-count*scrollRate) / 10000.0)* Pi / 6, count, scrollRate, speed));
 		texture.rotate(-2.0*Pi / 3.0).drawAt(GetPos((11 + (-count*scrollRate) / 10000.0)* Pi / 6, count, scrollRate, speed));
@@ -334,31 +324,14 @@ void NormalStyle::draw(const RepeatEnd & note, double count, float scrollRate) c
 	if (!Note::CanDraw(pPos) && !Note::CanDraw(pos))
 		return;
 
-
-
 	{
 		Color c1 = HSV(static_cast<int>(count / 10) % 360, 0.5, 1);
 		Color c2 = HSV((static_cast<int>(count / 10) + 72) % 360, 0.5, 1);
 
-		auto& texture = TextureAsset(L"comet_rainbow_tail");
-		{
-			const Vec2 pos = GetPos((3 + (-pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, speed);
-			const Vec2 pPos = GetPos((3 + (-pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate,parent->getSpeed());
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, {c1,c2 });
-			texture.drawAt(pos);
-		}
-		{
-			const Vec2 pos = GetPos((7 + (-pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, speed);
-			const Vec2 pPos = GetPos((7 + (-pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate, parent->getSpeed());
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, { c1,c2 });
-			texture.rotate(-4.0*Pi / 3.0).drawAt(pos);
-		}
-		{
-			const Vec2 pos = GetPos((11 + (-pCount*scrollRate) / 10000.0)*Pi / 6, count, scrollRate, speed);
-			const Vec2 pPos = GetPos((11 + (-pCount*scrollRate) / 10000.0)*Pi / 6, pCount, scrollRate, parent->getSpeed());
-			Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, { c1,c2 });
-			texture.rotate(-2.0*Pi / 3.0).drawAt(pos);
-		}
-
+		const auto& texture = TextureAsset(L"comet_rainbow_tail");
+		const Color(&color)[2] = { c1,c2 };
+		::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate,3, texture,color,true);
+		::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 7, texture, color, true);
+		::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 11, texture, color, true);
 	}
 }

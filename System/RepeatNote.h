@@ -16,34 +16,9 @@ public:
 		Note(10,firstCount,speed)
 	{}
 
-	void init()override
-	{
-		m_isStart = false;
-		Note::init();
-	}
+	void init()override;
 
-	bool update(double& nowCount, double& countPerFrame, Score& score, Sound& sound)override
-	{
-		if (!m_isActive)
-			return true;
-
-		const double count= m_count - nowCount;
-
-		//判定範囲まで到達してなければタップ処理を行わない
-		if (count > JudgeRange(countPerFrame, Judge::Good))
-			return true;
-
-		bool judge = PlayKey::Red().clicked || PlayKey::Blue().clicked || PlayKey::Yellow().clicked;
-
-		if ((judge||count <= 0 )&& m_isStart == false)
-		{
-			m_isStart = true;
-		}
-
-
-
-		return true;
-	}
+	bool update(double& nowCount, double& countPerFrame, Score& score, Sound& sound)override;
 	void diffDraw(double count, float scrollRate)const override;
 
 	bool isFirstTap()const override
@@ -63,22 +38,8 @@ private:
 public:
 	static double notesTapCount;
 
-	RepeatEnd(double firstCount, double speed, std::shared_ptr<Note>& parent,double interval=8.0):
-		LongNote(10,firstCount,speed,parent),
-		m_interval(interval)
-	{
-		//どれかおしたら
-		m_judge = []()
-		{
-			return PlayKey::Red().clicked || PlayKey::Blue().clicked || PlayKey::Yellow().clicked;
-		};
-	}
-	void init()override
-	{
-		m_isTap = false;
-		m_isStart = false;
-		LongNote::init();
-	}
+	RepeatEnd(double firstCount, double speed, std::shared_ptr<Note>& parent, double interval = 8.0);
+	void init()override;
 	bool update(double& nowCount, double& countPerFrame, Score& score, Sound& sound)override;
 	void diffDraw(double count, float scrollRate)const override;
 };

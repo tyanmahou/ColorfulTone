@@ -69,7 +69,7 @@ LongNote::LongNote(int type, double firstCount,  double speed, std::shared_ptr<N
 //
 void LongNote::perfect(Score& score)
 {
-	PlayStyle::Instance()->drawJudgeEffect(L"PERFECT", m_parent->getType()%10);
+	PlayStyle::Instance()->drawJudgeEffect(L"PERFECT", m_parent->getType());
 	score.m_currentCombo++;
 	score.m_judgeCount[Score::Perfect]++;
 	m_isActive = false;
@@ -78,7 +78,7 @@ void LongNote::perfect(Score& score)
 
 void LongNote::miss(Score& score)
 {
-	PlayStyle::Instance()->drawJudgeEffect(L"MISS", m_parent->getType() % 10);
+	PlayStyle::Instance()->drawJudgeEffect(L"MISS", m_parent->getType());
 	score.m_currentCombo = 0;
 	score.m_judgeCount[Score::Miss]++;
 	m_isActive = false;
@@ -107,7 +107,7 @@ bool LongNote::update(double& nowCount, double& countPerFrame, Score& score, Sou
 		{
 			PlayStyle::Instance()->drawTapEffect(7);
 		}else
-			PlayStyle::Instance()->drawTapEffect(m_parent->getType() % 10);
+			PlayStyle::Instance()->drawTapEffect(m_parent->getType());
 	}
 	//オートプレイ----------------------
 	if (AutoPlayManager::Instance()->m_autoPlay) 

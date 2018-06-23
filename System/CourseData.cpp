@@ -18,7 +18,6 @@ void CourseData::serchNotes(const String & notePath)
 		const String mName = m.getGenreName() + L"/" + m.getFileName() + L"/";
 		if (mName == dirPath)
 		{
-
 			for (auto&& notes : m.getNotesData())
 			{
 				if (notes.getFileName() == fileName)

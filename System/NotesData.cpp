@@ -4,7 +4,7 @@
 #include"RepeatNote.h"
 namespace
 {
-	unsigned GetLastStopIndex(const double count,const Array<StopInfo>& stopInfos)
+	unsigned GetLastStopIndex(const double count, const Array<StopInfo>& stopInfos)
 	{
 		for (unsigned k = 0; k < stopInfos.size(); ++k)
 		{
@@ -13,11 +13,10 @@ namespace
 				return k - 1;
 			}
 		}
-	
-		return stopInfos.size()-1;
+		return stopInfos.size() - 1;
 	}
 
-	double GetJudgeOffset(const double count,const Array<StopInfo>& stopInfos)
+	double GetJudgeOffset(const double count, const Array<StopInfo>& stopInfos)
 	{
 		double judgeOffset = 0;
 
@@ -30,9 +29,8 @@ namespace
 
 		return judgeOffset;
 	}
-
 }
-NotesData::NotesData(const String& genreName,const String& dirPath, const String& filePath):
+NotesData::NotesData(const String& genreName, const String& dirPath, const String& filePath) :
 	m_bpm(120),
 	m_offsetSample(0),
 	m_lv(0),
@@ -45,15 +43,12 @@ NotesData::NotesData(const String& genreName,const String& dirPath, const String
 	m_maxBarCount(0),
 	m_color(Palette::White)
 {
-
-
-	CSVReader csv(dirPath+filePath);
+	CSVReader csv(dirPath + filePath);
 	if (!csv)
 		return;
 	//セーブデータの読み込み
 	m_fileName = filePath.remove(L".csv");
-	BinaryReader saveReader(L"Score/"+genreName+L"/" + FileSystem::FileName(dirPath) + L"/" + m_fileName + L".bin");
-
+	BinaryReader saveReader(L"Score/" + genreName + L"/" + FileSystem::FileName(dirPath) + L"/" + m_fileName + L".bin");
 
 	if (saveReader)
 	{
@@ -66,14 +61,11 @@ NotesData::NotesData(const String& genreName,const String& dirPath, const String
 
 	//ここから譜面データ
 	this->load(csv);
-
-
-
 }
-void NotesData::init() 
+void NotesData::init()
 {
 	RepeatEnd::notesTapCount = 0;
-	for (auto&& elm : m_objects) 
+	for (auto&& elm : m_objects)
 	{
 		elm->init();
 	}
@@ -88,7 +80,7 @@ void NotesData::synchroCount(const Sound & sound, double & nowCount)
 	const auto sample = sound.samplesPlayed();
 #endif
 
-	for (unsigned int i = 0; i<m_tempoInfos.size(); ++i)
+	for (unsigned int i = 0; i < m_tempoInfos.size(); ++i)
 	{
 		if (sample >= m_tempoInfos.at(i).m_changeSample)
 		{
@@ -100,10 +92,9 @@ void NotesData::synchroCount(const Sound & sound, double & nowCount)
 	const auto b = currentTempo(sound);
 
 	nowCount = NotesData::RESOLUTION * b.bar + NotesData::RESOLUTION * (b.f);
-
 }
 
-void NotesData::update(Sound& sound,double& nowCount, Score& score)
+void NotesData::update(Sound& sound, double& nowCount, Score& score)
 {
 
 	this->synchroCount(sound, nowCount);
@@ -130,7 +121,7 @@ void NotesData::update(Sound& sound,double& nowCount, Score& score)
 
 	for (auto&& elm : m_objects)
 	{
-		if (!elm->update(nowCount,countPerFrame, score, sound))
+		if (!elm->update(nowCount, countPerFrame, score, sound))
 			break;
 	}
 }
@@ -148,8 +139,8 @@ void NotesData::previewDraw(const double& nowCount, float scrollRate)const
 
 	for (auto it = m_objects.rbegin(); it != m_objects.rend(); it++)
 	{
-		if((*it)->getDrawCount()>=nowCount)
-		(*it)->draw(nowCount, scrollRate);
+		if ((*it)->getDrawCount() >= nowCount)
+			(*it)->draw(nowCount, scrollRate);
 	}
 
 }
@@ -183,7 +174,6 @@ void NotesData::load(CSVReader & csv)
 
 	for (unsigned int i = 0; i < rows; i++)
 	{
-
 		head = csv.get<String>(i, 0);
 
 		if (head.isEmpty)			//空行はスルー
@@ -204,7 +194,6 @@ void NotesData::load(CSVReader & csv)
 
 			for (int j = 0; j < col; ++j) //この小節のノーツ読み込み
 			{
-
 				int type = csv.get<int>(i, j);
 
 				if (!type) {
@@ -235,22 +224,32 @@ void NotesData::load(CSVReader & csv)
 				std::shared_ptr<Note> note;
 
 				if (type == 10)//連打ノーツかどうか
+				{
 					note = std::make_shared<RepeatNote>(count + judgeOffset, spd);
+				}
 				else
+				{
 					note = std::make_shared<Note>(type, count + judgeOffset, spd);
-
-				if (type >= 10)//ロングノーツの場合親ノーツを保存
+				}
+				if (type >= 10 && type <= 17)//ロングノーツの場合親ノーツを保存
 					parentNote = note;
 
-				if (type != 8)	//ロング終点でないならベクタに追加
-					m_objects.emplace_back(note);
-				else //ロングの終点判定
+				//ベクタに追加
+				if (type == 8)
 				{
 					if (parentNote->getType() == 10)//親が連打ノーツか
+					{
 						m_objects.emplace_back(std::make_shared<RepeatEnd>(count + judgeOffset, spd, parentNote, repeatInterval));
+					}
 					else
+					{
 						m_objects.emplace_back(std::make_shared<LongNote>(parentNote->getType(), count + judgeOffset, spd, parentNote));
+					}
 				}
+				else {
+					m_objects.emplace_back(note);
+				}
+
 			}
 			measures.push(nowMeasure);
 			nowCount += NotesData::RESOLUTION*nowMeasure;
@@ -258,38 +257,32 @@ void NotesData::load(CSVReader & csv)
 		}
 		else						//その他
 		{
-
 			if (head == L"#NOTE")
 			{
 				m_notesArtistName = csv.getOr<String>(i, 1, L"None");
 			}
-			else
-			if (head == L"#LEVEL")
+			else if (head == L"#LEVEL")
 			{
 				m_lv = csv.getOr<int>(i, 1, 0);
 				m_lvName = csv.getOr<String>(i, 2, L"None");
 			}
-			else
-			if (head == L"#BPM")
+			else if (head == L"#BPM")
 			{
 				m_bpm = csv.getOr<BPMType>(i, 1, 120);
 				nowBPM = m_bpm;
 			}
-			else
-			if (head == L"#OFFSET")
+			else if (head == L"#OFFSET")
 			{
 				m_offsetSample = csv.getOr<int>(i, 1, 0);
 				totalSample += m_offsetSample;
 			}
-			else
-			if (head == L"#SCROLL")
+			else if (head == L"#SCROLL")
 			{
 				int col = csv.columns(i);
 				for (int j = 1; j < col; ++j)
-				noteSpeed.push(csv.get<double>(i, j));
+					noteSpeed.push(csv.get<double>(i, j));
 			}
-			else
-			if (head == L"#BPMCHANGE")
+			else if (head == L"#BPMCHANGE")
 			{
 				/*
 				240:9600=x:n
@@ -303,7 +296,7 @@ void NotesData::load(CSVReader & csv)
 				{
 					const double tmp1 = 4 * 44100 * 60 / nowBPM;
 					const double tmp2 = 4 * 44100 * 60 / bpm;
-					
+
 					double preBPMSample = (count - lastBPMChangeCount)*tmp1 / static_cast<double>(NotesData::RESOLUTION);
 					totalSample += preBPMSample;
 					tempoInfo.emplace_back(totalSample, totalSample - count / static_cast<double>(NotesData::RESOLUTION)*tmp2, bpm);
@@ -311,39 +304,32 @@ void NotesData::load(CSVReader & csv)
 				nowBPM = bpm;
 				lastBPMChangeCount = count;
 			}
-			else
-			if (head == L"#STOP")
+			else if (head == L"#STOP")
 			{
 				double count = nowCount + NotesData::RESOLUTION*nowMeasure*csv.getOr<double>(i, 3, 0) / csv.getOr<double>(i, 4, 1);
 				double judgeOffset = GetJudgeOffset(count, stopInfos);
 				double range = NotesData::RESOLUTION*nowMeasure*csv.getOr<double>(i, 1, 0) / csv.getOr<double>(i, 2, 1);
 				m_stopRanges.emplace_back(count + judgeOffset, range);
-
 			}
-			else
-			if (head == L"#DIRECTSTOP")
+			else if (head == L"#DIRECTSTOP")
 			{
 				double count = nowCount + NotesData::RESOLUTION*nowMeasure*csv.getOr<double>(i, 2, 0) / csv.getOr<double>(i, 3, 1);
 				const double stopSec = csv.getOr<double>(i, 1, 120);
-				const double range = stopSec*nowBPM*static_cast<double>(NotesData::RESOLUTION) / 240.0;
+				const double range = stopSec * nowBPM*static_cast<double>(NotesData::RESOLUTION) / 240.0;
 				stopInfos.emplace_back(count, stopInfos[stopInfos.size() - 1].m_totalOffset + range);
 
 				double judgeOffset = GetJudgeOffset(count, stopInfos);
-											m_stopRanges.emplace_back(count + judgeOffset, range);
-
+				m_stopRanges.emplace_back(count + judgeOffset, range);
 			}
-			else
-			if (head == L"#MEASURE")
+			else if (head == L"#MEASURE")
 			{
 				nowMeasure = csv.getOr<double>(i, 1, 1.0) / csv.getOr<double>(i, 2, 1.0);
 			}
-			else
-			if (head == L"#SCROLLBASE")
+			else if (head == L"#SCROLLBASE")
 			{
 				scrollBaseSpeed = csv.getOr<double>(i, 1, 1.0);
 			}
-			else
-			if (head == L"#INTERVAL")
+			else if (head == L"#INTERVAL")
 			{
 				repeatInterval = csv.getOr<double>(i, 1, 8.0);
 				if (repeatInterval <= 0)
@@ -351,31 +337,26 @@ void NotesData::load(CSVReader & csv)
 					repeatInterval = 8.0;
 				}
 			}
-			else
-			if (head == L"#TEXT")
+			else if (head == L"#TEXT")
 			{
 				double count = nowCount + NotesData::RESOLUTION*nowMeasure*csv.getOr<double>(i, 3, 0) / csv.getOr<double>(i, 4, 1);
 				const double drawSec = csv.getOr<double>(i, 2, 2);
 				const String msg = csv.getOr<String>(i, 1, L"");
-	
+
 				double judgeOffset = GetJudgeOffset(count, stopInfos);
-	
+
 				m_objects.emplace_back(std::make_shared<TextObject>(count + judgeOffset, msg, drawSec));
-	
 			}
-			else
-			if (head == L"#COLOR")
+			else if (head == L"#COLOR")
 			{
 				const String colorHex = csv.getOr<String>(i, 1, L"#FFFFFF");
 				m_color = Color(colorHex);
 			}
-			else
-			if (head == L"#END")
+			else if (head == L"#END")
 			{
 				break;
 			}
 		}
-
 	}
 
 	m_totalNotes = totalNotes;
@@ -410,8 +391,6 @@ void NotesData::load(CSVReader & csv)
 	//同期クラス作成等の初期化
 	init();
 
-
 	int lv = m_lv;
 	GenreManager::Add(GenreType::Lv, Format(L"LEVEL:", lv), [lv](MusicData& music)->bool {return !(music.includesLV(lv)); }, lv);
-
 }

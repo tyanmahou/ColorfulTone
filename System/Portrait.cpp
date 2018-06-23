@@ -187,7 +187,7 @@ namespace
 {
 	Color GetColor(NoteType type)
 	{
-		switch (type)
+		switch (type % 10)
 		{
 		case 1:return Palette::Red;
 		case 2:return Palette::Blue;
@@ -330,7 +330,7 @@ void Portrait::draw(const LongNote & note, double count, float scrollRate) const
 	Color c2 = GetColor(type % 10);
 
 
-	if (type % 10 == 5)
+	if (type == 5 || type == 15)
 	{
 		DrawLong(400 - g_width / 2, pY, 21, y - pY, c1, c2);
 		DrawLong(400 + g_width / 2, pY, 21, y - pY, c1, c2);
