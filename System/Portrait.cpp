@@ -14,15 +14,6 @@ namespace
 {
 	constexpr double g_width = 252;
 
-	//const Color ConvertColor(const Color& color)
-	//{
-	//	HSV hsv;
-	//	hsv.convertFrom(color.r / 255.0, color.g / 255.0, color.b / 255.0);
-	//	hsv.s = Min(0.5, hsv.s);
-	//	hsv.v = 1.0;
-	//	return hsv.toColor();
-	//}
-
 	double GetX(NoteType type)
 	{
 		switch (type % 10)
@@ -49,7 +40,6 @@ namespace
 		return !(y <450 - 500.0 / scale || y>150.0 + 500.0 / scale);
 		//return !(y <= -50 || y > 650);
 	}
-
 }
 
 
@@ -61,10 +51,7 @@ void Portrait::drawFrame(bool red, bool blue, bool yellow, std::function<void()>
 	const double w = g_width *config.m_playScale;
 	Rect(400 - w / 2, 0, w, 600).draw(ColorF(0.3, 0.6));
 	Graphics2D::SetBlendState(BlendState::Default);
-
-
 	{
-
 		util::Transformer2D t2d(Mat3x2::Scale(config.m_playScale, Vec2{ 400,500 }));
 
 		constexpr double height = 400;
@@ -82,9 +69,7 @@ void Portrait::drawFrame(bool red, bool blue, bool yellow, std::function<void()>
 		{
 			constexpr Color color[4] = { ColorF(1,1,0,0),ColorF(1,1,0,0),Palette::White,Palette::White };
 			Rect(400 + g_width / 6, 500 - height, g_width / 3, height).draw(color);
-
 		}
-
 
 		this->drawJudgeLine();
 
@@ -93,19 +78,16 @@ void Portrait::drawFrame(bool red, bool blue, bool yellow, std::function<void()>
 
 		PlayMusicGame::GetEffect(1).update();
 		Graphics2D::SetBlendState(BlendState::Default);
-
 	}
 }
 
 void Portrait::drawJudgeLine() const
 {
-
 	static constexpr Color judgeLineColor(255, 165, 0, 255);
 
 	const double Y = GetY(0);
 	//判定円
 	Line({ 400 - g_width / 2,Y }, { 400 + g_width / 2,Y }).draw(15, judgeLineColor);
-
 }
 
 void Portrait::drawComboAndRate(int combo, float rate)
@@ -148,21 +130,18 @@ void Portrait::drawTapEffect(int type)
 		return g_width;
 	};
 
-	if (type % 10 == 5)
+	if (type == 5 || type == 15)
 	{
 		PlayMusicGame::GetEffect().add<TapEffect2>(GetX(1), getWidth(1));
 		PlayMusicGame::GetEffect().add<TapEffect2>(GetX(3), getWidth(3));
 		PlayMusicGame::GetEffect(1).add<TapEffect2_2>(400 - g_width / 2);
 		PlayMusicGame::GetEffect(1).add<TapEffect2_2>(400 + g_width / 2);
-
 	}
 	else
 	{
 		PlayMusicGame::GetEffect(1).add<TapEffect2>(GetX(type), getWidth(type));
 		PlayMusicGame::GetEffect(1).add<TapEffect2_2>(GetX(type));
-
 	}
-
 }
 
 void Portrait::drawJudgeEffect(const String & str, int type)
@@ -174,13 +153,11 @@ void Portrait::draw(const Bar & note, double count, float scrollRate) const
 {
 	double y = GetY(count, scrollRate, note.getSpeed());
 
-
 	if (!CanDraw(y))
 		return;
 
 	if(note.getSpeed()!=0)
 	Line({ 400 - g_width / 2,y }, { 400 + g_width / 2,y }).draw(4, ColorF(0, 0.2));
-
 }
 
 namespace
@@ -221,6 +198,7 @@ namespace
 			{ 15,L"portrait_notes5"	},
 			{ 16,L"portrait_notes6"	},
 			{ 17,L"portrait_notes7"	},
+			{ 18,L"portrait_notes10" },
 		};
 		if (textureNameMap.count(type))
 			return textureNameMap.at(type);
@@ -270,6 +248,7 @@ namespace
 				.drawFrame(0.5, 0.5, color);
 			break;
 		case 10:
+		case 18:
 			tex.scale(3.0, 1).drawAt(400, y)
 				.drawFrame(0.5, 0.5,Palette::Black);
 		default:
@@ -288,7 +267,7 @@ void Portrait::draw(const Note & note, double count, float scrollRate) const
 
 	const NoteType type = note.getType();
 
-	if (type >= 11 && note.isFirstTap())
+	if (type >= 11 && type <= 17 && note.isFirstTap())
 		count = 0;
 
 	double y = GetY(count, scrollRate, note.getSpeed());
@@ -296,7 +275,7 @@ void Portrait::draw(const Note & note, double count, float scrollRate) const
 	if (!CanDraw(y))
 		return;
 
-	Draw(y, type % 10);
+	Draw(y, type);
 }
 
 
@@ -327,7 +306,7 @@ void Portrait::draw(const LongNote & note, double count, float scrollRate) const
 
 
 	Color c1 = color;
-	Color c2 = GetColor(type % 10);
+	Color c2 = GetColor(type);
 
 
 	if (type == 5 || type == 15)
@@ -350,7 +329,6 @@ void Portrait::draw(const RepeatNote & note, double count, float scrollRate) con
 
 	if (!CanDraw(y))
 		return;
-
 
 	Draw(y, 10);
 }

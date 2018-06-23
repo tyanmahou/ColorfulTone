@@ -250,10 +250,12 @@ namespace
 	void DrawLongTail(double count, double pCount,double speed,double pSpeed,float scrollRate,double offset,const Texture& texture,const ColorType& color,bool isReturn = false)
 	{
 		const float scroll = isReturn ? -scrollRate : scrollRate;
+		const double rotate = isReturn ? Pi * (-(15 - offset) / 6.0)
+			:Pi * (-(9 - offset) / 6.0);
 		const Vec2 pos = ::GetPos((offset + (pCount*scroll) / 10000.0)*Pi / 6, count, scrollRate, speed);
 		const Vec2 pPos = ::GetPos((offset + (pCount*scroll) / 10000.0)*Pi / 6, pCount, scrollRate, pSpeed);
 		Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, color);
-		texture.rotate(Pi*(-(9-offset)/6.0)).drawAt(pos);
+		texture.rotate(rotate).drawAt(pos);
 	}
 }
 void NormalStyle::draw(const LongNote & note, double count, float scrollRate) const
