@@ -7,6 +7,7 @@ enum class SortMode
 	FileName,
 	MusicName,
 	ArtistName,
+	LastUpdateAt,
 	Default = FileName
 };
 

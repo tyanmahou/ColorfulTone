@@ -152,7 +152,8 @@ namespace
 		{
 		case SortMode::FileName:return SortMode::MusicName;
 		case SortMode::MusicName:return SortMode::ArtistName;
-		case SortMode::ArtistName:return SortMode::FileName;
+		case SortMode::ArtistName:return SortMode::LastUpdateAt;
+		case SortMode::LastUpdateAt:return SortMode::FileName;
 		}
 		return SortMode::Default;
 	}
@@ -171,6 +172,10 @@ namespace
 		case SortMode::ArtistName:return  [](const MusicData& l, const MusicData& r)
 		{
 			return 	l.getArtistName() < r.getArtistName();
+		};
+		case SortMode::LastUpdateAt:return  [](const MusicData& l, const MusicData& r)
+		{
+			return 	l.getLastUpdateAt() > r.getLastUpdateAt();
 		};
 		}
 		return SortFunc(SortMode::Default);
@@ -641,6 +646,7 @@ void MusicSelectScene::draw()const
 			case SortMode::FileName:return L"ファイル順";
 			case SortMode::MusicName:return L"曲名順";
 			case SortMode::ArtistName:return L"アーティスト名順";
+			case SortMode::LastUpdateAt:return L"更新日時順";
 			}
 			return L"None";
 		};

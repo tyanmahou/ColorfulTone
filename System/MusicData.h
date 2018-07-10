@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include"NotesData.h"
 
 
@@ -76,24 +76,25 @@ public:
 	static int Index;
 private:
 
-	String m_musicName;		//‹È–¼
-	String m_artistName;	//ƒA[ƒeƒBƒXƒg–¼
-	String m_genreName;		//ƒWƒƒƒ“ƒ‹–¼
-	Texture m_texture;		//ƒWƒƒƒPŠG
+	String m_musicName;		//æ›²å
+	String m_artistName;	//ã‚¢ãƒ¼ãƒ†ã‚£ã‚¹ãƒˆå
+	String m_genreName;		//ã‚¸ãƒ£ãƒ³ãƒ«å
+	Texture m_texture;		//ã‚¸ãƒ£ã‚±çµµ
 
 	BPMType m_minbpm,m_maxbpm;	//bpm
 
-	Mahou::SoundBar m_minBar, m_maxBar;//bpm‚Ìbeat
+	Mahou::SoundBar m_minBar, m_maxBar;//bpmã®beat
 
-	mutable EasingController<BPMType> m_bpm;	//•Ô‚è’l—p
+	mutable EasingController<BPMType> m_bpm;	//è¿”ã‚Šå€¤ç”¨
 
-	ABLoop m_loop;					//ƒ‹[ƒv”ÍˆÍ
+	ABLoop m_loop;					//ãƒ«ãƒ¼ãƒ—ç¯„å›²
 
-	Array<NotesData> m_notesDatas;	//•ˆ–Êî•ñ
+	Array<NotesData> m_notesDatas;	//è­œé¢æƒ…å ±
 
-	String m_fileName;		//ƒtƒ@ƒCƒ‹‚Ì–¼‘O
+	String m_fileName;		//ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰
 
-	String m_soundNameID;	//ƒAƒZƒbƒg‚Ö‚ÌƒAƒNƒZƒX
+	String m_soundNameID;	//ã‚¢ã‚»ãƒƒãƒˆã¸ã®ã‚¢ã‚¯ã‚»ã‚¹
+	DateTime m_lastUpdateAt;//æ›´æ–°æ—¥æ™‚
 
 	int m_index;
 
@@ -109,6 +110,7 @@ public:
 		const String& getFileName()const { return m_fileName; }
 		const String& getGenreName()const { return m_genreName; }
 		const ABLoop& getLoopRange()const { return m_loop; }
+		const DateTime& getLastUpdateAt()const { return m_lastUpdateAt; }
 		const int getBPM()const
 		{
 			if (m_maxbpm == -1)return m_minbpm;

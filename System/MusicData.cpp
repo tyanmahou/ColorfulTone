@@ -7,6 +7,7 @@ MusicData::MusicData(const String& genreName, const String& dirPath, const Strin
 	m_index = Index;
 	Index++;
 	m_fileName = FileSystem::FileName(dirPath);
+	m_lastUpdateAt = FileSystem::WriteTime(dirPath).value_or(DateTime::Now());
 	m_genreName = genreName;
 
 	INIReader iniReader(iniPath);
