@@ -35,7 +35,7 @@ using MyApp = SceneManager<String, GameData>;
 class Game :public Singleton<Game>
 {
 public:
-	static constexpr auto Version = L"Ver2.2.1";
+	static constexpr auto Version = L"Ver2.3.0";
 private:
 
 	MyApp m_scene;			//シーン

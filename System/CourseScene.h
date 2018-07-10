@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include"Game.h"
 
 class CourseSelectScene :public MyApp::Scene
@@ -14,8 +14,8 @@ private:
 	Font m_font;
 	Font m_levelFont;
 
-	int m_selectGenre = 0;
-	int m_selectCourse = 0;
+	static int m_selectGenre;
+	static int m_selectCourse;
 	Array<CourseData> m_courses;
 	void musicInfo(int y, int musicID, int notesID)const;
 public:

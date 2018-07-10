@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 
 #include "Game.h"
 
@@ -16,10 +16,10 @@ public:
 		Exit,
 	};
 private:
-	int m_timer;				//É^ÉCÉ}Å[
+	int m_timer;				//„Çø„Ç§„Éû„Éº
 	Font m_font;
 
-	Mode m_mode;
+	static Mode m_mode;
 
 public:
 

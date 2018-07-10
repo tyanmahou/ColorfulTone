@@ -5,6 +5,10 @@
 #include"PlayKey.h"
 #include"Util.h"
 #include"CourseGenre.hpp"
+
+ int CourseSelectScene::m_selectGenre = 0;
+ int CourseSelectScene::m_selectCourse = 0;
+
 CourseSelectScene::CourseSelectScene() :
 	m_levelFont(12),
 	m_font(16, Typeface::Bold)

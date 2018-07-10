@@ -1,4 +1,4 @@
-#include"TitleScene.h"
+ï»¿#include"TitleScene.h"
 #include"Fade.h"
 #include"VideoAsset.h"
 #include"SceneInfo.h"
@@ -6,13 +6,14 @@
 #include"PlayKey.h"
 #include"Setting.hpp"
 //--------------------------------------------------------------------------------
-//ŠÖ”FƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//é–¢æ•°ï¼šã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //--------------------------------------------------------------------------------
+
+TitleScene::Mode TitleScene::m_mode = TitleScene::Mode::GameStart;
 
 TitleScene::TitleScene():
 	m_timer(0),
-	m_font(10, L"Straight",FontStyle::Outline),
-	m_mode(Mode::GameStart)
+	m_font(10, L"Straight",FontStyle::Outline)
 {
 	m_font.changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 2));
 	if(!SoundAsset(L"title").isPlaying())
@@ -20,7 +21,7 @@ TitleScene::TitleScene():
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”F‰‰ZqƒI[ƒo[ƒ[ƒh
+//é–¢æ•°ï¼šæ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 //--------------------------------------------------------------------------------
 
 TitleScene::Mode operator ++(TitleScene::Mode& mode)
@@ -34,7 +35,7 @@ TitleScene::Mode operator --(TitleScene::Mode& mode)
 	return mode;
 }
 //--------------------------------------------------------------------------------
-//ŠÖ”Fupdate
+//é–¢æ•°ï¼šupdate
 //--------------------------------------------------------------------------------
 
 namespace 
@@ -44,13 +45,13 @@ namespace
 	{
 		const FilePath url = Setting::HOMEPAGE_URL;
 
-		if (Internet::IsConnected()) // ƒCƒ“ƒ^[ƒlƒbƒgÚ‘±‚ğƒ`ƒFƒbƒN
+		if (Internet::IsConnected()) // ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒƒãƒˆæ¥ç¶šã‚’ãƒã‚§ãƒƒã‚¯
 		{
 			Internet::LaunchWebBrowser(url);
 		}
 		else
 		{
-			MessageBox::Show(L"ƒCƒ“ƒ^[ƒlƒbƒg‚ÉÚ‘±‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B");
+			MessageBox::Show(L"ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒƒãƒˆã«æ¥ç¶šã§ãã¾ã›ã‚“ã§ã—ãŸã€‚");
 		}
 
 	}
@@ -85,7 +86,7 @@ void TitleScene::update()
 			Game::Instance()->m_isMusicLoadEnd = false;
 			changeScene(L"load", 3000); break;
 		case Mode::Download :
-			if (MessageBox::Show(L"ƒCƒ“ƒ^[ƒlƒbƒg‚ÉÚ‘±‚µƒz[ƒ€ƒy[ƒW‚ÉƒAƒNƒZƒX‚µ‚Ü‚·B",MessageBoxStyle::OkCancel) == MessageBoxCommand::Ok)
+			if (MessageBox::Show(L"ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒƒãƒˆã«æ¥ç¶šã—ãƒ›ãƒ¼ãƒ ãƒšãƒ¼ã‚¸ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ã¾ã™ã€‚",MessageBoxStyle::OkCancel) == MessageBoxCommand::Ok)
 			::AccessHomePage(); break;
 		case Mode::Exit:
 			System::Exit(); break;
@@ -103,7 +104,7 @@ void TitleScene::update()
 
 }
 //--------------------------------------------------------------------------------
-//ŠÖ”Fdraw
+//é–¢æ•°ï¼šdraw
 //--------------------------------------------------------------------------------
 void TitleScene::draw()const
 {
@@ -149,7 +150,7 @@ void TitleScene::draw()const
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FdrawFadeIn
+//é–¢æ•°ï¼šdrawFadeIn
 //--------------------------------------------------------------------------------
 void TitleScene::drawFadeIn(double t) const
 {
@@ -160,7 +161,7 @@ void TitleScene::drawFadeIn(double t) const
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FdrawFadeOut
+//é–¢æ•°ï¼šdrawFadeOut
 //--------------------------------------------------------------------------------
 void TitleScene::drawFadeOut(double t) const
 {
