@@ -192,7 +192,7 @@ namespace
 			{ 9, L"portrait_notes9"	},
 			{ 10,L"portrait_notes10" },
 			{ 11,L"portrait_notes1"	},
-			{ 12,L"portrait_notes1"	},
+			{ 12,L"portrait_notes2"	},
 			{ 13,L"portrait_notes3"	},
 			{ 14,L"portrait_notes4"	},
 			{ 15,L"portrait_notes5"	},
@@ -214,32 +214,39 @@ namespace
 		switch (type)
 		{
 		case 1:
+		case 11:
 			tex.drawAt(400 - w, y)
 				.drawFrame(0.5,0.5,color);
 			break;
 		case 2:
+		case 12:
 			tex.drawAt(400, y)
 				.drawFrame(0.5, 0.5, color);
 			break;
 		case 3:
+		case 13:
 			tex.drawAt(400 + w, y)
 				.drawFrame(0.5, 0.5, color);
 			break;
 		case 4:
+		case 14:
 			tex.scale(2, 1).drawAt(400 + w / 2, y)
 				.drawFrame(0.5, 0.5, color);
 			break;
 		case 5:
+		case 15:
 			tex.scale(1.5, 1).drawAt(400 - w * 5 / 4, y)
 				.drawFrame(0.5, 0.5, color);
 			tex.scale(1.5, 1).drawAt(400 + w * 5 / 4, y)
 				.drawFrame(0.5, 0.5, color);
 			break;
 		case 6:
+		case 16:
 			tex.scale(2.0, 1).drawAt(400 - w / 2, y)
 				.drawFrame(0.5, 0.5, color);
 			break;
 		case 7:
+		case 17:
 			tex.scale(3.0, 1).drawAt(400, y)
 				.drawFrame(0.5, 0.5, color);
 			break;
