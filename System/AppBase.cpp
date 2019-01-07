@@ -1,7 +1,6 @@
 ﻿#include"AppBase.h"
 #include"Game.h"
-#include"FileLoad.h"
-#include"MusicSelectScene.h"
+#include"MultiThread.hpp"
 namespace
 {
 	enum class WindowSize
@@ -70,10 +69,8 @@ AppBase::~AppBase()
 
 void AppBase::mainLoop()
 {
-	static auto pLoadResult = &FileLoad::m_loadResult;
-	static auto pAudioResult = &MusicSelectScene::m_audioResult;
 	static bool showFps = false;
-	auto& mutex = GetMutex();
+	auto& mutex = MultiThread::GetMutex();
 	while (1)
 	{
 		mutex.lock();
@@ -103,6 +100,5 @@ void AppBase::mainLoop()
 		if (showFps)
 			PutText(Profiler::FPS()).from(Vec2{0,0});
 	}
-	pLoadResult->get();
-	pAudioResult->get();
+	MultiThread::Update();
 }

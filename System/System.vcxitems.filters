@@ -432,5 +432,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CostumFolder.hpp">
       <Filter>MusicGame\Data\GenreManager</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MultiThread.hpp">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

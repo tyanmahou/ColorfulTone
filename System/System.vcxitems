@@ -26,6 +26,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CoursePlay.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MultiThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NormalStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayBG.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)eJudge.h" />

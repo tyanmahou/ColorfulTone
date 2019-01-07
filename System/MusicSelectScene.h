@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "Game.h"
 #include "HighSpeedDemo.h"
-#include<future>
 enum class SortMode
 {
 	FileName,
@@ -63,9 +62,6 @@ private:
 
 
 public:
-
-	static std::future<void> m_audioResult;
-
 
 	MusicSelectScene();
 	~MusicSelectScene();

@@ -6,6 +6,8 @@
 #include"SceneInfo.h"
 #include"PlayKey.h"
 #include"Util.h"
+#include"MultiThread.hpp"
+
 namespace {
 
 	static unsigned int g_nowPlayMusic = 0;
@@ -48,8 +50,6 @@ unsigned int MusicSelectScene::m_selectLevel;
 unsigned int MusicSelectScene::m_selectGenre;
 bool MusicSelectScene::m_levelInfoMode;
 SortMode MusicSelectScene::m_sortMode;
-
-std::future<void> MusicSelectScene::m_audioResult = std::async(std::launch::async, []() {return; });
 
 //--------------------------------------------------------------------------------
 //関数：コンストラクタ
@@ -94,7 +94,6 @@ MusicSelectScene::~MusicSelectScene()
 }
 void Quit()
 {
-
 	SoundAsset::ReleaseByTag(L"MusicData");
 	g_sampleSound.release();
 }
@@ -110,7 +109,7 @@ void MusicSelectScene::init()
 	this->sort();
 	m_musicsSize = m_musics.size();
 
-	m_audioResult = std::async(std::launch::async, AudioPlay, m_musics[m_selectMusic].getSoundNameID(), m_musics[m_selectMusic].getLoopRange());
+	MultiThread::Async(L"audio_play",AudioPlay, m_musics[m_selectMusic].getSoundNameID(), m_musics[m_selectMusic].getLoopRange());
 }
 //--------------------------------------------------------------------------------
 //関数：easingStartBySelectMusic
@@ -266,7 +265,7 @@ void MusicSelectScene::update()
 						static unsigned int nowGenre = 0;
 						if (m_selectGenre != nowGenre)
 						{
-							m_audioResult.wait();
+							MultiThread::Wait(L"audio_play");
 							AudioStop();
 
 							nowGenre = m_selectGenre;
@@ -280,7 +279,7 @@ void MusicSelectScene::update()
 								this->sort();
 								m_selectMusic %= m_musicsSize;
 
-								m_audioResult = std::async(std::launch::async, AudioPlay, m_musics[m_selectMusic].getSoundNameID(), m_musics[m_selectMusic].getLoopRange());
+								MultiThread::Async(L"audio_play", AudioPlay, m_musics[m_selectMusic].getSoundNameID(), m_musics[m_selectMusic].getLoopRange());
 							}
 						}
 						m_mode = Mode::MusicSelect;
@@ -329,7 +328,7 @@ void MusicSelectScene::update()
 					m_data->m_selectMusic = m_musics[m_selectMusic].getIndex();
 					m_data->m_selectLevel = m_selectLevel;
 					m_changeMainScene = true;
-					m_audioResult.wait();
+					MultiThread::Wait(L"audio_play");
 					Quit();
 					changeScene(L"main", 3000);
 				}
@@ -345,11 +344,11 @@ void MusicSelectScene::update()
 		{
 			if (!PlayKey::Right().pressed && !PlayKey::Left().pressed)
 			{
-				m_audioResult.wait();
+				MultiThread::Wait(L"audio_play");
 				if (g_nowPlayMusic != m_selectMusic)
 					AudioStop();
 
-				m_audioResult = std::async(std::launch::async, AudioPlay, m_musics[m_selectMusic].getSoundNameID(), m_musics[m_selectMusic].getLoopRange());
+				MultiThread::Async(L"audio_play", AudioPlay, m_musics[m_selectMusic].getSoundNameID(), m_musics[m_selectMusic].getLoopRange());
 				g_nowPlayMusic = m_selectMusic;
 			}
 		}
@@ -365,7 +364,7 @@ void MusicSelectScene::update()
 	if (PlayKey::BigBack().clicked)
 	{
 		SoundManager::SE::Play(L"cancel");
-		m_audioResult.wait();
+		MultiThread::Wait(L"audio_play");
 		Quit();
 		changeScene(L"title", 3000);
 	}

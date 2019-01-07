@@ -1,17 +1,12 @@
-#pragma once
+Ôªø#pragma once
 #include "Game.h"
-#include<future>
-#include<mutex>
-
 
 class FileLoad :public MyApp::Scene
 {
 private:
-	int m_timer;				//É^ÉCÉ}Å[
+	int m_timer;				//„Çø„Ç§„Éû„Éº
 	Font m_font;
 public:
-
-	static std::future<void> m_loadResult;
 
 	FileLoad();
 	~FileLoad();
@@ -22,5 +17,3 @@ public:
 	void drawFadeIn(double t) const override;
 	void drawFadeOut(double t) const override;
 };
-
-std::mutex& GetMutex();

@@ -6,15 +6,10 @@
 #include"VideoAsset.h"
 #include"CostumFolder.hpp"
 #include"CourseGenre.hpp"
+#include"MultiThread.hpp"
 namespace
 {
-	std::mutex g_mutex;
-
-	static float g_loadingRate =0;
-}
-std::mutex& GetMutex()
-{
-	return g_mutex;
+	static float g_loadingRate = 0;
 }
 //--------------------------------------------------------------------------------
 //関数：LoadMusicDatas
@@ -25,7 +20,8 @@ void LoadCourses();
 //se読み込み
 void LoadTapSE()
 {
-	g_mutex.lock();
+	auto&& mutex = MultiThread::GetMutex();
+	mutex.lock();
 	for (auto&&rootFilePath : FileSystem::DirectoryContents(L"TapSE"))
 	{
 		if (FileSystem::IsDirectory(rootFilePath))
@@ -38,14 +34,14 @@ void LoadTapSE()
 		Game::Instance()->m_tapSEPaths.emplace_back(rootFilePath);
 	}
 
-	g_mutex.unlock();
+	mutex.unlock();
 
 	Erase_if(Game::Instance()->m_tapSEPaths, [](const String& path) {return Audio::GetFormat(path) == AudioFormat::Unknown; });
-
-
 }
 void LoadMusicDatas()
 {
+	auto&& mutex = MultiThread::GetMutex();
+
 	g_loadingRate = 0;
 	Array<MusicData>& musics = Game::Instance()->m_musics;
 
@@ -84,11 +80,11 @@ void LoadMusicDatas()
 				if (elm.includes(L"ini"))
 				{
 
-					g_mutex.lock();
+					mutex.lock();
 					g_loadingRate = curIndex / static_cast<float>(musicSize);
 					//Println(path);
 					musics.emplace_back(genreName, path, elm);
-					g_mutex.unlock();
+					mutex.unlock();
 
 					GenreManager::Add(GenreType::Folder, genreName, [genreName](MusicData& music)->bool {return !(music.getGenreName() == genreName); });
 					break;
@@ -107,11 +103,11 @@ void LoadMusicDatas()
 	//タップSE読み込み
 	::LoadTapSE();
 
-	g_mutex.lock();
+	mutex.lock();
 	::LoadCourses();
 	ClearPrint();
 	Println(L"Complete");
-	g_mutex.unlock();
+	mutex.unlock();
 	Game::Instance()->m_isMusicLoadEnd = true;
 }
 
@@ -154,14 +150,13 @@ void LoadCourses()
 //--------------------------------------------------------------------------------
 //静的メンバ定義
 //--------------------------------------------------------------------------------
-std::future<void> FileLoad::m_loadResult = std::async(std::launch::async, []() {return; });
 
 //--------------------------------------------------------------------------------
 //関数：コンストラクタ
 //--------------------------------------------------------------------------------
 FileLoad::FileLoad() :m_timer(0), m_font(15)
 {
-	m_loadResult = std::async(std::launch::async, LoadMusicDatas);
+	MultiThread::Async(L"file_load", LoadMusicDatas);
 }
 
 //--------------------------------------------------------------------------------
@@ -206,7 +201,7 @@ void FileLoad::draw()const
 
 	v.getFrameTexture().draw();
 
-	Rect(0,570, 800 * g_loadingRate, 30).draw(Color(0, 0, 0, 128));
+	Rect(0, 570, 800 * g_loadingRate, 30).draw(Color(0, 0, 0, 128));
 }
 
 void FileLoad::drawFadeIn(double t) const
