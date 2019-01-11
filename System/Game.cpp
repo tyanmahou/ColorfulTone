@@ -18,6 +18,8 @@
 void loadTexture()
 {
 	TextureAsset::Register(L"label", L"Resource/Img/label.png");
+	// ロード
+	TextureAsset::Register(L"canvasBg", L"Resource/Img/Load/bg.png");
 
 	//タイトル
 	TextureAsset::Register(L"logo", L"Resource/Img/Title/logo.png");
@@ -141,8 +143,6 @@ void loadTexture()
 	TextureAsset::Register(L"pass", L"Resource/Img/Result/pass.png");
 	TextureAsset::Register(L"noPass", L"Resource/Img/Result/noPass.png");
 
-	Mahou::VideoAsset::Register(L"titleBG",L"Resource/Movie/titleBG.avi", true);
-	Mahou::VideoAsset::Register(L"loading",L"Resource/Movie/loading.avi", true);
 	Mahou::VideoAsset::Register(L"start", L"Resource/Movie/start.avi", false);
 }
 //--------------------------------------------------------------------------------
@@ -225,10 +225,7 @@ void AssetLoad()
 
 	FontAsset::Register(L"configSelect", 13);
 
-
 	loadTexture();
 
 	loadSound();
-
-
 }

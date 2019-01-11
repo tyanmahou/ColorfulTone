@@ -54,6 +54,7 @@ AppBase::AppBase(const String & appName, Size windowSize)
 {
 	Window::SetTitle(appName);
 	Window::Resize(windowSize);
+	Graphics::SetBackground(Palette::White);
 	ham::ScalableWindow::Setup(windowSize);
 	System::SetExitEvent((Input::KeyAlt + Input::KeyF4).clicked | WindowEvent::CloseButton);
 

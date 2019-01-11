@@ -106,7 +106,6 @@ void LoadMusicDatas()
 	mutex.lock();
 	::LoadCourses();
 	ClearPrint();
-	Println(L"Complete");
 	mutex.unlock();
 	Game::Instance()->m_isMusicLoadEnd = true;
 }
@@ -154,7 +153,8 @@ void LoadCourses()
 //--------------------------------------------------------------------------------
 //関数：コンストラクタ
 //--------------------------------------------------------------------------------
-FileLoad::FileLoad() :m_timer(0), m_font(15)
+FileLoad::FileLoad() :
+	m_timer(0)
 {
 	MultiThread::Async(L"file_load", LoadMusicDatas);
 }
@@ -177,14 +177,15 @@ void FileLoad::init()
 void FileLoad::update()
 {
 	m_timer++;
-
+	m_view.update();
 	if (Game::Instance()->m_isMusicLoadEnd)
 	{
+		m_view.onCompleted();
 		auto &musics = Game::Instance()->m_musics;
 		if (musics.size() == 0)
 			System::Exit();
 
-		changeScene(L"title", 3000);
+		changeScene(L"title", 4000);
 	}
 }
 
@@ -193,13 +194,8 @@ void FileLoad::update()
 //--------------------------------------------------------------------------------
 void FileLoad::draw()const
 {
-	static auto& v = Mahou::VideoAsset(L"loading");
-	if (!v.isPlaying())
-		v.play();
-
-	v.update();
-
-	v.getFrameTexture().draw();
+	// ローディングの描画
+	m_view.draw();
 
 	Rect(0, 570, 800 * g_loadingRate, 30).draw(Color(0, 0, 0, 128));
 }
@@ -219,5 +215,5 @@ void FileLoad::drawFadeIn(double t) const
 void FileLoad::drawFadeOut(double t) const
 {
 	draw();
-	FadeOut(t, Fade::SmoothCircle);
+	//FadeOut(t, Fade::SmoothCircle);
 }

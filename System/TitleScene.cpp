@@ -108,12 +108,6 @@ void TitleScene::update()
 //--------------------------------------------------------------------------------
 void TitleScene::draw()const
 {
-	static auto v = Mahou::VideoAsset(L"titleBG");
-
-	if (!v.isPlaying())
-		v.play();
-	v.update();
-	v.getFrameTexture().draw();
 
 	TextureAsset(L"logo").scale(0.8).drawAt(400,150);
 

@@ -18,7 +18,7 @@ private:
 	template<class Func, class... Params>
 	void async(const s3d::String& key, Func task, Params&& ...args)
 	{
-		m_tasks.emplace(key, std::async(std::launch::async, task, std::forward<Params>(args)...));
+		m_tasks.insert_or_assign(key, std::async(std::launch::async, task, std::forward<Params>(args)...));
 	}
 
 	void update()

@@ -1,11 +1,12 @@
 ﻿#pragma once
 #include "Game.h"
+#include "FileLoadView.hpp"
 
 class FileLoad :public MyApp::Scene
 {
 private:
-	int m_timer;				//タイマー
-	Font m_font;
+	int m_timer;			//タイマー
+	FileLoadView m_view;	//ビュー
 public:
 
 	FileLoad();

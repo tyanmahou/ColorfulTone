@@ -25,6 +25,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseGenre.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CoursePlay.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MultiThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NormalStyle.h" />
@@ -88,6 +89,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)eJudge.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Fade.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileLoad.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileLoadView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FontKinetic.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameConfig.cpp" />

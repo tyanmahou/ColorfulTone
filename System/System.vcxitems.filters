@@ -43,9 +43,6 @@
     <Filter Include="Effect">
       <UniqueIdentifier>{eda33932-d5fa-4b45-bf2e-80ce4e06ff42}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\KeyConfig">
-      <UniqueIdentifier>{fe796e6c-5cf4-4b89-9374-7aa115921b03}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Title">
       <UniqueIdentifier>{0fdd42bc-a80d-4b3d-aaf1-882624d377f4}</UniqueIdentifier>
     </Filter>
@@ -123,6 +120,9 @@
     </Filter>
     <Filter Include="MusicGame\Data\CourseGenre">
       <UniqueIdentifier>{a6d5dd39-5935-47b4-939e-8c3bac5102b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\KeyConfig">
+      <UniqueIdentifier>{fe796e6c-5cf4-4b89-9374-7aa115921b03}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -251,6 +251,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CostumFolder.cpp">
       <Filter>MusicGame\Data\GenreManager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileLoadView.cpp">
+      <Filter>Scene\FileLoad</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -434,6 +437,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MultiThread.hpp">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp">
+      <Filter>Scene\FileLoad</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
