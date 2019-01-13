@@ -4,7 +4,7 @@
 #include"ColorfulTone.h"
 
 //#define SHADERCOMPILE
-#ifdef SHADERCOMPILE 
+# ifdef SHADERCOMPILE 
 # include <d3d11.h>
 # include <d3dcompiler.h>
 #pragma comment( lib, "d3dcompiler.lib" )
@@ -59,7 +59,7 @@ namespace
 		CompileShaderFromFile(L"Shaders/ResultBG.hlsl", L"Shaders/ResultBG.ps", ShaderType::PS_4_0);
 		CompileShaderFromFile(L"Shaders/startTrans.hlsl", L"Shaders/startTrans.ps", ShaderType::PS_4_0);
 		CompileShaderFromFile(L"Shaders/radialBlur.hlsl", L"Shaders/radialBlur.ps", ShaderType::PS_4_0);
-		CompileShaderFromFile(L"Shaders/pageTransaction.hlsl", L"Shaders/pageTransaction.ps", ShaderType::PS_4_0);
+		CompileShaderFromFile(L"Shaders/flipPage.hlsl", L"Shaders/flipPage.ps", ShaderType::PS_4_0);
 	}
 }
 #endif
@@ -70,9 +70,10 @@ void Main()
 #ifdef SHADERCOMPILE 
 	Window::Resize(800, 600);
 	::ShadersCompile();
+	Graphics::SetBackground(Palette::White);
 	Texture tex(L"Resource/Img/Load/bg.png");
 
-	PixelShader ps(L"Shaders/pageTransaction.ps");
+	PixelShader ps(L"Shaders/flipPage.ps");
 
 	ConstantBuffer<Float4> cb;
 	cb->x = 0;
@@ -90,8 +91,12 @@ void Main()
 		{
 			Println(cb->x);
 		}
+		tex.draw();
 		Graphics2D::SetConstant(ShaderStage::Pixel, 1, cb);
 		Graphics2D::BeginPS(ps);
+		static Image img(Window::Size());
+		img.fill(Palette::Black);
+		static auto bg = Texture(img);
 		tex.draw();
 		Graphics2D::EndPS();
 	}

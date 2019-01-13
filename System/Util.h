@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<Siv3D.hpp>
 namespace util
 {
@@ -15,32 +15,13 @@ namespace util
 
 	};
 
-	inline void ContractionDrawbleString(const DrawableString& font, const Vec2& pos, int width,const Color& color=Palette::White, bool drawCenter = true)
+	void ContractionDrawbleString(const DrawableString& font, const Vec2& pos, int width, const Color& color = Palette::White, bool drawCenter = true);
+
+	class RenderTextureUtil
 	{
-
-		const auto nameWidth = font.region().w;
-		const auto getMat = [&]()
-		{
-			if (nameWidth > width)
-			{
-				const auto scale = static_cast<double>(width) / nameWidth;
-				return Mat3x2::Scale(scale,1, pos);
-			}
-			return Mat3x2::Identity();
-		};
-		util::Transformer2D t2d(getMat());
-
-
-		//‹È–¼
-		if (drawCenter)
-		{
-			font.drawAt(pos, color);
-		}
-		else
-		{
-			font.draw(pos, color);
-		}
-	}
-
-
+	public:
+		RenderTextureUtil(s3d::RenderTexture& tex, const Color& color = Palette::White);
+		~RenderTextureUtil();
+		util::Transformer2D getTransformer2D()const;
+	};
 }

@@ -258,6 +258,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Score.cpp">
       <Filter>MusicGame\Data\Score</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Util.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -443,6 +446,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp">
       <Filter>Scene\FileLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp">
+      <Filter>util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

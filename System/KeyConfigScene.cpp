@@ -404,7 +404,7 @@ void ConfigScene::drawFadeIn(double t) const
 {
 
 	draw();
-	FadeIn(t, Fade::SmoothCircle);
+	FadeIn(Fade::SmoothCircle, t);
 
 }
 
@@ -415,6 +415,6 @@ void ConfigScene::drawFadeOut(double t) const
 {
 
 	draw();
-	FadeOut(t, Fade::SmoothCircle);
+	FadeOut(Fade::SmoothCircle, t);
 
 }

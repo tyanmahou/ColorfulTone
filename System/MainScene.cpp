@@ -22,11 +22,11 @@ MainScene::~MainScene()
 {
 
 }
-void MainScene::init() 
+void MainScene::init()
 {
 	auto& nowMusic = m_data->m_nowMusics;
 
-	m_musicGame.init(nowMusic,m_data->m_selectLevel,m_data->m_scrollRate);
+	m_musicGame.init(nowMusic, m_data->m_selectLevel, m_data->m_scrollRate);
 
 	m_isCourse = m_data->m_isCoursePlay;
 	if (m_isCourse)
@@ -37,14 +37,14 @@ void MainScene::init()
 //--------------------------------------------------------------------------------
 void MainScene::update()
 {
-	m_timer++;	
+	m_timer++;
 
 	m_musicGame.update();
 
 	//****************
 	//シーン遷移
 	//****************
-	if (!m_data->m_isCoursePlay&&PlayKey::SmallBack().pressedDuration >= 1000||m_musicGame.isFinish())
+	if (!m_data->m_isCoursePlay&&PlayKey::SmallBack().pressedDuration >= 1000 || m_musicGame.isFinish())
 	{
 		m_data->m_resultScore = m_musicGame.getScore();
 		if (m_isCourse)
@@ -117,7 +117,7 @@ void MainScene::drawFadeIn(double t) const
 {
 
 	draw();
-	FadeIn(t, Fade::Default);
+	FadeIn(Fade::Default, t);
 	m_data->m_nowMusics.getTexture().resize(300, 300).drawAt(400, 300, ColorF(1, 1 - t));
 
 }
@@ -129,6 +129,6 @@ void MainScene::drawFadeOut(double t) const
 {
 
 	draw();
-	FadeOut(t, Fade::SmoothCircle);
+	FadeOut(Fade::SmoothCircle, t);
 
 }

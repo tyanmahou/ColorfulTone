@@ -59,6 +59,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Preview.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Setting.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Util.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RepeatNote.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultEffect.h" />
@@ -110,6 +111,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayMusicGame.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Portrait.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Preview.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Util.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RepeatNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultRank.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultScene.cpp" />

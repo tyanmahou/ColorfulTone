@@ -694,7 +694,7 @@ void MusicSelectScene::drawFadeIn(double t) const
 {
 
 	draw();
-	FadeIn(t, Fade::Default);
+	FadeIn(Fade::Default, t);
 
 }
 
@@ -705,7 +705,7 @@ void MusicSelectScene::drawFadeOut(double t) const
 {
 
 	draw();
-	FadeOut(t, Fade::Default);
+	FadeOut(Fade::Default, t);
 	if (m_changeMainScene)
 		m_musics[m_selectMusic].getTexture().resize(300, 300).drawAt(400, 300, ColorF(1, t*t));
 

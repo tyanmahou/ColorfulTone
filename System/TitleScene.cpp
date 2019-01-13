@@ -5,6 +5,7 @@
 #include"FontKinetic.h"
 #include"PlayKey.h"
 #include"Setting.hpp"
+
 //--------------------------------------------------------------------------------
 //関数：コンストラクタ
 //--------------------------------------------------------------------------------
@@ -111,16 +112,13 @@ void TitleScene::draw()const
 	TextureAsset(L"canvasBg").draw();
 	const double timer = static_cast<double>(System::FrameCount());
 	static RenderTexture tex(700, 500);
-
-	Graphics2D::SetRenderTarget(tex);
-	tex.clear(Palette::White);
 	{
-		util::Transformer2D t2d(Graphics2D::GetTransform().inverse());
+		auto render = util::RenderTextureUtil(tex);
+		auto t2d = render.getTransformer2D();
 		TextureAsset(L"titleBg1").uv(m_timer / 15000.0, 1.0, 0.75, 1.0).draw(0, 0);
 		TextureAsset(L"titleBg2").uv(m_timer / 6000.0, 1.0, 0.75, 1.0).draw(0, 0);
 		TextureAsset(L"titleBg3").uv(m_timer / 2000.0, 1.0, 0.75, 1.0).draw(0, 0);
 	}
-	Graphics2D::SetRenderTarget(Graphics::GetSwapChainTexture());
 	Graphics2D::SetBlendState(BlendState::Multiplicative);
 	tex.draw(50, 60);
 	Graphics2D::SetBlendState(BlendState::Default);
@@ -165,10 +163,7 @@ void TitleScene::draw()const
 //--------------------------------------------------------------------------------
 void TitleScene::drawFadeIn(double t) const
 {
-
-	draw();
-	FadeIn(t, Fade::SmoothCircle);
-
+	FadeIn(Fade::FlipPage, t, [this]() {draw();});
 }
 
 //--------------------------------------------------------------------------------
@@ -176,8 +171,6 @@ void TitleScene::drawFadeIn(double t) const
 //--------------------------------------------------------------------------------
 void TitleScene::drawFadeOut(double t) const
 {
-
 	draw();
-	FadeOut(t, Fade::SmoothCircle);
-
+	FadeOut(Fade::SmoothCircle, t);
 }

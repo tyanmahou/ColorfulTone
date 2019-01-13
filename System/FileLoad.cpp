@@ -185,7 +185,7 @@ void FileLoad::update()
 		if (musics.size() == 0)
 			System::Exit();
 
-		changeScene(L"title", 4000);
+		changeScene(L"title", 1000, true);
 	}
 }
 
@@ -204,7 +204,7 @@ void FileLoad::draw()const
 void FileLoad::drawFadeIn(double t) const
 {
 	draw();
-	FadeIn(t, Fade::Default);
+	FadeIn(Fade::Default, t);
 }
 
 
@@ -216,5 +216,4 @@ void FileLoad::drawFadeIn(double t) const
 void FileLoad::drawFadeOut(double t) const
 {
 	draw();
-	//FadeOut(t, Fade::SmoothCircle);
 }

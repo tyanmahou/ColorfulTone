@@ -1,4 +1,4 @@
-#include"Tutorial.h"
+Ôªø#include"Tutorial.h"
 #include"StartAnime.h"
 #include"Fade.h"
 #include"PlayKey.h"
@@ -8,7 +8,7 @@
 #include"MainScene.h"
 
 //--------------------------------------------------------------------------------
-//ä÷êîÅFÉRÉìÉXÉgÉâÉNÉ^
+//Èñ¢Êï∞Ôºö„Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø
 //--------------------------------------------------------------------------------
 Tutorial::Tutorial() :
 	m_timer(0),
@@ -17,7 +17,7 @@ Tutorial::Tutorial() :
 }
 
 //--------------------------------------------------------------------------------
-//ä÷êîÅFÉfÉXÉgÉâÉNÉ^
+//Èñ¢Êï∞Ôºö„Éá„Çπ„Éà„É©„ÇØ„Çø
 //--------------------------------------------------------------------------------
 Tutorial::~Tutorial()
 {
@@ -35,7 +35,7 @@ void Tutorial::init()
 	AutoPlayManager::Instance()->m_autoPlay = false;
 }
 //--------------------------------------------------------------------------------
-//ä÷êîÅFupdate
+//Èñ¢Êï∞Ôºöupdate
 //--------------------------------------------------------------------------------
 void Tutorial::update()
 {
@@ -44,7 +44,7 @@ void Tutorial::update()
 
 	m_musicGame.update();
 
-	//É^ÉCÉgÉãÇ…ñﬂÇÈ
+	//„Çø„Ç§„Éà„É´„Å´Êàª„Çã
 	if (PlayKey::BigBack().pressedDuration >= 1000|| PlayKey::SmallBack().pressedDuration >= 1000 || m_musicGame.isFinish())
 	{
 		changeScene(L"title", 3000);
@@ -53,7 +53,7 @@ void Tutorial::update()
 
 
 //--------------------------------------------------------------------------------
-//ä÷êîÅFdraw
+//Èñ¢Êï∞Ôºödraw
 //--------------------------------------------------------------------------------
 
 void Tutorial::draw()const
@@ -65,31 +65,27 @@ void Tutorial::draw()const
 	PutText(L"Press Ese or BackSpace").at(100, Window::Height() - 20);
 
 	if (PlayKey::BigBack().pressed)
-		m_font2(L"Eseí∑âüÇµÇ≈ñﬂÇÈ").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));
+		m_font2(L"EseÈï∑Êäº„Åó„ÅßÊàª„Çã").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));
 
 	if (PlayKey::SmallBack().pressed)
-		m_font2(L"BackSpaceí∑âüÇµÇ≈ñﬂÇÈ").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::SmallBack().pressedDuration*0.70 / 1000));
+		m_font2(L"BackSpaceÈï∑Êäº„Åó„ÅßÊàª„Çã").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::SmallBack().pressedDuration*0.70 / 1000));
 }
 
 
 //--------------------------------------------------------------------------------
-//ä÷êîÅFdrawFadeIn
+//Èñ¢Êï∞ÔºödrawFadeIn
 //--------------------------------------------------------------------------------
 void Tutorial::drawFadeIn(double t) const
 {
-
 	draw();
-	FadeIn(t, Fade::Default);
-
+	FadeIn(Fade::Default, t);
 }
 
 //--------------------------------------------------------------------------------
-//ä÷êîÅFdrawFadeOut
+//Èñ¢Êï∞ÔºödrawFadeOut
 //--------------------------------------------------------------------------------
 void Tutorial::drawFadeOut(double t) const
 {
-
 	draw();
-	FadeOut(t, Fade::SmoothCircle);
-
+	FadeOut(Fade::SmoothCircle, t);
 }

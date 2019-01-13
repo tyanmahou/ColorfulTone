@@ -1,9 +1,9 @@
-#include"CoursePlay.h"
+ï»¿#include"CoursePlay.h"
 #include"Fade.h"
 #include"SceneInfo.h"
 #include"PlayKey.h"
 #include"Util.h"
-CoursePlay::CoursePlay():
+CoursePlay::CoursePlay() :
 	m_font1(16, Typeface::Bold),
 	m_font2(12)
 {
@@ -24,10 +24,10 @@ void CoursePlay::init()
 
 	const size_t sample = 22050 + wav.lengthSample;
 
-	//–³‰¹ì¬
+	//ç„¡éŸ³ä½œæˆ
 	auto sam = WaveSample(0, 0);
 	wav.reserve(sample);
-	//wav‚É4•bŠÔ‚ÌƒIƒtƒZƒbƒg’Ç‰Á
+	//wavã«4ç§’é–“ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆè¿½åŠ 
 	wav.insert(wav.begin() + 44100 * loop.x, 22050, sam);
 
 	m_sound = Sound(wav);
@@ -70,7 +70,7 @@ namespace
 		TextureAsset(L"bannerbg").resize(200, 270).drawAt(x + offsetX, y + 25 + offstY);
 		musics[index].getTexture().resize(160, 160).drawAt(x + offsetX, y - 15 + offstY).drawFrame(0, 2);
 
-		util::ContractionDrawbleString(font(musics[index].getMusicName()), { x + offsetX, y + 100 + offstY },195);
+		util::ContractionDrawbleString(font(musics[index].getMusicName()), { x + offsetX, y + 100 + offstY }, 195);
 	}
 }
 void CoursePlay::highSpeedDraw()const
@@ -116,31 +116,31 @@ void CoursePlay::musicInfoDraw() const
 	auto& notesID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex];
 	auto& music = Game::Instance()->m_musics.at(notesID.first);
 
-	//¶‚Ì‹È
-	if (m_data->m_currentCourseIndex>0)
+	//å·¦ã®æ›²
+	if (m_data->m_currentCourseIndex > 0)
 	{
-		auto& preID=currentCourse.getNotesIDs()[m_data->m_currentCourseIndex - 1];
-		NonSelectMusicBannerBG(100, 250, Game::Instance()->m_musics, preID.first, 0,0, m_font2);
+		auto& preID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex - 1];
+		NonSelectMusicBannerBG(100, 250, Game::Instance()->m_musics, preID.first, 0, 0, m_font2);
 	}
-	//‰E‚Ì‹È
-	if (m_data->m_currentCourseIndex<currentCourse.getNotesIDs().size()-1)
+	//å³ã®æ›²
+	if (m_data->m_currentCourseIndex < currentCourse.getNotesIDs().size() - 1)
 	{
 		auto& nextID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex + 1];
-		NonSelectMusicBannerBG(700, 250, Game::Instance()->m_musics, nextID.first, 0,0, m_font2);
+		NonSelectMusicBannerBG(700, 250, Game::Instance()->m_musics, nextID.first, 0, 0, m_font2);
 	}
-	//ƒWƒƒƒPŠG•”•ª
-	TextureAsset(L"bannerbg").resize(300,400).drawAt(400, 295);
-	music.getTexture().resize(230,230).drawAt(400, 250 - 15).drawFrame(0, 2);
+	//ã‚¸ãƒ£ã‚±çµµéƒ¨åˆ†
+	TextureAsset(L"bannerbg").resize(300, 400).drawAt(400, 295);
+	music.getTexture().resize(230, 230).drawAt(400, 250 - 15).drawFrame(0, 2);
 
-	//‹Èî•ñ
+	//æ›²æƒ…å ±
 
-	//ì‹È‰Æ
+	//ä½œæ›²å®¶
 	util::ContractionDrawbleString(m_font2(music.getArtistName()), { 400, 440 }, 280);
 
 	//BPM
 	m_font2(Format(L"BPM:", music.getBPM())).draw(440, 470, Palette::Black);
 
-	//•¶Žš‚Ì•`‰æ”ÍˆÍ’²®
+	//æ–‡å­—ã®æç”»ç¯„å›²èª¿æ•´
 	util::ContractionDrawbleString(m_font1(music.getMusicName()), { 400, 400 }, 280);
 
 }
@@ -155,23 +155,23 @@ void CoursePlay::draw() const
 	this->highSpeedDraw();
 	FontAsset(L"label")(L"Course").draw(10, 33);
 
-	SceneInfo::Draw(L"Ctrl+ª«:ƒnƒCƒXƒs[ƒh•ÏX@Enter:ŠJŽn");
+	SceneInfo::Draw(L"Ctrl+â†‘â†“:ãƒã‚¤ã‚¹ãƒ”ãƒ¼ãƒ‰å¤‰æ›´ã€€Enter:é–‹å§‹");
 
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FdrawFadeIn
+//é–¢æ•°ï¼šdrawFadeIn
 //--------------------------------------------------------------------------------
 void CoursePlay::drawFadeIn(double t) const
 {
 
 	draw();
-	FadeIn(t, Fade::Default);
+	FadeIn(Fade::Default, t);
 
 }
 
 //--------------------------------------------------------------------------------
-//ŠÖ”FdrawFadeOut
+//é–¢æ•°ï¼šdrawFadeOut
 //--------------------------------------------------------------------------------
 void CoursePlay::drawFadeOut(double t) const
 {
@@ -180,7 +180,7 @@ void CoursePlay::drawFadeOut(double t) const
 	auto& music = Game::Instance()->m_musics.at(notesID.first);
 
 	draw();
-	FadeOut(t, Fade::Default);
+	FadeOut(Fade::Default, t);
 
 	music.getTexture().resize(300, 300).drawAt(400, 300, ColorF(1, t*t));
 

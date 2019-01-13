@@ -184,7 +184,7 @@ void CourseSelectScene::drawFadeIn(double t) const
 {
 
 	draw();
-	FadeIn(t, Fade::Default);
+	FadeIn(Fade::Default, t);
 
 }
 
@@ -195,6 +195,6 @@ void CourseSelectScene::drawFadeOut(double t) const
 {
 
 	draw();
-	FadeOut(t, Fade::Default);
+	FadeOut(Fade::Default, t);
 
 }
