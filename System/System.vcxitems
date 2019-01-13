@@ -114,6 +114,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultRank.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultTweet.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Score.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SerialImage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StartAnime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stop.cpp" />

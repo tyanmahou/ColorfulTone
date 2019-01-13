@@ -1,16 +1,11 @@
-#pragma once
-
+﻿#pragma once
+#include<array>
 enum class SpecialResult :unsigned int {
 	None,
 	Full_Combo,
 	All_Perfect,
 };
-
-bool operator > (SpecialResult& l, SpecialResult& r)
-{
-	return static_cast<unsigned int>(l) > static_cast<unsigned int>(r);
-}
-
+bool operator > (SpecialResult& l, SpecialResult& r);
 struct Score
 {
 	enum  Judge 

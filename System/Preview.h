@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include"PlayMusicGame.h"
 #include"HighSpeedDemo.h"
 
@@ -24,17 +24,17 @@ public:
 		m_scene(scene)
 	{
 		m_gui.style.background.color = Color(255, 255, 255, 100);
-		m_gui.add(L"PlayButton", GUIButton::Create(L"ƒvƒŒƒC",false));
-		m_gui.add(L"StopButton", GUIButton::Create(L"’âŽ~",false));
-		m_gui.add(L"UpdateButton", GUIButton::Create(L"XV", false));
+		m_gui.add(L"PlayButton", GUIButton::Create(L"ãƒ—ãƒ¬ã‚¤",false));
+		m_gui.add(L"StopButton", GUIButton::Create(L"åœæ­¢",false));
+		m_gui.add(L"UpdateButton", GUIButton::Create(L"æ›´æ–°", false));
 
-		m_gui.addln(L"OpenButton", GUIButton::Create(L"ŠJ‚­"));
+		m_gui.addln(L"OpenButton", GUIButton::Create(L"é–‹ã"));
 
-		m_gui.add(L"LevelText", GUIText::Create(L"•ˆ–Ê:"));
+		m_gui.add(L"LevelText", GUIText::Create(L"è­œé¢:"));
 		m_gui.add(L"LevelName", GUIText::Create(L"none"));
 		m_gui.addln(L"LevelSlider", GUISlider::Create(0.0, 1.0, 0.0, 400));
 
-		m_gui.add(L"CountText", GUIText::Create(L"ˆÊ’u"));
+		m_gui.add(L"CountText", GUIText::Create(L"ä½ç½®"));
 		m_gui.add(L"Slider", GUISlider::Create(0.0, 1.0, 0.0, 500));
 
 		m_gui.setPos((Window::BaseWidth() - m_gui.getRect().w) / 2, 360);
@@ -126,7 +126,7 @@ public:
 		if (m_musicData.has_value())
 		{
 			auto& notes = m_musicData->getNotesData();
-			m_selectLevel = std::min(notes.size() - 1, (unsigned)(m_musicData->getNotesData().size()*rate));
+			m_selectLevel = Min(notes.size() - 1, (size_t)(m_musicData->getNotesData().size()*rate));
 			
 			m_soundPlayer.setLevelName(notes[m_selectLevel].getLevelName());
 

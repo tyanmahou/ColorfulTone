@@ -255,6 +255,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FileLoadView.cpp">
       <Filter>Scene\FileLoad</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Score.cpp">
+      <Filter>MusicGame\Data\Score</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
