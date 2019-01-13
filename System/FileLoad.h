@@ -6,6 +6,11 @@ class FileLoad :public MyApp::Scene
 {
 private:
 	int m_timer;			//タイマー
+	enum class State {
+		Loading,
+		OnLoadCompleted,
+		Wait
+	} m_state = State::Loading;
 	FileLoadView m_view;	//ビュー
 public:
 

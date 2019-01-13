@@ -12,6 +12,7 @@
 
 TitleScene::Mode TitleScene::m_mode = TitleScene::Mode::GameStart;
 
+
 TitleScene::TitleScene():
 	m_timer(0),
 	m_font(10, L"Straight",FontStyle::Outline)
@@ -57,6 +58,35 @@ namespace
 
 	}
 }
+
+void TitleScene::onEnterMode()
+{
+	SoundManager::SE::Play(L"desisionLarge");
+	static const std::unordered_map<Mode,String> sceneNames{
+		{Mode::GameStart, L"select"},
+		{Mode::Course, L"courseSelect"},
+		{Mode::KeyConfig, L"config"},
+		{Mode::Tutorial, L"tutorial"},
+		{Mode::Reload, L"load"},
+	};
+
+	if (m_mode == Mode::Exit)
+	{
+		System::Exit();
+		return;
+	}
+
+	if (m_mode == Mode::Download) 
+	{
+		if (MessageBox::Show(L"インターネットに接続しホームページにアクセスします。", MessageBoxStyle::OkCancel) == MessageBoxCommand::Ok) 
+		{
+			::AccessHomePage();
+		}
+		return;
+	}
+	changeScene(sceneNames.at(m_mode), 1000, true);
+}
+
 void TitleScene::update() 
 {
 	m_timer++;
@@ -72,29 +102,7 @@ void TitleScene::update()
 	}
 	if (PlayKey::Start().clicked)
 	{
-		SoundManager::SE::Play(L"desisionLarge");
-		switch (m_mode)
-		{
-		case Mode::GameStart:
-			changeScene(L"select", 3000); break;
-		case Mode::Course:
-			changeScene(L"courseSelect", 3000); break;
-		case Mode::KeyConfig:
-			changeScene(L"config", 3000); break;
-		case Mode::Tutorial:
-			changeScene(L"tutorial", 3000); break;
-		case Mode::Reload:
-			Game::Instance()->m_isMusicLoadEnd = false;
-			changeScene(L"load", 3000); break;
-		case Mode::Download :
-			if (MessageBox::Show(L"インターネットに接続しホームページにアクセスします。",MessageBoxStyle::OkCancel) == MessageBoxCommand::Ok)
-			::AccessHomePage(); break;
-		case Mode::Exit:
-			System::Exit(); break;
-
-		default:
-			break;
-		}
+		this->onEnterMode();
 	}
 
 	if (PlayKey::BigBack().clicked)
@@ -115,9 +123,9 @@ void TitleScene::draw()const
 	{
 		auto render = util::RenderTextureUtil(tex);
 		auto t2d = render.getTransformer2D();
-		TextureAsset(L"titleBg1").uv(m_timer / 15000.0, 1.0, 0.75, 1.0).draw(0, 0);
-		TextureAsset(L"titleBg2").uv(m_timer / 6000.0, 1.0, 0.75, 1.0).draw(0, 0);
-		TextureAsset(L"titleBg3").uv(m_timer / 2000.0, 1.0, 0.75, 1.0).draw(0, 0);
+		TextureAsset(L"titleBg1").uv(timer / 15000.0, 1.0, 0.75, 1.0).draw(0, 0);
+		TextureAsset(L"titleBg2").uv(timer / 6000.0, 1.0, 0.75, 1.0).draw(0, 0);
+		TextureAsset(L"titleBg3").uv(timer / 2000.0, 1.0, 0.75, 1.0).draw(0, 0);
 	}
 	Graphics2D::SetBlendState(BlendState::Multiplicative);
 	tex.draw(50, 60);
@@ -172,5 +180,4 @@ void TitleScene::drawFadeIn(double t) const
 void TitleScene::drawFadeOut(double t) const
 {
 	draw();
-	FadeOut(Fade::SmoothCircle, t);
 }

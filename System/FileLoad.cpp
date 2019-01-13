@@ -109,9 +109,6 @@ void LoadMusicDatas()
 	mutex.unlock();
 	Game::Instance()->m_isMusicLoadEnd = true;
 }
-
-
-
 //コースデータ読み込み
 void LoadCourses()
 {
@@ -153,9 +150,11 @@ void LoadCourses()
 //--------------------------------------------------------------------------------
 //関数：コンストラクタ
 //--------------------------------------------------------------------------------
-FileLoad::FileLoad() :
-	m_timer(0)
+FileLoad::FileLoad():
+	m_timer(0),
+	m_state(State::Loading)
 {
+	Game::Instance()->m_isMusicLoadEnd = false;
 	MultiThread::Async(L"file_load", LoadMusicDatas);
 }
 
@@ -177,16 +176,28 @@ void FileLoad::init()
 void FileLoad::update()
 {
 	m_timer++;
-	m_view.update();
-	if (Game::Instance()->m_isMusicLoadEnd)
+	if (m_state == State::Loading)
 	{
-		m_view.onCompleted();
-		auto &musics = Game::Instance()->m_musics;
-		if (musics.size() == 0)
-			System::Exit();
-
-		changeScene(L"title", 1000, true);
+		m_view.update();
+		if (Game::Instance()->m_isMusicLoadEnd)
+		{
+			m_view.onCompleted();
+			m_state = State::OnLoadCompleted;
+		}
 	}
+	else if (m_state == State::OnLoadCompleted)
+	{
+		if (m_view.getStopwatchMs() >= 800)
+		{
+			auto &musics = Game::Instance()->m_musics;
+			if (musics.size() == 0)
+			{
+				System::Exit();
+			}
+			changeScene(L"title", 1000, true);
+		}
+	}
+
 }
 
 //--------------------------------------------------------------------------------
@@ -203,8 +214,7 @@ void FileLoad::draw()const
 
 void FileLoad::drawFadeIn(double t) const
 {
-	draw();
-	FadeIn(Fade::Default, t);
+	FadeIn(Fade::FlipPage, t, [this]() {draw(); });
 }
 
 

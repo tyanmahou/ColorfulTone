@@ -21,6 +21,7 @@ private:
 
 	static Mode m_mode;
 
+	void onEnterMode();
 public:
 
 

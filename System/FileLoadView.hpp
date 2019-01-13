@@ -13,5 +13,10 @@ public:
 	void update();
 	void draw()const;
 	void onCompleted();
+
+	inline int32 getStopwatchMs()const
+	{
+		return m_stopwatch.ms();
+	}
 };
 
