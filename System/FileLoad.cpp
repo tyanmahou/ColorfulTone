@@ -197,7 +197,8 @@ void FileLoad::draw()const
 	// ローディングの描画
 	m_view.draw();
 
-	Rect(0, 570, 800 * g_loadingRate, 30).draw(Color(0, 0, 0, 128));
+	// 20は補正値
+	Rect(0, 570, (800 + 20) * g_loadingRate, 30).draw(Color(0, 0, 0, 128));
 }
 
 void FileLoad::drawFadeIn(double t) const

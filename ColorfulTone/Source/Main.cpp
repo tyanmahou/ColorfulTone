@@ -59,6 +59,7 @@ namespace
 		CompileShaderFromFile(L"Shaders/ResultBG.hlsl", L"Shaders/ResultBG.ps", ShaderType::PS_4_0);
 		CompileShaderFromFile(L"Shaders/startTrans.hlsl", L"Shaders/startTrans.ps", ShaderType::PS_4_0);
 		CompileShaderFromFile(L"Shaders/radialBlur.hlsl", L"Shaders/radialBlur.ps", ShaderType::PS_4_0);
+		CompileShaderFromFile(L"Shaders/pageTransaction.hlsl", L"Shaders/pageTransaction.ps", ShaderType::PS_4_0);
 	}
 }
 #endif
@@ -67,23 +68,28 @@ void Main()
 {
 
 #ifdef SHADERCOMPILE 
+	Window::Resize(800, 600);
 	::ShadersCompile();
-	Texture tex(L"Example/Windmill.png");
+	Texture tex(L"Resource/Img/Load/bg.png");
 
-	PixelShader ps(L"Shaders/radialBlur.ps");
+	PixelShader ps(L"Shaders/pageTransaction.ps");
 
 	ConstantBuffer<Float4> cb;
-	cb->x = 1;
-	cb->y = 480;
-	cb->z = 320;
-
+	cb->x = 0;
 	while (System::Update())
 	{
-		if (Input::KeyUp.clicked)
-			cb->x += 1;
-		if (Input::KeyDown.clicked)
-			cb->x -= 1;
-
+		if (Input::KeyUp.pressed)
+		{
+			cb->x += 0.01;
+		}
+		if (Input::KeyDown.pressed)
+		{
+			cb->x -= 0.01;
+		}
+		if (Input::KeySpace.clicked)
+		{
+			Println(cb->x);
+		}
 		Graphics2D::SetConstant(ShaderStage::Pixel, 1, cb);
 		Graphics2D::BeginPS(ps);
 		tex.draw();

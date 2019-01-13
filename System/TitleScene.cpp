@@ -108,6 +108,23 @@ void TitleScene::update()
 //--------------------------------------------------------------------------------
 void TitleScene::draw()const
 {
+	TextureAsset(L"canvasBg").draw();
+	const double timer = static_cast<double>(System::FrameCount());
+	static RenderTexture tex(700, 500);
+
+	Graphics2D::SetRenderTarget(tex);
+	tex.clear(Palette::White);
+	{
+		util::Transformer2D t2d(Graphics2D::GetTransform().inverse());
+		TextureAsset(L"titleBg1").uv(m_timer / 15000.0, 1.0, 0.75, 1.0).draw(0, 0);
+		TextureAsset(L"titleBg2").uv(m_timer / 6000.0, 1.0, 0.75, 1.0).draw(0, 0);
+		TextureAsset(L"titleBg3").uv(m_timer / 2000.0, 1.0, 0.75, 1.0).draw(0, 0);
+	}
+	Graphics2D::SetRenderTarget(Graphics::GetSwapChainTexture());
+	Graphics2D::SetBlendState(BlendState::Multiplicative);
+	tex.draw(50, 60);
+	Graphics2D::SetBlendState(BlendState::Default);
+
 
 	TextureAsset(L"logo").scale(0.8).drawAt(400,150);
 

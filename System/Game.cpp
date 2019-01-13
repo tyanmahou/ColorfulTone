@@ -22,6 +22,9 @@ void loadTexture()
 	TextureAsset::Register(L"canvasBg", L"Resource/Img/Load/bg.png");
 
 	//タイトル
+	TextureAsset::Register(L"titleBg1", L"Resource/Img/Title/bg1.png");
+	TextureAsset::Register(L"titleBg2", L"Resource/Img/Title/bg2.png");
+	TextureAsset::Register(L"titleBg3", L"Resource/Img/Title/bg3.png");
 	TextureAsset::Register(L"logo", L"Resource/Img/Title/logo.png");
 	TextureAsset::Register(L"modeBack", L"Resource/Img/Title/modeBack.png");
 
@@ -156,7 +159,7 @@ void loadSound()
 
 #pragma region BGM 
 
-	SoundAsset::Register(L"title",L"Resource/Sound/BGM/title.wav",SoundLoop(true), { L"System" });
+	SoundAsset::Register(L"title",L"Resource/Sound/BGM/title.mp3",SoundLoop(true), { L"System" });
 
 	SoundManager::BGM::Register(L"title");
 	SoundAsset::Register(L"result", L"Resource/Sound/BGM/result.wav", SoundLoop(true),{ L"System" });
