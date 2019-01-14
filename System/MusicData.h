@@ -218,6 +218,7 @@ public:
 		const BPMType& getMaxBPM()const { if (m_maxbpm == -1)return m_minbpm; return m_maxbpm;};
 
 	    Array<NotesData>& getNotesData(){ return m_notesDatas; }
+		const Array<NotesData>& getNotesData()const { return m_notesDatas; }
 
 		const String& getSoundNameID()const { return m_soundNameID; }
 		const int getIndex()const { return m_index; }

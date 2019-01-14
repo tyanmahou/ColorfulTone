@@ -31,9 +31,6 @@
     <Filter Include="util\Font">
       <UniqueIdentifier>{84d98160-b2a4-4eb8-9740-c2cf2a6f4b4f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="util\GIF">
-      <UniqueIdentifier>{020dd04a-a110-41c0-9860-34a5987a0231}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game">
       <UniqueIdentifier>{bc2af2e4-aab2-4e14-8e1d-e0b00f593928}</UniqueIdentifier>
     </Filter>
@@ -51,9 +48,6 @@
     </Filter>
     <Filter Include="Scene\Main">
       <UniqueIdentifier>{cc080dbd-33e9-4a10-bda8-d999cc13dd38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\MusicSelect">
-      <UniqueIdentifier>{9c955e18-cb02-45e4-aa2f-2bc41ee24ba0}</UniqueIdentifier>
     </Filter>
     <Filter Include="MusicGame\Object\Text">
       <UniqueIdentifier>{cb30d588-83f4-4679-9d05-b167dd341762}</UniqueIdentifier>
@@ -94,9 +88,6 @@
     <Filter Include="MusicGame\Data\GenreManager">
       <UniqueIdentifier>{3cb1777d-e09d-4f9f-ba48-bf2ad7b26514}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Result">
-      <UniqueIdentifier>{05efdc26-2fd0-4479-ac36-ee4d834d1613}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MusicGame\Anime">
       <UniqueIdentifier>{c3d5cd37-c40e-4003-91bc-345cea881e11}</UniqueIdentifier>
     </Filter>
@@ -123,6 +114,15 @@
     </Filter>
     <Filter Include="Scene\KeyConfig">
       <UniqueIdentifier>{fe796e6c-5cf4-4b89-9374-7aa115921b03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\MusicSelect">
+      <UniqueIdentifier>{9c955e18-cb02-45e4-aa2f-2bc41ee24ba0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Result">
+      <UniqueIdentifier>{05efdc26-2fd0-4479-ac36-ee4d834d1613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\GIF">
+      <UniqueIdentifier>{020dd04a-a110-41c0-9860-34a5987a0231}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +161,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Tutorial.cpp">
       <Filter>Scene\Tutorial</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)MainScene.cpp">
-      <Filter>Scene\Main</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)MusicSelectScene.cpp">
       <Filter>Scene\MusicSelect</Filter>
@@ -261,6 +258,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Util.cpp">
       <Filter>util</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MusicSelect.cpp">
+      <Filter>Scene\MusicSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MusicSelectView.cpp">
+      <Filter>Scene\MusicSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MainScene.cpp">
+      <Filter>Scene\Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -271,9 +277,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Fade.h">
       <Filter>Scene\Fade</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FileLoad.h">
-      <Filter>Scene\FileLoad</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FontKinetic.h">
       <Filter>util\Font</Filter>
@@ -444,11 +447,20 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MultiThread.hpp">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp">
-      <Filter>Scene\FileLoad</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp">
       <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileLoad.h">
+      <Filter>Scene\FileLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp">
+      <Filter>Scene\KeyConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelect.hpp">
+      <Filter>Scene\MusicSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelectView.hpp">
+      <Filter>Scene\MusicSelect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

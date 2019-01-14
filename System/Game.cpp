@@ -3,6 +3,8 @@
 #include"FileLoad.h"
 #include"Tutorial.h"
 #include"KeyConfigScene.h"
+#include"MusicSelect.hpp"
+// FIXME そのうち消す
 #include"MusicSelectScene.h"
 #include"MainScene.h"
 #include"ResultScene.h"
@@ -195,7 +197,7 @@ void Game::init(){
 	m_scene.add<TitleScene>(L"title");
 	m_scene.add<ConfigScene>(L"config");
 	m_scene.add<Tutorial>(L"tutorial");
-	m_scene.add<MusicSelectScene>(L"select");
+	m_scene.add<MusicSelect>(L"select");
 	m_scene.add<MainScene>(L"main");
 	m_scene.add<ResultScene>(L"result");
 	m_scene.add<CourseSelectScene>(L"courseSelect");

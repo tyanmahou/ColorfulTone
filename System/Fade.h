@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "TypeTraits.hpp"
 #include<functional>
+#include<Siv3D.hpp>
 //フェードの種類
 namespace Fade
 {
@@ -10,6 +11,11 @@ namespace Fade
 
 	// ページめくり
 	void FlipPage(double t, std::function<void()> drawble);
+
+
+	// ページめくり
+	void DrawCanvas(double t, std::function<void()> drawble);
+	void DrawCanvas(double t, const Color& color = Palette::White);
 }
 
 template<class Func, class... Args>
