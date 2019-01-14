@@ -20,7 +20,16 @@ public:
 		uint32 level = 0;	// 選択中のレベル
 		SortMode sortMode = SortMode::Default; // 選択中のソート
 	};
+	enum class Action :uint8
+	{
+		GenreSelect,
+		MusicSelect,
+		LevelSelect,
+	};
 private:
+	Action m_action = Action::MusicSelect;
+	int m_moveSelect = 0;
+
 	Array<MusicData> m_musics;
 	MusicSelectView m_view;
 	double m_shaderTimer = 0.0;
@@ -43,6 +52,14 @@ public:
 	double getShaderTimer()const
 	{
 		return m_shaderTimer;
+	}
+	Action getAction()const
+	{
+		return m_action;
+	}
+	int getMoveSelect()const
+	{
+		return m_moveSelect;
 	}
 };
 

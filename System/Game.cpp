@@ -217,10 +217,11 @@ void AssetLoad()
 {
 
 	FontManager::Register(L"Resource/Font/Straightfont.ttf");
-
+	// コンボ
 	FontAsset::Register(L"combo", 10, L"Straight");
-
+	// ラベル
 	FontAsset::Register(L"label", 15, L"Straight", FontStyle::Italic);
+	// 判定
 	FontAsset::Register(L"judge", 8, L"Straight");
 	FontAsset::Register(L"info", 10, Typeface::Default, FontStyle::Bold);
 	FontAsset::Register(L"TextObject", 17, Typeface::Default, FontStyle::Outline);
@@ -229,6 +230,10 @@ void AssetLoad()
 	FontAsset::Register(L"configTitle", 15,Typeface::Default,FontStyle::Italic);
 
 	FontAsset::Register(L"configSelect", 13);
+
+	// 選曲画面などの選択
+	FontAsset::Register(L"selectMusics", 16, Typeface::Bold);
+
 
 	loadTexture();
 

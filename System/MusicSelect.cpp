@@ -3,12 +3,13 @@
 #include"PlayKey.h"
 #include"SceneInfo.h"
 #include"GenreManager.h"
-
+#include"Util.h"
 namespace
 {
 	MusicSelect::SelectMusicsInfo g_selectInfo;
 
 	using SortMode = MusicSelect::SortMode;
+	using Action = MusicSelect::Action;
 	//　ソートの切り替え用
 	SortMode NextMode(SortMode mode)
 	{
@@ -59,9 +60,47 @@ namespace
 		Erase_if(musics, GenreManager::m_refiners[g_selectInfo.genre].m_refiner);
 		::SortMusics(musics);
 	}
+
+	uint32& GetSelectTarget(Action action)
+	{
+		switch (action)
+		{
+		case Action::GenreSelect: return g_selectInfo.genre;
+		case Action::MusicSelect: return g_selectInfo.music;
+		case Action::LevelSelect: return g_selectInfo.level;
+		default:
+			break;
+		}
+		return g_selectInfo.music;
+	}
+	size_t GetTargetSize(Action action, const Array<MusicData>& musics)
+	{
+		switch (action)
+		{
+		case Action::GenreSelect: return GenreManager::m_refiners.size();;
+		case Action::MusicSelect: return musics.size();
+		case Action::LevelSelect: return musics[g_selectInfo.music].getNotesData().size();
+		default:
+			break;
+		}
+		return 0;
+	}
+
+	int MoveSelect()
+	{
+		if (util::AccelPressed(PlayKey::Down()))
+		{
+			return -1;
+		}
+		if (util::AccelPressed(PlayKey::Up()))
+		{
+			return 1;
+		}
+		return 0;
+	}
 }
 
-MusicSelect::MusicSelect():
+MusicSelect::MusicSelect() :
 	m_view(this)
 {}
 
@@ -75,21 +114,53 @@ void MusicSelect::init()
 
 void MusicSelect::update()
 {
-	const uint32 musicSize = m_musics.size();
+	// 選択するターゲットの参照
+	auto &target = ::GetSelectTarget(m_action);
+	size_t size = ::GetTargetSize(m_action, m_musics);
 
-	if (PlayKey::Left().clicked)
+	int m_moveSelect = ::MoveSelect();
+	if (m_moveSelect)
 	{
-		++g_selectInfo.music;
-		m_shaderTimer = 0;
+		if (m_moveSelect < 0)
+		{
+			++target;
+		} 
+		else
+		{
+			target += size;
+			--target;
+		}
+		if (m_action == Action::MusicSelect)
+		{
+			m_shaderTimer = 0;
+		}
+		SoundManager::SE::Play(L"select");
 	}
-	if (PlayKey::Right().clicked)
-	{
-		g_selectInfo.music += musicSize;
-		--g_selectInfo.music;
-		m_shaderTimer = 0;
-	}
+	target = size ? target % size : 0;
+
 	m_shaderTimer += 0.025;
-	g_selectInfo.music = musicSize ? g_selectInfo.music%musicSize : 0;
+
+	// 決定ボタン
+	if (PlayKey::Start().clicked)
+	{
+		if (m_action == Action::MusicSelect)
+		{
+			if (size)
+			{
+				m_action = Action::LevelSelect;
+			}
+		}
+		SoundManager::SE::Play(L"desisionSmall");
+	}
+	// キャンセルボタン
+	if (PlayKey::SmallBack().clicked)
+	{
+		if (m_action == Action::LevelSelect)
+		{
+			m_action = Action::MusicSelect;
+		}
+		SoundManager::SE::Play(L"cancel");
+	}
 	//戻る
 	if (PlayKey::BigBack().clicked)
 	{
@@ -107,7 +178,8 @@ void MusicSelect::draw() const
 	if (timer % 400 <= 200)
 	{
 		SceneInfo::Draw(L"Enter:決定　BackSpace:絞り込み,戻る　F2:ソート　Esc:タイトル戻る ");
-	} else
+	}
+	else
 	{
 		SceneInfo::Draw(L"Shift:表示モード切替　F1:オート　Ctrl+↑↓:ハイスピード変更");
 	}

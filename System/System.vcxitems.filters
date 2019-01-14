@@ -267,6 +267,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MainScene.cpp">
       <Filter>Scene\Main</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SharedDraw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -462,5 +463,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelectView.hpp">
       <Filter>Scene\MusicSelect</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SharedDraw.hpp" />
   </ItemGroup>
 </Project>
