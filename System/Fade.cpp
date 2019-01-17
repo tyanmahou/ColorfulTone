@@ -94,7 +94,7 @@ namespace Fade
 	}
 	void DrawCanvas(double t, const Color & color)
 	{
-		static Texture tex(::createImg());
-		DrawCanvas(t, [&color] {tex.draw(color); });
+		static Texture tex(::createImg({Window::BaseWidth()*1.5,Window::BaseHeight()*1.5}));
+		DrawCanvas(t, [&color] {tex.drawAt(Window::BaseCenter(), color); });
 	}
 }

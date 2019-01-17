@@ -5,6 +5,44 @@
 #include "SharedDraw.hpp"
 #include"ResultRank.h"
 
+namespace
+{
+	void DrawHighSpeedDemo(const MusicSelect*const pScene)
+	{
+		const auto& highSpeedDemo = pScene->getHighSpeedDemo();
+		float scrollRate = pScene->getScrollRate();
+		auto select = MusicSelect::GetSelectInfo();
+
+		auto& musics = pScene->getMusics();
+		auto& music = musics[select.music];
+
+		String tmp = Format(music.getBPM(), L"*", scrollRate);
+
+		const auto kineticFunction = [=](KineticTypography& k)
+		{
+			static int fBpm = 0;
+			static int eBpm = 0;
+
+			if (k.ch == '*')
+				fBpm = k.index;
+			if (k.ch == '=')
+				eBpm = k.index;
+			if (Input::KeyControl.pressed)
+				if (k.index > fBpm&&k.index < eBpm)
+					k.col = Palette::Red;
+
+		};
+
+		if (const auto result = EvaluateOpt(tmp))
+		{
+			FontAsset(L"bpm")(tmp, L"=", result.value()).drawKinetic(10, 530, kineticFunction);
+		}
+		if (Input::KeyControl.pressed)
+		{
+			highSpeedDemo.draw(music.getMinSoundBeat(), music.getMaxSoundBeat(), scrollRate);
+		}
+	}
+}
 MusicSelectView::MusicSelectView(const MusicSelect*const scene):
 	m_pScene(scene)
 {}
@@ -17,6 +55,8 @@ MusicSelectView::~MusicSelectView()
 void MusicSelectView::draw() const
 {
 	TextureAsset(L"canvasBg").draw();
+	TextureAsset(L"label").draw(0, 500);
+
 
 	auto select = MusicSelect::GetSelectInfo();
 
@@ -55,9 +95,10 @@ void MusicSelectView::draw() const
 				return n.getColor();
 			},
 			[](const NotesData& n, Vec2 pos) {
-				//m_rateFont(notesData[index].getLevel()).drawCenter(430 + 40 + offset, 10 + 15 + 60 * i);
+				FontAsset(L"level")(n.getLevel()).drawCenter(pos + Vec2{ 40, 25 });
 				TextureAsset(ResultRank::getRankTextureName(n.clearRate)).scale(0.1).drawAt(pos + Vec2{ 320, 25 });
 			}
 		);
 	}
+	::DrawHighSpeedDemo(m_pScene);
 }

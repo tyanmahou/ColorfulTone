@@ -115,9 +115,8 @@ void MainScene::draw()const
 //--------------------------------------------------------------------------------
 void MainScene::drawFadeIn(double t) const
 {
-
 	draw();
-	FadeIn(Fade::Default, t);
+	FadeIn(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
 	m_data->m_nowMusics.getTexture().resize(300, 300).drawAt(400, 300, ColorF(1, 1 - t));
 
 }
@@ -127,8 +126,6 @@ void MainScene::drawFadeIn(double t) const
 //--------------------------------------------------------------------------------
 void MainScene::drawFadeOut(double t) const
 {
-
 	draw();
 	FadeOut(Fade::SmoothCircle, t);
-
 }

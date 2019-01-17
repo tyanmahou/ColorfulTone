@@ -102,7 +102,9 @@ namespace
 
 MusicSelect::MusicSelect() :
 	m_view(this)
-{}
+{
+	SoundAsset(L"title").stop(1s);
+}
 
 MusicSelect::~MusicSelect()
 {}
@@ -118,13 +120,15 @@ void MusicSelect::update()
 	auto &target = ::GetSelectTarget(m_action);
 	size_t size = ::GetTargetSize(m_action, m_musics);
 
-	int m_moveSelect = ::MoveSelect();
+	// ハイスピ変更
+	bool isHighSpeedUpdate = m_highSpeedDemo.update(m_data->m_scrollRate);
+	int m_moveSelect = isHighSpeedUpdate ? 0 : ::MoveSelect();
 	if (m_moveSelect)
 	{
 		if (m_moveSelect < 0)
 		{
 			++target;
-		} 
+		}
 		else
 		{
 			target += size;
@@ -141,16 +145,21 @@ void MusicSelect::update()
 	m_shaderTimer += 0.025;
 
 	// 決定ボタン
-	if (PlayKey::Start().clicked)
+	if (PlayKey::Start().clicked && size)
 	{
 		if (m_action == Action::MusicSelect)
 		{
-			if (size)
-			{
-				m_action = Action::LevelSelect;
-			}
+			m_action = Action::LevelSelect;
+			SoundManager::SE::Play(L"desisionSmall");
 		}
-		SoundManager::SE::Play(L"desisionSmall");
+		else if (m_action == Action::LevelSelect)
+		{
+			SoundManager::SE::Play(L"desisionLarge");
+			m_data->m_nowMusics = m_musics[g_selectInfo.music];
+			m_data->m_selectMusic = m_data->m_nowMusics.getIndex();
+			m_data->m_selectLevel = g_selectInfo.level;
+			changeScene(L"main", 3000);
+		}
 	}
 	// キャンセルボタン
 	if (PlayKey::SmallBack().clicked)
@@ -173,7 +182,6 @@ void MusicSelect::draw() const
 {
 	const int32 timer = System::FrameCount();
 	m_view.draw();
-
 	// シーン情報
 	if (timer % 400 <= 200)
 	{
@@ -193,6 +201,8 @@ void MusicSelect::drawFadeIn(double t) const
 void MusicSelect::drawFadeOut(double t) const
 {
 	this->draw();
+	FadeOut(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
+	m_musics[g_selectInfo.music].getTexture().resize(300, 300).drawAt(400, 300, ColorF(1, t*t));
 }
 
 MusicSelect::SelectMusicsInfo MusicSelect::GetSelectInfo()

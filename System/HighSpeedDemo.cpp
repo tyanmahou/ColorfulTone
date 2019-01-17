@@ -61,8 +61,9 @@ namespace
 	}
 
 }
-void HighSpeedDemo::update(float& scrollRate)
+bool HighSpeedDemo::update(float& scrollRate)
 {
+	bool isCtrlPressed = Input::KeyControl.pressed;
 	if (!m_sound.isPlaying())
 		m_sound.play();
 	
@@ -74,15 +75,15 @@ void HighSpeedDemo::update(float& scrollRate)
 			m_stopwatch.start();
 		}
 	}
-	if (!Input::KeyControl.pressed)
+	if (!isCtrlPressed)
 	{
 		m_offset.reset();
 		m_stopwatch.reset();
 	}
 	if (!m_offset.isEnd())
-		return;
+		return isCtrlPressed;
 
-	if (Input::KeyControl.pressed)
+	if (isCtrlPressed)
 	{
 		SpeedUpdate(PlayKey::Up(), m_stopwatch, scrollRate, 1);
 		SpeedUpdate(PlayKey::Down(), m_stopwatch, scrollRate, -1);
@@ -91,7 +92,10 @@ void HighSpeedDemo::update(float& scrollRate)
 
 	}
 	if (scrollRate < 0.1f)
+	{
 		scrollRate = 0.1f;
+	}
+	return isCtrlPressed;
 }
 
 void HighSpeedDemo::drawDemoNotes(const Mahou::SoundBar& bar, float scrollRate, int stencilNum)const

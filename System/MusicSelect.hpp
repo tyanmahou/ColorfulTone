@@ -32,6 +32,7 @@ private:
 
 	Array<MusicData> m_musics;
 	MusicSelectView m_view;
+	HighSpeedDemo m_highSpeedDemo;
 	double m_shaderTimer = 0.0;
 public:
 	MusicSelect();
@@ -60,6 +61,14 @@ public:
 	int getMoveSelect()const
 	{
 		return m_moveSelect;
+	}
+	const HighSpeedDemo& getHighSpeedDemo()const
+	{
+		return m_highSpeedDemo;
+	}
+	float getScrollRate()const
+	{
+		return m_data->m_scrollRate;
 	}
 };
 

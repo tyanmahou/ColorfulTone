@@ -233,7 +233,9 @@ void AssetLoad()
 
 	// 選曲画面などの選択
 	FontAsset::Register(L"selectMusics", 16, Typeface::Bold);
-
+	FontAsset::Register(L"bpm", 12);
+	FontAsset::Register(L"level", 12, L"Straight", FontStyle::Outline);
+	FontAsset(L"level").changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 2));
 
 	loadTexture();
 
