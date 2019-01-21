@@ -4,6 +4,8 @@
 #include"SceneInfo.h"
 #include"GenreManager.h"
 #include"Util.h"
+#include"AutoPlayManager.h"
+
 namespace
 {
 	MusicSelect::SelectMusicsInfo g_selectInfo;
@@ -154,11 +156,11 @@ void MusicSelect::update()
 		}
 		else if (m_action == Action::LevelSelect)
 		{
-			SoundManager::SE::Play(L"desisionLarge");
 			m_data->m_nowMusics = m_musics[g_selectInfo.music];
 			m_data->m_selectMusic = m_data->m_nowMusics.getIndex();
 			m_data->m_selectLevel = g_selectInfo.level;
 			changeScene(L"main", 3000);
+			SoundManager::SE::Play(L"desisionLarge");
 		}
 	}
 	// キャンセルボタン
@@ -167,14 +169,37 @@ void MusicSelect::update()
 		if (m_action == Action::LevelSelect)
 		{
 			m_action = Action::MusicSelect;
+			SoundManager::SE::Play(L"cancel");
 		}
-		SoundManager::SE::Play(L"cancel");
 	}
+	//プレイモード
+	if (Input::KeyF1.clicked)
+	{
+		AutoPlayManager::Instance()->m_autoPlay = !(AutoPlayManager::Instance()->m_autoPlay);
+		SoundManager::SE::Play(L"desisionSmall");
+	}
+
 	//戻る
 	if (PlayKey::BigBack().clicked)
 	{
-		SoundManager::SE::Play(L"cancel");
 		changeScene(L"title", 1000, true);
+		SoundManager::SE::Play(L"cancel");
+	}
+}
+
+namespace
+{
+	// シーン情報のメッセージを取得
+	String GetSceneInfoMsg()
+	{
+		const int32 timer = System::FrameCount();
+
+		if (timer % 400 <= 200)
+		{
+			return L"Enter:決定　BackSpace:絞り込み,戻る　F2:ソート　Esc:タイトル戻る";
+		}
+
+		return L"Shift:表示モード切替　F1:オート　Ctrl+↑↓:ハイスピード変更";
 	}
 }
 
@@ -183,13 +208,11 @@ void MusicSelect::draw() const
 	const int32 timer = System::FrameCount();
 	m_view.draw();
 	// シーン情報
-	if (timer % 400 <= 200)
+	SceneInfo::Draw(::GetSceneInfoMsg());
+
+	if (AutoPlayManager::Instance()->m_autoPlay)
 	{
-		SceneInfo::Draw(L"Enter:決定　BackSpace:絞り込み,戻る　F2:ソート　Esc:タイトル戻る ");
-	}
-	else
-	{
-		SceneInfo::Draw(L"Shift:表示モード切替　F1:オート　Ctrl+↑↓:ハイスピード変更");
+		PutText(L"AutoPlay").at(Window::Center().x, 40);
 	}
 }
 
