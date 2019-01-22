@@ -178,7 +178,23 @@ void MusicSelect::update()
 		AutoPlayManager::Instance()->m_autoPlay = !(AutoPlayManager::Instance()->m_autoPlay);
 		SoundManager::SE::Play(L"desisionSmall");
 	}
+	//ソート
+	if (Input::KeyF2.clicked)
+	{
+		uint32 index = m_musics[g_selectInfo.music].getIndex();
+		g_selectInfo.sortMode = ::NextMode(g_selectInfo.sortMode);
+		::SortMusics(m_musics);
 
+		for (uint32 i = 0; i < m_musics.size(); ++i)
+		{
+			if (index == m_musics[i].getIndex())
+			{
+				g_selectInfo.music = i;
+				break;
+			}
+		}
+		SoundManager::SE::Play(L"desisionSmall");
+	}
 	//戻る
 	if (PlayKey::BigBack().clicked)
 	{
