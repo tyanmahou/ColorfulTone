@@ -160,6 +160,7 @@ void loadSound()
 #pragma region BGM 
 
 	SoundAsset::Register(L"title",L"Resource/Sound/BGM/title.mp3",SoundLoop(true), { L"System" });
+	SoundAsset(L"title").setLoopBySec(true, 10.66s, 160.0s);
 
 	SoundManager::BGM::Register(L"title");
 	SoundAsset::Register(L"result", L"Resource/Sound/BGM/result.wav", SoundLoop(true),{ L"System" });
