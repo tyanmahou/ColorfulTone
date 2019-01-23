@@ -3,7 +3,8 @@
 #include "Fade.h"
 #include "PlayKey.h"
 #include "SharedDraw.hpp"
-#include"ResultRank.h"
+#include "ResultRank.h"
+#include "GenreManager.h"
 
 namespace
 {
@@ -72,7 +73,16 @@ void MusicSelectView::draw() const
 
 	const int moveSelect = m_pScene->getMoveSelect();
 	const auto action = m_pScene->getAction();
-	if (action == MusicSelect::Action::MusicSelect)
+
+	if (action == MusicSelect::Action::GenreSelect)
+	{
+		SharedDraw::Select<GenreData>(
+			GenreManager::GetGenreDates(),
+			select.genre,
+			moveSelect,
+			[](const GenreData& g)->decltype(auto) {return g.getName(); }
+		);
+	}else if (action == MusicSelect::Action::MusicSelect)
 	{
 		SharedDraw::Select<MusicData>(
 			musics,

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<functional>
 #include"MusicData.h"
 using RefinerType = std::function<bool(MusicData&)>;
@@ -15,8 +15,8 @@ enum GenreType
 class GenreData
 {
 private:
-	GenreType m_genreType;	//ƒ\[ƒg—p
-	int m_lv;			//ƒŒƒxƒ‹—p
+	GenreType m_genreType;	//ã‚½ãƒ¼ãƒˆç”¨
+	int m_lv;			//ãƒ¬ãƒ™ãƒ«ç”¨
 public:
 	String m_name;
 	RefinerType m_refiner;
@@ -55,6 +55,10 @@ public:
 			break;
 		}
 		return  TextureAsset(L"genre_file");
+	}
+	const String& getName() const
+	{
+		return m_name;
 	}
 	bool operator < (const GenreData& right)const 
 	{

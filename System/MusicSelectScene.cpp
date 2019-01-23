@@ -105,7 +105,7 @@ void MusicSelectScene::init()
 {
 	//楽曲数
 	m_musics = Game::Instance()->m_musics;
-	Erase_if(m_musics, GenreManager::m_refiners[m_selectGenre].m_refiner);
+	Erase_if(m_musics, GenreManager::GetRefiner(m_selectGenre));
 	this->sort();
 	m_musicsSize = m_musics.size();
 
@@ -200,7 +200,7 @@ void MusicSelectScene::update()
 		}
 		else
 		{
-			m_selectGenre += GenreManager::m_refiners.size();
+			m_selectGenre += GenreManager::Size();
 			--m_selectGenre;
 		}
 		EasingEndBySelectMusic();
@@ -218,7 +218,7 @@ void MusicSelectScene::update()
 
 	m_selectMusic = m_musicsSize ? m_selectMusic%m_musicsSize : 0;
 
-	const unsigned int genreSize = GenreManager::m_refiners.size();
+	const unsigned int genreSize = GenreManager::Size();
 
 	m_selectGenre = genreSize ? m_selectGenre%genreSize : 0;
 
@@ -271,7 +271,7 @@ void MusicSelectScene::update()
 							nowGenre = m_selectGenre;
 
 							m_musics = Game::Instance()->m_musics;
-							Erase_if(m_musics, GenreManager::m_refiners[m_selectGenre].m_refiner);
+							Erase_if(m_musics, GenreManager::GetRefiner(m_selectGenre));
 							m_musicsSize = m_musics.size();
 
 							if (m_musicsSize)
@@ -414,7 +414,7 @@ namespace
 	}
 	void NonSelectGenreBannerBG(int x, int y, int index, int offsetX, int offstY, const Font& font)
 	{
-		auto &genres = GenreManager::m_refiners;
+		auto &genres = GenreManager::GetGenreDates();
 
 		TextureAsset(L"bannerbg").resize(200, 270).drawAt(x + offsetX, y + 25 + offstY);
 
@@ -426,7 +426,7 @@ namespace
 }
 void MusicSelectScene::genreBannerAndInfoDraw()const
 {
-	const auto& genres = GenreManager::m_refiners;
+	const auto& genres = GenreManager::GetGenreDates();
 	const auto genresSize = genres.size();
 	const auto easingOffsetX = m_rightShift.easeInOut() + m_leftShift.easeInOut();
 	const int y = 250;
@@ -668,7 +668,7 @@ void MusicSelectScene::draw()const
 
 	{
 		TextureAsset(L"modeBack").drawAt(100, 50, Palette::Black);
-		auto& genres = GenreManager::m_refiners;
+		auto& genres = GenreManager::GetGenreDates();
 		util::ContractionDrawbleString(m_font1(genres[m_selectGenre].m_name), { 100,50 }, 180);
 	}
 

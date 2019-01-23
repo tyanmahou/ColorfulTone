@@ -50,6 +50,12 @@ namespace
 	}
 
 	// 楽曲リストソート
+	void RefineMusics(Array<MusicData>& musics)
+	{
+		Erase_if(musics, GenreManager::GetRefiner(g_selectInfo.genre));
+	}
+
+	// 楽曲リストソート
 	void SortMusics(Array<MusicData>& musics)
 	{
 		std::sort(musics.begin(), musics.end(), SortFunc(g_selectInfo.sortMode));
@@ -59,8 +65,16 @@ namespace
 	void InitMusics(Array<MusicData>& musics)
 	{
 		musics = Game::Instance()->m_musics;
-		Erase_if(musics, GenreManager::m_refiners[g_selectInfo.genre].m_refiner);
+		::RefineMusics(musics);
 		::SortMusics(musics);
+
+		size_t musicSize = musics.size();
+		if (musicSize) {
+			g_selectInfo.music %= musicSize;
+		}
+		else {
+			g_selectInfo.music = 0;
+		}
 	}
 
 	uint32& GetSelectTarget(Action action)
@@ -79,7 +93,7 @@ namespace
 	{
 		switch (action)
 		{
-		case Action::GenreSelect: return GenreManager::m_refiners.size();;
+		case Action::GenreSelect: return GenreManager::Size();
 		case Action::MusicSelect: return musics.size();
 		case Action::LevelSelect: return musics[g_selectInfo.music].getNotesData().size();
 		default:
@@ -149,7 +163,13 @@ void MusicSelect::update()
 	// 決定ボタン
 	if (PlayKey::Start().clicked && size)
 	{
-		if (m_action == Action::MusicSelect)
+		if (m_action == Action::GenreSelect)
+		{
+			::InitMusics(m_musics);
+			m_action = Action::MusicSelect;
+			SoundManager::SE::Play(L"desisionSmall");
+		}
+		else if (m_action == Action::MusicSelect)
 		{
 			m_action = Action::LevelSelect;
 			SoundManager::SE::Play(L"desisionSmall");
@@ -166,7 +186,12 @@ void MusicSelect::update()
 	// キャンセルボタン
 	if (PlayKey::SmallBack().clicked)
 	{
-		if (m_action == Action::LevelSelect)
+		if (m_action == Action::MusicSelect)
+		{
+			m_action = Action::GenreSelect;
+			SoundManager::SE::Play(L"cancel");
+		}
+		else if (m_action == Action::LevelSelect)
 		{
 			m_action = Action::MusicSelect;
 			SoundManager::SE::Play(L"cancel");
