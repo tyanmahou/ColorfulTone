@@ -44,7 +44,7 @@ namespace
 		}
 	}
 }
-MusicSelectView::MusicSelectView(const MusicSelect*const scene):
+MusicSelectView::MusicSelectView(const MusicSelect*const scene) :
 	m_pScene(scene)
 {}
 
@@ -68,7 +68,7 @@ void MusicSelectView::draw() const
 	// ジャケ絵描画
 	Fade::DrawCanvas(m_pScene->getShaderTimer(), [&music]()
 	{
-		music.getTexture().resize(400, 400).draw(50, 50);
+		music.getTexture().resize(350, 350).draw(65, 40);
 	});
 
 	const int moveSelect = m_pScene->getMoveSelect();
@@ -76,38 +76,42 @@ void MusicSelectView::draw() const
 
 	if (action == MusicSelect::Action::GenreSelect)
 	{
-		SharedDraw::Select<GenreData>(
+		SharedDraw::Select<GenreData>()
+			.setOnMoveSelect(moveSelect)
+			.setDrawble([](const GenreData& g, Vec2 pos) {
+			g.getTexture().resize(50, 50).drawAt(pos + Vec2{ 37,30 });
+		}).draw(
 			GenreManager::GetGenreDates(),
 			select.genre,
-			moveSelect,
 			[](const GenreData& g)->decltype(auto) {return g.getName(); }
 		);
-	}else if (action == MusicSelect::Action::MusicSelect)
+	}
+	else if (action == MusicSelect::Action::MusicSelect)
 	{
-		SharedDraw::Select<MusicData>(
+		SharedDraw::Select<MusicData>()
+			.setOnMoveSelect(moveSelect)
+			.setDrawble([](const MusicData& m, Vec2 pos) {
+			m.getTexture().resize(50, 50).drawAt(pos + Vec2{ 37, 30 });
+		}).draw(
 			musics,
 			select.music,
-			moveSelect,
 			[](const MusicData& m)->decltype(auto) {return m.getMusicName(); }
 		);
 	}
-	else if(action == MusicSelect::Action::LevelSelect)
+	else if (action == MusicSelect::Action::LevelSelect)
 	{
-		SharedDraw::Select<NotesData>(
+		SharedDraw::Select<NotesData>()
+			.setOnMoveSelect(moveSelect)
+			.setWidth(206)
+			.setColorCallBack([](const NotesData&n) {
+			return n.getColor();
+		}).setDrawble([](const NotesData& n, Vec2 pos) {
+			FontAsset(L"level")(n.getLevel()).drawCenter(pos + Vec2{ 40, 25 });
+			TextureAsset(ResultRank::getRankTextureName(n.clearRate)).scale(0.1).drawAt(pos + Vec2{ 320, 25 });
+		}).draw(
 			music.getNotesData(),
 			select.level,
-			moveSelect,
-			[](const NotesData& n)->decltype(auto) {
-				return n.getLevelName();
-			},
-			206,
-			[](const NotesData&n){
-				return n.getColor();
-			},
-			[](const NotesData& n, Vec2 pos) {
-				FontAsset(L"level")(n.getLevel()).drawCenter(pos + Vec2{ 40, 25 });
-				TextureAsset(ResultRank::getRankTextureName(n.clearRate)).scale(0.1).drawAt(pos + Vec2{ 320, 25 });
-			}
+			[](const NotesData& n)->decltype(auto) {return n.getLevelName(); }
 		);
 	}
 	::DrawHighSpeedDemo(m_pScene);
