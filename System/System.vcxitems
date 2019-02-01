@@ -16,6 +16,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)AppBase.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioSpectrum.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Audition.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AutoPlayManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BPMChanger.h" />
@@ -84,6 +85,7 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AppBase.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AudioSpectrum.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Audition.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BPMChanger.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CostumFolder.cpp" />

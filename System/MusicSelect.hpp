@@ -2,6 +2,7 @@
 #include"Game.h"
 #include"MusicSelectView.hpp"
 #include "HighSpeedDemo.h"
+#include"Audition.hpp"
 class MusicSelect :public MyApp::Scene
 {
 public:
@@ -32,6 +33,7 @@ private:
 
 	Array<MusicData> m_musics;
 	MusicSelectView m_view;
+	Audition m_audition;
 	HighSpeedDemo m_highSpeedDemo;
 	double m_shaderTimer = 0.0;
 public:

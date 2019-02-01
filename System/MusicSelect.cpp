@@ -75,6 +75,7 @@ namespace
 		else {
 			g_selectInfo.music = 0;
 		}
+
 	}
 
 	uint32& GetSelectTarget(Action action)
@@ -128,6 +129,10 @@ MusicSelect::~MusicSelect()
 void MusicSelect::init()
 {
 	::InitMusics(m_musics);
+	if (m_musics.size()) 
+	{
+		m_audition.autoPlayAndStop(m_musics[g_selectInfo.music]);
+	}
 }
 
 void MusicSelect::update()
@@ -176,6 +181,7 @@ void MusicSelect::update()
 		}
 		else if (m_action == Action::LevelSelect)
 		{
+			m_audition.stop();
 			m_data->m_nowMusics = m_musics[g_selectInfo.music];
 			m_data->m_selectMusic = m_data->m_nowMusics.getIndex();
 			m_data->m_selectLevel = g_selectInfo.level;
@@ -225,6 +231,11 @@ void MusicSelect::update()
 	{
 		changeScene(L"title", 1000, true);
 		SoundManager::SE::Play(L"cancel");
+	}
+	// 試聴
+	if (m_musics.size()&& !(m_action == Action::MusicSelect &&(PlayKey::Up().pressed||PlayKey::Down().pressed)))
+	{
+		m_audition.autoPlayAndStop(m_musics[g_selectInfo.music]);
 	}
 }
 
