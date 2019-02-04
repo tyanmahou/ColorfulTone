@@ -65,6 +65,3 @@ public:
 	friend Singleton < Game >;
 };
 
-void AssetLoad();
-
-

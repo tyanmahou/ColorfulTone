@@ -58,21 +58,26 @@ void MusicSelectView::draw() const
 	TextureAsset(L"canvasBg").draw();
 	TextureAsset(L"label").draw(0, 500);
 
-
 	auto select = MusicSelect::GetSelectInfo();
 
-	auto& musics = m_pScene->getMusics();
-	const uint32 musicSize = musics.size();
+	const auto& musics = m_pScene->getMusics();
+	const MusicData& music = musics[select.music];
 
-	auto& music = musics[select.music];
+	const auto& genres = GenreManager::GetGenreDates();
+	const GenreData& genre = genres[select.genre];
+
+
+	const auto action = m_pScene->getAction();
+	const auto& jacketTexture = action == MusicSelect::Action::GenreSelect 
+		? genre.getTexture() : music.getTexture();
+
 	// ジャケ絵描画
-	Fade::DrawCanvas(m_pScene->getShaderTimer(), [&music]()
+	Fade::DrawCanvas(m_pScene->getShaderTimer(), [&jacketTexture]()
 	{
-		music.getTexture().resize(350, 350).draw(65, 40);
+		jacketTexture.resize(350, 350).draw(45, 40);
 	});
 
 	const int moveSelect = m_pScene->getMoveSelect();
-	const auto action = m_pScene->getAction();
 
 	if (action == MusicSelect::Action::GenreSelect)
 	{
@@ -81,7 +86,7 @@ void MusicSelectView::draw() const
 			.setDrawble([](const GenreData& g, Vec2 pos) {
 			g.getTexture().resize(50, 50).drawAt(pos + Vec2{ 37,30 });
 		}).draw(
-			GenreManager::GetGenreDates(),
+			genres,
 			select.genre,
 			[](const GenreData& g)->decltype(auto) {return g.getName(); }
 		);
@@ -114,5 +119,18 @@ void MusicSelectView::draw() const
 			[](const NotesData& n)->decltype(auto) {return n.getLevelName(); }
 		);
 	}
+
+	// 選択中ジャンル
+	{
+		util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(-30)).translate({-25, 95}));
+		TextureAsset(L"sticky").draw();
+		util::ContractionDrawbleString(
+			FontAsset(L"selectMusics")(genre.getName()),
+			{ 125,25 },
+			175,
+			Palette::Black
+		);
+	}
+	// ハイスピ
 	::DrawHighSpeedDemo(m_pScene);
 }
