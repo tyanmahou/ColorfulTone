@@ -14,7 +14,7 @@ MusicData::MusicData(const String& genreName, const String& dirPath, const Strin
 	if (!iniReader)
 		return;
 	//タイトル
-	m_musicName.assign(iniReader.getOr<String>(L"Data.TITLE",L"None"));
+	m_musicName.assign(iniReader.getOr<String>(L"Data.TITLE", L"None"));
 
 	//ジャケ絵
 	m_texture = Texture(dirPath + iniReader.get<String>(L"Data.IMG"));
@@ -27,8 +27,9 @@ MusicData::MusicData(const String& genreName, const String& dirPath, const Strin
 	SoundAsset::Register(m_soundNameID, wavPath, SoundLoop(SecondsF(m_loop.x), SecondsF(m_loop.y)), { L"MusicData" });
 
 
-	m_artistName= iniReader.getOr<String>(L"Data.ARTIST", L"None");
-	m_minbpm=iniReader.getOr<BPMType>(L"Data.BPM", 120.0);
+	m_artistName = iniReader.getOr<String>(L"Data.ARTIST", L"None");
+	m_authority = iniReader.getOpt<String>(L"Data.AUTHORITY");
+	m_minbpm = iniReader.getOr<BPMType>(L"Data.BPM", 120.0);
 	m_maxbpm = iniReader.getOr<BPMType>(L"Data.MAXBPM", -1.0);
 
 	m_minBar = Mahou::SoundBar(0, m_minbpm);
@@ -36,14 +37,14 @@ MusicData::MusicData(const String& genreName, const String& dirPath, const Strin
 
 	m_bpm = EasingController<BPMType>(m_minbpm, m_maxbpm, Easing::Linear, 1000);
 	//譜面データ
-	for (int i = 0;true; ++i) 
+	for (int i = 0; true; ++i)
 	{
-		String notePath =iniReader.get<String>(Format(L"Level.NOTES", i));
+		String notePath = iniReader.get<String>(Format(L"Level.NOTES", i));
 		if (notePath.isEmpty)
 			break;
 		else {
-			if(FileSystem::Exists(dirPath+ notePath))
-			m_notesDatas.emplace_back(genreName,dirPath, notePath);
+			if (FileSystem::Exists(dirPath + notePath))
+				m_notesDatas.emplace_back(genreName, dirPath, notePath);
 		}
 	}
 
