@@ -46,9 +46,10 @@ namespace
 
 		//選曲
 		TextureAsset::Register(L"sticky", L"Resource/Img/MusicSelect/sticky.png");
+		TextureAsset::Register(L"sticky_red", L"Resource/Img/MusicSelect/sticky_red.png");
+		TextureAsset::Register(L"line", L"Resource/Img/MusicSelect/line.png");
+		TextureAsset::Register(L"memo", L"Resource/Img/MusicSelect/memo.png");
 
-		TextureAsset::Register(L"bannerbg", L"Resource/Img/MusicSelect/panel.png");
-		TextureAsset::Register(L"selectbg", L"Resource/Img/MusicSelect/selectBG.png");
 		TextureAsset::Register(L"levelbg", L"Resource/Img/MusicSelect/select.png");
 		TextureAsset::Register(L"levelMask", L"Resource/Img/MusicSelect/levelmask.png");
 

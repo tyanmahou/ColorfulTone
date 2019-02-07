@@ -143,7 +143,7 @@ void MusicSelect::update()
 
 	// ハイスピ変更
 	bool isHighSpeedUpdate = m_highSpeedDemo.update(m_data->m_scrollRate);
-	int m_moveSelect = isHighSpeedUpdate ? 0 : ::MoveSelect();
+	m_moveSelect = isHighSpeedUpdate ? 0 : ::MoveSelect();
 	if (m_moveSelect)
 	{
 		if (m_moveSelect < 0)

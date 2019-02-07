@@ -108,7 +108,7 @@ public:
 		  Sound getSound(){ return SoundAsset(m_soundNameID); }
 		const String& getMusicName()const { return m_musicName; }
 		const String& getArtistName()const { return m_artistName; }
-		const Optional<String>& getAutority()const { return m_authority; }
+		const Optional<String>& getAuthority()const { return m_authority; }
 		const String& getFileName()const { return m_fileName; }
 		const String& getGenreName()const { return m_genreName; }
 		const ABLoop& getLoopRange()const { return m_loop; }

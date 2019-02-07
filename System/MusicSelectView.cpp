@@ -8,6 +8,11 @@
 
 namespace
 {
+	using SortMode = MusicSelect::SortMode;
+	using Action = MusicSelect::Action;
+	constexpr double jacketWidth = 350;  // 曲情報の幅
+	constexpr double jacketCenter = 220; // 曲情報の中心
+
 	void DrawHighSpeedDemo(const MusicSelect*const pScene)
 	{
 		const auto& highSpeedDemo = pScene->getHighSpeedDemo();
@@ -43,6 +48,104 @@ namespace
 			highSpeedDemo.draw(music.getMinSoundBeat(), music.getMaxSoundBeat(), scrollRate);
 		}
 	}
+
+	void DrawStringOnMusicInfo(
+		const String* pTitle = nullptr,
+		const String* pSub = nullptr,
+		const String* pDetail = nullptr
+	){
+		// フォント
+		auto& font12 = FontAsset(L"bpm");
+		auto& font16b = FontAsset(L"selectMusics");
+
+		if (pTitle) 
+		{
+			//タイトル
+			util::ContractionDrawbleString(
+				font16b(*pTitle),
+				{ jacketCenter,440 },
+				jacketWidth,
+				Palette::Black
+			);
+		}
+		if (pSub)
+		{
+			// サブタイトル
+			util::ContractionDrawbleString(
+				font12(*pSub),
+				{ jacketCenter,475 },
+				jacketWidth,
+				Palette::Black
+			);
+		}
+		if (pDetail)
+		{
+			// 詳細
+			const int width = font12(*pDetail).region().w;
+			font12().draw(jacketCenter + jacketWidth / 2.0 - width, 495, Palette::Black);
+		}
+	}
+	void DrawMusicInfo(const Action action,const MusicData& music, const GenreData& genre)
+	{
+		TextureAsset(L"line").drawAt({ jacketCenter,475 });
+
+		if (action == MusicSelect::Action::GenreSelect)
+		{
+			::DrawStringOnMusicInfo(&genre.getName());
+		}
+		else
+		{
+			//作曲家 + 出典
+			String artistName = music.getArtistName();
+			const auto& authority = music.getAuthority();
+			if (authority.has_value())
+			{
+				artistName += L" / " + authority.value();
+			}
+			//BPM
+			const String& bpm = L"BPM:" + Pad(music.getBPM(), {5,L' '});
+
+			::DrawStringOnMusicInfo(
+				&music.getMusicName(),
+				&artistName,
+				&bpm
+			);
+		}
+	}
+	void DrawSortAndGenre(SortMode mode, const String& genreName)
+	{
+		// フォント
+		auto& font = FontAsset(L"bpm");
+
+		static const std::unordered_map<SortMode, String> sortName{
+			{SortMode::FileName, L"ファイル順"},
+			{SortMode::MusicName, L"曲名順"},
+			{SortMode::ArtistName, L"アーティスト名順"},
+			{SortMode::LastUpdateAt, L"更新日時順"},
+		};
+		// ソート
+		{
+			util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(-20)).translate({ 25, 95 }));
+			TextureAsset(L"sticky_red").draw();
+			util::ContractionDrawbleString(
+				font(sortName.at(mode)),
+				{ 125,25 },
+				175,
+				Palette::Black
+			);
+		}
+		// 選択中ジャンル
+		{
+			util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(-30)).translate({ -25, 95 }));
+			TextureAsset(L"sticky").draw();
+			util::ContractionDrawbleString(
+				font(genreName),
+				{ 125,25 },
+				175,
+				Palette::Black
+			);
+		}
+	}
 }
 MusicSelectView::MusicSelectView(const MusicSelect*const scene) :
 	m_pScene(scene)
@@ -56,6 +159,7 @@ MusicSelectView::~MusicSelectView()
 void MusicSelectView::draw() const
 {
 	TextureAsset(L"canvasBg").draw();
+
 	TextureAsset(L"label").draw(0, 500);
 
 	auto select = MusicSelect::GetSelectInfo();
@@ -68,13 +172,13 @@ void MusicSelectView::draw() const
 
 
 	const auto action = m_pScene->getAction();
-	const auto& jacketTexture = action == MusicSelect::Action::GenreSelect 
+	const auto& jacketTexture = action == MusicSelect::Action::GenreSelect
 		? genre.getTexture() : music.getTexture();
 
 	// ジャケ絵描画
-	Fade::DrawCanvas(m_pScene->getShaderTimer(), [&jacketTexture]()
+	Fade::DrawCanvas(m_pScene->getShaderTimer(), [=, &jacketTexture]()
 	{
-		jacketTexture.resize(350, 350).draw(45, 40);
+		jacketTexture.resize(jacketWidth, jacketWidth).drawAt(jacketCenter, 250);
 	});
 
 	const int moveSelect = m_pScene->getMoveSelect();
@@ -120,17 +224,10 @@ void MusicSelectView::draw() const
 		);
 	}
 
-	// 選択中ジャンル
-	{
-		util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(-30)).translate({-25, 95}));
-		TextureAsset(L"sticky").draw();
-		util::ContractionDrawbleString(
-			FontAsset(L"selectMusics")(genre.getName()),
-			{ 125,25 },
-			175,
-			Palette::Black
-		);
-	}
+	::DrawMusicInfo(action, music, genre);
+	// ソートとジャンル名表示
+	::DrawSortAndGenre(select.sortMode, genre.getName());
+
 	// ハイスピ
 	::DrawHighSpeedDemo(m_pScene);
 }
