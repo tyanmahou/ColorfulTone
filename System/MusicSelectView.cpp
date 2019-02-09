@@ -81,8 +81,18 @@ namespace
 		if (pDetail)
 		{
 			// 詳細
-			const int width = font12(*pDetail).region().w;
-			font12().draw(jacketCenter + jacketWidth / 2.0 - width, 495, Palette::Black);
+			const int wSize = 12;
+			const int width = wSize*(*pDetail).length;
+
+			const auto kinetic = [wSize](KineticTypography& k)
+			{
+				k.pos.x = k.origin.x + wSize * k.index;
+			};
+			font12(*pDetail).drawKinetic(
+				{ jacketCenter + jacketWidth / 2.0 - width, 495 },
+				kinetic, 
+				Palette::Black
+			);
 		}
 	}
 	void DrawMusicInfo(const Action action,const MusicData& music, const GenreData& genre)
@@ -103,8 +113,7 @@ namespace
 				artistName += L" / " + authority.value();
 			}
 			//BPM
-			const String& bpm = L"BPM:" + Pad(music.getBPM(), {5,L' '});
-
+			const String& bpm = L"BPM" + Pad(music.getBPM(), {5,L' '});
 			::DrawStringOnMusicInfo(
 				&music.getMusicName(),
 				&artistName,
