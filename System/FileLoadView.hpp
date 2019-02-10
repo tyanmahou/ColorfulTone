@@ -1,12 +1,12 @@
 ﻿#pragma once
-#include<Siv3D.hpp>
+#include<Siv3D/Fwd.hpp>
+#include<memory>
 // ロード画面ビュー
 class FileLoadView
 {
 private:
-	Stopwatch m_stopwatch;
-	bool m_isCompleted = false;
-	String m_message;
+	class Impl;
+	std::shared_ptr<Impl> m_pImpl;
 public:
 	FileLoadView();
 	~FileLoadView();
@@ -14,9 +14,6 @@ public:
 	void draw()const;
 	void onCompleted();
 
-	inline int32 getStopwatchMs()const
-	{
-		return m_stopwatch.ms();
-	}
+	s3d::int32 getStopwatchMs()const;
 };
 

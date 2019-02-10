@@ -3,7 +3,7 @@
 
 #include"ColorfulTone.h"
 
-//#define SHADERCOMPILE
+//# define SHADERCOMPILE
 # ifdef SHADERCOMPILE 
 # include <d3d11.h>
 # include <d3dcompiler.h>
@@ -60,6 +60,7 @@ namespace
 		CompileShaderFromFile(L"Shaders/startTrans.hlsl", L"Shaders/startTrans.ps", ShaderType::PS_4_0);
 		CompileShaderFromFile(L"Shaders/radialBlur.hlsl", L"Shaders/radialBlur.ps", ShaderType::PS_4_0);
 		CompileShaderFromFile(L"Shaders/flipPage.hlsl", L"Shaders/flipPage.ps", ShaderType::PS_4_0);
+		CompileShaderFromFile(L"Shaders/drawCanvas.hlsl", L"Shaders/drawCanvas.ps", ShaderType::PS_4_0);
 	}
 }
 #endif
@@ -73,8 +74,8 @@ void Main()
 	Graphics::SetBackground(Palette::White);
 	Texture tex(L"Resource/Img/Load/bg.png");
 
-	PixelShader ps(L"Shaders/flipPage.ps");
-
+	PixelShader ps(L"Shaders/drawCanvas.ps");
+	Texture d(L"Work/drawCanvas.png");
 	ConstantBuffer<Float4> cb;
 	cb->x = 0;
 	while (System::Update())
@@ -91,14 +92,27 @@ void Main()
 		{
 			Println(cb->x);
 		}
-		tex.draw();
+
+		Graphics2D::SetTexture(ShaderStage::Pixel, 1, d);
 		Graphics2D::SetConstant(ShaderStage::Pixel, 1, cb);
 		Graphics2D::BeginPS(ps);
-		static Image img(Window::Size());
-		img.fill(Palette::Black);
-		static auto bg = Texture(img);
-		tex.draw();
+		tex.scale(0.5).drawAt(Window::Center());
 		Graphics2D::EndPS();
+		//if (Input::KeySpace.pressed)
+		//{
+		//	d.draw();
+		//}
+		//auto t2d = Transformer2D(Mat3x2::Scale(0.8,Window::Center()));
+		//for (int i = 9; i >=0 ; i--)
+		//{
+		//	Vec2 pos{ 100.0,600.0 * i / 10.0+45};
+		//	Vec2 pos2{ 700.0,600.0 * i / 10.0+45};
+		//	if (i % 2) {
+		//		std::swap(pos, pos2);
+		//	}
+		//	pos.y -= 30;
+		//	Line(pos, pos2).draw(100,{ Color(255.0*i / 10.0, 0, 0,255), Color(255.0*(i + 1) / 10.0,0,0,255) });
+		//}
 	}
 #else
 	ColorfulTone game;

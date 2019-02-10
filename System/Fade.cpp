@@ -2,6 +2,12 @@
 #include"Util.h"
 namespace
 {
+	Image createImg(const Size& size = Window::BaseSize(), const Color& color = Palette::White)
+	{
+		Image img(size);
+		img.fill(Palette::White);
+		return std::move(img);
+	}
 	//微調整
 	bool FadeBase(double& t)
 	{
@@ -73,5 +79,22 @@ namespace Fade
 		Graphics2D::BeginPS(ps);
 		tex.draw();
 		Graphics2D::EndPS();
+	}
+	void DrawCanvas(double t, std::function<void()> drawble)
+	{
+		static PixelShader ps(L"Shaders/drawCanvas.ps");
+		static Texture mask(L"Resource/Img/MusicSelect/maskDrawCanvas.png");
+		static ConstantBuffer<Float4> cb;
+		cb->x = t; // timer
+		Graphics2D::SetTexture(ShaderStage::Pixel, 1, mask);
+		Graphics2D::SetConstant(ShaderStage::Pixel, 1, cb);
+		Graphics2D::BeginPS(ps);
+		drawble();
+		Graphics2D::EndPS();
+	}
+	void DrawCanvas(double t, const Color & color)
+	{
+		static Texture tex(::createImg({Window::BaseWidth()*1.5,Window::BaseHeight()*1.5}));
+		DrawCanvas(t, [&color] {tex.drawAt(Window::BaseCenter(), color); });
 	}
 }

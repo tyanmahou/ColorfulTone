@@ -16,6 +16,6 @@ private:
 public:
 	HighSpeedDemo();
 	~HighSpeedDemo();
-	void update(float& scrollRate);
+	bool update(float& scrollRate);
 	void draw(const Mahou::SoundBar& min,const Mahou::SoundBar& max, float scrollRate)const;
 };

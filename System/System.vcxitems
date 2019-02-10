@@ -16,8 +16,10 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)AppBase.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioSpectrum.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Audition.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AutoPlayManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BGLight.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BPMChanger.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Config.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CostumFolder.hpp" />
@@ -28,6 +30,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MultiThread.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelect.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelectView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NormalStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayBG.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)eJudge.h" />
@@ -48,7 +52,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MahouSoundBeat.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicData.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelectScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Note.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotesData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.h" />
@@ -58,6 +61,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Portrait.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Preview.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Setting.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SharedDraw.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Util.h" />
@@ -81,6 +85,7 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AppBase.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AudioSpectrum.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Audition.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BPMChanger.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CostumFolder.cpp" />
@@ -102,7 +107,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)LongNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MusicData.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MusicSelectScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MusicSelect.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MusicSelectView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NormalStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Note.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NotesData.cpp" />
@@ -111,6 +117,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayMusicGame.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Portrait.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Preview.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SharedDraw.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Util.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RepeatNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultRank.cpp" />

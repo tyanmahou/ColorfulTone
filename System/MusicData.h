@@ -76,10 +76,11 @@ public:
 	static int Index;
 private:
 
-	String m_musicName;		//曲名
-	String m_artistName;	//アーティスト名
-	String m_genreName;		//ジャンル名
-	Texture m_texture;		//ジャケ絵
+	String m_musicName;				//曲名
+	String m_artistName;			//アーティスト名
+	Optional<String> m_authority;	// 出典
+	String m_genreName;				//ジャンル名
+	Texture m_texture;				//ジャケ絵
 
 	BPMType m_minbpm,m_maxbpm;	//bpm
 
@@ -107,6 +108,7 @@ public:
 		  Sound getSound(){ return SoundAsset(m_soundNameID); }
 		const String& getMusicName()const { return m_musicName; }
 		const String& getArtistName()const { return m_artistName; }
+		const Optional<String>& getAuthority()const { return m_authority; }
 		const String& getFileName()const { return m_fileName; }
 		const String& getGenreName()const { return m_genreName; }
 		const ABLoop& getLoopRange()const { return m_loop; }
@@ -218,6 +220,7 @@ public:
 		const BPMType& getMaxBPM()const { if (m_maxbpm == -1)return m_minbpm; return m_maxbpm;};
 
 	    Array<NotesData>& getNotesData(){ return m_notesDatas; }
+		const Array<NotesData>& getNotesData()const { return m_notesDatas; }
 
 		const String& getSoundNameID()const { return m_soundNameID; }
 		const int getIndex()const { return m_index; }

@@ -47,7 +47,7 @@ void LoadMusicDatas()
 
 	SoundAsset::UnregisterByTag(L"MusicData");
 	musics.clear();
-	GenreManager::m_refiners.clear();
+	GenreManager::Clear();
 	const auto genrePaths = FileSystem::DirectoryContents(L"Music");
 	MusicData::Index = 0;
 

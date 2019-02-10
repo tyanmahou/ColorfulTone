@@ -5,6 +5,7 @@
 #include"FontKinetic.h"
 #include"PlayKey.h"
 #include"Setting.hpp"
+#include"SharedDraw.hpp"
 
 //--------------------------------------------------------------------------------
 //関数：コンストラクタ
@@ -118,6 +119,9 @@ void TitleScene::update()
 void TitleScene::draw()const
 {
 	TextureAsset(L"canvasBg").draw();
+	static SharedDraw::DrawBGLight lights;
+	lights.update();
+	lights.draw();
 	const double timer = static_cast<double>(System::FrameCount());
 	static RenderTexture tex(700, 500);
 	{
