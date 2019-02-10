@@ -4,8 +4,6 @@
 #include"Tutorial.h"
 #include"KeyConfigScene.h"
 #include"MusicSelect.hpp"
-// FIXME そのうち消す
-#include"MusicSelectScene.h"
 #include"MainScene.h"
 #include"ResultScene.h"
 #include"VideoAsset.h"

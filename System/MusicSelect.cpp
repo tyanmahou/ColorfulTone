@@ -226,6 +226,12 @@ void MusicSelect::update()
 		}
 		SoundManager::SE::Play(L"desisionSmall");
 	}
+	// 再度indexの調整
+	{
+		auto &target = ::GetSelectTarget(m_action);
+		size_t size = ::GetTargetSize(m_action, m_musics);
+		target = size ? target % size : 0;
+	}
 	//戻る
 	if (PlayKey::BigBack().clicked)
 	{
@@ -251,7 +257,7 @@ namespace
 			return L"Enter:決定　BackSpace:絞り込み,戻る　F2:ソート　Esc:タイトル戻る";
 		}
 
-		return L"Shift:表示モード切替　F1:オート　Ctrl+↑↓:ハイスピード変更";
+		return L"F1:オート　Ctrl+↑↓:ハイスピード変更";
 	}
 }
 
