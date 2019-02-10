@@ -66,5 +66,14 @@ namespace SharedDraw
 			TextureAsset(L"levelMask").draw(430, 0, Palette::Black);
 		}
 	};
+
+	class DrawBGLight
+	{
+	private:
+		Effect m_effect;
+	public:
+		void update();
+		void draw()const;
+	};
 }
 

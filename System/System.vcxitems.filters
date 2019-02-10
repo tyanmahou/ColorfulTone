@@ -162,9 +162,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Tutorial.cpp">
       <Filter>Scene\Tutorial</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)MusicSelectScene.cpp">
-      <Filter>Scene\MusicSelect</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)MusicData.cpp">
       <Filter>MusicGame\Data\MusicData</Filter>
     </ClCompile>
@@ -316,9 +313,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MainScene.h">
       <Filter>Scene\Main</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelectScene.h">
-      <Filter>Scene\MusicSelect</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicData.h">
       <Filter>MusicGame\Data\MusicData</Filter>
     </ClInclude>
@@ -466,5 +460,8 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedDraw.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Audition.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BGLight.hpp">
+      <Filter>Effect</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

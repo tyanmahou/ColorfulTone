@@ -1,13 +1,12 @@
 ﻿#pragma once
-#include<Siv3D/EasingController.hpp>
+#include<memory>
+
 class MusicSelect;
 
 class MusicSelectView
 {
-	const MusicSelect*const m_pScene;
-
-	double m_shaderTimer = 0.0;
-	s3d::EasingController<double> m_memoOffset;
+	class Impl;
+	std::shared_ptr<Impl> m_pImpl;
 public:
 	MusicSelectView(const MusicSelect*const scene);
 	~MusicSelectView();
