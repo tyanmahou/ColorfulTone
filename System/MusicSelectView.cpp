@@ -20,6 +20,10 @@ namespace
 		auto select = MusicSelect::GetSelectInfo();
 
 		auto& musics = pScene->getMusics();
+		if (!musics.size())
+		{
+			return;
+		}
 		auto& music = musics[select.music];
 
 		String tmp = Format(music.getBPM(), L"*", scrollRate);
@@ -53,12 +57,12 @@ namespace
 		const String* pTitle = nullptr,
 		const String* pSub = nullptr,
 		const String* pDetail = nullptr
-	){
+	) {
 		// フォント
 		const auto& font12 = FontAsset(L"bpm");
 		const auto& font16b = FontAsset(L"selectMusics");
 
-		if (pTitle) 
+		if (pTitle)
 		{
 			//タイトル
 			util::ContractionDrawbleString(
@@ -82,7 +86,7 @@ namespace
 		{
 			// 詳細
 			const int wSize = 12;
-			const int width = wSize*(*pDetail).length;
+			const int width = wSize * (*pDetail).length;
 
 			const auto kinetic = [wSize](KineticTypography& k)
 			{
@@ -90,12 +94,12 @@ namespace
 			};
 			font12(*pDetail).drawKinetic(
 				{ jacketCenter + jacketWidth / 2.0 - width, 495 },
-				kinetic, 
+				kinetic,
 				Palette::Black
 			);
 		}
 	}
-	void DrawMusicInfo(const Action action,const MusicData& music, const GenreData& genre)
+	void DrawMusicInfo(const Action action, const MusicData& music, const GenreData& genre)
 	{
 		TextureAsset(L"line").drawAt({ jacketCenter,475 });
 
@@ -113,7 +117,7 @@ namespace
 				artistName += L" / " + authority.value();
 			}
 			//BPM
-			const String& bpm = L"BPM" + Pad(music.getBPM(), {5,L' '});
+			const String& bpm = L"BPM" + Pad(music.getBPM(), { 5,L' ' });
 			::DrawStringOnMusicInfo(
 				&music.getMusicName(),
 				&artistName,
@@ -156,9 +160,9 @@ namespace
 		}
 	}
 	// 譜面情報
-	void DrawNotesInfo(const NotesData& notes)
+	void DrawNotesInfo(const NotesData& notes, double offset)
 	{
-		util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(8), {630, 480}));
+		util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(8), { 630, 480 }).translate({0, offset}));
 		// フォント
 		const auto& font12 = FontAsset(L"bpm");
 		Graphics2D::SetSamplerState(SamplerState::ClampLinear);
@@ -171,8 +175,8 @@ namespace
 		// 譜面製作者
 		constexpr Vec2 designerPos = ratePos + Vec2{ 0, 60 };
 		util::ContractionDrawbleString(
-			font12(notes.getNotesArtistName()), 
-			designerPos, 
+			font12(notes.getNotesArtistName()),
+			designerPos,
 			188,
 			Palette::Black
 		);
@@ -181,7 +185,7 @@ namespace
 		font12(notes.getTotalNotes()).drawCenter(totalPos, Palette::Black);
 		// クリア情報
 		constexpr Vec2 clearIconPos(720, 432);
-		constexpr Vec2 fcIconPos = clearIconPos + Vec2{0, 60};
+		constexpr Vec2 fcIconPos = clearIconPos + Vec2{ 0, 60 };
 		if (notes.isClear)
 		{
 			TextureAsset(L"iconClear").scale(0.5).drawAt(clearIconPos);
@@ -197,12 +201,40 @@ namespace
 	}
 }
 MusicSelectView::MusicSelectView(const MusicSelect*const scene) :
-	m_pScene(scene)
+	m_pScene(scene),
+	m_memoOffset(300, 0, Easing::Back, 1000)
 {}
 
 
 MusicSelectView::~MusicSelectView()
 {
+}
+
+void MusicSelectView::resetShaderTimer()
+{
+	m_shaderTimer = 0;
+}
+
+void MusicSelectView::onChangeAction()
+{
+	const auto change = m_pScene->getChangeAction();
+	const auto previous = change.first;
+	const auto current = change.second;
+	if (previous == Action::MusicSelect && current == Action::LevelSelect)
+	{
+		m_memoOffset.reset();
+		m_memoOffset.start();
+	}
+	else if (previous == Action::LevelSelect && current == Action::MusicSelect)
+	{
+		m_memoOffset.reset();
+		m_memoOffset.restart();
+	}
+}
+
+void MusicSelectView::update()
+{
+	m_shaderTimer += 0.025;
 }
 
 void MusicSelectView::draw() const
@@ -213,72 +245,87 @@ void MusicSelectView::draw() const
 
 	auto select = MusicSelect::GetSelectInfo();
 
-	const auto& musics = m_pScene->getMusics();
-	const MusicData& music = musics[select.music];
-
 	const auto& genres = GenreManager::GetGenreDates();
 	const GenreData& genre = genres[select.genre];
 
+	const auto& musics = m_pScene->getMusics();
 
-	const auto action = m_pScene->getAction();
-	const auto& jacketTexture = action == MusicSelect::Action::GenreSelect
-		? genre.getTexture() : music.getTexture();
-
-	// ジャケ絵描画
-	Fade::DrawCanvas(m_pScene->getShaderTimer(), [=, &jacketTexture]()
+	if (musics.size())
 	{
-		jacketTexture.resize(jacketWidth, jacketWidth).drawAt(jacketCenter, 250);
-	});
-
-	const int moveSelect = m_pScene->getMoveSelect();
-
-	if (action == MusicSelect::Action::GenreSelect)
-	{
-		SharedDraw::Select<GenreData>()
-			.setOnMoveSelect(moveSelect)
-			.setDrawble([](const GenreData& g, Vec2 pos) {
-			g.getTexture().resize(50, 50).drawAt(pos + Vec2{ 37,30 });
-		}).draw(
-			genres,
-			select.genre,
-			[](const GenreData& g)->decltype(auto) {return g.getName(); }
-		);
-	}
-	else if (action == MusicSelect::Action::MusicSelect)
-	{
-		SharedDraw::Select<MusicData>()
-			.setOnMoveSelect(moveSelect)
-			.setDrawble([](const MusicData& m, Vec2 pos) {
-			m.getTexture().resize(50, 50).drawAt(pos + Vec2{ 37, 30 });
-		}).draw(
-			musics,
-			select.music,
-			[](const MusicData& m)->decltype(auto) {return m.getMusicName(); }
-		);
-	}
-	else if (action == MusicSelect::Action::LevelSelect)
-	{
+		const MusicData& music = musics[select.music];
 		const auto& notes = music.getNotesData();
-		SharedDraw::Select<NotesData>()
-			.setOnMoveSelect(moveSelect)
-			.setWidth(206)
-			.setColorCallBack([](const NotesData&n) {
-			return n.getColor();
-		}).setDrawble([](const NotesData& n, Vec2 pos) {
-			FontAsset(L"level")(n.getLevel()).drawCenter(pos + Vec2{ 40, 25 });
-			TextureAsset(ResultRank::getRankTextureName(n.clearRate)).scale(0.1).drawAt(pos + Vec2{ 320, 25 });
-		}).draw(
-			notes,
-			select.level,
-			[](const NotesData& n)->decltype(auto) {return n.getLevelName(); }
-		);
-		if (notes.size())
-		{
-			::DrawNotesInfo(notes[select.level]);
-		}
-	}
 
-	::DrawMusicInfo(action, music, genre);
+		const auto action = m_pScene->getAction();
+		const auto& jacketTexture = action == MusicSelect::Action::GenreSelect
+			? genre.getTexture() : music.getTexture();
+
+		// ジャケ絵描画
+		Fade::DrawCanvas(1.0, [=, &jacketTexture]()
+		{
+			jacketTexture.resize(jacketWidth, jacketWidth).drawAt(jacketCenter, 250);
+		});
+
+		const int moveSelect = m_pScene->getMoveSelect();
+
+		static EasingController<double> easingAnime(0.0, -30.0, Easing::Linear, 100);
+		if (moveSelect)
+		{
+			easingAnime.reset();
+			easingAnime.start();
+		}
+		const double offset = easingAnime.isActive() ?
+			easingAnime.easeInOut() :
+			easingAnime.getEnd();
+
+
+		if (action == MusicSelect::Action::GenreSelect)
+		{
+			SharedDraw::Select<GenreData>()
+				.setOffset(offset)
+				.setDrawble([](const GenreData& g, Vec2 pos) {
+				g.getTexture().resize(50, 50).drawAt(pos + Vec2{ 37,30 });
+			}).draw(
+				genres,
+				select.genre,
+				[](const GenreData& g)->decltype(auto) {return g.getName(); }
+			);
+		}
+		else if (action == MusicSelect::Action::MusicSelect)
+		{
+			SharedDraw::Select<MusicData>()
+				.setOffset(offset)
+				.setDrawble([](const MusicData& m, Vec2 pos) {
+				m.getTexture().resize(50, 50).drawAt(pos + Vec2{ 37, 30 });
+			}).draw(
+				musics,
+				select.music,
+				[](const MusicData& m)->decltype(auto) {return m.getMusicName(); }
+			);
+		}
+		else if (action == MusicSelect::Action::LevelSelect)
+		{
+			SharedDraw::Select<NotesData>()
+				.setOffset(offset)
+				.setWidth(206)
+				.setColorCallBack([](const NotesData&n) {
+				return n.getColor();
+			}).setDrawble([](const NotesData& n, Vec2 pos) {
+				FontAsset(L"level")(n.getLevel()).drawCenter(pos + Vec2{ 40, 25 });
+				TextureAsset(ResultRank::getRankTextureName(n.clearRate)).scale(0.1).drawAt(pos + Vec2{ 320, 25 });
+			}).draw(
+				notes,
+				select.level,
+				[](const NotesData& n)->decltype(auto) {return n.getLevelName(); }
+			);
+		}
+		// 譜面情報
+		if (select.level < notes.size())
+		{
+			::DrawNotesInfo(notes[select.level],m_memoOffset.easeOut());
+		}
+
+		::DrawMusicInfo(action, music, genre);
+	}
 	// ソートとジャンル名表示
 	::DrawSortAndGenre(select.sortMode, genre.getName());
 

@@ -29,13 +29,13 @@ public:
 	};
 private:
 	Action m_action = Action::MusicSelect;
+	Action m_prevAction = Action::MusicSelect;
 	int m_moveSelect = 0;
 
 	Array<MusicData> m_musics;
 	MusicSelectView m_view;
 	Audition m_audition;
 	HighSpeedDemo m_highSpeedDemo;
-	double m_shaderTimer = 0.0;
 public:
 	MusicSelect();
 	~MusicSelect();
@@ -52,13 +52,15 @@ public:
 	{
 		return m_musics;
 	}
-	double getShaderTimer()const
-	{
-		return m_shaderTimer;
-	}
+
 	Action getAction()const
 	{
 		return m_action;
+	}
+	// previous , current
+	std::pair<Action, Action> getChangeAction()const
+	{
+		return { m_prevAction ,m_action };
 	}
 	int getMoveSelect()const
 	{

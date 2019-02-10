@@ -6,7 +6,7 @@ namespace SharedDraw
 	class Select
 	{
 	private:
-		bool m_onMoveSelect = false;
+		double m_offset = 0;
 		uint32 m_width = 280;
 		std::function<Color(const T&)> m_colorCallback;
 		std::function<void(const T&, Vec2 pos)> m_drawable;
@@ -30,9 +30,9 @@ namespace SharedDraw
 			this->m_width = width;
 			return *this;
 		}
-		Select& setOnMoveSelect(bool onMove)
+		Select& setOffset(double offset)
 		{
-			this->m_onMoveSelect = onMove;
+			this->m_offset = offset;
 			return *this;
 		}
 		void draw(
@@ -45,27 +45,9 @@ namespace SharedDraw
 			{
 				return;
 			}
-			static EasingController<double> easingAnime(0.0, -30.0, Easing::Linear, 100);
-			if (m_onMoveSelect)
-			{
-				easingAnime.reset();
-				easingAnime.start();
-			}
-
 			for (int i = 0; i < 10; ++i)
 			{
-				double offset = 0.0;
-				if (i == 4) 
-				{
-					if (easingAnime.isActive())
-					{
-						offset = easingAnime.easeInOut();
-					}
-					else
-					{
-						offset = easingAnime.getEnd();
-					}
-				}
+				double offset = i == 4 ? m_offset : 0.0;
 				Color uiColor = i == 4 ? Palette::Yellow : Palette::White;
 				const Vec2 pos{ 430 + offset, 60 * i };
 				TextureAsset(L"levelbg").draw(pos, uiColor);

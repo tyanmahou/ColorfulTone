@@ -137,8 +137,10 @@ void MusicSelect::init()
 
 void MusicSelect::update()
 {
+	m_prevAction = m_action;
 	// 選択するターゲットの参照
 	auto &target = ::GetSelectTarget(m_action);
+	const int prevTarget = target;
 	size_t size = ::GetTargetSize(m_action, m_musics);
 
 	// ハイスピ変更
@@ -155,15 +157,14 @@ void MusicSelect::update()
 			target += size;
 			--target;
 		}
-		if (m_action == Action::MusicSelect)
-		{
-			m_shaderTimer = 0;
-		}
+
 		SoundManager::SE::Play(L"select");
 	}
 	target = size ? target % size : 0;
-
-	m_shaderTimer += 0.025;
+	if (m_action == Action::MusicSelect && prevTarget != target)
+	{
+		m_view.resetShaderTimer();
+	}
 
 	// 決定ボタン
 	if (PlayKey::Start().clicked && size)
@@ -171,6 +172,8 @@ void MusicSelect::update()
 		if (m_action == Action::GenreSelect)
 		{
 			::InitMusics(m_musics);
+			m_view.resetShaderTimer();
+
 			m_action = Action::MusicSelect;
 			SoundManager::SE::Play(L"desisionSmall");
 		}
@@ -242,6 +245,11 @@ void MusicSelect::update()
 	if (m_musics.size()&& !(m_action == Action::MusicSelect &&(PlayKey::Up().pressed||PlayKey::Down().pressed)))
 	{
 		m_audition.autoPlayAndStop(m_musics[g_selectInfo.music]);
+	}
+	m_view.update();
+	if (m_action != m_prevAction)
+	{
+		m_view.onChangeAction();
 	}
 }
 
