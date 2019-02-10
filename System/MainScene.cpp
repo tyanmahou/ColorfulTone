@@ -117,8 +117,7 @@ void MainScene::drawFadeIn(double t) const
 {
 	draw();
 	FadeIn(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
-	m_data->m_nowMusics.getTexture().resize(300, 300).drawAt(400, 300, ColorF(1, 1 - t));
-
+	m_data->m_nowMusics.getTexture().resize(350, 350).drawAt(400, 300, ColorF(1, 1 - t));
 }
 
 //--------------------------------------------------------------------------------

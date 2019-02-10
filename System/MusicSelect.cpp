@@ -291,7 +291,8 @@ void MusicSelect::drawFadeOut(double t) const
 {
 	this->draw();
 	FadeOut(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
-	m_musics[g_selectInfo.music].getTexture().resize(300, 300).drawAt(400, 300, ColorF(1, t*t));
+	const double size = EaseOut(300.0, 350.0, Easing::Cubic, t);
+	m_musics[g_selectInfo.music].getTexture().resize(size,size).drawAt(400, 300, ColorF(1, t*t));
 }
 
 MusicSelect::SelectMusicsInfo MusicSelect::GetSelectInfo()
