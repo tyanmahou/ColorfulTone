@@ -470,7 +470,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Audition.hpp">
       <Filter>Scene\MusicSelect</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.h">
+    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\CTCFReader.hpp">
       <Filter>MusicGame\Data\GenreManager</Filter>
     </ClInclude>
   </ItemGroup>

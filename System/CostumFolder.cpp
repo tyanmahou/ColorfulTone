@@ -1,27 +1,32 @@
 ﻿#include"CostumFolder.hpp"
+#include"CTCFReader.hpp"
 #include"MusicData.h"
 #include"GenreManager.h"
-#include<stack>
 
+namespace
+{
+	std::unordered_map<String, CTCFReader> g_readerCache;
+}
 void LoadCustomFolder()
 {
+	g_readerCache.clear();
+
 	const auto ctcfFiles = FileSystem::DirectoryContents(L"CustomFolder");
 
 	//ここからデータ読み込み
-	//for (const auto& path : ctcfFiles)
-	//{
-	//	if (path.includes(L"ctfolder"))
-	//	{
-
-	//		CSVReader csv(path);
-
-	//		if (!csv)
-	//			continue;
-
-	//		//タイトル
-	//		String title = L"CustomFolder";
-
-	//		GenreManager::Add(GenreType::Custom, title, [func](MusicData& music)->bool {return !func(music); });
-	//	}
-	//}
+	for (const auto& path : ctcfFiles)
+	{
+		if (path.includes(L"ctfolder"))
+		{
+			CTCFReader ctfolder(path);
+			if (!ctfolder)
+			{
+				continue;
+			}
+			//タイトル
+			String title = ctfolder.getTitle().value_or(L"CustomFolder");
+			g_readerCache[path] = ctfolder;
+			GenreManager::Add(GenreType::Custom, title, [path](MusicData& music)->bool {return g_readerCache[path].expression(music); });
+		}
+	}
 }
