@@ -392,5 +392,7 @@ void NotesData::load(CSVReader & csv)
 	init();
 
 	int lv = m_lv;
-	GenreManager::Add(GenreType::Lv, Format(L"LEVEL:", lv), [lv](MusicData& music)->bool {return !(music.includesLV(lv)); }, lv);
+	GenreManager::Add(GenreType::Lv, Format(L"LEVEL:", lv), [lv](MusicData& music)->bool {
+		return !s3d::AnyOf(music.getNotesData(), [lv](const NotesData& notes) {return notes.getLevel() == lv; });
+	}, lv);
 }
