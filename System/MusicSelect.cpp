@@ -52,7 +52,7 @@ namespace
 	// 楽曲リストソート
 	void RefineMusics(Array<MusicData>& musics)
 	{
-		Erase_if(musics, GenreManager::GetRefiner(g_selectInfo.genre));
+		util::Erase_not_if(musics, GenreManager::GetRefiner(g_selectInfo.genre));
 	}
 
 	// 楽曲リストソート

@@ -86,7 +86,7 @@ void LoadMusicDatas()
 					musics.emplace_back(genreName, path, elm);
 					mutex.unlock();
 
-					GenreManager::Add(GenreType::Folder, genreName, [genreName](MusicData& music)->bool {return !(music.getGenreName() == genreName); });
+					GenreManager::Add(GenreType::Folder, genreName, [genreName](MusicData& music)->bool {return music.getGenreName() == genreName; });
 					break;
 				}
 			}
@@ -97,7 +97,7 @@ void LoadMusicDatas()
 	//カスタムフォルダ読み込み
 	::LoadCustomFolder();
 
-	GenreManager::Add(GenreType::All, L"ALL", [](MusicData& music)->bool {return false; });
+	GenreManager::Add(GenreType::All, L"ALL", [](MusicData& music)->bool {return true; });
 	GenreManager::Sort();
 
 	//タップSE読み込み

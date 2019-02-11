@@ -2,6 +2,11 @@
 #include<Siv3D.hpp>
 namespace util
 {
+	template <class Container, class Pred>
+	inline void Erase_not_if(Container& c, Pred pred)
+	{
+		Erase_if(c, [&pred](auto&& elm) {return !pred(elm); });
+	}
 
 	//
 	struct Transformer2D:s3d::Transformer2D
