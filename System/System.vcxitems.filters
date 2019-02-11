@@ -265,7 +265,12 @@
       <Filter>Scene\Main</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SharedDraw.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Audition.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Audition.cpp">
+      <Filter>Scene\MusicSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTCFReader.cpp">
+      <Filter>MusicGame\Data\GenreManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -459,9 +464,14 @@
       <Filter>Scene\MusicSelect</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedDraw.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Audition.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BGLight.hpp">
       <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Audition.hpp">
+      <Filter>Scene\MusicSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.h">
+      <Filter>MusicGame\Data\GenreManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

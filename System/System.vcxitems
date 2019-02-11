@@ -27,6 +27,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseGenre.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CoursePlay.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MultiThread.hpp" />
@@ -92,6 +93,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CoursePlay.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTCFReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)eJudge.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Fade.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileLoad.cpp" />
