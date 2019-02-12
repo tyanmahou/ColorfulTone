@@ -1,10 +1,10 @@
-#pragma once
+Ôªø#pragma once
 #include"PlayMusicGame.h"
-class Tutorial :public MyApp::Scene
+class Tutorial :public ISceneBase
 {
 private:
 
-	int m_timer;				//É^ÉCÉ}Å[
+	int m_timer;				//„Çø„Ç§„Éû„Éº
 	Font m_font2;
 
 	MusicData m_music;

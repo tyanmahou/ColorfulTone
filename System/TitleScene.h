@@ -2,7 +2,7 @@
 
 #include "Game.h"
 
-class TitleScene :public MyApp::Scene
+class TitleScene :public ISceneBase
 {
 public:
 	enum class Mode :unsigned int

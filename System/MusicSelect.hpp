@@ -3,7 +3,7 @@
 #include"MusicSelectView.hpp"
 #include "HighSpeedDemo.h"
 #include"Audition.hpp"
-class MusicSelect :public MyApp::Scene
+class MusicSelect :public ISceneBase
 {
 public:
 	enum class SortMode : uint8

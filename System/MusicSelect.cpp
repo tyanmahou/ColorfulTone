@@ -188,7 +188,7 @@ void MusicSelect::update()
 			m_data->m_nowMusics = m_musics[g_selectInfo.music];
 			m_data->m_selectMusic = m_data->m_nowMusics.getIndex();
 			m_data->m_selectLevel = g_selectInfo.level;
-			changeScene(L"main", 3000);
+			changeScene(L"main", 3000, false);
 			SoundManager::SE::Play(L"desisionLarge");
 		}
 	}

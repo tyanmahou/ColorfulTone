@@ -194,7 +194,7 @@ void FileLoad::update()
 			{
 				System::Exit();
 			}
-			changeScene(L"title", 1000, true);
+			changeScene(L"title", 1000);
 		}
 	}
 

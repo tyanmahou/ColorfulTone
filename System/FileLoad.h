@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "FileLoadView.hpp"
 
-class FileLoad :public MyApp::Scene
+class FileLoad :public ISceneBase
 {
 private:
 	int m_timer;			//タイマー

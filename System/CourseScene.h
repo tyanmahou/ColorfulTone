@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include"Game.h"
 
-class CourseSelectScene :public MyApp::Scene
+class CourseSelectScene :public ISceneBase
 {
 private:
 	enum class Mode {

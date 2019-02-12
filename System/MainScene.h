@@ -1,7 +1,7 @@
 ﻿#pragma once 
 #include"PlayMusicGame.h"
 #include"HighSpeedDemo.h"
-class MainScene :public MyApp::Scene
+class MainScene :public ISceneBase
 {
 private:
 	bool m_isCourse=false;

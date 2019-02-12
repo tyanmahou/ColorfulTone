@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 #include"Game.h"
 #include"HighSpeedDemo.h"
-class CoursePlay :public MyApp::Scene
+class CoursePlay :public ISceneBase
 {
 private:
 	int m_timer = 0;

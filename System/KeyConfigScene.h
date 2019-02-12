@@ -1,11 +1,11 @@
-#pragma once
+﻿#pragma once
 
 #include "Game.h"
 #include"Config.h"
 #include"KeyConfig.h"
 
 
-class ConfigScene :public MyApp::Scene
+class ConfigScene :public ISceneBase
 {
 
 private:

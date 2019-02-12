@@ -1,9 +1,9 @@
-#pragma once
+ï»¿#pragma once
 
 #include"ResultTweet.h"
 #include"SerialImage.h"
 
-class ResultScene :public MyApp::Scene
+class ResultScene :public ISceneBase
 {
 
 private:
@@ -17,7 +17,7 @@ private:
 	bool m_isPassEffectEnd = false;
 	EasingController<double> m_passEffectEasing;
 
-	int m_timer;				//ƒ^ƒCƒ}[
+	int m_timer;				//ã‚¿ã‚¤ãƒãƒ¼
 	Font m_font;
 	Font m_artistFont;
 	Font m_nameFont;
@@ -25,14 +25,14 @@ private:
 
 	Score m_resultScore;
 
-	unsigned int m_notesSum;	//ƒm[ƒc”
-	float  m_clearRate;			//ƒNƒŠƒA—¦
-	SpecialResult m_specialResult;	//ƒtƒ‹ƒRƒ“‚â‚`‚o‚Ìî•ñ
+	unsigned int m_notesSum;	//ãƒãƒ¼ãƒ„æ•°
+	float  m_clearRate;			//ã‚¯ãƒªã‚¢ç‡
+	SpecialResult m_specialResult;	//ãƒ•ãƒ«ã‚³ãƒ³ã‚„ï¼¡ï¼°ã®æƒ…å ±
 
 	bool m_isClear;
 	bool m_isNewRecord;
 	bool m_startEffect;
-	//‰‰o—p
+	//æ¼”å‡ºç”¨
 	Effect m_effect;
 	std::array<EasingController<int>, Score::Judge::TERM> m_judgeEasing;
 	EasingController<double> m_rateEasing;
