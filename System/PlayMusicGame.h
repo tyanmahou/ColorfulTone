@@ -1,8 +1,10 @@
 ﻿#pragma once
 
-#include"FCAPAnimeManager.h"
+#include"MusicData.h"
 #include"Score.h"
 #include"AudioSpectrum.h"
+#include"APAnime.hpp"
+class IPlayBG;
 
 class PlayMusicGame
 {
@@ -17,7 +19,7 @@ private:
 	String m_soundNameID;
 	NotesData m_notesData;		//譜面情報
 
-	FCAPANimeManager m_FCAPAnime;	//フルコンAPアニメ
+	APAnime m_FCAPAnime;	//フルコンAPアニメ
 	Score m_score;
 
 	float m_scrollRate;			//スクロールレート
@@ -73,10 +75,7 @@ public:
 
 	}
 
-	inline bool isFinish()const
-	{
-		return m_isFinish && (m_FCAPAnime.isEnd() || !m_FCAPAnime.isStart());
-	}
+	bool isFinish()const;
 
 	inline const Score& getScore()const
 	{
@@ -122,5 +121,4 @@ public:
 	{
 		return m_initRate;
 	}
-
 };

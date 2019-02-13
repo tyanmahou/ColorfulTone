@@ -28,7 +28,7 @@ namespace
 
 bool ColorfulTone::update()
 {
-	return Game::Instance()->updateAndDraw();
+	return Game::UpdateAndDraw();
 }
 
 ColorfulTone::ColorfulTone():

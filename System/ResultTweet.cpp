@@ -1,6 +1,6 @@
-#include"ResultTweet.h"
+ï»¿#include"ResultTweet.h"
 #include"Setting.hpp"
-
+#include<Siv3D.hpp>
 class ResultTweet::CTweet
 {
 	static TwitterClient& Twitter()
@@ -16,11 +16,11 @@ private:
 
 	void initAuthGUI()
 	{
-		//”FØGUI‚Ì‰Šú‰»
-		m_auth.setTitle(L"PIN ‚Ì“ü—Í");
+		//èªè¨¼GUIã®åˆæœŸåŒ–
+		m_auth.setTitle(L"PIN ã®å…¥åŠ›");
 		m_auth.addln(L"PIN", GUITextField::Create(7));
-		m_auth.add(L"auth", GUIButton::Create(L"”FØ"));
-		m_auth.add(L"cancel", GUIButton::Create(L"ƒLƒƒƒ“ƒZƒ‹"));
+		m_auth.add(L"auth", GUIButton::Create(L"èªè¨¼"));
+		m_auth.add(L"cancel", GUIButton::Create(L"ã‚­ãƒ£ãƒ³ã‚»ãƒ«"));
 		m_auth.setPos({200,200});
 		m_auth.show(false);
 	}
@@ -32,13 +32,13 @@ private:
 	{
 
 
-		m_gui.setTitle(L"ƒcƒC[ƒg");
+		m_gui.setTitle(L"ãƒ„ã‚¤ãƒ¼ãƒˆ");
 		m_gui.add(L"text", GUITextArea::Create(12, 12, 140));
-		//ƒcƒC[ƒgGUI‚Ì‰Šú‰»
+		//ãƒ„ã‚¤ãƒ¼ãƒˆGUIã®åˆæœŸåŒ–
 		this->updateThumbnail();
 		m_gui.addln(L"image", GUITexture::Create(Texture(m_thumbnail)));
-		m_gui.add(L"tweet", GUIButton::Create(L"ƒcƒC[ƒg"));
-		m_gui.add(L"cancel", GUIButton::Create(L"ƒLƒƒƒ“ƒZƒ‹"));
+		m_gui.add(L"tweet", GUIButton::Create(L"ãƒ„ã‚¤ãƒ¼ãƒˆ"));
+		m_gui.add(L"cancel", GUIButton::Create(L"ã‚­ãƒ£ãƒ³ã‚»ãƒ«"));
 
 		m_gui.setPos({ 200,200 });
 		m_gui.show(false);

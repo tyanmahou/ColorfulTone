@@ -129,10 +129,6 @@ public:
 			m_selectLevel = Min(notes.size() - 1, (size_t)(m_musicData->getNotesData().size()*rate));
 			
 			m_soundPlayer.setLevelName(notes[m_selectLevel].getLevelName());
-
 		}
-
 	}
-
-
 };

@@ -1,9 +1,10 @@
-#pragma once
-#include"Game.h"
+ï»¿#pragma once
 
+#include<Siv3D/Fwd.hpp>
+#include<memory>
 
 ///<summary>
-///ƒŠƒUƒ‹ƒg‚ğ‹¤—L‚·‚é(twitter)
+///ãƒªã‚¶ãƒ«ãƒˆã‚’å…±æœ‰ã™ã‚‹(twitter)
 ///</summary>
 class ResultTweet
 {
@@ -12,7 +13,7 @@ public:
 	ResultTweet();
 
 	bool update();
-	void tweet(const String& text);
+	void tweet(const s3d::String& text);
 
 private:
 	

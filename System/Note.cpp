@@ -1,5 +1,5 @@
 ﻿#include"Note.h"
-#include"PlayKey.h"
+#include"Useful.hpp"
 #include"eJudge.h"
 #include"AutoPlayManager.h"
 
@@ -320,8 +320,8 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 	//ロング用 始点が押されてたらそのままつぎののーつの判定に
 	if (isFirstTap())
 	{
-		if (AutoPlayManager::Instance()->m_autoPlay)
-			AutoPlayManager::Instance()->input(m_type);
+		if (AutoPlayManager::IsAutoPlay())
+			AutoPlayManager::Input(m_type);
 		return true;
 	}
 	auto count = m_count - nowCount;
@@ -339,7 +339,7 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 		return true;
 
 	//オートプレイ---------------------------------
-	if (AutoPlayManager::Instance()->m_autoPlay)
+	if (AutoPlayManager::IsAutoPlay())
 	{
 		if (count <= countPerFrame && m_type != 9)
 		{
@@ -357,7 +357,7 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 			}
 			tapUpdate(Score::Perfect, score);
 
-			AutoPlayManager::Instance()->input(type);
+			AutoPlayManager::Input(type);
 			return false;
 		}
 		return true;

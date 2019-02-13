@@ -1,6 +1,8 @@
 ﻿#include"AppBase.h"
-#include"Game.h"
 #include"MultiThread.hpp"
+#include "Useful.hpp"
+# include <HamFramework.hpp>
+#include"GameConfig.h"
 namespace
 {
 	enum class WindowSize
@@ -60,12 +62,12 @@ AppBase::AppBase(const String & appName, Size windowSize)
 
 	//ゲームコンフィグの初期化
 	//キー入力やハイスピ等
-	Game::Instance()->m_config.init();
+	Game::Config().init();
 }
 
 AppBase::~AppBase()
 {
-	Game::Instance()->m_config.save();
+	Game::Config().save();
 }
 
 void AppBase::mainLoop()

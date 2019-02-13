@@ -1,5 +1,5 @@
 ﻿#include"LongNote.h"
-#include"PlayKey.h"
+#include"Useful.hpp"
 #include"eJudge.h"
 #include"AutoPlayManager.h"
 #include"PlayMusicGame.h"
@@ -110,9 +110,8 @@ bool LongNote::update(double& nowCount, double& countPerFrame, Score& score, Sou
 			PlayStyle::Instance()->drawTapEffect(m_parent->getType());
 	}
 	//オートプレイ----------------------
-	if (AutoPlayManager::Instance()->m_autoPlay) 
+	if (AutoPlayManager::IsAutoPlay()) 
 	{
-
 		return true;
 	}
 	//----------------------------------

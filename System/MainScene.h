@@ -1,6 +1,8 @@
 ﻿#pragma once 
+#include"ISceneBase.hpp"
 #include"PlayMusicGame.h"
 #include"HighSpeedDemo.h"
+
 class MainScene :public ISceneBase
 {
 private:

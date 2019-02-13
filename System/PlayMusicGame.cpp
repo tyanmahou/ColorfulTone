@@ -1,12 +1,12 @@
 ﻿#include"PlayMusicGame.h"
+#include"Useful.hpp"
 #include"StartAnime.h"
 #include"AutoPlayManager.h"
 #include"MainScene.h"
-#include"PlayKey.h"
 #include"FontKinetic.h"
 #include"ResultRank.h"
-#include"Util.h"
 #include"PlayStyle.h"
+#include "GameConfig.h"
 
 PlayMusicGame::PlayMusicGame() :
 	m_nowCount(-10000.0),
@@ -52,14 +52,14 @@ void PlayMusicGame::init(MusicData & nowMusic, const int level, const float scro
 
 	m_scrollRate = scrollRate;
 
-	Game::Instance()->m_config.m_scrollRate = m_scrollRate;
+	Game::Config().m_scrollRate = m_scrollRate;
 
 	m_title = nowMusic.getArtistName() + L" - " + nowMusic.getMusicName();
 
 	m_score = Score();
 
-	m_playBG = ::CreateBG(Game::Instance()->m_config.m_bgType);
-	PlayStyle::Instance()->setStyle(Game::Instance()->m_config.m_styleType);
+	m_playBG = ::CreateBG(Game::Config().m_bgType);
+	PlayStyle::Instance()->setStyle(Game::Config().m_styleType);
 
 	m_playBG->init(nowMusic);
 
@@ -76,9 +76,10 @@ void PlayMusicGame::update()
 		return;
 	}
 	//オートプレイのキー入力更新
-	if (AutoPlayManager::Instance()->m_autoPlay)
-		AutoPlayManager::Instance()->update();
-
+	if (AutoPlayManager::IsAutoPlay())
+	{
+		AutoPlayManager::Update();
+	}
 	//ノーツ処理
 	m_notesData.update(m_sound, m_nowCount, m_score);
 
@@ -125,7 +126,7 @@ namespace
 {
 	bool isInput(bool autoPlay, bool userPlay)
 	{
-		return AutoPlayManager::Instance()->m_autoPlay ? autoPlay : userPlay;
+		return AutoPlayManager::IsAutoPlay() ? autoPlay : userPlay;
 	}
 }
 
@@ -135,7 +136,7 @@ void PlayMusicGame::drawBG(const MusicData & nowMusic, const double drawCount)co
 	m_playBG->apply(drawCount);
 
 	//スペクトラム描画
-	if (Game::Instance()->m_config.m_isSpectrum)
+	if (Game::Config().m_isSpectrum)
 		m_spectrum.draw(m_sound);
 
 	TextureAsset(L"mainbg").draw();
@@ -166,9 +167,9 @@ void PlayMusicGame::draw(const MusicData & nowMusic) const
 		Rect(800, 0, -w, 600).draw({ c1,c2, c2,c1 });
 	}
 	//入力アクション
-	const bool redInput = isInput(AutoPlayManager::Instance()->isRedPressed(), PlayKey::Red().pressed);
-	const bool blueInput = isInput(AutoPlayManager::Instance()->isBluePressed(), PlayKey::Blue().pressed);
-	const bool yellowInput = isInput(AutoPlayManager::Instance()->isYellowPressed(), PlayKey::Yellow().pressed);
+	const bool redInput = isInput(AutoPlayManager::IsRedPressed(), PlayKey::Red().pressed);
+	const bool blueInput = isInput(AutoPlayManager::IsBluePressed(), PlayKey::Blue().pressed);
+	const bool yellowInput = isInput(AutoPlayManager::IsYellowPressed(), PlayKey::Yellow().pressed);
 
 
 	PlayStyle::Instance()->drawFrame(redInput, blueInput, yellowInput,
@@ -191,10 +192,15 @@ void PlayMusicGame::previewDraw(const MusicData & nowMusic, const double count) 
 	//背景
 	this->drawBG(nowMusic, drawCount);
 
-
 	PlayStyle::Instance()->drawJudgeLine();
 
 	m_notesData.previewDraw(drawCount, m_scrollRate);
+}
+
+bool PlayMusicGame::isFinish() const
+
+{
+	return m_isFinish && (m_FCAPAnime.isEnd() || !m_FCAPAnime.isStart());
 }
 
 void PlayMusicGame::uiDraw() const
@@ -204,7 +210,7 @@ void PlayMusicGame::uiDraw() const
 
 	const auto rate = m_isCourse ?
 		m_life :
-		Game::Instance()->m_config.m_isClearRateDownType ?
+		Game::Config().m_isClearRateDownType ?
 		ResultRank::calcClearRateAsDownType(m_score, m_notesData.getTotalNotes()) :
 		ResultRank::calcClearRate(m_score, m_notesData.getTotalNotes());
 
@@ -244,7 +250,7 @@ void PlayMusicGame::uiDraw() const
 
 	PutText(m_title).at(Window::Center().x, 20);
 
-	if (AutoPlayManager::Instance()->m_autoPlay)
+	if (AutoPlayManager::IsAutoPlay())
 		PutText(L"AutoPlay").at(Window::Center().x, 40);
 
 	const auto levelName = Format(m_notesData.getLevel()) + L" - " + m_notesData.getLevelName();

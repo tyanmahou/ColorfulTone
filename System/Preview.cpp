@@ -1,5 +1,5 @@
-#include "Preview.h"
-
+ï»¿#include "Preview.h"
+#include"Useful.hpp"
 #include"AutoPlayManager.h"
 
 void SoundPlayer::update()
@@ -59,14 +59,14 @@ void SoundPlayer::update()
 	if (m_isActive)
 	{
 		Println(L"F1:AutoPlay");
-		Println(L"F2:Œ»İ‚ÌˆÊ’u‚©‚çÄ¶/’â~");
-		Println(L"F3:‹È‚Ì‰‚ß‚©‚çÄ¶/’â~");
-		Println(L"F5:XV");
-		Println(L"Ctrl:ƒnƒCƒXƒs‚Ì•ÏX");
+		Println(L"F2:ç¾åœ¨ã®ä½ç½®ã‹ã‚‰å†ç”Ÿ/åœæ­¢");
+		Println(L"F3:æ›²ã®åˆã‚ã‹ã‚‰å†ç”Ÿ/åœæ­¢");
+		Println(L"F5:æ›´æ–°");
+		Println(L"Ctrl:ãƒã‚¤ã‚¹ãƒ”ã®å¤‰æ›´");
 
 
 	}
-	Println(L"F11:GUI‚Ì•\¦/”ñ•\¦");
+	Println(L"F11:GUIã®è¡¨ç¤º/éè¡¨ç¤º");
 
 }
 
@@ -78,7 +78,7 @@ void Preview::loadProject(Optional<FilePath>& path)
 		const auto genre = FileSystem::BaseName(FileSystem::ParentPath(*path));
 
 		auto assets = FileSystem::DirectoryContents(*path);
-		//iniƒtƒ@ƒCƒ‹‚ª‚ ‚é‚©ŒŸõ
+		//iniãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹ã‹æ¤œç´¢
 		for (const auto& elm : assets)
 		{
 			if (elm.includes(L"ini"))
@@ -98,7 +98,6 @@ void Preview::loadProject(Optional<FilePath>& path)
 
 		m_musicGame.getSound().setPosSec(pos);
 	}
-
 }
 
 void Preview::notify(const String & event)
@@ -130,11 +129,11 @@ void Preview::update()
 	//	changeScene(L"title", 3000);
 	//}
 	m_soundPlayer.update();
-	//ƒvƒŒƒCƒ‚[ƒh
+	//ãƒ—ãƒ¬ã‚¤ãƒ¢ãƒ¼ãƒ‰
 	if (Input::KeyF1.clicked)
 	{
 		SoundManager::SE::Play(L"desisionSmall");
-		AutoPlayManager::Instance()->m_autoPlay = !(AutoPlayManager::Instance()->m_autoPlay);
+		AutoPlayManager::ChangePlayMode();
 	}
 	if (Input::KeyF5.clicked)
 	{

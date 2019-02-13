@@ -124,6 +124,9 @@
     <Filter Include="MusicGame\Data\MusicData\Score">
       <UniqueIdentifier>{0448d3bd-b7d2-401d-abe5-d59bdcfde9ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MusicGame\AutoPlay">
+      <UniqueIdentifier>{c75d002a-030e-4591-8c61-396a26ea1d8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp">
@@ -271,6 +274,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CTCFReader.cpp">
       <Filter>MusicGame\Data\GenreManager</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayStyle.cpp">
+      <Filter>MusicGame\PlayStyle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)APAnime.cpp">
+      <Filter>MusicGame\Anime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AutoPlayManager.cpp">
+      <Filter>MusicGame\AutoPlay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -296,9 +308,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)VideoAsset.h">
       <Filter>util\VideoAsset</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AutoPlayManager.h">
-      <Filter>MusicGame</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GenreData.h">
       <Filter>MusicGame\Data\GenreManager</Filter>
@@ -384,9 +393,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Singleton.h">
       <Filter>util</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FCAPAnimeManager.h">
-      <Filter>MusicGame\Anime</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)StartAnime.h">
       <Filter>MusicGame\Anime</Filter>
     </ClInclude>
@@ -471,5 +477,12 @@
       <Filter>Scene\MusicSelect</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AutoPlayManager.h">
+      <Filter>MusicGame\AutoPlay</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FCAPAnimeManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)APAnime.hpp">
+      <Filter>MusicGame\Anime</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

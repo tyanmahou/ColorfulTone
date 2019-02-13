@@ -1,10 +1,10 @@
 ﻿#include "NormalStyle.h"
+#include "Useful.hpp"
 
 #include"Note.h"
 #include"Bar.h"
 #include"LongNote.h"
 #include"RepeatNote.h"
-#include"Util.h"
 #include"PlayMusicGame.h"
 #include"TapEffect.h"
 #include"JudgeEffect.h"
@@ -97,7 +97,7 @@ namespace
 
 void NormalStyle::drawFrame(bool red,bool blue,bool yellow, std::function<void()> drawCallback) const
 {
-	const auto& config = Game::Instance()->m_config;
+	const auto& config = Game::Config();
 	if (config.m_isCirleCut)
 	{
 		const Circle mask(400, 300, 300);

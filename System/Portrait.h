@@ -1,6 +1,5 @@
-#pragma once
+﻿#pragma once
 #include"IPlayStyle.h"
-
 
 //tate
 class Portrait : public IPlayStyle
@@ -11,7 +10,7 @@ class Portrait : public IPlayStyle
 	void drawComboAndRate(int combo, float rate);
 
 	void drawTapEffect(int type);
-	void drawJudgeEffect(const String& str, int type);
+	void drawJudgeEffect(const s3d::String& str, int type);
 
 	void draw(const Bar& note, double count, float scrollRate)const override;
 
@@ -23,4 +22,3 @@ class Portrait : public IPlayStyle
 
 	void draw(const RepeatEnd& note, double count, float scrollRate)const override;
 };
-#pragma once

@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include"ISceneBase.hpp"
+
 #include"ResultTweet.h"
 #include"SerialImage.h"
 

@@ -1,10 +1,9 @@
 ﻿#include"Portrait.h"
-
+#include"Useful.hpp"
 #include"Note.h"
 #include"Bar.h"
 #include"LongNote.h"
 #include"RepeatNote.h"
-#include"Util.h"
 #include"PlayMusicGame.h"
 #include"TapEffect.h"
 #include"JudgeEffect.h"
@@ -36,7 +35,7 @@ namespace
 	}
 	bool CanDraw(double y)
 	{
-		const double scale = Game::Instance()->m_config.m_playScale;
+		const double scale = Game::Config().m_playScale;
 		return !(y <450 - 500.0 / scale || y>150.0 + 500.0 / scale);
 		//return !(y <= -50 || y > 650);
 	}
@@ -45,7 +44,7 @@ namespace
 
 void Portrait::drawFrame(bool red, bool blue, bool yellow, std::function<void()> drawCallback) const
 {
-	const auto& config = Game::Instance()->m_config;
+	const auto& config = Game::Config();
 
 	Graphics2D::SetBlendState(BlendState::Subtractive);
 	const double w = g_width *config.m_playScale;

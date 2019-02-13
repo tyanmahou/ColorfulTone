@@ -1,8 +1,9 @@
 ﻿#pragma once
-#include"Game.h"
+#include"ISceneBase.hpp"
 #include"MusicSelectView.hpp"
 #include "HighSpeedDemo.h"
 #include"Audition.hpp"
+
 class MusicSelect :public ISceneBase
 {
 public:

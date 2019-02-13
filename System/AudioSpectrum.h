@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 
-#include<Siv3D.hpp>
+#include<Siv3D/Sound.hpp>
 class AudioSpectrum
 {
 private:
@@ -11,5 +11,5 @@ public:
 		m_radius(radius),
 		m_baseHz(baseHz)
 	{}
-	void draw(const Sound& sound)const;
+	void draw(const s3d::Sound& sound)const;
 };

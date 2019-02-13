@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"Game.h"
+#include"ISceneBase.hpp"
 #include"HighSpeedDemo.h"
 class CoursePlay :public ISceneBase
 {

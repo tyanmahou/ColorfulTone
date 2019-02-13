@@ -1,6 +1,6 @@
-#include"FontKinetic.h"
+﻿#include"FontKinetic.h"
 
-void FontKinetic::DeleteSpace(KineticTypography& k)
+void FontKinetic::DeleteSpace(s3d::KineticTypography& k)
 {
 	{
 		if (k.ch == ' ')

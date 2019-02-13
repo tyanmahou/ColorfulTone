@@ -1,22 +1,23 @@
-#include"VideoAsset.h"
+ï»¿#include"VideoAsset.h"
+#include<unordered_map>
 
 //--------------------------------------------------------------------------------
-//Ã“Iƒƒ“ƒo•Ï”
+//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 //--------------------------------------------------------------------------------
 
-std::unordered_map<AssetName, VideoPlayer> Mahou::VideoAsset::m_map;
+std::unordered_map<s3d::AssetName, s3d::VideoPlayer> g_map;
 
 //--------------------------------------------------------------------------------
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //--------------------------------------------------------------------------------
-Mahou::VideoAsset::VideoAsset(const AssetName& name) :
-	VideoPlayer(m_map.at(name)) {}
+Mahou::VideoAsset::VideoAsset(const s3d::AssetName& name) :
+	VideoPlayer(g_map.at(name)) {}
 
-bool Mahou::VideoAsset::Register(const AssetName& name, const FilePath& path, bool loop)
+bool Mahou::VideoAsset::Register(const s3d::AssetName& name, const s3d::FilePath& path, bool loop)
 {
-	if (!m_map.count(name))
+	if (!g_map.count(name))
 	{
-		m_map.emplace(name, VideoPlayer(path, loop));
+		g_map.emplace(name, VideoPlayer(path, loop));
 		return true;
 	}
 	return false;

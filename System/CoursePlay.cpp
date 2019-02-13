@@ -1,21 +1,17 @@
 ﻿#include"CoursePlay.h"
-#include"Fade.h"
-#include"SceneInfo.h"
-#include"PlayKey.h"
-#include"Util.h"
+#include"Useful.hpp"
+
 CoursePlay::CoursePlay() :
 	m_font1(16, Typeface::Bold),
 	m_font2(12)
 {
-	SoundAsset(L"title").stop();
-	SoundAsset::Release(L"title");
-
+	SoundAsset(L"title").stop(1s);
 }
 
 void CoursePlay::init()
 {
-	auto& musics = Game::Instance()->m_musics;
-	auto& currentCourse = Game::Instance()->m_courses.at(m_data->m_selectCourse);
+	auto& musics = Game::Musics();
+	auto& currentCourse = Game::Courses().at(m_data->m_selectCourse);
 	auto& notesID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex];
 
 	const String& id = musics[notesID.first].getSoundNameID();
@@ -44,8 +40,8 @@ void CoursePlay::init()
 
 void CoursePlay::update()
 {
-	auto& musics = Game::Instance()->m_musics;
-	auto& currentCourse = Game::Instance()->m_courses.at(m_data->m_selectCourse);
+	auto& musics = Game::Musics();
+	auto& currentCourse = Game::Courses().at(m_data->m_selectCourse);
 
 	++m_timer;
 	if (PlayKey::Start().clicked)
@@ -75,9 +71,9 @@ namespace
 }
 void CoursePlay::highSpeedDraw()const
 {
-	auto& currentCourse = Game::Instance()->m_courses.at(m_data->m_selectCourse);
+	auto& currentCourse = Game::Courses().at(m_data->m_selectCourse);
 	auto& notesID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex];
-	auto& music = Game::Instance()->m_musics.at(notesID.first);
+	auto& music = Game::Musics().at(notesID.first);
 
 
 	String tmp = Format(music.getBPM(), L"*", m_data->m_scrollRate);
@@ -112,21 +108,21 @@ void CoursePlay::highSpeedDraw()const
 
 void CoursePlay::musicInfoDraw() const
 {
-	auto& currentCourse = Game::Instance()->m_courses.at(m_data->m_selectCourse);
+	auto& currentCourse = Game::Courses().at(m_data->m_selectCourse);
 	auto& notesID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex];
-	auto& music = Game::Instance()->m_musics.at(notesID.first);
+	auto& music = Game::Musics().at(notesID.first);
 
 	//左の曲
 	if (m_data->m_currentCourseIndex > 0)
 	{
 		auto& preID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex - 1];
-		NonSelectMusicBannerBG(100, 250, Game::Instance()->m_musics, preID.first, 0, 0, m_font2);
+		NonSelectMusicBannerBG(100, 250, Game::Musics(), preID.first, 0, 0, m_font2);
 	}
 	//右の曲
 	if (m_data->m_currentCourseIndex < currentCourse.getNotesIDs().size() - 1)
 	{
 		auto& nextID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex + 1];
-		NonSelectMusicBannerBG(700, 250, Game::Instance()->m_musics, nextID.first, 0, 0, m_font2);
+		NonSelectMusicBannerBG(700, 250, Game::Musics(), nextID.first, 0, 0, m_font2);
 	}
 	//ジャケ絵部分
 	TextureAsset(L"bannerbg").resize(300, 400).drawAt(400, 295);
@@ -175,9 +171,9 @@ void CoursePlay::drawFadeIn(double t) const
 //--------------------------------------------------------------------------------
 void CoursePlay::drawFadeOut(double t) const
 {
-	auto& currentCourse = Game::Instance()->m_courses.at(m_data->m_selectCourse);
+	auto& currentCourse = Game::Courses().at(m_data->m_selectCourse);
 	auto& notesID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex];
-	auto& music = Game::Instance()->m_musics.at(notesID.first);
+	auto& music = Game::Musics().at(notesID.first);
 
 	draw();
 	FadeOut(Fade::Default, t);

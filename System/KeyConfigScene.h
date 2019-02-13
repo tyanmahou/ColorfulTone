@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Game.h"
+#include"ISceneBase.hpp"
 #include"Config.h"
 #include"KeyConfig.h"
 
@@ -16,10 +16,8 @@ private:
 
 public:
 
-
 	ConfigScene();
 	~ConfigScene();
-
 
 	void update() override;
 	void draw() const override;

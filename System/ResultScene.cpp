@@ -1,12 +1,9 @@
 ﻿#include"ResultScene.h"
+#include "Useful.hpp"
 #include"AutoPlayManager.h"
-#include"Fade.h"
 #include"ResultRank.h"
 #include"ResultEffect.h"
-#include"SceneInfo.h"
 #include"FontKinetic.h"
-#include"PlayKey.h"
-#include"Util.h"
 ResultScene::ResultScene() :
 	m_timer(0),
 	m_font(8, L"Straight", FontStyle::Outline),
@@ -28,11 +25,7 @@ ResultScene::ResultScene() :
 }
 
 ResultScene::~ResultScene()
-{
-
-
-
-}
+{}
 void ResultScene::init()
 {
 	ClearPrint();
@@ -76,10 +69,10 @@ void ResultScene::init()
 	m_totalNotesEasing.start();
 
 	//autoPlayならデータ保存はしない
-	if (AutoPlayManager::Instance()->m_autoPlay)
+	if (AutoPlayManager::IsAutoPlay)
 		return;
 	bool newRecord = false;
-	auto& currentMusic = Game::Instance()->m_musics[m_data->m_selectMusic];
+	auto& currentMusic = Game::Musics()[m_data->m_selectMusic];
 	auto& currentLevel = currentMusic.getNotesData()[m_data->m_selectLevel];
 	if (isClear)
 	{
@@ -118,11 +111,11 @@ void ResultScene::init()
 
 		m_data->m_currentCourseIndex++;
 
-		if (life > 0 && m_data->m_currentCourseIndex >= Game::Instance()->m_courses[m_data->m_selectCourse].getNotesIDs().size())
+		if (life > 0 && m_data->m_currentCourseIndex >= Game::Courses()[m_data->m_selectCourse].getNotesIDs().size())
 		{
 			m_passEffect = PassEffect::Pass;
 
-			auto& course = Game::Instance()->m_courses[m_data->m_selectCourse];
+			auto& course = Game::Courses()[m_data->m_selectCourse];
 			course.save(true);
 			course.setClear();
 		}
@@ -173,7 +166,7 @@ void ResultScene::update()
 	{
 		if (m_data->m_isCoursePlay)
 		{
-			auto& cource = Game::Instance()->m_courses[m_data->m_selectCourse];
+			auto& cource = Game::Courses()[m_data->m_selectCourse];
 			String text = cource.getTitle() +
 				(m_passEffect == PassEffect::Pass ? L"に合格" :
 				 m_passEffect == PassEffect::None ? L"をプレイ中":
@@ -200,7 +193,7 @@ void ResultScene::update()
 
 		if (m_data->m_isCoursePlay)
 		{
-			if (m_passEffect == PassEffect::Failure || m_data->m_currentCourseIndex >= Game::Instance()->m_courses[m_data->m_selectCourse].getNotesIDs().size())
+			if (m_passEffect == PassEffect::Failure || m_data->m_currentCourseIndex >= Game::Courses()[m_data->m_selectCourse].getNotesIDs().size())
 			{
 				changeScene(L"courseSelect", 3000);
 			}
@@ -212,10 +205,6 @@ void ResultScene::update()
 			changeScene(L"select", 3000);
 		}
 	}
-
-
-
-
 }
 
 void ResultScene::draw()const

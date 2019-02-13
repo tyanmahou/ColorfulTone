@@ -1,5 +1,5 @@
 ﻿#include"RepeatNote.h"
-
+#include"Useful.hpp"
 #include"AutoPlayManager.h"
 #include"PlayMusicGame.h"
 #include"PlayStyle.h"
@@ -51,13 +51,13 @@ bool RepeatEnd::update(double & nowCount, double & countPerFrame, Score & score,
 		m_lastCount = nowCount;
 	}
 	//オートプレイ----------------------
-	if (AutoPlayManager::Instance()->m_autoPlay)
+	if (AutoPlayManager::IsAutoPlay())
 	{
 		if (m_lastCount == nowCount||nowCount > m_lastCount + NotesData::RESOLUTION / (m_interval * 2))
 		{
 			static int tap = 0;
 			++tap %= 3;
-			AutoPlayManager::Instance()->input(tap+1);
+			AutoPlayManager::Input(tap+1);
 			EffectUpdate(tap == 0, tap == 1, tap == 2);
 			m_lastCount = nowCount;
 			m_isTap = true;

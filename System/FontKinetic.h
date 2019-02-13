@@ -1,11 +1,9 @@
-#pragma once
+ï»¿#pragma once
 
-#include"Game.h"
+#include<Siv3D/KineticTypography.hpp>
 
-//ŠÂ‹«ˆË‘¶H‚É‚æ‚é’²®
+//ç’°å¢ƒä¾å­˜ï¼Ÿã«ã‚ˆã‚‹èª¿æ•´
 namespace FontKinetic 
 {
-
-	void DeleteSpace(KineticTypography& k);
-
+	void DeleteSpace(s3d::KineticTypography& k);
 }

@@ -1,9 +1,10 @@
-﻿#include"CourseScene.h"
+﻿#include"Useful.hpp"
+
+#include"CourseScene.h"
 #include"Fade.h"
 #include"SceneInfo.h"
 #include"AutoPlayManager.h"
-#include"PlayKey.h"
-#include"Util.h"
+
 #include"CourseGenre.hpp"
 
  int CourseSelectScene::m_selectGenre = 0;
@@ -21,7 +22,7 @@ CourseSelectScene::CourseSelectScene() :
 void CourseSelectScene::init()
 {
 	m_selectCourse = m_data->m_selectCourse;
-	m_courses = Game::Instance()->m_courses;
+	m_courses = Game::Courses();
 }
 
 void CourseSelectScene::update()
@@ -70,7 +71,7 @@ void CourseSelectScene::update()
 					m_data->m_selectCourse = m_courses[m_selectCourse].getIndex();
 					m_data->m_life = 100.0f;
 					//絶対Autoは解除する
-					AutoPlayManager::Instance()->m_autoPlay = false;
+					AutoPlayManager::SetAutoPlay(false);
 					changeScene(L"course", 3000);
 				}
 				else
@@ -80,7 +81,7 @@ void CourseSelectScene::update()
 			{
 				SoundManager::SE::Play(L"desisionSmall");
 				m_mode = Mode::Course;
-				m_courses = Game::Instance()->m_courses;
+				m_courses = Game::Courses();
 				Erase_if(m_courses,genres[m_selectGenre].getRefiner());
 				m_selectCourse %= m_courses.size();
 			}
@@ -101,8 +102,6 @@ void CourseSelectScene::update()
 		changeScene(L"title", 3000);
 		m_data->m_isCoursePlay = false;
 	}
-
-
 }
 
 namespace
@@ -112,7 +111,7 @@ namespace
 //譜面情報の表示
 void CourseSelectScene::musicInfo(int y, int musicID, int notesID) const
 {
-	auto& musics = Game::Instance()->m_musics;
+	auto& musics = Game::Musics();
 	constexpr int x = 10;
 	constexpr int size = 100;
 	Rect(x, y, 800, size + 20).draw(ColorF(0, 0.8));

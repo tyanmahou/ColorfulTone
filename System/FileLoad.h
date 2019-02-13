@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Game.h"
+#include "ISceneBase.hpp"
 #include "FileLoadView.hpp"
 
 class FileLoad :public ISceneBase

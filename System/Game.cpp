@@ -1,4 +1,10 @@
 ﻿#include"Game.h"
+
+#include"CourseData.h"
+#include"GameConfig.h"
+
+#include"SoundManager.h"
+#include"ISceneBase.hpp"
 #include"TitleScene.h"
 #include"FileLoad.h"
 #include"Tutorial.h"
@@ -213,24 +219,87 @@ namespace
 //概要：ゲームの初期化
 //--------------------------------------------------------------------------------
 
-void Game::init(){
+class Game::Impl
+{
+private:
 
-	m_scene.add<FileLoad>(L"load");
-	m_scene.add<TitleScene>(L"title");
-	m_scene.add<ConfigScene>(L"config");
-	m_scene.add<Tutorial>(L"tutorial");
-	m_scene.add<MusicSelect>(L"select");
-	m_scene.add<MainScene>(L"main");
-	m_scene.add<ResultScene>(L"result");
-	m_scene.add<CourseSelectScene>(L"courseSelect");
-	m_scene.add<CoursePlay>(L"course");
+	MyApp m_scene; //シーン
 
-	::AssetLoad();
+	void registerScene()
+	{
+		m_scene.add<FileLoad>(L"load");
+		m_scene.add<TitleScene>(L"title");
+		m_scene.add<ConfigScene>(L"config");
+		m_scene.add<Tutorial>(L"tutorial");
+		m_scene.add<MusicSelect>(L"select");
+		m_scene.add<MainScene>(L"main");
+		m_scene.add<ResultScene>(L"result");
+		m_scene.add<CourseSelectScene>(L"courseSelect");
+		m_scene.add<CoursePlay>(L"course");
+	}
+	void init()
+	{
+		this->registerScene();
+		::AssetLoad();
+	}
+public:
+	Array<MusicData> m_musics;
+	Array<CourseData> m_courses;
+	Array<String> m_tapSEPaths;
+
+	Effect m_effect;		//エフェクト
+	GameConfig m_config;
+
+	bool m_isMusicLoadEnd;
+
+	Impl() :
+		m_isMusicLoadEnd(false)
+	{
+		this->init();
+	};
+
+	bool updateAndDraw()
+	{
+		if (!m_scene.updateAndDraw())
+		{
+			return false;
+		}
+		return true;
+	}
+};
+
+Game::Game():
+	m_pImpl(std::make_shared<Impl>())
+{}
+
+bool Game::UpdateAndDraw()
+{
+	return Instance()->m_pImpl->updateAndDraw();
 }
 
-bool Game::updateAndDraw(){
+bool Game::SetLoadCompleted(bool completed)
+{
+	return Instance()->m_pImpl->m_isMusicLoadEnd = completed;
+}
 
-	if (!m_scene.updateAndDraw())
-		return false;
-	return true;
+bool Game::IsLoadCompleted()
+{
+	return Instance()->m_pImpl->m_isMusicLoadEnd;
+}
+
+Array<MusicData>& Game::Musics()
+{
+	return Instance()->m_pImpl->m_musics;
+}
+Array<CourseData>& Game::Courses()
+{
+	return Instance()->m_pImpl->m_courses;
+}
+Array<String>& Game::TapSEPaths()
+{
+	return Instance()->m_pImpl->m_tapSEPaths;
+}
+GameConfig& Game::Config()
+{
+	return Instance()->m_pImpl->m_config;
 }

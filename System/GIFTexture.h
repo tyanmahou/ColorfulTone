@@ -1,18 +1,14 @@
-#pragma once
-#include"Game.h"
+ï»¿#pragma once
+#include<Siv3D/Fwd.hpp>
+#include<memory>
 
 class GIFTexture 
 {
 	private:
-		unsigned int m_frame;			//‰½ƒtƒŒ[ƒ€‚ÅŸ‚ÌƒCƒ[ƒW‚É‚©‚í‚é‚©
-		unsigned int m_frameCount;		//Œ»İ‚ÌƒJƒEƒ“ƒg’l
-		unsigned int m_nowImage;		//Œ»İ‚Ì•`‰æƒtƒŒ[ƒ€
-		Array<Image> m_images;
-		DynamicTexture m_texture;
-
+		class Impl;
+		std::shared_ptr<Impl> m_pImpl;
 	public:
-		GIFTexture(const FilePath& path, const unsigned  int frame=1);
-		void update();
+		GIFTexture(const s3d::FilePath& path, const unsigned  int frame=1);
+		void update()const;
 		void draw()const;
-
 };

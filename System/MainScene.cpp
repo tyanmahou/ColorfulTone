@@ -1,6 +1,5 @@
 ﻿#include"MainScene.h"
-#include"Fade.h"
-#include"PlayKey.h"
+#include "Useful.hpp"
 #include"AutoPlayManager.h"
 #include"ResultRank.h"
 #include"FontKinetic.h"

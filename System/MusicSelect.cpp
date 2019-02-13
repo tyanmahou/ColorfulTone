@@ -1,9 +1,6 @@
 ﻿#include "MusicSelect.hpp"
-#include"Fade.h"
-#include"PlayKey.h"
-#include"SceneInfo.h"
+#include "Useful.hpp"
 #include"GenreManager.h"
-#include"Util.h"
 #include"AutoPlayManager.h"
 
 namespace
@@ -64,7 +61,7 @@ namespace
 	// 楽曲リスト初期化
 	void InitMusics(Array<MusicData>& musics)
 	{
-		musics = Game::Instance()->m_musics;
+		musics = Game::Musics();
 		::RefineMusics(musics);
 		::SortMusics(musics);
 
@@ -209,7 +206,7 @@ void MusicSelect::update()
 	//プレイモード
 	if (Input::KeyF1.clicked)
 	{
-		AutoPlayManager::Instance()->m_autoPlay = !(AutoPlayManager::Instance()->m_autoPlay);
+		AutoPlayManager::ChangePlayMode();
 		SoundManager::SE::Play(L"desisionSmall");
 	}
 	//ソート
@@ -276,7 +273,7 @@ void MusicSelect::draw() const
 	// シーン情報
 	SceneInfo::Draw(::GetSceneInfoMsg());
 
-	if (AutoPlayManager::Instance()->m_autoPlay)
+	if (AutoPlayManager::IsAutoPlay())
 	{
 		PutText(L"AutoPlay").at(Window::Center().x, 40);
 	}

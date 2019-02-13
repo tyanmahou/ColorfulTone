@@ -1,8 +1,7 @@
 ﻿#include"HighSpeedDemo.h"
-#include"PlayKey.h"
-#include"Util.h"
+#include "Useful.hpp"
 #include"PlayStyle.h"
-#include"Game.h"
+
 HighSpeedDemo::HighSpeedDemo():
 	m_offset(-300,0,Easing::Quad,400), 
 	m_bgRect(400 - 45, 0, 90, 500),
@@ -22,14 +21,14 @@ HighSpeedDemo::HighSpeedDemo():
 //***********************************************************
 
 	//ノーツ作成
-	PlayStyle::Instance()->setStyle(Game::Instance()->m_config.m_styleType);
+	PlayStyle::Instance()->setStyle(Game::Config().m_styleType);
 
 	for (int i = 0; i < 10;++i)
 	for (int j = 0; j < 2; ++j)
 	{
 		auto count = NotesData::RESOLUTION*i + NotesData::RESOLUTION*j / 2;
 		m_objects.emplace_back(std::make_shared<Note>(
-			Game::Instance()->m_config.m_styleType==PlayStyleType::Default?	5:2,
+			Game::Config().m_styleType==PlayStyleType::Default?	5:2,
 			count, 1));
 	}
 	for (int i = 0; i < 10; ++i)

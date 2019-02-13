@@ -1,9 +1,8 @@
 ﻿#pragma once
-
 #include"FileLoad.h"
-#include"Fade.h"
+#include "Useful.hpp"
+
 #include"GenreManager.h"
-#include"VideoAsset.h"
 #include"CostumFolder.hpp"
 #include"CourseGenre.hpp"
 #include"MultiThread.hpp"
@@ -28,22 +27,22 @@ void LoadTapSE()
 		{
 			for (auto&& filePath : FileSystem::DirectoryContents(rootFilePath))
 			{
-				Game::Instance()->m_tapSEPaths.emplace_back(filePath);
+				Game::TapSEPaths().emplace_back(filePath);
 			}
 		}
-		Game::Instance()->m_tapSEPaths.emplace_back(rootFilePath);
+		Game::TapSEPaths().emplace_back(rootFilePath);
 	}
 
 	mutex.unlock();
 
-	Erase_if(Game::Instance()->m_tapSEPaths, [](const String& path) {return Audio::GetFormat(path) == AudioFormat::Unknown; });
+	Erase_if(Game::TapSEPaths(), [](const String& path) {return Audio::GetFormat(path) == AudioFormat::Unknown; });
 }
 void LoadMusicDatas()
 {
 	auto&& mutex = MultiThread::GetMutex();
 
 	g_loadingRate = 0;
-	Array<MusicData>& musics = Game::Instance()->m_musics;
+	Array<MusicData>& musics = Game::Musics();
 
 	SoundAsset::UnregisterByTag(L"MusicData");
 	musics.clear();
@@ -107,7 +106,7 @@ void LoadMusicDatas()
 	::LoadCourses();
 	ClearPrint();
 	mutex.unlock();
-	Game::Instance()->m_isMusicLoadEnd = true;
+	Game::SetLoadCompleted(true);
 }
 //コースデータ読み込み
 void LoadCourses()
@@ -115,7 +114,7 @@ void LoadCourses()
 	CourseGenreManager::Clear();
 	CourseData::Index = 0;
 
-	Array<CourseData>& courses = Game::Instance()->m_courses;
+	Array<CourseData>& courses = Game::Courses();
 
 	courses.clear();
 
@@ -154,7 +153,7 @@ FileLoad::FileLoad():
 	m_timer(0),
 	m_state(State::Loading)
 {
-	Game::Instance()->m_isMusicLoadEnd = false;
+	Game::SetLoadCompleted(false);
 	MultiThread::Async(L"file_load", LoadMusicDatas);
 }
 
@@ -168,7 +167,7 @@ FileLoad::~FileLoad()
 
 void FileLoad::init()
 {
-	m_data->m_scrollRate = Game::Instance()->m_config.m_scrollRate;
+	m_data->m_scrollRate = Game::Config().m_scrollRate;
 }
 //--------------------------------------------------------------------------------
 //関数：update
@@ -179,7 +178,7 @@ void FileLoad::update()
 	if (m_state == State::Loading)
 	{
 		m_view.update();
-		if (Game::Instance()->m_isMusicLoadEnd)
+		if (Game::IsLoadCompleted())
 		{
 			m_view.onCompleted();
 			m_state = State::OnLoadCompleted;
@@ -189,7 +188,7 @@ void FileLoad::update()
 	{
 		if (m_view.getStopwatchMs() >= 800)
 		{
-			auto &musics = Game::Instance()->m_musics;
+			auto &musics = Game::Musics();
 			if (musics.size() == 0)
 			{
 				System::Exit();

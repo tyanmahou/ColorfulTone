@@ -1,9 +1,7 @@
 ﻿#include"TitleScene.h"
-#include"Fade.h"
-#include"VideoAsset.h"
-#include"SceneInfo.h"
+#include "Useful.hpp"
+
 #include"FontKinetic.h"
-#include"PlayKey.h"
 #include"Setting.hpp"
 #include"SharedDraw.hpp"
 

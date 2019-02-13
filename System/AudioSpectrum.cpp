@@ -1,4 +1,5 @@
-#include "AudioSpectrum.h"
+﻿#include "AudioSpectrum.h"
+#include<Siv3D.hpp>
 
 namespace
 {
@@ -64,7 +65,6 @@ void AudioSpectrum::draw(const Sound & sound) const
 	constexpr int devide = 2;
 	for (auto i : step(360/devide))
 	{
-
 		const double di = i * devide;
 
 		const double radian = getRad(di);

@@ -14,6 +14,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)APAnime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AppBase.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioSpectrum.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Audition.hpp" />
@@ -84,9 +85,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VideoAsset.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)APAnime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AppBase.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AudioSpectrum.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Audition.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)AutoPlayManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BPMChanger.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CostumFolder.cpp" />
@@ -117,6 +120,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Object.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayKey.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayMusicGame.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Portrait.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Preview.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SharedDraw.cpp" />

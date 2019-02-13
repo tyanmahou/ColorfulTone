@@ -1,12 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
-#pragma once
 #include"Object.h"
 
 class TextObject :public Object
 {
 private:
-	const String m_msg;	//•`‰æ‚·‚éƒƒbƒZ[ƒW
+	const String m_msg;	//æç”»ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 	const uint64 m_drawTimeSample;
 	int64 m_beginTimeSample;
 	bool m_isDraw;

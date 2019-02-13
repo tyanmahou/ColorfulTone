@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Game.h"
+#include"ISceneBase.hpp"
 
 class TitleScene :public ISceneBase
 {

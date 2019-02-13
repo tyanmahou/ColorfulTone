@@ -1,9 +1,6 @@
 ﻿#include"KeyConfigScene.h"
-#include"Fade.h"
-
-#include"PlayKey.h"
-#include"SceneInfo.h"
-#include"Util.h"
+#include "Useful.hpp"
+#include "GameConfig.h"
 
 namespace
 {
@@ -21,7 +18,7 @@ namespace
 			SoundAsset(assetTag).playMulti();
 		});
 
-		for (const auto& path : Game::Instance()->m_tapSEPaths)
+		for (const auto& path : Game::TapSEPaths())
 		{
 			auto name = FileSystem::Relative(path, L"TapSE");
 			config.add(name, [=, &configParm]() {
@@ -55,13 +52,13 @@ namespace
 		{
 			m_configs.resize(TOTAL_CONFIG);
 			m_configs[Perfect].setName(L"PERFECT");
-			::InitTapSE(m_configs[Perfect], Game::Instance()->m_config.m_perfectSE, L"PERFECT", L"Resource/Sound/SE/tapP.wav");
+			::InitTapSE(m_configs[Perfect], Game::Config().m_perfectSE, L"PERFECT", L"Resource/Sound/SE/tapP.wav");
 
 			m_configs[Great].setName(L"GREAT");
-			::InitTapSE(m_configs[Great], Game::Instance()->m_config.m_greatSE, L"GREAT", L"Resource/Sound/SE/tapGR.wav");
+			::InitTapSE(m_configs[Great], Game::Config().m_greatSE, L"GREAT", L"Resource/Sound/SE/tapGR.wav");
 
 			m_configs[Good].setName(L"GOOD");
-			::InitTapSE(m_configs[Good], Game::Instance()->m_config.m_goodSE, L"GOOD", L"Resource/Sound/SE/tapGD.wav");
+			::InitTapSE(m_configs[Good], Game::Config().m_goodSE, L"GOOD", L"Resource/Sound/SE/tapGD.wav");
 		}
 	};
 }
@@ -120,11 +117,11 @@ namespace
 			m_configs.resize(TOTAL_SIZE);
 			m_configs[BGMVolume].setName(L"BGM");
 			VolumeInit(m_configs[BGMVolume], SoundManager::BGM::SetVolume,
-				Game::Instance()->m_config.m_bgmVolume);
+				Game::Config().m_bgmVolume);
 
 			m_configs[SEVolume].setName(L"SE");
 			VolumeInit(m_configs[SEVolume], SoundManager::SE::SetVolume,
-				Game::Instance()->m_config.m_seVolume);
+				Game::Config().m_seVolume);
 		}
 	};
 }
@@ -135,10 +132,10 @@ namespace
 	void ClearRateInit(Config& config)
 	{
 		config.setName(L"表示するクリアレート");
-		config.add(L"加算式", []() {Game::Instance()->m_config.m_isClearRateDownType = false; });
-		config.add(L"減算式", []() {Game::Instance()->m_config.m_isClearRateDownType = true; });
+		config.add(L"加算式", []() {Game::Config().m_isClearRateDownType = false; });
+		config.add(L"減算式", []() {Game::Config().m_isClearRateDownType = true; });
 
-		if (Game::Instance()->m_config.m_isClearRateDownType)
+		if (Game::Config().m_isClearRateDownType)
 			config.init(L"減算式");
 		else
 			config.init(L"加算式");
@@ -148,10 +145,10 @@ namespace
 	void CircleCutInit(Config& config)
 	{
 		config.setName(L"円形切り取り");
-		config.add(L"ON", []() {Game::Instance()->m_config.m_isCirleCut = true; });
-		config.add(L"OFF", []() {Game::Instance()->m_config.m_isCirleCut = false; });
+		config.add(L"ON", []() {Game::Config().m_isCirleCut = true; });
+		config.add(L"OFF", []() {Game::Config().m_isCirleCut = false; });
 
-		if (Game::Instance()->m_config.m_isCirleCut)
+		if (Game::Config().m_isCirleCut)
 			config.init(L"ON");
 		else
 			config.init(L"OFF");
@@ -173,21 +170,21 @@ namespace
 		};
 		for (auto&& pair : map)
 		{
-			config.add(pair.second, [&pair]() {Game::Instance()->m_config.m_playScale = pair.first; });
+			config.add(pair.second, [&pair]() {Game::Config().m_playScale = pair.first; });
 		}
 		config.setDefault(L"x1.0");
-		config.init(map.at(Game::Instance()->m_config.m_playScale));
+		config.init(map.at(Game::Config().m_playScale));
 	}
 	void PlayBGInit(Config& config)
 	{
 		config.setName(L"背景設定");
 
-		config.add(L"デフォルト", []() {Game::Instance()->m_config.m_bgType = BGType::Default; });
-		config.add(L"ガウスぼかし", []() {Game::Instance()->m_config.m_bgType = BGType::Blur; });
-		config.add(L"黒", []() {Game::Instance()->m_config.m_bgType = BGType::Black; });
-		config.add(L"白", []() {Game::Instance()->m_config.m_bgType = BGType::White; });
+		config.add(L"デフォルト", []() {Game::Config().m_bgType = BGType::Default; });
+		config.add(L"ガウスぼかし", []() {Game::Config().m_bgType = BGType::Blur; });
+		config.add(L"黒", []() {Game::Config().m_bgType = BGType::Black; });
+		config.add(L"白", []() {Game::Config().m_bgType = BGType::White; });
 
-		switch (Game::Instance()->m_config.m_bgType)
+		switch (Game::Config().m_bgType)
 		{
 		case BGType::Default: config.init(L"デフォルト");
 			break;
@@ -206,13 +203,13 @@ namespace
 		config.setName(L"プレイモード");
 
 		config.add(L"通常モード", [] {
-			Game::Instance()->m_config.m_styleType = PlayStyleType::Default; 
+			Game::Config().m_styleType = PlayStyleType::Default; 
 		});
 		config.add(L"縦レーン", [] {
-			Game::Instance()->m_config.m_styleType = PlayStyleType::Portrait;
+			Game::Config().m_styleType = PlayStyleType::Portrait;
 		});
 
-		switch (Game::Instance()->m_config.m_styleType)
+		switch (Game::Config().m_styleType)
 		{
 		case PlayStyleType::Default: config.init(L"通常モード");
 			break;
@@ -224,10 +221,10 @@ namespace
 	void IsSpectrumInit(Config& config)
 	{
 		config.setName(L"オーディオスペトラムの表示");
-		config.add(L"ON", []() {Game::Instance()->m_config.m_isSpectrum = true; });
-		config.add(L"OFF", []() {Game::Instance()->m_config.m_isSpectrum = false; });
+		config.add(L"ON", []() {Game::Config().m_isSpectrum = true; });
+		config.add(L"OFF", []() {Game::Config().m_isSpectrum = false; });
 
-		if (Game::Instance()->m_config.m_isSpectrum)
+		if (Game::Config().m_isSpectrum)
 			config.init(L"ON");
 		else
 			config.init(L"OFF");

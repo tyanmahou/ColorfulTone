@@ -1,7 +1,7 @@
 ﻿#include"Tutorial.h"
+#include "Useful.hpp"
+
 #include"StartAnime.h"
-#include"Fade.h"
-#include"PlayKey.h"
 #include"AutoPlayManager.h"
 #include"ResultRank.h"
 #include"FontKinetic.h"
@@ -32,7 +32,7 @@ void Tutorial::init()
 
 	m_musicGame.init(m_music, 0, m_data->m_scrollRate);
 
-	AutoPlayManager::Instance()->m_autoPlay = false;
+	AutoPlayManager::SetAutoPlay(false);
 }
 //--------------------------------------------------------------------------------
 //関数：update

@@ -11,7 +11,7 @@ class NormalStyle : public IPlayStyle
 	void drawComboAndRate(int combo, float rate);
 
 	void drawTapEffect(int type);
-	void drawJudgeEffect(const String& str, int type);
+	void drawJudgeEffect(const s3d::String& str, int type);
 
 	void draw(const Bar& note, double count, float scrollRate)const override;
 

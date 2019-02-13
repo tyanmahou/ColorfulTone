@@ -1,10 +1,10 @@
-#include"KeyConfig.h"
-#include"PlayKey.h"
-#include"Game.h"
+Ôªø#include"KeyConfig.h"
+#include "Useful.hpp"
+#include "GameConfig.h"
 namespace
 {
-	//ÉLÅ[ïœçXÉLÅ[É{Å[Éh
-	//èdóvÇ»ÉLÅ[ÇëIÇ◊Ç»Ç¢ÇÊÇ§Ç…Ç∑ÇÈÇΩÇﬂÇ…ÇÕstrictÇtrueÇ…(DownÇ™UpÇ…Ç»ÇÈÇ∆ÉJÅ[É\ÉãÇ™ìÆÇ©ÇπÇ»Ç≠Ç»ÇÈ)
+	//„Ç≠„ÉºÂ§âÊõ¥„Ç≠„Éº„Éú„Éº„Éâ
+	//ÈáçË¶Å„Å™„Ç≠„Éº„ÇíÈÅ∏„Åπ„Å™„ÅÑ„Çà„ÅÜ„Å´„Åô„Çã„Åü„ÇÅ„Å´„ÅØstrict„Çítrue„Å´(Down„ÅåUp„Å´„Å™„Çã„Å®„Ç´„Éº„ÇΩ„É´„ÅåÂãï„Åã„Åõ„Å™„Åè„Å™„Çã)
 	bool ChangeKeyForKeyboard(Key& key,bool strict=false)
 	{
 		for (auto newkey : Input::GetActiveKeys())
@@ -25,7 +25,7 @@ namespace
 		}
 		return false;
 	}
-	//ÉLÅ[ïœçXÉLÅ[ÉRÉìÉtÉBÉO
+	//„Ç≠„ÉºÂ§âÊõ¥„Ç≠„Éº„Ç≥„É≥„Éï„Ç£„Ç∞
 	bool ChangeKeyForGamePad(Key& key)
 	{
 		for (auto&& gamepad : Input::EnumerateGamepads())
@@ -198,7 +198,7 @@ class DetailKeyConfig;
 
 
 //-----------------------------------------------------------------------
-//ì‡ïîé¿ëï
+//ÂÜÖÈÉ®ÂÆüË£Ö
 //-----------------------------------------------------------------------
 
 class KeyConfig::Impl
@@ -234,14 +234,14 @@ public:
 	bool update()
 	{
 		++m_timer;
-		if (m_mode == Mode::Select)//ëIëÉÇÅ[ÉhÇ»ÇÁëIëèàóù
+		if (m_mode == Mode::Select)//ÈÅ∏Êäû„É¢„Éº„Éâ„Å™„ÇâÈÅ∏ÊäûÂá¶ÁêÜ
 		{
 			if (!this->selectChange())
 				return false;
 		}
 		else
 		{
-			this->changeKey();	//É`ÉFÉìÉWÉÇÅ[ÉhÇ»ÇÁÉLÅ[ÇÃïœçXèàóù
+			this->changeKey();	//„ÉÅ„Çß„É≥„Ç∏„É¢„Éº„Éâ„Å™„Çâ„Ç≠„Éº„ÅÆÂ§âÊõ¥Âá¶ÁêÜ
 		}
 
 		return true;
@@ -255,7 +255,7 @@ public:
 };
 
 //-----------------------------------------------------------------------
-//é¿ç€ÇÃÉQÅ[ÉÄÉvÉåÉCÇ…égÇ§ÉLÅ[ÇÃÉRÉìÉtÉBÉO
+//ÂÆüÈöõ„ÅÆ„Ç≤„Éº„É†„Éó„É¨„Ç§„Å´‰Ωø„ÅÜ„Ç≠„Éº„ÅÆ„Ç≥„É≥„Éï„Ç£„Ç∞
 //-----------------------------------------------------------------------
 
 class PlayKeyConfig :public KeyConfig::Impl
@@ -271,7 +271,7 @@ class PlayKeyConfig :public KeyConfig::Impl
 	};
 private:
 	Select m_select;
-	//ëIëÇÃà⁄ìÆ
+	//ÈÅ∏Êäû„ÅÆÁßªÂãï
 	Select moveUp(Select select)
 	{
 		switch (select)
@@ -421,7 +421,7 @@ private:
 
 	void changeKey()override
 	{
-		auto& c = Game::Instance()->m_config;
+		auto& c = Game::Config();
 		bool isChange = false;
 		if (Input::AnyKeyClicked())
 		{
@@ -489,7 +489,7 @@ private:
 			return Palette::White;
 		};
 
-		auto& c = Game::Instance()->m_config;
+		auto& c = Game::Config();
 		{
 			constexpr int y = 155;
 			m_font(GetKeyName(c.m_red1)).drawCenter(170, y, getColor(Select::Red1));
@@ -508,10 +508,10 @@ private:
 			m_font(GetKeyName(c.m_yellow2)).drawCenter(800 - 170, y + 60, getColor(Select::Yellow2));
 			m_font(GetKeyName(c.m_yellow3)).drawCenter(800 - 170, y + 120, getColor(Select::Yellow3));
 		}
-		m_font(L"è⁄ç◊ê›íË").drawCenter(130, 490, getColor(Select::Detail));
-		m_font(L"èâä˙ê›íË").drawCenter(130, 540, getColor(Select::Default));
+		m_font(L"Ë©≥Á¥∞Ë®≠ÂÆö").drawCenter(130, 490, getColor(Select::Detail));
+		m_font(L"ÂàùÊúüË®≠ÂÆö").drawCenter(130, 540, getColor(Select::Default));
 
-		m_font(L"ñﬂÇÈ").drawCenter(800 - 130, 525, getColor(Select::Escape));
+		m_font(L"Êàª„Çã").drawCenter(800 - 130, 525, getColor(Select::Escape));
 
 
 
@@ -529,7 +529,7 @@ private:
 
 		static const Color judgeLineColor(255, 165, 0, 255);
 
-		//îªíËâ~
+		//Âà§ÂÆöÂÜÜ
 		Circle(400, 300, 40).drawFrame(2, 2, judgeLineColor);
 	}
 public:
@@ -538,7 +538,7 @@ public:
 	{}
 };
 
-//è⁄ç◊ÉLÅ[ÇÃÉRÉìÉtÉBÉO
+//Ë©≥Á¥∞„Ç≠„Éº„ÅÆ„Ç≥„É≥„Éï„Ç£„Ç∞
 class DetailKeyConfig :public KeyConfig::Impl
 {
 	enum Select
@@ -587,7 +587,7 @@ private:
 	}
 	void changeKey()override
 	{
-		auto& c = Game::Instance()->m_config;
+		auto& c = Game::Config();
 		bool isChange = false;
 		if (Input::AnyKeyClicked())
 		{
@@ -648,17 +648,17 @@ private:
 			return Palette::White;
 		};
 
-		auto& c = Game::Instance()->m_config;
+		auto& c = Game::Config();
 		{
 			std::tuple<String, String, String, Color> list[7] =
 			{
-				{ L"Å™", L"Up", GetKeyName(c.m_up), getColor(Select::Up) },
-				{ L"Å´", L"Down", GetKeyName(c.m_down), getColor(Select::Down) },
-				{ L"Å©", L"Left", GetKeyName(c.m_left), getColor(Select::Left) },
-				{ L"Å®", L"Right", GetKeyName(c.m_right), getColor(Select::Right) },
-				{ L"åàíË", L"Enter", GetKeyName(c.m_start), getColor(Select::Start) },
-				{ L"ñﬂÇÈ(è¨)", L"Backspace", GetKeyName(c.m_smallBack), getColor(Select::SmallBack) },
-				{ L"ñﬂÇÈ(ëÂ)", L"Escape", GetKeyName(c.m_bigBack), getColor(Select::BigBack) },
+				{ L"‚Üë", L"Up", GetKeyName(c.m_up), getColor(Select::Up) },
+				{ L"‚Üì", L"Down", GetKeyName(c.m_down), getColor(Select::Down) },
+				{ L"‚Üê", L"Left", GetKeyName(c.m_left), getColor(Select::Left) },
+				{ L"‚Üí", L"Right", GetKeyName(c.m_right), getColor(Select::Right) },
+				{ L"Ê±∫ÂÆö", L"Enter", GetKeyName(c.m_start), getColor(Select::Start) },
+				{ L"Êàª„Çã(Â∞è)", L"Backspace", GetKeyName(c.m_smallBack), getColor(Select::SmallBack) },
+				{ L"Êàª„Çã(Â§ß)", L"Escape", GetKeyName(c.m_bigBack), getColor(Select::BigBack) },
 
 			};
 			int i = 0;

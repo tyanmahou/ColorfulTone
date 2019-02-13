@@ -1,11 +1,12 @@
 ﻿#include"CourseData.h"
+#include"MusicData.h"
 #include"Game.h"
 
 int CourseData::Index = 0;
 
 void CourseData::serchNotes(const String & notePath)
 {
-	auto& musics = Game::Instance()->m_musics;
+	auto& musics = Game::Musics();
 
 	const String fileName = FileSystem::BaseName(notePath);
 	const String dirPath = notePath.remove(FileSystem::FileName(notePath));

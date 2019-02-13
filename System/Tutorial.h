@@ -1,4 +1,6 @@
 ﻿#pragma once
+
+#include"ISceneBase.hpp"
 #include"PlayMusicGame.h"
 class Tutorial :public ISceneBase
 {

@@ -1,5 +1,7 @@
-#include"VideoAsset.h"
+﻿#include"VideoAsset.h"
 #include"StartAnime.h"
+#include "Useful.hpp"
+
 namespace StartAnime
 {
 	static VideoPlayer g_start;
