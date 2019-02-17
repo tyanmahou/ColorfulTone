@@ -209,6 +209,13 @@ void MusicSelect::update()
 		AutoPlayManager::ChangePlayMode();
 		SoundManager::SE::Play(L"desisionSmall");
 	}
+	//情報切り替え
+	if (Input::KeyShift.clicked)
+	{
+		SoundManager::SE::Play(L"desisionSmall");
+		g_selectInfo.notesInfo = g_selectInfo.notesInfo == AllNotesInfo::Level
+			? AllNotesInfo::ClearRank : AllNotesInfo::Level;
+	}
 	//ソート
 	if (Input::KeyF2.clicked)
 	{
@@ -262,7 +269,7 @@ namespace
 			return L"Enter:決定　BackSpace:絞り込み,戻る　F2:ソート　Esc:タイトル戻る";
 		}
 
-		return L"F1:オート　Ctrl+↑↓:ハイスピード変更";
+		return L"Shift:表示モード切替　F1:オート　Ctrl+↑↓:ハイスピード変更";
 	}
 }
 

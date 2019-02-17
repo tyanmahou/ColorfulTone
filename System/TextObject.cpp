@@ -37,7 +37,13 @@ bool TextObject::update(double& nowCount, double& countPerFrame, Score& score, s
 void TextObject::diffDraw(double count, float scrollRate)const
 {
 	if (m_isDraw)
-		PutText(m_msg).at(400, 200);
+	{
+		const auto win = Window::Size();
+		PutText(m_msg).at(
+			static_cast<double>(win.x)/2.0,
+			static_cast<double>(win.y)/3.0
+		);
+	}
 }
 
 void TextObject::init()

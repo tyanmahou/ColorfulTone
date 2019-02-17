@@ -15,12 +15,18 @@ public:
 		LastUpdateAt,
 		Default = FileName
 	};
+	enum class AllNotesInfo : bool
+	{
+		Level,
+		ClearRank
+	};
 	struct SelectMusicsInfo
 	{
 		uint32 genre = 0;	// 選択中のジャンル
 		uint32 music = 0;	// 選択中の曲
 		uint32 level = 0;	// 選択中のレベル
 		SortMode sortMode = SortMode::Default; // 選択中のソート
+		AllNotesInfo notesInfo = AllNotesInfo::Level; //選択中の譜面表示情報
 	};
 	enum class Action :uint8
 	{
@@ -49,6 +55,7 @@ public:
 
 	//
 	static SelectMusicsInfo GetSelectInfo();
+
 	const Array<MusicData>& getMusics()const
 	{
 		return m_musics;
