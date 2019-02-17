@@ -1,39 +1,34 @@
-#pragma once
+ï»¿#pragma once
 #include"Object.h"
-#include"Note.h"
-#include"Bar.h"
 #include"BPMChanger.h"
-#include"LongNote.h"
-#include"MahouSoundBeat.h"
 #include"Stop.h"
-#include"TextObject.h"
 #include"Score.h"
 class NotesData
 {
 public:
-	static const int RESOLUTION = 9600;			//1¬ß‚ÌƒJƒEƒ“ƒg”
+	static const int RESOLUTION = 9600;			//1å°ç¯€ã®ã‚«ã‚¦ãƒ³ãƒˆæ•°
 
 private:
-	int m_lv;									//ƒŒƒxƒ‹
-	String m_lvName;							//ƒŒƒxƒ‹–¼
-	String m_notesArtistName;					//•ˆ–Ê»ìÒ‚Ì–¼‘O
-	BPMType m_bpm;								//Å‰‚Ìbpm
+	int m_lv;									//ãƒ¬ãƒ™ãƒ«
+	String m_lvName;							//ãƒ¬ãƒ™ãƒ«å
+	String m_notesArtistName;					//è­œé¢è£½ä½œè€…ã®åå‰
+	BPMType m_bpm;								//æœ€åˆã®bpm
 
-	double m_maxBarCount;						//¬ß”
-	int m_totalNotes;							//ƒm[ƒc”‚Ì‡Œv
-	int m_offsetSample;							//ƒIƒtƒZƒbƒgƒTƒ“ƒvƒ‹”
-	Array<std::shared_ptr<Object>> m_objects;	//•ˆ–Êƒf[ƒ^
-	Array<StopRange> m_stopRanges;				//ƒXƒgƒbƒv‚Ìƒf[ƒ^
-	Array<TempoInfo> m_tempoInfos;				//ƒeƒ“ƒ|”z—ñ
-	unsigned int m_currentBarIndex=0;			//Œ»İ‚Ìƒeƒ“ƒ|
+	double m_maxBarCount;						//å°ç¯€æ•°
+	int m_totalNotes;							//ãƒãƒ¼ãƒ„æ•°ã®åˆè¨ˆ
+	int m_offsetSample;							//ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚µãƒ³ãƒ—ãƒ«æ•°
+	Array<std::shared_ptr<Object>> m_objects;	//è­œé¢ãƒ‡ãƒ¼ã‚¿
+	Array<StopRange> m_stopRanges;				//ã‚¹ãƒˆãƒƒãƒ—ã®ãƒ‡ãƒ¼ã‚¿
+	Array<TempoInfo> m_tempoInfos;				//ãƒ†ãƒ³ãƒé…åˆ—
+	unsigned int m_currentBarIndex=0;			//ç¾åœ¨ã®ãƒ†ãƒ³ãƒ
 
-	String m_fileName;							//•ˆ–Êƒtƒ@ƒCƒ‹‚Ì–¼‘O(Šg’£q‚ğŠÜ‚Ü‚È‚¢)
+	String m_fileName;							//è­œé¢ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰(æ‹¡å¼µå­ã‚’å«ã¾ãªã„)
 
-	bool m_isClear;								//ƒNƒŠƒAî•ñ
-	float m_clearRate;							//’B¬—¦ƒŒƒR[ƒh
-	SpecialResult m_specialResult;				//ƒtƒ‹ƒRƒ““™‚Ìî•ñ
+	bool m_isClear;								//ã‚¯ãƒªã‚¢æƒ…å ±
+	float m_clearRate;							//é”æˆç‡ãƒ¬ã‚³ãƒ¼ãƒ‰
+	SpecialResult m_specialResult;				//ãƒ•ãƒ«ã‚³ãƒ³ç­‰ã®æƒ…å ±
 
-	Color m_color;								//F
+	Color m_color;								//è‰²
 
 public:
 	NotesData() = default;
@@ -41,14 +36,14 @@ public:
 	NotesData(const String& genreName, const String& dirPath, const String& filePath);
 
 	void init();
-	void synchroCount(const Sound& sound, double& nowCount);	//ƒJƒEƒ“ƒg‚Æ“¯Šú
+	void synchroCount(const Sound& sound, double& nowCount);	//ã‚«ã‚¦ãƒ³ãƒˆã¨åŒæœŸ
 
 	void update(Sound& sound, double& nowCount, Score& score);
 	void draw(const double& nowCount, float scrollRate)const;
 
 	void previewDraw(const double & nowCount, float scrollRate) const;
 
-	//ƒvƒƒpƒeƒBg‚Á‚Ä‚İ‚½‚¯‚Çg‚¤•K—v‚È‚¢‚Æv‚¤
+	//ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ä½¿ã£ã¦ã¿ãŸã‘ã©ä½¿ã†å¿…è¦ãªã„ã¨æ€ã†
 	__declspec(property(get = _getIsClear, put = _setIsClear))bool isClear;
 	__declspec(property(get = _getSPResult, put = _setSPResult))SpecialResult specialResult;
 	__declspec(property(get = _getRecord, put = _setRecord))float clearRate;

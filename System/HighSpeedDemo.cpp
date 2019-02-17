@@ -2,6 +2,9 @@
 #include "Useful.hpp"
 #include"PlayStyle.h"
 
+#include"Note.h"
+#include"Bar.h"
+
 HighSpeedDemo::HighSpeedDemo():
 	m_offset(-300,0,Easing::Quad,400), 
 	m_bgRect(400 - 45, 0, 90, 500),

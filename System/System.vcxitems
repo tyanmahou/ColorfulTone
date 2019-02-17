@@ -91,7 +91,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Audition.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AutoPlayManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)BPMChanger.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CostumFolder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CoursePlay.cpp" />
@@ -132,7 +131,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Score.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SerialImage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StartAnime.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Stop.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TextObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Tutorial.cpp" />

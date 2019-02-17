@@ -132,9 +132,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp">
       <Filter>MusicGame\Object\Bar</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)BPMChanger.cpp">
-      <Filter>MusicGame\Object\BPMChange</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Fade.cpp">
       <Filter>Scene\Fade</Filter>
     </ClCompile>
@@ -200,9 +197,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RepeatNote.cpp">
       <Filter>MusicGame\Object\RepeatNotes</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Stop.cpp">
-      <Filter>MusicGame\Object\Stop</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultScene.cpp">
       <Filter>Scene\Result</Filter>

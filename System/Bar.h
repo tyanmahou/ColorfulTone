@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include"Object.h"
 
 class Bar:public Object
@@ -8,7 +8,7 @@ private:
 public:
 	Bar(double firstCount,double speed) :Object(firstCount),m_speed(speed){};
 	virtual ~Bar() = default;
-	virtual bool update(double& nowCount, double& countPerFrame, Score& score, Sound& sound)override;
+	virtual bool update(double& nowCount, double& countPerFrame, Score& score, s3d::Sound& sound)override;
 	virtual void diffDraw(double count, float scrollRate)const override;
 	const double& getSpeed()const
 	{

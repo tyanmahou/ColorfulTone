@@ -1,6 +1,10 @@
 ﻿#include"NotesData.h"
 #include"GenreManager.h"
 #include<queue>
+#include"Note.h"
+#include"Bar.h"
+#include"TextObject.h"
+#include"LongNote.h"
 #include"RepeatNote.h"
 namespace
 {

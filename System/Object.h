@@ -1,8 +1,9 @@
-#pragma once
-#include<Siv3D.hpp>
-#include"Score.h"
-#include"Stop.h"
-//BPM‚ÌŒ^
+ï»¿#pragma once
+#include<Siv3D/Fwd.hpp>
+
+struct Score;
+struct StopRange;
+//BPMã®å‹
 using BPMType = double;
 
 class Object
@@ -11,13 +12,13 @@ public :
 	enum
 	{
 		RESOLUTION = 60,
-	};	//ŠÔŠu‚Ì’²®
+	};	//é–“éš”ã®èª¿æ•´
 protected:
-	const double m_count;		//ƒJƒEƒ“ƒg
+	const double m_count;		//ã‚«ã‚¦ãƒ³ãƒˆ
 	double m_drawCount;
 
 public:
-	bool m_isActive;			//‘¶İƒtƒ‰ƒO
+	bool m_isActive;			//å­˜åœ¨ãƒ•ãƒ©ã‚°
 
 	Object() = default;
 	Object(double firstCount) :
@@ -27,34 +28,16 @@ public:
 	{};
 	virtual void init() { m_isActive = true; }
 	virtual ~Object() {};
-	virtual bool update(double& nowCount, double& countPerFrame, Score& score, Sound& sound) = 0;
+	virtual bool update(double& nowCount, double& countPerFrame, Score& score, s3d::Sound& sound) = 0;
 
 	virtual void diffDraw(double count, float scrollRate)const = 0;
 
-	void draw(double nowCount, float scrollRate)const
-	{
-		const double count = m_drawCount - nowCount;
-
-		if (m_isActive)
-		{
-			diffDraw(count, scrollRate);
-		}
-
-	}
+	void draw(double nowCount, float scrollRate)const;
 	const double& getCount()const { return m_count; }
 	const double& getDrawCount()const { return m_drawCount; }
 
-	//•ˆ–Ê’â~î•ñ‚Ì’²®
-	void addStopCount(const StopRange& stopRange)
-	{
-		if (m_count > stopRange.m_judgeCount)
-		{
+	//è­œé¢åœæ­¢æƒ…å ±ã®èª¿æ•´
+	void addStopCount(const StopRange& stopRange);
 
-			const auto range = std::min(m_count - stopRange.m_judgeCount, stopRange.m_rangeCount);
-
-			m_drawCount -= range;
-		}
-	}
-
-	static bool CanDraw(const Vec2& pos);
+	static bool CanDraw(const s3d::Vec2& pos);
 };

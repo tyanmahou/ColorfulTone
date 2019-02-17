@@ -1,17 +1,18 @@
 ﻿#pragma once
 
 #include"Object.h"
+#include<Siv3D/String.hpp>
 
 class TextObject :public Object
 {
 private:
-	const String m_msg;	//描画するメッセージ
-	const uint64 m_drawTimeSample;
-	int64 m_beginTimeSample;
+	const s3d::String m_msg;	//描画するメッセージ
+	const s3d::uint64 m_drawTimeSample;
+	s3d::int64 m_beginTimeSample;
 	bool m_isDraw;
 
 public:
-	TextObject(double firstCount, const String& msg,const double timeSec) :
+	TextObject(double firstCount, const s3d::String& msg,const double timeSec) :
 		Object(firstCount),
 		m_msg(msg),
 		m_drawTimeSample(timeSec*44100),
@@ -19,7 +20,7 @@ public:
 		m_isDraw(false)
 	{};
 	virtual ~TextObject() = default;
-	virtual bool update(double& nowCount, double& countPerFrame, Score& score, Sound& sound)override;
+	virtual bool update(double& nowCount, double& countPerFrame, Score& score, s3d::Sound& sound)override;
 	virtual void diffDraw(double count, float scrollRate)const override;
 	void init()override;
 };

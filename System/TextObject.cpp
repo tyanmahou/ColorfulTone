@@ -1,6 +1,7 @@
-#include"TextObject.h"
+ï»¿#include"TextObject.h"
+#include<Siv3D.hpp>
 
-bool TextObject::update(double& nowCount, double& countPerFrame, Score& score, Sound& sound)
+bool TextObject::update(double& nowCount, double& countPerFrame, Score& score, s3d::Sound& sound)
 {
 	if (!m_isActive)
 		return true;
@@ -16,9 +17,9 @@ bool TextObject::update(double& nowCount, double& countPerFrame, Score& score, S
 	if (Abs(count) < Abs(count - countPerFrame))
 		count = 0;
 
-	//ƒXƒgƒbƒvŽž‚ÉƒIƒtƒZƒbƒg‚Ì•ÏX
+	//ã‚¹ãƒˆãƒƒãƒ—æ™‚ã«ã‚ªãƒ•ã‚»ãƒƒãƒˆã®å¤‰æ›´
 
-	//’âŽ~‰Šú‰»
+	//åœæ­¢åˆæœŸåŒ–
 	if (!m_isDraw&&count <= 0)
 	{
 		m_isDraw = true;
