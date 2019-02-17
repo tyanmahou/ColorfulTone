@@ -201,8 +201,6 @@ namespace
 		FontAsset::Register(L"configTitle", 15, Typeface::Default, FontStyle::Italic);
 		// 選曲画面などの選択
 		FontAsset::Register(L"selectMusics", 16, Typeface::Bold);
-		FontAsset::Register(L"TextObject", 17, Typeface::Default, FontStyle::Outline);
-		FontAsset(L"TextObject").changeOutlineStyle(TextOutlineStyle(Palette::Black, Palette::White, 1));
 	}
 
 	void AssetLoad()
