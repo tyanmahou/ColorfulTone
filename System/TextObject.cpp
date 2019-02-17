@@ -12,7 +12,6 @@ bool TextObject::update(double& nowCount, double& countPerFrame, Score& score, s
 	const auto sample = sound.samplesPlayed();
 #endif
 
-
 	auto count = m_count  - nowCount;
 	if (Abs(count) < Abs(count - countPerFrame))
 		count = 0;
@@ -38,7 +37,7 @@ bool TextObject::update(double& nowCount, double& countPerFrame, Score& score, s
 void TextObject::diffDraw(double count, float scrollRate)const
 {
 	if (m_isDraw)
-		FontAsset(L"TextObject")(m_msg).drawCenter(400, 200);
+		PutText(m_msg).at(400, 200);
 }
 
 void TextObject::init()

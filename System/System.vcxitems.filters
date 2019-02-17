@@ -470,7 +470,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Audition.hpp">
       <Filter>Scene\MusicSelect</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AutoPlayManager.h">
       <Filter>MusicGame\AutoPlay</Filter>
     </ClInclude>
@@ -478,5 +477,8 @@
       <Filter>MusicGame\Anime</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.hpp">
+      <Filter>MusicGame\Data\GenreManager</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
