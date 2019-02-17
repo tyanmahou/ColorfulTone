@@ -234,20 +234,30 @@ namespace
 		}
 	}
 
+	const Texture* GetJacketTexture(Action action, const GenreData* pGenre, const MusicData* pMusic)
+	{
+		if (pGenre && action == MusicSelect::Action::GenreSelect)
+		{
+			return &pGenre->getTexture();
+		}
+		if (pMusic)
+		{
+			return &pMusic->getTexture();
+		}
+		return nullptr;
+	}
 	//ジャケット描画
 	void DrawJacket(Action action, const GenreData* pGenre, const MusicData* pMusic, double shaderTimer = 0.0)
 	{
-		if (!pGenre || !pMusic)
+		const auto* pTexture = ::GetJacketTexture(action, pGenre, pMusic);
+		if (!pTexture)
 		{
 			return;
 		}
-		const auto& jacketTexture = action == MusicSelect::Action::GenreSelect
-			? pGenre->getTexture() : pMusic->getTexture();
-
 		// ジャケ絵描画
-		Fade::DrawCanvas(shaderTimer, [=, &jacketTexture]()
+		Fade::DrawCanvas(shaderTimer, [=, &pTexture]()
 		{
-			jacketTexture.resize(jacketWidth, jacketWidth).drawAt(jacketCenter, 250);
+			pTexture->resize(jacketWidth, jacketWidth).drawAt(jacketCenter, 250);
 		});
 	}
 }

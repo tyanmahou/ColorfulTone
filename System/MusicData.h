@@ -36,7 +36,7 @@ public:
 		MusicData() = default;
 		MusicData(const String& genreName,const String& dirPath, const String& iniPath);
 
-		 const Texture getTexture()const{ return m_texture;}
+		 const Texture& getTexture()const{ return m_texture;}
 
 		  Sound getSound(){ return SoundAsset(m_soundNameID); }
 		const String& getMusicName()const { return m_musicName; }
