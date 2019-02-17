@@ -64,6 +64,11 @@ void PlayMusicGame::init(MusicData & nowMusic, const int level, const float scro
 
 }
 
+void PlayMusicGame::finally()
+{
+	m_sound.stop(1s);
+}
+
 void PlayMusicGame::update()
 {
 	if (!m_isStart)

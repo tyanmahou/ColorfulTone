@@ -31,6 +31,10 @@ void MainScene::init()
 	if (m_isCourse)
 		m_musicGame.setCourseMode(m_data->m_life);
 }
+void MainScene::finally()
+{
+	m_musicGame.finally();
+}
 //--------------------------------------------------------------------------------
 //関数：update
 //--------------------------------------------------------------------------------
@@ -55,7 +59,7 @@ void MainScene::update()
 	{
 		if (PlayKey::BigBack().pressedDuration >= 1000)
 		{
-			changeScene(L"select", 3000);
+			changeScene(L"select", 2000, false);
 		}
 	}
 	else
@@ -63,13 +67,12 @@ void MainScene::update()
 		if (PlayKey::BigBack().pressedDuration >= 1000)
 		{
 			m_data->m_isCoursePlay = false;
-			changeScene(L"courseSelect", 3000);
+			changeScene(L"courseSelect", 2000, false);
 		}
 	}
 
 	m_highSpeed.update(m_data->m_scrollRate);
 	m_musicGame.setScrollRate(m_data->m_scrollRate);
-
 }
 
 

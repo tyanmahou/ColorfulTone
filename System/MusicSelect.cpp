@@ -132,6 +132,14 @@ void MusicSelect::init()
 	}
 }
 
+void MusicSelect::finally()
+{
+	m_audition.stop();
+	m_data->m_nowMusics = m_musics[g_selectInfo.music];
+	m_data->m_selectMusic = m_data->m_nowMusics.getIndex();
+	m_data->m_selectLevel = g_selectInfo.level;
+}
+
 void MusicSelect::update()
 {
 	m_prevAction = m_action;
@@ -181,11 +189,7 @@ void MusicSelect::update()
 		}
 		else if (m_action == Action::LevelSelect)
 		{
-			m_audition.stop();
-			m_data->m_nowMusics = m_musics[g_selectInfo.music];
-			m_data->m_selectMusic = m_data->m_nowMusics.getIndex();
-			m_data->m_selectLevel = g_selectInfo.level;
-			changeScene(L"main", 3000, false);
+			changeScene(L"main", 2000, false);
 			SoundManager::SE::Play(L"desisionLarge");
 		}
 	}

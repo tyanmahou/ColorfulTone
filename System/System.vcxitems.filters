@@ -480,5 +480,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.hpp">
       <Filter>MusicGame\Data\GenreManager</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ISceneBase.hpp">
+      <Filter>Scene</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

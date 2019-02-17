@@ -31,6 +31,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ISceneBase.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MultiThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelect.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelectView.hpp" />

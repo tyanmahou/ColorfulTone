@@ -51,6 +51,7 @@ public:
 	PlayMusicGame();
 
 	void init(MusicData& nowMusic, const int level, const float scrollRate);
+	void finally();
 
 	void synchroCount(double& count)
 	{

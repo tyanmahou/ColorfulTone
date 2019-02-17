@@ -34,6 +34,10 @@ void Tutorial::init()
 
 	AutoPlayManager::SetAutoPlay(false);
 }
+void Tutorial::finally()
+{
+	m_musicGame.finally();
+}
 //--------------------------------------------------------------------------------
 //関数：update
 //--------------------------------------------------------------------------------
@@ -47,7 +51,7 @@ void Tutorial::update()
 	//タイトルに戻る
 	if (PlayKey::BigBack().pressedDuration >= 1000|| PlayKey::SmallBack().pressedDuration >= 1000 || m_musicGame.isFinish())
 	{
-		changeScene(L"title", 3000);
+		changeScene(L"title", 2000, false);
 	}
 }
 
@@ -77,8 +81,8 @@ void Tutorial::draw()const
 //--------------------------------------------------------------------------------
 void Tutorial::drawFadeIn(double t) const
 {
-	draw();
-	FadeIn(Fade::Default, t);
+	this->draw();
+	FadeIn(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
 }
 
 //--------------------------------------------------------------------------------
@@ -86,6 +90,6 @@ void Tutorial::drawFadeIn(double t) const
 //--------------------------------------------------------------------------------
 void Tutorial::drawFadeOut(double t) const
 {
-	draw();
-	FadeOut(Fade::SmoothCircle, t);
+	this->draw();
+	FadeOut(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
 }

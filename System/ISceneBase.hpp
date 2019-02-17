@@ -29,8 +29,10 @@ using MyApp = SceneManager<String, GameData>;
 class ISceneBase : public MyApp::Scene
 {
 protected:
+	virtual void finally() {};
 	void changeScene(const String& state, int transitionTimeMillisec = 1000, bool crossFade = true)
 	{
+		this->finally();
 		m_data->m_fromScene = std::move(m_data->m_toScene);
 		m_data->m_toScene = state;
 		this->MyApp::Scene::changeScene(state, transitionTimeMillisec, crossFade);

@@ -19,6 +19,7 @@ public:
 	~MainScene();
 
 	void init() override;
+	void finally() override;
 	void update() override;
 	void draw() const override;
 	void drawFadeIn(double t) const override;
