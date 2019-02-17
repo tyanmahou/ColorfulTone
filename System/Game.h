@@ -3,7 +3,8 @@
 #include<Siv3D/Fwd.hpp>
 #include<Siv3D/Array.hpp>
 #include<memory>
-#include"GameConfig.h"
+
+class GameConfig;
 class MusicData;
 class CourseData;
 

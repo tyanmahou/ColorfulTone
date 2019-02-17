@@ -1,6 +1,5 @@
 ﻿#include"KeyConfigScene.h"
 #include "Useful.hpp"
-#include "GameConfig.h"
 
 namespace
 {

@@ -2,7 +2,6 @@
 #include"MultiThread.hpp"
 #include "Useful.hpp"
 # include <HamFramework.hpp>
-#include"GameConfig.h"
 namespace
 {
 	enum class WindowSize

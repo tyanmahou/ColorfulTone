@@ -38,7 +38,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayBG.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)eJudge.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Fade.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)FCAPAnimeManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoad.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FontKinetic.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Game.h" />
@@ -66,6 +65,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedDraw.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Util.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RepeatNote.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultEffect.h" />

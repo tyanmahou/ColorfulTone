@@ -480,9 +480,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AutoPlayManager.h">
       <Filter>MusicGame\AutoPlay</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FCAPAnimeManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)APAnime.hpp">
       <Filter>MusicGame\Anime</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
   </ItemGroup>
 </Project>

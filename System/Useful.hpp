@@ -3,7 +3,7 @@
 // cppからのみ使用
 
 #include "Game.h"
-#include "Config.h"
+#include"GameConfig.h"
 #include "MusicData.h"
 #include "CourseData.h"
 #include "SoundManager.h"

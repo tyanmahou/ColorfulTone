@@ -6,7 +6,6 @@
 #include"FontKinetic.h"
 #include"ResultRank.h"
 #include"PlayStyle.h"
-#include "GameConfig.h"
 
 PlayMusicGame::PlayMusicGame() :
 	m_nowCount(-10000.0),

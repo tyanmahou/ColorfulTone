@@ -1,6 +1,5 @@
 ﻿#include"KeyConfig.h"
 #include "Useful.hpp"
-#include "GameConfig.h"
 namespace
 {
 	//キー変更キーボード
