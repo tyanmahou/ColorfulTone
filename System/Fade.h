@@ -10,7 +10,7 @@ namespace Fade
 	void SmoothCircle(double t);
 
 	// ページめくり
-	void FlipPage(double t, std::function<void()> drawble);
+	void FlipPage(double t, std::function<void()> drawble, bool in = true);
 
 
 	// ページめくり

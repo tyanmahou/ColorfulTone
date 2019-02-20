@@ -398,10 +398,7 @@ void ConfigScene::draw()const
 //--------------------------------------------------------------------------------
 void ConfigScene::drawFadeIn(double t) const
 {
-
-	draw();
-	FadeIn(Fade::SmoothCircle, t);
-
+	FadeIn(Fade::FlipPage, t, [this]() {draw(); }, true);
 }
 
 //--------------------------------------------------------------------------------
@@ -409,8 +406,5 @@ void ConfigScene::drawFadeIn(double t) const
 //--------------------------------------------------------------------------------
 void ConfigScene::drawFadeOut(double t) const
 {
-
-	draw();
-	FadeOut(Fade::SmoothCircle, t);
-
+	this->draw();
 }

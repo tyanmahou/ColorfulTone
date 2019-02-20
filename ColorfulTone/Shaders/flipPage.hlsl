@@ -11,11 +11,12 @@ struct VS_OUTPUT
 cbuffer psConstants1 : register(b1)
 {
 	float g_timer;
+	bool g_in;
 };
 
 float getTimer()
 {
-	return (1.0 - g_timer) * 1.1;
+	return (1.0 - g_timer);
 }
 // ライン計算
 float2 toFoldLine()
@@ -55,10 +56,6 @@ float4 PS(VS_OUTPUT input) : SV_Target
 	const float2 uv = input.tex;
 	float4 srcColor = texture0.Sample(sampler0, uv);
 
-	if(timer >= 1.0)
-	{
-		return srcColor*input.color;
-	}
 	// 折り曲げラインを計算
 	float2 l = toFoldLine();
 	float a = l.x;
@@ -73,13 +70,20 @@ float4 PS(VS_OUTPUT input) : SV_Target
 	const bool hasCor = hasCorrection(sym,uv,a,b);
 	if(uv.y>y)
 	{
+		if(!g_in)
+		{
+			discard;			
+		}
 		// ラインより内は
 	} else if(!hasCor && sym.x <= 1.0 && sym.y <= 1.0)
 	{
 		const float4 backColor = float4(0.33, 0.3, 0.2, 1);
 		srcColor = backColor;	
 	} else {
-		discard;
+		if(g_in)
+		{
+			discard;			
+		}
 	}
 	return srcColor*input.color;
 }

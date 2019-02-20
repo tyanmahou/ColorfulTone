@@ -454,9 +454,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoad.h">
       <Filter>Scene\FileLoad</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp">
-      <Filter>Scene\KeyConfig</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelect.hpp">
       <Filter>Scene\MusicSelect</Filter>
     </ClInclude>
@@ -482,6 +479,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ISceneBase.hpp">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp">
+      <Filter>Scene\FileLoad</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

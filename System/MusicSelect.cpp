@@ -292,7 +292,7 @@ void MusicSelect::draw() const
 
 void MusicSelect::drawFadeIn(double t) const
 {
-	FadeIn(Fade::FlipPage, t, [this]() {this->draw(); });
+	FadeIn(Fade::FlipPage, t, [this]() {this->draw(); },true);
 }
 
 void MusicSelect::drawFadeOut(double t) const

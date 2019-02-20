@@ -12,13 +12,15 @@
 TitleScene::Mode TitleScene::m_mode = TitleScene::Mode::GameStart;
 
 
-TitleScene::TitleScene():
+TitleScene::TitleScene() :
 	m_timer(0),
-	m_font(10, L"Straight",FontStyle::Outline)
+	m_font(10, L"Straight", FontStyle::Outline)
 {
 	m_font.changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 2));
-	if(!SoundAsset(L"title").isPlaying())
-	SoundAsset(L"title").play();
+	if (!SoundAsset(L"title").isPlaying())
+	{
+		SoundAsset(L"title").play(1s);
+	}
 }
 
 //--------------------------------------------------------------------------------
@@ -32,14 +34,14 @@ TitleScene::Mode operator ++(TitleScene::Mode& mode)
 }
 TitleScene::Mode operator --(TitleScene::Mode& mode)
 {
-	mode = (mode == TitleScene::Mode::GameStart) ? TitleScene::Mode::Exit : TitleScene::Mode(static_cast<int>(mode)-1);
+	mode = (mode == TitleScene::Mode::GameStart) ? TitleScene::Mode::Exit : TitleScene::Mode(static_cast<int>(mode) - 1);
 	return mode;
 }
 //--------------------------------------------------------------------------------
 //関数：update
 //--------------------------------------------------------------------------------
 
-namespace 
+namespace
 {
 
 	void AccessHomePage()
@@ -61,12 +63,18 @@ namespace
 void TitleScene::onEnterMode()
 {
 	SoundManager::SE::Play(L"desisionLarge");
-	static const std::unordered_map<Mode,String> sceneNames{
-		{Mode::GameStart, L"select"},
-		{Mode::Course, L"courseSelect"},
-		{Mode::KeyConfig, L"config"},
-		{Mode::Tutorial, L"tutorial"},
-		{Mode::Reload, L"load"},
+	using ChangeSceneParam = struct
+	{
+		String name;
+		int timeMillisec;
+		bool crossFade;
+	};
+	static const std::unordered_map<Mode, ChangeSceneParam> sceneParams{
+		{Mode::GameStart, {L"select", 1000, true}},
+		{Mode::Course, {L"courseSelect", 1000, true}},
+		{Mode::KeyConfig, {L"config", 1000, true}},
+		{Mode::Tutorial, {L"tutorial", 2000, false}},
+		{Mode::Reload, {L"load", 1000, true}},
 	};
 
 	if (m_mode == Mode::Exit)
@@ -75,18 +83,19 @@ void TitleScene::onEnterMode()
 		return;
 	}
 
-	if (m_mode == Mode::Download) 
+	if (m_mode == Mode::Download)
 	{
-		if (MessageBox::Show(L"インターネットに接続しホームページにアクセスします。", MessageBoxStyle::OkCancel) == MessageBoxCommand::Ok) 
+		if (MessageBox::Show(L"インターネットに接続しホームページにアクセスします。", MessageBoxStyle::OkCancel) == MessageBoxCommand::Ok)
 		{
 			::AccessHomePage();
 		}
 		return;
 	}
-	changeScene(sceneNames.at(m_mode), 1000, true);
+	const auto& param = sceneParams.at(m_mode);
+	changeScene(param.name, param.timeMillisec, param.crossFade);
 }
 
-void TitleScene::update() 
+void TitleScene::update()
 {
 	m_timer++;
 	if (PlayKey::Up().clicked)
@@ -134,9 +143,9 @@ void TitleScene::draw()const
 	Graphics2D::SetBlendState(BlendState::Default);
 
 
-	TextureAsset(L"logo").scale(0.8).drawAt(400,150);
+	TextureAsset(L"logo").scale(0.8).drawAt(400, 150);
 
-	static Array<std::pair<String,String>> name = {
+	static Array<std::pair<String, String>> name = {
 		{ L"iconPlay",L"FREE PLAY"},
 		{ L"iconPlayCourse",L"COURSE PLAY" },
 		{ L"iconConfig",L"CONFIG"},
@@ -154,18 +163,18 @@ void TitleScene::draw()const
 
 	TextureAsset(L"modeBack").drawAt(x, y + 40 * 2, ColorF(0.8, 1, 1, 0.9 + 0.1*Sin(static_cast<double>(m_timer) / 30.0)));
 
-	for (unsigned int i = 0; i <5; ++i)
+	for (unsigned int i = 0; i < 5; ++i)
 	{
-		const unsigned index = (static_cast<unsigned int>(m_mode)+i + 5 )% 7;
-		const auto size=m_font(name[index].second).region().size;
-		m_font(name[index].second).drawKinetic(x-size.x/2.0, y + off*i -size.y/2.0, FontKinetic::DeleteSpace,ColorF(0,i==2?1:0.5-0.1*Abs<int>(2-i)));
+		const unsigned index = (static_cast<unsigned int>(m_mode) + i + 5) % 7;
+		const auto size = m_font(name[index].second).region().size;
+		m_font(name[index].second).drawKinetic(x - size.x / 2.0, y + off * i - size.y / 2.0, FontKinetic::DeleteSpace, ColorF(0, i == 2 ? 1 : 0.5 - 0.1*Abs<int>(2 - i)));
 
-		TextureAsset(name[index].first).scale(0.15+ (i==2?0.012*Sin(static_cast<double>(m_timer) / 20.0):0)).drawAt(x-150, y + off * i, ColorF(i==2, 1 - 0.3*Abs<int>(2 - i)));
+		TextureAsset(name[index].first).scale(0.15 + (i == 2 ? 0.012*Sin(static_cast<double>(m_timer) / 20.0) : 0)).drawAt(x - 150, y + off * i, ColorF(i == 2, 1 - 0.3*Abs<int>(2 - i)));
 	}
 
 
 	SceneInfo::Draw(L"Press Enter");
-	FontAsset(L"info")(Game::Version).draw(10, 600 - 40+ 10);
+	FontAsset(L"info")(Game::Version).draw(10, 600 - 40 + 10);
 }
 
 //--------------------------------------------------------------------------------
@@ -173,7 +182,15 @@ void TitleScene::draw()const
 //--------------------------------------------------------------------------------
 void TitleScene::drawFadeIn(double t) const
 {
-	FadeIn(Fade::FlipPage, t, [this]() {draw();});
+	if(this->m_data->m_fromScene == L"tutorial")
+	{ 
+		this->draw();
+		FadeIn(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
+	}
+	else 
+	{
+		FadeIn(Fade::FlipPage, t, [this]() {draw(); }, true);
+	}
 }
 
 //--------------------------------------------------------------------------------
@@ -181,5 +198,13 @@ void TitleScene::drawFadeIn(double t) const
 //--------------------------------------------------------------------------------
 void TitleScene::drawFadeOut(double t) const
 {
-	draw();
+	if (this->m_data->m_toScene == L"tutorial")
+	{
+		this->draw();
+		FadeOut(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
+	}
+	else
+	{
+		this->draw();
+	}
 }

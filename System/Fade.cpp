@@ -64,7 +64,7 @@ namespace Fade
 			StencilFunc::NotEqual
 		);
 	}
-	void FlipPage(double t, std::function<void()> drawble)
+	void FlipPage(double t, std::function<void()> drawble, bool in)
 	{
 		static RenderTexture tex(Window::BaseSize());
 		{
@@ -73,8 +73,14 @@ namespace Fade
 			drawble();
 		}
 		static PixelShader ps(L"Shaders/flipPage.ps");
-		static ConstantBuffer<Float4> cb;
-		cb->x = t; // timer
+		using CBuffer = struct{
+			float timer;
+			bool in;
+			Float2 _unused;
+		};
+		static ConstantBuffer<CBuffer> cb;
+		cb->timer = t; // timer
+		cb->in = in;
 		Graphics2D::SetConstant(ShaderStage::Pixel, 1, cb);
 		Graphics2D::BeginPS(ps);
 		tex.draw();
