@@ -72,7 +72,7 @@ void CourseSelectScene::update()
 					m_data->m_life = 100.0f;
 					//絶対Autoは解除する
 					AutoPlayManager::SetAutoPlay(false);
-					changeScene(L"course", 3000);
+					changeScene(SceneName::Course, 1000);
 				}
 				else
 					MessageBox::Show(L"全ての譜面データが存在していないので、このコースはプレイできません。");
@@ -181,10 +181,14 @@ void CourseSelectScene::draw() const
 //--------------------------------------------------------------------------------
 void CourseSelectScene::drawFadeIn(double t) const
 {
-
-	draw();
-	FadeIn(Fade::Default, t);
-
+	if (m_data->m_fromScene == SceneName::Course)
+	{
+		FadeOut(Fade::FlipPage, t, [this]() {draw(); }, false);
+	}
+	else
+	{
+		FadeIn(Fade::FlipPage, t, [this]() {draw(); }, true);
+	}
 }
 
 //--------------------------------------------------------------------------------
@@ -192,8 +196,5 @@ void CourseSelectScene::drawFadeIn(double t) const
 //--------------------------------------------------------------------------------
 void CourseSelectScene::drawFadeOut(double t) const
 {
-
 	draw();
-	FadeOut(Fade::Default, t);
-
 }

@@ -51,7 +51,7 @@ void Tutorial::update()
 	//タイトルに戻る
 	if (PlayKey::BigBack().pressedDuration >= 1000|| PlayKey::SmallBack().pressedDuration >= 1000 || m_musicGame.isFinish())
 	{
-		changeScene(L"title", 2000, false);
+		changeScene(SceneName::Title, 2000, false);
 	}
 }
 
@@ -82,7 +82,7 @@ void Tutorial::draw()const
 void Tutorial::drawFadeIn(double t) const
 {
 	this->draw();
-	FadeIn(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
+	FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
 }
 
 //--------------------------------------------------------------------------------
@@ -91,5 +91,5 @@ void Tutorial::drawFadeIn(double t) const
 void Tutorial::drawFadeOut(double t) const
 {
 	this->draw();
-	FadeOut(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
+	FadeOut(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
 }

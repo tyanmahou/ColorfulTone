@@ -369,7 +369,7 @@ void ConfigScene::update()
 	if (PlayKey::BigBack().clicked)
 	{
 		SoundManager::SE::Play(L"desisionLarge");
-		changeScene(L"title", 3000);
+		changeScene(SceneName::Title, 1000);
 	}
 }
 

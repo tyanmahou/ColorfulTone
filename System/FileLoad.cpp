@@ -213,7 +213,7 @@ void FileLoad::draw()const
 
 void FileLoad::drawFadeIn(double t) const
 {
-	if (m_data->m_fromScene == L"title")
+	if (m_data->m_fromScene == SceneName::Title)
 	{
 		FadeOut(Fade::FlipPage, t, [this]() {draw(); }, false);
 	}
@@ -222,9 +222,6 @@ void FileLoad::drawFadeIn(double t) const
 		FadeIn(Fade::FlipPage, t, [this]() {draw(); }, true);
 	}
 }
-
-
-
 
 //--------------------------------------------------------------------------------
 //関数：drawFadeOut

@@ -70,11 +70,11 @@ void TitleScene::onEnterMode()
 		bool crossFade;
 	};
 	static const std::unordered_map<Mode, ChangeSceneParam> sceneParams{
-		{Mode::GameStart, {L"select", 1000, true}},
-		{Mode::Course, {L"courseSelect", 1000, true}},
-		{Mode::KeyConfig, {L"config", 1000, true}},
-		{Mode::Tutorial, {L"tutorial", 2000, false}},
-		{Mode::Reload, {L"load", 1000, true}},
+		{Mode::GameStart, {SceneName::Select, 1000, true}},
+		{Mode::Course,{SceneName::CourseSelect, 1000, true}},
+		{Mode::KeyConfig, {SceneName::Config, 1000, true}},
+		{Mode::Tutorial, {SceneName::Tutorial, 2000, false}},
+		{Mode::Reload, {SceneName::Load, 1000, true}},
 	};
 
 	if (m_mode == Mode::Exit)
@@ -182,14 +182,18 @@ void TitleScene::draw()const
 //--------------------------------------------------------------------------------
 void TitleScene::drawFadeIn(double t) const
 {
-	if(this->m_data->m_fromScene == L"tutorial")
+	if(m_data->m_fromScene == SceneName::Tutorial)
 	{ 
 		this->draw();
-		FadeIn(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
+		FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
 	}
-	else 
+	else if(m_data->m_fromScene == SceneName::Load)
 	{
 		FadeIn(Fade::FlipPage, t, [this]() {draw(); }, true);
+	}
+	else
+	{
+		FadeOut(Fade::FlipPage, t, [this]() {draw(); }, false);
 	}
 }
 
@@ -198,10 +202,10 @@ void TitleScene::drawFadeIn(double t) const
 //--------------------------------------------------------------------------------
 void TitleScene::drawFadeOut(double t) const
 {
-	if (this->m_data->m_toScene == L"tutorial")
+	if (this->m_data->m_toScene == SceneName::Tutorial)
 	{
 		this->draw();
-		FadeOut(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
+		FadeOut(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
 	}
 	else
 	{

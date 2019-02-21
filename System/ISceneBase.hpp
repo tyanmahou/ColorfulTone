@@ -32,9 +32,23 @@ protected:
 	virtual void finally() {};
 	void changeScene(const String& state, int transitionTimeMillisec = 1000, bool crossFade = true)
 	{
-		this->finally();
 		m_data->m_fromScene = std::move(m_data->m_toScene);
 		m_data->m_toScene = state;
+		this->finally();
 		this->MyApp::Scene::changeScene(state, transitionTimeMillisec, crossFade);
 	}
 };
+
+namespace SceneName
+{
+	constexpr auto Load = L"load";
+	constexpr auto Title = L"title";
+	constexpr auto Select = L"select";
+	constexpr auto Main = L"main";
+	constexpr auto Result = L"result";
+	constexpr auto CourseSelect = L"courseSelect";
+	constexpr auto Course = L"course";
+	constexpr auto Config = L"config";
+	constexpr auto Tutorial = L"tutorial";
+	constexpr auto Download = L"download";
+}

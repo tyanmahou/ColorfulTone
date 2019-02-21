@@ -195,14 +195,16 @@ void ResultScene::update()
 		{
 			if (m_passEffect == PassEffect::Failure || m_data->m_currentCourseIndex >= Game::Courses()[m_data->m_selectCourse].getNotesIDs().size())
 			{
-				changeScene(L"courseSelect", 3000);
+				changeScene(SceneName::CourseSelect, 1000);
 			}
 			else
-				changeScene(L"course", 3000);
+			{
+				changeScene(SceneName::Course, 1000);
+			}
 		}
 		else
 		{
-			changeScene(L"select", 3000);
+			changeScene(SceneName::Select, 1000);
 		}
 	}
 }
@@ -317,10 +319,8 @@ void ResultScene::draw()const
 //--------------------------------------------------------------------------------
 void ResultScene::drawFadeIn(double t) const
 {
-
 	draw();
-	FadeIn(Fade::SmoothCircle, t);
-
+	FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
 }
 
 //--------------------------------------------------------------------------------
@@ -328,8 +328,5 @@ void ResultScene::drawFadeIn(double t) const
 //--------------------------------------------------------------------------------
 void ResultScene::drawFadeOut(double t) const
 {
-
 	draw();
-	FadeOut(Fade::SmoothCircle, t);
-
 }

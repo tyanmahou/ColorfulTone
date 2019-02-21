@@ -1,8 +1,11 @@
 ﻿#include"Fade.h"
 #include"Util.h"
+
 namespace
 {
-	Image createImg(const Size& size = Window::BaseSize(), const Color& color = Palette::White)
+	Color g_fadeColor = Palette::White;
+
+	Image CreateImg(const Size& size = Window::BaseSize(), const Color& color = Palette::White)
 	{
 		Image img(size);
 		img.fill(Palette::White);
@@ -13,7 +16,7 @@ namespace
 	{
 		if (t > 0.75)
 		{
-			Window::BaseClientRect().draw(ColorF(0.0));
+			Window::BaseClientRect().draw(g_fadeColor);
 			return false;
 		}
 
@@ -44,7 +47,7 @@ namespace Fade
 	{
 		if (!::FadeBase(t))
 			return;
-		Window::BaseClientRect().draw(ColorF(0.0, t));
+		Window::BaseClientRect().draw(g_fadeColor);
 	}
 
 	//3次関数的に広がる円形マスク
@@ -60,7 +63,7 @@ namespace Fade
 
 		::StencilMask(
 			[t] { Circle(Window::BaseCenter(), Window::BaseWidth() * func(1.0 - t)).draw(); },
-			[] { Window::BaseClientRect().draw(ColorF(0.0, 1)); },
+			[] { Window::BaseClientRect().draw(g_fadeColor); },
 			StencilFunc::NotEqual
 		);
 	}
@@ -98,9 +101,14 @@ namespace Fade
 		drawble();
 		Graphics2D::EndPS();
 	}
-	void DrawCanvas(double t, const Color & color)
+	void DrawCanvas(double t)
 	{
-		static Texture tex(::createImg({Window::BaseWidth()*1.5,Window::BaseHeight()*1.5}));
-		DrawCanvas(t, [&color] {tex.drawAt(Window::BaseCenter(), color); });
+		static Texture tex(::CreateImg({Window::BaseWidth()*1.5,Window::BaseHeight()*1.5}));
+		DrawCanvas(t, [] {tex.drawAt(Window::BaseCenter(), g_fadeColor); });
 	}
+}
+
+void SetFadeColor(const s3d::Color & color)
+{
+	g_fadeColor = color;
 }

@@ -51,7 +51,7 @@ void CoursePlay::update()
 		m_data->m_nowMusics = musics[notesID.first];
 		m_data->m_selectMusic = musics[notesID.first].getIndex();
 		m_data->m_selectLevel = notesID.second;
-		changeScene(L"main", 3000);
+		changeScene(SceneName::Main, 2000, false);
 
 	}
 
@@ -160,10 +160,7 @@ void CoursePlay::draw() const
 //--------------------------------------------------------------------------------
 void CoursePlay::drawFadeIn(double t) const
 {
-
-	draw();
-	FadeIn(Fade::Default, t);
-
+	FadeIn(Fade::FlipPage, t, [this]() {this->draw(); }, true);
 }
 
 //--------------------------------------------------------------------------------
@@ -171,13 +168,19 @@ void CoursePlay::drawFadeIn(double t) const
 //--------------------------------------------------------------------------------
 void CoursePlay::drawFadeOut(double t) const
 {
-	auto& currentCourse = Game::Courses().at(m_data->m_selectCourse);
-	auto& notesID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex];
-	auto& music = Game::Musics().at(notesID.first);
+	if (m_data->m_toScene == SceneName::Main)
+	{
+		auto& currentCourse = Game::Courses().at(m_data->m_selectCourse);
+		auto& notesID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex];
+		auto& music = Game::Musics().at(notesID.first);
 
-	draw();
-	FadeOut(Fade::Default, t);
-
-	music.getTexture().resize(300, 300).drawAt(400, 300, ColorF(1, t*t));
-
+		this->draw();
+		FadeOut(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
+		const double size = EaseOut(300.0, 350.0, Easing::Cubic, t);
+		music.getTexture().resize(size, size).drawAt(400, 300, ColorF(1, t*t));
+	}
+	else
+	{
+		this->draw();
+	}
 }

@@ -52,14 +52,14 @@ void MainScene::update()
 		m_data->m_resultScore = m_musicGame.getScore();
 		if (m_isCourse)
 			m_data->m_life = m_musicGame.getLife();
-		changeScene(L"result", 3000);
+		changeScene(SceneName::Result, 2000, false);
 	}
 	//選曲に戻る
 	if (!m_isCourse)
 	{
 		if (PlayKey::BigBack().pressedDuration >= 1000)
 		{
-			changeScene(L"select", 2000, false);
+			changeScene(SceneName::Select, 2000, false);
 		}
 	}
 	else
@@ -67,7 +67,7 @@ void MainScene::update()
 		if (PlayKey::BigBack().pressedDuration >= 1000)
 		{
 			m_data->m_isCoursePlay = false;
-			changeScene(L"courseSelect", 2000, false);
+			changeScene(SceneName::CourseSelect, 2000, false);
 		}
 	}
 
@@ -108,7 +108,8 @@ void MainScene::draw()const
 	m_highSpeed.draw(
 		m_data->m_nowMusics.getMinSoundBeat(),
 		m_data->m_nowMusics.getMaxSoundBeat(),
-		m_data->m_scrollRate);
+		m_data->m_scrollRate
+	);
 }
 
 
@@ -118,7 +119,7 @@ void MainScene::draw()const
 void MainScene::drawFadeIn(double t) const
 {
 	draw();
-	FadeIn(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
+	FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
 	m_data->m_nowMusics.getTexture().resize(350, 350).drawAt(400, 300, ColorF(1, 1 - t));
 }
 
@@ -128,5 +129,5 @@ void MainScene::drawFadeIn(double t) const
 void MainScene::drawFadeOut(double t) const
 {
 	draw();
-	FadeOut(Fade::SmoothCircle, t);
+	FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
 }

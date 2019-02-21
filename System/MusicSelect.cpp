@@ -189,7 +189,7 @@ void MusicSelect::update()
 		}
 		else if (m_action == Action::LevelSelect)
 		{
-			changeScene(L"main", 2000, false);
+			changeScene(SceneName::Main, 2000, false);
 			SoundManager::SE::Play(L"desisionLarge");
 		}
 	}
@@ -246,7 +246,7 @@ void MusicSelect::update()
 	//戻る
 	if (PlayKey::BigBack().clicked)
 	{
-		changeScene(L"title", 1000, true);
+		changeScene(SceneName::Title, 1000);
 		SoundManager::SE::Play(L"cancel");
 	}
 	// 試聴
@@ -292,15 +292,29 @@ void MusicSelect::draw() const
 
 void MusicSelect::drawFadeIn(double t) const
 {
-	FadeIn(Fade::FlipPage, t, [this]() {this->draw(); },true);
+	if (m_data->m_fromScene == SceneName::Title)
+	{
+		FadeIn(Fade::FlipPage, t, [this]() {this->draw(); }, true);
+	}
+	else
+	{
+		FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
+	}
 }
 
 void MusicSelect::drawFadeOut(double t) const
 {
-	this->draw();
-	FadeOut(static_cast<void(*)(double, const Color&)>(Fade::DrawCanvas), t, Palette::White);
-	const double size = EaseOut(300.0, 350.0, Easing::Cubic, t);
-	m_musics[g_selectInfo.music].getTexture().resize(size,size).drawAt(400, 300, ColorF(1, t*t));
+	if (m_data->m_toScene == SceneName::Main)
+	{
+		this->draw();
+		FadeOut(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
+		const double size = EaseOut(300.0, 350.0, Easing::Cubic, t);
+		m_musics[g_selectInfo.music].getTexture().resize(size, size).drawAt(400, 300, ColorF(1, t*t));
+	}
+	else
+	{
+		this->draw();
+	}
 }
 
 MusicSelect::SelectMusicsInfo MusicSelect::GetSelectInfo()
