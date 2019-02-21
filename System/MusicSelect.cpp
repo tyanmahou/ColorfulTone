@@ -292,13 +292,14 @@ void MusicSelect::draw() const
 
 void MusicSelect::drawFadeIn(double t) const
 {
-	if (m_data->m_fromScene == SceneName::Title)
+	if (m_data->m_fromScene == SceneName::Main)
 	{
-		FadeIn(Fade::FlipPage, t, [this]() {this->draw(); }, true);
+		this->draw();
+		FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
 	}
 	else
 	{
-		FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
+		FadeIn(Fade::FlipPage, t, [this]() {this->draw(); }, true);
 	}
 }
 

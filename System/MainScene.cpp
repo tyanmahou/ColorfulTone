@@ -129,5 +129,5 @@ void MainScene::drawFadeIn(double t) const
 void MainScene::drawFadeOut(double t) const
 {
 	draw();
-	FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
+	FadeOut(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
 }

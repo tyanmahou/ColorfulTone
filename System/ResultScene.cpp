@@ -69,7 +69,7 @@ void ResultScene::init()
 	m_totalNotesEasing.start();
 
 	//autoPlayならデータ保存はしない
-	if (AutoPlayManager::IsAutoPlay)
+	if (AutoPlayManager::IsAutoPlay())
 		return;
 	bool newRecord = false;
 	auto& currentMusic = Game::Musics()[m_data->m_selectMusic];
