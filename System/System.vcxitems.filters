@@ -118,9 +118,6 @@
     <Filter Include="util\GIF">
       <UniqueIdentifier>{020dd04a-a110-41c0-9860-34a5987a0231}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MusicGame\Data\MusicData\Score">
-      <UniqueIdentifier>{0448d3bd-b7d2-401d-abe5-d59bdcfde9ea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MusicGame\AutoPlay">
       <UniqueIdentifier>{c75d002a-030e-4591-8c61-396a26ea1d8d}</UniqueIdentifier>
     </Filter>
@@ -132,6 +129,9 @@
     </Filter>
     <Filter Include="MusicGame\Data\Loader">
       <UniqueIdentifier>{44d566a8-30ac-4aad-8f48-5cd8a5672ee3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MusicGame\Data\Score">
+      <UniqueIdentifier>{0448d3bd-b7d2-401d-abe5-d59bdcfde9ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -199,7 +199,7 @@
       <Filter>MusicGame\Data\NotesData</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultRank.cpp">
-      <Filter>MusicGame\Data\MusicData\Score</Filter>
+      <Filter>MusicGame\Data\Score</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RepeatNote.cpp">
       <Filter>MusicGame\Object\RepeatNotes</Filter>
@@ -250,7 +250,7 @@
       <Filter>Scene\FileLoad</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Score.cpp">
-      <Filter>MusicGame\Data\MusicData\Score</Filter>
+      <Filter>MusicGame\Data\Score</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Util.cpp">
       <Filter>util</Filter>
@@ -379,10 +379,10 @@
       <Filter>MusicGame\Data\NotesData</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultRank.h">
-      <Filter>MusicGame\Data\MusicData\Score</Filter>
+      <Filter>MusicGame\Data\Score</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Score.h">
-      <Filter>MusicGame\Data\MusicData\Score</Filter>
+      <Filter>MusicGame\Data\Score</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RepeatNote.h">
       <Filter>MusicGame\Object\RepeatNotes</Filter>

@@ -11,7 +11,7 @@ struct VS_OUTPUT
 cbuffer psConstants1 : register(b1)
 {
 	float g_timer;
-	bool g_in;
+	int g_in;
 };
 
 float getTimer()
