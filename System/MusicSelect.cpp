@@ -135,9 +135,10 @@ void MusicSelect::init()
 void MusicSelect::finally()
 {
 	m_audition.stop();
-	m_data->m_nowMusics = m_musics[g_selectInfo.music];
-	m_data->m_selectMusic = m_data->m_nowMusics.getIndex();
-	m_data->m_selectLevel = g_selectInfo.level;
+	if (m_data->m_toScene == SceneName::Main)
+	{
+		m_data->m_nowNotes = m_musics[g_selectInfo.music][g_selectInfo.level];
+	}
 }
 
 void MusicSelect::update()

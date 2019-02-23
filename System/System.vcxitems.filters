@@ -286,6 +286,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultSceneView.cpp">
       <Filter>Scene\Result</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayBG.cpp">
+      <Filter>MusicGame\Play</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">

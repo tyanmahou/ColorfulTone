@@ -48,11 +48,8 @@ void CoursePlay::update()
 	{
 		auto& notesID = currentCourse.getNotesIDs()[m_data->m_currentCourseIndex];
 		SoundManager::SE::Play(L"desisionLarge");
-		m_data->m_nowMusics = musics[notesID.first];
-		m_data->m_selectMusic = musics[notesID.first].getIndex();
-		m_data->m_selectLevel = notesID.second;
+		m_data->m_nowNotes = musics[notesID.first][notesID.second];
 		changeScene(SceneName::Main, 2000, false);
-
 	}
 
 	m_highSpeed.update(m_data->m_scrollRate);

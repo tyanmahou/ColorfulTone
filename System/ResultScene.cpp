@@ -22,10 +22,10 @@ private:
 			//	(m_passEffect == PassEffect::Pass ? L"に合格" :
 			//		m_passEffect == PassEffect::None ? L"をプレイ中" :
 		}
-		auto& music = m_data->m_nowMusics;
+		const auto& music = *m_data->m_nowNotes.getMusic();
 		return
 			music.getMusicName() + L"/"
-			+ music.getNotesData()[m_data->m_selectLevel].getLevelName() + L"で"
+			+ m_data->m_nowNotes.getLevelName() + L"で"
 			+ Format(m_clearRate) + L"%達成\n#ColorfulTone";
 	}
 public:
@@ -107,5 +107,5 @@ void ResultScene::drawFadeOut(double t) const
 
 const NotesData & ResultScene::getNotes() const
 {
-	return m_data->m_nowMusics.getNotesData()[m_data->m_selectLevel];
+	return m_data->m_nowNotes;
 }

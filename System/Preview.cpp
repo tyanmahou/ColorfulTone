@@ -87,7 +87,7 @@ void Preview::loadProject(Optional<FilePath>& path)
 
 				m_musicData.emplace(genre, *path, elm);
 				m_selectLevel %= m_musicData->getNotesData().size();
-				m_musicGame.init(*m_musicData, m_selectLevel, m_scrollRate);
+				m_musicGame.init((*m_musicData)[m_selectLevel], m_scrollRate);
 				m_soundPlayer.setLevelName(m_musicGame.getNotesData().getLevelName());
 				m_musicGame.update();
 				m_musicGame.getSound().stop();
@@ -124,10 +124,6 @@ void Preview::notify(const String & event)
 
 void Preview::update()
 {
-	//if (Input::KeyEscape.clicked)
-	//{
-	//	changeScene(L"title", 3000);
-	//}
 	m_soundPlayer.update();
 	//プレイモード
 	if (Input::KeyF1.clicked)

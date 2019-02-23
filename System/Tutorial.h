@@ -2,6 +2,7 @@
 
 #include"ISceneBase.hpp"
 #include"PlayMusicGame.h"
+#include"MusicData.h"
 class Tutorial :public ISceneBase
 {
 private:

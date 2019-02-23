@@ -2,6 +2,8 @@
 #include"PlayMusicGame.h"
 #include"HighSpeedDemo.h"
 
+#include"MusicData.h"
+
 class Preview;
 
 class SoundPlayer
@@ -104,11 +106,11 @@ public:
 		{
 			if (m_isPlay)
 			{
-				m_musicGame.draw(*m_musicData);
+				m_musicGame.draw();
 			}
 			else
 			{
-				m_musicGame.previewDraw(*m_musicData,m_count);
+				m_musicGame.previewDraw(m_count);
 			}
 			m_highSpeedDemo.draw(m_musicData->getMinSoundBeat(), m_musicData->getMaxSoundBeat(), m_scrollRate);
 			m_musicGame.drawCurrentBPM();

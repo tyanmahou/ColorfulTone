@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include"MusicData.h"
+#include"NotesData.h"
 #include"Score.h"
 #include"AudioSpectrum.h"
 #include"APAnime.hpp"
@@ -50,7 +50,7 @@ public:
 
 	PlayMusicGame();
 
-	void init(MusicData& nowMusic, const int level, const float scrollRate);
+	void init(const NotesData& notes, const float scrollRate);
 	void finally();
 
 	void synchroCount(double& count)
@@ -59,11 +59,11 @@ public:
 	}
 	void update();
 
-	void drawBG(const MusicData & nowMusic, const double drawCount)const;
+	void drawBG(const double drawCount)const;
 
-	void draw(const MusicData & nowMusic)const;
+	void draw()const;
 
-	void previewDraw(const MusicData & nowMusic,const double count)const;
+	void previewDraw(const double count)const;
 
 	void drawCurrentBPM()const
 	{

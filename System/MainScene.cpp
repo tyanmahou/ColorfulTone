@@ -23,13 +23,13 @@ MainScene::~MainScene()
 }
 void MainScene::init()
 {
-	auto& nowMusic = m_data->m_nowMusics;
-
-	m_musicGame.init(nowMusic, m_data->m_selectLevel, m_data->m_scrollRate);
+	m_musicGame.init(m_data->m_nowNotes, m_data->m_scrollRate);
 
 	m_isCourse = m_data->m_isCoursePlay;
 	if (m_isCourse)
+	{
 		m_musicGame.setCourseMode(m_data->m_life);
+	}
 }
 void MainScene::finally()
 {
@@ -83,7 +83,7 @@ void MainScene::update()
 void MainScene::draw()const
 {
 
-	m_musicGame.draw(m_data->m_nowMusics);
+	m_musicGame.draw();
 	m_musicGame.drawCurrentBPM();
 
 
@@ -105,9 +105,10 @@ void MainScene::draw()const
 			m_font2(L"Esc長押しで諦める").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));
 
 	}
+	const MusicData & music = *m_data->m_nowNotes.getMusic();
 	m_highSpeed.draw(
-		m_data->m_nowMusics.getMinSoundBeat(),
-		m_data->m_nowMusics.getMaxSoundBeat(),
+		music.getMinSoundBeat(),
+		music.getMaxSoundBeat(),
 		m_data->m_scrollRate
 	);
 }
@@ -120,7 +121,7 @@ void MainScene::drawFadeIn(double t) const
 {
 	draw();
 	FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
-	m_data->m_nowMusics.getTexture().resize(350, 350).drawAt(400, 300, ColorF(1, 1 - t));
+	m_data->m_nowNotes.getMusic()->getTexture().resize(350, 350).drawAt(400, 300, ColorF(1, 1 - t));
 }
 
 //--------------------------------------------------------------------------------

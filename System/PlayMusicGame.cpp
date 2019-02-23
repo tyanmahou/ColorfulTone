@@ -19,8 +19,14 @@ PlayMusicGame::PlayMusicGame() :
 	StartAnime::Open();
 }
 
-void PlayMusicGame::init(MusicData & nowMusic, const int level, const float scrollRate)
+void PlayMusicGame::init(const NotesData& notes, const float scrollRate)
 {
+	//譜面取得
+	m_notesData = notes;
+	//譜面の初期化
+	m_notesData.init();
+
+	const MusicData &nowMusic = *notes.getMusic();
 
 	m_soundNameID = nowMusic.getSoundNameID();
 
@@ -42,10 +48,6 @@ void PlayMusicGame::init(MusicData & nowMusic, const int level, const float scro
 	wav.insert(wav.end(), 44100 * 4, sam);
 	m_sound = Sound(wav);
 	m_sound.setVolume(SoundManager::BGM::GetVolume());
-	//譜面取得
-	m_notesData = nowMusic.getNotesData()[level];
-	//譜面の初期化
-	m_notesData.init();
 
 	m_totalNotes = m_notesData.getTotalNotes();
 
@@ -60,8 +62,7 @@ void PlayMusicGame::init(MusicData & nowMusic, const int level, const float scro
 	m_playBG = ::CreateBG(Game::Config().m_bgType);
 	PlayStyle::Instance()->setStyle(Game::Config().m_styleType);
 
-	m_playBG->init(nowMusic);
-
+	m_playBG->init(notes);
 }
 
 void PlayMusicGame::finally()
@@ -134,28 +135,27 @@ namespace
 	}
 }
 
-void PlayMusicGame::drawBG(const MusicData & nowMusic, const double drawCount)const
+void PlayMusicGame::drawBG(const double drawCount)const
 {
 
 	m_playBG->apply(drawCount);
 
 	//スペクトラム描画
 	if (Game::Config().m_isSpectrum)
+	{
 		m_spectrum.draw(m_sound);
-
+	}
 	TextureAsset(L"mainbg").draw();
 }
 
-void PlayMusicGame::draw(const MusicData & nowMusic) const
+void PlayMusicGame::draw() const
 {
 
 	const double drawCount = m_notesData.calDrawCount(m_nowCount);
 
-
-
 	/**********/
 	//背景
-	this->drawBG(nowMusic, drawCount);
+	this->drawBG(drawCount);
 
 	{
 		int beat = NotesData::RESOLUTION / 4;
@@ -189,12 +189,12 @@ void PlayMusicGame::draw(const MusicData & nowMusic) const
 
 }
 
-void PlayMusicGame::previewDraw(const MusicData & nowMusic, const double count) const
+void PlayMusicGame::previewDraw(const double count) const
 {
 	const double drawCount = m_notesData.calDrawCount(count);
 
 	//背景
-	this->drawBG(nowMusic, drawCount);
+	this->drawBG(drawCount);
 
 	PlayStyle::Instance()->drawJudgeLine();
 

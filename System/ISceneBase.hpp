@@ -2,16 +2,14 @@
 
 # include <Siv3D.hpp>
 # include <HamFramework.hpp>
-# include"MusicData.h"
+# include"NotesData.h"
 
 //共有データ
 struct GameData
 {
-	MusicData m_nowMusics;
-	int m_selectMusic;
-	int m_selectLevel;
-	float m_scrollRate;
+	NotesData m_nowNotes;
 
+	float m_scrollRate;
 	Score m_resultScore;
 
 

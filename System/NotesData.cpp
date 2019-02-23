@@ -49,7 +49,8 @@ NotesData::NotesData(
 	m_clearRate(0.0f),
 	m_totalNotes(0),
 	m_maxBarCount(0),
-	m_color(Palette::White)
+	m_color(Palette::White),
+	m_pMusic(pMusic)
 {
 	CSVReader csv(dirPath + filePath);
 	if (!csv)

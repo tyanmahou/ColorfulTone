@@ -120,6 +120,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Note.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NotesData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Object.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayBG.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayKey.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayMusicGame.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayStyle.cpp" />

@@ -30,7 +30,7 @@ void Tutorial::init()
 	
 	m_music = MusicData(L"Sample", L"Sample/tutorial/", L"Sample/tutorial/tutorial.ini");
 
-	m_musicGame.init(m_music, 0, m_data->m_scrollRate);
+	m_musicGame.init(m_music[0], m_data->m_scrollRate);
 
 	AutoPlayManager::SetAutoPlay(false);
 }
@@ -62,7 +62,7 @@ void Tutorial::update()
 
 void Tutorial::draw()const
 {
-	m_musicGame.draw(m_music);
+	m_musicGame.draw();
 
 	PutText(L"Tutorial").at(Window::Center().x, 40);
 

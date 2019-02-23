@@ -32,7 +32,7 @@ private:
 	SpecialResult m_specialResult;				//フルコン等の情報
 
 	Color m_color;								//色
-	MusicData* m_pMusic;						//曲情報
+	const MusicData* m_pMusic;					//曲情報
 public:
 	NotesData() = default;
 

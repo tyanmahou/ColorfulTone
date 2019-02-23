@@ -38,7 +38,7 @@ public:
 
 		 const Texture& getTexture()const{ return m_texture;}
 
-		Sound getSound(){ return SoundAsset(m_soundNameID); }
+		Sound getSound()const { return SoundAsset(m_soundNameID); }
 		const String& getMusicName()const { return m_musicName; }
 		const String& getArtistName()const { return m_artistName; }
 		const Optional<String>& getAuthority()const { return m_authority; }
@@ -61,4 +61,9 @@ public:
 
 		const String& getSoundNameID()const { return m_soundNameID; }
 		const int getIndex()const { return m_index; }
+
+		const NotesData& operator [](uint32 level) const
+		{
+			return m_notesDatas[level];
+		}
 };
