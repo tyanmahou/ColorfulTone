@@ -5,7 +5,7 @@
 #include"ResultTweet.h"
 #include"SerialImage.h"
 
-class ResultScene :public ISceneBase
+class OResultScene :public ISceneBase
 {
 
 private:
@@ -44,8 +44,8 @@ private:
 public:
 
 
-	ResultScene();
-	~ResultScene();
+	OResultScene();
+	~OResultScene();
 
 	void init()override;
 	void update() override;

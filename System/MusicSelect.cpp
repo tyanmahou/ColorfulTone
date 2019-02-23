@@ -279,7 +279,6 @@ namespace
 
 void MusicSelect::draw() const
 {
-	const int32 timer = System::FrameCount();
 	m_view.draw();
 	// シーン情報
 	SceneInfo::Draw(::GetSceneInfoMsg());

@@ -44,8 +44,35 @@ MusicData::MusicData(const String& genreName, const String& dirPath, const Strin
 			break;
 		else {
 			if (FileSystem::Exists(dirPath + notePath))
-				m_notesDatas.emplace_back(genreName, dirPath, notePath);
+				m_notesDatas.emplace_back(this, genreName, dirPath, notePath);
 		}
 	}
+}
+
+const String MusicData::getArtistAndAuthority() const
+{
+	//作曲家 + 出典
+	String ret = m_artistName;
+	if (m_authority.has_value())
+	{
+		ret += L" / " + m_authority.value();
+	}
+	return ret;
+}
+
+const int MusicData::getBPM() const
+{
+	if (m_maxbpm == -1)return m_minbpm;
+	if (!m_bpm.isActive())
+	{
+		static int tmp = 240;
+		if (tmp == 0)
+			tmp = 240;
+		if (tmp > 0)
+			tmp--;
+		if (tmp == 0)
+			m_bpm.start();
+	}
+	return (int)m_bpm.easeInOut();
 }
 

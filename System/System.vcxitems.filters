@@ -40,9 +40,6 @@
     <Filter Include="Effect">
       <UniqueIdentifier>{eda33932-d5fa-4b45-bf2e-80ce4e06ff42}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Title">
-      <UniqueIdentifier>{0fdd42bc-a80d-4b3d-aaf1-882624d377f4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Tutorial">
       <UniqueIdentifier>{801a46a9-f581-4d0d-9093-45c782451b2c}</UniqueIdentifier>
     </Filter>
@@ -127,6 +124,12 @@
     <Filter Include="MusicGame\AutoPlay">
       <UniqueIdentifier>{c75d002a-030e-4591-8c61-396a26ea1d8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\Title">
+      <UniqueIdentifier>{0fdd42bc-a80d-4b3d-aaf1-882624d377f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\NewFilter1">
+      <UniqueIdentifier>{32a4ed58-07de-468a-9e1b-37a07f20088a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp">
@@ -197,9 +200,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RepeatNote.cpp">
       <Filter>MusicGame\Object\RepeatNotes</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ResultScene.cpp">
-      <Filter>Scene\Result</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TextObject.cpp">
       <Filter>MusicGame\Object\Text</Filter>
@@ -276,6 +276,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)AutoPlayManager.cpp">
       <Filter>MusicGame\AutoPlay</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\OResultScene.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ResultScene.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ResultSceneView.cpp">
+      <Filter>Scene\Result</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -378,9 +387,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TapEffect.h">
       <Filter>Effect</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ResultScene.h">
-      <Filter>Scene\Result</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SceneInfo.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -482,6 +488,15 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp">
       <Filter>Scene\FileLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\OResultScene.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ResultScene.hpp">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ResultSceneView.hpp">
+      <Filter>Scene\Result</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -34,8 +34,12 @@ namespace
 		return judgeOffset;
 	}
 }
-NotesData::NotesData(const String& genreName, const String& dirPath, const String& filePath) :
-	m_bpm(120),
+NotesData::NotesData(
+	const MusicData*const pMusic,
+	const String& genreName, 
+	const String& dirPath, 
+	const String& filePath
+) :	m_bpm(120),
 	m_offsetSample(0),
 	m_lv(0),
 	m_lvName(L"None"),

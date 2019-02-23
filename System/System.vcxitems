@@ -62,6 +62,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Portrait.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Preview.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ResultScene.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ResultSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Setting.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedDraw.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
@@ -71,7 +73,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RepeatNote.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultEffect.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultRank.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ResultScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OResultScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultTweet.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SceneInfo.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Score.h" />
@@ -123,11 +125,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Portrait.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Preview.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ResultScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ResultSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SharedDraw.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Util.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RepeatNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultRank.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ResultScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OResultScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultTweet.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Score.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SerialImage.cpp" />

@@ -38,7 +38,7 @@ public:
 
 		 const Texture& getTexture()const{ return m_texture;}
 
-		  Sound getSound(){ return SoundAsset(m_soundNameID); }
+		Sound getSound(){ return SoundAsset(m_soundNameID); }
 		const String& getMusicName()const { return m_musicName; }
 		const String& getArtistName()const { return m_artistName; }
 		const Optional<String>& getAuthority()const { return m_authority; }
@@ -46,21 +46,11 @@ public:
 		const String& getGenreName()const { return m_genreName; }
 		const ABLoop& getLoopRange()const { return m_loop; }
 		const DateTime& getLastUpdateAt()const { return m_lastUpdateAt; }
-		const int getBPM()const
-		{
-			if (m_maxbpm == -1)return m_minbpm;
-			if (!m_bpm.isActive()) 
-			{
-				static int tmp = 240;
-				if (tmp == 0)
-					tmp = 240;
-				if(tmp>0)
-				tmp--;
-				if(tmp==0)
-				m_bpm.start();
-			}
-			return (int)m_bpm.easeInOut();
-		}
+
+		const String getArtistAndAuthority() const;
+
+		const int getBPM() const;
+
 		const Mahou::SoundBar& getMinSoundBeat()const { return m_minBar; }
 		const Mahou::SoundBar& getMaxSoundBeat()const { if (m_maxbpm == -1)return m_minBar; return m_maxBar; }
 		const BPMType& getMinBPM()const { return m_minbpm; };

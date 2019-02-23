@@ -11,7 +11,7 @@
 #include"KeyConfigScene.h"
 #include"MusicSelect.hpp"
 #include"MainScene.h"
-#include"ResultScene.h"
+#include"ResultScene.hpp"
 #include"VideoAsset.h"
 #include"CourseScene.h"
 #include"CoursePlay.h"

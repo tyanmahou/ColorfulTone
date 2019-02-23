@@ -75,5 +75,28 @@ namespace SharedDraw
 		void update();
 		void draw()const;
 	};
+
+	void Sticky(const String* blueText, const String* redText = nullptr);
+
+	class JacketInfo
+	{
+		const FontAsset m_font12;
+		const FontAsset m_font16b;
+	public:
+		JacketInfo();
+		const JacketInfo& drawLine() const;
+		//タイトル
+		const JacketInfo& drawTitle(const String& title, const Color& color = Palette::Black) const;
+		// サブタイトル
+		const JacketInfo& drawSub(const String& sub, const Color& color = Palette::Black) const;
+		// 詳細
+		const JacketInfo& drawDetail(const String& detail, const Color& color = Palette::Black) const;
+	};
+}
+
+namespace Constants
+{
+	constexpr double JacketWidth = 350;  // 曲情報の幅
+	constexpr double JacketCenter = 220; // 曲情報の中心
 }
 

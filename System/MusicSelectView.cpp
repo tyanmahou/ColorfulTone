@@ -11,8 +11,6 @@ namespace
 	using SortMode = MusicSelect::SortMode;
 	using Action = MusicSelect::Action;
 	using AllNotesInfo = MusicSelect::AllNotesInfo;
-	constexpr double jacketWidth = 350;  // 曲情報の幅
-	constexpr double jacketCenter = 220; // 曲情報の中心
 
 	void DrawHighSpeedDemo(const MusicSelect*const pScene)
 	{
@@ -54,55 +52,11 @@ namespace
 		}
 	}
 
-	void DrawStringOnMusicInfo(
-		const String* pTitle = nullptr,
-		const String* pSub = nullptr,
-		const String* pDetail = nullptr
-	) {
-		// フォント
-		const auto& font12 = FontAsset(L"bpm");
-		const auto& font16b = FontAsset(L"selectMusics");
-
-		if (pTitle)
-		{
-			//タイトル
-			util::ContractionDrawbleString(
-				font16b(*pTitle),
-				{ jacketCenter,440 },
-				jacketWidth,
-				Palette::Black
-			);
-		}
-		if (pSub)
-		{
-			// サブタイトル
-			util::ContractionDrawbleString(
-				font12(*pSub),
-				{ jacketCenter,475 },
-				jacketWidth,
-				Palette::Black
-			);
-		}
-		if (pDetail)
-		{
-			// 詳細
-			const int wSize = 12;
-			const int width = wSize * (*pDetail).length;
-
-			const auto kinetic = [wSize](KineticTypography& k)
-			{
-				k.pos.x = k.origin.x + wSize * k.index;
-			};
-			font12(*pDetail).drawKinetic(
-				{ jacketCenter + jacketWidth / 2.0 - width, 495 },
-				kinetic,
-				Palette::Black
-			);
-		}
-	}
 	void DrawMusicInfo(const Action action, const GenreData* pGenre, const MusicData* pMusic)
 	{
-		TextureAsset(L"line").drawAt({ jacketCenter,475 });
+		SharedDraw::JacketInfo infoView;
+
+		infoView.drawLine();
 
 		if (action == MusicSelect::Action::GenreSelect)
 		{
@@ -110,7 +64,7 @@ namespace
 			{
 				return;
 			}
-			::DrawStringOnMusicInfo(&pGenre->getName());
+			infoView.drawTitle(pGenre->getName());
 		}
 		else
 		{
@@ -118,55 +72,23 @@ namespace
 			{
 				return;
 			}
-			//作曲家 + 出典
-			String artistName = pMusic->getArtistName();
-			const auto& authority = pMusic->getAuthority();
-			if (authority.has_value())
-			{
-				artistName += L" / " + authority.value();
-			}
 			//BPM
 			const String& bpm = L"BPM" + Pad(pMusic->getBPM(), { 5,L' ' });
-			::DrawStringOnMusicInfo(
-				&pMusic->getMusicName(),
-				&artistName,
-				&bpm
-			);
+			infoView
+				.drawTitle(pMusic->getMusicName())
+				.drawSub(pMusic->getArtistAndAuthority())
+				.drawDetail(bpm);
 		}
 	}
 	void DrawSortAndGenre(SortMode mode, const String& genreName)
 	{
-		// フォント
-		const auto& font = FontAsset(L"bpm");
-
 		static const std::unordered_map<SortMode, String> sortName{
 			{SortMode::FileName, L"ファイル順"},
 			{SortMode::MusicName, L"曲名順"},
 			{SortMode::ArtistName, L"アーティスト名順"},
 			{SortMode::LastUpdateAt, L"更新日時順"},
 		};
-		// ソート
-		{
-			util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(-20)).translate({ 25, 95 }));
-			TextureAsset(L"sticky_red").draw();
-			util::ContractionDrawbleString(
-				font(sortName.at(mode)),
-				{ 125,25 },
-				175,
-				Palette::Black
-			);
-		}
-		// 選択中ジャンル
-		{
-			util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(-30)).translate({ -25, 95 }));
-			TextureAsset(L"sticky").draw();
-			util::ContractionDrawbleString(
-				font(genreName),
-				{ 125,25 },
-				175,
-				Palette::Black
-			);
-		}
+		SharedDraw::Sticky(&sortName.at(mode), &genreName);
 	}
 	// 譜面情報
 	void DrawNotesInfo(const NotesData& notes, double offset)
@@ -257,7 +179,9 @@ namespace
 		// ジャケ絵描画
 		Fade::DrawCanvas(shaderTimer, [=, &pTexture]()
 		{
-			pTexture->resize(jacketWidth, jacketWidth).drawAt(jacketCenter, 250);
+			pTexture
+				->resize(Constants::JacketWidth, Constants::JacketWidth)
+				.drawAt(Constants::JacketCenter, 250);
 		});
 	}
 }

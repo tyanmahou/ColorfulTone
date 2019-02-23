@@ -3,6 +3,9 @@
 #include"BPMChanger.h"
 #include"Stop.h"
 #include"Score.h"
+
+class MusicData;
+
 class NotesData
 {
 public:
@@ -29,11 +32,16 @@ private:
 	SpecialResult m_specialResult;				//フルコン等の情報
 
 	Color m_color;								//色
-
+	MusicData* m_pMusic;						//曲情報
 public:
 	NotesData() = default;
 
-	NotesData(const String& genreName, const String& dirPath, const String& filePath);
+	NotesData(
+		const MusicData*const pMusic, 
+		const String& genreName,
+		const String& dirPath, 
+		const String& filePath
+	);
 
 	void init();
 	void synchroCount(const Sound& sound, double& nowCount);	//カウントと同期
@@ -85,6 +93,10 @@ public:
 	const Color& getColor()const
 	{
 		return m_color;
+	}
+	const MusicData* const getMusic()const
+	{
+		return m_pMusic;
 	}
 	void load(CSVReader& csv);
 };
