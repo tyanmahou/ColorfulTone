@@ -54,8 +54,9 @@ namespace Fade
 	void SmoothCircle(double t)
 	{
 		if (!::FadeBase(t))
+		{
 			return;
-
+		}
 		static auto func = [=](double t)
 		{
 			return ((t - 0.3f)*(t - 0.3f)*(t - 0.3f) + 0.027) / 0.37f;

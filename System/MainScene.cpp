@@ -35,6 +35,10 @@ void MainScene::finally()
 {
 	m_musicGame.finally();
 }
+void MainScene::updateFadeIn(double t)
+{
+	m_musicGame.update();
+}
 //--------------------------------------------------------------------------------
 //関数：update
 //--------------------------------------------------------------------------------

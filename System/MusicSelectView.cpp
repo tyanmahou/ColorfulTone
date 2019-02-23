@@ -5,7 +5,7 @@
 #include "SharedDraw.hpp"
 #include "ResultRank.h"
 #include "GenreManager.h"
-
+#include "HighSpeedDemo.h"
 namespace
 {
 	using SortMode = MusicSelect::SortMode;
@@ -88,7 +88,7 @@ namespace
 			{SortMode::ArtistName, L"アーティスト名順"},
 			{SortMode::LastUpdateAt, L"更新日時順"},
 		};
-		SharedDraw::Sticky(&sortName.at(mode), &genreName);
+		SharedDraw::Sticky(&genreName, &sortName.at(mode));
 	}
 	// 譜面情報
 	void DrawNotesInfo(const NotesData& notes, double offset)

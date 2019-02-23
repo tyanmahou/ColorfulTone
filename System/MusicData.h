@@ -19,8 +19,6 @@ private:
 
 	Mahou::SoundBar m_minBar, m_maxBar;//bpmのbeat
 
-	mutable EasingController<BPMType> m_bpm;	//返り値用
-
 	ABLoop m_loop;					//ループ範囲
 
 	Array<NotesData> m_notesDatas;	//譜面情報

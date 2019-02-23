@@ -25,9 +25,6 @@ Tutorial::~Tutorial()
 }
 void Tutorial::init()
 {
-	SoundAsset(L"title").stop();
-	SoundAsset::Release(L"title");
-	
 	m_music = MusicData(L"Sample", L"Sample/tutorial/", L"Sample/tutorial/tutorial.ini");
 
 	m_musicGame.init(m_music[0], m_data->m_scrollRate);

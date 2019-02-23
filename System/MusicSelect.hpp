@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include"ISceneBase.hpp"
 #include"MusicSelectView.hpp"
-#include "HighSpeedDemo.h"
-#include"Audition.hpp"
+#include<memory>
+
+class HighSpeedDemo;
 
 class MusicSelect :public ISceneBase
 {
@@ -35,17 +36,13 @@ public:
 		LevelSelect,
 	};
 private:
-	Action m_action = Action::MusicSelect;
-	Action m_prevAction = Action::MusicSelect;
-	int m_moveSelect = 0;
-
-	Array<MusicData> m_musics;
+	class Model;
+	std::shared_ptr<Model> m_pModel;
 	MusicSelectView m_view;
-	Audition m_audition;
-	HighSpeedDemo m_highSpeedDemo;
+
 public:
 	MusicSelect();
-	~MusicSelect();
+	~MusicSelect() = default;
 
 	void init() override;
 	void finally() override;
@@ -54,31 +51,18 @@ public:
 	void drawFadeIn(double t) const override;
 	void drawFadeOut(double t) const override;
 
-	//
+	//get current select info
 	static SelectMusicsInfo GetSelectInfo();
 
-	const Array<MusicData>& getMusics()const
-	{
-		return m_musics;
-	}
+	const Array<MusicData>& getMusics()const;
 
-	Action getAction()const
-	{
-		return m_action;
-	}
+	Action getAction()const;
+
 	// previous , current
-	std::pair<Action, Action> getChangeAction()const
-	{
-		return { m_prevAction ,m_action };
-	}
-	int getMoveSelect()const
-	{
-		return m_moveSelect;
-	}
-	const HighSpeedDemo& getHighSpeedDemo()const
-	{
-		return m_highSpeedDemo;
-	}
+	std::pair<Action, Action> getChangeAction()const;
+	int getMoveSelect()const;
+
+	const HighSpeedDemo& getHighSpeedDemo()const;
 	float getScrollRate()const
 	{
 		return m_data->m_scrollRate;

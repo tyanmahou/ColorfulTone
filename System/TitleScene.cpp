@@ -17,10 +17,6 @@ TitleScene::TitleScene() :
 	m_font(10, L"Straight", FontStyle::Outline)
 {
 	m_font.changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 2));
-	if (!SoundAsset(L"title").isPlaying())
-	{
-		SoundAsset(L"title").play(1s);
-	}
 }
 
 //--------------------------------------------------------------------------------
@@ -43,7 +39,6 @@ TitleScene::Mode operator --(TitleScene::Mode& mode)
 
 namespace
 {
-
 	void AccessHomePage()
 	{
 		const FilePath url = Setting::HOMEPAGE_URL;
@@ -56,7 +51,6 @@ namespace
 		{
 			MessageBox::Show(L"インターネットに接続できませんでした。");
 		}
-
 	}
 }
 
@@ -93,6 +87,22 @@ void TitleScene::onEnterMode()
 	}
 	const auto& param = sceneParams.at(m_mode);
 	changeScene(param.name, param.timeMillisec, param.crossFade);
+}
+
+void TitleScene::init()
+{
+	if (!SoundAsset(L"title").isPlaying())
+	{
+		SoundAsset(L"title").play(1s);
+	}
+}
+
+void TitleScene::finally()
+{
+	if (m_data->m_toScene == SceneName::Select || m_data->m_toScene == SceneName::Tutorial)
+	{
+		SoundAsset(L"title").stop(1s);
+	}
 }
 
 void TitleScene::update()

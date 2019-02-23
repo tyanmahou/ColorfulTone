@@ -35,7 +35,6 @@ MusicData::MusicData(const String& genreName, const String& dirPath, const Strin
 	m_minBar = Mahou::SoundBar(0, m_minbpm);
 	m_maxBar = Mahou::SoundBar(0, m_maxbpm);
 
-	m_bpm = EasingController<BPMType>(m_minbpm, m_maxbpm, Easing::Linear, 1000);
 	//譜面データ
 	for (uint32 i = 0; true; ++i)
 	{
@@ -62,17 +61,24 @@ const String MusicData::getArtistAndAuthority() const
 
 const int MusicData::getBPM() const
 {
-	if (m_maxbpm == -1)return m_minbpm;
-	if (!m_bpm.isActive())
+	if (m_maxbpm == -1)
 	{
-		static int tmp = 240;
-		if (tmp == 0)
-			tmp = 240;
-		if (tmp > 0)
-			tmp--;
-		if (tmp == 0)
-			m_bpm.start();
+		return m_minbpm;
 	}
-	return (int)m_bpm.easeInOut();
+	constexpr double timeMillisec = 1000;
+	static Stopwatch stopwatch(true);
+	static bool swapped = false;
+	const double elapsed = Min<double>(stopwatch.ms(), timeMillisec) / timeMillisec;
+
+	if (stopwatch.ms() >= 4000)
+	{
+		stopwatch.restart();
+		swapped = !swapped;
+	}
+	if (swapped)
+	{
+		return (int)EaseInOut(m_maxbpm, m_minbpm, Easing::Linear, elapsed);
+	}
+	return (int)EaseInOut(m_minbpm, m_maxbpm, Easing::Linear, elapsed);
 }
 

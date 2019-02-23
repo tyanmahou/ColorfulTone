@@ -28,6 +28,8 @@ public:
 	TitleScene();
 	~TitleScene()=default;
 
+	void init() override;
+	void finally() override;
 
 	void update() override;
 	void draw() const override;

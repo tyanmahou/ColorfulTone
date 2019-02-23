@@ -2,6 +2,8 @@
 #include "Useful.hpp"
 #include"GenreManager.h"
 #include"AutoPlayManager.h"
+#include "HighSpeedDemo.h"
+#include"Audition.hpp"
 
 namespace
 {
@@ -72,7 +74,6 @@ namespace
 		else {
 			g_selectInfo.music = 0;
 		}
-
 	}
 
 	uint32& GetSelectTarget(Action action)
@@ -114,149 +115,230 @@ namespace
 	}
 }
 
-MusicSelect::MusicSelect() :
-	m_view(this)
+class MusicSelect::Model
 {
-	SoundAsset(L"title").stop(1s);
-}
+	std::shared_ptr<GameData> m_data;
+	Action m_action = Action::MusicSelect;
+	Action m_prevAction = Action::MusicSelect;
+	int m_moveSelect = 0;
+	int m_prevSelect = -1;
 
-MusicSelect::~MusicSelect()
+	Array<MusicData> m_musics;
+	Audition m_audition;
+	HighSpeedDemo m_highSpeedDemo;
+
+	bool m_isSelectedNotes = false;
+public:
+	void setData(std::shared_ptr<GameData> data)
+	{
+		m_data = data;
+	}
+
+	void init()
+	{
+		::InitMusics(m_musics);
+		if (m_musics.size())
+		{
+			m_audition.autoPlayAndStop(m_musics[g_selectInfo.music]);
+		}
+	}
+
+	void update()
+	{
+		m_prevAction = m_action;
+		// 選択するターゲットの参照
+		auto &target = ::GetSelectTarget(m_action);
+		m_prevSelect = g_selectInfo.music;
+		size_t size = ::GetTargetSize(m_action, m_musics);
+
+		// ハイスピ変更
+		bool isHighSpeedUpdate = m_highSpeedDemo.update(m_data->m_scrollRate);
+		m_moveSelect = isHighSpeedUpdate ? 0 : ::MoveSelect();
+		if (m_moveSelect)
+		{
+			if (m_moveSelect < 0)
+			{
+				++target;
+			}
+			else
+			{
+				target += size;
+				--target;
+			}
+
+			SoundManager::SE::Play(L"select");
+		}
+		target = size ? target % size : 0;
+
+		// 決定ボタン
+		if (PlayKey::Start().clicked && size)
+		{
+			if (m_action == Action::GenreSelect)
+			{
+				::InitMusics(m_musics);
+				m_prevSelect = -1; //曲の変更をトリガー
+
+				m_action = Action::MusicSelect;
+				SoundManager::SE::Play(L"desisionSmall");
+			}
+			else if (m_action == Action::MusicSelect)
+			{
+				m_action = Action::LevelSelect;
+				SoundManager::SE::Play(L"desisionSmall");
+			}
+			else if (m_action == Action::LevelSelect)
+			{
+				m_isSelectedNotes = true;
+			}
+		}
+		// キャンセルボタン
+		if (PlayKey::SmallBack().clicked)
+		{
+			if (m_action == Action::MusicSelect)
+			{
+				m_action = Action::GenreSelect;
+				SoundManager::SE::Play(L"cancel");
+			}
+			else if (m_action == Action::LevelSelect)
+			{
+				m_action = Action::MusicSelect;
+				SoundManager::SE::Play(L"cancel");
+			}
+		}
+		//プレイモード
+		if (Input::KeyF1.clicked)
+		{
+			AutoPlayManager::ChangePlayMode();
+			SoundManager::SE::Play(L"desisionSmall");
+		}
+		//情報切り替え
+		if (Input::KeyShift.clicked)
+		{
+			SoundManager::SE::Play(L"desisionSmall");
+			g_selectInfo.notesInfo = g_selectInfo.notesInfo == AllNotesInfo::Level
+				? AllNotesInfo::ClearRank : AllNotesInfo::Level;
+		}
+		//ソート
+		if (Input::KeyF2.clicked)
+		{
+			uint32 index = m_musics[g_selectInfo.music].getIndex();
+			g_selectInfo.sortMode = ::NextMode(g_selectInfo.sortMode);
+			::SortMusics(m_musics);
+
+			for (uint32 i = 0; i < m_musics.size(); ++i)
+			{
+				if (index == m_musics[i].getIndex())
+				{
+					g_selectInfo.music = i;
+					break;
+				}
+			}
+			SoundManager::SE::Play(L"desisionSmall");
+		}
+		// 再度indexの調整
+		{
+			auto &target = ::GetSelectTarget(m_action);
+			size_t size = ::GetTargetSize(m_action, m_musics);
+			target = size ? target % size : 0;
+		}
+		// 試聴
+		if (m_musics.size() && !(m_action == Action::MusicSelect && (PlayKey::Up().pressed || PlayKey::Down().pressed)))
+		{
+			m_audition.autoPlayAndStop(m_musics[g_selectInfo.music]);
+		}
+	}
+
+	void finally()
+	{
+		m_audition.stop();
+	}
+
+	bool onChangeSelectMusic()
+	{
+		return m_prevSelect != g_selectInfo.music;
+	}
+
+	bool onChangeAction()
+	{
+		return m_action != m_prevAction;
+	}
+	const NotesData& getSelectNotes()const
+	{
+		return m_musics[g_selectInfo.music][g_selectInfo.level];
+	}
+
+	const Array<MusicData>& getMusics()const
+	{
+		return m_musics;
+	}
+
+	Action getAction()const
+	{
+		return m_action;
+	}
+
+	// previous , current
+	std::pair<Action, Action> getChangeAction()const
+	{
+		return { m_prevAction ,m_action };
+	}
+
+	int getMoveSelect()const
+	{
+		return m_moveSelect;
+	}
+
+	const HighSpeedDemo& getHighSpeedDemo()const
+	{
+		return m_highSpeedDemo;
+	}
+	bool isSelectedNotes()
+	{
+		return m_isSelectedNotes;
+	}
+};
+MusicSelect::MusicSelect() :
+	m_pModel(std::make_shared<Model>()),
+	m_view(this)
 {}
 
 void MusicSelect::init()
 {
-	::InitMusics(m_musics);
-	if (m_musics.size()) 
-	{
-		m_audition.autoPlayAndStop(m_musics[g_selectInfo.music]);
-	}
+	m_pModel->setData(m_data);
+	m_pModel->init();
 }
 
 void MusicSelect::finally()
 {
-	m_audition.stop();
+	m_pModel->finally();
 	if (m_data->m_toScene == SceneName::Main)
 	{
-		m_data->m_nowNotes = m_musics[g_selectInfo.music][g_selectInfo.level];
+		m_data->m_nowNotes = m_pModel->getSelectNotes();
 	}
 }
 
 void MusicSelect::update()
 {
-	m_prevAction = m_action;
-	// 選択するターゲットの参照
-	auto &target = ::GetSelectTarget(m_action);
-	const int prevTarget = target;
-	size_t size = ::GetTargetSize(m_action, m_musics);
+	m_pModel->update();
 
-	// ハイスピ変更
-	bool isHighSpeedUpdate = m_highSpeedDemo.update(m_data->m_scrollRate);
-	m_moveSelect = isHighSpeedUpdate ? 0 : ::MoveSelect();
-	if (m_moveSelect)
+	if (m_pModel->isSelectedNotes())
 	{
-		if (m_moveSelect < 0)
-		{
-			++target;
-		}
-		else
-		{
-			target += size;
-			--target;
-		}
-
-		SoundManager::SE::Play(L"select");
+		changeScene(SceneName::Main, 2000, false);
+		SoundManager::SE::Play(L"desisionLarge");
 	}
-	target = size ? target % size : 0;
-	if (m_action == Action::MusicSelect && prevTarget != target)
+	else if (PlayKey::BigBack().clicked)
 	{
-		m_view.resetShaderTimer();
-	}
-
-	// 決定ボタン
-	if (PlayKey::Start().clicked && size)
-	{
-		if (m_action == Action::GenreSelect)
-		{
-			::InitMusics(m_musics);
-			m_view.resetShaderTimer();
-
-			m_action = Action::MusicSelect;
-			SoundManager::SE::Play(L"desisionSmall");
-		}
-		else if (m_action == Action::MusicSelect)
-		{
-			m_action = Action::LevelSelect;
-			SoundManager::SE::Play(L"desisionSmall");
-		}
-		else if (m_action == Action::LevelSelect)
-		{
-			changeScene(SceneName::Main, 2000, false);
-			SoundManager::SE::Play(L"desisionLarge");
-		}
-	}
-	// キャンセルボタン
-	if (PlayKey::SmallBack().clicked)
-	{
-		if (m_action == Action::MusicSelect)
-		{
-			m_action = Action::GenreSelect;
-			SoundManager::SE::Play(L"cancel");
-		}
-		else if (m_action == Action::LevelSelect)
-		{
-			m_action = Action::MusicSelect;
-			SoundManager::SE::Play(L"cancel");
-		}
-	}
-	//プレイモード
-	if (Input::KeyF1.clicked)
-	{
-		AutoPlayManager::ChangePlayMode();
-		SoundManager::SE::Play(L"desisionSmall");
-	}
-	//情報切り替え
-	if (Input::KeyShift.clicked)
-	{
-		SoundManager::SE::Play(L"desisionSmall");
-		g_selectInfo.notesInfo = g_selectInfo.notesInfo == AllNotesInfo::Level
-			? AllNotesInfo::ClearRank : AllNotesInfo::Level;
-	}
-	//ソート
-	if (Input::KeyF2.clicked)
-	{
-		uint32 index = m_musics[g_selectInfo.music].getIndex();
-		g_selectInfo.sortMode = ::NextMode(g_selectInfo.sortMode);
-		::SortMusics(m_musics);
-
-		for (uint32 i = 0; i < m_musics.size(); ++i)
-		{
-			if (index == m_musics[i].getIndex())
-			{
-				g_selectInfo.music = i;
-				break;
-			}
-		}
-		SoundManager::SE::Play(L"desisionSmall");
-	}
-	// 再度indexの調整
-	{
-		auto &target = ::GetSelectTarget(m_action);
-		size_t size = ::GetTargetSize(m_action, m_musics);
-		target = size ? target % size : 0;
-	}
-	//戻る
-	if (PlayKey::BigBack().clicked)
-	{
+		//戻る
 		changeScene(SceneName::Title, 1000);
 		SoundManager::SE::Play(L"cancel");
 	}
-	// 試聴
-	if (m_musics.size()&& !(m_action == Action::MusicSelect &&(PlayKey::Up().pressed||PlayKey::Down().pressed)))
-	{
-		m_audition.autoPlayAndStop(m_musics[g_selectInfo.music]);
-	}
+
 	m_view.update();
-	if (m_action != m_prevAction)
+	if (m_pModel->onChangeSelectMusic())
+	{
+		m_view.resetShaderTimer();
+	}
+	if (m_pModel->onChangeAction())
 	{
 		m_view.onChangeAction();
 	}
@@ -310,7 +392,11 @@ void MusicSelect::drawFadeOut(double t) const
 		this->draw();
 		FadeOut(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
 		const double size = EaseOut(300.0, 350.0, Easing::Cubic, t);
-		m_musics[g_selectInfo.music].getTexture().resize(size, size).drawAt(400, 300, ColorF(1, t*t));
+		m_data->m_nowNotes
+			.getMusic()
+			->getTexture()
+			.resize(size, size)
+			.drawAt(400, 300, ColorF(1, t*t));
 	}
 	else
 	{
@@ -321,4 +407,29 @@ void MusicSelect::drawFadeOut(double t) const
 MusicSelect::SelectMusicsInfo MusicSelect::GetSelectInfo()
 {
 	return g_selectInfo;
+}
+
+const Array<MusicData>& MusicSelect::getMusics() const
+{
+	return m_pModel->getMusics();
+}
+
+Action MusicSelect::getAction() const
+{
+	return m_pModel->getAction();
+}
+
+std::pair<Action, Action> MusicSelect::getChangeAction() const
+{
+	return m_pModel->getChangeAction();
+}
+
+int MusicSelect::getMoveSelect() const
+{
+	return m_pModel->getMoveSelect();
+}
+
+const HighSpeedDemo & MusicSelect::getHighSpeedDemo() const
+{
+	return m_pModel->getHighSpeedDemo();
 }
