@@ -64,6 +64,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Preview.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultSceneView.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ScoreLoader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Setting.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedDraw.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
@@ -128,6 +129,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Preview.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultSceneView.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScoreLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SharedDraw.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Util.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RepeatNote.cpp" />

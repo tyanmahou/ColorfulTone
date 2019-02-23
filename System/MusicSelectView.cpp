@@ -100,9 +100,10 @@ namespace
 		TextureAsset(L"memo").drawAt({ 630,480 });
 		Graphics2D::SetSamplerState(SamplerState::Default2D);
 
+		const ScoreModel& score = notes.getScore();
 		// クリアレート
 		constexpr Vec2 ratePos(575, 417);
-		FontAsset(L"level")(L"{:.2f}%"_fmt, notes.clearRate).drawCenter(ratePos, Palette::Black);
+		FontAsset(L"level")(L"{:.2f}%"_fmt, score.clearRate).drawCenter(ratePos, Palette::Black);
 		// 譜面製作者
 		constexpr Vec2 designerPos = ratePos + Vec2{ 0, 60 };
 		util::ContractionDrawbleString(
@@ -117,20 +118,28 @@ namespace
 		// クリア情報
 		constexpr Vec2 clearIconPos(720, 432);
 		constexpr Vec2 fcIconPos = clearIconPos + Vec2{ 0, 60 };
-		if (notes.isClear)
+		if (score.isClear)
 		{
 			TextureAsset(L"iconClear").scale(0.5).drawAt(clearIconPos);
 		}
-		if (notes.specialResult == SpecialResult::All_Perfect)
+		if (score.specialResult == SpecialResult::All_Perfect)
 		{
 			TextureAsset(L"iconAP").scale(0.5).drawAt(fcIconPos);
 		}
-		else if (notes.specialResult == SpecialResult::Full_Combo)
+		else if (score.specialResult == SpecialResult::Full_Combo)
 		{
 			TextureAsset(L"iconFC").scale(0.5).drawAt(fcIconPos);
 		}
 	}
 
+	String NotesToLevel(const NotesData& notes)
+	{
+		return Format(notes.getLevel());
+	}
+	String NotesToRank(const NotesData& notes)
+	{
+		return ResultRank::GetRankTextureName(notes.getScore().clearRate);
+	}
 	void DrawAllNotesInfo(const Array<NotesData>* pNotes, AllNotesInfo drawMode = AllNotesInfo::Level)
 	{
 		if (!pNotes)
@@ -139,20 +148,15 @@ namespace
 		}
 		const auto& notes = *pNotes;
 		constexpr int w = 30;
+		auto toStringMap = drawMode == AllNotesInfo::Level ? 
+			::NotesToLevel :
+			::NotesToRank;
+	
 		for (unsigned i = 0, size = notes.size(); i < size; ++i)
 		{
 			const Rect rect(0, 500 - w* size + w * i, w, w);
 			rect.draw(HSV(i*360.0 / size, 0.3, 1)).drawFrame(1, 0, HSV(i*360.0 / size, 1, 1));
-			if (drawMode == AllNotesInfo::Level)
-			{
-				FontAsset(L"info")(notes[i].getLevel()).drawCenter(rect.center, Palette::Black);
-			}
-			else
-			{
-				TextureAsset(ResultRank::getRankTextureName(notes[i].clearRate))
-					.scale(0.05)
-					.drawAt(rect.center, Palette::Black);
-			}
+			FontAsset(L"info")(toStringMap(notes[i])).drawCenter(rect.center, Palette::Black);
 		}
 	}
 
@@ -296,7 +300,7 @@ public:
 				return n.getColor();
 			}).setDrawble([](const NotesData& n, Vec2 pos) {
 				FontAsset(L"level")(n.getLevel()).drawCenter(pos + Vec2{ 40, 25 });
-				TextureAsset(ResultRank::getRankTextureName(n.clearRate)).scale(0.1).drawAt(pos + Vec2{ 320, 25 });
+				TextureAsset(ResultRank::GetRankTextureName(n.getScore().clearRate)).scale(0.1).drawAt(pos + Vec2{ 320, 25 });
 			}).draw(
 				*pNotes,
 				select.level,

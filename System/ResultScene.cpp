@@ -1,16 +1,48 @@
 ﻿#include "ResultScene.hpp"
+#include "ResultRank.h"
 #include "Useful.hpp"
-
-#include"ResultTweet.h"
-
+#include "AutoPlayManager.h"
+#include "ResultTweet.h"
+#include "ScoreLoader.hpp"
+#include "ScoreLoader.hpp"
 namespace
 {
+	// newRecordのばあいtrue
+	std::pair<bool, ScoreModel> UpdateScore(const ScoreModel& score, const NotesData& notes)
+	{
+		const uint32 musicIndex = notes.getMusic()->getIndex();
+		const uint32 notesIndex = notes.getIndex();
+		NotesData& srcNotes = Game::Musics()[musicIndex][notesIndex];
+
+		ScoreModel srcScore = srcNotes.getScore();
+		bool isNewRecord = false;
+		if (score.isClear && !srcScore.isClear)
+		{
+			srcScore.isClear = true;
+			isNewRecord = true;
+		}
+		if (score.specialResult > srcScore.specialResult)
+		{
+			srcScore.specialResult = score.specialResult;
+			isNewRecord = true;
+
+		}
+		if (score.clearRate > srcScore.clearRate)
+		{
+			srcScore.clearRate = score.clearRate;
+			isNewRecord = true;
+		}
+		srcNotes.setScore(srcScore);
+		return { isNewRecord, srcScore };
+	}
 }
 class ResultScene::Model
 {
 private:
 	std::shared_ptr<GameData> m_data;
-	float m_clearRate;
+
+	ScoreModel m_score;
+	bool m_isNewRecord = false;
 	ResultTweet m_tweet;
 
 	String getTweetText()const
@@ -26,7 +58,7 @@ private:
 		return
 			music.getMusicName() + L"/"
 			+ m_data->m_nowNotes.getLevelName() + L"で"
-			+ Format(m_clearRate) + L"%達成\n#ColorfulTone";
+			+ Format(m_score.clearRate) + L"%達成\n#ColorfulTone";
 	}
 public:
 
@@ -37,6 +69,24 @@ public:
 		m_data = data;
 	}
 
+	void saveScore()
+	{
+		const NotesData& notes = m_data->m_nowNotes;
+
+		m_score = ResultRank::CalcScore(m_data->m_resultScore, notes.getTotalNotes());
+
+		// autoのばあいセーブしない
+		if (AutoPlayManager::IsAutoPlay())
+		{
+			return;
+		}
+		const auto updated = ::UpdateScore(m_score, notes);
+		m_isNewRecord = updated.first;
+		if (m_isNewRecord)
+		{
+			ScoreLoader::Save(notes.getScorePath(), updated.second);
+		}
+	}
 	void update()
 	{
 		if (m_tweet.update())
@@ -61,6 +111,8 @@ void ResultScene::init()
 {
 	SoundAsset(L"result").play(1s);
 	m_model->setData(m_data);
+	// スコアのセーブ
+	m_model->saveScore();
 }
 
 void ResultScene::finally()

@@ -266,7 +266,7 @@ namespace
 					float rate = Parse<float>(value);
 					for (const auto& elm : music.getNotesData())
 					{
-						if (::Compare(elm.clearRate, rate, op))
+						if (::Compare(elm.getScore().clearRate, rate, op))
 						{
 							return true;
 						}
@@ -278,7 +278,7 @@ namespace
 					bool isClear = Parse<bool>(value);
 					for (const auto& elm : music.getNotesData())
 					{
-						if (::Compare(elm.isClear, isClear, op))
+						if (::Compare(elm.getScore().isClear, isClear, op))
 						{
 							return true;
 						}
@@ -298,7 +298,7 @@ namespace
 					}
 					for (const auto& elm : music.getNotesData())
 					{
-						if (::Compare(elm.specialResult, s, op))
+						if (::Compare(elm.getScore().specialResult, s, op))
 						{
 							return true;
 						}

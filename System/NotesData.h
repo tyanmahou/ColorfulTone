@@ -27,20 +27,19 @@ private:
 
 	String m_fileName;							//譜面ファイルの名前(拡張子を含まない)
 
-	bool m_isClear;								//クリア情報
-	float m_clearRate;							//達成率レコード
-	SpecialResult m_specialResult;				//フルコン等の情報
+	ScoreModel m_score;							//スコア
 
 	Color m_color;								//色
 	const MusicData* m_pMusic;					//曲情報
+	uint32 m_index;								//ID
 public:
 	NotesData() = default;
 
 	NotesData(
 		const MusicData*const pMusic, 
-		const String& genreName,
 		const String& dirPath, 
-		const String& filePath
+		const String& filePath,
+		uint32 index
 	);
 
 	void init();
@@ -50,11 +49,6 @@ public:
 	void draw(const double& nowCount, float scrollRate)const;
 
 	void previewDraw(const double & nowCount, float scrollRate) const;
-
-	//プロパティ使ってみたけど使う必要ないと思う
-	__declspec(property(get = _getIsClear, put = _setIsClear))bool isClear;
-	__declspec(property(get = _getSPResult, put = _setSPResult))SpecialResult specialResult;
-	__declspec(property(get = _getRecord, put = _setRecord))float clearRate;
 
 	const double calDrawCount(const double currentCount)const
 	{
@@ -77,13 +71,11 @@ public:
 	const String& getLevelName()const { return m_lvName; }
 	const String& getNotesArtistName()const { return  m_notesArtistName; }
 	const String& getFileName()const { return m_fileName; }
-
-	const  bool _getIsClear()const { return m_isClear; }
-	void _setIsClear(bool newState) { m_isClear = newState; }
-	const SpecialResult _getSPResult()const { return m_specialResult; }
-	void _setSPResult(SpecialResult sp) { m_specialResult = sp; }
-	const float _getRecord()const { return m_clearRate; }
-	void _setRecord(float clearRate) { m_clearRate = clearRate; }
+	const ScoreModel& getScore()const { return m_score; }
+	void setScore(const ScoreModel newScore)
+	{
+		m_score = newScore;
+	}
 
 	BPMType getCurrentBPM()const
 	{
@@ -98,5 +90,10 @@ public:
 	{
 		return m_pMusic;
 	}
+	uint32 getIndex()const
+	{
+		return m_index;
+	}
+	String getScorePath() const;
 	void load(CSVReader& csv);
 };

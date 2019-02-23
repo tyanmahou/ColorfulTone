@@ -1,6 +1,6 @@
-#include"ResultRank.h"
+﻿#include"ResultRank.h"
 
-String ResultRank::getRankTextureName(float clearRate)
+String ResultRank::GetRankTextureName(float clearRate)
 {
 	if (clearRate >= Rank::AAA)
 	{
@@ -34,7 +34,7 @@ String ResultRank::getRankTextureName(float clearRate)
 	return L"F";
 }
 
-float ResultRank::calcClearRate(const Score&score, int totalNotes)
+float ResultRank::CalcClearRate(const Score&score, int totalNotes)
 {
 	float clearRate;
 	auto& judges = score.m_judgeCount;
@@ -48,7 +48,7 @@ float ResultRank::calcClearRate(const Score&score, int totalNotes)
 
 }
 
-float ResultRank::calcClearRateAsDownType(const Score & score, int totalNotes)
+float ResultRank::CalcClearRateAsDownType(const Score & score, int totalNotes)
 {
 	float clearRate;
 	auto& judges = score.m_judgeCount;
@@ -61,10 +61,10 @@ float ResultRank::calcClearRateAsDownType(const Score & score, int totalNotes)
 	return clearRate;
 }
 
-float ResultRank::calcLifeRate(const Score & score, float& initRate)
+float ResultRank::CalcLifeRate(const Score & score, float& initRate)
 {
 //	const float prevRate = initRate;
-	//��
+	//率
 	constexpr float Perfect = 0.05f;
 	constexpr float Great = -0.15f;
 	constexpr float Good = -1.0f;
@@ -85,4 +85,26 @@ float ResultRank::calcLifeRate(const Score & score, float& initRate)
 		life = 0;
 
 	return life;
+}
+
+ScoreModel ResultRank::CalcScore(const Score & score, int totalNotes)
+{
+	ScoreModel ret;
+	const auto& judges = score.m_judgeCount;
+	//ＡＰ処理
+	if (judges[Score::Perfect] == totalNotes)
+	{
+		ret.specialResult = SpecialResult::All_Perfect;
+	}
+	//フルコン処理
+	else if (score.m_currentCombo == totalNotes)
+	{
+		ret.specialResult = SpecialResult::Full_Combo;
+	}
+
+	ret.clearRate = ResultRank::CalcClearRate(score, totalNotes);
+
+	ret.isClear = ret.clearRate >= 80;
+
+	return ret;
 }

@@ -8,7 +8,7 @@ namespace
 	Image CreateImg(const Size& size = Window::BaseSize(), const Color& color = Palette::White)
 	{
 		Image img(size);
-		img.fill(Palette::White);
+		img.fill(color);
 		return std::move(img);
 	}
 	//微調整
@@ -76,7 +76,7 @@ namespace Fade
 			drawble();
 		}
 		static PixelShader ps(L"Shaders/flipPage.ps");
-		using CBuffer = struct{
+		struct CBuffer {
 			float timer;
 			bool in;
 			Float2 _unused;

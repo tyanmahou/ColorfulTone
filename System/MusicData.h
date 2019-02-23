@@ -66,4 +66,8 @@ public:
 		{
 			return m_notesDatas[level];
 		}
+		NotesData& operator [](uint32 level)
+		{
+			return m_notesDatas[level];
+		}
 };

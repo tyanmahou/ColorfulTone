@@ -117,7 +117,7 @@ void PlayMusicGame::update()
 	}
 	if (m_isCourse)
 	{
-		m_life = ResultRank::calcLifeRate(m_score, m_initRate);
+		m_life = ResultRank::CalcLifeRate(m_score, m_initRate);
 		if (m_life <= 0)
 		{
 			m_isFinish = true;
@@ -215,8 +215,8 @@ void PlayMusicGame::uiDraw() const
 	const auto rate = m_isCourse ?
 		m_life :
 		Game::Config().m_isClearRateDownType ?
-		ResultRank::calcClearRateAsDownType(m_score, m_notesData.getTotalNotes()) :
-		ResultRank::calcClearRate(m_score, m_notesData.getTotalNotes());
+		ResultRank::CalcClearRateAsDownType(m_score, m_notesData.getTotalNotes()) :
+		ResultRank::CalcClearRate(m_score, m_notesData.getTotalNotes());
 
 	PlayStyle::Instance()->drawComboAndRate(m_score.m_currentCombo, rate);
 

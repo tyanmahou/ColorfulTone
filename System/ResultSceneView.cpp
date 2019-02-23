@@ -18,7 +18,7 @@ namespace
 			.drawLine()
 			.drawTitle(music.getMusicName())
 			.drawSub(music.getArtistAndAuthority())
-			.drawDetail(notes.getLevelName(), notes.getColor());
+			.drawDetail(notes.getLevelName()+ L" Lv" + Format(notes.getLevel()), notes.getColor());
 	}
 }
 
@@ -45,7 +45,7 @@ public:
 		m_lights.draw();
 
 		const NotesData& notes = m_pScene->getNotes();
-		//::DrawMusicInfo(notes);
+		::DrawMusicInfo(notes);
 
 		static const String sceneName = L"RESULT";
 		SharedDraw::Sticky(

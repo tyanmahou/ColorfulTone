@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include<array>
-enum class SpecialResult :unsigned int {
+#include<Siv3D/Fwd.hpp>
+
+enum class SpecialResult : unsigned int
+{
 	None,
 	Full_Combo,
 	All_Perfect,
@@ -17,11 +20,20 @@ struct Score
 
 		TERM,
 	};
-	unsigned int	m_currentCombo;
-	unsigned int m_maxCombo;
-	std::array<unsigned int, Judge::TERM> m_judgeCount{0};
+	s3d::uint32	m_currentCombo;
+	s3d::uint32 m_maxCombo;
+	std::array<s3d::uint32, Judge::TERM> m_judgeCount{0};
 
-	Score():m_currentCombo(0),m_maxCombo(0){}
+	Score():
+		m_currentCombo(0),
+		m_maxCombo(0)
+	{}
+};
 
+struct ScoreModel
+{
+	bool isClear = 0;
+	SpecialResult specialResult = SpecialResult::None;
+	float clearRate = 0.0f;
 };
 

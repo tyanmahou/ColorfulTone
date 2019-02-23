@@ -6,6 +6,7 @@
 #include"TextObject.h"
 #include"LongNote.h"
 #include"RepeatNote.h"
+#include"ScoreLoader.hpp"
 namespace
 {
 	unsigned GetLastStopIndex(const double count, const Array<StopInfo>& stopInfos)
@@ -36,37 +37,26 @@ namespace
 }
 NotesData::NotesData(
 	const MusicData*const pMusic,
-	const String& genreName, 
-	const String& dirPath, 
-	const String& filePath
-) :	m_bpm(120),
-	m_offsetSample(0),
-	m_lv(0),
-	m_lvName(L"None"),
-	m_notesArtistName(L"None"),
-	m_specialResult(SpecialResult::None),
-	m_isClear(false),
-	m_clearRate(0.0f),
-	m_totalNotes(0),
-	m_maxBarCount(0),
-	m_color(Palette::White),
-	m_pMusic(pMusic)
+	const String& dirPath,
+	const String& filePath,
+	uint32 index
+) : m_bpm(120),
+m_offsetSample(0),
+m_lv(0),
+m_lvName(L"None"),
+m_notesArtistName(L"None"),
+m_totalNotes(0),
+m_maxBarCount(0),
+m_fileName(filePath.remove(L".csv")),
+m_color(Palette::White),
+m_pMusic(pMusic),
+m_index(index)
 {
 	CSVReader csv(dirPath + filePath);
 	if (!csv)
 		return;
 	//セーブデータの読み込み
-	m_fileName = filePath.remove(L".csv");
-	BinaryReader saveReader(L"Score/" + genreName + L"/" + FileSystem::FileName(dirPath) + L"/" + m_fileName + L".bin");
-
-	if (saveReader)
-	{
-		saveReader.read<bool>(m_isClear);
-		unsigned int ui_spResult;
-		saveReader.read<unsigned int>(ui_spResult);
-		m_specialResult = static_cast<SpecialResult>(ui_spResult);
-		saveReader.read<float>(m_clearRate);
-	}
+	m_score = ScoreLoader::Load(this->getScorePath());
 
 	//ここから譜面データ
 	this->load(csv);
@@ -136,22 +126,28 @@ void NotesData::update(Sound& sound, double& nowCount, Score& score)
 }
 void NotesData::draw(const double& nowCount, float scrollRate)const
 {
-
 	for (auto it = m_objects.rbegin(); it != m_objects.rend(); it++)
+	{
 		(*it)->draw(nowCount, scrollRate);
-
-
+	}
 }
 
 void NotesData::previewDraw(const double& nowCount, float scrollRate)const
 {
-
 	for (auto it = m_objects.rbegin(); it != m_objects.rend(); it++)
 	{
 		if ((*it)->getDrawCount() >= nowCount)
 			(*it)->draw(nowCount, scrollRate);
 	}
+}
 
+String NotesData::getScorePath()const
+{
+	return L"Score/"
+		+ m_pMusic->getGenreName() + L"/"
+		+ m_pMusic->getFileName() + L"/"
+		+ this->m_fileName
+		+ L".bin";
 }
 
 void NotesData::load(CSVReader & csv)

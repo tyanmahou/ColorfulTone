@@ -37,14 +37,14 @@ MusicData::MusicData(const String& genreName, const String& dirPath, const Strin
 
 	m_bpm = EasingController<BPMType>(m_minbpm, m_maxbpm, Easing::Linear, 1000);
 	//譜面データ
-	for (int i = 0; true; ++i)
+	for (uint32 i = 0; true; ++i)
 	{
 		String notePath = iniReader.get<String>(Format(L"Level.NOTES", i));
 		if (notePath.isEmpty)
 			break;
 		else {
 			if (FileSystem::Exists(dirPath + notePath))
-				m_notesDatas.emplace_back(this, genreName, dirPath, notePath);
+				m_notesDatas.emplace_back(this, dirPath, notePath,i);
 		}
 	}
 }

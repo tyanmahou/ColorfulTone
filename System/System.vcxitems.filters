@@ -130,6 +130,9 @@
     <Filter Include="Scene\NewFilter1">
       <UniqueIdentifier>{32a4ed58-07de-468a-9e1b-37a07f20088a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MusicGame\Data\Loader">
+      <UniqueIdentifier>{44d566a8-30ac-4aad-8f48-5cd8a5672ee3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp">
@@ -288,6 +291,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayBG.cpp">
       <Filter>MusicGame\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScoreLoader.cpp">
+      <Filter>MusicGame\Data\Loader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -500,6 +506,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultSceneView.hpp">
       <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ScoreLoader.hpp">
+      <Filter>MusicGame\Data\Loader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

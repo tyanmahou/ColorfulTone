@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include<Siv3D.hpp>
 #include"Score.h"
 class ResultRank
@@ -15,11 +15,12 @@ class ResultRank
 		AAA = 97,
 	};
 public:
-	static 	String getRankTextureName(float clearRate);
-	static float calcClearRate(const Score&score, int totalNotes);
-	static float calcClearRateAsDownType(const Score&score, int totalNotes);
-	static float calcLifeRate(const Score&score, float& initRate);
+	static 	String GetRankTextureName(float clearRate);
+	static float CalcClearRate(const Score&score, int totalNotes);
+	static float CalcClearRateAsDownType(const Score&score, int totalNotes);
+	static float CalcLifeRate(const Score&score, float& initRate);
 
+	static ScoreModel CalcScore(const Score& score, int totalNotes);
 private:
 	ResultRank();
 };
