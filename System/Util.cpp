@@ -55,4 +55,18 @@ namespace util
 		}
 	}
 
+	//マスク処理
+	void StencilMask(std::function<void()> base, std::function<void()>drawFunc, StencilFunc stencilFunc, uint8 stencilValue)
+	{
+		Graphics2D::SetStencilState(StencilState::Replace);
+		Graphics2D::SetStencilValue(stencilValue);
+
+		base();
+
+		Graphics2D::SetStencilState(StencilState::Test(stencilFunc));
+
+		drawFunc();
+
+		Graphics2D::SetStencilState(StencilState::Default);
+	};
 }

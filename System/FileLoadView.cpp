@@ -59,7 +59,7 @@ public:
 		};
 		//現在の文
 		const auto offset = FontAsset(L"loading")(m_message).region().size / 2.0;
-		FontAsset(L"judge")(m_message).drawKinetic(center - offset, animation, Palette::Black);
+		FontAsset(L"8o_s")(m_message).drawKinetic(center - offset, animation, Palette::Black);
 	}
 
 	void onCompleted()

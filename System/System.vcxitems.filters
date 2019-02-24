@@ -124,14 +124,17 @@
     <Filter Include="Scene\Title">
       <UniqueIdentifier>{0fdd42bc-a80d-4b3d-aaf1-882624d377f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\NewFilter1">
-      <UniqueIdentifier>{32a4ed58-07de-468a-9e1b-37a07f20088a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MusicGame\Data\Loader">
       <UniqueIdentifier>{44d566a8-30ac-4aad-8f48-5cd8a5672ee3}</UniqueIdentifier>
     </Filter>
     <Filter Include="MusicGame\Data\Score">
       <UniqueIdentifier>{0448d3bd-b7d2-401d-abe5-d59bdcfde9ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\Audio">
+      <UniqueIdentifier>{fad61668-7d18-4ae1-86ca-327394e121bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Download">
+      <UniqueIdentifier>{32a4ed58-07de-468a-9e1b-37a07f20088a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -231,9 +234,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultTweet.cpp">
       <Filter>Scene\Result</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)AudioSpectrum.cpp">
-      <Filter>util</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)AppBase.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -264,7 +264,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MainScene.cpp">
       <Filter>Scene\Main</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SharedDraw.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Audition.cpp">
       <Filter>Scene\MusicSelect</Filter>
     </ClCompile>
@@ -294,6 +293,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ScoreLoader.cpp">
       <Filter>MusicGame\Data\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SharedDraw.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AudioSpectrum.cpp">
+      <Filter>util\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -423,16 +428,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultTweet.h">
       <Filter>Scene\Result</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AudioSpectrum.h">
-      <Filter>util</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)AppBase.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Util.h">
-      <Filter>util</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h">
       <Filter>util</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Config.h">
@@ -475,7 +474,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelectView.hpp">
       <Filter>Scene\MusicSelect</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SharedDraw.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BGLight.hpp">
       <Filter>Effect</Filter>
     </ClInclude>
@@ -488,7 +486,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)APAnime.hpp">
       <Filter>MusicGame\Anime</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.hpp">
       <Filter>MusicGame\Data\GenreManager</Filter>
     </ClInclude>
@@ -510,7 +507,23 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ScoreLoader.hpp">
       <Filter>MusicGame\Data\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UtilPP.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Constants.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Constants.hpp">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SharedDraw.hpp">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UtilPP.hpp">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AudioSpectrum.h">
+      <Filter>util\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h">
+      <Filter>util\Audio</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

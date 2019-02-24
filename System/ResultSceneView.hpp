@@ -12,6 +12,7 @@ public:
 	ResultSceneView(const ResultScene* const scene);
 	~ResultSceneView() = default;
 
+	void init();
 	void update() const;
 	void draw() const;
 };

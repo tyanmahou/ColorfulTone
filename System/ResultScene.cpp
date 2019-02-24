@@ -100,6 +100,10 @@ public:
 			);
 		}
 	}
+	const ScoreModel& getScore()const
+	{
+		return m_score;
+	}
 };
 
 ResultScene::ResultScene() :
@@ -113,6 +117,7 @@ void ResultScene::init()
 	m_model->setData(m_data);
 	// スコアのセーブ
 	m_model->saveScore();
+	m_view.init();
 }
 
 void ResultScene::finally()
@@ -160,4 +165,14 @@ void ResultScene::drawFadeOut(double t) const
 const NotesData & ResultScene::getNotes() const
 {
 	return m_data->m_nowNotes;
+}
+
+const Score& ResultScene::getResult() const
+{
+	return m_data->m_resultScore;
+}
+
+const ScoreModel& ResultScene::getScore() const
+{
+	return m_model->getScore();
 }

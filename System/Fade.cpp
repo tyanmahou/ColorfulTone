@@ -23,21 +23,6 @@ namespace
 		t *= (1 / 0.75);
 		return true;
 	}
-
-	//マスク処理
-	void StencilMask(std::function<void()> base, std::function<void()>drawFunc, StencilFunc stencilFunc, uint8 stencilValue = 1)
-	{
-		Graphics2D::SetStencilState(StencilState::Replace);
-		Graphics2D::SetStencilValue(stencilValue);
-
-		base();
-
-		Graphics2D::SetStencilState(StencilState::Test(stencilFunc));
-
-		drawFunc();
-
-		Graphics2D::SetStencilState(StencilState::Default);
-	};
 }
 
 namespace Fade
@@ -62,7 +47,7 @@ namespace Fade
 			return ((t - 0.3f)*(t - 0.3f)*(t - 0.3f) + 0.027) / 0.37f;
 		};
 
-		::StencilMask(
+		util::StencilMask(
 			[t] { Circle(Window::BaseCenter(), Window::BaseWidth() * func(1.0 - t)).draw(); },
 			[] { Window::BaseClientRect().draw(g_fadeColor); },
 			StencilFunc::NotEqual

@@ -23,4 +23,6 @@ public:
 	void drawFadeOut(double t) const override;
 
 	const NotesData& getNotes() const;
+	const Score& getResult()const;
+	const ScoreModel& getScore() const;
 };

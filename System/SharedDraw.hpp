@@ -83,8 +83,10 @@ namespace SharedDraw
 	{
 		const FontAsset m_font12;
 		const FontAsset m_font16b;
+		Vec2 m_pos;
 	public:
 		JacketInfo();
+		JacketInfo& setPos(const Vec2& pos);
 		const JacketInfo& drawLine() const;
 		//タイトル
 		const JacketInfo& drawTitle(const String& title, const Color& color = Palette::Black) const;
@@ -92,6 +94,7 @@ namespace SharedDraw
 		const JacketInfo& drawSub(const String& sub, const Color& color = Palette::Black) const;
 		// 詳細
 		const JacketInfo& drawDetail(const String& detail, const Color& color = Palette::Black) const;
+		const JacketInfo& drawDetailRight(const String& detail, const Color& color = Palette::Black) const;
 	};
 }
 

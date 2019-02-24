@@ -77,7 +77,7 @@ namespace
 			infoView
 				.drawTitle(pMusic->getMusicName())
 				.drawSub(pMusic->getArtistAndAuthority())
-				.drawDetail(bpm);
+				.drawDetailRight(bpm);
 		}
 	}
 	void DrawSortAndGenre(SortMode mode, const String& genreName)
@@ -148,13 +148,13 @@ namespace
 		}
 		const auto& notes = *pNotes;
 		constexpr int w = 30;
-		auto toStringMap = drawMode == AllNotesInfo::Level ? 
+		auto toStringMap = drawMode == AllNotesInfo::Level ?
 			::NotesToLevel :
 			::NotesToRank;
-	
+
 		for (unsigned i = 0, size = notes.size(); i < size; ++i)
 		{
-			const Rect rect(0, 500 - w* size + w * i, w, w);
+			const Rect rect(0, 500 - w * size + w * i, w, w);
 			rect.draw(HSV(i*360.0 / size, 0.3, 1)).drawFrame(1, 0, HSV(i*360.0 / size, 1, 1));
 			FontAsset(L"info")(toStringMap(notes[i])).drawCenter(rect.center, Palette::Black);
 		}
@@ -173,20 +173,22 @@ namespace
 		return nullptr;
 	}
 	//ジャケット描画
-	void DrawJacket(Action action, const GenreData* pGenre, const MusicData* pMusic, double shaderTimer = 0.0)
+	void DrawJacket(Action action, const GenreData* pGenre, const MusicData* pMusic, uint32 level)
 	{
 		const auto* pTexture = ::GetJacketTexture(action, pGenre, pMusic);
 		if (!pTexture)
 		{
 			return;
 		}
+		const Color color = action == Action::LevelSelect ? (*pMusic)[level].getColor() : Palette::White;
 		// ジャケ絵描画
-		Fade::DrawCanvas(shaderTimer, [=, &pTexture]()
-		{
-			pTexture
-				->resize(Constants::JacketWidth, Constants::JacketWidth)
-				.drawAt(Constants::JacketCenter, 250);
-		});
+		const Vec2 pos{ Constants::JacketCenter, 250 };
+		const Vec2 size{ 310,310 };
+		RectF(pos - size / 2.0, size).draw(color);
+		pTexture
+			->resize(size)
+			.rotate(Math::Radians(-7.0))
+			.drawAt(Constants::JacketCenter, 250);
 	}
 }
 class MusicSelectView::Impl
@@ -247,12 +249,12 @@ public:
 		const MusicData* pMusic = musics.size()
 			? &musics[select.music] : nullptr;
 
-		const Array<NotesData>* pNotes = pMusic 
+		const Array<NotesData>* pNotes = pMusic
 			? &pMusic->getNotesData() : nullptr;
 
 		const auto action = m_pScene->getAction();
 		// ジャケ絵描画
-		::DrawJacket(action, pGenre, pMusic, m_shaderTimer);
+		::DrawJacket(action, pGenre, pMusic, select.level);
 
 		const int moveSelect = m_pScene->getMoveSelect();
 

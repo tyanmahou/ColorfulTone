@@ -69,11 +69,6 @@ namespace
 		TextureAsset::Register(L"genre_all", L"Resource/Img/MusicSelect/icon/red.png");
 
 		//リザルトシーン
-		TextureAsset::Register(L"resultBG1", L"Resource/Img/Result/resultBG1.png");
-		TextureAsset::Register(L"resultBG2", L"Resource/Img/Result/resultBG2.png");
-		TextureAsset::Register(L"resultClear", L"Resource/Img/Result/clear.png");
-		TextureAsset::Register(L"resultFailed", L"Resource/Img/Result/failed.png");
-
 		TextureAsset::Register(L"AAA", L"Resource/Img/Result/rank/AAA.png");
 		TextureAsset::Register(L"AA", L"Resource/Img/Result/rank/AA.png");
 		TextureAsset::Register(L"A", L"Resource/Img/Result/rank/A.png");
@@ -148,6 +143,8 @@ namespace
 
 		TextureAsset::Register(L"combo", L"Resource/Img/Main/combo.png");
 		TextureAsset::PreloadAll();
+		// resut
+		TextureAsset::Register(L"memo2", L"Resource/Img/Result/memo2.png");
 
 		TextureAsset::Register(L"fcAnime", L"Resource/Img/Result/fcAnime.png");
 		TextureAsset::Register(L"apAnime", L"Resource/Img/Result/apAnime.png");
@@ -190,6 +187,8 @@ namespace
 		FontManager::Register(L"Resource/Font/Straightfont.ttf");
 
 		FontAsset::Register(L"judge", 8, L"Straight");
+		FontAsset::Register(L"8o_s", 8, L"Straight", FontStyle::Outline);
+		FontAsset(L"8o_s").changeOutlineStyle(TextOutlineStyle(Palette::Black, Palette::Black, 1));
 		FontAsset::Register(L"info", 10, Typeface::Default, FontStyle::Bold);
 		FontAsset::Register(L"combo", 10, L"Straight");
 		FontAsset::Register(L"bpm", 12);
@@ -201,6 +200,9 @@ namespace
 		FontAsset::Register(L"configTitle", 15, Typeface::Default, FontStyle::Italic);
 		// 選曲画面などの選択
 		FontAsset::Register(L"selectMusics", 16, Typeface::Bold);
+		// リザルト
+		FontAsset::Register(L"20b_s", 20, L"Straight", FontStyle::Bold);
+
 	}
 
 	void AssetLoad()

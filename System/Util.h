@@ -22,6 +22,8 @@ namespace util
 
 	void ContractionDrawbleString(const DrawableString& font, const Vec2& pos, int width, const Color& color = Palette::White, bool drawCenter = true);
 
+	void StencilMask(std::function<void()> base, std::function<void()> drawFunc, StencilFunc stencilFunc, uint8 stencilValue = 1);
+
 	class RenderTextureUtil
 	{
 	public:

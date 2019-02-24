@@ -23,7 +23,7 @@ struct Score
 	};
 	s3d::uint32	m_currentCombo;
 	s3d::uint32 m_maxCombo;
-	std::array<s3d::int32, Judge::TERM> m_judgeCount{0};
+	std::array<s3d::uint32, Judge::TERM> m_judgeCount{0};
 
 	// ライフ(桁落ちの対策のため整数型)
 	s3d::int32 m_initLife;
