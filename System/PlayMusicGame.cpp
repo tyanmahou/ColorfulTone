@@ -254,7 +254,7 @@ void PlayMusicGame::uiDraw() const
 
 	const IndicateRate rateType = Game::Config().m_rateType;
 	const auto rate = m_isCourse || rateType == IndicateRate::Life ?
-		0 :
+		ResultRank::CalcLifeRate(m_score):
 		rateType == IndicateRate::Down ?
 		ResultRank::CalcClearRateAsDownType(m_score, m_notesData.getTotalNotes()) :
 		ResultRank::CalcClearRate(m_score, m_notesData.getTotalNotes());

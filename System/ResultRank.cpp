@@ -61,32 +61,10 @@ float ResultRank::CalcClearRateAsDownType(const Score & score, int totalNotes)
 	return clearRate;
 }
 
-float ResultRank::CalcLifeRate(const Score & score, float& initRate)
+float ResultRank::CalcLifeRate(const Score & score)
 {
 	//率
-	constexpr int Perfect = 5;
-	constexpr int Great = -15;
-	constexpr int Good = -100;
-	constexpr int Miss = -500;
-
-	int init = initRate * 100;
-	float life=0;
-	auto& judges = score.m_judgeCount;
-	const int tmpRate = init + (judges[Score::Perfect]* Perfect + judges[Score::Great] * Great + judges[Score::Good] * Good+ judges[Score::Miss] * Miss);
-	life = tmpRate / 100.0f;
-	if (tmpRate > 10000)
-	{
-		init -= (tmpRate - 10000);
-		initRate = init/100.0f;
-		life = 100;
-	}
-	else if (tmpRate < 0)
-	{
-		init -= tmpRate;
-		initRate = init / 100.0f;
-		life = 0;
-	}
-	return life;
+	return static_cast<float>(score.m_life)/100.0f;
 }
 
 ScoreModel ResultRank::CalcScore(const Score & score, int totalNotes)

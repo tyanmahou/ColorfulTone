@@ -18,7 +18,7 @@ public:
 	static 	String GetRankTextureName(float clearRate);
 	static float CalcClearRate(const Score&score, int totalNotes);
 	static float CalcClearRateAsDownType(const Score&score, int totalNotes);
-	static float CalcLifeRate(const Score&score, float& initRate);
+	static float CalcLifeRate(const Score&score);
 
 	static ScoreModel CalcScore(const Score& score, int totalNotes);
 private:
