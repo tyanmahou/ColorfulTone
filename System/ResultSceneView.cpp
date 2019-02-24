@@ -10,6 +10,27 @@ namespace
 {
 	constexpr Vec2 graphPos{ 85, 365 };
 	constexpr Vec2 graphSize{ 380, 135 };
+	Array<Vec2> CreateJudgeGrapghPoints(const Score& result, uint32 total)
+	{
+		Array<Vec2> points;
+		uint32 count = 1;
+		points.emplace_back(graphPos.x, graphPos.y - 7.0);
+		for (auto&& judge : result.m_judgeHistory)
+		{
+			double y = graphPos.y - 7.0 + graphSize.y * judge / static_cast<double>(Score::Miss);
+
+			if (total == 0)
+			{
+				break;
+			}
+			points.emplace_back(
+				graphPos.x + graphSize.x* count / total,
+				y
+			);
+			++count;
+		}
+		return std::move(points);
+	}
 	Array<Vec2> CreateLifeGraphPoints(const Score& result, uint32 total)
 	{
 		Array<Vec2> points;
@@ -32,8 +53,9 @@ namespace
 		}
 		return std::move(points);
 	}
-	void DrawLifeGraph(const Array<Vec2>& points, double t)
+	void DrawGraph(const Array<Vec2>& lifes, const Array<Vec2>& judges, double t)
 	{
+		Graphics2D::SetSamplerState(SamplerState::WrapPoint);
 		TextureAsset(L"memo2").draw(0, 350);
 		constexpr Vec2 posO = graphPos + Vec2{ -5,graphSize.y + 5 };
 		Line(posO, graphPos + Vec2{ -5,-5 }).drawArrow(1, Vec2{ 5.0,5.0 }, Palette::Black);
@@ -41,16 +63,21 @@ namespace
 
 		util::StencilMask(
 			[&]() {
-				RectF(graphPos, { graphSize.x * t, graphSize.y }).draw();
+				RectF(graphPos + Vec2{0,-7}, { graphSize.x * t, graphSize.y }).draw();
 			},
 			[&]() {
-				for (uint32 index = 0; index < points.size() - 1; ++index)
+				for (uint32 index = 0; index < judges.size() - 1; ++index)
 				{
-					Line(points[index], points[index + 1]).draw(Palette::Blue);
+					Line(judges[index], judges[index + 1]).draw(0.5, ColorF(1, 0, 0, 0.5));
+				}
+				for (uint32 index = 0; index < lifes.size() - 1; ++index)
+				{
+					Line(lifes[index], lifes[index + 1]).draw(0.5, Palette::Blue);
 				}
 			},
 			StencilFunc::Equal
 		);
+		Graphics2D::SetSamplerState(SamplerState::Default2D);
 	}
 	void DrawBGJacket(const NotesData& notes, double t)
 	{
@@ -65,7 +92,7 @@ namespace
 			music.getTexture().resize(800, 800).drawAt(Window::BaseCenter());
 		},
 			StencilFunc::Equal
-			);
+		);
 		Rect(0, 0, 800, 30).draw(Color(0, 0, 0, 100));
 		Rect(0, 530, 800, 30).draw(Color(0, 0, 0, 100));
 	}
@@ -107,7 +134,7 @@ namespace
 		Line({ 45,335 }, { 755,335 }).draw(Palette::Black);
 
 		const auto& judgeCount = result.m_judgeCount;
-		constexpr double offset = 80;
+		constexpr double offset = 75;
 		::DrawCount(basePos + Vec2{ 0, offset }, L"PERFECT", judgeCount[Score::Perfect] * t);
 		::DrawCount(basePos + Vec2{ 0, offset + 30 }, L"GREAT", judgeCount[Score::Great] * t);
 		::DrawCount(basePos + Vec2{ 0, offset + 60 }, L"GOOD", judgeCount[Score::Good] * t);
@@ -151,7 +178,8 @@ class ResultSceneView::Impl
 private:
 	const ResultScene* const m_pScene;
 	SharedDraw::DrawBGLight m_lights;
-	Array<Vec2> m_graphPoints;
+	Array<Vec2> m_graphLifePos;
+	Array<Vec2> m_graphJudgePos;
 	EasingController<double> m_animeTime;
 
 public:
@@ -162,7 +190,11 @@ public:
 
 	void init()
 	{
-		m_graphPoints = ::CreateLifeGraphPoints(
+		m_graphLifePos = ::CreateLifeGraphPoints(
+			m_pScene->getResult(),
+			m_pScene->getNotes().getTotalNotes()
+		);
+		m_graphJudgePos = ::CreateJudgeGrapghPoints(
 			m_pScene->getResult(),
 			m_pScene->getNotes().getTotalNotes()
 		);
@@ -189,7 +221,7 @@ public:
 		::DrawMusicInfo(notes);
 
 		// グラフ
-		::DrawLifeGraph(m_graphPoints, animationTime);
+		::DrawGraph(m_graphLifePos, m_graphJudgePos, animationTime);
 		// リザルト
 		::DrawResult(
 			m_pScene->getResult(),

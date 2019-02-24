@@ -49,6 +49,7 @@ void Score::add(Judge judge)
 {
 	// ジャッジ数加算
 	m_judgeCount[judge]++;
+	m_judgeHistory.push_back(judge);
 	// コンボ更新
 	if (judge == Score::Miss)
 	{
