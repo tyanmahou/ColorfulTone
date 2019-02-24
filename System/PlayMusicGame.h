@@ -6,14 +6,14 @@
 #include"APAnime.hpp"
 class IPlayBG;
 
+using NoteType = int;
+
 class PlayMusicGame
 {
 
 private:
 
 	bool m_isCourse = false;
-	float m_initRate = 100.0f;
-	float m_life = 100.0f;
 
 	Sound m_sound;				//再生する曲
 	String m_soundNameID;
@@ -108,18 +108,13 @@ public:
 		return m_notesData;
 	}
 
-	void setCourseMode(float life)
+	void setCourseMode(const Score& score)
 	{
 		m_isCourse = true;
-		m_initRate = life;
-		m_life = life;
+		m_score.m_initLife = score.m_life;
+		m_score.m_life = score.m_life;
 	}
-	float getLife()
-	{
-		return m_life;
-	}
-	float getInitRate()
-	{
-		return m_initRate;
-	}
+	static void ScoreUpdate(Score::Judge judge, NoteType type, bool playSe = true);
+
+	static const Sound* const CurrentSound();
 };

@@ -510,5 +510,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ScoreLoader.hpp">
       <Filter>MusicGame\Data\Loader</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UtilPP.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Constants.hpp" />
   </ItemGroup>
 </Project>

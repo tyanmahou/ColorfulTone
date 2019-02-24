@@ -168,13 +168,13 @@ void NormalStyle::drawTapEffect(int type)
 		PlayMusicGame::GetEffect().add<TapEffect>(9 * Pi / 6, 7);
 		PlayMusicGame::GetEffect().add<TapEffect>(5 * Pi / 6, 7);
 	}
-	else if (type == 18)
+	else if (type == 18 || type == 10)
 	{
 		PlayMusicGame::GetEffect().add<TapEffect>(3 * Pi / 6, 7);
 		PlayMusicGame::GetEffect().add<TapEffect>(7 * Pi / 6, 7);
 		PlayMusicGame::GetEffect().add<TapEffect>(11 * Pi / 6, 7);
 	}
-	else
+	else 
 	{
 		PlayMusicGame::GetEffect().add<TapEffect>(GetAngle(type % 10), type % 10);
 	}
@@ -186,7 +186,7 @@ void NormalStyle::drawJudgeEffect(const String & str, int type)
 	{
 		PlayMusicGame::GetEffect().add<JudgeEffect>(str, GetPos(3 * Pi / 2, 2400, 1.0f, 1.0));
 	}
-	else if (type == 7 || type == 17)
+	else if (type == 7 || type == 17 || type == 10)
 	{
 		PlayMusicGame::GetEffect().add<JudgeEffect>(str, GetPos(3 * Pi / 2, 2400, 1.0f, 1.0));
 	}

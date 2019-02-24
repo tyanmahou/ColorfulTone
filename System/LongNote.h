@@ -10,13 +10,13 @@ protected:
 	std::shared_ptr<Note> m_parent;
 	std::function<bool(void)> m_judge;
 	const double m_scrollSpeed;
-	void perfect(Score& score);
-	void miss(Score& score);
+	void perfect();
+	void miss();
 
 public:
 	LongNote(int type, double firstCount,double speed,std::shared_ptr<Note>& parent);
 	virtual ~LongNote() = default;
-	virtual bool update(double& nowCount, double& countPerFrame, Score& score, s3d::Sound& sound)override;
+	virtual bool update(double& nowCount, double& countPerFrame)override;
 	virtual void diffDraw(double count, float scrollRate)const override;
 	const double& getSpeed()const { return m_scrollSpeed; }
 	const  NoteType getType()const { return m_type; }

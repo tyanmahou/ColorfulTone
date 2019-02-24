@@ -7,6 +7,30 @@
 #include"ResultRank.h"
 #include"PlayStyle.h"
 
+namespace
+{
+	Score* g_pScore;
+	Sound* g_pSound;
+
+	static const std::unordered_map<Score::Judge, String> scoreMap
+	{
+		{ Score::Good,L"GOOD" },
+		{ Score::Great,L"GREAT" },
+		{ Score::Perfect,L"PERFECT" },
+		{ Score::Miss, L"MISS" },
+	};
+
+	void HandleAddJudgeEffect(Score::Judge judge, NoteType type)
+	{
+		const String judgeName = scoreMap.at(judge);
+
+		PlayStyle::Instance()->drawJudgeEffect(judgeName, type);
+		if (judge != Score::Miss)
+		{
+			PlayStyle::Instance()->drawTapEffect(type);
+		}
+	}
+}
 PlayMusicGame::PlayMusicGame() :
 	m_nowCount(-10000.0),
 	m_scrollRate(1.0f),
@@ -16,6 +40,10 @@ PlayMusicGame::PlayMusicGame() :
 	m_barXEasing(780, 730, Easing::Linear, 250),
 	m_spectrum(300)
 {
+	// プレイ中のスコアを参照しておく
+	g_pScore = &m_score;
+	g_pSound = &m_sound;
+
 	StartAnime::Open();
 }
 
@@ -88,9 +116,6 @@ void PlayMusicGame::update()
 	//ノーツ処理
 	m_notesData.update(m_sound, m_nowCount, m_score);
 
-	//コンボ更新
-	m_score.m_maxCombo = Max(m_score.m_maxCombo, m_score.m_currentCombo);
-
 	//フルコン演出
 	if (m_score.m_maxCombo >= m_totalNotes && !m_FCAPAnime.isStart())
 	{
@@ -115,13 +140,32 @@ void PlayMusicGame::update()
 			this->stopSound();
 		}
 	}
-	m_life = ResultRank::CalcLifeRate(m_score, m_initRate);
-	if (m_isCourse && m_life <= 0)
+	if (m_isCourse && m_score.m_life <= 0)
 	{
 		m_isFinish = true;
 	}
 }
 
+void PlayMusicGame::ScoreUpdate(Score::Judge judge, NoteType type, bool playSe)
+{
+	if (!g_pScore)
+	{
+		Println(L"Warning: Missing Score");
+	}
+
+	g_pScore->add(judge);
+	::HandleAddJudgeEffect(judge, type);
+
+	if (playSe && judge != Score::Miss)
+	{
+		SoundManager::SE::Play(scoreMap.at(judge));
+	}
+}
+
+const Sound*const PlayMusicGame::CurrentSound()
+{
+	return g_pSound;
+}
 
 
 namespace
@@ -199,7 +243,6 @@ void PlayMusicGame::previewDraw(const double count) const
 }
 
 bool PlayMusicGame::isFinish() const
-
 {
 	return m_isFinish && (m_FCAPAnime.isEnd() || !m_FCAPAnime.isStart());
 }
@@ -211,7 +254,7 @@ void PlayMusicGame::uiDraw() const
 
 	const IndicateRate rateType = Game::Config().m_rateType;
 	const auto rate = m_isCourse || rateType == IndicateRate::Life ?
-		m_life :
+		0 :
 		rateType == IndicateRate::Down ?
 		ResultRank::CalcClearRateAsDownType(m_score, m_notesData.getTotalNotes()) :
 		ResultRank::CalcClearRate(m_score, m_notesData.getTotalNotes());
@@ -257,7 +300,6 @@ void PlayMusicGame::uiDraw() const
 
 	const auto levelName = Format(m_notesData.getLevel()) + L" - " + m_notesData.getLevelName();
 	PutText(levelName).at(Window::Center().x, Window::Height() - 20);
-
 }
 
 

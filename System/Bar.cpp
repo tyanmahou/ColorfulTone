@@ -1,8 +1,11 @@
-﻿#include"Bar.h"
-#include"PlayStyle.h"
-bool Bar::update(double& nowCount, double& countPerFrame, Score& score, s3d::Sound& sound)
+﻿#include "Bar.h"
+#include "PlayStyle.h"
+#include "UtilPP.hpp"
+bool Bar::update(double& nowCount, double& countPerFrame)
 {
-	return false;
+	MAYBE_UNUSED(nowCount);
+	MAYBE_UNUSED(countPerFrame);
+	return true;
 }
 void Bar::diffDraw(double count, float scrollRate)const 
 {

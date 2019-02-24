@@ -69,7 +69,6 @@ void CourseSelectScene::update()
 					m_data->m_currentCourseIndex = 0;
 					m_data->m_isCoursePlay = true;
 					m_data->m_selectCourse = m_courses[m_selectCourse].getIndex();
-					m_data->m_life = 100.0f;
 					//絶対Autoは解除する
 					AutoPlayManager::SetAutoPlay(false);
 					changeScene(SceneName::Course, 1000);

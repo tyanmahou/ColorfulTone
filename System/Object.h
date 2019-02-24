@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include<Siv3D/Fwd.hpp>
 
-struct Score;
 struct StopRange;
 //BPMの型
 using BPMType = double;
@@ -28,7 +27,7 @@ public:
 	{};
 	virtual void init() { m_isActive = true; }
 	virtual ~Object() {};
-	virtual bool update(double& nowCount, double& countPerFrame, Score& score, s3d::Sound& sound) = 0;
+	virtual bool update(double& nowCount, double& countPerFrame) = 0;
 
 	virtual void diffDraw(double count, float scrollRate)const = 0;
 

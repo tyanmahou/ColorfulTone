@@ -1,15 +1,17 @@
 ﻿#include"TextObject.h"
-#include<Siv3D.hpp>
+#include"PlayMusicGame.h"
+#include"UtilPP.hpp"
 
-bool TextObject::update(double& nowCount, double& countPerFrame, Score& score, s3d::Sound& sound)
+bool TextObject::update(double& nowCount, double& countPerFrame)
 {
-	if (!m_isActive)
-		return true;
+	const Sound*const pSound = PlayMusicGame::CurrentSound();
 
+	if (!m_isActive || !pSound)
+		return true;
 #ifdef VIEWER_MODE
-	const auto sample = sound.streamPosSample();
+	const auto sample = pSound->streamPosSample();
 #else
-	const auto sample = sound.samplesPlayed();
+	const auto sample = pSound->samplesPlayed();
 #endif
 
 	auto count = m_count  - nowCount;
@@ -36,6 +38,9 @@ bool TextObject::update(double& nowCount, double& countPerFrame, Score& score, s
 }
 void TextObject::diffDraw(double count, float scrollRate)const
 {
+	MAYBE_UNUSED(count);
+	MAYBE_UNUSED(scrollRate);
+
 	if (m_isDraw)
 	{
 		const auto win = Window::Size();

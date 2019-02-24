@@ -67,25 +67,21 @@ LongNote::LongNote(int type, double firstCount,  double speed, std::shared_ptr<N
 };
 
 //
-void LongNote::perfect(Score& score)
+void LongNote::perfect()
 {
-	PlayStyle::Instance()->drawJudgeEffect(L"PERFECT", m_parent->getType());
-	score.m_currentCombo++;
-	score.m_judgeCount[Score::Perfect]++;
+	PlayMusicGame::ScoreUpdate(Score::Perfect, m_parent->getType(), false);
 	m_isActive = false;
 	m_parent->m_isActive = false;
 }
 
-void LongNote::miss(Score& score)
+void LongNote::miss()
 {
-	PlayStyle::Instance()->drawJudgeEffect(L"MISS", m_parent->getType());
-	score.m_currentCombo = 0;
-	score.m_judgeCount[Score::Miss]++;
+	PlayMusicGame::ScoreUpdate(Score::Miss, m_parent->getType(), false);
 	m_isActive = false;
 	m_parent->m_isActive = false;
 }
 
-bool LongNote::update(double& nowCount, double& countPerFrame, Score& score, Sound& sound)
+bool LongNote::update(double& nowCount, double& countPerFrame)
 {
 	m_isActive = m_parent->m_isActive;//親のノーツの存在と同期
 
@@ -97,7 +93,7 @@ bool LongNote::update(double& nowCount, double& countPerFrame, Score& score, Sou
 
 	if (count <= 0)//ロングの終点
 	{
-		perfect(score);
+		this->perfect();
 
 		return true;
 	}
@@ -123,9 +119,9 @@ bool LongNote::update(double& nowCount, double& countPerFrame, Score& score, Sou
 			auto aCount = Abs(count);
 			//パーフェクト範囲内での話はセーフ
 			if (aCount <= JudgeRange(countPerFrame, Judge::Great))
-				perfect(score);
+				this->perfect();
 			else
-			miss(score);
+			this->miss();
 		}
 	}
 	return true;

@@ -28,7 +28,7 @@ void MainScene::init()
 	m_isCourse = m_data->m_isCoursePlay;
 	if (m_isCourse)
 	{
-		m_musicGame.setCourseMode(m_data->m_life);
+		m_musicGame.setCourseMode(m_data->m_resultScore);
 	}
 }
 void MainScene::finally()
@@ -54,8 +54,6 @@ void MainScene::update()
 	if (!m_data->m_isCoursePlay&&PlayKey::SmallBack().pressedDuration >= 1000 || m_musicGame.isFinish())
 	{
 		m_data->m_resultScore = m_musicGame.getScore();
-		if (m_isCourse)
-			m_data->m_life = m_musicGame.getLife();
 		changeScene(SceneName::Result, 2000, false);
 	}
 	//選曲に戻る

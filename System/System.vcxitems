@@ -23,6 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BGLight.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BPMChanger.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Config.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Constants.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CostumFolder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseGenre.hpp" />
@@ -86,6 +87,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TextObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Tutorial.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UtilPP.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VideoAsset.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include"Util.h"
+#include"Constants.hpp"
 namespace SharedDraw
 {
 	template<class T>
@@ -94,9 +95,5 @@ namespace SharedDraw
 	};
 }
 
-namespace Constants
-{
-	constexpr double JacketWidth = 350;  // 曲情報の幅
-	constexpr double JacketCenter = 220; // 曲情報の中心
-}
+
 

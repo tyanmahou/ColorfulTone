@@ -113,15 +113,12 @@ void NotesData::update(Sound& sound, double& nowCount, Score& score)
 
 	double countPerFrame = currentTempo.getBPM()*NotesData::RESOLUTION / 14400;
 
-
-	//const auto tb = (*m_soundBar)(sound);
-
-	//double timingCount = NotesData::RESOLUTION * tb.bar + NotesData::RESOLUTION * (tb.f);
-
 	for (auto&& elm : m_objects)
 	{
-		if (!elm->update(nowCount, countPerFrame, score, sound))
+		if (!elm->update(nowCount, countPerFrame))
+		{
 			break;
+		}
 	}
 }
 void NotesData::draw(const double& nowCount, float scrollRate)const

@@ -220,56 +220,33 @@ void Note::init()
 //--------------------------------------------------------------------------------
 //概要：タップ成功時の処理
 //--------------------------------------------------------------------------------
-void Note::tapUpdate(Score::Judge judge, Score& score)
+void Note::tapUpdate(Score::Judge judge)
 {
-	static const std::unordered_map<Score::Judge, String> scoreMap
-	{
-		{ Score::Good,L"GOOD" },
-		{ Score::Great,L"GREAT" },
-		{ Score::Perfect,L"PERFECT" },
-	};
-
+	// 白の場合ミス
 	if (m_type == 9)
 	{
-		score.m_currentCombo = 0;
-		PlayStyle::Instance()->drawJudgeEffect(L"MISS", 9);
-		score.m_judgeCount[Score::Miss]++;
-		m_isActive = false;
-		return;
+		judge = Score::Miss;
 	}
 	//虹色単ノーツは必ずパフェ
 	if (m_type == 18)
 	{
 		judge = Score::Perfect;
 	}
-	SoundManager::SE::Play(scoreMap.at(judge));
 
-
-	if (m_type <= 7 || m_type == 18)
+	if (m_type <= 7 || m_type == 9 || m_type == 18)
+	{
 		m_isActive = false;
-
-	score.m_currentCombo++;
-	score.m_judgeCount[judge]++;
-
-	if (m_type == 7 || m_type == 17)
-	{
-		PlayStyle::Instance()->drawTapEffect(7);
-		PlayStyle::Instance()->drawJudgeEffect(scoreMap.at(judge), 7);
 	}
-	else if (m_type == 18)
+
+	NoteType type = m_type;
+	if (m_type == 18)
 	{
-		int type = m_isClicked[ColorIndex::Red] ? 1
+		//　虹色単色の場合押した場所にエフェクトを出す
+		type = m_isClicked[ColorIndex::Red] ? 1
 			: m_isClicked[ColorIndex::Blue] ? 2
 			: 3;
-
-		PlayStyle::Instance()->drawTapEffect(type);
-		PlayStyle::Instance()->drawJudgeEffect(scoreMap.at(judge), type);
 	}
-	else
-	{
-		PlayStyle::Instance()->drawTapEffect(m_type);
-		PlayStyle::Instance()->drawJudgeEffect(scoreMap.at(judge), m_type);
-	}
+	PlayMusicGame::ScoreUpdate(judge, type);
 }
 
 //--------------------------------------------------------------------------------
@@ -278,33 +255,22 @@ void Note::tapUpdate(Score::Judge judge, Score& score)
 //概要：タップミス時の処理
 //--------------------------------------------------------------------------------
 
-void Note::tapMiss(Score& score)
+void Note::tapMiss()
 {
+	Score::Judge judge = Score::Miss;
+	// 白の場合はパフェ
 	if (m_type == 9)
 	{
-		PlayStyle::Instance()->drawTapEffect(9);
-		PlayStyle::Instance()->drawTapEffect(9);
-
-		PlayStyle::Instance()->drawJudgeEffect(L"PERFECT", 9);
-		score.m_judgeCount[Score::Perfect]++;
-		score.m_currentCombo++;
-		m_isActive = false;
-		return;
+		judge = Score::Perfect;
 	}
-	score.m_currentCombo = 0;
-	if (m_type == 7 || m_type == 17)
-		PlayStyle::Instance()->drawJudgeEffect(L"MISS", 7);
-	else
-		PlayStyle::Instance()->drawJudgeEffect(L"MISS", m_type);
 
-	score.m_judgeCount[Score::Miss]++;
-
+	PlayMusicGame::ScoreUpdate(judge, m_type, false);
 	/*
 	ロングノーツの場合は、始点が押せなかった時点で終点分も同時にミスとする。
 	*/
-	if (m_type >= 11 && m_type <=17)
+	if (11 <= m_type && m_type <=17)
 	{
-		score.m_judgeCount[Score::Miss]++;
+		PlayMusicGame::ScoreUpdate(judge, m_type, false);
 	}
 	m_isActive = false;
 }
@@ -312,7 +278,7 @@ void Note::tapMiss(Score& score)
 //関数：update
 //--------------------------------------------------------------------------------
 
-bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& sound)
+bool Note::update(double& nowCount, double& countPerFrame)
 {
 	if (!m_isActive)
 		return true;
@@ -330,7 +296,7 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 	//ミス
 	if (count < -JudgeRange(countPerFrame, Judge::Good) || (m_type == 9 && count <= 0))
 	{
-		tapMiss(score);
+		this->tapMiss();
 		return true;
 	}
 
@@ -355,7 +321,7 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 				m_isClicked[ColorIndex::Blue] = true;
 				m_isClicked[ColorIndex::Yellow] = true;
 			}
-			tapUpdate(Score::Perfect, score);
+			this->tapUpdate(Score::Perfect);
 
 			AutoPlayManager::Input(type);
 			return false;
@@ -372,15 +338,15 @@ bool Note::update(double& nowCount, double& countPerFrame, Score& score, Sound& 
 		auto aCount = Abs(count);
 		if (aCount <= JudgeRange(countPerFrame, Judge::Perfect))
 		{
-			tapUpdate(Score::Perfect, score);
+			this->tapUpdate(Score::Perfect);
 		}
 		else if (aCount <= JudgeRange(countPerFrame, Judge::Great))
 		{
-			tapUpdate(Score::Great, score);
+			this->tapUpdate(Score::Great);
 		}
 		else if (aCount <= JudgeRange(countPerFrame, Judge::Good))
 		{
-			tapUpdate(Score::Good, score);
+			this->tapUpdate(Score::Good);
 		}
 
 		RepeatEnd::notesTapCount = nowCount;

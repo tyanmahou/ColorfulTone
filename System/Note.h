@@ -25,15 +25,15 @@ private:
 	std::function<bool(void)> m_judge;
 
 
-	void tapUpdate(Score::Judge judge, Score& score);
-	void tapMiss(Score& score);
+	void tapUpdate(Score::Judge judge);
+	void tapMiss();
 protected:
 
 public:
 	Note(const NoteType type, double firstCount, double speed);
 	virtual ~Note() = default;
 	virtual void init()override;
-	virtual bool update(double& nowCount, double& countPerFrame, Score& score,s3d::Sound& sound) override;
+	virtual bool update(double& nowCount, double& countPerFrame) override;
 	virtual void diffDraw(double count, float scrollRate)const override;
 	const s3d::Color& getColor()const { return m_color; }
 	const  NoteType getType()const { return m_type; }
