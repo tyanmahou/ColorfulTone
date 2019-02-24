@@ -76,7 +76,7 @@ void GameConfig::init()
 	m_scrollRate = ini.getOr<float>(L"Config.SpeedRate", 1.0f);
 
 	m_isCirleCut = ini.getOr<bool>(L"Config.CirleCut", true);
-	m_isClearRateDownType = ini.getOr<bool>(L"Config.IndicateRate", false);
+	m_rateType = static_cast<IndicateRate>(ini.getOr<int>(L"Config.IndicateRate", 0));
 
 	m_playScale = ini.getOr<float>(L"Config.PlayScale", 1.0f);
 
@@ -142,7 +142,7 @@ void GameConfig::save()
 	ini.write(L"Config", L"SpeedRate", m_scrollRate);
 	ini.write(L"Config", L"PlayScale", m_playScale);
 	ini.write(L"Config", L"CirleCut", m_isCirleCut);
-	ini.write(L"Config", L"IndicateRate", m_isClearRateDownType);
+	ini.write(L"Config", L"IndicateRate", static_cast<int>(m_rateType));
 
 	ini.write(L"Config", L"BGMVolume", m_bgmVolume);
 	ini.write(L"Config", L"SEVolume", m_seVolume);

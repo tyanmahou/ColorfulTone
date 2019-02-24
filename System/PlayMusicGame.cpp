@@ -115,13 +115,10 @@ void PlayMusicGame::update()
 			this->stopSound();
 		}
 	}
-	if (m_isCourse)
+	m_life = ResultRank::CalcLifeRate(m_score, m_initRate);
+	if (m_isCourse && m_life <= 0)
 	{
-		m_life = ResultRank::CalcLifeRate(m_score, m_initRate);
-		if (m_life <= 0)
-		{
-			m_isFinish = true;
-		}
+		m_isFinish = true;
 	}
 }
 
@@ -163,11 +160,11 @@ void PlayMusicGame::draw() const
 			/ static_cast<double>(beat);
 
 		constexpr int w = 80;
-		ColorF c1 = ColorF(0, 0, 0, 0.6*(1 - f)); 
+		ColorF c1 = ColorF(0, 0, 0, 0.6*(1 - f));
 		ColorF c2 = m_notesData.getColor();
 		c2.setAlpha(0);
 
-		Rect(0, 0, w, 600).draw({ c1,c2, c2,c1});
+		Rect(0, 0, w, 600).draw({ c1,c2, c2,c1 });
 		Rect(800, 0, -w, 600).draw({ c1,c2, c2,c1 });
 	}
 	//入力アクション
@@ -179,7 +176,7 @@ void PlayMusicGame::draw() const
 	PlayStyle::Instance()->drawFrame(redInput, blueInput, yellowInput,
 		[&] {
 		PlayMusicGame::GetEffect().update();
-		m_notesData.draw(drawCount, m_scrollRate); 
+		m_notesData.draw(drawCount, m_scrollRate);
 	});
 
 	Graphics2D::SetStencilState(StencilState::Default);
@@ -212,9 +209,10 @@ void PlayMusicGame::uiDraw() const
 
 	//UI***************************************************************
 
-	const auto rate = m_isCourse ?
+	const IndicateRate rateType = Game::Config().m_rateType;
+	const auto rate = m_isCourse || rateType == IndicateRate::Life ?
 		m_life :
-		Game::Config().m_isClearRateDownType ?
+		rateType == IndicateRate::Down ?
 		ResultRank::CalcClearRateAsDownType(m_score, m_notesData.getTotalNotes()) :
 		ResultRank::CalcClearRate(m_score, m_notesData.getTotalNotes());
 
@@ -229,14 +227,14 @@ void PlayMusicGame::uiDraw() const
 			barScale = 1.0;
 		const auto size = (barY + 454 - 10) - (barY + 11);
 
-		Line({ 725 - m_barXEasing.easeInOut() + 13.5,barY + 11 + size*barScale }, { 725 - m_barXEasing.easeInOut() + 13.5,barY + 11 + 10 + size*barScale }).draw(3, Palette::Orange);
+		Line({ 725 - m_barXEasing.easeInOut() + 13.5,barY + 11 + size * barScale }, { 725 - m_barXEasing.easeInOut() + 13.5,barY + 11 + 10 + size * barScale }).draw(3, Palette::Orange);
 
 	}
 	{
 		TextureAsset(L"barBase").draw(m_barXEasing.easeInOut(), barY);
 		float barScale = rate / 100.f;
 		const auto h = TextureAsset(L"bar2").height;
-		TextureAsset(L"bar2").uv(0, 1 - barScale, 1, barScale).draw(m_barXEasing.easeInOut(), barY + h*(1 - barScale));
+		TextureAsset(L"bar2").uv(0, 1 - barScale, 1, barScale).draw(m_barXEasing.easeInOut(), barY + h * (1 - barScale));
 		TextureAsset(L"bar1").draw(m_barXEasing.easeInOut(), barY);
 	}
 

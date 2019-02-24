@@ -77,13 +77,13 @@ float ResultRank::CalcLifeRate(const Score & score, float& initRate)
 	if (tmpRate > 10000)
 	{
 		init -= (tmpRate - 10000);
-		initRate = init/100.0;
+		initRate = init/100.0f;
 		life = 100;
 	}
 	else if (tmpRate < 0)
 	{
 		init -= tmpRate;
-		initRate = init / 100.0;
+		initRate = init / 100.0f;
 		life = 0;
 	}
 	return life;

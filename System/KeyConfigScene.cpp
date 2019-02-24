@@ -1,6 +1,6 @@
-﻿#include"KeyConfigScene.h"
+﻿#include "KeyConfigScene.h"
 #include "Useful.hpp"
-
+#include "SharedDraw.hpp"
 namespace
 {
 	void InitTapSE(Config& config, String& configParm, const String& assetTag, const String& defaultSEPath)
@@ -131,14 +131,22 @@ namespace
 	void ClearRateInit(Config& config)
 	{
 		config.setName(L"表示するクリアレート");
-		config.add(L"加算式", []() {Game::Config().m_isClearRateDownType = false; });
-		config.add(L"減算式", []() {Game::Config().m_isClearRateDownType = true; });
+		config.add(L"加算式", []() {Game::Config().m_rateType = IndicateRate::Up; });
+		config.add(L"減算式", []() {Game::Config().m_rateType = IndicateRate::Down; });
+		config.add(L"ライフゲージ", []() {Game::Config().m_rateType = IndicateRate::Life; });
 
-		if (Game::Config().m_isClearRateDownType)
-			config.init(L"減算式");
-		else
+		if (Game::Config().m_rateType == IndicateRate::Up)
+		{
 			config.init(L"加算式");
-
+		}
+		else if (Game::Config().m_rateType == IndicateRate::Down)
+		{
+			config.init(L"減算式");
+		}
+		else if (Game::Config().m_rateType == IndicateRate::Life)
+		{
+			config.init(L"ライフゲージ");
+		}
 	}
 	//円形切り取りの初期化
 	void CircleCutInit(Config& config)
@@ -379,14 +387,10 @@ void ConfigScene::update()
 
 void ConfigScene::draw()const
 {
-
-	static PixelShader ps(L"Shaders/mainBg.ps");
-	static ConstantBuffer<Float4> cb;
-	cb->set(static_cast<float>(m_timer), 0, 0, 0);
-	Graphics2D::SetConstant(ShaderStage::Pixel, 1, cb);
-	Graphics2D::BeginPS(ps);
-	TextureAsset(L"keyconBG").draw();
-	Graphics2D::EndPS();
+	TextureAsset(L"canvasBg").draw();
+	static SharedDraw::DrawBGLight lights;
+	lights.update();
+	lights.draw();
 
 	m_config.draw();
 

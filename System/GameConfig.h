@@ -3,6 +3,13 @@
 #include<Siv3D.hpp>
 #include"PlayBG.h"
 #include"PlayStyle.h"
+
+enum class IndicateRate
+{
+	Up = 0,
+	Down = 1,
+	Life = 2,
+};
 //コンフィグ設定変数
 class GameConfig
 {
@@ -18,8 +25,8 @@ public:
 
 	 //円切り取り
 	 bool m_isCirleCut = true;
-	 //減算式にするか
-	 bool m_isClearRateDownType = false;
+	 //表示レート
+	 IndicateRate m_rateType = IndicateRate::Up;
 	 float m_playScale=1.0;
 
 	 //タップ音
