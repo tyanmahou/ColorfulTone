@@ -111,7 +111,7 @@ namespace
 
 		SharedDraw::JacketInfo infoView;
 		infoView
-			.setPos({ 500,130 })
+			.setPos({ 500,140 })
 			.drawLine()
 			.drawTitle(music.getMusicName())
 			.drawSub(music.getArtistAndAuthority())
@@ -142,7 +142,7 @@ namespace
 		::DrawCount(basePos + Vec2{ 0, offset + 120 }, L"TOTAL", total * t);
 	}
 
-	void DrawScore(const ScoreModel& score, double t)
+	void DrawScore(const ScoreModel& score, bool isNewRecord, double t)
 	{
 		const FontAsset font20bs = FontAsset(L"20b_s");
 
@@ -150,13 +150,16 @@ namespace
 		font20bs(Format(L"{:.2f}%"_fmt, score.clearRate * t).padLeft(7, L' '))
 			.drawKinetic(485, 215, FontKinetic::DeleteSpace, Palette::Black);
 
-
+		if (isNewRecord)
+		{
+			TextureAsset(L"newRecord").drawAt(680, 235);
+		}
 		TextureAsset(ResultRank::GetRankTextureName(score.clearRate))
 			.scale(0.4)
-			.drawAt(395, 465);
+			.drawAt(360, 250);
 
-		constexpr Vec2 clearIconPos{ 355, 265 };
-		constexpr Vec2 fcIconPos = clearIconPos + Vec2{ 65, 0 };
+		constexpr Vec2 clearIconPos{ 715 ,100 };
+		constexpr Vec2 fcIconPos = clearIconPos + Vec2{ 0, 60 };
 
 		if (score.isClear)
 		{
@@ -229,7 +232,7 @@ public:
 			animationTime
 		);
 		// スコア
-		::DrawScore(score, animationTime);
+		::DrawScore(score, m_pScene->isNewRecord(), animationTime);
 
 		static const String sceneName = L"RESULT";
 		SharedDraw::Sticky(

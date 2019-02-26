@@ -25,4 +25,5 @@ public:
 	const NotesData& getNotes() const;
 	const Score& getResult()const;
 	const ScoreModel& getScore() const;
+	bool isNewRecord()const;
 };

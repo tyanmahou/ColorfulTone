@@ -104,6 +104,10 @@ public:
 	{
 		return m_score;
 	}
+	bool isNewRecord()const
+	{
+		return m_isNewRecord;
+	}
 };
 
 ResultScene::ResultScene() :
@@ -175,4 +179,9 @@ const Score& ResultScene::getResult() const
 const ScoreModel& ResultScene::getScore() const
 {
 	return m_model->getScore();
+}
+
+bool ResultScene::isNewRecord() const
+{
+	return m_model->isNewRecord();
 }
