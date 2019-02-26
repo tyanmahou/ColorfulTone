@@ -87,11 +87,11 @@ public:
 			ScoreLoader::Save(notes.getScorePath(), updated.second);
 		}
 	}
-	void update()
+	bool tweetUpdate()
 	{
 		if (m_tweet.update())
 		{
-			return;
+			return true;
 		}
 		if (Input::KeyT.clicked)
 		{
@@ -99,6 +99,7 @@ public:
 				this->getTweetText()
 			);
 		}
+		return false;
 	}
 	const ScoreModel& getScore()const
 	{
@@ -131,18 +132,19 @@ void ResultScene::finally()
 
 void ResultScene::update()
 {
-	m_model->update();
-
-	if (PlayKey::Start().clicked || PlayKey::BigBack().clicked)
+	if (!m_model->tweetUpdate())
 	{
-		SoundManager::SE::Play(L"desisionLarge");
-		if (m_data->m_isCoursePlay)
+		if (PlayKey::Start().clicked || PlayKey::BigBack().clicked)
 		{
-			// TODO コース
-		}
-		else
-		{
-			this->changeScene(SceneName::Select, 1000);
+			SoundManager::SE::Play(L"desisionLarge");
+			if (m_data->m_isCoursePlay)
+			{
+				// TODO コース
+			}
+			else
+			{
+				this->changeScene(SceneName::Select, 1000);
+			}
 		}
 	}
 	m_view.update();
