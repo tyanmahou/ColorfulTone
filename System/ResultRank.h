@@ -16,6 +16,7 @@ class ResultRank
 	};
 public:
 	static 	String GetRankTextureName(float clearRate);
+	static float CalcBaseRate(const std::array<uint32, Score::TERM>& judges, uint32 total);
 	static float CalcClearRate(const Score&score, int totalNotes);
 	static float CalcClearRateAsDownType(const Score&score, int totalNotes);
 	static float CalcLifeRate(const Score&score);

@@ -30,22 +30,27 @@ String ResultRank::GetRankTextureName(float clearRate)
 	{
 		return L"E";
 	}
-	
+
 	return L"F";
+}
+
+float ResultRank::CalcBaseRate(const std::array<uint32, Score::TERM>& judges, uint32 total)
+{
+	if (total == 0)
+	{
+		return 1.0f;
+	}
+	return (judges[Score::Perfect] + judges[Score::Great] * 0.7f + judges[Score::Good] * 0.5f) / static_cast<float>(total);
 }
 
 float ResultRank::CalcClearRate(const Score&score, int totalNotes)
 {
 	float clearRate;
 	auto& judges = score.m_judgeCount;
-	if (totalNotes != 0)
-		clearRate = (judges[Score::Perfect] + judges[Score::Great] * 0.7f + judges[Score::Good] * 0.5f) / static_cast<float>(totalNotes);
-	else
-		clearRate = 1.0;
+	clearRate = ResultRank::CalcBaseRate(judges, static_cast<uint32>(totalNotes));
 	int tmpRate = clearRate * 10000;
 	clearRate = tmpRate / 100.0f;
 	return clearRate;
-
 }
 
 float ResultRank::CalcClearRateAsDownType(const Score & score, int totalNotes)
@@ -53,7 +58,7 @@ float ResultRank::CalcClearRateAsDownType(const Score & score, int totalNotes)
 	float clearRate;
 	auto& judges = score.m_judgeCount;
 	if (totalNotes != 0)
-		clearRate = 1.0-(judges[Score::Great] * 0.3f + judges[Score::Good] * 0.5f+ judges[Score::Miss] * 1) / static_cast<float>(totalNotes);
+		clearRate = 1.0 - (judges[Score::Great] * 0.3f + judges[Score::Good] * 0.5f + judges[Score::Miss] * 1) / static_cast<float>(totalNotes);
 	else
 		clearRate = 1.0;
 	int tmpRate = clearRate * 10000;
@@ -64,7 +69,7 @@ float ResultRank::CalcClearRateAsDownType(const Score & score, int totalNotes)
 float ResultRank::CalcLifeRate(const Score & score)
 {
 	//率
-	return static_cast<float>(score.m_life)/100.0f;
+	return static_cast<float>(score.m_life) / 100.0f;
 }
 
 ScoreModel ResultRank::CalcScore(const Score & score, int totalNotes)

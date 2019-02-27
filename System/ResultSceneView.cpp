@@ -8,75 +8,112 @@
 
 namespace
 {
-	constexpr Vec2 graphPos{ 85, 365 };
-	constexpr Vec2 graphSize{ 380, 135 };
-	Array<Vec2> CreateJudgeGrapghPoints(const Score& result, uint32 total)
-	{
-		Array<Vec2> points;
-		uint32 count = 1;
-		points.emplace_back(graphPos.x, graphPos.y - 7.0);
-		for (auto&& judge : result.m_judgeHistory)
-		{
-			double y = graphPos.y - 7.0 + graphSize.y * judge / static_cast<double>(Score::Miss);
 
-			if (total == 0)
-			{
-				break;
-			}
-			points.emplace_back(
-				graphPos.x + graphSize.x* count / total,
-				y
-			);
-			++count;
+	constexpr RectF GraphRect()
+	{
+		return { 90, 370, 370, 120 };
+	}
+	using Judges = Array<RectF>;
+	Judges CreateJudgeGrapgh(const Score& result, uint32 total)
+	{
+		constexpr auto graphRect = ::GraphRect();
+
+		Judges rects;
+		if (total == 0)
+		{
+			return rects;
 		}
-		return std::move(points);
+		const auto& history = result.m_judgeHistory;
+		//　分割数計算
+		constexpr uint8 divide = 20;
+
+		for (uint8 row = 0; row < divide; ++row)
+		{
+			std::array<uint32, Score::TERM> rowJudges{ 0 };
+			uint32 start = total * row / divide;
+			uint32 end = total * (row + 1) / divide;
+			for (uint32 index = start; index < end; ++index)
+			{
+				if (index >= history.size()) {
+					break;
+				}
+				++rowJudges[history[index]];
+			}
+			double h = graphRect.h * ResultRank::CalcBaseRate(rowJudges, end - start);
+			const Vec2 pos{ graphRect.x + graphRect.w*row / divide,graphRect.y + graphRect.h - h };
+			const Vec2 size{ graphRect.w / divide,h };
+			rects.emplace_back(pos, size);
+		}
+		return std::move(rects);
 	}
 	Array<Vec2> CreateLifeGraphPoints(const Score& result, uint32 total)
 	{
+		constexpr auto graphRect = ::GraphRect();
+
+		const RectF lifeRect{
+			graphRect.x + 5,
+			graphRect.y + 5,
+			graphRect.w - 5,
+			graphRect.h - 5
+		};
 		Array<Vec2> points;
 		uint32 count = 0;
 		for (auto&& life : result.m_lifeHistory)
 		{
-			double y = graphPos.y + graphSize.y - graphSize.y * life / 10000.0;
+			double y = lifeRect.y + lifeRect.h - lifeRect.h * life / 10000.0;
 
 			if (total == 0)
 			{
-				points.emplace_back(graphPos.x, y);
-				points.emplace_back(graphPos.x + graphSize.x, y);
+				points.emplace_back(lifeRect.x, y);
+				points.emplace_back(lifeRect.x + lifeRect.w, y);
 				break;
 			}
 			points.emplace_back(
-				graphPos.x + graphSize.x* count / total,
+				lifeRect.x + lifeRect.w * count / total,
 				y
 			);
 			++count;
 		}
 		return std::move(points);
 	}
-	void DrawGraph(const Array<Vec2>& lifes, const Array<Vec2>& judges, double t)
+	void DrawGraph(const LineString& graphLifes, const Judges& judges, double t)
 	{
+		constexpr auto graphRect = ::GraphRect();
+
 		Graphics2D::SetSamplerState(SamplerState::WrapPoint);
 		TextureAsset(L"memo2").draw(0, 350);
-		constexpr Vec2 posO = graphPos + Vec2{ -5,graphSize.y + 5 };
-		Line(posO, graphPos + Vec2{ -5,-5 }).drawArrow(1, Vec2{ 5.0,5.0 }, Palette::Black);
-		Line(posO, graphPos + Vec2{ graphSize.x + 5,graphSize.y + 5 }).drawArrow(1, Vec2{ 5.0,5.0 }, Palette::Black);
 
+		graphRect.drawFrame(1, 0, Palette::Black);
 		util::StencilMask(
 			[&]() {
-				RectF(graphPos + Vec2{0,-7}, { graphSize.x * t, graphSize.y }).draw();
-			},
+			RectF(graphRect.pos, { graphRect.w * t, graphRect.h }).draw();
+		},
 			[&]() {
-				for (uint32 index = 0; index < judges.size() - 1; ++index)
+			for (auto && rect : judges)
+			{
+				Color color;
+				const double h = rect.h / graphRect.h;
+				if (h >= 1.0)
 				{
-					Line(judges[index], judges[index + 1]).draw(0.5, ColorF(1, 0, 0, 0.5));
+					color = Color(70, 255, 200);
 				}
-				for (uint32 index = 0; index < lifes.size() - 1; ++index)
+				else if (h >= 0.7)
 				{
-					Line(lifes[index], lifes[index + 1]).draw(0.5, Palette::Blue);
+					color = Color(140, 255, 140);
 				}
-			},
+				else if (h >= 0.5)
+				{
+					color = Color(255, 255, 125);
+				}
+				else {
+					color = Color(255, 140, 140);
+				}
+				rect.draw(color.setAlpha(128));
+			}
+			graphLifes.draw(1, Palette::Blue);
+		},
 			StencilFunc::Equal
-		);
+			);
 		Graphics2D::SetSamplerState(SamplerState::Default2D);
 	}
 	void DrawBGJacket(const NotesData& notes, double t)
@@ -92,7 +129,7 @@ namespace
 			music.getTexture().resize(800, 800).drawAt(Window::BaseCenter());
 		},
 			StencilFunc::Equal
-		);
+			);
 		Rect(0, 0, 800, 30).draw(Color(0, 0, 0, 100));
 		Rect(0, 530, 800, 30).draw(Color(0, 0, 0, 100));
 	}
@@ -181,8 +218,8 @@ class ResultSceneView::Impl
 private:
 	const ResultScene* const m_pScene;
 	SharedDraw::DrawBGLight m_lights;
-	Array<Vec2> m_graphLifePos;
-	Array<Vec2> m_graphJudgePos;
+	LineString m_graphLife;
+	Judges m_graphJudge;
 	EasingController<double> m_animeTime;
 
 public:
@@ -193,11 +230,11 @@ public:
 
 	void init()
 	{
-		m_graphLifePos = ::CreateLifeGraphPoints(
+		m_graphLife = LineString(::CreateLifeGraphPoints(
 			m_pScene->getResult(),
 			m_pScene->getNotes().getTotalNotes()
-		);
-		m_graphJudgePos = ::CreateJudgeGrapghPoints(
+		));
+		m_graphJudge = ::CreateJudgeGrapgh(
 			m_pScene->getResult(),
 			m_pScene->getNotes().getTotalNotes()
 		);
@@ -224,7 +261,7 @@ public:
 		::DrawMusicInfo(notes);
 
 		// グラフ
-		::DrawGraph(m_graphLifePos, m_graphJudgePos, animationTime);
+		::DrawGraph(m_graphLife, m_graphJudge, animationTime);
 		// リザルト
 		::DrawResult(
 			m_pScene->getResult(),
