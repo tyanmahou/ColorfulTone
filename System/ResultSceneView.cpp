@@ -13,15 +13,14 @@ namespace
 	{
 		return { 90, 370, 370, 120 };
 	}
-	using Judges = Array<RectF>;
-	Judges CreateJudgeGrapgh(const Score& result, uint32 total)
+	using Judges = Array<std::pair<RectF, Color>>;
+	void CreateJudgeGrapgh(Judges& judges, const Score& result, uint32 total)
 	{
 		constexpr auto graphRect = ::GraphRect();
 
-		Judges rects;
 		if (total == 0)
 		{
-			return rects;
+			return;
 		}
 		const auto& history = result.m_judgeHistory;
 		//　分割数計算
@@ -39,22 +38,40 @@ namespace
 				}
 				++rowJudges[history[index]];
 			}
-			double h = graphRect.h * ResultRank::CalcBaseRate(rowJudges, end - start);
-			const Vec2 pos{ graphRect.x + graphRect.w*row / divide,graphRect.y + graphRect.h - h };
-			const Vec2 size{ graphRect.w / divide,h };
-			rects.emplace_back(pos, size);
+			const auto rate = ResultRank::CalcBaseRate(rowJudges, end - start);
+			double height = graphRect.h * static_cast<double>(rate);
+			const Vec2 pos{ graphRect.x + graphRect.w*row / divide,graphRect.y + graphRect.h - height };
+			const Vec2 size{ graphRect.w / divide -1.0, height };
+			Color color;
+			if (rowJudges[Score::Miss])
+			{
+				color = Color(255, 140, 140);
+			}
+			else if (rowJudges[Score::Good])
+			{
+				color = Color(255, 255, 125);
+			}
+			else if (rowJudges[Score::Great])
+			{
+				color = Color(140, 255, 140);
+			}
+			else {
+				color = Color(70, 255, 200);
+			}
+			color.setAlpha(128);
+
+			judges.push_back(std::make_pair(RectF{ pos, size }, color));
 		}
-		return std::move(rects);
 	}
-	Array<Vec2> CreateLifeGraphPoints(const Score& result, uint32 total)
+	void CreateLifeGraph(LineString& lifes, const Score& result, uint32 total)
 	{
 		constexpr auto graphRect = ::GraphRect();
 
 		const RectF lifeRect{
 			graphRect.x + 5,
 			graphRect.y + 5,
-			graphRect.w - 5,
-			graphRect.h - 5
+			graphRect.w - 10,
+			graphRect.h - 10
 		};
 		Array<Vec2> points;
 		uint32 count = 0;
@@ -64,17 +81,16 @@ namespace
 
 			if (total == 0)
 			{
-				points.emplace_back(lifeRect.x, y);
-				points.emplace_back(lifeRect.x + lifeRect.w, y);
+				lifes.push_back({ lifeRect.x, y });
+				lifes.push_back({ lifeRect.x + lifeRect.w, y });
 				break;
 			}
-			points.emplace_back(
+			lifes.push_back({
 				lifeRect.x + lifeRect.w * count / total,
 				y
-			);
+				});
 			++count;
 		}
-		return std::move(points);
 	}
 	void DrawGraph(const LineString& graphLifes, const Judges& judges, double t)
 	{
@@ -89,26 +105,9 @@ namespace
 			RectF(graphRect.pos, { graphRect.w * t, graphRect.h }).draw();
 		},
 			[&]() {
-			for (auto && rect : judges)
+			for (auto && rectColor : judges)
 			{
-				Color color;
-				const double h = rect.h / graphRect.h;
-				if (h >= 1.0)
-				{
-					color = Color(70, 255, 200);
-				}
-				else if (h >= 0.7)
-				{
-					color = Color(140, 255, 140);
-				}
-				else if (h >= 0.5)
-				{
-					color = Color(255, 255, 125);
-				}
-				else {
-					color = Color(255, 140, 140);
-				}
-				rect.draw(color.setAlpha(128));
+				rectColor.first.draw(rectColor.second);
 			}
 			graphLifes.draw(1, Palette::Blue);
 		},
@@ -230,11 +229,13 @@ public:
 
 	void init()
 	{
-		m_graphLife = LineString(::CreateLifeGraphPoints(
+		::CreateLifeGraph(
+			m_graphLife,
 			m_pScene->getResult(),
 			m_pScene->getNotes().getTotalNotes()
-		));
-		m_graphJudge = ::CreateJudgeGrapgh(
+		);
+		::CreateJudgeGrapgh(
+			m_graphJudge,
 			m_pScene->getResult(),
 			m_pScene->getNotes().getTotalNotes()
 		);
