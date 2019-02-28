@@ -8,7 +8,12 @@
 
 namespace
 {
-
+	namespace ResultMarker {
+		constexpr Color Perfect{ 70, 255, 200 , 128 };
+		constexpr Color Great{ 140, 255, 140 , 128 };
+		constexpr Color Good{ 255, 255, 125 , 128 };
+		constexpr Color Miss{ 255, 140, 140 , 128 };
+	}
 	constexpr RectF GraphRect()
 	{
 		return { 90, 370, 370, 120 };
@@ -41,22 +46,22 @@ namespace
 			const auto rate = ResultRank::CalcBaseRate(rowJudges, end - start);
 			double height = graphRect.h * static_cast<double>(rate);
 			const Vec2 pos{ graphRect.x + graphRect.w*row / divide,graphRect.y + graphRect.h - height };
-			const Vec2 size{ graphRect.w / divide -1.0, height };
+			const Vec2 size{ graphRect.w / divide - 1.0, height };
 			Color color;
 			if (rowJudges[Score::Miss])
 			{
-				color = Color(255, 140, 140);
+				color = ResultMarker::Miss;
 			}
 			else if (rowJudges[Score::Good])
 			{
-				color = Color(255, 255, 125);
+				color = ResultMarker::Good;
 			}
 			else if (rowJudges[Score::Great])
 			{
-				color = Color(140, 255, 140);
+				color = ResultMarker::Great;
 			}
 			else {
-				color = Color(70, 255, 200);
+				color = ResultMarker::Perfect;
 			}
 			color.setAlpha(128);
 
@@ -171,6 +176,10 @@ namespace
 
 		const auto& judgeCount = result.m_judgeCount;
 		constexpr double offset = 75;
+		RectF(basePos + Vec2{ -10,offset + 10 }, { 120,10 }).draw(ResultMarker::Perfect);
+		RectF(basePos + Vec2{ -10,offset + 30 + 10 }, { 120,10 }).draw(ResultMarker::Great);
+		RectF(basePos + Vec2{ -10,offset + 60 + 10 }, { 120,10 }).draw(ResultMarker::Good);
+		RectF(basePos + Vec2{ -10,offset + 90 + 10 }, { 120,10 }).draw(ResultMarker::Miss);
 		::DrawCount(basePos + Vec2{ 0, offset }, L"PERFECT", judgeCount[Score::Perfect] * t);
 		::DrawCount(basePos + Vec2{ 0, offset + 30 }, L"GREAT", judgeCount[Score::Great] * t);
 		::DrawCount(basePos + Vec2{ 0, offset + 60 }, L"GOOD", judgeCount[Score::Good] * t);

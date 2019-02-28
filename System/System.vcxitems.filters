@@ -279,9 +279,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AutoPlayManager.cpp">
       <Filter>MusicGame\AutoPlay</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\OResultScene.cpp">
-      <Filter>Scene\Result</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultScene.cpp">
       <Filter>Scene\Result</Filter>
     </ClCompile>
@@ -300,6 +297,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AudioSpectrum.cpp">
       <Filter>util\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)OResultScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -495,9 +493,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp">
       <Filter>Scene\FileLoad</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\OResultScene.h">
-      <Filter>Scene\Result</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultScene.hpp">
       <Filter>Scene\Result</Filter>
     </ClInclude>
@@ -525,5 +520,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h">
       <Filter>util\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OResultScene.h" />
   </ItemGroup>
 </Project>
