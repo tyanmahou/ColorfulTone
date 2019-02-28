@@ -82,6 +82,10 @@ public:
 			m_auth.release();
 			m_gui.show();
 		}
+		if (m_auth.button(L"cancel").pushed)
+		{
+			return false;
+		}
 
 		if (m_gui.button(L"tweet").pushed)
 		{
