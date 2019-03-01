@@ -36,14 +36,16 @@ namespace
 			std::array<uint32, Score::TERM> rowJudges{ 0 };
 			uint32 start = total * row / divide;
 			uint32 end = total * (row + 1) / divide;
-			for (uint32 index = start; index < end; ++index)
+
+			for (uint32 index = start; index < end || index == start; ++index)
 			{
 				if (index >= history.size()) {
 					break;
 				}
 				++rowJudges[history[index]];
 			}
-			const auto rate = ResultRank::CalcBaseRate(rowJudges, end - start);
+			const uint32 rowTotal = end > start ? end - start : 1;
+			const auto rate = ResultRank::CalcBaseRate(rowJudges, rowTotal);
 			double height = graphRect.h * static_cast<double>(rate);
 			const Vec2 pos{ graphRect.x + graphRect.w*row / divide,graphRect.y + graphRect.h - height };
 			const Vec2 size{ graphRect.w / divide - 1.0, height };
@@ -201,7 +203,7 @@ namespace
 		}
 		TextureAsset(ResultRank::GetRankTextureName(score.clearRate))
 			.scale(0.4)
-			.drawAt(360, 250);
+			.drawAt(400, 250);
 
 		constexpr Vec2 clearIconPos{ 715 ,100 };
 		constexpr Vec2 fcIconPos = clearIconPos + Vec2{ 0, 60 };
