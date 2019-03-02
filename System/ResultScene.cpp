@@ -155,6 +155,11 @@ void ResultScene::draw() const
 	m_view.draw();
 
 	SceneInfo::Draw(L"T:リザルトをツイート Enter: 戻る");
+
+	if (AutoPlayManager::IsAutoPlay())
+	{
+		PutText(L"AutoPlay").at(Window::Center().x, 40);
+	}
 }
 
 void ResultScene::drawFadeIn(double t) const
