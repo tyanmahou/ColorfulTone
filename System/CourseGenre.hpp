@@ -5,6 +5,7 @@
 //コースモードのジャンル
 class CourseGenre
 {
+public:
 	using RefinerType = std::function<bool(CourseData&)>;
 private:
 	RefinerType m_refiner;
@@ -13,7 +14,7 @@ public:
 	CourseGenre(String name):
 		m_name(name),
 		m_refiner([name](CourseData& course){
-		return !(course.getGenre() == name);
+		return course.getGenre() == name;
 	})
 	{}
 	const String& getName()const
@@ -64,5 +65,9 @@ public:
 	static const Array<CourseGenre>& Genres()
 	{
 		return CourseGenreManager::Instance()->getGenre();
+	}
+	static CourseGenre::RefinerType GetRefiner(size_t index)
+	{
+		return Instance()->m_courseGenres[index].getRefiner();
 	}
 };

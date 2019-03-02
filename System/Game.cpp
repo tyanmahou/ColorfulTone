@@ -13,7 +13,7 @@
 #include"MainScene.h"
 #include"ResultScene.hpp"
 #include"VideoAsset.h"
-#include"CourseScene.h"
+#include"CourseSelect.hpp"
 #include"CoursePlay.h"
 //--------------------------------------------------------------------------------
 //関数：LoadTexture
@@ -234,7 +234,7 @@ private:
 		m_scene.add<MusicSelect>(L"select");
 		m_scene.add<MainScene>(L"main");
 		m_scene.add<ResultScene>(L"result");
-		m_scene.add<CourseSelectScene>(L"courseSelect");
+		m_scene.add<CourseSelect>(L"courseSelect");
 		m_scene.add<CoursePlay>(L"course");
 	}
 	void init()

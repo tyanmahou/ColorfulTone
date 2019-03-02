@@ -68,4 +68,5 @@ public:
 		return m_index;
 	}
 
+	String getScorePath() const;
 };

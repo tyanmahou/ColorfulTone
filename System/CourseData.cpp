@@ -44,7 +44,7 @@ bool CourseData::load(const String & path)
 	m_fileName = FileSystem::BaseName(path);
 	m_genre = FileSystem::FileName(FileSystem::ParentPath(path));
 
-	BinaryReader saveReader(L"Score/CourseScore/" + m_genre + L"/" + m_fileName + L".bin");
+	BinaryReader saveReader(this->getScorePath());
 
 	if (saveReader)
 	{
@@ -76,7 +76,12 @@ bool CourseData::load(const String & path)
 
 void CourseData::save(bool isClear)
 {
-	BinaryWriter writer(L"Score/CourseScore/" + this->m_genre + L"/" + this->m_fileName + L".bin");
+	BinaryWriter writer(this->getScorePath());
 
 	writer.write(isClear);
+}
+
+String CourseData::getScorePath() const
+{
+	return L"Score/CourseScore/" + m_genre + L"/" + m_fileName + L".bin";
 }

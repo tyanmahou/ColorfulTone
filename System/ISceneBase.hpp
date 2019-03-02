@@ -2,7 +2,8 @@
 
 # include <Siv3D.hpp>
 # include <HamFramework.hpp>
-# include"NotesData.h"
+# include "NotesData.h"
+# include "PlayCourse.hpp"
 
 //共有データ
 struct GameData
@@ -12,6 +13,7 @@ struct GameData
 	float m_scrollRate;
 	Score m_resultScore;
 
+	PlayCourse m_course;
 	bool m_isCoursePlay = false;
 	int m_currentCourseIndex = 0;
 	int m_selectCourse = 0;
