@@ -95,6 +95,11 @@ void TitleScene::init()
 	{
 		SoundAsset(L"title").play(1s);
 	}
+	// ロードから来た場合はスタートに戻す
+	if (m_data->m_fromScene == SceneName::Load)
+	{
+		m_mode == Mode::GameStart;
+	}
 }
 
 void TitleScene::finally()
