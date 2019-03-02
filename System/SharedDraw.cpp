@@ -21,7 +21,7 @@ namespace SharedDraw
 		const auto& font = FontAsset(L"bpm");
 		// red
 		{
-			util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(-20)).translate({ 25, 95 }));
+			util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(-15)).translate({ 110, 50 }));
 			TextureAsset(L"sticky_red").draw();
 			if (redText)
 			{
@@ -35,7 +35,7 @@ namespace SharedDraw
 		}
 		// blue
 		{
-			util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(-30)).translate({ -25, 95 }));
+			util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(-20)).translate({ -25, 60 }));
 			TextureAsset(L"sticky").draw();
 			if (blueText)
 			{

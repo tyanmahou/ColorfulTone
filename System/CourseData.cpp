@@ -2,7 +2,7 @@
 #include"MusicData.h"
 #include"Game.h"
 
-int CourseData::Index = 0;
+size_t CourseData::Index = 0;
 
 void CourseData::serchNotes(const String & notePath)
 {
@@ -56,13 +56,14 @@ bool CourseData::load(const String & path)
 
 	//譜面データのインデックス検索
 	//譜面データ
-	for (int i = 0; true; ++i)
+	for (size_t i = 0; true; ++i)
 	{
 		String notePath = ini.get<String>(Format(L"Course.COURSE", i));
 		if (notePath.isEmpty)
 			break;
 		else
 		{
+			m_actualSize = i + 1;
 			this->serchNotes(notePath);
 		}
 

@@ -10,8 +10,8 @@ private:
 	Array<Data> m_notesID;
 	String m_title;	//コースタイトル
 	String m_genre;	//ジャンル名
-	int m_index;	//ID
-
+	size_t m_index;	//ID
+	size_t m_actualSize; // 実際の譜面数
 	bool m_isClear = false;
 
 	String m_fileName;
@@ -21,7 +21,7 @@ private:
 	void serchNotes(const String& notePath);
 
 public:
-	static int Index;
+	static size_t Index;
 	CourseData(const String& path)
 	{
 		m_index = Index++;
