@@ -88,9 +88,6 @@
     <Filter Include="MusicGame\Play">
       <UniqueIdentifier>{5c3a7212-038e-4a24-a415-f26ab5740c0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\CorseScene">
-      <UniqueIdentifier>{804f026c-c682-4f03-8905-b460d8d51c02}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MusicGame\Data\CourseData">
       <UniqueIdentifier>{93832dc4-bc6a-4b89-bb27-2096d0aaff7d}</UniqueIdentifier>
     </Filter>
@@ -135,6 +132,12 @@
     </Filter>
     <Filter Include="Scene\Download">
       <UniqueIdentifier>{32a4ed58-07de-468a-9e1b-37a07f20088a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\CoursePlay">
+      <UniqueIdentifier>{804f026c-c682-4f03-8905-b460d8d51c02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\CourseSelect">
+      <UniqueIdentifier>{9f9c1116-e376-43ed-9cea-a38857b2a843}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -217,10 +220,10 @@
       <Filter>MusicGame\Play</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseScene.cpp">
-      <Filter>Scene\CorseScene</Filter>
+      <Filter>Scene\CoursePlay</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CoursePlay.cpp">
-      <Filter>Scene\CorseScene</Filter>
+      <Filter>Scene\CoursePlay</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseData.cpp">
       <Filter>MusicGame\Data\CourseData</Filter>
@@ -298,6 +301,15 @@
       <Filter>util\Audio</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)OResultScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayCourse.cpp">
+      <Filter>MusicGame\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CourseSelect.cpp">
+      <Filter>Scene\CourseSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CourseSelectView.cpp">
+      <Filter>Scene\CourseSelect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -412,10 +424,10 @@
       <Filter>MusicGame\Play</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseScene.h">
-      <Filter>Scene\CorseScene</Filter>
+      <Filter>Scene\CoursePlay</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CoursePlay.h">
-      <Filter>Scene\CorseScene</Filter>
+      <Filter>Scene\CoursePlay</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseData.h">
       <Filter>MusicGame\Data\CourseData</Filter>
@@ -521,5 +533,14 @@
       <Filter>util\Audio</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)OResultScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayCourse.hpp">
+      <Filter>MusicGame\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CourseSelect.hpp">
+      <Filter>Scene\CourseSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CourseSelectView.hpp">
+      <Filter>Scene\CourseSelect</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

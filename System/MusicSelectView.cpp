@@ -236,7 +236,6 @@ public:
 	{
 		TextureAsset(L"canvasBg").draw();
 		m_lights.draw();
-		TextureAsset(L"label").draw(0, 500);
 
 		auto select = MusicSelect::GetSelectInfo();
 

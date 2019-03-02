@@ -258,3 +258,28 @@ void CourseSelect::drawFadeOut(double t) const
 {
 	this->draw();
 }
+
+CourseSelect::SelectCourseInfo CourseSelect::GetSelectInfo()
+{
+	return g_selectInfo;
+}
+
+const Array<CourseData>& CourseSelect::getCourses() const
+{
+	return m_pModel->getCourses();
+}
+
+Action CourseSelect::getAction() const
+{
+	return m_pModel->getAction();
+}
+
+std::pair<Action, Action> CourseSelect::getChangeAction() const
+{
+	return m_pModel->getChangeAction();
+}
+
+int CourseSelect::getMoveSelect() const
+{
+	return m_pModel->getMoveSelect();
+}

@@ -25,7 +25,6 @@ namespace
 {
 	void LoadTexture()
 	{
-		TextureAsset::Register(L"label", L"Resource/Img/label.png");
 		// ロード
 		TextureAsset::Register(L"canvasBg", L"Resource/Img/Load/bg.png");
 
@@ -45,7 +44,6 @@ namespace
 		TextureAsset::Register(L"iconAccess", L"Resource/Img/Title/TitleIcon/access.png");
 
 		//キーコン
-		TextureAsset::Register(L"keyconBG", L"Resource/Img/KeyConfig/keyconBG.png");
 		TextureAsset::Register(L"keyconBG2", L"Resource/Img/KeyConfig/keyconBG2.png");
 
 		//選曲
@@ -56,8 +54,6 @@ namespace
 
 		TextureAsset::Register(L"levelbg", L"Resource/Img/MusicSelect/select.png");
 		TextureAsset::Register(L"levelMask", L"Resource/Img/MusicSelect/levelmask.png");
-
-		TextureAsset::Register(L"coursebg", L"Resource/Img/MusicSelect/courseBG.png");
 
 		//ジャンルアイコン
 		TextureAsset::Register(L"genre_level1", L"Resource/Img/MusicSelect/icon/level1.png");
@@ -150,7 +146,6 @@ namespace
 		TextureAsset::Register(L"apAnime", L"Resource/Img/Result/apAnime.png");
 		TextureAsset::Register(L"fcLogo", L"Resource/Img/Result/fc.png");
 		TextureAsset::Register(L"apLogo", L"Resource/Img/Result/ap.png");
-		TextureAsset::Register(L"backLight", L"Resource/Img/Result/backLight.png");
 		TextureAsset::Register(L"pass", L"Resource/Img/Result/pass.png");
 		TextureAsset::Register(L"noPass", L"Resource/Img/Result/noPass.png");
 
@@ -178,9 +173,6 @@ namespace
 		SoundAsset::Register(L"desisionSmall", L"Resource/Sound/SE/Desision_Small.wav", { L"System" });
 		SoundAsset::Register(L"desisionLarge", L"Resource/Sound/SE/Desision_Large.wav", { L"System" });
 		SoundAsset::Register(L"cancel", L"Resource/Sound/SE/cancel.wav", { L"System" });
-
-		SoundAsset::PreloadByTag(L"System");
-
 	}
 	void LoadFont()
 	{

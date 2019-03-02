@@ -2,7 +2,7 @@
 #include "ISceneBase.hpp"
 #include "CourseSelectView.hpp"
 
-class CourseSelect : ISceneBase
+class CourseSelect : public ISceneBase
 {
 public:
 	enum class Action : uint8
@@ -30,5 +30,15 @@ public:
 	void draw() const override;
 	void drawFadeIn(double t) const override;
 	void drawFadeOut(double t) const override;
+
+	static SelectCourseInfo GetSelectInfo();
+
+	const Array<CourseData>& getCourses()const;
+
+	Action getAction()const;
+
+	// previous , current
+	std::pair<Action, Action> getChangeAction()const;
+	int getMoveSelect()const;
 };
 

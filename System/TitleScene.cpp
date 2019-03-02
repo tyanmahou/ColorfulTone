@@ -17,6 +17,7 @@ TitleScene::TitleScene() :
 	m_font(10, L"Straight", FontStyle::Outline)
 {
 	m_font.changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 2));
+	SoundAsset::PreloadByTag(L"System");
 }
 
 //--------------------------------------------------------------------------------

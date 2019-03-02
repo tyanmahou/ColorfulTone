@@ -29,6 +29,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseGenre.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CoursePlay.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CourseSelect.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CourseSelectView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h" />
@@ -58,6 +60,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Note.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotesData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayCourse.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayKey.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayMusicGame.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayStyle.h" />
@@ -101,6 +104,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CoursePlay.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CourseSelect.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CourseSelectView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTCFReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)eJudge.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Fade.cpp" />
@@ -124,6 +129,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)NotesData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Object.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayBG.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayCourse.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayKey.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayMusicGame.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayStyle.cpp" />

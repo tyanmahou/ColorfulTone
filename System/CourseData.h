@@ -64,7 +64,8 @@ public:
 	{
 		return m_isClear;
 	}
-	int getIndex() {
+	int getIndex()const
+	{
 		return m_index;
 	}
 

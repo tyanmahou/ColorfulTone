@@ -1,16 +1,20 @@
 ﻿#include "PlayCourse.hpp"
 #include"CourseData.h"
-
+#include "Useful.hpp"
 class  PlayCourse::Impl
 {
 private:
 	bool m_isActive = false;
 	size_t m_currentNotesIndex = 0;
-	CourseData m_nowCourse;
+	size_t m_nowCourseIndex = 0;
 public:
+	CourseData& nowCourse()const
+	{
+		return Game::Courses()[m_nowCourseIndex];
+	}
 	void init(const CourseData & course)
 	{
-		m_nowCourse = course;
+		m_nowCourseIndex = course.getIndex();
 		m_currentNotesIndex = 0;
 		m_isActive = true;
 	}
@@ -33,7 +37,7 @@ public:
 	}
 	bool isEnd()const
 	{
-		return m_currentNotesIndex >= m_nowCourse.getNotesIDs().size();
+		return m_currentNotesIndex >= this->nowCourse().getNotesIDs().size();
 	}
 };
 
