@@ -189,7 +189,7 @@ namespace
 		::DrawCount(basePos + Vec2{ 0, offset + 120 }, L"TOTAL", total * t);
 	}
 
-	void DrawScore(const ScoreModel& score, bool isNewRecord, double t)
+	void DrawScore(const ScoreModel& score, bool isNewRecord, double t, double t2)
 	{
 		const FontAsset font20bs = FontAsset(L"20b_s");
 
@@ -197,46 +197,48 @@ namespace
 		font20bs(Format(L"{:.2f}%"_fmt, score.clearRate * t).padLeft(7, L' '))
 			.drawKinetic(485, 215, FontKinetic::DeleteSpace, Palette::Black);
 
+		const Color alpha = ColorF(1.0, t2);
 		if (isNewRecord)
 		{
-			TextureAsset(L"newRecord").drawAt(680, 235);
+			TextureAsset(L"newRecord").drawAt(680 - (1.0 - t2) * 10, 235, alpha);
 		}
 		TextureAsset(ResultRank::GetRankTextureName(score.clearRate))
 			.scale(0.4)
-			.drawAt(400, 250);
+			.drawAt(400, 250 -(1.0 - t2) * 10,alpha);
 
 		constexpr Vec2 clearIconPos{ 715 ,100 };
 		constexpr Vec2 fcIconPos = clearIconPos + Vec2{ 0, 60 };
-
 		if (score.isClear)
 		{
-			TextureAsset(L"iconClear").scale(0.5).drawAt(clearIconPos);
+			TextureAsset(L"iconClear").scale(0.5).drawAt(clearIconPos, alpha);
 		}
 		if (score.specialResult == SpecialResult::All_Perfect)
 		{
-			TextureAsset(L"iconAP").scale(0.5).drawAt(fcIconPos);
+			TextureAsset(L"iconAP").scale(0.5).drawAt(fcIconPos, alpha);
 		}
 		else if (score.specialResult == SpecialResult::Full_Combo)
 		{
-			TextureAsset(L"iconFC").scale(0.5).drawAt(fcIconPos);
+			TextureAsset(L"iconFC").scale(0.5).drawAt(fcIconPos, alpha);
 		}
 	}
 }
 
 class ResultSceneView::Impl
 {
+	using AnimeTimers = Array<EasingController<double>>;
 private:
 	const ResultScene* const m_pScene;
 	SharedDraw::DrawBGLight m_lights;
 	LineString m_graphLife;
 	Judges m_graphJudge;
-	EasingController<double> m_animeTime;
-
+	AnimeTimers m_animeTimers;
 public:
 	Impl(const ResultScene* const scene) :
-		m_pScene(scene),
-		m_animeTime(0, 1.0, Easing::Quart, 1000)
-	{}
+		m_pScene(scene)
+	{
+		m_animeTimers.emplace_back(0, 1.0, Easing::Circ, 1000);
+		m_animeTimers.emplace_back(0, 1.0, Easing::Linear, 500);
+	}
 
 	void init()
 	{
@@ -253,9 +255,14 @@ public:
 	}
 	void update()
 	{
-		if (!m_animeTime.isActive() && !m_animeTime.isEnd())
+		for (size_t index = 0; index < m_animeTimers.size(); ++index)
 		{
-			m_animeTime.start();
+			if ((index == 0 || m_animeTimers[index - 1].isEnd()) &&
+				!m_animeTimers[index].isActive() &&
+				!m_animeTimers[index].isEnd())
+			{
+				m_animeTimers[index].start();
+			}
 		}
 		m_lights.update();
 	}
@@ -268,7 +275,8 @@ public:
 
 		const ScoreModel& score = m_pScene->getScore();
 		const NotesData& notes = m_pScene->getNotes();
-		const double animationTime = m_animeTime.easeOut();
+		const double animationTime = m_animeTimers[0].easeOut();
+		const double scoreAnimeTime = m_animeTimers[1].easeOut();
 		::DrawBGJacket(notes, animationTime);
 		::DrawMusicInfo(notes);
 
@@ -281,7 +289,7 @@ public:
 			animationTime
 		);
 		// スコア
-		::DrawScore(score, m_pScene->isNewRecord(), animationTime);
+		::DrawScore(score, m_pScene->isNewRecord(), animationTime, scoreAnimeTime);
 
 		static const String sceneName = L"RESULT";
 		SharedDraw::Sticky(
