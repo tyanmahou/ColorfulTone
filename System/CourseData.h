@@ -63,15 +63,6 @@ public:
 		return m_genre;
 	}
 
-	void setClear(bool isClear = true)
-	{
-		m_score.isClear = isClear;
-	}
-
-	bool isClear()const
-	{
-		return m_score.isClear;
-	}
 	int getIndex()const
 	{
 		return m_index;
@@ -79,6 +70,10 @@ public:
 
 	String getScorePath() const;
 
+	bool isClear() const
+	{
+		return m_score.isClear;
+	}
 	const CourseScore& getScore()const
 	{
 		return m_score;
@@ -87,4 +82,6 @@ public:
 	{
 		m_score = score;
 	}
+
+	Color getColor() const;
 };

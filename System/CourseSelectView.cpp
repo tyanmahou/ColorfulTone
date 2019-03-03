@@ -157,7 +157,7 @@ public:
 				if (c.isClear())
 				{
 					// TODO カラーを変えたい
-					FontAsset(L"selectMusics")(L"★").drawCenter(pos + Vec2{ 30, 30 });
+					FontAsset(L"selectMusics")(L"★").drawCenter(pos + Vec2{ 30, 30 },c.getColor());
 				}
 			}).draw(
 				courses,

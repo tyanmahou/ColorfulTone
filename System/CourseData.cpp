@@ -80,3 +80,16 @@ String CourseData::getScorePath() const
 {
 	return L"Score/CourseScore/" + m_genre + L"/" + m_fileName + L".bin";
 }
+
+Color CourseData::getColor() const
+{
+	if (m_score.totalRate >= 100.0 * m_actualSize)
+	{
+		return Palette::Red;
+	}
+	else if (m_score.totalRate >= 97.0 * m_actualSize)
+	{
+		return Palette::Yellow;
+	}
+	return Palette::White;
+}
