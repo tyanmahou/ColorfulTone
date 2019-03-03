@@ -44,10 +44,9 @@ private:
 	ScoreModel m_score;
 	bool m_isNewRecord = false;
 	ResultTweet m_tweet;
-
 	String getTweetText()const
 	{
-		if (m_data->m_isCoursePlay)
+		if (m_data->m_course.isActive())
 		{
 			//auto& cource = Game::Courses()[m_data->m_selectCourse];
 			//return  text = cource.getTitle() +
@@ -137,7 +136,7 @@ void ResultScene::update()
 		if (PlayKey::Start().clicked || PlayKey::BigBack().clicked)
 		{
 			SoundManager::SE::Play(L"desisionLarge");
-			if (m_data->m_isCoursePlay)
+			if (m_data->m_course.isActive())
 			{
 				// TODO コース
 			}

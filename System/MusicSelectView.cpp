@@ -12,50 +12,8 @@ namespace
 	using Action = MusicSelect::Action;
 	using AllNotesInfo = MusicSelect::AllNotesInfo;
 
-	void DrawHighSpeedDemo(const MusicSelect*const pScene)
+	void DrawMusicInfo(const SharedDraw::JacketInfo& infoView, const Action action, const GenreData* pGenre, const MusicData* pMusic)
 	{
-		const auto& highSpeedDemo = pScene->getHighSpeedDemo();
-		float scrollRate = pScene->getScrollRate();
-		auto select = MusicSelect::GetSelectInfo();
-
-		auto& musics = pScene->getMusics();
-		if (!musics.size())
-		{
-			return;
-		}
-		auto& music = musics[select.music];
-
-		String tmp = Format(music.getBPM(), L"*", scrollRate);
-
-		const auto kineticFunction = [=](KineticTypography& k)
-		{
-			static int fBpm = 0;
-			static int eBpm = 0;
-
-			if (k.ch == '*')
-				fBpm = k.index;
-			if (k.ch == '=')
-				eBpm = k.index;
-			if (Input::KeyControl.pressed)
-				if (k.index > fBpm&&k.index < eBpm)
-					k.col = Palette::Red;
-
-		};
-
-		if (const auto result = EvaluateOpt(tmp))
-		{
-			FontAsset(L"bpm")(tmp, L"=", result.value()).drawKinetic(10, 530, kineticFunction);
-		}
-		if (Input::KeyControl.pressed)
-		{
-			highSpeedDemo.draw(music.getMinSoundBeat(), music.getMaxSoundBeat(), scrollRate);
-		}
-	}
-
-	void DrawMusicInfo(const Action action, const GenreData* pGenre, const MusicData* pMusic)
-	{
-		SharedDraw::JacketInfo infoView;
-
 		infoView.drawLine();
 
 		if (action == MusicSelect::Action::GenreSelect)
@@ -73,11 +31,10 @@ namespace
 				return;
 			}
 			//BPM
-			const String& bpm = L"BPM" + Pad(pMusic->getBPM(), { 5,L' ' });
 			infoView
 				.drawTitle(pMusic->getMusicName())
 				.drawSub(pMusic->getArtistAndAuthority())
-				.drawDetailRight(bpm);
+				.drawDetailRight(pMusic->getFormattedBpm());
 		}
 	}
 	void DrawSortAndGenre(SortMode mode, const String& genreName)
@@ -194,19 +151,24 @@ namespace
 class MusicSelectView::Impl
 {
 	const MusicSelect*const m_pScene;
-	double m_shaderTimer = 0.0;
+
+	EasingController<double> m_bgTimer;
 	EasingController<double> m_memoOffset;
 	SharedDraw::DrawBGLight m_lights;
 
 public:
 	Impl(const MusicSelect*const scene) :
 		m_pScene(scene),
+		m_bgTimer(0, 1.0, Easing::Circ, 1000),
 		m_memoOffset(300, 0, Easing::Back, 1000)
-	{}
+	{
+		m_bgTimer.start();
+	}
 
 	void resetShaderTimer()
 	{
-		m_shaderTimer = 0;
+		m_bgTimer.reset();
+		m_bgTimer.start();
 	}
 
 	void onChangeAction()
@@ -229,7 +191,6 @@ public:
 	void update()
 	{
 		m_lights.update();
-		m_shaderTimer += 0.025;
 	}
 
 	void draw() const
@@ -252,6 +213,14 @@ public:
 			? &pMusic->getNotesData() : nullptr;
 
 		const auto action = m_pScene->getAction();
+
+		// ラベル
+		SharedDraw::JacketInfo jacketInfo;
+		if (pMusic && action != Action::GenreSelect)
+		{
+			jacketInfo.drawLabel(pMusic->getTexture(), m_bgTimer.easeOut());
+		}
+
 		// ジャケ絵描画
 		::DrawJacket(action, pGenre, pMusic, select.level);
 
@@ -308,17 +277,20 @@ public:
 				[](const NotesData& n)->decltype(auto) {return n.getLevelName(); }
 			);
 		}
+
 		if (action != Action::GenreSelect)
 		{
 			::DrawAllNotesInfo(pNotes, select.notesInfo);
 		}
+
+		jacketInfo.drawLabel();
 		// 譜面情報
 		if (pNotes && select.level < pNotes->size())
 		{
 			::DrawNotesInfo((*pNotes)[select.level], m_memoOffset.easeOut());
 		}
 
-		::DrawMusicInfo(action, pGenre, pMusic);
+		::DrawMusicInfo(jacketInfo, action, pGenre, pMusic);
 
 		// ソートとジャンル名表示
 		if (pGenre)
@@ -326,7 +298,14 @@ public:
 			::DrawSortAndGenre(select.sortMode, pGenre->getName());
 		}
 		// ハイスピ
-		::DrawHighSpeedDemo(m_pScene);
+		if (action != Action::GenreSelect && pMusic)
+		{
+			SharedDraw::HighSpeed(
+				m_pScene->getHighSpeedDemo(),
+				*pMusic,
+				m_pScene->getScrollRate()
+			);
+		}
 	}
 };
 MusicSelectView::MusicSelectView(const MusicSelect*const scene) :

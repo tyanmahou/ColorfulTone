@@ -1,6 +1,7 @@
 ﻿#include "SharedDraw.hpp"
 #include "BGLight.hpp"
-
+#include "HighSpeedDemo.h"
+#include "MusicData.h"
 namespace SharedDraw
 {
 	void DrawBGLight::update()
@@ -61,6 +62,20 @@ namespace SharedDraw
 		return *this;
 	}
 
+	const JacketInfo & JacketInfo::drawLabel(const Texture & tex, double t)const
+	{
+		tex.uv(0, 100.0 / 800.0, t, 30.0 / 800.0).resize(800 * t, 30).draw();
+		tex.uv(1 - t, 630.0 / 800.0, t, 30.0 / 800.0).resize(800 * t, 30).draw(800 - 800 * t, 530);
+		return *this;
+	}
+
+	const JacketInfo & JacketInfo::drawLabel()const
+	{
+		Rect(0, 0, 800, 30).draw(Color(0, 0, 0, 100));
+		Rect(0, 530, 800, 30).draw(Color(0, 0, 0, 100));
+		return *this;
+	}
+
 	const JacketInfo& JacketInfo::drawLine() const
 	{
 		TextureAsset(L"line").drawAt(m_pos);
@@ -93,7 +108,7 @@ namespace SharedDraw
 	{
 		util::ContractionDrawbleString(
 			m_font12(detail),
-			m_pos + Vec2{0, 35},
+			m_pos + Vec2{ 0, 35 },
 			Constants::JacketWidth,
 			color
 		);
@@ -114,5 +129,33 @@ namespace SharedDraw
 			color
 		);
 		return *this;
+	}
+	void HighSpeed(const HighSpeedDemo& highSpeedDemo, const MusicData& music, float scrollRate)
+	{
+		String tmp = Format(music.getBPM(), L"*", scrollRate);
+
+		const auto kineticFunction = [=](KineticTypography& k)
+		{
+			static int fBpm = 0;
+			static int eBpm = 0;
+
+			if (k.ch == '*')
+				fBpm = k.index;
+			if (k.ch == '=')
+				eBpm = k.index;
+			if (Input::KeyControl.pressed)
+				if (k.index > fBpm&&k.index < eBpm)
+					k.col = Palette::Red;
+
+		};
+
+		if (const auto result = EvaluateOpt(tmp))
+		{
+			FontAsset(L"bpm")(tmp, L"=", result.value()).drawKinetic(10, 533, kineticFunction);
+		}
+		if (Input::KeyControl.pressed)
+		{
+			highSpeedDemo.draw(music.getMinSoundBeat(), music.getMaxSoundBeat(), scrollRate);
+		}
 	}
 }

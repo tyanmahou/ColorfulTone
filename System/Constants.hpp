@@ -13,4 +13,12 @@ namespace Constants
 		Good = -100,
 		Miss = -500,
 	};
+
+	namespace Stancil
+	{
+		constexpr s3d::uint8 HighSpeedMin = 3;
+		constexpr s3d::uint8 HighSpeedMax = 4;
+
+		constexpr s3d::uint8 BGJacket = 10;
+	}
 }

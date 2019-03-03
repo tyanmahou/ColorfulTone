@@ -152,7 +152,9 @@ public:
 		size_t size = ::GetTargetSize(m_action, m_musics);
 
 		// ハイスピ変更
-		bool isHighSpeedUpdate = m_highSpeedDemo.update(m_data->m_scrollRate);
+		bool isHighSpeedUpdate = m_action != Action::GenreSelect &&
+			m_highSpeedDemo.update(m_data->m_scrollRate);
+
 		m_moveSelect = isHighSpeedUpdate ? 0 : ::MoveSelect();
 		if (m_moveSelect)
 		{

@@ -53,6 +53,7 @@ public:
 		const Mahou::SoundBar& getMaxSoundBeat()const { if (m_maxbpm == -1)return m_minBar; return m_maxBar; }
 		const BPMType& getMinBPM()const { return m_minbpm; };
 		const BPMType& getMaxBPM()const { if (m_maxbpm == -1)return m_minbpm; return m_maxbpm;};
+		const String getFormattedBpm()const;
 
 	    Array<NotesData>& getNotesData(){ return m_notesDatas; }
 		const Array<NotesData>& getNotesData()const { return m_notesDatas; }

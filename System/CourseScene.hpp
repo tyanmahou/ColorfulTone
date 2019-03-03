@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include"ISceneBase.hpp"
 #include"CourseSceneView.hpp"
+
+class HighSpeedDemo;
+
 class CourseScene :public ISceneBase
 {
 private:
@@ -18,4 +21,9 @@ public:
 	void drawFadeOut(double t) const override;
 
 	const PlayCourse& getPlay() const;
+	const HighSpeedDemo& getHighSpeedDemo()const;
+	float getScrollRate()const
+	{
+		return m_data->m_scrollRate;
+	}
 };

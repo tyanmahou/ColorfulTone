@@ -14,9 +14,6 @@ struct GameData
 	Score m_resultScore;
 
 	PlayCourse m_course;
-	bool m_isCoursePlay = false;
-	int m_currentCourseIndex = 0;
-	int m_selectCourse = 0;
 
 	String m_fromScene;
 	String m_toScene = L"load";

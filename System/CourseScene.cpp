@@ -50,6 +50,8 @@ void CourseScene::init()
 
 void CourseScene::update()
 {
+	m_pModel->update();
+
 	// 1曲目でバックまたはバック長押し
 	if (PlayKey::BigBack().clicked && m_data->m_course.isStart()|| 
 		PlayKey::BigBack().pressedDuration >= 1000)
@@ -107,4 +109,9 @@ void CourseScene::drawFadeOut(double t) const
 const PlayCourse & CourseScene::getPlay() const
 {
 	return m_data->m_course;
+}
+
+const HighSpeedDemo & CourseScene::getHighSpeedDemo() const
+{
+	return m_pModel->getHighSpeedDemo();
 }

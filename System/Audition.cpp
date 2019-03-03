@@ -77,3 +77,8 @@ void Audition::stop() const
 	MultiThread::Wait(L"audio_play");
 	g_sampleSound.stop(1s);
 }
+
+const Sound & Audition::getSound() const
+{
+	return g_sampleSound;
+}

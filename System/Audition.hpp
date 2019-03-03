@@ -15,5 +15,7 @@ public:
 
 	void play(const MusicData& musicData);
 	void stop()const;
+
+	const Sound& getSound()const;
 };
 

@@ -5,6 +5,7 @@
 #include "FontKinetic.h"
 #include "Util.h"
 #include "ResultRank.h"
+#include "EasingSequence.hpp"
 
 namespace
 {
@@ -122,24 +123,7 @@ namespace
 			);
 		Graphics2D::SetSamplerState(SamplerState::Default2D);
 	}
-	void DrawBGJacket(const NotesData& notes, double t)
-	{
-		const MusicData& music = *notes.getMusic();
-
-		util::StencilMask(
-			[&]() {
-			Rect(0, 0, 800 * t, 30).draw();
-			Rect(800 - 800 * t, 530, 800 * t, 30).draw();
-		},
-			[&]() {
-			music.getTexture().resize(800, 800).drawAt(Window::BaseCenter());
-		},
-			StencilFunc::Equal
-			);
-		Rect(0, 0, 800, 30).draw(Color(0, 0, 0, 100));
-		Rect(0, 530, 800, 30).draw(Color(0, 0, 0, 100));
-	}
-	void  DrawMusicInfo(const NotesData& notes)
+	void  DrawMusicInfo(const NotesData& notes, double t)
 	{
 		constexpr Vec2 jacketSize{ 240 ,240 };
 		constexpr Vec2 jacketPos{ 170, 200 };
@@ -155,10 +139,12 @@ namespace
 		SharedDraw::JacketInfo infoView;
 		infoView
 			.setPos({ 500,140 })
+			.drawLabel(music.getTexture(), t)
+			.drawLabel()
 			.drawLine()
 			.drawTitle(music.getMusicName())
 			.drawSub(music.getArtistAndAuthority())
-			.drawDetail(notes.getLevelName() + L" Lv" + Format(notes.getLevel()));
+			.drawDetail(notes.getLevelNameAndLevel());
 	}
 
 	void DrawCount(const Vec2& pos, const String& name, uint32 count)
@@ -225,20 +211,20 @@ namespace
 
 class ResultSceneView::Impl
 {
-	using AnimeTimers = Array<EasingController<double>>;
 private:
 	const ResultScene* const m_pScene;
 	SharedDraw::DrawBGLight m_lights;
 	LineString m_graphLife;
 	Judges m_graphJudge;
-	AnimeTimers m_animeTimers;
+	EasingSequence m_timers;
 public:
 	Impl(const ResultScene* const scene) :
-		m_pScene(scene)
-	{
-		m_animeTimers.emplace_back(0, 1.0, Easing::Circ, 1000);
-		m_animeTimers.emplace_back(0, 1.0, Easing::Linear, 500);
-	}
+		m_pScene(scene),
+		m_timers({
+			{0, 1.0, Easing::Circ, 1000},
+			{0, 1.0, Easing::Linear, 500}
+		})
+	{}
 
 	void init()
 	{
@@ -255,15 +241,7 @@ public:
 	}
 	void update()
 	{
-		for (size_t index = 0; index < m_animeTimers.size(); ++index)
-		{
-			if ((index == 0 || m_animeTimers[index - 1].isEnd()) &&
-				!m_animeTimers[index].isActive() &&
-				!m_animeTimers[index].isEnd())
-			{
-				m_animeTimers[index].start();
-			}
-		}
+		m_timers.update();
 		m_lights.update();
 	}
 
@@ -275,10 +253,9 @@ public:
 
 		const ScoreModel& score = m_pScene->getScore();
 		const NotesData& notes = m_pScene->getNotes();
-		const double animationTime = m_animeTimers[0].easeOut();
-		const double scoreAnimeTime = m_animeTimers[1].easeOut();
-		::DrawBGJacket(notes, animationTime);
-		::DrawMusicInfo(notes);
+		const double animationTime = m_timers[0].easeOut();
+		const double scoreAnimeTime = m_timers[1].easeOut();
+		::DrawMusicInfo(notes, animationTime);
 
 		// グラフ
 		::DrawGraph(m_graphLife, m_graphJudge, animationTime);

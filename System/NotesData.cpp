@@ -138,6 +138,11 @@ void NotesData::previewDraw(const double& nowCount, float scrollRate)const
 	}
 }
 
+const String NotesData::getLevelNameAndLevel() const
+{
+	return m_lvName + L" Lv" + Format(m_lv);
+}
+
 String NotesData::getScorePath()const
 {
 	return L"Score/"

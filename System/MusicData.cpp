@@ -82,3 +82,8 @@ const int MusicData::getBPM() const
 	return (int)EaseInOut(m_minbpm, m_maxbpm, Easing::Linear, elapsed);
 }
 
+const String MusicData::getFormattedBpm() const
+{
+	return L"BPM" + Pad(this->getBPM(), { 5,L' ' });
+}
+

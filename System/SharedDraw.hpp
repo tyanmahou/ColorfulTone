@@ -1,6 +1,10 @@
 ﻿#pragma once
 #include"Util.h"
 #include"Constants.hpp"
+
+class HighSpeedDemo;
+class MusicData;
+
 namespace SharedDraw
 {
 	template<class T>
@@ -79,6 +83,8 @@ namespace SharedDraw
 
 	void Sticky(const String* blueText, const String* redText = nullptr);
 
+	void HighSpeed(const HighSpeedDemo & highSpeedDemo, const MusicData & music, float scrollRate);
+
 	class JacketInfo
 	{
 		const FontAsset m_font12;
@@ -87,6 +93,9 @@ namespace SharedDraw
 	public:
 		JacketInfo();
 		JacketInfo& setPos(const Vec2& pos);
+
+		const JacketInfo& drawLabel(const Texture & tex, double t = 1.0) const;
+		const JacketInfo& drawLabel() const;
 		const JacketInfo& drawLine() const;
 		//タイトル
 		const JacketInfo& drawTitle(const String& title, const Color& color = Palette::Black) const;

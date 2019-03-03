@@ -25,7 +25,7 @@ void MainScene::init()
 {
 	m_musicGame.init(m_data->m_nowNotes, m_data->m_scrollRate);
 
-	m_isCourse = m_data->m_isCoursePlay;
+	m_isCourse = m_data->m_course.isActive();
 	if (m_isCourse)
 	{
 		m_musicGame.setCourseMode(m_data->m_resultScore);
@@ -51,7 +51,7 @@ void MainScene::update()
 	//****************
 	//シーン遷移
 	//****************
-	if (!m_data->m_isCoursePlay&&PlayKey::SmallBack().pressedDuration >= 1000 || m_musicGame.isFinish())
+	if (!m_isCourse&&PlayKey::SmallBack().pressedDuration >= 1000 || m_musicGame.isFinish())
 	{
 		m_data->m_resultScore = m_musicGame.getScore();
 		changeScene(SceneName::Result, 2000, false);
@@ -68,7 +68,6 @@ void MainScene::update()
 	{
 		if (PlayKey::BigBack().pressedDuration >= 1000)
 		{
-			m_data->m_isCoursePlay = false;
 			changeScene(SceneName::CourseSelect, 2000, false);
 		}
 	}
@@ -84,10 +83,8 @@ void MainScene::update()
 
 void MainScene::draw()const
 {
-
 	m_musicGame.draw();
 	m_musicGame.drawCurrentBPM();
-
 
 	if (!m_isCourse)
 	{

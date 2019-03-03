@@ -219,12 +219,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayMusicGame.cpp">
       <Filter>MusicGame\Play</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CourseScene.cpp">
-      <Filter>Scene\CoursePlay</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CoursePlay.cpp">
-      <Filter>Scene\CoursePlay</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseData.cpp">
       <Filter>MusicGame\Data\CourseData</Filter>
     </ClCompile>
@@ -310,6 +304,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseSelectView.cpp">
       <Filter>Scene\CourseSelect</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CourseSceneView.cpp">
+      <Filter>Scene\CoursePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CourseScene.cpp">
+      <Filter>Scene\CoursePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)EasingSequence.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -422,12 +423,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayMusicGame.h">
       <Filter>MusicGame\Play</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CourseScene.h">
-      <Filter>Scene\CoursePlay</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CoursePlay.h">
-      <Filter>Scene\CoursePlay</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseData.h">
       <Filter>MusicGame\Data\CourseData</Filter>
@@ -542,5 +537,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseSelectView.hpp">
       <Filter>Scene\CourseSelect</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CourseSceneView.hpp">
+      <Filter>Scene\CoursePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CourseScene.hpp">
+      <Filter>Scene\CoursePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)EasingSequence.hpp" />
   </ItemGroup>
 </Project>

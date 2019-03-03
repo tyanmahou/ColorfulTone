@@ -1,5 +1,6 @@
 ﻿#include"HighSpeedDemo.h"
 #include "Useful.hpp"
+#include "Constants.hpp"
 #include"PlayStyle.h"
 
 #include"Note.h"
@@ -59,7 +60,6 @@ namespace
 			scrollRate = tmp / 10.0f;
 			sw.restart();
 		}
-
 	}
 
 }
@@ -130,11 +130,11 @@ void HighSpeedDemo::draw(const Mahou::SoundBar& min, const Mahou::SoundBar& max,
 {
 	{
 		util::Transformer2D t2d(Mat3x2::Translate({ m_offset.easeInOut() - 350,0 }));
-		drawDemoNotes(min, scrollRate, 3);
+		drawDemoNotes(min, scrollRate, Constants::Stancil::HighSpeedMin);
 	}
 	{
 		util::Transformer2D t2d(Mat3x2::Translate({ m_offset.easeInOut() - 250,0 }));
-		drawDemoNotes(max, scrollRate, 4);
+		drawDemoNotes(max, scrollRate, Constants::Stancil::HighSpeedMax);
 	}
 
 }

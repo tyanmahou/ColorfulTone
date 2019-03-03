@@ -75,7 +75,12 @@ bool PlayCourse::isEnd() const
 	return m_pImpl->isEnd();
 }
 
-const NotesData & PlayCourse::getCurrentNotes()
+const CourseData & PlayCourse::getCourse() const
+{
+	return m_pImpl->currentCourse();
+}
+
+const NotesData & PlayCourse::getCurrentNotes()const
 {
 	return m_pImpl->getCurrentNotes();
 }
@@ -83,5 +88,10 @@ const NotesData & PlayCourse::getCurrentNotes()
 bool PlayCourse::isStart() const
 {
 	return m_pImpl->getCurrentNotesIndex() == 0;
+}
+
+size_t PlayCourse::getTrackOrder()const
+{
+	return m_pImpl->getCurrentNotesIndex() + 1;
 }
 
