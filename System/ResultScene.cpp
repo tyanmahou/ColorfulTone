@@ -99,13 +99,13 @@ private:
 		{
 			return course.getCourse().getTitle()
 				+ ::GetCourseStateTweetText(course.getState()) + L"/"
-				+ Format(course.getScore().totalRate) +L"%達成\n#ColorfulTone";
+				+ Format(L"{:.2f}%"_fmt, course.getScore().totalRate) +L"%達成\n#ColorfulTone";
 		}
 		const auto& music = *m_data->m_nowNotes.getMusic();
 		return
 			music.getMusicName() + L"/"
 			+ m_data->m_nowNotes.getLevelName() + L"で"
-			+ Format(m_score.clearRate) + L"%達成\n#ColorfulTone";
+			+ Format(L"{:.2f}%"_fmt, m_score.clearRate) + L"%達成\n#ColorfulTone";
 	}
 public:
 

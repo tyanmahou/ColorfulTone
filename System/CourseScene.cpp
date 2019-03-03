@@ -3,7 +3,12 @@
 
 #include "HighSpeedDemo.h"
 #include"Audition.hpp"
+namespace
+{
+	using MemoInfo = CourseScene::MemoInfo;
 
+	MemoInfo g_selectInfo = MemoInfo::Course;
+}
 class CourseScene::Model
 {
 private:
@@ -25,6 +30,12 @@ public:
 	}
 	void update()
 	{
+		if (Input::KeyShift.clicked)
+		{
+			SoundManager::SE::Play(L"desisionSmall");
+			g_selectInfo = g_selectInfo == MemoInfo::Course
+				? MemoInfo::Notes : MemoInfo::Course;
+		}
 		m_highSpeed.update(m_data->m_scrollRate);
 	}
 	void finally()
@@ -130,4 +141,9 @@ const PlayCourse & CourseScene::getPlay() const
 const HighSpeedDemo & CourseScene::getHighSpeedDemo() const
 {
 	return m_pModel->getHighSpeedDemo();
+}
+
+MemoInfo CourseScene::GetMemoInfo()
+{
+	return g_selectInfo;
 }

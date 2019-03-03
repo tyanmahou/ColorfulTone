@@ -294,7 +294,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AudioSpectrum.cpp">
       <Filter>util\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)OResultScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayCourse.cpp">
       <Filter>MusicGame\Play</Filter>
     </ClCompile>
@@ -527,7 +526,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h">
       <Filter>util\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OResultScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayCourse.hpp">
       <Filter>MusicGame\Play</Filter>
     </ClInclude>

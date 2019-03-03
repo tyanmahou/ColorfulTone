@@ -108,12 +108,7 @@ public:
 		return m_notesData;
 	}
 
-	void setCourseMode(const Score& score)
-	{
-		m_isCourse = true;
-		m_score.m_initLife = score.m_life;
-		m_score.m_life = score.m_life;
-	}
+	void setCourseMode(const Score& score);
 	static void ScoreUpdate(Score::Judge judge, NoteType type, bool playSe = true);
 
 	static const Sound* const CurrentSound();

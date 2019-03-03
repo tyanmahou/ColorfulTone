@@ -44,10 +44,26 @@ CourseScore CourseScoreLoader::Load(const s3d::FilePath & path)
 
 	reader.read<bool>(ret.isClear);
 	uint8 ui_sp;
-	reader.read<uint8>(ui_sp);
-	ret.special = static_cast<CourseSpecialResult>(ui_sp);
-	reader.read<float>(ret.totalRate);
-	reader.read<float>(ret.life);
+	if (reader.read<uint8>(ui_sp))
+	{
+		if (ui_sp >= 3) {
+			// 無効
+			ui_sp = 0;
+		}
+		ret.special = static_cast<CourseSpecialResult>(ui_sp);
+	}
+	else
+	{
+		ret.special = CourseSpecialResult::None;
+	}
+	if (!reader.read<float>(ret.totalRate))
+	{
+		ret.totalRate = 0.0;
+	}
+	if (!reader.read<float>(ret.life))
+	{
+		ret.life = 0.0;
+	}
 	return ret;
 }
 

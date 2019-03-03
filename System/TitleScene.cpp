@@ -99,7 +99,7 @@ void TitleScene::init()
 	// ロードから来た場合はスタートに戻す
 	if (m_data->m_fromScene == SceneName::Load)
 	{
-		m_mode == Mode::GameStart;
+		m_mode = Mode::GameStart;
 	}
 }
 

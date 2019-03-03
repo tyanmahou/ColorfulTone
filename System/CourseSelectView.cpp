@@ -66,7 +66,7 @@ namespace
 	}
 	void DrawTitle(const CourseGenre*const genre)
 	{
-		static String title = L"Course";
+		static String title = L"COURSE";
 		const String* pGenreName = genre ? &genre->getName() : nullptr;
 		SharedDraw::Sticky(&title, pGenreName);
 	}

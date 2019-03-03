@@ -64,12 +64,16 @@ public:
 	void updateScoreAndState(float addRate, float life)
 	{
 		m_score.life = life;
+
 		m_score.totalRate += addRate;
-		if (addRate >= 100.0)
+		int tmpRate = m_score.totalRate * 100;
+		m_score.totalRate = tmpRate / 100.0f;
+
+		if (addRate >= 100.0f)
 		{
 			++m_apCount;
 		}
-		if (addRate >= 97.0)
+		if (addRate >= 97.0f)
 		{
 			++m_rankAAACount;
 		}

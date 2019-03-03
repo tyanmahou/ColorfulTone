@@ -146,6 +146,15 @@ void PlayMusicGame::update()
 	}
 }
 
+void PlayMusicGame::setCourseMode(const Score & score)
+{
+	m_isCourse = true;
+	m_score.m_lifeHistory[0] = score.m_life;
+	m_score.m_initLife = score.m_life;
+	m_score.m_life = score.m_life;
+}
+
+
 void PlayMusicGame::ScoreUpdate(Score::Judge judge, NoteType type, bool playSe)
 {
 	if (!g_pScore)

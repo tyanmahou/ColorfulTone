@@ -198,6 +198,11 @@ void CourseSelect::init()
 	{
 		SoundAsset(L"title").play(1s);
 	}
+	if (m_data->m_fromScene == SceneName::Course ||
+		m_data->m_fromScene == SceneName::Main)
+	{
+		m_view.onChangeAction();
+	}
 }
 
 void CourseSelect::update()

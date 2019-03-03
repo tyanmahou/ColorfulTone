@@ -6,6 +6,12 @@ class HighSpeedDemo;
 
 class CourseScene :public ISceneBase
 {
+public:
+	enum class MemoInfo : bool
+	{
+		Course,
+		Notes,
+	};
 private:
 	class Model;
 	std::shared_ptr<Model> m_pModel;
@@ -26,4 +32,6 @@ public:
 	{
 		return m_data->m_scrollRate;
 	}
+
+	static MemoInfo GetMemoInfo();
 };

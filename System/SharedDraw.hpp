@@ -130,7 +130,7 @@ namespace SharedDraw
 		MemoInfo& setPos(const Vec2& pos);
 		void draw(const NotesData& notes) const;
 
-		void draw(const CourseScore& courseScore) const;
+		void draw(const CourseScore& courseScore, bool drawFailure = true) const;
 	};
 }
 

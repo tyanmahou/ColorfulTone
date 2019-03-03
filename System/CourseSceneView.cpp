@@ -5,7 +5,6 @@
 #include "EasingSequence.hpp"
 namespace
 {
-
 }
 
 class CourseSceneView::Impl
@@ -72,10 +71,16 @@ public:
 		);
 
 		// 譜面情報
-		SharedDraw::MemoInfo()
-			.setPos(SharedDraw::MemoInfo::DefaultPos + Vec2{ 0, 300 * (1.0 - m_timers[L"memo"].easeOut()) })
-			.draw(notes);
-
+		SharedDraw::MemoInfo memoInfo;
+		memoInfo
+			.setPos(SharedDraw::MemoInfo::DefaultPos + Vec2{ 0, 300 * (1.0 - m_timers[L"memo"].easeOut()) });
+		if(CourseScene::GetMemoInfo()== CourseScene::MemoInfo::Course)
+		{
+			memoInfo.draw(playing.getScore(), false);
+		}
+		else {
+			memoInfo.draw(notes);
+		}
 		// 付箋
 		String track = L"Track " + Format(playing.getTrackOrder());
 		SharedDraw::Sticky(

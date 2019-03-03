@@ -79,7 +79,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RepeatNote.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultEffect.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultRank.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OResultScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultTweet.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SceneInfo.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Score.h" />
@@ -144,7 +143,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Util.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RepeatNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultRank.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OResultScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultTweet.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Score.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SerialImage.cpp" />
