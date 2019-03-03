@@ -193,6 +193,8 @@ namespace
 		FontAsset::Register(L"configTitle", 15, Typeface::Default, FontStyle::Italic);
 		// 選曲画面などの選択
 		FontAsset::Register(L"selectMusics", 16, Typeface::Bold);
+
+		FontAsset::Register(L"20", 20);
 		// リザルト
 		FontAsset::Register(L"20b_s", 20, L"Straight", FontStyle::Bold);
 

@@ -7,9 +7,6 @@ class Tutorial :public ISceneBase
 {
 private:
 
-	int m_timer;				//タイマー
-	Font m_font2;
-
 	MusicData m_music;
 	PlayMusicGame m_musicGame;
 

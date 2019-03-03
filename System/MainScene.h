@@ -8,10 +8,6 @@ class MainScene :public ISceneBase
 private:
 	bool m_isCourse=false;
 
-	int m_timer;				//タイマー
-
-	Font m_font2;
-
 	PlayMusicGame m_musicGame;
 	HighSpeedDemo m_highSpeed;
 public:

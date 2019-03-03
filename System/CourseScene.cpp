@@ -37,7 +37,7 @@ public:
 		return m_highSpeed;
 	}
 };
-CourseScene::CourseScene():
+CourseScene::CourseScene() :
 	m_pModel(std::make_shared<Model>()),
 	m_view(this)
 {}
@@ -53,7 +53,7 @@ void CourseScene::update()
 	m_pModel->update();
 
 	// 1曲目でバックまたはバック長押し
-	if (PlayKey::BigBack().clicked && m_data->m_course.isStart()|| 
+	if ((PlayKey::BigBack().clicked || PlayKey::SmallBack().clicked) && m_data->m_course.isStart() ||
 		PlayKey::BigBack().pressedDuration >= 1000)
 	{
 		this->changeScene(SceneName::CourseSelect, 1000);
@@ -73,10 +73,26 @@ void CourseScene::finally()
 	m_pModel->finally();
 }
 
+namespace
+{
+	String GetSceneInfo(bool isStart)
+	{
+		if (isStart)
+		{
+			return L"Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc,BackSpace:コース選択に戻る";
+		}
+		return L"Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc長押し:コース選択に戻る";
+	}
+}
 void CourseScene::draw() const
 {
 	m_view.draw();
-	SceneInfo::Draw(L"Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc長押し:コース選択に戻る");
+	bool isStart = m_data->m_course.isStart();
+	if (!isStart && PlayKey::BigBack().pressed)
+	{
+		FontAsset(L"20")(L"Esc長押しで戻る").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));
+	}
+	SceneInfo::Draw(::GetSceneInfo(isStart));
 }
 
 //--------------------------------------------------------------------------------

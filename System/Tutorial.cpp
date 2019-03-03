@@ -10,11 +10,8 @@
 //--------------------------------------------------------------------------------
 //関数：コンストラクタ
 //--------------------------------------------------------------------------------
-Tutorial::Tutorial() :
-	m_timer(0),
-	m_font2(20)
-{
-}
+Tutorial::Tutorial() 
+{}
 
 //--------------------------------------------------------------------------------
 //関数：デストラクタ
@@ -40,9 +37,6 @@ void Tutorial::finally()
 //--------------------------------------------------------------------------------
 void Tutorial::update()
 {
-	m_timer++;
-
-
 	m_musicGame.update();
 
 	//タイトルに戻る
@@ -65,11 +59,15 @@ void Tutorial::draw()const
 
 	PutText(L"Press Ese or BackSpace").at(100, Window::Height() - 20);
 
+	auto font20 = FontAsset(L"20");
 	if (PlayKey::BigBack().pressed)
-		m_font2(L"Ese長押しで戻る").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));
-
+	{
+		font20(L"Ese長押しで戻る").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));
+	}
 	if (PlayKey::SmallBack().pressed)
-		m_font2(L"BackSpace長押しで戻る").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::SmallBack().pressedDuration*0.70 / 1000));
+	{
+		font20(L"BackSpace長押しで戻る").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::SmallBack().pressedDuration*0.70 / 1000));
+	}
 }
 
 

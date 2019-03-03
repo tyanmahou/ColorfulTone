@@ -8,11 +8,8 @@
 //--------------------------------------------------------------------------------
 //関数：コンストラクタ
 //--------------------------------------------------------------------------------
-MainScene::MainScene() :
-	m_timer(0),
-	m_font2(20)
-{
-}
+MainScene::MainScene()
+{}
 
 //--------------------------------------------------------------------------------
 //関数：デストラクタ
@@ -44,8 +41,6 @@ void MainScene::updateFadeIn(double t)
 //--------------------------------------------------------------------------------
 void MainScene::update()
 {
-	m_timer++;
-
 	m_musicGame.update();
 
 	//****************
@@ -85,23 +80,28 @@ void MainScene::draw()const
 {
 	m_musicGame.draw();
 	m_musicGame.drawCurrentBPM();
-
+	auto font20 = FontAsset(L"20");
 	if (!m_isCourse)
 	{
 		PutText(L"Press Esc or BackSpace").at(100, Window::Height() - 20);
 
 		if (PlayKey::BigBack().pressed)
-			m_font2(L"Esc長押しで戻る").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));
-
+		{
+			font20(L"Esc長押しで戻る").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));
+		}
 		if (PlayKey::SmallBack().pressed)
-			m_font2(L"BackSpace長押しでリザルトへ").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::SmallBack().pressedDuration*0.70 / 1000));
+		{
+			font20(L"BackSpace長押しでリザルトへ").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::SmallBack().pressedDuration*0.70 / 1000));
+		}
 	}
 	else
 	{
 		PutText(L"Press Esc").at(100, Window::Height() - 20);
 
 		if (PlayKey::BigBack().pressed)
-			m_font2(L"Esc長押しで諦める").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));
+		{
+			font20(L"Esc長押しで諦める").drawCenter(400, 400, ColorF(0, 0.3 + PlayKey::BigBack().pressedDuration*0.70 / 1000));
+		}
 
 	}
 	const MusicData & music = *m_data->m_nowNotes.getMusic();
