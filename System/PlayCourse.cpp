@@ -90,8 +90,13 @@ bool PlayCourse::isStart() const
 	return m_pImpl->getCurrentNotesIndex() == 0;
 }
 
+size_t PlayCourse::getTrackIndex() const
+{
+	return m_pImpl->getCurrentNotesIndex();
+}
+
 size_t PlayCourse::getTrackOrder()const
 {
-	return m_pImpl->getCurrentNotesIndex() + 1;
+	return this->getTrackIndex() + 1;
 }
 

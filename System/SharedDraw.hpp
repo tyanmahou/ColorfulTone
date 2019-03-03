@@ -4,6 +4,7 @@
 
 class HighSpeedDemo;
 class MusicData;
+class NotesData;
 
 namespace SharedDraw
 {
@@ -15,6 +16,7 @@ namespace SharedDraw
 		uint32 m_width = 280;
 		std::function<Color(const T&)> m_colorCallback;
 		std::function<void(const T&, Vec2 pos)> m_drawable;
+		bool m_isLoop = true;
 	public:
 		Select() :
 			m_colorCallback([](const T&) {return Palette::White; }),
@@ -40,6 +42,11 @@ namespace SharedDraw
 			this->m_offset = offset;
 			return *this;
 		}
+		Select& setLoop(bool isLoop)
+		{
+			m_isLoop = isLoop;
+			return *this;
+		}
 		void draw(
 			const Array<T>& ar,
 			uint32 select,
@@ -56,7 +63,14 @@ namespace SharedDraw
 				Color uiColor = i == 4 ? Palette::Yellow : Palette::White;
 				const Vec2 pos{ 430 + offset, 60 * i };
 				TextureAsset(L"levelbg").draw(pos, uiColor);
-				const auto index = (select + i - 4 + size * Abs(i - 4)) % size;
+				const int noneLoopIndex = static_cast<int32>(select) + i - 4;
+				if (!m_isLoop && (noneLoopIndex >= size|| noneLoopIndex < 0))
+				{
+					// 範囲外はスルー
+					continue;
+				}
+
+				const auto index = (noneLoopIndex + size * Abs(i - 4)) % size;
 
 				const auto color = m_colorCallback(ar[index]);
 				util::ContractionDrawbleString(
@@ -104,6 +118,16 @@ namespace SharedDraw
 		// 詳細
 		const JacketInfo& drawDetail(const String& detail, const Color& color = Palette::Black) const;
 		const JacketInfo& drawDetailRight(const String& detail, const Color& color = Palette::Black) const;
+	};
+
+	class MemoInfo
+	{
+		Vec2 m_pos;
+	public:
+		static constexpr Vec2 DefaultPos{630, 480};
+		MemoInfo();
+		MemoInfo& setPos(const Vec2& pos);
+		void draw(const NotesData& notes) const;
 	};
 }
 

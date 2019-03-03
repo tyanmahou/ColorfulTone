@@ -190,7 +190,7 @@ namespace
 		}
 		TextureAsset(ResultRank::GetRankTextureName(score.clearRate))
 			.scale(0.4)
-			.drawAt(400, 250 -(1.0 - t2) * 10,alpha);
+			.drawAt(400, 250 - (1.0 - t2) * 10, alpha);
 
 		constexpr Vec2 clearIconPos{ 715 ,100 };
 		constexpr Vec2 fcIconPos = clearIconPos + Vec2{ 0, 60 };
@@ -219,12 +219,11 @@ private:
 	EasingSequence m_timers;
 public:
 	Impl(const ResultScene* const scene) :
-		m_pScene(scene),
-		m_timers({
-			{0, 1.0, Easing::Circ, 1000},
-			{0, 1.0, Easing::Linear, 500}
-		})
-	{}
+		m_pScene(scene)
+	{
+		m_timers.regist(L"rate", { 0, 1.0, Easing::Circ, 1000 }, 0);
+		m_timers.regist(L"score", { 0, 1.0, Easing::Linear, 500 }, 1);
+	}
 
 	void init()
 	{
@@ -253,8 +252,8 @@ public:
 
 		const ScoreModel& score = m_pScene->getScore();
 		const NotesData& notes = m_pScene->getNotes();
-		const double animationTime = m_timers[0].easeOut();
-		const double scoreAnimeTime = m_timers[1].easeOut();
+		const double animationTime = m_timers[L"rate"].easeOut();
+		const double scoreAnimeTime = m_timers[L"score"].easeOut();
 		::DrawMusicInfo(notes, animationTime);
 
 		// グラフ

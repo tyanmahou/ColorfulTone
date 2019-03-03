@@ -4,6 +4,7 @@
 
 class CourseData
 {
+public:
 	//楽曲IDと譜面IDのセット
 	using Data = std::pair<unsigned, unsigned>;
 private:

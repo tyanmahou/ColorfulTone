@@ -17,11 +17,11 @@ private:
 	EasingSequence m_timers;
 public:
 	Impl(const CourseScene*const scene) :
-		m_pScene(scene),
-		m_timers({
-			{0, 1.0, Easing::Circ, 1000},
-			})
-	{}
+		m_pScene(scene)
+	{
+		m_timers.regist(L"label", { 0,1,Easing::Circ, 1000 });
+		m_timers.regist(L"memo", { 0,1,Easing::Back, 1000 });
+	}
 
 	void update()
 	{
@@ -38,7 +38,7 @@ public:
 		const auto& notes = playing.getCurrentNotes();
 		const auto& music = *notes.getMusic();
 
-		const auto animeTime = m_timers[0].easeOut();
+		const auto animeTime = m_timers[L"label"].easeOut();
 		// ジャケ絵描画
 		const Vec2 pos{ Constants::JacketCenter, 250 };
 		const Vec2 size{ 310,310 };
@@ -57,6 +57,24 @@ public:
 			.drawTitle(music.getMusicName())
 			.drawSub(notes.getLevelNameAndLevel())
 			.drawDetailRight(music.getFormattedBpm());
+
+		// track
+		const auto& musics = Game::Musics();
+		SharedDraw::Select<CourseData::Data>()
+			.setLoop(false)
+			.setOffset(-30.0)
+			.setDrawble([&](const CourseData::Data& d, Vec2 pos) {
+			musics[d.first].getTexture().resize(50, 50).drawAt(pos + Vec2{ 37, 30 });
+		}).draw(
+			playing.getCourse().getNotesIDs(),
+			playing.getTrackIndex(),
+			[&](const CourseData::Data& d)->decltype(auto) {return musics[d.first].getMusicName(); }
+		);
+
+		// 譜面情報
+		SharedDraw::MemoInfo()
+			.setPos(SharedDraw::MemoInfo::DefaultPos + Vec2{ 0, 300 * (1.0 - m_timers[L"memo"].easeOut()) })
+			.draw(notes);
 
 		// 付箋
 		String track = L"Track " + Format(playing.getTrackOrder());

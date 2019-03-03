@@ -158,4 +158,52 @@ namespace SharedDraw
 			highSpeedDemo.draw(music.getMinSoundBeat(), music.getMaxSoundBeat(), scrollRate);
 		}
 	}
+	MemoInfo::MemoInfo():
+		m_pos(DefaultPos)
+	{}
+	MemoInfo & MemoInfo::setPos(const Vec2 & pos)
+	{
+		m_pos = pos;
+		return *this;
+	}
+	void MemoInfo::draw(const NotesData & notes) const
+	{
+		util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(8)).translate(m_pos));
+		// フォント
+		const auto& font12 = FontAsset(L"bpm");
+		Graphics2D::SetSamplerState(SamplerState::ClampLinear);
+		TextureAsset(L"memo").drawAt({0, 0});
+		Graphics2D::SetSamplerState(SamplerState::Default2D);
+
+		const ScoreModel& score = notes.getScore();
+		// クリアレート
+		constexpr Vec2 ratePos{-55,-63};
+		FontAsset(L"level")(L"{:.2f}%"_fmt, score.clearRate).drawCenter(ratePos, Palette::Black);
+		// 譜面製作者
+		constexpr Vec2 designerPos = ratePos + Vec2{ 0, 60 };
+		util::ContractionDrawbleString(
+			font12(notes.getNotesArtistName()),
+			designerPos,
+			188,
+			Palette::Black
+		);
+		// 総合ノーツ数
+		constexpr Vec2 totalPos = designerPos + Vec2{ 0, 60 };
+		font12(notes.getTotalNotes()).drawCenter(totalPos, Palette::Black);
+		// クリア情報
+		constexpr Vec2 clearIconPos{ 90, -48 };
+		constexpr Vec2 fcIconPos = clearIconPos + Vec2{ 0, 60 };
+		if (score.isClear)
+		{
+			TextureAsset(L"iconClear").scale(0.5).drawAt(clearIconPos);
+		}
+		if (score.specialResult == SpecialResult::All_Perfect)
+		{
+			TextureAsset(L"iconAP").scale(0.5).drawAt(fcIconPos);
+		}
+		else if (score.specialResult == SpecialResult::Full_Combo)
+		{
+			TextureAsset(L"iconFC").scale(0.5).drawAt(fcIconPos);
+		}
+	}
 }

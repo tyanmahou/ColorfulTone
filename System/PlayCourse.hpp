@@ -22,6 +22,8 @@ public:
 
 	const CourseData& getCourse() const;
 	const NotesData& getCurrentNotes() const;
+
+	size_t PlayCourse::getTrackIndex()const;
 	size_t PlayCourse::getTrackOrder()const;
 };
 
