@@ -49,6 +49,11 @@ namespace
 			srcScore.isClear = true;
 			isNewRecord = true;
 		}
+		if (static_cast<uint8>(score.special) > static_cast<uint8>(srcScore.special))
+		{
+			srcScore.special = score.special;
+			isNewRecord = true;
+		}
 		if (score.totalRate > srcScore.totalRate)
 		{
 			srcScore.totalRate = score.totalRate;
@@ -71,10 +76,10 @@ namespace
 	{
 		if (state == PlayCourse::State::Success)
 		{
-			return L"に合格";
+			return L"に合格!!!";
 		}else if (state == PlayCourse::State::Failure)
 		{
-			return L"に不合格";
+			return L"に不合格…";
 		}
 		return L"をプレイ中";
 	}

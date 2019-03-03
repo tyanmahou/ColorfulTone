@@ -156,8 +156,7 @@ public:
 				.setDrawble([](const CourseData& c, Vec2 pos) {
 				if (c.isClear())
 				{
-					// TODO カラーを変えたい
-					FontAsset(L"selectMusics")(L"★").drawCenter(pos + Vec2{ 30, 30 },c.getColor());
+					FontAsset(L"selectMusics")(L"★").drawCenter(pos + Vec2{ 37, 30 },c.getColor());
 				}
 			}).draw(
 				courses,

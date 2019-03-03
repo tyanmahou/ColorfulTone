@@ -43,9 +43,11 @@ CourseScore CourseScoreLoader::Load(const s3d::FilePath & path)
 	}
 
 	reader.read<bool>(ret.isClear);
+	uint8 ui_sp;
+	reader.read<uint8>(ui_sp);
+	ret.special = static_cast<CourseSpecialResult>(ui_sp);
 	reader.read<float>(ret.totalRate);
 	reader.read<float>(ret.life);
-
 	return ret;
 }
 
@@ -59,6 +61,7 @@ void CourseScoreLoader::Save(const s3d::FilePath & path, const CourseScore & new
 	}
 
 	writer.write(newScore.isClear);
+	writer.write(static_cast<uint8>(newScore.special));
 	writer.write(newScore.totalRate);
 	writer.write(newScore.life);
 }

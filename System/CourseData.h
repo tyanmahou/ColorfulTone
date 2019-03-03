@@ -2,9 +2,16 @@
 #include<utility>
 #include<Siv3D.hpp>
 
+enum class CourseSpecialResult: uint8
+{
+	None = 0,
+	RankAAA = 1,
+	AP = 2
+};
 struct CourseScore
 {
 	bool isClear = false;
+	CourseSpecialResult special = CourseSpecialResult::None;
 	float totalRate = 0.0;
 	float life = 0.0;
 };

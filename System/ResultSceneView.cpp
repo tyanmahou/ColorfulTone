@@ -214,7 +214,7 @@ namespace
 			return;
 		}
 		const auto t = timer[L"course"].easeIn();
-		const double scale = EaseIn(1.5, 0.4, Easing::Back, t);
+		const double scale = EaseIn(2.0, 0.4, Easing::Back, t);
 		const Vec2 pos = EaseIn(Vec2{ 400, 300 }, Vec2{ 435,450 }, Easing::Expo, t);
 		if (course.isSuccess())
 		{
@@ -241,7 +241,7 @@ public:
 	{
 		m_timers.regist(L"rate", { 0, 1.0, Easing::Circ, 1000 }, 0);
 		m_timers.regist(L"score", { 0, 1.0, Easing::Linear, 400 }, 1);
-		m_timers.regist(L"course", { 0, 1.0, Easing::Linear, 300 }, 1);
+		m_timers.regist(L"course", { 0, 1.0, Easing::Linear, 800 }, 2);
 	}
 
 	void init()

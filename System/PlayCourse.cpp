@@ -9,29 +9,41 @@ class  PlayCourse::Impl
 {
 private:
 	bool m_isActive = false;
-	size_t m_currentNotesIndex = 0;
+
 	size_t m_nowCourseIndex = 0;
+
+	size_t m_currentNotesIndex = 0;
 	State m_state = State::None;
 	CourseScore m_score;
+
+	size_t m_rankAAACount = 0;
+	size_t m_apCount = 0;
+
 public:
 	const CourseData& currentCourse()const
 	{
 		return Game::Courses()[m_nowCourseIndex];
 	}
+	void clear()
+	{
+		m_currentNotesIndex = 0;
+		m_score = CourseScore();
+		m_score.life = 100.0;
+		m_rankAAACount = 0;
+		m_apCount = 0;
+	}
 	void init(const CourseData & course)
 	{
 		m_isActive = true;
 		m_nowCourseIndex = course.getIndex();
-		m_currentNotesIndex = 0;
 		m_state = State::Playing;
-		m_score = {false, 0, 100.0};
+		this->clear();
 	}
 	void exit()
 	{
 		m_isActive = false;
-		m_currentNotesIndex = 0;
 		m_state = State::None;
-		m_score = { false, 0, 100.0 };
+		this->clear();
 	}
 	bool isActive() const
 	{
@@ -51,8 +63,16 @@ public:
 	}
 	void updateScoreAndState(float addRate, float life)
 	{
-		m_score.m_life = life;
-		m_score.m_totalRate += addRate;
+		m_score.life = life;
+		m_score.totalRate += addRate;
+		if (addRate >= 100.0)
+		{
+			++m_apCount;
+		}
+		if (addRate >= 97.0)
+		{
+			++m_rankAAACount;
+		}
 		if (life <= 0)
 		{
 			m_state = State::Failure;
@@ -60,7 +80,15 @@ public:
 		else if (life > 0 && this->isLastNotes())
 		{
 			m_state = State::Success;
-			m_score.m_isClear = true;
+			m_score.isClear = true;
+			if (m_apCount >= m_currentNotesIndex + 1)
+			{
+				m_score.special = CourseSpecialResult::AP;
+			}
+			else if (m_rankAAACount >= m_currentNotesIndex + 1)
+			{
+				m_score.special = CourseSpecialResult::RankAAA;
+			}
 		}
 	}
 	State getState()const
@@ -144,7 +172,7 @@ size_t PlayCourse::getTrackOrder()const
 
 PlayCourse::State PlayCourse::getState() const
 {
-	return State();
+	return m_pImpl->getState();
 }
 
 const CourseScore & PlayCourse::getScore()const

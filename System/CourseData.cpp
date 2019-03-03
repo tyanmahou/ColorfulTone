@@ -83,11 +83,11 @@ String CourseData::getScorePath() const
 
 Color CourseData::getColor() const
 {
-	if (m_score.totalRate >= 100.0 * m_actualSize)
+	if (m_score.special == CourseSpecialResult::AP)
 	{
 		return Palette::Red;
 	}
-	else if (m_score.totalRate >= 97.0 * m_actualSize)
+	else if (m_score.special == CourseSpecialResult::RankAAA)
 	{
 		return Palette::Yellow;
 	}
