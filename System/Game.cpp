@@ -51,6 +51,7 @@ namespace
 		TextureAsset::Register(L"sticky_red", L"Resource/Img/MusicSelect/sticky_red.png");
 		TextureAsset::Register(L"line", L"Resource/Img/MusicSelect/line.png");
 		TextureAsset::Register(L"memo", L"Resource/Img/MusicSelect/memo.png");
+		TextureAsset::Register(L"memoCourse", L"Resource/Img/MusicSelect/memo_course.png");
 
 		TextureAsset::Register(L"levelbg", L"Resource/Img/MusicSelect/select.png");
 		TextureAsset::Register(L"levelMask", L"Resource/Img/MusicSelect/levelmask.png");

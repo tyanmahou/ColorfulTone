@@ -2,6 +2,7 @@
 #include "BGLight.hpp"
 #include "HighSpeedDemo.h"
 #include "MusicData.h"
+#include "CourseData.h"
 namespace SharedDraw
 {
 	void DrawBGLight::update()
@@ -205,5 +206,28 @@ namespace SharedDraw
 		{
 			TextureAsset(L"iconFC").scale(0.5).drawAt(fcIconPos);
 		}
+	}
+	void MemoInfo::draw(const CourseScore & courseScore) const
+	{
+		util::Transformer2D t2d(Mat3x2::Rotate(Math::Radians(8)).translate(m_pos));
+
+		Graphics2D::SetSamplerState(SamplerState::ClampLinear);
+		TextureAsset(L"memo_course").drawAt({ 0, 0 });
+		Graphics2D::SetSamplerState(SamplerState::Default2D);
+
+		if (courseScore.isClear)
+		{
+			TextureAsset(L"pass").scale(0.3).drawAt({ 230, 60});
+		}
+		else if(courseScore.totalRate  > 0)
+		{
+			TextureAsset(L"noPass").scale(0.3).drawAt({ 230, 60 });
+		}
+		// クリアレート
+		constexpr Vec2 ratePos{ -55,-63 };
+		FontAsset(L"level")(L"{:.2f}%"_fmt, courseScore.totalRate).drawCenter(ratePos, Palette::Black);
+		// ライフ
+		constexpr Vec2 lifePos = ratePos + Vec2{ 0, 60 };
+		FontAsset(L"bpm")(L"{:.2f}%"_fmt, courseScore.life).drawCenter(lifePos, Palette::Black);
 	}
 }

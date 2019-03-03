@@ -165,9 +165,13 @@ public:
 			);
 		}
 
-		// TODO memo
-
-
+		// memo
+		if (pCourse)
+		{
+			SharedDraw::MemoInfo()
+				.setPos(SharedDraw::MemoInfo::DefaultPos + Vec2{ 0, m_memoOffset.easeOut() })
+				.draw(pCourse->getScore());
+		}
 		// ジャンル名表示
 		::DrawTitle(pGenre);
 	}

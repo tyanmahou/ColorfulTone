@@ -5,6 +5,7 @@
 class HighSpeedDemo;
 class MusicData;
 class NotesData;
+class CourseScore;
 
 namespace SharedDraw
 {
@@ -128,6 +129,8 @@ namespace SharedDraw
 		MemoInfo();
 		MemoInfo& setPos(const Vec2& pos);
 		void draw(const NotesData& notes) const;
+
+		void draw(const CourseScore& courseScore) const;
 	};
 }
 
