@@ -207,6 +207,24 @@ namespace
 			TextureAsset(L"iconFC").scale(0.5).drawAt(fcIconPos, alpha);
 		}
 	}
+	void DrawCourseResult(const PlayCourse& course, const EasingSequence& timer)
+	{
+		if (!course.isEnd() || !timer[L"score"].isEnd())
+		{
+			return;
+		}
+		const auto t = timer[L"course"].easeIn();
+		const double scale = EaseIn(1.5, 0.4, Easing::Back, t);
+		const Vec2 pos = EaseIn(Vec2{ 400, 300 }, Vec2{ 435,450 }, Easing::Expo, t);
+		if (course.isSuccess())
+		{
+			TextureAsset(L"pass").scale(scale).drawAt(pos);
+		}
+		else if (course.isFailure())
+		{
+			TextureAsset(L"noPass").scale(scale).drawAt(pos);
+		}
+	}
 }
 
 class ResultSceneView::Impl
@@ -222,7 +240,8 @@ public:
 		m_pScene(scene)
 	{
 		m_timers.regist(L"rate", { 0, 1.0, Easing::Circ, 1000 }, 0);
-		m_timers.regist(L"score", { 0, 1.0, Easing::Linear, 500 }, 1);
+		m_timers.regist(L"score", { 0, 1.0, Easing::Linear, 400 }, 1);
+		m_timers.regist(L"course", { 0, 1.0, Easing::Linear, 300 }, 1);
 	}
 
 	void init()
@@ -267,11 +286,14 @@ public:
 		// スコア
 		::DrawScore(score, m_pScene->isNewRecord(), animationTime, scoreAnimeTime);
 
+		const auto& course = m_pScene->getPlayCourse();
 		static const String sceneName = L"RESULT";
 		SharedDraw::Sticky(
 			&sceneName,
-			nullptr // TODO course
+			course.isActive() ? &course.getCourse().getTitle() : nullptr // コースの場合はコース名を表示
 		);
+		// 合格印
+		::DrawCourseResult(course, m_timers);
 	}
 };
 

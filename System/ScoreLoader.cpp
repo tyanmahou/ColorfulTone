@@ -1,13 +1,13 @@
 ﻿#include "ScoreLoader.hpp"
 #include "NotesData.h"
-
+#include "CourseData.h"
 ScoreModel ScoreLoader::Load(const s3d::FilePath & path)
 {
 	ScoreModel ret;
 	BinaryReader reader(path);
 	if (!reader)
 	{
-		ret;
+		return ret;
 	}
 
 	reader.read<bool>(ret.isClear);
@@ -19,7 +19,7 @@ ScoreModel ScoreLoader::Load(const s3d::FilePath & path)
 	return ret;
 }
 
-void ScoreLoader::Save(const s3d::FilePath & path, ScoreModel newScore)
+void ScoreLoader::Save(const s3d::FilePath & path, const ScoreModel& newScore)
 {
 	BinaryWriter writer(path);
 
@@ -31,4 +31,34 @@ void ScoreLoader::Save(const s3d::FilePath & path, ScoreModel newScore)
 	writer.write(newScore.isClear);
 	writer.write(static_cast<unsigned int>(newScore.specialResult));
 	writer.write(newScore.clearRate);
+}
+
+CourseScore CourseScoreLoader::Load(const s3d::FilePath & path)
+{
+	CourseScore ret;
+	BinaryReader reader(path);
+	if (!reader)
+	{
+		return ret;
+	}
+
+	reader.read<bool>(ret.isClear);
+	reader.read<float>(ret.totalRate);
+	reader.read<float>(ret.life);
+
+	return ret;
+}
+
+void CourseScoreLoader::Save(const s3d::FilePath & path, const CourseScore & newScore)
+{
+	BinaryWriter writer(path);
+
+	if (!writer)
+	{
+		return;
+	}
+
+	writer.write(newScore.isClear);
+	writer.write(newScore.totalRate);
+	writer.write(newScore.life);
 }

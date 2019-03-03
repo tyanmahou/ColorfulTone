@@ -1,12 +1,18 @@
 ﻿#include "PlayCourse.hpp"
 #include"CourseData.h"
 #include "Useful.hpp"
+namespace
+{
+	using State = PlayCourse::State;
+}
 class  PlayCourse::Impl
 {
 private:
 	bool m_isActive = false;
 	size_t m_currentNotesIndex = 0;
 	size_t m_nowCourseIndex = 0;
+	State m_state = State::None;
+	CourseScore m_score;
 public:
 	const CourseData& currentCourse()const
 	{
@@ -14,20 +20,24 @@ public:
 	}
 	void init(const CourseData & course)
 	{
+		m_isActive = true;
 		m_nowCourseIndex = course.getIndex();
 		m_currentNotesIndex = 0;
-		m_isActive = true;
+		m_state = State::Playing;
+		m_score = {false, 0, 100.0};
 	}
 	void exit()
 	{
 		m_isActive = false;
 		m_currentNotesIndex = 0;
+		m_state = State::None;
+		m_score = { false, 0, 100.0 };
 	}
 	bool isActive() const
 	{
 		return m_isActive;
 	}
-	size_t getCurrentNotesIndex()
+	size_t getCurrentNotesIndex()const
 	{
 		return m_currentNotesIndex;
 	}
@@ -35,14 +45,36 @@ public:
 	{
 		return ++m_currentNotesIndex;
 	}
-	bool isEnd()const
+	bool isLastNotes()const
 	{
-		return m_currentNotesIndex >= this->currentCourse().getNotesIDs().size();
+		return m_currentNotesIndex + 1 >= this->currentCourse().getNotesIDs().size();
+	}
+	void updateScoreAndState(float addRate, float life)
+	{
+		m_score.m_life = life;
+		m_score.m_totalRate += addRate;
+		if (life <= 0)
+		{
+			m_state = State::Failure;
+		}
+		else if (life > 0 && this->isLastNotes())
+		{
+			m_state = State::Success;
+			m_score.m_isClear = true;
+		}
+	}
+	State getState()const
+	{
+		return m_state;
 	}
 	const NotesData& getCurrentNotes()const
 	{
 		const auto& ids = this->currentCourse().getNotesIDs()[m_currentNotesIndex];
 		return Game::Musics()[ids.first][ids.second];
+	}
+	const CourseScore & getScore()const
+	{
+		return m_score;
 	}
 };
 
@@ -72,7 +104,17 @@ size_t PlayCourse::next() const
 
 bool PlayCourse::isEnd() const
 {
-	return m_pImpl->isEnd();
+	return m_pImpl->getState()&State::End;
+}
+
+bool PlayCourse::isSuccess() const
+{
+	return m_pImpl->getState() == State::Success;
+}
+
+bool PlayCourse::isFailure() const
+{
+	return m_pImpl->getState() == State::Failure;
 }
 
 const CourseData & PlayCourse::getCourse() const
@@ -100,3 +142,17 @@ size_t PlayCourse::getTrackOrder()const
 	return this->getTrackIndex() + 1;
 }
 
+PlayCourse::State PlayCourse::getState() const
+{
+	return State();
+}
+
+const CourseScore & PlayCourse::getScore()const
+{
+	return m_pImpl->getScore();
+}
+
+void PlayCourse::updateScoreAndState(float addRate, float life) const
+{
+	m_pImpl->updateScoreAndState(addRate, life);
+}

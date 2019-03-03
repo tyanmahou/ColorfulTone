@@ -26,4 +26,6 @@ public:
 	const Score& getResult()const;
 	const ScoreModel& getScore() const;
 	bool isNewRecord()const;
+
+	const PlayCourse& getPlayCourse()const;
 };

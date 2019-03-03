@@ -3,12 +3,10 @@
 #include "Useful.hpp"
 #include "AutoPlayManager.h"
 #include "ResultTweet.h"
-#include "ScoreLoader.hpp"
-#include "ScoreLoader.hpp"
 namespace
-{
-	// newRecordのばあいtrue
-	std::pair<bool, ScoreModel> UpdateScore(const ScoreModel& score, const NotesData& notes)
+{	
+	// スコアの更新　newRecordのばあいtrue
+	bool UpdateScore(const ScoreModel& score, const NotesData& notes)
 	{
 		const uint32 musicIndex = notes.getMusic()->getIndex();
 		const uint32 notesIndex = notes.getIndex();
@@ -32,8 +30,53 @@ namespace
 			srcScore.clearRate = score.clearRate;
 			isNewRecord = true;
 		}
-		srcNotes.setScore(srcScore);
-		return { isNewRecord, srcScore };
+		if (isNewRecord)
+		{
+			srcNotes.setScore(srcScore);
+			srcNotes.saveScore(srcScore);
+		}
+		return isNewRecord;
+	}
+	// コーススコアの更新　newRecordのばあいtrue
+	bool UpdateCourseScore(const CourseScore& score, const CourseData& course)
+	{
+		CourseData& srcCourse = Game::Courses()[course.getIndex()];
+
+		CourseScore srcScore = srcCourse.getScore();
+		bool isNewRecord = false;
+		if (score.isClear && !srcScore.isClear)
+		{
+			srcScore.isClear = true;
+			isNewRecord = true;
+		}
+		if (score.totalRate > srcScore.totalRate)
+		{
+			srcScore.totalRate = score.totalRate;
+			isNewRecord = true;
+
+		}
+		if (score.life > srcScore.life)
+		{
+			srcScore.life = score.life;
+			isNewRecord = true;
+		}
+		if (isNewRecord)
+		{
+			srcCourse.setScore(srcScore);
+			srcCourse.saveScore(srcScore);
+		}
+		return isNewRecord;
+	}
+	String GetCourseStateTweetText(PlayCourse::State state)
+	{
+		if (state == PlayCourse::State::Success)
+		{
+			return L"に合格";
+		}else if (state == PlayCourse::State::Failure)
+		{
+			return L"に不合格";
+		}
+		return L"をプレイ中";
 	}
 }
 class ResultScene::Model
@@ -46,12 +89,12 @@ private:
 	ResultTweet m_tweet;
 	String getTweetText()const
 	{
-		if (m_data->m_course.isActive())
+		auto& course = m_data->m_course;
+		if (course.isActive())
 		{
-			//auto& cource = Game::Courses()[m_data->m_selectCourse];
-			//return  text = cource.getTitle() +
-			//	(m_passEffect == PassEffect::Pass ? L"に合格" :
-			//		m_passEffect == PassEffect::None ? L"をプレイ中" :
+			return course.getCourse().getTitle()
+				+ ::GetCourseStateTweetText(course.getState()) + L"/"
+				+ Format(course.getScore().totalRate) +L"%達成\n#ColorfulTone";
 		}
 		const auto& music = *m_data->m_nowNotes.getMusic();
 		return
@@ -79,11 +122,18 @@ public:
 		{
 			return;
 		}
-		const auto updated = ::UpdateScore(m_score, notes);
-		m_isNewRecord = updated.first;
-		if (m_isNewRecord)
+		m_isNewRecord = ::UpdateScore(m_score, notes);
+		// コース
+		auto& course = m_data->m_course;
+		if (course.isActive())
 		{
-			ScoreLoader::Save(notes.getScorePath(), updated.second);
+			const float life = ResultRank::CalcLifeRate(m_data->m_resultScore);
+			course.updateScoreAndState(m_score.clearRate, life);
+
+			if (course.isEnd())
+			{
+				::UpdateCourseScore(course.getScore(),course.getCourse());
+			}
 		}
 	}
 	bool tweetUpdate()
@@ -127,6 +177,10 @@ void ResultScene::init()
 void ResultScene::finally()
 {
 	SoundAsset(L"result").stop(1s);
+	if (m_data->m_toScene == SceneName::Course)
+	{
+		m_data->m_course.next();
+	}
 }
 
 void ResultScene::update()
@@ -138,7 +192,13 @@ void ResultScene::update()
 			SoundManager::SE::Play(L"desisionLarge");
 			if (m_data->m_course.isActive())
 			{
-				// TODO コース
+				if (m_data->m_course.isEnd())
+				{
+					this->changeScene(SceneName::CourseSelect, 1000);
+				}
+				else {
+					this->changeScene(SceneName::Course, 1000);
+				}
 			}
 			else
 			{
@@ -190,4 +250,9 @@ const ScoreModel& ResultScene::getScore() const
 bool ResultScene::isNewRecord() const
 {
 	return m_model->isNewRecord();
+}
+
+const PlayCourse & ResultScene::getPlayCourse()const
+{
+	return m_data->m_course;
 }

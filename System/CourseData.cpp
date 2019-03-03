@@ -1,6 +1,7 @@
 ﻿#include"CourseData.h"
 #include"MusicData.h"
 #include"Game.h"
+#include "ScoreLoader.hpp"
 
 size_t CourseData::Index = 0;
 
@@ -44,12 +45,7 @@ bool CourseData::load(const String & path)
 	m_fileName = FileSystem::BaseName(path);
 	m_genre = FileSystem::FileName(FileSystem::ParentPath(path));
 
-	BinaryReader saveReader(this->getScorePath());
-
-	if (saveReader)
-	{
-		saveReader.read<bool>(m_isClear);
-	}
+	m_score = CourseScoreLoader::Load(this->getScorePath());
 
 	//タイトル
 	m_title = ini.getOr<String>(L"Data.TITLE", L"None");
@@ -75,11 +71,9 @@ bool CourseData::load(const String & path)
 	return true;
 }
 
-void CourseData::save(bool isClear)
+void CourseData::saveScore(const CourseScore& score)const
 {
-	BinaryWriter writer(this->getScorePath());
-
-	writer.write(isClear);
+	CourseScoreLoader::Save(this->getScorePath(), score);
 }
 
 String CourseData::getScorePath() const

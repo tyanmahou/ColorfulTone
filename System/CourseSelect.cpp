@@ -226,6 +226,8 @@ void CourseSelect::finally()
 		SoundAsset(L"title").stop(1s);
 		// データ運搬
 		m_data->m_course.init(m_pModel->getSelectCourse());
+		// ライフ引継ぎがあるためスコアを初期化しておく
+		m_data->m_resultScore = Score();
 
 		//絶対Autoは解除する
 		AutoPlayManager::SetAutoPlay(false);

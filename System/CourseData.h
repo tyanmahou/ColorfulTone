@@ -2,6 +2,13 @@
 #include<utility>
 #include<Siv3D.hpp>
 
+struct CourseScore
+{
+	bool isClear = false;
+	float totalRate = 0.0;
+	float life = 0.0;
+};
+
 class CourseData
 {
 public:
@@ -13,7 +20,7 @@ private:
 	String m_genre;	//ジャンル名
 	size_t m_index;	//ID
 	size_t m_actualSize; // 実際の譜面数
-	bool m_isClear = false;
+	CourseScore m_score;
 
 	String m_fileName;
 
@@ -31,7 +38,7 @@ public:
 
 	bool load(const String& path);
 
-	void save(bool isClear = true);
+	void saveScore(const CourseScore& score)const;
 
 	bool canPlay()const
 	{
@@ -58,12 +65,12 @@ public:
 
 	void setClear(bool isClear = true)
 	{
-		m_isClear = isClear;
+		m_score.isClear = isClear;
 	}
 
 	bool isClear()const
 	{
-		return m_isClear;
+		return m_score.isClear;
 	}
 	int getIndex()const
 	{
@@ -71,4 +78,13 @@ public:
 	}
 
 	String getScorePath() const;
+
+	const CourseScore& getScore()const
+	{
+		return m_score;
+	}
+	void setScore(const CourseScore& score)
+	{
+		m_score = score;
+	}
 };

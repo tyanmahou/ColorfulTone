@@ -403,3 +403,8 @@ void NotesData::load(CSVReader & csv)
 		return s3d::AnyOf(music.getNotesData(), [lv](const NotesData& notes) {return notes.getLevel() == lv; });
 	}, lv);
 }
+
+void NotesData::saveScore(const ScoreModel & score) const
+{
+	ScoreLoader::Save(this->getScorePath(), score);
+}

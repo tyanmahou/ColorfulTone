@@ -97,4 +97,6 @@ public:
 	}
 	String getScorePath() const;
 	void load(CSVReader& csv);
+
+	void saveScore(const ScoreModel& score) const;
 };
