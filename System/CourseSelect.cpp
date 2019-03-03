@@ -205,7 +205,7 @@ void CourseSelect::update()
 	m_pModel->update();
 	if (m_pModel->isSelectedCourse())
 	{
-		this->changeScene(SceneName::Main, 2000, false);
+		this->changeScene(SceneName::Course, 1000);
 		SoundManager::SE::Play(L"desisionLarge");
 	}else if (PlayKey::BigBack().clicked)
 	{

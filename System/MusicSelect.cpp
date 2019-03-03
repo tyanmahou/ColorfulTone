@@ -353,7 +353,7 @@ namespace
 
 		if (timer % 400 <= 200)
 		{
-			return L"Enter:決定　BackSpace:絞り込み,戻る　F2:ソート　Esc:タイトル戻る";
+			return L"Enter:決定　BackSpace:絞り込み,戻る　F2:ソート　Esc:タイトルに戻る";
 		}
 
 		return L"Shift:表示モード切替　F1:オート　Ctrl+↑↓:ハイスピード変更";

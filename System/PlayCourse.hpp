@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include<memory>
 class CourseData;
+class NotesData;
 
 class PlayCourse
 {
@@ -17,5 +18,7 @@ public:
 	size_t next() const;
 
 	bool isEnd() const;
+	const NotesData& getCurrentNotes();
+	bool isStart() const;
 };
 

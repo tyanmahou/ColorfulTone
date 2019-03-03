@@ -14,7 +14,7 @@
 #include"ResultScene.hpp"
 #include"VideoAsset.h"
 #include"CourseSelect.hpp"
-#include"CoursePlay.h"
+#include"CourseScene.hpp"
 //--------------------------------------------------------------------------------
 //関数：LoadTexture
 //--------------------------------------------------------------------------------
@@ -227,7 +227,7 @@ private:
 		m_scene.add<MainScene>(L"main");
 		m_scene.add<ResultScene>(L"result");
 		m_scene.add<CourseSelect>(L"courseSelect");
-		m_scene.add<CoursePlay>(L"course");
+		m_scene.add<CourseScene>(L"course");
 	}
 	void init()
 	{

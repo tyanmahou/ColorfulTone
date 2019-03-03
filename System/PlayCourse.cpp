@@ -8,7 +8,7 @@ private:
 	size_t m_currentNotesIndex = 0;
 	size_t m_nowCourseIndex = 0;
 public:
-	CourseData& nowCourse()const
+	const CourseData& currentCourse()const
 	{
 		return Game::Courses()[m_nowCourseIndex];
 	}
@@ -37,11 +37,16 @@ public:
 	}
 	bool isEnd()const
 	{
-		return m_currentNotesIndex >= this->nowCourse().getNotesIDs().size();
+		return m_currentNotesIndex >= this->currentCourse().getNotesIDs().size();
+	}
+	const NotesData& getCurrentNotes()const
+	{
+		const auto& ids = this->currentCourse().getNotesIDs()[m_currentNotesIndex];
+		return Game::Musics()[ids.first][ids.second];
 	}
 };
 
-PlayCourse::PlayCourse():
+PlayCourse::PlayCourse() :
 	m_pImpl(std::make_shared<Impl>())
 {}
 
@@ -68,5 +73,15 @@ size_t PlayCourse::next() const
 bool PlayCourse::isEnd() const
 {
 	return m_pImpl->isEnd();
+}
+
+const NotesData & PlayCourse::getCurrentNotes()
+{
+	return m_pImpl->getCurrentNotes();
+}
+
+bool PlayCourse::isStart() const
+{
+	return m_pImpl->getCurrentNotesIndex() == 0;
 }
 
