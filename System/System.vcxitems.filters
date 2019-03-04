@@ -310,6 +310,9 @@
       <Filter>Scene\CoursePlay</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)EasingSequence.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Config.cpp">
+      <Filter>Scene\KeyConfig</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -426,9 +429,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseData.h">
       <Filter>MusicGame\Data\CourseData</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfig.h">
-      <Filter>Scene\KeyConfig</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultTweet.h">
       <Filter>Scene\Result</Filter>
     </ClInclude>
@@ -437,9 +437,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Util.h">
       <Filter>util</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Config.h">
-      <Filter>Scene\KeyConfig</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayBG.h">
       <Filter>MusicGame\Play</Filter>
@@ -542,5 +539,11 @@
       <Filter>Scene\CoursePlay</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)EasingSequence.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Config.hpp">
+      <Filter>Scene\KeyConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfig.hpp">
+      <Filter>Scene\KeyConfig</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

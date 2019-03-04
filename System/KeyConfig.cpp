@@ -1,5 +1,7 @@
-﻿#include"KeyConfig.h"
+﻿#include "KeyConfig.hpp"
 #include "Useful.hpp"
+#include<Siv3D.hpp>
+
 namespace
 {
 	//キー変更キーボード
@@ -682,31 +684,19 @@ public:
 //
 //-----------------------------------------------------------------------
 
-KeyConfig::KeyConfig() :
-	m_timer(0)
+KeyConfig::KeyConfig()
 {
 	this->changeMode<PlayKeyConfig>();
 }
 
 bool KeyConfig::update()
 {
-	++m_timer;
-
 	return m_pImpl->update();
 }
-
-
-
 
 void KeyConfig::draw() const
 {
 	m_pImpl->draw();
-	TextureAsset(L"label").draw();
-
-	FontAsset(L"label")(L"KEY").draw(10, 33);
-	FontAsset(L"label")(L"CONFIG").draw(120, 33);
-
-
 }
 
 template<class Type>

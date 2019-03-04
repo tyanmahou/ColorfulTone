@@ -1,6 +1,5 @@
-#pragma once
-#include<Siv3D.hpp>
-
+Ôªø#pragma once
+#include<memory>
 
 class KeyConfig
 {
@@ -9,7 +8,6 @@ public:
 private:
 
 	std::shared_ptr<Impl> m_pImpl;
-	int m_timer;				//É^ÉCÉ}Å[
 public:
 
 	KeyConfig();

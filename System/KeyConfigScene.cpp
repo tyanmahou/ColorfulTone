@@ -1,6 +1,9 @@
 ﻿#include "KeyConfigScene.h"
 #include "Useful.hpp"
 #include "SharedDraw.hpp"
+
+#include"KeyConfig.hpp"
+
 namespace
 {
 	void InitTapSE(Config& config, String& configParm, const String& assetTag, const String& defaultSEPath)
@@ -337,9 +340,7 @@ namespace
 				util::Transformer2D t2d(Mat3x2::Translate(0, m_keyConfigEasing.easeInOut() - 600));
 
 				IConfigHierchy::draw();
-
 			}
-
 			{
 				util::Transformer2D t2d(Mat3x2::Translate(0, m_keyConfigEasing.easeInOut()));
 
@@ -370,8 +371,6 @@ ConfigScene::~ConfigScene()
 
 void ConfigScene::update()
 {
-	m_timer = 19200 * Sin(System::FrameCount() / 200.0);
-
 	m_config.update();
 
 	if (PlayKey::BigBack().clicked)
@@ -393,6 +392,9 @@ void ConfigScene::draw()const
 	lights.draw();
 
 	m_config.draw();
+
+	static const String title = L"CONFIG";
+	SharedDraw::Sticky(&title, nullptr);
 
 	SceneInfo::Draw(L"Enter:決定 BackSpace:戻る Esc:タイトルに戻る");
 }

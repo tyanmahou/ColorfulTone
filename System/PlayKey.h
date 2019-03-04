@@ -1,5 +1,5 @@
-#pragma once
-#include"KeyConfig.h"
+ï»¿#pragma once
+#include<Siv3D.hpp>
 class PlayKey 
 {
 public:
@@ -18,18 +18,18 @@ public:
 	static  KeyCombination& SmallBack() { return m_SmallBack; }
 
 
-	//ƒL[‚Ì‰Šú‰»
+	//ã‚­ãƒ¼ã®åˆæœŸåŒ–
 	static bool Init();
 
 private:
-	//ƒL[
+	//ã‚­ãƒ¼
 	static KeyCombination m_Red, m_Blue, m_Yellow,m_Start,m_SmallBack,m_BigBack,m_Up,m_Down,m_Right,m_Left;
 
-	//ƒL[‚Ì•Û‘¶
+	//ã‚­ãƒ¼ã®ä¿å­˜
 	static void Save();
-	//ƒL[‘g‡‚¹‚ÌXV
+	//ã‚­ãƒ¼çµ„åˆã›ã®æ›´æ–°
 	static void Update();
-	//ƒL[‚Ì‰Šú‰»
+	//ã‚­ãƒ¼ã®åˆæœŸåŒ–
 	static void Reset();
 
 	friend class PlayKeyConfig;

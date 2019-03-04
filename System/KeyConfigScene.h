@@ -1,17 +1,13 @@
 ﻿#pragma once
 
 #include"ISceneBase.hpp"
-#include"Config.h"
-#include"KeyConfig.h"
+#include"Config.hpp"
 
 
 class ConfigScene :public ISceneBase
 {
 
 private:
-
-	int m_timer = 0;
-
 	ConfigManager m_config;
 
 public:
