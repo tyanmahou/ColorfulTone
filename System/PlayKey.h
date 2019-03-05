@@ -1,38 +1,39 @@
 ﻿#pragma once
-#include<Siv3D.hpp>
-class PlayKey 
+#include<Siv3D/Fwd.hpp>
+#include"Singleton.h"
+#include<memory>
+class PlayKey :protected Singleton<PlayKey>
 {
 public:
 
-	static KeyCombination& Red() { return m_Red; }
-	static KeyCombination& Blue(){ return m_Blue; }
-	static KeyCombination& Yellow() { return m_Yellow; }
+	static const s3d::KeyCombination& Red();
+	static const s3d::KeyCombination& Blue();
+	static const s3d::KeyCombination& Yellow();
 
-	static  KeyCombination& Up() { return m_Up; }
-	static  KeyCombination& Down() { return m_Down; }
-	static  KeyCombination& Right() { return m_Right; }
-	static  KeyCombination& Left() { return m_Left; }
+	static const s3d::KeyCombination& Up();
+	static const s3d::KeyCombination& Down();
+	static const s3d::KeyCombination& Right();
+	static const s3d::KeyCombination& Left();
 
-	static  KeyCombination& Start() { return m_Start; }
-	static  KeyCombination& BigBack() { return m_BigBack; }
-	static  KeyCombination& SmallBack() { return m_SmallBack; }
-
+	static const s3d::KeyCombination& Start();
+	static const s3d::KeyCombination& BigBack();
+	static const s3d::KeyCombination& SmallBack();
 
 	//キーの初期化
 	static bool Init();
 
 private:
-	//キー
-	static KeyCombination m_Red, m_Blue, m_Yellow,m_Start,m_SmallBack,m_BigBack,m_Up,m_Down,m_Right,m_Left;
+	class Impl;
+	std::shared_ptr<Impl> m_pImpl;
 
-	//キーの保存
-	static void Save();
+	PlayKey();
+
 	//キー組合せの更新
 	static void Update();
 	//キーの初期化
 	static void Reset();
 
+	friend class Singleton<PlayKey>;
 	friend class PlayKeyConfig;
 	friend class DetailKeyConfig;
-	PlayKey();
 };
