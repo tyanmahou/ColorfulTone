@@ -94,7 +94,7 @@ void TitleScene::init()
 {
 	if (!SoundAsset(L"title").isPlaying())
 	{
-		SoundAsset(L"title").play(1s);
+		SoundManager::BGM::Play(L"title", 1s);
 	}
 	// ロードから来た場合はスタートに戻す
 	if (m_data->m_fromScene == SceneName::Load)

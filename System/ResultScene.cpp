@@ -172,7 +172,8 @@ ResultScene::ResultScene() :
 
 void ResultScene::init()
 {
-	SoundAsset(L"result").play(1s);
+
+	SoundManager::BGM::Play(L"result", 1s);
 	m_model->setData(m_data);
 	// スコアのセーブ
 	m_model->saveScore();
