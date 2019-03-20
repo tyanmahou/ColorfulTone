@@ -29,13 +29,31 @@ namespace
 	//キー変更キーコンフィグ
 	bool ChangeKeyForGamePad(Key& key)
 	{
-		for (auto&& gamepad : Input::EnumerateGamepads())
+		for (auto&& gamepadInfo : Input::EnumerateGamepads())
 		{
-			for (unsigned int i = 0; i < gamepad.num_buttons; ++i)
+			const auto gamepad = Gamepad(gamepadInfo.index);
+			if (gamepad.hasPOV)
 			{
-				if (Gamepad(gamepad.index).button(i).pressed)
+				const std::array<Key, 4> povKeys = {
+					gamepad.povBackward,
+					gamepad.povForward,
+					gamepad.povLeft,
+					gamepad.povRight
+				};
+				for (const auto& k : povKeys)
 				{
-					key = Gamepad(gamepad.index).button(i);
+					if (k.clicked)
+					{
+						key = k;
+						return true;
+					}
+				}
+			}
+			for (unsigned int i = 0; i < gamepadInfo.num_buttons; ++i)
+			{
+				if (gamepad.button(i).pressed)
+				{
+					key = gamepad.button(i);
 					return true;
 				}
 			}
