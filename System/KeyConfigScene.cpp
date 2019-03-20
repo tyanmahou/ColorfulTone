@@ -17,7 +17,7 @@ namespace
 			configParm = defaultSEPath;
 			SoundAsset::Unregister(assetTag);
 			SoundAsset::Register(assetTag, defaultSEPath, { L"System" });
-			SoundAsset(assetTag).playMulti();
+			SoundManager::SE::Play(assetTag);
 		});
 
 		for (const auto& path : Game::TapSEPaths())
@@ -27,7 +27,7 @@ namespace
 				configParm = path;
 				SoundAsset::Unregister(assetTag);
 				SoundAsset::Register(assetTag, path, { L"System" });
-				SoundAsset(assetTag).playMulti();
+				SoundManager::SE::Play(assetTag);
 			});
 		}
 
