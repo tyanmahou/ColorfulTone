@@ -83,16 +83,6 @@ namespace
 			{ 0.8f, L"x0.8" },
 			{ 0.9f, L"x0.9" },
 			{ 1.0f, L"x1.0" },
-			{ 1.1f, L"x1.1" },
-			{ 1.2f, L"x1.2" },
-			{ 1.3f, L"x1.3" },
-			{ 1.4f, L"x1.4" },
-			{ 1.5f, L"x1.5" },
-			{ 1.6f, L"x1.6" },
-			{ 1.7f, L"x1.7" },
-			{ 1.8f, L"x1.8" },
-			{ 1.9f, L"x1.9" },
-			{ 2.0f, L"x2.0" },
 		};
 		for (auto&& pair : map)
 		{
@@ -103,7 +93,14 @@ namespace
 			});
 		}
 		config.setDefault(default);
-		config.init(map.at(configParam));
+		if (map.find(configParam) != map.end())
+		{
+			config.init(map.at(configParam));
+		}
+		else
+		{
+			config.init(default);
+		}
 	}
 	class VolumeConfig :public IConfigHierchy
 	{
