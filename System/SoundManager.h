@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include<Siv3D.hpp>
 class SoundManager
 {
@@ -40,6 +40,28 @@ public:
 		static float GetVolume()
 		{
 			return I().m_volume;
+		}
+
+		static void Play(const s3d::AssetName& name, s3d::SecondsF fadeIn= 0.0s)
+		{
+			SoundAsset(name).play(fadeIn);
+			SoundAsset(name).setVolume(GetVolume());
+		}
+
+		static void Play(const s3d::Sound& sound, s3d::SecondsF fadeIn = 0.0s)
+		{
+			sound.play(fadeIn);
+			sound.setVolume(GetVolume());
+		}
+
+		static void Stop(const s3d::AssetName& name, s3d::SecondsF fadeOut = 0.0s)
+		{
+			SoundAsset(name).stop(fadeOut);
+		}
+
+		static void Stop(const s3d::Sound& sound, s3d::SecondsF fadeOut = 0.0s)
+		{
+			sound.stop(fadeOut);
 		}
 	};
 	class SE :s3d::Uncopyable
