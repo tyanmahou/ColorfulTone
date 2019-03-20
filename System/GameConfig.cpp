@@ -7,7 +7,8 @@ GameConfig::GameConfig() :
 	m_greatSE(L"Resource/Sound/SE/tapGR.wav"),
 	m_goodSE(L"Resource/Sound/SE/tapGD.wav"),
 	m_bgmVolume(1.0),
-	m_seVolume(1.0)
+	m_seVolume(1.0),
+	m_masterVolume(1.0)
 {
 	m_red1 = Input::KeyF;
 	m_red2 = Input::KeyD;
@@ -90,9 +91,11 @@ void GameConfig::init()
 
 	m_bgmVolume = ini.getOr<float>(L"Config.BGMVolume", 1.0f);
 	m_seVolume = ini.getOr<float>(L"Config.SEVolume",1.0f);
+	m_masterVolume = ini.getOr<float>(L"Config.MasterVolume", 1.0f);
 
 	SoundManager::BGM::SetVolume(m_bgmVolume);
 	SoundManager::SE::SetVolume(m_seVolume);
+	MasterVoice::SetVolume(m_masterVolume);
 
 	m_isSpectrum = ini.getOr<bool>(L"Config.IsSpectrum", true);
 	m_bgType = static_cast<BGType>(ini.getOr<int>(L"Config.BGType", 0));
@@ -146,6 +149,7 @@ void GameConfig::save()
 
 	ini.write(L"Config", L"BGMVolume", m_bgmVolume);
 	ini.write(L"Config", L"SEVolume", m_seVolume);
+	ini.write(L"Config", L"MasterVolume", m_masterVolume);
 
 	ini.write(L"Config",L"IsSpectrum",m_isSpectrum);
 

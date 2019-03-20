@@ -33,7 +33,7 @@ public:
 	 String m_perfectSE, m_greatSE, m_goodSE;
 
 	 //BGM SE音量
-	 float m_bgmVolume, m_seVolume;
+	 float m_bgmVolume, m_seVolume, m_masterVolume;
 
 	 //背景演出
 	 BGType m_bgType=BGType::Default;

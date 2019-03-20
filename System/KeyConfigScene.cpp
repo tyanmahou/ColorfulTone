@@ -111,6 +111,7 @@ namespace
 		{
 			BGMVolume,
 			SEVolume,
+			MasterVolume,
 			TOTAL_SIZE
 		};
 	public:
@@ -124,6 +125,10 @@ namespace
 			m_configs[SEVolume].setName(L"SE");
 			VolumeInit(m_configs[SEVolume], SoundManager::SE::SetVolume,
 				Game::Config().m_seVolume);
+
+			m_configs[MasterVolume].setName(L"Master");
+			VolumeInit(m_configs[MasterVolume], MasterVoice::SetVolume,
+				Game::Config().m_masterVolume);
 		}
 	};
 }
