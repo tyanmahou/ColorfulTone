@@ -1,4 +1,4 @@
-﻿#include "KeyConfig.hpp"
+﻿#include "KeyConfigManager.hpp"
 #include "Useful.hpp"
 #include<Siv3D.hpp>
 
@@ -220,10 +220,10 @@ class DetailKeyConfig;
 //内部実装
 //-----------------------------------------------------------------------
 
-class KeyConfig::Impl
+class KeyConfigManager::Impl
 {
 private:
-	KeyConfig* m_pKeyConfig;
+	KeyConfigManager* m_pKeyConfig;
 protected:
 	enum class Mode :unsigned int
 	{
@@ -267,7 +267,7 @@ public:
 	}
 	virtual void draw()const = 0;
 
-	void setKeyConfig(KeyConfig* pKeyConfig)
+	void setKeyConfig(KeyConfigManager* pKeyConfig)
 	{
 		this->m_pKeyConfig = pKeyConfig;
 	}
@@ -277,7 +277,7 @@ public:
 //実際のゲームプレイに使うキーのコンフィグ
 //-----------------------------------------------------------------------
 
-class PlayKeyConfig :public KeyConfig::Impl
+class PlayKeyConfig :public KeyConfigManager::Impl
 {
 	enum class Select :unsigned int
 	{
@@ -558,7 +558,7 @@ public:
 };
 
 //詳細キーのコンフィグ
-class DetailKeyConfig :public KeyConfig::Impl
+class DetailKeyConfig :public KeyConfigManager::Impl
 {
 	enum Select
 	{
@@ -693,7 +693,7 @@ private:
 	}
 public:
 	DetailKeyConfig() :
-		KeyConfig::Impl(15),
+		KeyConfigManager::Impl(15),
 		m_select(Select::Up)
 	{}
 };
@@ -702,27 +702,27 @@ public:
 //
 //-----------------------------------------------------------------------
 
-KeyConfig::KeyConfig()
+KeyConfigManager::KeyConfigManager()
 {
 	this->changeMode<PlayKeyConfig>();
 }
 
-bool KeyConfig::update()
+bool KeyConfigManager::update()
 {
 	return m_pImpl->update();
 }
 
-void KeyConfig::draw() const
+void KeyConfigManager::draw() const
 {
 	m_pImpl->draw();
 }
 
 template<class Type>
-void KeyConfig::changeMode()
+void KeyConfigManager::changeMode()
 {
 	m_pImpl = std::make_shared<Type>();
 	m_pImpl->setKeyConfig(this);
 }
 
-template void KeyConfig::changeMode<PlayKeyConfig>();
-template void KeyConfig::changeMode<DetailKeyConfig>();
+template void KeyConfigManager::changeMode<PlayKeyConfig>();
+template void KeyConfigManager::changeMode<DetailKeyConfig>();

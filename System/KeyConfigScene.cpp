@@ -2,7 +2,7 @@
 #include "Useful.hpp"
 #include "SharedDraw.hpp"
 
-#include"KeyConfig.hpp"
+#include"KeyConfigManager.hpp"
 
 namespace
 {
@@ -274,7 +274,7 @@ namespace
 	class MainConfig :public IConfigHierchy
 	{
 
-		KeyConfig m_keyConfig;
+		KeyConfigManager m_keyConfig;
 
 		EasingController<double> m_keyConfigEasing;
 

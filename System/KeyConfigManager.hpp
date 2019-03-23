@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include<memory>
 
-class KeyConfig
+class KeyConfigManager
 {
 public:
 	class Impl;
@@ -10,7 +10,7 @@ private:
 	std::shared_ptr<Impl> m_pImpl;
 public:
 
-	KeyConfig();
+	KeyConfigManager();
 
 	template<class Type>
 	void changeMode();
