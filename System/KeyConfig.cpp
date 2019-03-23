@@ -282,9 +282,9 @@ namespace s3dkc
 	/***************************************
 	KeyConfig
 	***************************************/
-	KeyConfig::KeyConfig(const Key & configStartKey, const Key & deleteKey) :
-		m_configStartKey(configStartKey),
-		m_deleteKey(deleteKey),
+	KeyConfig::KeyConfig() :
+		m_onConfigStart([]() {return Input::KeyEnter.clicked; }),
+		m_onDelete([]() {return Input::KeyDelete.clicked; }),
 		m_isSetting(false)
 	{}
 
@@ -305,11 +305,12 @@ namespace s3dkc
 		}
 		else
 		{
-			if (m_configStartKey.clicked)
+			if (m_onConfigStart())
 			{
 				m_isSetting = true;
+				return State::OnStart;
 			}
-			else if (m_deleteKey.clicked)//デリートキーを押せば設定消去
+			else if (m_onDelete())//デリートキーを押せば設定消去
 			{
 				key = s3d::Key();
 				return State::OnDelete;
@@ -326,6 +327,16 @@ namespace s3dkc
 	void KeyConfig::registerStrictKeys(const std::initializer_list<Key>& keys)
 	{
 		m_strictKeys.assign(keys.begin(), keys.end());
+	}
+
+	void KeyConfig::setOnChangeStart(std::function<bool()> onStart)
+	{
+		m_onConfigStart = onStart;
+	}
+
+	void KeyConfig::setOnDelete(std::function<bool()> onDelete)
+	{
+		m_onDelete = onDelete;
 	}
 
 

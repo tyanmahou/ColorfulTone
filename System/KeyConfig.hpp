@@ -13,11 +13,12 @@ namespace s3dkc
 		{
 			Normal,		//通常時
 			IsSetting,	//セッティング中
+			OnStart,	//セット開始
 			OnChange,	//セット完了
 			OnDelete,	//設定の消去時
 		};
 	private:
-		Key m_configStartKey, m_deleteKey;
+		std::function<bool()> m_onConfigStart, m_onDelete;
 		Array<Key> m_strictKeys;
 		bool m_isSetting;
 
@@ -32,7 +33,7 @@ namespace s3dkc
 		/// <param name="deleteKey">
 		/// 設定されたキーの消去に入力するキー
 		/// </param>
-		KeyConfig(const Key& configStartKey = Input::KeyEnter, const Key& deleteKey = Input::KeyDelete);
+		KeyConfig();
 
 		/// <summary>
 		/// キーコンフィグの更新
@@ -57,6 +58,9 @@ namespace s3dkc
 		/// 使用できないキー
 		/// </param>
 		void registerStrictKeys(const std::initializer_list<Key>& keys);
+
+		void setOnChangeStart(std::function<bool()> onStart);
+		void setOnDelete(std::function<bool()> onDelete);
 	};
 
 
