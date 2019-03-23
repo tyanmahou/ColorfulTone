@@ -220,9 +220,16 @@ private:
 		{
 			auto state = m_config.update(*pSelectKey);
 
+			if (state == KeyConfig::State::OnStart)
+			{
+				SoundManager::SE::Play(L"desisionSmall");
+				return true;
+			}
 			if (state == KeyConfig::State::OnChange || state == KeyConfig::State::OnDelete)
 			{
 				PlayKey::Update();
+				SoundManager::SE::Play(L"desisionSmall");
+				return true;
 			}
 		}
 		if (PlayKey::Start().clicked)
@@ -375,18 +382,22 @@ private:
 	}
 	bool update()override
 	{
+		++m_timer;
+
 		auto* pSelectKey = this->selectKey();
 		if (pSelectKey)
 		{
-			auto state = m_config.update(*pSelectKey);
+			auto state = m_config.update(*pSelectKey, true);
 			if (state == KeyConfig::State::OnStart)
 			{
 				SoundManager::SE::Play(L"desisionSmall");
+				return true;
 			}
 			if (state == KeyConfig::State::OnChange || state == KeyConfig::State::OnDelete)
 			{
 				PlayKey::Update();
 				SoundManager::SE::Play(L"desisionSmall");
+				return true;
 			}
 		}
 		if (PlayKey::SmallBack().clicked)

@@ -15,7 +15,10 @@ namespace
 	// コースの絞りこみ
 	void RefineCourses(Array<CourseData>& musics)
 	{
-		util::Erase_not_if(musics, CourseGenreManager::GetRefiner(g_selectInfo.genre));
+		if (CourseGenreManager::Genres().size())
+		{
+			util::Erase_not_if(musics, CourseGenreManager::GetRefiner(g_selectInfo.genre));
+		}
 	}
 	// コースの絞り込み
 	void InitCourses(Array<CourseData>& courses)

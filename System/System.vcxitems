@@ -36,6 +36,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ISceneBase.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfig.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MultiThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelect.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelectView.hpp" />
@@ -52,7 +53,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GIFTexture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HighSpeedDemo.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JudgeEffect.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfig.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfigManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfigScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LongNote.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MahouSoundBeat.h" />
@@ -120,6 +121,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GIFTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HighSpeedDemo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfig.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfigManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfigScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LongNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainScene.cpp" />
