@@ -184,6 +184,7 @@ Note::Note(const NoteType type, double firstCount, double speed) :
 			}
 			return m_isClicked[ColorIndex::Red] || m_isClicked[ColorIndex::Blue] || m_isClicked[ColorIndex::Yellow];
 		};
+		break;
 	case 9:
 		m_judge = [&]()
 		{
@@ -357,9 +358,9 @@ bool Note::update(double& nowCount, double& countPerFrame)
 
 		RepeatEnd::notesTapCount = nowCount;
 
-		return false;
+		return InputManager::IsAnyClicked();
 	}
-	return InputManager::IsAnyClicked();
+	return true;
 }
 
 //----------------------------------------------------------------------------
