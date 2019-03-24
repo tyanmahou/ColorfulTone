@@ -22,7 +22,7 @@ public:
 	static bool IsYellowClicked();
 	static void PopYellow();
 
-	static void IsAnyClicked();
+	static bool IsAnyClicked();
 	static void Update();
 
 	friend class Singleton<InputManager>;

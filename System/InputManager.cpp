@@ -29,7 +29,7 @@ public:
 
 	bool isBlueClicked() const
 	{
-		return m_isRedClicked;
+		return m_isBlueClicked;
 	}
 
 	void popBlue()
@@ -86,9 +86,9 @@ void InputManager::PopYellow()
 	Instance()->m_pImpl->popYellow();
 }
 
-void InputManager::IsAnyClicked()
+bool InputManager::IsAnyClicked()
 {
-	Instance()->m_pImpl->isAnyClicked();
+	return Instance()->m_pImpl->isAnyClicked();
 }
 
 void InputManager::Update()

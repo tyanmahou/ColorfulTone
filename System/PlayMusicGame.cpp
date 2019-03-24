@@ -1,6 +1,7 @@
 ﻿#include"PlayMusicGame.h"
 #include"Useful.hpp"
 #include"StartAnime.h"
+#include"InputManager.hpp"
 #include"AutoPlayManager.h"
 #include"MainScene.h"
 #include"FontKinetic.h"
@@ -112,6 +113,9 @@ void PlayMusicGame::update()
 	if (AutoPlayManager::IsAutoPlay())
 	{
 		AutoPlayManager::Update();
+	}
+	else {
+		InputManager::Update();
 	}
 	//ノーツ処理
 	m_notesData.update(m_sound, m_nowCount, m_score);

@@ -115,9 +115,6 @@
     <Filter Include="util\GIF">
       <UniqueIdentifier>{020dd04a-a110-41c0-9860-34a5987a0231}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MusicGame\AutoPlay">
-      <UniqueIdentifier>{c75d002a-030e-4591-8c61-396a26ea1d8d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Title">
       <UniqueIdentifier>{0fdd42bc-a80d-4b3d-aaf1-882624d377f4}</UniqueIdentifier>
     </Filter>
@@ -138,6 +135,9 @@
     </Filter>
     <Filter Include="Scene\CourseSelect">
       <UniqueIdentifier>{9f9c1116-e376-43ed-9cea-a38857b2a843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MusicGame\Input">
+      <UniqueIdentifier>{c75d002a-030e-4591-8c61-396a26ea1d8d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +191,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)LongNote.cpp">
       <Filter>MusicGame\Object\LongNotes</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)PlayKey.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SerialImage.cpp">
       <Filter>util\SerialImage</Filter>
@@ -271,7 +268,7 @@
       <Filter>MusicGame\Anime</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)AutoPlayManager.cpp">
-      <Filter>MusicGame\AutoPlay</Filter>
+      <Filter>MusicGame\Input</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultScene.cpp">
       <Filter>Scene\Result</Filter>
@@ -312,11 +309,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)EasingSequence.cpp">
       <Filter>util</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\KeyConfigManager.cpp">
-      <Filter>Scene\KeyConfig</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfig.cpp">
       <Filter>Scene\KeyConfig</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfigManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayKey.cpp">
+      <Filter>MusicGame\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)InputManager.cpp">
+      <Filter>MusicGame\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -382,9 +383,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MahouSoundBeat.h">
       <Filter>MusicGame</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PlayKey.h">
-      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ResultEffect.h">
       <Filter>Effect</Filter>
@@ -487,7 +485,7 @@
       <Filter>Scene\MusicSelect</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)AutoPlayManager.h">
-      <Filter>MusicGame\AutoPlay</Filter>
+      <Filter>MusicGame\Input</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)APAnime.hpp">
       <Filter>MusicGame\Anime</Filter>
@@ -549,11 +547,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EasingSequence.hpp">
       <Filter>util</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\KeyConfigManager.hpp">
-      <Filter>Scene\KeyConfig</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfig.hpp">
       <Filter>Scene\KeyConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfigManager.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayKey.h">
+      <Filter>MusicGame\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)InputManager.hpp">
+      <Filter>MusicGame\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

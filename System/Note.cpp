@@ -2,6 +2,7 @@
 #include"Useful.hpp"
 #include"eJudge.h"
 #include"AutoPlayManager.h"
+#include"InputManager.hpp"
 
 #include"PlayMusicGame.h"
 
@@ -58,9 +59,9 @@ Note::Note(const NoteType type, double firstCount, double speed) :
 	case 11:
 		m_judge = [&]()
 		{
-			if (PlayKey::Red().clicked && !m_isClicked[ColorIndex::Red])
+			if (InputManager::IsRedClicked() && !m_isClicked[ColorIndex::Red])
 			{
-				m_isAnyClicked = true;
+				InputManager::PopRed();
 				m_isClicked[ColorIndex::Red] = true;
 			}
 			return m_isClicked[ColorIndex::Red];
@@ -70,9 +71,9 @@ Note::Note(const NoteType type, double firstCount, double speed) :
 	case 12:
 		m_judge = [&]()
 		{
-			if (PlayKey::Blue().clicked && !m_isClicked[ColorIndex::Blue])
+			if (InputManager::IsBlueClicked() && !m_isClicked[ColorIndex::Blue])
 			{
-				m_isAnyClicked = true;
+				InputManager::PopBlue();
 				m_isClicked[ColorIndex::Blue] = true;
 			}
 			return m_isClicked[ColorIndex::Blue];
@@ -82,9 +83,9 @@ Note::Note(const NoteType type, double firstCount, double speed) :
 	case 13:
 		m_judge = [&]()
 		{
-			if (PlayKey::Yellow().clicked && !m_isClicked[ColorIndex::Yellow])
+			if (InputManager::IsYellowClicked() && !m_isClicked[ColorIndex::Yellow])
 			{
-				m_isAnyClicked = true;
+				InputManager::PopYellow();
 				m_isClicked[ColorIndex::Yellow] = true;
 			}
 			return m_isClicked[ColorIndex::Yellow];
@@ -94,14 +95,14 @@ Note::Note(const NoteType type, double firstCount, double speed) :
 	case 14:
 		m_judge = [&]()
 		{
-			if (PlayKey::Blue().clicked && !m_isClicked[ColorIndex::Blue])
+			if (InputManager::IsBlueClicked() && !m_isClicked[ColorIndex::Blue])
 			{
-				m_isAnyClicked = true;
+				InputManager::PopBlue();
 				m_isClicked[ColorIndex::Blue] = true;
 			}
-			if (PlayKey::Yellow().clicked && !m_isClicked[ColorIndex::Yellow])
+			if (InputManager::IsYellowClicked() && !m_isClicked[ColorIndex::Yellow])
 			{
-				m_isAnyClicked = true;
+				InputManager::PopYellow();
 				m_isClicked[ColorIndex::Yellow] = true;
 			}
 			return m_isClicked[ColorIndex::Blue] && m_isClicked[ColorIndex::Yellow];
@@ -111,14 +112,14 @@ Note::Note(const NoteType type, double firstCount, double speed) :
 	case 15:
 		m_judge = [&]()
 		{
-			if (PlayKey::Red().clicked && !m_isClicked[ColorIndex::Red])
+			if (InputManager::IsRedClicked() && !m_isClicked[ColorIndex::Red])
 			{
-				m_isAnyClicked = true;
+				InputManager::PopRed();
 				m_isClicked[ColorIndex::Red] = true;
 			}
-			if (PlayKey::Yellow().clicked && !m_isClicked[ColorIndex::Yellow])
+			if (InputManager::IsYellowClicked() && !m_isClicked[ColorIndex::Yellow])
 			{
-				m_isAnyClicked = true;
+				InputManager::PopYellow();
 				m_isClicked[ColorIndex::Yellow] = true;
 			}
 			return m_isClicked[ColorIndex::Red] && m_isClicked[ColorIndex::Yellow];
@@ -128,14 +129,14 @@ Note::Note(const NoteType type, double firstCount, double speed) :
 	case 16:
 		m_judge = [&]()
 		{
-			if (PlayKey::Red().clicked && !m_isClicked[ColorIndex::Red])
+			if (InputManager::IsRedClicked() && !m_isClicked[ColorIndex::Red])
 			{
-				m_isAnyClicked = true;
+				InputManager::PopRed();
 				m_isClicked[ColorIndex::Red] = true;
 			}
-			if (PlayKey::Blue().clicked && !m_isClicked[ColorIndex::Blue])
+			if (InputManager::IsBlueClicked() && !m_isClicked[ColorIndex::Blue])
 			{
-				m_isAnyClicked = true;
+				InputManager::PopBlue();
 				m_isClicked[ColorIndex::Blue] = true;
 			}
 			return m_isClicked[ColorIndex::Red] && m_isClicked[ColorIndex::Blue];
@@ -145,19 +146,19 @@ Note::Note(const NoteType type, double firstCount, double speed) :
 	case 17:
 		m_judge = [&]()
 		{
-			if (PlayKey::Red().clicked && !m_isClicked[ColorIndex::Red])
+			if (InputManager::IsRedClicked() && !m_isClicked[ColorIndex::Red])
 			{
-				m_isAnyClicked = true;
+				InputManager::PopRed();
 				m_isClicked[ColorIndex::Red] = true;
 			}
-			if (PlayKey::Blue().clicked && !m_isClicked[ColorIndex::Blue])
+			if (InputManager::IsBlueClicked() && !m_isClicked[ColorIndex::Blue])
 			{
-				m_isAnyClicked = true;
+				InputManager::PopBlue();
 				m_isClicked[ColorIndex::Blue] = true;
 			}
-			if (PlayKey::Yellow().clicked && !m_isClicked[ColorIndex::Yellow])
+			if (InputManager::IsYellowClicked() && !m_isClicked[ColorIndex::Yellow])
 			{
-				m_isAnyClicked = true;
+				InputManager::PopYellow();
 				m_isClicked[ColorIndex::Yellow] = true;
 			}
 			return m_isClicked[ColorIndex::Red] && m_isClicked[ColorIndex::Blue] && m_isClicked[ColorIndex::Yellow];
@@ -166,19 +167,19 @@ Note::Note(const NoteType type, double firstCount, double speed) :
 	case 18:
 		m_judge = [&]()
 		{
-			if (PlayKey::Red().clicked)
+			if (InputManager::IsRedClicked())
 			{
-				m_isAnyClicked = true;
+				InputManager::PopRed();
 				m_isClicked[ColorIndex::Red] = true;
 			}
-			if (PlayKey::Blue().clicked)
+			if (InputManager::IsBlueClicked())
 			{
-				m_isAnyClicked = true;
+				InputManager::PopBlue();
 				m_isClicked[ColorIndex::Blue] = true;
 			}
-			if (PlayKey::Yellow().clicked)
+			if (InputManager::IsYellowClicked())
 			{
-				m_isAnyClicked = true;
+				InputManager::PopYellow();
 				m_isClicked[ColorIndex::Yellow] = true;
 			}
 			return m_isClicked[ColorIndex::Red] || m_isClicked[ColorIndex::Blue] || m_isClicked[ColorIndex::Yellow];
@@ -186,12 +187,18 @@ Note::Note(const NoteType type, double firstCount, double speed) :
 	case 9:
 		m_judge = [&]()
 		{
-			if (PlayKey::Red().clicked)
+			if (InputManager::IsRedClicked())
+			{
 				m_isClicked[ColorIndex::Red] = true;
-			if (PlayKey::Blue().clicked)
+			}
+			if (InputManager::IsBlueClicked())
+			{
 				m_isClicked[ColorIndex::Blue] = true;
-			if (PlayKey::Yellow().clicked)
+			}
+			if (InputManager::IsYellowClicked())
+			{
 				m_isClicked[ColorIndex::Yellow] = true;
+			}
 			return m_isClicked[ColorIndex::Red] || m_isClicked[ColorIndex::Blue] || m_isClicked[ColorIndex::Yellow];
 		};
 		break;
@@ -212,7 +219,6 @@ void Note::init()
 	m_isClicked[ColorIndex::Red] = false;
 	m_isClicked[ColorIndex::Blue] = false;
 	m_isClicked[ColorIndex::Yellow] = false;
-	m_isAnyClicked = false;
 }
 
 //--------------------------------------------------------------------------------
@@ -268,7 +274,7 @@ void Note::tapMiss()
 	/*
 	ロングノーツの場合は、始点が押せなかった時点で終点分も同時にミスとする。
 	*/
-	if (11 <= m_type && m_type <=17)
+	if (11 <= m_type && m_type <= 17)
 	{
 		PlayMusicGame::ScoreUpdate(judge, m_type, false);
 	}
@@ -291,7 +297,6 @@ bool Note::update(double& nowCount, double& countPerFrame)
 		return true;
 	}
 	auto count = m_count - nowCount;
-	m_isAnyClicked = false;
 
 	//ミス
 	if (count < -JudgeRange(countPerFrame, Judge::Good) || (m_type == 9 && count <= 0))
@@ -316,7 +321,8 @@ bool Note::update(double& nowCount, double& countPerFrame)
 				++tap %= 3;
 				type = tap + 1;
 				m_isClicked[tap] = true;
-			}else {
+			}
+			else {
 				m_isClicked[ColorIndex::Red] = true;
 				m_isClicked[ColorIndex::Blue] = true;
 				m_isClicked[ColorIndex::Yellow] = true;
@@ -353,7 +359,7 @@ bool Note::update(double& nowCount, double& countPerFrame)
 
 		return false;
 	}
-	return !m_isAnyClicked;
+	return InputManager::IsAnyClicked();
 }
 
 //----------------------------------------------------------------------------

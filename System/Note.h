@@ -16,9 +16,7 @@ class Note : public  Object
 private:
 	const double m_scrollSpeed;
 
-	bool m_isAnyClicked = false;
 	bool m_isClicked[3];
-
 
 	const NoteType m_type;	//あとでenumに？
 	s3d::Color m_color;

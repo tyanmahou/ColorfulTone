@@ -34,6 +34,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EasingSequence.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InputManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ISceneBase.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfig.hpp" />
@@ -120,6 +121,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GenreManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GIFTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HighSpeedDemo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InputManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfig.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfigManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfigScene.cpp" />
