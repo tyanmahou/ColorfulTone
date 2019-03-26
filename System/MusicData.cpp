@@ -87,3 +87,8 @@ const String MusicData::getFormattedBpm() const
 	return L"BPM" + Pad(this->getBPM(), { 5,L' ' });
 }
 
+const double MusicData::getLengthSec() const
+{
+	return SoundAsset(this->m_soundNameID).lengthSec();
+}
+

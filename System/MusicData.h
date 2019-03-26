@@ -69,4 +69,7 @@ public:
 		{
 			return m_notesDatas[level];
 		}
+
+		// 曲の長さ
+		const double getLengthSec()const;
 };
