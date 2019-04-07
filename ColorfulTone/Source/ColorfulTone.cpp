@@ -5,7 +5,7 @@ namespace
 {
 	bool CheckVersion()
 	{
-		const FilePath url = Setting::HOMEPAGE_URL+L"Version.txt";
+		const FilePath url = Setting::API_ENDPOINT + L"title/version";
 
 		if (!Internet::IsConnected()) // インターネット接続をチェック
 		{
@@ -16,10 +16,16 @@ namespace
 		HTTPClient client;
 		if (client.download(url, reader))
 		{
-			String str = TextReader(std::move(reader)).readAll();
-			if (str != Game::Version)
-				MessageBox::Show(L"最新のバージョンは" + str + L"です。");
-
+			JSONReader response(std::move(reader));
+			if (!response || response[L"status"].getOr<String>(L"failed") == L"failed")
+			{
+				return false;
+			}
+			const auto version = response[L"value.version"].getString();
+			if (version != Game::Version)
+			{
+				MessageBox::Show(L"最新のバージョンは" + version + L"です。");
+			}
 			return true;
 		}
 		return false;
