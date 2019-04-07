@@ -253,6 +253,9 @@ void PlayMusicGame::previewDraw(const double count) const
 	PlayStyle::Instance()->drawJudgeLine();
 
 	m_notesData.previewDraw(drawCount, m_scrollRate);
+
+	PutText(Format(L"length:",m_notesData.getMusic()->getLengthSec())).from(20, Window::Height() - 120);
+	PutText(Format(L"total:",m_totalNotes)).from(20, Window::Height() - 140);
 }
 
 bool PlayMusicGame::isFinish() const
