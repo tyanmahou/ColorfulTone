@@ -1,5 +1,5 @@
 #include "HttpRequest.hpp"
-#include "JSONEncode.hpp"
+#include "JSON.hpp"
 
 #include <Siv3D/HTTPClient.hpp>
 #include <Siv3D/ByteArray.hpp>

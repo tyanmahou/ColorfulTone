@@ -39,7 +39,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InputManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ISceneBase.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)JSONEncode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JSON.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfig.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MultiThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelect.hpp" />
@@ -127,7 +127,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)HighSpeedDemo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HttpRequest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InputManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)JSONEncode.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JSON.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfig.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfigManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfigScene.cpp" />

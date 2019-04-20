@@ -1,4 +1,4 @@
-#include "JSONEncode.hpp"
+#include "JSON.hpp"
 using namespace s3d;
 
 namespace
@@ -57,17 +57,34 @@ namespace
 	}
 }
 
-namespace JSON
+s3d::JSONArray JSON::Array(const std::initializer_list<JSON>& values)
 {
-	String Encode(const JSONValue& json)
-	{
-		String out;
-		Encode(json, out);
-		return out;
+	s3d::JSONArray ret;
+	ret.reserve(values.size());
+	for (auto&& value : values) {
+		ret.push_back(value);
 	}
+	return ret;
+}
 
-	void Encode(const JSONValue& json, String& out)
-	{
-		::Dump(json, out);
+s3d::JSONObject JSON::Object(const std::unordered_map<s3d::String, JSON>& values)
+{
+	s3d::JSONObject ret;
+	ret.reserve(values.size());
+	for (auto&& value : values) {
+		ret[value.first] = value.second;
 	}
+	return ret;
+}
+
+String JSON::Encode(const JSONValue& json)
+{
+	String out;
+	Encode(json, out);
+	return out;
+}
+
+void JSON::Encode(const JSONValue& json, String& out)
+{
+	::Dump(json, out);
 }

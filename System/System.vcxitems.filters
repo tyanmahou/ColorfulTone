@@ -328,14 +328,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InputManager.cpp">
       <Filter>MusicGame\Input</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\JSONEncode.cpp">
-      <Filter>util\Json</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)HttpRequest.cpp">
       <Filter>util\Http</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleApi.cpp">
       <Filter>ApiCall</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)JSON.cpp">
+      <Filter>util\Json</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -575,9 +575,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InputManager.hpp">
       <Filter>MusicGame\Input</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\JSONEncode.hpp">
-      <Filter>util\Json</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpRequest.hpp">
       <Filter>util\Http</Filter>
     </ClInclude>
@@ -586,6 +583,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleApi.hpp">
       <Filter>ApiCall</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)JSON.hpp">
+      <Filter>util\Json</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
