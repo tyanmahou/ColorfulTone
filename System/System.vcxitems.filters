@@ -139,6 +139,15 @@
     <Filter Include="MusicGame\Input">
       <UniqueIdentifier>{c75d002a-030e-4591-8c61-396a26ea1d8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="util\Json">
+      <UniqueIdentifier>{11f9016d-00d2-42ea-a69e-fe73d3b65cf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\Http">
+      <UniqueIdentifier>{19f0ca4c-957c-4742-acb8-50d4153618f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ApiCall">
+      <UniqueIdentifier>{ba1c2b89-d0d9-4a30-a1a8-485a780c261f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp">
@@ -318,6 +327,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)InputManager.cpp">
       <Filter>MusicGame\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\JSONEncode.cpp">
+      <Filter>util\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)HttpRequest.cpp">
+      <Filter>util\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleApi.cpp">
+      <Filter>ApiCall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -556,6 +574,18 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)InputManager.hpp">
       <Filter>MusicGame\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\JSONEncode.hpp">
+      <Filter>util\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)HttpRequest.hpp">
+      <Filter>util\Http</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\ApiEndPoint.hpp">
+      <Filter>ApiCall</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleApi.hpp">
+      <Filter>ApiCall</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

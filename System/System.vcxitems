@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)APAnime.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ApiEndPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AppBase.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioSpectrum.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Audition.hpp" />
@@ -34,9 +35,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EasingSequence.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HttpRequest.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InputManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPlayStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ISceneBase.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JSONEncode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyConfig.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MultiThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelect.hpp" />
@@ -75,6 +78,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Setting.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedDraw.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleApi.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Util.h" />
@@ -121,7 +125,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GenreManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GIFTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HighSpeedDemo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HttpRequest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InputManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JSONEncode.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfig.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfigManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeyConfigScene.cpp" />
@@ -145,6 +151,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ScoreLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SharedDraw.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleApi.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Util.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RepeatNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultRank.cpp" />
