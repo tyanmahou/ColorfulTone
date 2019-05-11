@@ -148,6 +148,15 @@
     <Filter Include="ApiCall">
       <UniqueIdentifier>{ba1c2b89-d0d9-4a30-a1a8-485a780c261f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MusicGame\Data\DownloadContent">
+      <UniqueIdentifier>{96d7bfd9-f102-4d65-b954-e1115476219b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ApiCall\Download">
+      <UniqueIdentifier>{484c1cdf-9a97-4f6d-add3-351cc5335f48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ApiCall\Title">
+      <UniqueIdentifier>{7ff864f1-e25d-4e29-9fa1-62f33d352c70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp">
@@ -331,9 +340,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)HttpRequest.cpp">
       <Filter>util\Http</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)TitleApi.cpp">
-      <Filter>ApiCall</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)JSON.cpp">
       <Filter>util\Json</Filter>
     </ClCompile>
@@ -343,6 +349,16 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DownloadSceneView.cpp">
       <Filter>Scene\Download</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DownloadContent.cpp">
+      <Filter>MusicGame\Data\DownloadContent</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DownloadApi.cpp">
+      <Filter>ApiCall\Download</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleApi.cpp">
+      <Filter>ApiCall\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DownloadHistory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -584,9 +600,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpRequest.hpp">
       <Filter>util\Http</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)TitleApi.hpp">
-      <Filter>ApiCall</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)JSON.hpp">
       <Filter>util\Json</Filter>
     </ClInclude>
@@ -596,6 +609,18 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DownloadSceneView.hpp">
       <Filter>Scene\Download</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DownloadContent.hpp">
+      <Filter>MusicGame\Data\DownloadContent</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DownloadApi.hpp">
+      <Filter>ApiCall\Download</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleApi.hpp">
+      <Filter>ApiCall\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DownloadHistory.hpp">
+      <Filter>MusicGame\Data\DownloadContent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,10 +2,18 @@
 
 #include"Useful.hpp"
 #include"Fade.h"
+#include"DownloadContent.hpp"
+#include"DownloadApi.hpp"
 
 class DownloadScene::Model
 {
-
+private:
+	Array<DownloadContent> m_contents;
+public:
+	Model() {
+		DownloadApi::List(m_contents);
+		Println(m_contents[0].getTitle());
+	}
 };
 
 DownloadScene::DownloadScene():

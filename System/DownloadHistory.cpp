@@ -7,7 +7,7 @@ namespace
 class DownloadHistory::Impl
 {
 private:
-	std::unordered_set<s3d::int32> m_history;
+	std::unordered_set<s3d::uint32> m_history;
 public:
 	Impl()
 	{
@@ -21,11 +21,11 @@ public:
 		}
 		String out;
 		while (tex.readLine(out)) {
-			m_history.emplace(Parse<int32>(out));
+			m_history.emplace(Parse<uint32>(out));
 		}
 		return true;
 	}
-	bool hasContain(int32 downloadId)const
+	bool hasContain(uint32 downloadId)const
 	{
 		return m_history.find(downloadId) != m_history.end();
 	}
@@ -37,7 +37,7 @@ public:
 		}
 		return true;
 	}
-	bool add(int32 downloadId)
+	bool add(uint32 downloadId)
 	{
 		auto result = m_history.emplace(downloadId);
 		return result.second;
@@ -45,20 +45,18 @@ public:
 };
 DownloadHistory::DownloadHistory():
 	m_pImpl(std::make_shared<Impl>())
-{
-
-}
+{}
 bool DownloadHistory::Load()
 {
 	return Instance()->m_pImpl->load();
 }
 
-bool DownloadHistory::HasContein(int32 downloadId)
+bool DownloadHistory::HasContein(uint32 downloadId)
 {
 	return Instance()->m_pImpl->hasContain(downloadId);
 }
 
-bool DownloadHistory::Add(int32 downloadId)
+bool DownloadHistory::Add(uint32 downloadId)
 {
 	return Instance()->m_pImpl->add(downloadId);
 }

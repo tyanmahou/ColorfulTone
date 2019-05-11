@@ -12,8 +12,8 @@ class DownloadHistory:protected Singleton<DownloadHistory>
 	DownloadHistory();
 public:
 	static bool Load();
-	static bool HasContein(s3d::int32 downloadId);
-	static bool Add(s3d::int32 downloadId);
+	static bool HasContein(s3d::uint32 downloadId);
+	static bool Add(s3d::uint32 downloadId);
 	static bool Save();
 	friend class Singleton<DownloadHistory>;
 };

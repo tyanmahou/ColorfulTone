@@ -33,6 +33,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseSelect.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseSelectView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DownloadApi.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DownloadContent.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DownloadHistory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DownloadScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DownloadSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EasingSequence.hpp" />
@@ -116,6 +119,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseSelect.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseSelectView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTCFReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DownloadApi.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DownloadContent.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DownloadHistory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DownloadScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DownloadSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EasingSequence.cpp" />
