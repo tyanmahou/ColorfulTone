@@ -68,8 +68,9 @@ void TitleScene::onEnterMode()
 		{Mode::GameStart, {SceneName::Select, 1000, true}},
 		{Mode::Course,{SceneName::CourseSelect, 1000, true}},
 		{Mode::KeyConfig, {SceneName::Config, 1000, true}},
+		{Mode::Download, {SceneName::Download, 1000, true}},
+				{Mode::Reload, {SceneName::Load, 1000, true}},
 		{Mode::Tutorial, {SceneName::Tutorial, 2000, false}},
-		{Mode::Reload, {SceneName::Load, 1000, true}},
 	};
 
 	if (m_mode == Mode::Exit)
@@ -78,7 +79,7 @@ void TitleScene::onEnterMode()
 		return;
 	}
 
-	if (m_mode == Mode::Download)
+	if (m_mode == Mode::Access)
 	{
 		if (MessageBox::Show(L"インターネットに接続しホームページにアクセスします。", MessageBoxStyle::OkCancel) == MessageBoxCommand::Ok)
 		{
@@ -165,6 +166,7 @@ void TitleScene::draw()const
 		{ L"iconPlay",L"FREE PLAY"},
 		{ L"iconPlayCourse",L"COURSE PLAY" },
 		{ L"iconConfig",L"CONFIG"},
+		{ L"iconConfig",L"DOWNLOAD"},
 		{ L"iconReset",L"RELOAD"},
 		{ L"iconTutorial",L"TUTORIAL" },
 		{ L"iconAccess",L"ACCESS" },

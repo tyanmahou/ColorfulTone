@@ -10,9 +10,10 @@ public:
 		GameStart,
 		Course,
 		KeyConfig,
+		Download,
 		Reload,
 		Tutorial,
-		Download,
+		Access,
 		Exit,
 	};
 private:

@@ -33,6 +33,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseSelect.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseSelectView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CTCFReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DownloadScene.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DownloadSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EasingSequence.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpRequest.hpp" />
@@ -114,6 +116,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseSelect.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseSelectView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTCFReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DownloadScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DownloadSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EasingSequence.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)eJudge.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Fade.cpp" />

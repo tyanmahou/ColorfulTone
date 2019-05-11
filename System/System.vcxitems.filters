@@ -337,6 +337,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)JSON.cpp">
       <Filter>util\Json</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DownloadScene.cpp">
+      <Filter>Scene\Download</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DownloadSceneView.cpp">
+      <Filter>Scene\Download</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -578,14 +584,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpRequest.hpp">
       <Filter>util\Http</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\ApiEndPoint.hpp">
-      <Filter>ApiCall</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleApi.hpp">
       <Filter>ApiCall</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)JSON.hpp">
       <Filter>util\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ApiEndPoint.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DownloadScene.hpp">
+      <Filter>Scene\Download</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DownloadSceneView.hpp">
+      <Filter>Scene\Download</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@
 #include"VideoAsset.h"
 #include"CourseSelect.hpp"
 #include"CourseScene.hpp"
+#include"DownloadScene.hpp"
 //--------------------------------------------------------------------------------
 //関数：LoadTexture
 //--------------------------------------------------------------------------------
@@ -222,15 +223,16 @@ private:
 
 	void registerScene()
 	{
-		m_scene.add<FileLoad>(L"load");
-		m_scene.add<TitleScene>(L"title");
-		m_scene.add<ConfigScene>(L"config");
-		m_scene.add<Tutorial>(L"tutorial");
-		m_scene.add<MusicSelect>(L"select");
-		m_scene.add<MainScene>(L"main");
-		m_scene.add<ResultScene>(L"result");
-		m_scene.add<CourseSelect>(L"courseSelect");
-		m_scene.add<CourseScene>(L"course");
+		m_scene.add<FileLoad>(SceneName::Load);
+		m_scene.add<TitleScene>(SceneName::Title);
+		m_scene.add<ConfigScene>(SceneName::Config);
+		m_scene.add<Tutorial>(SceneName::Tutorial);
+		m_scene.add<MusicSelect>(SceneName::Select);
+		m_scene.add<MainScene>(SceneName::Main);
+		m_scene.add<ResultScene>(SceneName::Result);
+		m_scene.add<CourseSelect>(SceneName::CourseSelect);
+		m_scene.add<CourseScene>(SceneName::Course);
+		m_scene.add<DownloadScene>(SceneName::Download);
 	}
 	void init()
 	{
