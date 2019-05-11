@@ -359,6 +359,9 @@
       <Filter>ApiCall\Title</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)DownloadHistory.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Downloader.cpp">
+      <Filter>MusicGame\Data\DownloadContent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -620,6 +623,9 @@
       <Filter>ApiCall\Title</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DownloadHistory.hpp">
+      <Filter>MusicGame\Data\DownloadContent</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Downloader.hpp">
       <Filter>MusicGame\Data\DownloadContent</Filter>
     </ClInclude>
   </ItemGroup>

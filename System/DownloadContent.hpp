@@ -2,7 +2,7 @@
 #include<Siv3D/Fwd.hpp>
 #include<Siv3D/String.hpp>
 #include<Siv3D/Texture.hpp>
-
+#include<Siv3D/HTTPClient.hpp>
 class DownloadContent
 {
 public:
@@ -28,7 +28,14 @@ public:
 	DownloadContent() = default;
 	DownloadContent(const s3d::JSONValue& json);
 
+	s3d::uint32 getDownloadId()const;
 	const s3d::String& getTitle() const;
 	const s3d::String& getDetail() const;
+	const s3d::String& getDownloadUrl() const;
+	const s3d::String& getSaveLocalPath() const;
+
+	const s3d::Texture& getTexture()const;
+	bool isDownloaded()const;
+	void setDownloaded(bool isDownloaded);
 
 };

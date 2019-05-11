@@ -26,19 +26,25 @@ namespace {
 		return DownloadContent::Type::Other;
 	}
 }
+
 DownloadContent::DownloadContent(const s3d::JSONValue& json):
 	m_downloadId(static_cast<uint32>(json[L"download_id"].getNumber())),
 	m_title(json[L"title"].getString()),
 	m_detail(json[L"detail"].getString()),
 	m_type(::GetType(json[L"type"].getString())),
-	m_downloadURL(),
-	m_saveLocalPath(),
+	m_downloadURL(json[L"download_url"].getString()),
+	m_saveLocalPath(json[L"save_local_pass"].getString()),
 	m_isDownloaded(DownloadHistory::HasContein(m_downloadId))
 {
 	const auto& textureURL = json[L"texture_url"];
 	if (!textureURL.isNull()) {
 		m_texture = ::GetTexture(textureURL.getString());
 	}
+}
+
+s3d::uint32 DownloadContent::getDownloadId() const
+{
+	return m_downloadId;
 }
 
 const s3d::String& DownloadContent::getTitle() const
@@ -50,3 +56,33 @@ const s3d::String& DownloadContent::getDetail() const
 {
 	return m_detail;
 }
+
+const s3d::String& DownloadContent::getDownloadUrl() const
+{
+	return m_downloadURL;
+}
+
+const s3d::String& DownloadContent::getSaveLocalPath() const
+{
+	return m_saveLocalPath;
+}
+
+const Texture& DownloadContent::getTexture() const
+{
+	if (m_texture) {
+		return m_texture;
+	}
+	// typeÇ…ÇÊÇ¡ÇƒïœçX
+	return m_texture;
+}
+
+bool DownloadContent::isDownloaded() const
+{
+	return m_isDownloaded;
+}
+
+void DownloadContent::setDownloaded(bool isDownloaded)
+{
+	m_isDownloaded = isDownloaded;
+}
+

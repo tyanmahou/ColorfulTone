@@ -3,16 +3,21 @@
 #include"Useful.hpp"
 #include"Fade.h"
 #include"DownloadContent.hpp"
+#include"Downloader.hpp"
 #include"DownloadApi.hpp"
+#include"Setting.hpp"
 
 class DownloadScene::Model
 {
 private:
 	Array<DownloadContent> m_contents;
+	Downloader m_downloader;
 public:
 	Model() {
 		DownloadApi::List(m_contents);
-		Println(m_contents[0].getTitle());
+	}
+	void update()
+	{
 	}
 };
 
@@ -28,6 +33,7 @@ void DownloadScene::init()
 
 void DownloadScene::update()
 {
+	m_pModel->update();
 }
 
 void DownloadScene::finally()
