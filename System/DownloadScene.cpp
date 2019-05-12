@@ -120,20 +120,10 @@ void DownloadScene::update()
 	{
 		if (PlayKey::BigBack().clicked)
 		{
-			if (m_pModel->hasNewContent())
+			if (m_pModel->hasNewContent()&& 
+				MessageBox::Show(L"追加ファイルがあります。リロードしますか?", MessageBoxStyle::YesNo) == MessageBoxCommand::Yes)
 			{
-				auto command = MessageBox::Show(L"追加ファイルがあります。リロードしますか?", MessageBoxStyle::YesNoCancel);
-				if (command == MessageBoxCommand::Yes)
-				{
-					this->changeScene(SceneName::Load, 1000);
-				}else if(command == MessageBoxCommand::No)
-				{
-					this->changeScene(SceneName::Title, 1000);
-				}
-				else 
-				{
-					return;
-				}
+				this->changeScene(SceneName::Load, 1000);
 			}
 			else {
 				this->changeScene(SceneName::Title, 1000);

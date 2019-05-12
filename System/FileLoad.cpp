@@ -19,8 +19,6 @@ void LoadCourses();
 //se読み込み
 void LoadTapSE()
 {
-	auto&& mutex = MultiThread::GetMutex();
-	mutex.lock();
 	for (auto&&rootFilePath : FileSystem::DirectoryContents(L"TapSE"))
 	{
 		if (FileSystem::IsDirectory(rootFilePath))
@@ -32,15 +30,10 @@ void LoadTapSE()
 		}
 		Game::TapSEPaths().emplace_back(rootFilePath);
 	}
-
-	mutex.unlock();
-
 	Erase_if(Game::TapSEPaths(), [](const String& path) {return Audio::GetFormat(path) == AudioFormat::Unknown; });
 }
 void LoadMusicDatas()
 {
-	auto&& mutex = MultiThread::GetMutex();
-
 	g_loadingRate = 0;
 	Array<MusicData>& musics = Game::Musics();
 
@@ -78,13 +71,9 @@ void LoadMusicDatas()
 					return;
 				if (elm.includes(L"ini"))
 				{
-
-					mutex.lock();
 					g_loadingRate = curIndex / static_cast<float>(musicSize);
 					//Println(path);
 					musics.emplace_back(genreName, path, elm);
-					mutex.unlock();
-
 					GenreManager::Add(GenreType::Folder, genreName, [genreName](MusicData& music)->bool {return music.getGenreName() == genreName; });
 					break;
 				}
@@ -102,10 +91,8 @@ void LoadMusicDatas()
 	//タップSE読み込み
 	::LoadTapSE();
 
-	mutex.lock();
 	::LoadCourses();
 	ClearPrint();
-	mutex.unlock();
 	Game::SetLoadCompleted(true);
 }
 //コースデータ読み込み

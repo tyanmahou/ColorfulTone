@@ -59,7 +59,7 @@ public:
 			);
 		if (m_pScene->isDownloading())
 		{
-			Window::BaseClientRect().draw(ColorF(1, 0.3));
+			Window::BaseClientRect().draw(ColorF(1, 0.5));
 			m_loading.draw(m_pScene->getProgress());
 		}
 	}

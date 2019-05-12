@@ -183,7 +183,7 @@ void TitleScene::draw()const
 
 	for (unsigned int i = 0; i < 5; ++i)
 	{
-		const unsigned index = (static_cast<unsigned int>(m_mode) + i + 5) % 7;
+		const unsigned index = (static_cast<unsigned int>(m_mode) + i + 6) % 8;
 		const auto size = m_font(name[index].second).region().size;
 		m_font(name[index].second).drawKinetic(x - size.x / 2.0, y + off * i - size.y / 2.0, FontKinetic::DeleteSpace, ColorF(0, i == 2 ? 1 : 0.5 - 0.1*Abs<int>(2 - i)));
 

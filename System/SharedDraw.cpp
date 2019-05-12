@@ -263,7 +263,7 @@ namespace SharedDraw
 
 		if (m_isCompleted) {
 			const double size = static_cast<double>(Min(m_stopwatch.ms(), 350));
-			Line(center - Vec2{ -size,20 }, center - Vec2{ size,20 }).draw(ColorF(0, 0.5));
+			Line(center + Vec2{ size, 20 }, center + Vec2{ -size,20 }).draw(ColorF(0, 0.5));
 			Circle(center, 200 + m_stopwatch.ms()).drawFrame(0, 1.2, ColorF(0, 0.5));
 		}
 		else {
