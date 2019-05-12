@@ -4,19 +4,25 @@
 #include "DownloadContent.hpp"
 #include "SharedDraw.hpp"
 
+namespace {
+
+}
 class DownloadSceneView::Impl
 {
 private:
 	const DownloadScene* const m_pScene;
 	SharedDraw::DrawBGLight m_lights;
+	SharedDraw::LoadingProgress m_loading;
 public:
 	Impl(const DownloadScene* const scene):
-		m_pScene(scene)
+		m_pScene(scene),
+		m_loading(L"DOWNLOADING...")
 	{}
 
 	void update()
 	{
 		m_lights.update();
+		m_loading.update();
 	}
 
 	void draw()const
@@ -53,9 +59,8 @@ public:
 			);
 		if (m_pScene->isDownloading())
 		{
-			Window::BaseClientRect().draw(ColorF(0, 0.5));
-			// TODO download‰‰o
-			PutText(m_pScene->getProgress()).at(400, 300);
+			Window::BaseClientRect().draw(ColorF(1, 0.3));
+			m_loading.draw(m_pScene->getProgress());
 		}
 	}
 };

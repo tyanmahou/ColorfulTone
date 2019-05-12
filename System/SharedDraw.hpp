@@ -132,6 +132,20 @@ namespace SharedDraw
 
 		void draw(const CourseScore& courseScore, bool drawFailure = true) const;
 	};
+
+	class LoadingProgress
+	{
+	private:
+		String m_message;
+		Stopwatch m_stopwatch;
+		bool m_isCompleted;
+	public:
+		LoadingProgress(const String& text = L"NOW LOADING...");
+		void onCompleted();
+		void update();
+		void draw(double progress)const;
+		int32 getStopwatchMs() const;
+	};
 }
 
 

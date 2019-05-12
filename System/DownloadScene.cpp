@@ -152,7 +152,10 @@ void DownloadScene::draw() const
 {
 	m_view.draw();
 	// シーン情報
-	SceneInfo::Draw(L"Enter:決定 Esc:タイトル戻る");
+	if (!m_pModel->isDownloading())
+	{
+		SceneInfo::Draw(L"Enter:決定 Esc:タイトル戻る");
+	}
 }
 
 void DownloadScene::drawFadeIn(double t) const

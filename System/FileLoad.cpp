@@ -8,7 +8,7 @@
 #include"MultiThread.hpp"
 namespace
 {
-	static float g_loadingRate = 0;
+	static double g_loadingRate = 0;
 }
 //--------------------------------------------------------------------------------
 //関数：LoadMusicDatas
@@ -206,9 +206,6 @@ void FileLoad::draw()const
 {
 	// ローディングの描画
 	m_view.draw();
-
-	// 20は補正値
-	Rect(0, 570, (800 + 20) * g_loadingRate, 30).draw(Color(0, 0, 0, 128));
 }
 
 void FileLoad::drawFadeIn(double t) const
@@ -229,4 +226,9 @@ void FileLoad::drawFadeIn(double t) const
 void FileLoad::drawFadeOut(double t) const
 {
 	draw();
+}
+
+double FileLoad::GetProgress()
+{
+	return g_loadingRate;
 }

@@ -358,12 +358,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleApi.cpp">
       <Filter>ApiCall\Title</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)DownloadHistory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Downloader.cpp">
       <Filter>MusicGame\Data\DownloadContent</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SharedLogic.cpp">
       <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DownloadHistory.cpp">
+      <Filter>MusicGame\Data\DownloadContent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

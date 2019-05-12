@@ -2,6 +2,8 @@
 #include<Siv3D/Fwd.hpp>
 #include<memory>
 // ロード画面ビュー
+
+
 class FileLoadView
 {
 private:
