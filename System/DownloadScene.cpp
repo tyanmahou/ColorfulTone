@@ -22,6 +22,8 @@ private:
 	Array<DownloadContent> m_contents;
 	Downloader m_downloader;
 	int m_moveSelect = 0;
+
+	bool m_hasNewContent = false;
 public:
 	Model() {
 		DownloadApi::List(m_contents);
@@ -32,6 +34,11 @@ public:
 	}
 	bool update()
 	{
+		if (m_downloader.isActive()) {
+			m_downloader.downloadUpdate();
+			return false;
+		}
+
 		auto& target = g_selectInfo.content;
 		size_t size = m_contents.size();
 		m_moveSelect = SharedLogic::MoveSelect();
@@ -51,10 +58,6 @@ public:
 		}
 		target = size ? target % size : 0;
 
-		if (m_downloader.isActive()) {
-			m_downloader.downloadUpdate();
-			return false;
-		}
 		// Œˆ’èƒ{ƒ^ƒ“
 		if (PlayKey::Start().clicked && size)
 		{
@@ -69,6 +72,7 @@ public:
 			if (command == MessageBoxCommand::Ok)
 			{
 				m_downloader.download(content);
+				m_hasNewContent = true;
 				return false;
 			}
 		}
@@ -82,6 +86,18 @@ public:
 	int getMoveSelect()const
 	{
 		return m_moveSelect;
+	}
+	bool hasNewContent()const
+	{
+		return m_hasNewContent;
+	}
+	bool isDownloading()const
+	{
+		return m_downloader.isActive();
+	}
+	double getProgress() const
+	{
+		return m_downloader.getProgress();
 	}
 };
 
@@ -102,7 +118,12 @@ void DownloadScene::update()
 	{
 		if (PlayKey::BigBack().clicked)
 		{
-			this->changeScene(L"title", 1000);
+			if (m_pModel->hasNewContent()) {
+				this->changeScene(SceneName::Load, 1000);
+			}
+			else {
+				this->changeScene(SceneName::Title, 1000);
+			}
 			SoundManager::SE::Play(L"cancel");
 		}
 	}
@@ -138,6 +159,16 @@ const Array<DownloadContent>& DownloadScene::getContents() const
 int DownloadScene::getMoveSelect() const
 {
 	return m_pModel->getMoveSelect();
+}
+
+bool DownloadScene::isDownloading() const
+{
+	return m_pModel->isDownloading();
+}
+
+double DownloadScene::getProgress() const
+{
+	return m_pModel->getProgress();
 }
 
 DownloadScene::SelectContent DownloadScene::GetSelectInfo()

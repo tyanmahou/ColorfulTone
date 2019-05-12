@@ -30,6 +30,8 @@ public:
 	const Array<DownloadContent>& getContents()const;
 
 	int getMoveSelect()const;
+	bool isDownloading()const;
+	double getProgress()const;
 
 	static SelectContent GetSelectInfo();
 };

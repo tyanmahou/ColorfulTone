@@ -51,6 +51,12 @@ public:
 				select.content,
 				[](const DownloadContent & c)->decltype(auto) {return c.getTitle(); }
 			);
+		if (m_pScene->isDownloading())
+		{
+			Window::BaseClientRect().draw(ColorF(0, 0.5));
+			// TODO download‰‰o
+			PutText(m_pScene->getProgress()).at(400, 300);
+		}
 	}
 };
 

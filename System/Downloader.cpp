@@ -16,7 +16,6 @@ public:
 	{
 		ZIPReader zipReader(std::move(m_byte));
 		zipReader.extractAll(m_pContent->getSaveLocalPath());
-		MessageBox::Show(Format(zipReader.getContents().size()));
 		m_pContent->setDownloaded(true);
 		bool isUpdate = DownloadHistory::Add(m_pContent->getDownloadId());
 		if (isUpdate) {
@@ -57,7 +56,7 @@ public:
 	}
 	double getProgress()
 	{
-		return m_client.retreiveProgress().getProgress().value_or(m_isActive?100.0 : 0.0);
+		return m_client.retreiveProgress().getProgress().value_or(m_isActive?1.0 : 0.0);
 	}
 };
 Downloader::Downloader():
