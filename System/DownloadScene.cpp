@@ -62,12 +62,14 @@ public:
 		if (PlayKey::Start().clicked && size)
 		{
 			auto& content = m_contents[g_selectInfo.content];
+			bool isDownloaded = content.isDownloaded();
 			auto command = MessageBox::Show(
 				content.getTitle(),
-				content.isDownloaded()?
+				isDownloaded ?
 				L"既にダウンロード済みです。\n再度ダウンロードをしますか？":
 				L"ダウンロードを開始します。", 
-				MessageBoxStyle::OkCancel
+				MessageBoxStyle::OkCancel,
+				isDownloaded ? 1:0
 			);
 			if (command == MessageBoxCommand::Ok)
 			{
@@ -118,8 +120,20 @@ void DownloadScene::update()
 	{
 		if (PlayKey::BigBack().clicked)
 		{
-			if (m_pModel->hasNewContent()) {
-				this->changeScene(SceneName::Load, 1000);
+			if (m_pModel->hasNewContent())
+			{
+				auto command = MessageBox::Show(L"追加ファイルがあります。リロードしますか?", MessageBoxStyle::YesNoCancel);
+				if (command == MessageBoxCommand::Yes)
+				{
+					this->changeScene(SceneName::Load, 1000);
+				}else if(command == MessageBoxCommand::No)
+				{
+					this->changeScene(SceneName::Title, 1000);
+				}
+				else 
+				{
+					return;
+				}
 			}
 			else {
 				this->changeScene(SceneName::Title, 1000);
