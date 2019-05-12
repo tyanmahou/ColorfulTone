@@ -13,5 +13,6 @@ public:
 	DownloadSceneView(const DownloadScene* const scene);
 	~DownloadSceneView() = default;
 
+	void update() const;
 	void draw()const;
 };
