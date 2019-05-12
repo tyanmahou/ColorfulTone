@@ -2,6 +2,7 @@
 #include "DownloadContent.hpp"
 #include "DownloadHistory.hpp"
 #include "Setting.hpp"
+#include "MultiThread.hpp"
 #include<Siv3D.hpp>
 
 class Downloader::Impl
@@ -11,18 +12,25 @@ private:
 	ByteArray m_byte;
 	DownloadContent* m_pContent;
 	bool m_isActive;
+	bool m_isSaving = false;
+
 public:
 	bool save()
 	{
-		ZIPReader zipReader(std::move(m_byte));
-		zipReader.extractAll(m_pContent->getSaveLocalPath());
-		m_pContent->setDownloaded(true);
-		bool isUpdate = DownloadHistory::Add(m_pContent->getDownloadId());
-		if (isUpdate) {
-			DownloadHistory::Save();
-		}
-		m_pContent = nullptr;
-		m_byte = ByteArray();
+		m_isSaving = true;
+		MultiThread::Async(L"save download content", [&]() {
+			ZIPReader zipReader(std::move(m_byte));
+			zipReader.extractAll(m_pContent->getSaveLocalPath());
+			m_pContent->setDownloaded(true);
+			bool isUpdate = DownloadHistory::Add(m_pContent->getDownloadId());
+			if (isUpdate) {
+				DownloadHistory::Save();
+			}
+			m_pContent = nullptr;
+			m_byte = ByteArray();
+			m_isSaving = false;
+			m_isActive = false;
+		});
 		return true;
 	}
 	bool download(DownloadContent& content)
@@ -36,6 +44,9 @@ public:
 	}
 	bool downloadUpdate()
 	{
+		if (m_isSaving) {
+			return true;
+		}
 		const auto progress = m_client.retreiveProgress();
 		if (progress.status == DownloadStatus::Working) {
 			return true;
@@ -47,7 +58,6 @@ public:
 			// ‚·‚Å‚ÉŠ®—¹
 			this->save();
 		}
-		m_isActive = false;
 		return false;
 	}
 	bool isActive()
