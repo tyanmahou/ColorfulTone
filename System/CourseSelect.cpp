@@ -4,7 +4,7 @@
 #include"Useful.hpp"
 #include"Fade.h"
 #include"AutoPlayManager.h"
-
+#include"SharedLogic.hpp"
 
 namespace
 {
@@ -57,19 +57,6 @@ namespace
 		}
 		return 0;
 	}
-
-	int MoveSelect()
-	{
-		if (util::AccelPressed(PlayKey::Down()))
-		{
-			return -1;
-		}
-		if (util::AccelPressed(PlayKey::Up()))
-		{
-			return 1;
-		}
-		return 0;
-	}
 }
 
 class CourseSelect::Model
@@ -102,7 +89,7 @@ public:
 		// 選択するターゲットの参照
 		auto &target = ::GetSelectTarget(m_action);
 		size_t size = ::GetTargetSize(m_action, m_courses);
-		m_moveSelect = ::MoveSelect();
+		m_moveSelect = SharedLogic::MoveSelect();
 		if (m_moveSelect)
 		{
 			if (m_moveSelect < 0)

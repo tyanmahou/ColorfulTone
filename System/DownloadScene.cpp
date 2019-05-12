@@ -6,10 +6,12 @@
 #include"Downloader.hpp"
 #include"DownloadApi.hpp"
 #include"Setting.hpp"
-
+#include"SharedLogic.hpp"
 namespace
 {
 	DownloadScene::SelectContent g_selectInfo;
+
+
 }
 
 class DownloadScene::Model
@@ -19,6 +21,7 @@ private:
 
 	Array<DownloadContent> m_contents;
 	Downloader m_downloader;
+	int m_moveSelect = 0;
 public:
 	Model() {
 		DownloadApi::List(m_contents);
@@ -27,15 +30,59 @@ public:
 	{
 		m_data = data;
 	}
-	void update()
+	bool update()
 	{
+		auto& target = g_selectInfo.content;
+		size_t size = m_contents.size();
+		m_moveSelect = SharedLogic::MoveSelect();
+		if (m_moveSelect)
+		{
+			if (m_moveSelect < 0)
+			{
+				++target;
+			}
+			else
+			{
+				target += size;
+				--target;
+			}
+			SoundManager::SE::Play(L"select");
+
+		}
+		target = size ? target % size : 0;
+
+		if (m_downloader.isActive()) {
+			m_downloader.downloadUpdate();
+			return false;
+		}
+		// 決定ボタン
+		if (PlayKey::Start().clicked && size)
+		{
+			auto& content = m_contents[g_selectInfo.content];
+			auto command = MessageBox::Show(
+				content.getTitle(),
+				content.isDownloaded()?
+				L"既にダウンロード済みです。\n再度ダウンロードをしますか？":
+				L"ダウンロードを開始します。", 
+				MessageBoxStyle::OkCancel
+			);
+			if (command == MessageBoxCommand::Ok)
+			{
+				m_downloader.download(content);
+				return false;
+			}
+		}
+		return true;
 	}
 
 	const Array<DownloadContent>& getContents() const
 	{
 		return m_contents;
 	}
-
+	int getMoveSelect()const
+	{
+		return m_moveSelect;
+	}
 };
 
 DownloadScene::DownloadScene():
@@ -51,7 +98,14 @@ void DownloadScene::init()
 
 void DownloadScene::update()
 {
-	m_pModel->update();
+	if (m_pModel->update())
+	{
+		if (PlayKey::BigBack().clicked)
+		{
+			this->changeScene(L"title", 1000);
+			SoundManager::SE::Play(L"cancel");
+		}
+	}
 	m_view.update();
 }
 
@@ -83,7 +137,7 @@ const Array<DownloadContent>& DownloadScene::getContents() const
 
 int DownloadScene::getMoveSelect() const
 {
-	return 0;
+	return m_pModel->getMoveSelect();
 }
 
 DownloadScene::SelectContent DownloadScene::GetSelectInfo()

@@ -70,5 +70,5 @@ namespace util
 
 		Graphics2D::SetStencilState(StencilState::Default);
 		Graphics2D::SetStencilValue(cache);
-	};
+	}
 }
