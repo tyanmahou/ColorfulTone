@@ -4,6 +4,7 @@
 #include"AutoPlayManager.h"
 #include "HighSpeedDemo.h"
 #include"Audition.hpp"
+#include "SharedLogic.hpp"
 
 namespace
 {
@@ -100,19 +101,6 @@ namespace
 		}
 		return 0;
 	}
-
-	int MoveSelect()
-	{
-		if (util::AccelPressed(PlayKey::Down()))
-		{
-			return -1;
-		}
-		if (util::AccelPressed(PlayKey::Up()))
-		{
-			return 1;
-		}
-		return 0;
-	}
 }
 
 class MusicSelect::Model
@@ -155,7 +143,7 @@ public:
 		bool isHighSpeedUpdate = m_action != Action::GenreSelect &&
 			m_highSpeedDemo.update(m_data->m_scrollRate);
 
-		m_moveSelect = isHighSpeedUpdate ? 0 : ::MoveSelect();
+		m_moveSelect = isHighSpeedUpdate ? 0 : SharedLogic::MoveSelect();
 		if (m_moveSelect)
 		{
 			if (m_moveSelect < 0)

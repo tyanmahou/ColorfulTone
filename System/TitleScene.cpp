@@ -3,7 +3,7 @@
 
 #include"FontKinetic.h"
 #include"Setting.hpp"
-
+#include"SharedLogic.hpp"
 //--------------------------------------------------------------------------------
 //関数：コンストラクタ
 //--------------------------------------------------------------------------------
@@ -111,12 +111,14 @@ void TitleScene::finally()
 
 void TitleScene::update()
 {
-	if (PlayKey::Up().clicked)
+	int move = SharedLogic::MoveSelect();
+
+	if (move > 0)
 	{
 		SoundManager::SE::Play(L"select");
 		--m_mode;
 	}
-	else 	if (PlayKey::Down().clicked)
+	else if (move < 0)
 	{
 		SoundManager::SE::Play(L"select");
 		++m_mode;
