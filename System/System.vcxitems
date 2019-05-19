@@ -86,6 +86,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedLogic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleApi.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Util.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SharedDraw.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SharedLogic.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleApi.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Util.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RepeatNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ResultRank.cpp" />

@@ -367,6 +367,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DownloadHistory.cpp">
       <Filter>MusicGame\Data\DownloadContent</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleSceneView.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -635,6 +638,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedLogic.hpp">
       <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleSceneView.hpp">
+      <Filter>Scene\Title</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

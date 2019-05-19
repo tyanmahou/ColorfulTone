@@ -30,19 +30,10 @@ namespace
 		TextureAsset::Register(L"canvasBg", L"Resource/Img/Load/bg.png");
 
 		//タイトル
-		TextureAsset::Register(L"titleBg1", L"Resource/Img/Title/bg1.png");
-		TextureAsset::Register(L"titleBg2", L"Resource/Img/Title/bg2.png");
-		TextureAsset::Register(L"titleBg3", L"Resource/Img/Title/bg3.png");
+		TextureAsset::Register(L"titleBgs", L"Resource/Img/Title/title_bgs.png");
 		TextureAsset::Register(L"logo", L"Resource/Img/Title/logo.png");
 		TextureAsset::Register(L"modeBack", L"Resource/Img/Title/modeBack.png");
-
-		TextureAsset::Register(L"iconPlay", L"Resource/Img/Title/TitleIcon/play.png");
-		TextureAsset::Register(L"iconConfig", L"Resource/Img/Title/TitleIcon/config.png");
-		TextureAsset::Register(L"iconReset", L"Resource/Img/Title/TitleIcon/reset.png");
-		TextureAsset::Register(L"iconShutdown", L"Resource/Img/Title/TitleIcon/shutdown.png");
-		TextureAsset::Register(L"iconTutorial", L"Resource/Img/Title/TitleIcon/tutorial.png");
-		TextureAsset::Register(L"iconPlayCourse", L"Resource/Img/Title/TitleIcon/playCourse.png");
-		TextureAsset::Register(L"iconAccess", L"Resource/Img/Title/TitleIcon/access.png");
+		TextureAsset::Register(L"titleIcons", L"Resource/Img/Title/title_icons.png");
 
 		//キーコン
 		TextureAsset::Register(L"keyconBG2", L"Resource/Img/KeyConfig/keyconBG2.png");
@@ -185,6 +176,8 @@ namespace
 		FontAsset(L"8o_s").changeOutlineStyle(TextOutlineStyle(Palette::Black, Palette::Black, 1));
 		FontAsset::Register(L"info", 10, Typeface::Default, FontStyle::Bold);
 		FontAsset::Register(L"combo", 10, L"Straight");
+		FontAsset::Register(L"10o_s", 10, L"Straight", FontStyle::Outline);
+		FontAsset(L"10o_s").changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 2));
 		FontAsset::Register(L"bpm", 12);
 		FontAsset::Register(L"level", 12, L"Straight", FontStyle::Outline);
 		FontAsset(L"level").changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 2));

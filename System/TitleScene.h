@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include"ISceneBase.hpp"
-
+#include"TitleSceneView.hpp"
 class TitleScene :public ISceneBase
 {
 public:
@@ -17,9 +17,7 @@ public:
 		Exit,
 	};
 private:
-	int m_timer;				//タイマー
-	Font m_font;
-
+	TitleSceneView m_view;
 	static Mode m_mode;
 
 	void onEnterMode();
@@ -36,4 +34,5 @@ public:
 	void draw() const override;
 	void drawFadeIn(double t) const override;
 	void drawFadeOut(double t) const override;
+	static Mode GetMode();
 };
