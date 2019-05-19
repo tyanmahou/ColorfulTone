@@ -35,6 +35,7 @@ public:
 	const s3d::String& getSaveLocalPath() const;
 
 	const s3d::Texture& getTexture()const;
+	const s3d::Color& getColor()const;
 	bool isDownloaded()const;
 	void setDownloaded(bool isDownloaded);
 

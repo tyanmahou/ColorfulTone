@@ -104,7 +104,7 @@ namespace
 		pTexture
 			->resize(size)
 			.rotate(Math::Radians(-7.0))
-			.drawAt(Constants::JacketCenter, 250);
+			.drawAt(pos);
 	}
 }
 class MusicSelectView::Impl

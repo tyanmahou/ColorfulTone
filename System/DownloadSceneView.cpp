@@ -5,7 +5,21 @@
 #include "SharedDraw.hpp"
 
 namespace {
-
+	void DrawJacket(const DownloadContent* pContent)
+	{
+		if (!pContent) {
+			return;
+		}
+		// ƒWƒƒƒPŠG•`‰æ
+		const Vec2 pos{ Constants::JacketCenter, 180 };
+		const Vec2 size{ 210, 210 };
+		RectF(pos - size / 2.0, size).draw();
+		pContent
+			->getTexture()
+			.resize(size)
+			.rotate(Math::Radians(-7.0))
+			.drawAt(pos, pContent->getColor());
+	}
 }
 class DownloadSceneView::Impl
 {
@@ -49,14 +63,34 @@ public:
 		SharedDraw::Select<DownloadContent>()
 			.setOffset(offset)
 			.setColorCallBack([](const DownloadContent & c) {
-			if (c.isDownloaded())return Palette::Gray;
-			return Palette::White;
-				})
+					if (c.isDownloaded())return Palette::Gray;
+					return Palette::White;
+				}
+			)
 			.draw(
 				contents,
 				select.content,
-				[](const DownloadContent & c)->decltype(auto) {return c.getTitle(); }
+				[](const DownloadContent & c)->decltype(auto) {
+					return c.getTitle(); 
+				}
 			);
+
+		if (pContent) {
+			static SharedDraw::JacketInfo info;
+			info
+				.setPos({ Constants::JacketCenter, 320 })
+				.drawLine()
+				.drawSub(pContent->getTitle());
+
+			::DrawJacket(pContent);
+			TextureAsset(L"memoDL").drawAt(Constants::JacketCenter, 450);
+			FontAsset(L"info")(pContent->getDetail()).draw({ 90, 380 },Palette::Black, 1.5);
+		}
+
+
+		static const String title = L"DOWNLOAD";
+		SharedDraw::Sticky(&title, nullptr);
+
 		if (m_pScene->isDownloading())
 		{
 			Window::BaseClientRect().draw(ColorF(1, 0.5));

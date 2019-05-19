@@ -72,8 +72,23 @@ const Texture& DownloadContent::getTexture() const
 	if (m_texture) {
 		return m_texture;
 	}
-	// typeÇ…ÇÊÇ¡ÇƒïœçX
-	return m_texture;
+	static Texture tex(L"Resource/Img/MusicSelect/icon/dl_file.png");
+	return tex;
+}
+
+const s3d::Color& DownloadContent::getColor() const
+{
+	if (m_texture) {
+		return Palette::White;
+	}
+	static const std::unordered_map<Type, Color> map
+	{
+		{Type::Notes, Color(255, 207, 207)},
+		{Type::Course,Color(207, 240, 255)},
+		{Type::SE, Color(207, 255, 230)},
+		{Type::Other, Color(247, 255, 207)},
+	};
+	return map.at(m_type);
 }
 
 bool DownloadContent::isDownloaded() const
