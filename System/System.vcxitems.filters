@@ -370,6 +370,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleSceneView.cpp">
       <Filter>Scene\Title</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\TapSE.cpp">
+      <Filter>MusicGame\Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -641,6 +644,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleSceneView.hpp">
       <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mahou.fall708\Documents\Visual Studio 2015\Projects\ColorfulTone\System\TapSE.hpp">
+      <Filter>MusicGame\Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

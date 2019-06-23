@@ -3,7 +3,7 @@
 #include<Siv3D.hpp>
 #include"PlayBG.h"
 #include"PlayStyle.h"
-
+#include"TapSE.hpp"
 enum class IndicateRate
 {
 	Up = 0,
@@ -30,7 +30,7 @@ public:
 	 float m_playScale=1.0;
 
 	 //タップ音
-	 String m_perfectSE, m_greatSE, m_goodSE;
+	 TapSE m_tapSE;
 
 	 //BGM SE音量
 	 float m_bgmVolume, m_seVolume, m_masterVolume;

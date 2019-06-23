@@ -7,6 +7,7 @@
 class GameConfig;
 class MusicData;
 class CourseData;
+class TapSE;
 
 //ゲームクラス
 class Game : protected Singleton<Game>
@@ -23,7 +24,7 @@ public:
 	static bool IsLoadCompleted();
 	static s3d::Array<MusicData>& Musics();
 	static s3d::Array<CourseData>& Courses();
-	static s3d::Array<s3d::String>& TapSEPaths();
+	static s3d::Array<TapSE>& TapSEs();
 	static GameConfig& Config();
 	static bool UpdateAndDraw();	//更新と描画
 

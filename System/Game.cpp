@@ -238,7 +238,7 @@ private:
 public:
 	Array<MusicData> m_musics;
 	Array<CourseData> m_courses;
-	Array<String> m_tapSEPaths;
+	Array<TapSE> m_tapSEs;
 
 	Effect m_effect;		//エフェクト
 	GameConfig m_config;
@@ -288,9 +288,9 @@ Array<CourseData>& Game::Courses()
 {
 	return Instance()->m_pImpl->m_courses;
 }
-Array<String>& Game::TapSEPaths()
+Array<TapSE>& Game::TapSEs()
 {
-	return Instance()->m_pImpl->m_tapSEPaths;
+	return Instance()->m_pImpl->m_tapSEs;
 }
 GameConfig& Game::Config()
 {

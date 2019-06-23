@@ -1,11 +1,9 @@
 ﻿#include"GameConfig.h"
 #include"PlayKey.h"
 #include"SoundManager.h"
+
 GameConfig::GameConfig() :
 	m_scrollRate(1.0f),
-	m_perfectSE(L"Resource/Sound/SE/tapP.wav"),
-	m_greatSE(L"Resource/Sound/SE/tapGR.wav"),
-	m_goodSE(L"Resource/Sound/SE/tapGD.wav"),
 	m_bgmVolume(1.0),
 	m_seVolume(1.0),
 	m_masterVolume(1.0)
@@ -81,13 +79,13 @@ void GameConfig::init()
 
 	m_playScale = ini.getOr<float>(L"Config.PlayScale", 1.0f);
 
-	m_perfectSE = ini.getOr<String>(L"Tap.Perfect", L"Resource/Sound/SE/tapP.wav");
-	m_greatSE = ini.getOr<String>(L"Tap.Great", L"Resource/Sound/SE/tapGR.wav");
-	m_goodSE = ini.getOr<String>(L"Tap.Good", L"Resource/Sound/SE/tapGD.wav");
+	const auto seName = ini.getOr<String>(L"Tap.Name", L"デフォルト");
+	const auto perfectSE = ini.getOr<String>(L"Tap.Perfect", L"TapSE/デフォルト/tapP.mp3");
+	const auto greatSE = ini.getOr<String>(L"Tap.Great", L"TapSE/デフォルト/tapGR.mp3");
+	const auto goodSE = ini.getOr<String>(L"Tap.Good", L"TapSE/デフォルト/tapGD.mp3");
 
-	SoundAsset::Register(L"PERFECT", m_perfectSE, { L"System" });
-	SoundAsset::Register(L"GREAT", m_greatSE, { L"System" });
-	SoundAsset::Register(L"GOOD", m_goodSE, { L"System" });
+	m_tapSE = TapSE(seName, perfectSE, greatSE, goodSE);
+	m_tapSE.apply();
 
 	m_bgmVolume = ini.getOr<float>(L"Config.BGMVolume", 1.0f);
 	m_seVolume = ini.getOr<float>(L"Config.SEVolume",1.0f);
@@ -137,9 +135,10 @@ void GameConfig::save()
 	SaveKey(ini, L"BigBack", m_bigBack);
 
 	//タップ音の保存
-	ini.write(L"Tap", L"Perfect", m_perfectSE);
-	ini.write(L"Tap", L"Great", m_greatSE);
-	ini.write(L"Tap", L"Good", m_goodSE);
+	ini.write(L"Tap", L"Name", m_tapSE.getName());
+	ini.write(L"Tap", L"Perfect", m_tapSE.getPerfectSE());
+	ini.write(L"Tap", L"Great", m_tapSE.getGreatSE());
+	ini.write(L"Tap", L"Good", m_tapSE.getGoodSE());
 
 	//その他設定の保存
 	ini.write(L"Config", L"SpeedRate", m_scrollRate);
@@ -155,5 +154,4 @@ void GameConfig::save()
 
 	ini.write(L"Config", L"BGType", static_cast<int>(m_bgType));
 	ini.write(L"Config", L"StyleType", static_cast<int>(m_styleType));
-
 }

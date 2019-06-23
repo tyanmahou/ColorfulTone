@@ -19,18 +19,18 @@ void LoadCourses();
 //se読み込み
 void LoadTapSE()
 {
+	auto& tapSEs = Game::TapSEs();
+	tapSEs.clear();
+	static const FilePath& nonePath = L"Resource/Sound/SE/none.mp3";
+	tapSEs.emplace_back(L"なし",nonePath, nonePath, nonePath);
+
 	for (auto&&rootFilePath : FileSystem::DirectoryContents(L"TapSE"))
 	{
 		if (FileSystem::IsDirectory(rootFilePath))
 		{
-			for (auto&& filePath : FileSystem::DirectoryContents(rootFilePath))
-			{
-				Game::TapSEPaths().emplace_back(filePath);
-			}
+			tapSEs.emplace_back(rootFilePath);
 		}
-		Game::TapSEPaths().emplace_back(rootFilePath);
 	}
-	Erase_if(Game::TapSEPaths(), [](const String& path) {return Audio::GetFormat(path) == AudioFormat::Unknown; });
 }
 void LoadMusicDatas()
 {

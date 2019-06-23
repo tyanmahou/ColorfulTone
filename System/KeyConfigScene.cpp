@@ -6,43 +6,22 @@
 
 namespace
 {
-	void InitTapSE(Config& config, String& configParm, const String& assetTag, const String& defaultSEPath)
+	void InitTapSE(Config& config)
 	{
-		config.add(L"なし", [=, &configParm]() {
-			configParm = L"Resource/Sound/SE/none.mp3";
-			SoundAsset::Unregister(assetTag);
-			SoundAsset::Register(assetTag, L"Resource/Sound/SE/none.mp3", { L"System" });
-		});
-		config.add(L"デフォルト", [=, &configParm]() {
-			configParm = defaultSEPath;
-			SoundAsset::Unregister(assetTag);
-			SoundAsset::Register(assetTag, defaultSEPath, { L"System" });
-			SoundManager::SE::Play(assetTag);
-		});
-
-		for (const auto& path : Game::TapSEPaths())
+		for (const auto& se : Game::TapSEs())
 		{
-			auto name = FileSystem::Relative(path, L"TapSE");
-			config.add(name, [=, &configParm]() {
-				configParm = path;
-				SoundAsset::Unregister(assetTag);
-				SoundAsset::Register(assetTag, path, { L"System" });
-				SoundManager::SE::Play(assetTag);
+			config.add(se.getName(), [&]() {
+				Game::Config().m_tapSE = se;
+				se.apply();
 			});
+			config.init(Game::Config().m_tapSE.getName());
 		}
-
-		config.setDefault(L"デフォルト");
-		if (configParm == L"Resource/Sound/SE/none.mp3")
-			config.init(L"なし");
-		else if (configParm == defaultSEPath)
-			config.init(L"デフォルト");
-		else
-			config.init(FileSystem::Relative(configParm, L"TapSE"));
 	}
 	class TapSEConfig :public IConfigHierchy
 	{
 		enum Mode :int
 		{
+			All,
 			Perfect,
 			Great,
 			Good, //コンフィグの数
@@ -53,14 +32,22 @@ namespace
 		TapSEConfig()
 		{
 			m_configs.resize(TOTAL_CONFIG);
-			m_configs[Perfect].setName(L"PERFECT");
-			::InitTapSE(m_configs[Perfect], Game::Config().m_perfectSE, L"PERFECT", L"Resource/Sound/SE/tapP.wav");
+			m_configs[All].setName(L"タップ音");
+			::InitTapSE(m_configs[All]);
+			m_configs[Perfect].setName(L"PERFECT 試聴");
+			m_configs[Perfect].applyOnEnterd([]() {
+				SoundManager::SE::Play(L"PERFECT");
+			});
 
-			m_configs[Great].setName(L"GREAT");
-			::InitTapSE(m_configs[Great], Game::Config().m_greatSE, L"GREAT", L"Resource/Sound/SE/tapGR.wav");
+			m_configs[Great].setName(L"GREAT 試聴");
+			m_configs[Great].applyOnEnterd([]() {
+				SoundManager::SE::Play(L"GREAT");
+				});
 
-			m_configs[Good].setName(L"GOOD");
-			::InitTapSE(m_configs[Good], Game::Config().m_goodSE, L"GOOD", L"Resource/Sound/SE/tapGD.wav");
+			m_configs[Good].setName(L"GOOD 試聴");
+			m_configs[Good].applyOnEnterd([]() {
+				SoundManager::SE::Play(L"GOOD");
+				});
 		}
 	};
 }
