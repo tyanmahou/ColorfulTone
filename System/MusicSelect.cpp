@@ -35,14 +35,26 @@ namespace
 		};
 		case SortMode::MusicName:return  [](const MusicData& l, const MusicData& r)
 		{
+			if (l.getMusicName() == r.getMusicName())
+			{
+				return l.getIndex() < r.getIndex();
+			}
 			return 	l.getMusicName() < r.getMusicName();
 		};
 		case SortMode::ArtistName:return  [](const MusicData& l, const MusicData& r)
 		{
+			if (l.getArtistName() == r.getArtistName())
+			{
+				return l.getIndex() < r.getIndex();
+			}
 			return 	l.getArtistName() < r.getArtistName();
 		};
 		case SortMode::LastUpdateAt:return  [](const MusicData& l, const MusicData& r)
 		{
+			if (l.getLastUpdateAt() == r.getLastUpdateAt())
+			{
+				return l.getIndex() < r.getIndex();
+			}
 			return 	l.getLastUpdateAt() > r.getLastUpdateAt();
 		};
 		}
