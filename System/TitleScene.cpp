@@ -54,7 +54,6 @@ namespace
 
 void TitleScene::onEnterMode()
 {
-	SoundManager::SE::Play(L"desisionLarge");
 	using ChangeSceneParam = struct
 	{
 		String name;
@@ -86,6 +85,9 @@ void TitleScene::onEnterMode()
 	}
 	const auto& param = sceneParams.at(m_mode);
 	changeScene(param.name, param.timeMillisec, param.crossFade);
+
+	const String seName = m_data->m_toScene == SceneName::Tutorial ? L"desisionLarge2" : L"desisionLarge";
+	SoundManager::SE::Play(seName);
 }
 
 void TitleScene::init()

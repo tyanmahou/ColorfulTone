@@ -159,14 +159,16 @@ namespace
 		SoundAsset(L"title").setLoopBySec(true, 10.66s, 160.0s);
 
 		SoundManager::BGM::Register(L"title");
-		SoundAsset::Register(L"result", L"Resource/Sound/BGM/result.wav", SoundLoop(true), { L"System" });
+		SoundAsset::Register(L"result", L"Resource/Sound/BGM/result.mp3", SoundLoop(true), { L"System" });
+		SoundAsset(L"result").setLoopBySec(true, 6s, 90.0s);
 		SoundManager::BGM::Register(L"result");
 
 		// SE
-		SoundAsset::Register(L"select", L"Resource/Sound/SE/Select.wav", { L"System" });
-		SoundAsset::Register(L"desisionSmall", L"Resource/Sound/SE/Desision_Small.wav", { L"System" });
-		SoundAsset::Register(L"desisionLarge", L"Resource/Sound/SE/Desision_Large.wav", { L"System" });
-		SoundAsset::Register(L"cancel", L"Resource/Sound/SE/cancel.wav", { L"System" });
+		SoundAsset::Register(L"select", L"Resource/Sound/SE/select.mp3", { L"System" });
+		SoundAsset::Register(L"desisionSmall", L"Resource/Sound/SE/decide.mp3", { L"System" });
+		SoundAsset::Register(L"desisionLarge", L"Resource/Sound/SE/mekuru.mp3", { L"System" });
+		SoundAsset::Register(L"desisionLarge2", L"Resource/Sound/SE/ironuri.mp3", { L"System" });
+		SoundAsset::Register(L"cancel", L"Resource/Sound/SE/cancel.mp3", { L"System" });
 	}
 	void LoadFont()
 	{

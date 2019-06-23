@@ -205,7 +205,7 @@ void CourseSelect::update()
 	}else if (PlayKey::BigBack().clicked)
 	{
 		this->changeScene(L"title", 1000);
-		SoundManager::SE::Play(L"cancel");
+		SoundManager::SE::Play(L"desisionLarge");
 	}
 	m_view.update();
 	if (m_pModel->onChangeAction())

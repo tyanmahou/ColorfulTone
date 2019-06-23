@@ -128,7 +128,7 @@ void DownloadScene::update()
 			else {
 				this->changeScene(SceneName::Title, 1000);
 			}
-			SoundManager::SE::Play(L"cancel");
+			SoundManager::SE::Play(L"desisionLarge");
 		}
 	}
 	m_view.update();

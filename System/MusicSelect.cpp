@@ -326,13 +326,13 @@ void MusicSelect::update()
 	if (m_pModel->isSelectedNotes())
 	{
 		changeScene(SceneName::Main, 2000, false);
-		SoundManager::SE::Play(L"desisionLarge");
+		SoundManager::SE::Play(L"desisionLarge2");
 	}
 	else if (PlayKey::BigBack().clicked)
 	{
 		//戻る
 		changeScene(SceneName::Title, 1000);
-		SoundManager::SE::Play(L"cancel");
+		SoundManager::SE::Play(L"desisionLarge");
 	}
 
 	m_view.update();

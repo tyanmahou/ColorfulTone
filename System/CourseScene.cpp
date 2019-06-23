@@ -74,7 +74,7 @@ void CourseScene::update()
 	{
 		m_data->m_nowNotes = m_pModel->nowNotes();
 		this->changeScene(SceneName::Main, 2000, false);
-		SoundManager::SE::Play(L"desisionLarge");
+		SoundManager::SE::Play(L"desisionLarge2");
 	}
 	m_view.update();
 }
