@@ -10,7 +10,8 @@
 //--------------------------------------------------------------------------------
 //関数：コンストラクタ
 //--------------------------------------------------------------------------------
-Tutorial::Tutorial() 
+Tutorial::Tutorial():
+	m_music(L"Sample", L"Sample/tutorial/", L"Sample/tutorial/tutorial.ini")
 {}
 
 //--------------------------------------------------------------------------------
@@ -22,8 +23,6 @@ Tutorial::~Tutorial()
 }
 void Tutorial::init()
 {
-	m_music = MusicData(L"Sample", L"Sample/tutorial/", L"Sample/tutorial/tutorial.ini");
-
 	m_musicGame.init(m_music[0], m_data->m_scrollRate);
 
 	AutoPlayManager::SetAutoPlay(false);
