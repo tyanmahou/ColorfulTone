@@ -16,7 +16,7 @@ protected:
 public:
 	LongNote(int type, double firstCount,double speed,std::shared_ptr<Note>& parent);
 	virtual ~LongNote() = default;
-	virtual bool update(double& nowCount, double& countPerFrame)override;
+	virtual bool update(const double& nowCount,const double& countPerFrame)override;
 	virtual void diffDraw(double count, float scrollRate)const override;
 	const double& getSpeed()const { return m_scrollSpeed; }
 	const  NoteType getType()const { return m_type; }

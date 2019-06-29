@@ -20,7 +20,7 @@ public:
 		m_isDraw(false)
 	{};
 	virtual ~TextObject() = default;
-	virtual bool update(double& nowCount, double& countPerFrame)override;
+	virtual bool update(const double& nowCount, const double& countPerFrame)override;
 	virtual void diffDraw(double count, float scrollRate)const override;
 	void init()override;
 };

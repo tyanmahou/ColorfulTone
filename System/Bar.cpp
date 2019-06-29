@@ -1,7 +1,7 @@
 ﻿#include "Bar.h"
 #include "PlayStyle.h"
 #include "UtilPP.hpp"
-bool Bar::update(double& nowCount, double& countPerFrame)
+bool Bar::update(const double& nowCount,const double& countPerFrame)
 {
 	MAYBE_UNUSED(nowCount);
 	MAYBE_UNUSED(countPerFrame);

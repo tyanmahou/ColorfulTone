@@ -22,7 +22,7 @@ void RepeatNote::init()
 	m_isStart = false;
 	Note::init();
 }
-bool RepeatNote::update(double & nowCount, double & countPerFrame)
+bool RepeatNote::update(const double & nowCount, const double & countPerFrame)
 {
 	if (!m_isActive)
 		return true;
@@ -68,7 +68,7 @@ void RepeatEnd::init()
 	LongNote::init();
 }
 
-bool RepeatEnd::update(double & nowCount, double & countPerFrame)
+bool RepeatEnd::update(const double & nowCount, const double & countPerFrame)
 {
 	if (!m_isActive || !m_parent->isFirstTap())
 		return true;

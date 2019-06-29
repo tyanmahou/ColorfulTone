@@ -81,7 +81,7 @@ void LongNote::miss()
 	m_parent->m_isActive = false;
 }
 
-bool LongNote::update(double& nowCount, double& countPerFrame)
+bool LongNote::update(const double& nowCount,const double& countPerFrame)
 {
 	m_isActive = m_parent->m_isActive;//親のノーツの存在と同期
 

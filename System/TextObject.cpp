@@ -2,7 +2,7 @@
 #include"PlayMusicGame.h"
 #include"UtilPP.hpp"
 
-bool TextObject::update(double& nowCount, double& countPerFrame)
+bool TextObject::update(const double& nowCount, const double& countPerFrame)
 {
 	const Sound*const pSound = PlayMusicGame::CurrentSound();
 

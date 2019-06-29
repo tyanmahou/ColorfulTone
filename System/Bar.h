@@ -8,7 +8,7 @@ private:
 public:
 	Bar(double firstCount,double speed) :Object(firstCount),m_speed(speed){};
 	virtual ~Bar() = default;
-	virtual bool update(double& nowCount, double& countPerFrame)override;
+	virtual bool update(const double& nowCount, const double& countPerFrame)override;
 	virtual void diffDraw(double count, float scrollRate)const override;
 	const double& getSpeed()const
 	{

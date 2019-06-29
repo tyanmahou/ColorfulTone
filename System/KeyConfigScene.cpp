@@ -13,7 +13,7 @@ namespace
 			config.add(se.getName(), [&]() {
 				Game::Config().m_tapSE = se;
 				se.apply();
-			});
+				});
 			config.init(Game::Config().m_tapSE.getName());
 		}
 	}
@@ -27,17 +27,20 @@ namespace
 			Good, //コンフィグの数
 			TOTAL_CONFIG //コンフィグの数
 		};
-
+		float m_volume = 0.0f;
 	public:
 		TapSEConfig()
 		{
+			m_volume = SoundManager::BGM::GetVolume();
+			SoundManager::BGM::SetVolume(s3d::Min(0.1f, m_volume));
+
 			m_configs.resize(TOTAL_CONFIG);
 			m_configs[All].setName(L"タップ音");
 			::InitTapSE(m_configs[All]);
 			m_configs[Perfect].setName(L"PERFECT 試聴");
 			m_configs[Perfect].applyOnEnterd([]() {
 				SoundManager::SE::Play(L"PERFECT");
-			});
+				});
 
 			m_configs[Great].setName(L"GREAT 試聴");
 			m_configs[Great].applyOnEnterd([]() {
@@ -48,6 +51,10 @@ namespace
 			m_configs[Good].applyOnEnterd([]() {
 				SoundManager::SE::Play(L"GOOD");
 				});
+		}
+		~TapSEConfig()
+		{
+			SoundManager::BGM::SetVolume(m_volume);
 		}
 	};
 }
@@ -74,10 +81,10 @@ namespace
 		for (auto&& pair : map)
 		{
 			config.add(pair.second, [&pair, func, &configParam]()
-			{
-				configParam = pair.first;
-				func(pair.first);
-			});
+				{
+					configParam = pair.first;
+					func(pair.first);
+				});
 		}
 		config.setDefault(default);
 		if (map.find(configParam) != map.end())
@@ -202,11 +209,11 @@ namespace
 		config.setName(L"プレイモード");
 
 		config.add(L"通常モード", [] {
-			Game::Config().m_styleType = PlayStyleType::Default; 
-		});
+			Game::Config().m_styleType = PlayStyleType::Default;
+			});
 		config.add(L"縦レーン", [] {
 			Game::Config().m_styleType = PlayStyleType::Portrait;
-		});
+			});
 
 		switch (Game::Config().m_styleType)
 		{
@@ -284,21 +291,21 @@ namespace
 			m_configs[Play].setName(L"プレイ画面");
 			m_configs[Play].applyOnEnterd([this]() {
 				this->changePush<::PlayConfig>();
-			});
+				});
 			m_configs[Volume].setName(L"音量");
 			m_configs[Volume].applyOnEnterd([this]() {
 				this->changePush<::VolumeConfig>();
-			});
+				});
 
 			m_configs[TapSE].setName(L"タップ音");
 			m_configs[TapSE].applyOnEnterd([this]() {
 				this->changePush<::TapSEConfig>();
-			});
+				});
 			m_configs[KeyConfig].setName(L"キーコンフィグ");
 			m_configs[KeyConfig].applyOnEnterd([this]() {
 				m_isKeyConfig = true;
 				m_keyConfigEasing.start();
-			});
+				});
 		}
 
 		bool update()override

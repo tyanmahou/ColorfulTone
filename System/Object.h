@@ -27,7 +27,7 @@ public:
 	{};
 	virtual void init() { m_isActive = true; }
 	virtual ~Object() {};
-	virtual bool update(double& nowCount, double& countPerFrame) = 0;
+	virtual bool update(const double& nowCount, const double& countPerFrame) = 0;
 
 	virtual void diffDraw(double count, float scrollRate)const = 0;
 

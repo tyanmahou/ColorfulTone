@@ -285,7 +285,7 @@ void Note::tapMiss()
 //関数：update
 //--------------------------------------------------------------------------------
 
-bool Note::update(double& nowCount, double& countPerFrame)
+bool Note::update(const double& nowCount, const double& countPerFrame)
 {
 	if (!m_isActive)
 		return true;
