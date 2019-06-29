@@ -181,6 +181,16 @@ namespace
 		config.setDefault(L"x1.0");
 		config.init(map.at(Game::Config().m_playScale));
 	}
+	void TimingAdjustInit(Config& config)
+	{
+		config.setName(L"タイミング調整");
+		for (int adjust : step(-10,10))
+		{
+			config.add(Format(adjust), [=]() {Game::Config().m_timingAdjust = adjust; });
+		}
+		config.setDefault(L"0");
+		config.init(Format(Game::Config().m_timingAdjust));
+	}
 	void PlayBGInit(Config& config)
 	{
 		config.setName(L"背景設定");
@@ -242,6 +252,7 @@ namespace
 			ClearRate,
 			CircleCut,
 			PlayScale,
+			TimingAdjust,
 			BGType,
 			IsSpectrum,
 			Style,
@@ -254,6 +265,7 @@ namespace
 			::ClearRateInit(m_configs[ClearRate]);
 			::CircleCutInit(m_configs[CircleCut]);
 			::PlayScaleInit(m_configs[PlayScale]);
+			::TimingAdjustInit(m_configs[TimingAdjust]);
 			::PlayBGInit(m_configs[BGType]);
 			::IsSpectrumInit(m_configs[IsSpectrum]);
 			::PlayStyleInit(m_configs[Style]);

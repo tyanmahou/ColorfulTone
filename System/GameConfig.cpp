@@ -78,6 +78,7 @@ void GameConfig::init()
 	m_rateType = static_cast<IndicateRate>(ini.getOr<int>(L"Config.IndicateRate", 0));
 
 	m_playScale = ini.getOr<float>(L"Config.PlayScale", 1.0f);
+	m_timingAdjust = ini.getOr<int8>(L"Config.TimingAdjust", 0);
 
 	const auto seName = ini.getOr<String>(L"Tap.Name", L"デフォルト");
 	const auto perfectSE = ini.getOr<String>(L"Tap.Perfect", L"TapSE/デフォルト/tapP.mp3");
@@ -143,6 +144,7 @@ void GameConfig::save()
 	//その他設定の保存
 	ini.write(L"Config", L"SpeedRate", m_scrollRate);
 	ini.write(L"Config", L"PlayScale", m_playScale);
+	ini.write(L"Config", L"TimingAdjust", m_timingAdjust);
 	ini.write(L"Config", L"CirleCut", m_isCirleCut);
 	ini.write(L"Config", L"IndicateRate", static_cast<int>(m_rateType));
 

@@ -28,6 +28,8 @@ public:
 	 //表示レート
 	 IndicateRate m_rateType = IndicateRate::Up;
 	 float m_playScale=1.0;
+	 // タイミング調整
+	 int8 m_timingAdjust = 0;
 
 	 //タップ音
 	 TapSE m_tapSE;
