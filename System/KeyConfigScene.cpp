@@ -184,7 +184,7 @@ namespace
 	void TimingAdjustInit(Config& config)
 	{
 		config.setName(L"タイミング調整");
-		for (int adjust : step(-10,10))
+		for (int adjust : step_to(-10,10))
 		{
 			config.add(Format(adjust), [=]() {Game::Config().m_timingAdjust = adjust; });
 		}

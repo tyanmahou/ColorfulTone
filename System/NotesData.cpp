@@ -7,6 +7,7 @@
 #include"LongNote.h"
 #include"RepeatNote.h"
 #include"ScoreLoader.hpp"
+
 namespace
 {
 	unsigned GetLastStopIndex(const double count, const Array<StopInfo>& stopInfos)

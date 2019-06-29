@@ -55,7 +55,7 @@ void PlayMusicGame::init(const NotesData& notes, const float scrollRate)
 	//譜面の初期化
 	m_notesData.init();
 
-	const MusicData &nowMusic = *notes.getMusic();
+	const MusicData& nowMusic = *notes.getMusic();
 
 	m_soundNameID = nowMusic.getSoundNameID();
 
@@ -65,16 +65,18 @@ void PlayMusicGame::init(const NotesData& notes, const float scrollRate)
 
 	SoundAsset::Release(m_soundNameID);// .release();
 
-									   //新wavのサンプリング数
-	const size_t sample = 44100 * 8 + wav.lengthSample;
+	//新wavのサンプリング数
+	const size_t beginOffset = 44100 * 4 + 735 * Game::Config().m_timingAdjust;
+	const size_t endOffset = 44100 * 4;
+	const size_t sample = beginOffset + wav.lengthSample + endOffset;
 
 	//無音作成
 	auto sam = WaveSample(0, 0);
 	wav.reserve(sample);
 	//wavに4秒間のオフセット追加
-	wav.insert(wav.begin(), 44100 * 4, sam);
+	wav.insert(wav.begin(), beginOffset, sam);
 	m_finishSample = wav.lengthSample;
-	wav.insert(wav.end(), 44100 * 4, sam);
+	wav.insert(wav.end(), endOffset, sam);
 	m_sound = Sound(wav);
 	m_sound.setVolume(SoundManager::BGM::GetVolume());
 
@@ -150,7 +152,7 @@ void PlayMusicGame::update()
 	}
 }
 
-void PlayMusicGame::setCourseMode(const Score & score)
+void PlayMusicGame::setCourseMode(const Score& score)
 {
 	m_isCourse = true;
 	m_score.m_lifeHistory[0] = score.m_life;
@@ -175,7 +177,7 @@ void PlayMusicGame::ScoreUpdate(Score::Judge judge, NoteType type, bool playSe)
 	}
 }
 
-const Sound*const PlayMusicGame::CurrentSound()
+const Sound* const PlayMusicGame::CurrentSound()
 {
 	return g_pSound;
 }
@@ -217,7 +219,7 @@ void PlayMusicGame::draw() const
 			/ static_cast<double>(beat);
 
 		constexpr int w = 80;
-		ColorF c1 = ColorF(0, 0, 0, 0.6*(1 - f));
+		ColorF c1 = ColorF(0, 0, 0, 0.6 * (1 - f));
 		ColorF c2 = m_notesData.getColor();
 		c2.setAlpha(0);
 
@@ -232,9 +234,9 @@ void PlayMusicGame::draw() const
 
 	PlayStyle::Instance()->drawFrame(redInput, blueInput, yellowInput,
 		[&] {
-		PlayMusicGame::GetEffect().update();
-		m_notesData.draw(drawCount, m_scrollRate);
-	});
+			PlayMusicGame::GetEffect().update();
+			m_notesData.draw(drawCount, m_scrollRate);
+		});
 
 	Graphics2D::SetStencilState(StencilState::Default);
 
@@ -254,8 +256,8 @@ void PlayMusicGame::previewDraw(const double count) const
 
 	m_notesData.previewDraw(drawCount, m_scrollRate);
 
-	PutText(Format(L"length:",m_notesData.getMusic()->getLengthSec())).from(20, Window::Height() - 120);
-	PutText(Format(L"total:",m_totalNotes)).from(20, Window::Height() - 140);
+	PutText(Format(L"length:", m_notesData.getMusic()->getLengthSec())).from(20, Window::Height() - 120);
+	PutText(Format(L"total:", m_totalNotes)).from(20, Window::Height() - 140);
 }
 
 bool PlayMusicGame::isFinish() const
@@ -270,7 +272,7 @@ void PlayMusicGame::uiDraw() const
 
 	const IndicateRate rateType = Game::Config().m_rateType;
 	const auto rate = m_isCourse || rateType == IndicateRate::Life ?
-		ResultRank::CalcLifeRate(m_score):
+		ResultRank::CalcLifeRate(m_score) :
 		rateType == IndicateRate::Down ?
 		ResultRank::CalcClearRateAsDownType(m_score, m_notesData.getTotalNotes()) :
 		ResultRank::CalcClearRate(m_score, m_notesData.getTotalNotes());
