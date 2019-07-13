@@ -31,6 +31,8 @@ namespace
 			PlayStyle::Instance()->drawTapEffect(type);
 		}
 	}
+
+	Stopwatch g_startTimer;
 }
 PlayMusicGame::PlayMusicGame() :
 	m_nowCount(-10000.0),
@@ -44,8 +46,6 @@ PlayMusicGame::PlayMusicGame() :
 	// プレイ中のスコアを参照しておく
 	g_pScore = &m_score;
 	g_pSound = &m_sound;
-
-	StartAnime::Open();
 }
 
 void PlayMusicGame::init(const NotesData& notes, const float scrollRate)
@@ -106,9 +106,9 @@ void PlayMusicGame::update()
 	if (!m_isStart)
 	{
 		m_sound.play();
-		StartAnime::Play();
 		m_barXEasing.start();
 		m_isStart = true;
+		g_startTimer.restart();
 		return;
 	}
 	//オートプレイのキー入力更新
@@ -243,6 +243,9 @@ void PlayMusicGame::draw() const
 
 	this->uiDraw();
 
+	if (g_startTimer.ms() <= 3000) {
+		StartAnime::Draw((g_startTimer.ms() - 1000) / 2000.0);
+	}
 }
 
 void PlayMusicGame::previewDraw(const double count) const
@@ -298,9 +301,6 @@ void PlayMusicGame::uiDraw() const
 		TextureAsset(L"bar2").uv(0, 1 - barScale, 1, barScale).draw(m_barXEasing.easeInOut(), barY + h * (1 - barScale));
 		TextureAsset(L"bar1").draw(m_barXEasing.easeInOut(), barY);
 	}
-
-	//スタートアニメ
-	StartAnime::Draw();
 
 	//FCアニメ
 	if (m_FCAPAnime.isStart())

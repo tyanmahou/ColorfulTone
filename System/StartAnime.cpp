@@ -2,40 +2,24 @@
 #include"StartAnime.h"
 #include "Useful.hpp"
 
-namespace StartAnime
+void StartAnime::Draw(double t)
 {
-	static VideoPlayer g_start;
-
-	static PixelShader g_ps;
-
-	bool Open()
-	{
-		if (!g_start)
-		{
-			g_start = Mahou::VideoAsset(L"start");
-			g_ps = PixelShader(L"Shaders/startTrans.ps");
-		}
-		return g_start.operator bool();
+	// 0.7 0.2 0.1
+	if (t <= 0) {
+		return;
 	}
-	void Play()
-	{
-		g_start.play();
-	}
-	void Stop()
-	{
-		g_start.stop();
-	}
-	void Draw()
-	{
-		if (g_start.isPlaying())
-		{
-			g_start.update();
+	const double alpha = Min(1.0, -10 * t + 10);
+	const ColorF color(1, alpha);
 
-			Graphics2D::BeginPS(g_ps);
-			g_start.getFrameTexture().draw();
-
-			Graphics2D::EndPS();
-		}
+	for (int i : step_until(1, 7)) {
+		double tmp = Clamp(10 * (t - i/10.0 + 0.1), 0.0, 1.0);
+		bool isOdd = i % 2;
+		double v = isOdd ? 0 : 1 - tmp;
+		TextureAsset(L"start0" + Format(i)).uv(0, v, 1, tmp).draw({0, 600*v},color);
 	}
+	//double tmp = Min(1.0, 10 * t);
+	//TextureAsset(L"start01").uv(0, 0, 1, tmp).draw(color);
 
+	//tmp = Clamp(10 * (t - 0.1), 0.0, 1.0);
+	//TextureAsset(L"start02").uv(0, 1-tmp, 1, tmp).draw({ 0, 600 - tmp * 600 }, color);
 }

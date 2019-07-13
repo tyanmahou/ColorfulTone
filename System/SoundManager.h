@@ -44,14 +44,14 @@ public:
 
 		static void Play(const s3d::AssetName& name, s3d::SecondsF fadeIn= 0.0s)
 		{
-			SoundAsset(name).play(fadeIn);
 			SoundAsset(name).setVolume(GetVolume());
+			SoundAsset(name).play(fadeIn);
 		}
 
 		static void Play(const s3d::Sound& sound, s3d::SecondsF fadeIn = 0.0s)
 		{
-			sound.play(fadeIn);
 			sound.setVolume(GetVolume());
+			sound.play(fadeIn);
 		}
 
 		static void Stop(const s3d::AssetName& name, s3d::SecondsF fadeOut = 0.0s)

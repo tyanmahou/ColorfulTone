@@ -3,7 +3,6 @@
 #include"AutoPlayManager.h"
 #include"ResultRank.h"
 #include"FontKinetic.h"
-#include"StartAnime.h"
 
 //--------------------------------------------------------------------------------
 //関数：コンストラクタ

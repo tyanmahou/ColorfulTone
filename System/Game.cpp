@@ -132,7 +132,16 @@ namespace
 		TextureAsset::Register(L"tapEffct", L"Resource/Img/Main/prasma.png");
 
 		TextureAsset::Register(L"combo", L"Resource/Img/Main/combo.png");
-		TextureAsset::PreloadAll();
+
+		// main start
+		TextureAsset::Register(L"start01", L"Resource/Img/Main/start/01.png");
+		TextureAsset::Register(L"start02", L"Resource/Img/Main/start/02.png");
+		TextureAsset::Register(L"start03", L"Resource/Img/Main/start/03.png");
+		TextureAsset::Register(L"start04", L"Resource/Img/Main/start/04.png");
+		TextureAsset::Register(L"start05", L"Resource/Img/Main/start/05.png");
+		TextureAsset::Register(L"start06", L"Resource/Img/Main/start/06.png");
+		TextureAsset::Register(L"start07", L"Resource/Img/Main/start/07.png");
+
 		// resut
 		TextureAsset::Register(L"memo2", L"Resource/Img/Result/memo2.png");
 
@@ -143,7 +152,7 @@ namespace
 		TextureAsset::Register(L"pass", L"Resource/Img/Result/pass.png");
 		TextureAsset::Register(L"noPass", L"Resource/Img/Result/noPass.png");
 
-		Mahou::VideoAsset::Register(L"start", L"Resource/Movie/start.avi", false);
+		TextureAsset::PreloadAll();
 	}
 	//--------------------------------------------------------------------------------
 	//関数：LoadSound

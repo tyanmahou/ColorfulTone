@@ -1,11 +1,7 @@
 #pragma once
 
-namespace StartAnime
+class StartAnime
 {
-
-	bool Open();
-	void Play();
-	void Stop();
-	void Draw();
-
-}
+public:
+	static void Draw(double t);
+};
