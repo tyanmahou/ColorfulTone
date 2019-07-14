@@ -1,4 +1,4 @@
 echo "rename setting"
 find ./ -name *.ctc | xargs sed -i \
--e 's/2019Spring/2019_01Spring/g' \
+-e 's/2019_01Spring/2019_01Summer/g' \
 -e 's/$/\r/'
