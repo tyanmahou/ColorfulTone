@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <Siv3D.hpp>
 
 
@@ -12,7 +12,7 @@ struct BGLight : IEffect
 
 	BGLight() :
 		m_maxRadius(Random(10.0, 150.0)),
-		m_speed(Random(-1.0, -5.0)),
+		m_speed(Random(-5.0, -1.0)),
 		m_deflection(Random(0.0, 100.0)),
 		m_pos(RandomVec2({ 0,300,800,600 })),
 		m_h(System::FrameCount()%360)

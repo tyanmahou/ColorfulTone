@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <unordered_map>
 #include <future>
 #include <mutex>
@@ -43,6 +43,9 @@ public:
 	static void Wait(const s3d::String& key)
 	{
 		const auto & tasks = Get().m_tasks;
+		if (tasks.empty()) {
+			return;
+		}
 		if (tasks.find(key) != tasks.end()) {
 			tasks.at(key).wait();
 		}
