@@ -1,4 +1,4 @@
-ï»¿#include "CourseSelect.hpp"
+#include "CourseSelect.hpp"
 #include"CourseGenre.hpp"
 
 #include"Useful.hpp"
@@ -12,7 +12,7 @@ namespace
 
 	CourseSelect::SelectCourseInfo g_selectInfo;
 
-	// ã‚³ãƒ¼ã‚¹ã®çµã‚Šã“ã¿
+	// ƒR[ƒX‚Ìi‚è‚±‚İ
 	void RefineCourses(Array<CourseData>& musics)
 	{
 		if (CourseGenreManager::Genres().size())
@@ -20,7 +20,7 @@ namespace
 			util::Erase_not_if(musics, CourseGenreManager::GetRefiner(g_selectInfo.genre));
 		}
 	}
-	// ã‚³ãƒ¼ã‚¹ã®çµã‚Šè¾¼ã¿
+	// ƒR[ƒX‚Ìi‚è‚İ
 	void InitCourses(Array<CourseData>& courses)
 	{
 		courses = Game::Courses();
@@ -86,7 +86,7 @@ public:
 	void update()
 	{
 		m_prevAction = m_action;
-		// é¸æŠã™ã‚‹ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®å‚ç…§
+		// ‘I‘ğ‚·‚éƒ^[ƒQƒbƒg‚ÌQÆ
 		auto &target = ::GetSelectTarget(m_action);
 		size_t size = ::GetTargetSize(m_action, m_courses);
 		m_moveSelect = SharedLogic::MoveSelect();
@@ -105,7 +105,7 @@ public:
 		}
 		target = size ? target % size : 0;
 
-		// æ±ºå®šãƒœã‚¿ãƒ³
+		// Œˆ’èƒ{ƒ^ƒ“
 		if (PlayKey::Start().clicked && size)
 		{
 			if (m_action == Action::GenreSelect)
@@ -120,13 +120,13 @@ public:
 				if (m_courses[g_selectInfo.course].canPlay())
 				{
 					m_isSelectedCourse = true;
-				}
+				} 
 				else {
-					MessageBox::Show(L"å…¨ã¦ã®è­œé¢ãƒ‡ãƒ¼ã‚¿ãŒå­˜åœ¨ã—ã¦ã„ãªã„ã®ã§ã€ã“ã®ã‚³ãƒ¼ã‚¹ã¯ãƒ—ãƒ¬ã‚¤ã§ãã¾ã›ã‚“ã€‚");
+					MessageBox::Show(L"‘S‚Ä‚Ì•ˆ–Êƒf[ƒ^‚ª‘¶İ‚µ‚Ä‚¢‚È‚¢‚Ì‚ÅA‚±‚ÌƒR[ƒX‚ÍƒvƒŒƒC‚Å‚«‚Ü‚¹‚ñB");
 				}
 			}
 		}
-		// ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒœã‚¿ãƒ³
+		// ƒLƒƒƒ“ƒZƒ‹ƒ{ƒ^ƒ“
 		if (PlayKey::SmallBack().clicked)
 		{
 			if (m_action == Action::CourseSelect)
@@ -135,7 +135,7 @@ public:
 				SoundManager::SE::Play(L"cancel");
 			}
 		}
-		// å†åº¦indexã®èª¿æ•´
+		// Ä“xindex‚Ì’²®
 		{
 			auto &target = ::GetSelectTarget(m_action);
 			size_t size = ::GetTargetSize(m_action, m_courses);
@@ -186,7 +186,7 @@ void CourseSelect::init()
 
 	if (!SoundAsset(L"title").isPlaying())
 	{
-		SoundAsset(L"title").play(1s);
+		SoundManager::BGM::Play(L"title", 1s);
 	}
 	if (m_data->m_fromScene == SceneName::Course ||
 		m_data->m_fromScene == SceneName::Main)
@@ -219,12 +219,12 @@ void CourseSelect::finally()
 	if (m_data->m_toScene == SceneName::Course)
 	{
 		SoundAsset(L"title").stop(1s);
-		// ãƒ‡ãƒ¼ã‚¿é‹æ¬
+		// ƒf[ƒ^‰^”À
 		m_data->m_course.init(m_pModel->getSelectCourse());
-		// ãƒ©ã‚¤ãƒ•å¼•ç¶™ããŒã‚ã‚‹ãŸã‚ã‚¹ã‚³ã‚¢ã‚’åˆæœŸåŒ–ã—ã¦ãŠã
+		// ƒ‰ƒCƒtˆøŒp‚¬‚ª‚ ‚é‚½‚ßƒXƒRƒA‚ğ‰Šú‰»‚µ‚Ä‚¨‚­
 		m_data->m_resultScore = Score();
 
-		//çµ¶å¯¾Autoã¯è§£é™¤ã™ã‚‹
+		//â‘ÎAuto‚Í‰ğœ‚·‚é
 		AutoPlayManager::SetAutoPlay(false);
 	}
 	else {
@@ -235,8 +235,8 @@ void CourseSelect::finally()
 void CourseSelect::draw() const
 {
 	m_view.draw();
-	// ã‚·ãƒ¼ãƒ³æƒ…å ±
-	SceneInfo::Draw(L"Enter:æ±ºå®š Esc:ã‚¿ã‚¤ãƒˆãƒ«æˆ»ã‚‹");
+	// ƒV[ƒ“î•ñ
+	SceneInfo::Draw(L"Enter:Œˆ’è Esc:ƒ^ƒCƒgƒ‹–ß‚é");
 }
 
 void CourseSelect::drawFadeIn(double t) const
