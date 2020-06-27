@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"Singleton.h"
 #include<Siv3D/Fwd.hpp>
 #include<Siv3D/Array.hpp>
@@ -13,7 +13,7 @@ class TapSE;
 class Game : protected Singleton<Game>
 {
 public:
-	static constexpr auto Version = L"Ver3.0.0";
+	static constexpr auto Version = L"Ver3.1.0";
 private:
 	class Impl;
 	std::shared_ptr<Impl> m_pImpl;
