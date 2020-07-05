@@ -131,7 +131,7 @@ namespace SharedDraw
 		);
 		return *this;
 	}
-	void HighSpeed(const HighSpeedDemo& highSpeedDemo, const MusicData& music, float scrollRate)
+	void HighSpeed(const HighSpeedDemo& highSpeedDemo, const MusicData& music, float scrollRate, bool canDemo)
 	{
 		String tmp = Format(music.getBPM(), L"*", scrollRate);
 
@@ -154,7 +154,7 @@ namespace SharedDraw
 		{
 			FontAsset(L"bpm")(tmp, L"=", result.value()).drawKinetic(10, 533, kineticFunction);
 		}
-		if (Input::KeyControl.pressed)
+		if (canDemo && Input::KeyControl.pressed)
 		{
 			highSpeedDemo.draw(music.getMinSoundBeat(), music.getMaxSoundBeat(), scrollRate);
 		}

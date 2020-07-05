@@ -98,7 +98,7 @@ namespace SharedDraw
 
 	void Sticky(const String* blueText, const String* redText = nullptr);
 
-	void HighSpeed(const HighSpeedDemo & highSpeedDemo, const MusicData & music, float scrollRate);
+	void HighSpeed(const HighSpeedDemo & highSpeedDemo, const MusicData & music, float scrollRate, bool canDemo = true);
 
 	class JacketInfo
 	{

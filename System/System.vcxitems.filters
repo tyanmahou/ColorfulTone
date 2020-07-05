@@ -375,6 +375,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TapSE.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NormalArcStyle.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ConfigMain.cpp">
+      <Filter>Scene\KeyConfig</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -650,6 +653,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TapSE.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NormalArcStyle.hpp">
       <Filter>MusicGame\PlayStyle\NormalArc</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ConfigMain.hpp">
+      <Filter>Scene\KeyConfig</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

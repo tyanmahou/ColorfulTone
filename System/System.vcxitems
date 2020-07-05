@@ -24,6 +24,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BGLight.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BPMChanger.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Config.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ConfigMain.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Constants.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CostumFolder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CourseData.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AutoPlayManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Config.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ConfigMain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CostumFolder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CourseScene.cpp" />

@@ -148,9 +148,9 @@ void IConfigHierchy::draw()const
 	}
 }
 
-void ConfigManager::update()
+bool ConfigManager::update()
 {
-	if (!m_config)return;
+	if (!m_config)return false;
 
 	if (!m_config->update())
 	{
@@ -159,6 +159,28 @@ void ConfigManager::update()
 			SoundManager::SE::Play(L"desisionSmall");
 			m_config = m_stack.top();
 			m_stack.pop();
+		} else {
+			return false;
 		}
 	}
+	return true;
+}
+
+void ConfigManager::clear()
+{
+	m_config = nullptr;
+	m_stack.swap(std::stack<std::shared_ptr<IConfigHierchy>>());
+}
+
+void ConfigManager::reset()
+{
+	while(!m_stack.empty()) {
+		m_config = m_stack.top();
+		m_stack.pop();
+	}
+}
+
+bool ConfigManager::isRoot() const
+{
+	return m_config && m_stack.empty();
 }

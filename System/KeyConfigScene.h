@@ -1,14 +1,14 @@
 ﻿#pragma once
 
 #include"ISceneBase.hpp"
-#include"Config.hpp"
+#include"ConfigMain.hpp"
 
 
 class ConfigScene :public ISceneBase
 {
 
 private:
-	ConfigManager m_config;
+	ConfigMain m_config;
 
 public:
 

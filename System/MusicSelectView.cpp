@@ -6,6 +6,7 @@
 #include "ResultRank.h"
 #include "GenreManager.h"
 #include "HighSpeedDemo.h"
+#include "ConfigMain.hpp"
 namespace
 {
 	using SortMode = MusicSelect::SortMode;
@@ -264,8 +265,14 @@ public:
 			SharedDraw::HighSpeed(
 				m_pScene->getHighSpeedDemo(),
 				*pMusic,
-				m_pScene->getScrollRate()
+				m_pScene->getScrollRate(),
+				!m_pScene->getConfig().isActive()
 			);
+		}
+		// コンフィグ
+		if (m_pScene->getConfig().isActive()) {
+			Window::BaseClientRect().draw(ColorF(0, 0.8));
+			m_pScene->getConfig().draw();
 		}
 	}
 };

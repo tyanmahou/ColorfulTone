@@ -4,6 +4,7 @@
 #include<memory>
 
 class HighSpeedDemo;
+class ConfigMain;
 
 class MusicSelect :public ISceneBase
 {
@@ -67,5 +68,6 @@ public:
 	{
 		return m_data->m_scrollRate;
 	}
+	const ConfigMain& getConfig() const;
 };
 

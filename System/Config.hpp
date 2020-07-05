@@ -61,7 +61,7 @@ private:
 	std::shared_ptr<IConfigHierchy> m_config;
 	std::stack<std::shared_ptr<IConfigHierchy>> m_stack;
 public:
-	void update();
+	bool update();
 	void draw()const
 	{
 		if (!m_config)return;
@@ -78,4 +78,8 @@ public:
 		m_config = std::make_shared<T>();
 		m_config->setManager(this);
 	}
+
+	void clear();
+	void reset();
+	bool isRoot()const;
 };

@@ -5,6 +5,7 @@
 #include "HighSpeedDemo.h"
 #include"Audition.hpp"
 #include "SharedLogic.hpp"
+#include "ConfigMain.hpp"
 
 namespace
 {
@@ -126,9 +127,14 @@ class MusicSelect::Model
 	Array<MusicData> m_musics;
 	Audition m_audition;
 	HighSpeedDemo m_highSpeedDemo;
-
 	bool m_isSelectedNotes = false;
+
+	ConfigMain m_config;
 public:
+	Model()
+	{
+		m_config.setActive(false);
+	}
 	void setData(std::shared_ptr<GameData> data)
 	{
 		m_data = data;
@@ -145,6 +151,19 @@ public:
 
 	void update()
 	{
+		if (m_config.isActive()) {
+			if (!m_config.update() || Input::KeyF11.clicked) {
+				m_config.setActive(false);
+				m_config.reset();
+				SoundManager::SE::Play(L"cancel");
+			}
+			return;
+		} else {
+			if (Input::KeyF11.clicked) {
+				m_config.setActive(true);
+				SoundManager::SE::Play(L"desisionSmall");
+			}
+		}
 		m_prevAction = m_action;
 		// 選択するターゲットの参照
 		auto &target = ::GetSelectTarget(m_action);
@@ -298,6 +317,11 @@ public:
 	{
 		return m_isSelectedNotes;
 	}
+
+	const ConfigMain& getConfig()const
+	{
+		return m_config;
+	}
 };
 MusicSelect::MusicSelect() :
 	m_pModel(std::make_shared<Model>()),
@@ -353,9 +377,14 @@ namespace
 	{
 		const int32 timer = System::FrameCount();
 
-		if (timer % 400 <= 200)
+		int timerMod = timer % 600;
+		if (timerMod <= 200)
 		{
 			return L"Enter:決定　BackSpace:絞り込み,戻る　F2:ソート　Esc:タイトルに戻る";
+		}
+		if (timerMod <= 400)
+		{
+			return L"F11: コンフィグ";
 		}
 
 		return L"Shift:表示モード切替　F1:オート　Ctrl+↑↓:ハイスピード変更";
@@ -434,4 +463,9 @@ int MusicSelect::getMoveSelect() const
 const HighSpeedDemo & MusicSelect::getHighSpeedDemo() const
 {
 	return m_pModel->getHighSpeedDemo();
+}
+
+const ConfigMain& MusicSelect::getConfig() const
+{
+	return m_pModel->getConfig();
 }
