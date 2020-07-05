@@ -56,7 +56,7 @@ struct  TapEffect2_2 : public IEffect
 	TapEffect2_2(double posX) :
 		m_posX(posX)
 	{}
-	TapEffect2_2(const Vec2& pos, double scale = 0.7) :
+	TapEffect2_2(const Vec2& pos, double scale = 0.5) :
 		m_posX(pos.x),
 		m_posY(pos.y),
 		m_scale(scale)
