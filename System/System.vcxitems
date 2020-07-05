@@ -50,6 +50,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MultiThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelect.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MusicSelectView.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NormalArcStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NormalStyle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayBG.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)eJudge.h" />
@@ -151,6 +152,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MusicData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MusicSelect.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MusicSelectView.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NormalArcStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NormalStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Note.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NotesData.cpp" />

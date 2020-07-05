@@ -157,6 +157,9 @@
     <Filter Include="ApiCall\Title">
       <UniqueIdentifier>{7ff864f1-e25d-4e29-9fa1-62f33d352c70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MusicGame\PlayStyle\NormalArc">
+      <UniqueIdentifier>{6ec0031f-d923-410f-af81-634a455747ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp">
@@ -371,6 +374,7 @@
       <Filter>Scene\Title</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TapSE.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NormalArcStyle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -644,5 +648,8 @@
       <Filter>Scene\Title</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TapSE.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NormalArcStyle.hpp">
+      <Filter>MusicGame\PlayStyle\NormalArc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

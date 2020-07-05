@@ -221,6 +221,9 @@ namespace
 		config.add(L"通常モード", [] {
 			Game::Config().m_styleType = PlayStyleType::Default;
 			});
+		config.add(L"アークモード", [] {
+			Game::Config().m_styleType = PlayStyleType::NormalArc;
+		});
 		config.add(L"縦レーン", [] {
 			Game::Config().m_styleType = PlayStyleType::Portrait;
 			});
@@ -228,6 +231,8 @@ namespace
 		switch (Game::Config().m_styleType)
 		{
 		case PlayStyleType::Default: config.init(L"通常モード");
+			break;
+		case PlayStyleType::NormalArc: config.init(L"アークモード");
 			break;
 		case PlayStyleType::Portrait: config.init(L"縦レーン");
 			break;

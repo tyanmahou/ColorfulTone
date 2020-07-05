@@ -1,7 +1,8 @@
-﻿#include"PlayStyle.h"
+#include"PlayStyle.h"
 
 #include"NormalStyle.h"
 #include"Portrait.h"
+#include"NormalArcStyle.hpp"
 #include<unordered_map>
 
 
@@ -15,6 +16,7 @@ void PlayStyle::setStyle(PlayStyleType type)
 	{
 		{PlayStyleType::Normal,std::make_shared<NormalStyle>()},
 		{ PlayStyleType::Portrait,std::make_shared<Portrait>() },
+		{ PlayStyleType::NormalArc,std::make_shared<NormalArcStyle>() },
 	};
 
 	m_style = factory.at(type);

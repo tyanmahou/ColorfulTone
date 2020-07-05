@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include"Singleton.h"
 #include"IPlayStyle.h"
@@ -8,6 +8,7 @@ enum class PlayStyleType
 {
 	Normal,
 	Portrait,
+	NormalArc,
 	Default = Normal
 };
 
