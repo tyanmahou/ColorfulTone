@@ -127,6 +127,12 @@ void NormalStyle::drawFrame(bool red,bool blue,bool yellow, std::function<void()
 		this->drawJudgeLine();
 
 		drawCallback();
+
+		{
+			Graphics2D::SetBlendState(BlendState::Additive);
+			PlayMusicGame::GetEffect(1).update();
+			Graphics2D::SetBlendState(BlendState::Default);
+		}
 	}
 }
 
@@ -158,25 +164,28 @@ void NormalStyle::drawComboAndRate(int combo, float rate)
 
 void NormalStyle::drawTapEffect(int type)
 {
-	if (type == 9)
-	{
+	if (type == 9) {
 		PlayMusicGame::GetEffect().add<TapEffect>(0, 9);
+		PlayMusicGame::GetEffect(1).add<TapEffect2_2>(GetPos(0, 0, 0, 0));
 		PlayMusicGame::GetEffect().add<TapEffect>(Pi, 9);
-	}else if (type == 7 || type == 17)
-	{
+		PlayMusicGame::GetEffect(1).add<TapEffect2_2>(GetPos(Pi, 0, 0, 0));
+	} else if (type == 7 || type == 17) {
 		PlayMusicGame::GetEffect().add<TapEffect>(1 * Pi / 6, 7);
+		PlayMusicGame::GetEffect(1).add<TapEffect2_2>(GetPos(1 * Pi / 6, 0, 0, 0));
 		PlayMusicGame::GetEffect().add<TapEffect>(9 * Pi / 6, 7);
+		PlayMusicGame::GetEffect(1).add<TapEffect2_2>(GetPos(9 * Pi / 6, 0, 0, 0));
 		PlayMusicGame::GetEffect().add<TapEffect>(5 * Pi / 6, 7);
-	}
-	else if (type == 18 || type == 10)
-	{
+		PlayMusicGame::GetEffect(1).add<TapEffect2_2>(GetPos(5 * Pi / 6, 0, 0, 0));
+	} else if (type == 18 || type == 10) {
 		PlayMusicGame::GetEffect().add<TapEffect>(3 * Pi / 6, 7);
+		PlayMusicGame::GetEffect(1).add<TapEffect2_2>(GetPos(3 * Pi / 6, 0, 0, 0));
 		PlayMusicGame::GetEffect().add<TapEffect>(7 * Pi / 6, 7);
+		PlayMusicGame::GetEffect(1).add<TapEffect2_2>(GetPos(7 * Pi / 6, 0, 0, 0));
 		PlayMusicGame::GetEffect().add<TapEffect>(11 * Pi / 6, 7);
-	}
-	else 
-	{
-		PlayMusicGame::GetEffect().add<TapEffect>(GetAngle(type % 10), type % 10);
+		PlayMusicGame::GetEffect(1).add<TapEffect2_2>(GetPos(1 * Pi / 6, 0, 0, 0));
+	} else {
+		PlayMusicGame::GetEffect().add<TapEffect>(GetAngle(type), type % 10);
+		PlayMusicGame::GetEffect(1).add<TapEffect2_2>(GetPos(GetAngle(type), 0, 0, 0));
 	}
 }
 

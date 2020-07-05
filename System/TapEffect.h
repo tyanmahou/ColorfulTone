@@ -51,14 +51,21 @@ struct  TapEffect2 : public IEffect
 struct  TapEffect2_2 : public IEffect
 {
 	double m_posX;
+	double m_posY = 500;
+	double m_scale = 1.0;
 	TapEffect2_2(double posX) :
 		m_posX(posX)
+	{}
+	TapEffect2_2(const Vec2& pos, double scale = 0.7) :
+		m_posX(pos.x),
+		m_posY(pos.y),
+		m_scale(scale)
 	{}
 
 	bool update(double t) override
 	{
 		t *= 5.0;
-		TextureAsset(L"tapEffect2").scale(1.2*EaseOut(Easing::Elastic,t)).drawAt(m_posX, 500,AlphaF(1-t));
+		TextureAsset(L"tapEffect2").scale(m_scale * 1.2*EaseOut(Easing::Elastic,t)).drawAt(m_posX, m_posY,AlphaF(1-t));
 		return t <= 1.0;
 	}
 };
