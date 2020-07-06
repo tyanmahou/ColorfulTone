@@ -3,6 +3,7 @@
 #include"CourseSceneView.hpp"
 
 class HighSpeedDemo;
+class ConfigMain;
 
 class CourseScene :public ISceneBase
 {
@@ -28,6 +29,8 @@ public:
 
 	const PlayCourse& getPlay() const;
 	const HighSpeedDemo& getHighSpeedDemo()const;
+	const ConfigMain& getConfig()const;
+
 	float getScrollRate()const
 	{
 		return m_data->m_scrollRate;

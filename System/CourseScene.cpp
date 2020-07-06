@@ -2,6 +2,7 @@
 #include"Useful.hpp"
 
 #include "HighSpeedDemo.h"
+#include "ConfigMain.hpp"
 #include"Audition.hpp"
 namespace
 {
@@ -15,7 +16,15 @@ private:
 	std::shared_ptr<GameData> m_data;
 	Audition m_audition;
 	HighSpeedDemo m_highSpeed;
+	ConfigMain m_config;
+
+	std::function<void()> m_onStart;
+	std::function<void()> m_onBack;
 public:
+	Model()
+	{
+		m_config.setActive(false);
+	}
 	void setData(std::shared_ptr<GameData> data)
 	{
 		m_data = data;
@@ -30,6 +39,20 @@ public:
 	}
 	void update()
 	{
+		if (m_config.isActive()) {
+			if (!m_config.update() || Input::KeyF11.clicked) {
+				m_config.setActive(false);
+				m_config.reset();
+				SoundManager::SE::Play(L"cancel");
+			}
+			return;
+		} else {
+			if (Input::KeyF11.clicked) {
+				m_config.setActive(true);
+				SoundManager::SE::Play(L"desisionSmall");
+			}
+		}
+
 		if (Input::KeyShift.clicked)
 		{
 			SoundManager::SE::Play(L"desisionSmall");
@@ -37,6 +60,25 @@ public:
 				? MemoInfo::Notes : MemoInfo::Course;
 		}
 		m_highSpeed.update(m_data->m_scrollRate);
+
+		// 1曲目でバックまたはバック長押し
+		if ((PlayKey::BigBack().clicked || PlayKey::SmallBack().clicked ) && m_data->m_course.isStart() ||
+			PlayKey::BigBack().pressedDuration >= 1000
+			) {
+			SoundManager::SE::Play(L"desisionLarge");
+			if (m_onBack) {
+				m_onBack();
+			}
+			return;
+		}
+		if (PlayKey::Start().clicked) {
+			m_data->m_nowNotes = this->nowNotes();
+			SoundManager::SE::Play(L"desisionLarge2");
+			if (m_onStart) {
+				m_onStart();
+			}
+			return;
+		}
 	}
 	void finally()
 	{
@@ -46,6 +88,19 @@ public:
 	const HighSpeedDemo& getHighSpeedDemo()const
 	{
 		return m_highSpeed;
+	}
+	const ConfigMain& getConfig()const
+	{
+		return m_config;
+	}
+
+	void subscribeOnStart(std::function<void()>&& callback)
+	{
+		m_onStart = std::move(callback);
+	}
+	void subscribeOnBack(std::function<void()>&& callback)
+	{
+		m_onBack = std::move(callback);
 	}
 };
 CourseScene::CourseScene() :
@@ -57,25 +112,17 @@ void CourseScene::init()
 {
 	m_pModel->setData(m_data);
 	m_pModel->init();
+	m_pModel->subscribeOnStart([this] {
+		this->changeScene(SceneName::Main, 2000, false);
+	});
+	m_pModel->subscribeOnBack([this] {
+		this->changeScene(SceneName::CourseSelect, 1000);
+	});
 }
 
 void CourseScene::update()
 {
 	m_pModel->update();
-
-	// 1曲目でバックまたはバック長押し
-	if ((PlayKey::BigBack().clicked || PlayKey::SmallBack().clicked) && m_data->m_course.isStart() ||
-		PlayKey::BigBack().pressedDuration >= 1000)
-	{
-		this->changeScene(SceneName::CourseSelect, 1000);
-		SoundManager::SE::Play(L"desisionLarge");
-	}
-	if (PlayKey::Start().clicked)
-	{
-		m_data->m_nowNotes = m_pModel->nowNotes();
-		this->changeScene(SceneName::Main, 2000, false);
-		SoundManager::SE::Play(L"desisionLarge2");
-	}
 	m_view.update();
 }
 
@@ -90,9 +137,9 @@ namespace
 	{
 		if (isStart)
 		{
-			return L"Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc,BackSpace:コース選択に戻る";
+			return L"F11:コンフィグ　Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc,BackSpace:コース選択に戻る";
 		}
-		return L"Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc長押し:コース選択に戻る";
+		return L"F11:コンフィグ　Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc長押し:コース選択に戻る";
 	}
 }
 void CourseScene::draw() const
@@ -141,6 +188,11 @@ const PlayCourse & CourseScene::getPlay() const
 const HighSpeedDemo & CourseScene::getHighSpeedDemo() const
 {
 	return m_pModel->getHighSpeedDemo();
+}
+
+const ConfigMain& CourseScene::getConfig() const
+{
+	return m_pModel->getConfig();
 }
 
 MemoInfo CourseScene::GetMemoInfo()

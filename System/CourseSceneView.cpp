@@ -3,6 +3,8 @@
 #include "SharedDraw.hpp"
 #include "Useful.hpp"
 #include "EasingSequence.hpp"
+#include "ConfigMain.hpp"
+
 namespace
 {
 }
@@ -94,8 +96,14 @@ public:
 		SharedDraw::HighSpeed(
 			m_pScene->getHighSpeedDemo(),
 			music,
-			m_pScene->getScrollRate()
+			m_pScene->getScrollRate(),
+			!m_pScene->getConfig().isActive()
 		);
+		// コンフィグ
+		if (m_pScene->getConfig().isActive()) {
+			Window::BaseClientRect().draw(ColorF(0, 0.8));
+			m_pScene->getConfig().draw();
+		}
 	}
 };
 

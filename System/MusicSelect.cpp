@@ -398,7 +398,7 @@ namespace
 		}
 		if (timerMod <= 400)
 		{
-			return L"F10:お気に入り F11: コンフィグ";
+			return L"F10:お気に入り　F11:コンフィグ";
 		}
 
 		return L"Shift:表示モード切替　F1:オート　Ctrl+↑↓:ハイスピード変更";
