@@ -135,7 +135,9 @@ namespace
 			.resize(jacketSize)
 			.rotate(Math::Radians(-7.0))
 			.drawAt(jacketPos);
-
+		if (music.isFavorite()) {
+			TextureAsset(L"favorite").drawAt(jacketPos + Vec2{ 120, -120 });
+		}
 		SharedDraw::JacketInfo infoView;
 		infoView
 			.setPos({ 500,140 })

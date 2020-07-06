@@ -11,6 +11,7 @@ enum GenreType
 	ArtistName,
 	Folder,
 	Custom,
+	Favorite,
 };
 class GenreData
 {
@@ -36,21 +37,19 @@ public:
 		case GenreType::Folder:
 			return TextureAsset(L"genre_file");
 		case GenreType::Lv:
-			switch (m_lv) 
-			{
-			case 3:
-			case 4:return TextureAsset(L"genre_level2");
-			case 5:
-			case 6:return TextureAsset(L"genre_level3");
-			case 7:
-			case 8:return TextureAsset(L"genre_level4");
-			default:
-				if(m_lv>=9)
-					return TextureAsset(L"genre_level5");
-				else
-					return TextureAsset(L"genre_level1");
-				break;
+			if (m_lv >= 12) {
+				return TextureAsset(L"genre_level5");
+			} else if (m_lv >= 9) {
+				return TextureAsset(L"genre_level4");
+			} else if (m_lv >= 7) {
+				return TextureAsset(L"genre_level3");
+			} else if (m_lv >= 4) {
+				return TextureAsset(L"genre_level2");
+			} else {
+				return TextureAsset(L"genre_level1");
 			}
+		case GenreType::Favorite:
+			return TextureAsset(L"genre_favorite");
 		default:
 			break;
 		}

@@ -27,7 +27,7 @@ private:
 
 	String m_soundNameID;	//アセットへのアクセス
 	DateTime m_lastUpdateAt;//更新日時
-
+	bool m_isFavorite = false; // お気に入り
 	int m_index;
 
 public:
@@ -72,4 +72,10 @@ public:
 
 		// 曲の長さ
 		const double getLengthSec()const;
+
+		bool isFavorite()const;
+		void setFavorite(bool isFavorite);
+		String getFavoriteFilePath()const;
+
+		void saveFavorite(bool isFavorite);
 };

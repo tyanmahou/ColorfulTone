@@ -1,5 +1,6 @@
 ﻿#include"MusicData.h"
 #include"GenreManager.h"
+#include "FavoriteLoader.hpp"
 
 int MusicData::Index;
 MusicData::MusicData(const String& genreName, const String& dirPath, const String& iniPath)
@@ -35,6 +36,7 @@ MusicData::MusicData(const String& genreName, const String& dirPath, const Strin
 	m_minBar = Mahou::SoundBar(0, m_minbpm);
 	m_maxBar = Mahou::SoundBar(0, m_maxbpm);
 
+	Optional<DateTime> latestDate;
 	//譜面データ
 	for (uint32 i = 0; true; ++i)
 	{
@@ -42,10 +44,20 @@ MusicData::MusicData(const String& genreName, const String& dirPath, const Strin
 		if (notePath.isEmpty)
 			break;
 		else {
-			if (FileSystem::Exists(dirPath + notePath))
-				m_notesDatas.emplace_back(this, dirPath, notePath,i);
+			if (FileSystem::Exists(dirPath + notePath)) {
+				auto writeTime = FileSystem::WriteTime(dirPath + notePath);
+				if (!latestDate || *latestDate < *writeTime) {
+					latestDate = writeTime;
+				}
+				m_notesDatas.emplace_back(this, dirPath, notePath, i);
+			}
 		}
 	}
+	if (latestDate) {
+		m_lastUpdateAt = *latestDate;
+	}
+	// お気に入り
+	m_isFavorite = FavoriteLoader::Load(this->getFavoriteFilePath()).isFavorite;
 }
 
 const String MusicData::getArtistAndAuthority() const
@@ -90,5 +102,31 @@ const String MusicData::getFormattedBpm() const
 const double MusicData::getLengthSec() const
 {
 	return SoundAsset(this->m_soundNameID).lengthSec();
+}
+
+bool MusicData::isFavorite() const
+{
+	return m_isFavorite;
+}
+
+void MusicData::setFavorite(bool isFavorite)
+{
+	m_isFavorite = isFavorite;
+}
+
+String MusicData::getFavoriteFilePath() const
+{
+	return L"UserData/Favorite/"
+		+ this->getGenreName() + L"/"
+		+ this->getFileName() + L"/"
+		+ L"favorite.bin";
+}
+
+void MusicData::saveFavorite(bool isFavorite)
+{
+	m_isFavorite = isFavorite;
+	FavoriteModel favorite;
+	favorite.isFavorite =  isFavorite ;
+	FavoriteLoader::Save(this->getFavoriteFilePath(), favorite);
 }
 

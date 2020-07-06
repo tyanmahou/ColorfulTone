@@ -211,6 +211,14 @@ void ResultScene::update()
 				this->changeScene(SceneName::Select, 1000);
 			}
 		}
+		if (Input::KeyF10.clicked) {
+			auto& selectMusic = *m_data->m_nowNotes.getMusic();
+			bool isFavorite = !selectMusic.isFavorite();
+			auto index = selectMusic.getIndex();
+			auto& sourceMusic = Game::Musics()[index];
+			sourceMusic.saveFavorite(isFavorite);
+			SoundManager::SE::Play(L"desisionSmall");
+		}
 	}
 	m_view.update();
 }
@@ -219,7 +227,7 @@ void ResultScene::draw() const
 {
 	m_view.draw();
 
-	SceneInfo::Draw(L"T:リザルトをツイート Enter: 戻る");
+	SceneInfo::Draw(L"T:リザルトをツイート F10: お気に入り Enter: 戻る");
 
 	if (AutoPlayManager::IsAutoPlay())
 	{

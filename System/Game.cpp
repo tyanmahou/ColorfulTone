@@ -45,6 +45,7 @@ namespace
 		TextureAsset::Register(L"memo", L"Resource/Img/MusicSelect/memo.png");
 		TextureAsset::Register(L"memoCourse", L"Resource/Img/MusicSelect/memo_course.png");
 		TextureAsset::Register(L"memoDL", L"Resource/Img/MusicSelect/memo_dl.png");
+		TextureAsset::Register(L"favorite", L"Resource/Img/MusicSelect/favorite.png");
 
 		TextureAsset::Register(L"levelbg", L"Resource/Img/MusicSelect/select.png");
 		TextureAsset::Register(L"levelMask", L"Resource/Img/MusicSelect/levelmask.png");
@@ -57,6 +58,7 @@ namespace
 		TextureAsset::Register(L"genre_level5", L"Resource/Img/MusicSelect/icon/level5.png");
 		TextureAsset::Register(L"genre_file", L"Resource/Img/MusicSelect/icon/file.png");
 		TextureAsset::Register(L"genre_all", L"Resource/Img/MusicSelect/icon/red.png");
+		TextureAsset::Register(L"genre_favorite", L"Resource/Img/MusicSelect/icon/favorite.png");
 
 		//リザルトシーン
 		TextureAsset::Register(L"AAA", L"Resource/Img/Result/rank/AAA.png");

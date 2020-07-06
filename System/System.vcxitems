@@ -42,6 +42,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DownloadScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DownloadSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EasingSequence.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FavoriteLoader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FavoriteModel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileLoadView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpRequest.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InputManager.hpp" />
@@ -137,6 +139,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)EasingSequence.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)eJudge.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Fade.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FavoriteLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileLoad.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileLoadView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FontKinetic.cpp" />

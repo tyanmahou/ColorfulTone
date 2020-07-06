@@ -47,6 +47,9 @@ public:
 			.resize(size)
 			.rotate(Math::Radians(-7.0))
 			.drawAt(Constants::JacketCenter, 250);
+		if (music.isFavorite()) {
+			TextureAsset(L"favorite").drawAt(pos + Vec2{ 155, -155 });
+		}
 		// 曲情報
 		SharedDraw::JacketInfo infoView;
 		infoView

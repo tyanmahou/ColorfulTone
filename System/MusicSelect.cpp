@@ -267,6 +267,20 @@ public:
 		{
 			m_audition.autoPlayAndStop(m_musics[g_selectInfo.music]);
 		}
+
+		// お気に入り
+		if (m_musics.size() && m_action == Action::MusicSelect || m_action == Action::LevelSelect) {
+			if (Input::KeyF10.clicked) {
+				auto& selectMusic = m_musics[g_selectInfo.music];
+				bool isFavorite = !selectMusic.isFavorite();
+				selectMusic.setFavorite(isFavorite);
+
+				auto index = selectMusic.getIndex();
+				auto& sourceMusic = Game::Musics()[index];
+				sourceMusic.saveFavorite(isFavorite);
+				SoundManager::SE::Play(L"desisionSmall");
+			}
+		}
 	}
 
 	void finally()
@@ -384,7 +398,7 @@ namespace
 		}
 		if (timerMod <= 400)
 		{
-			return L"F11: コンフィグ";
+			return L"F10:お気に入り F11: コンフィグ";
 		}
 
 		return L"Shift:表示モード切替　F1:オート　Ctrl+↑↓:ハイスピード変更";

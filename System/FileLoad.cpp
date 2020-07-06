@@ -92,6 +92,7 @@ void LoadMusicDatas()
 	::LoadCustomFolder();
 
 	GenreManager::Add(GenreType::All, L"ALL", [](MusicData& music)->bool {return true; });
+	GenreManager::Add(GenreType::Favorite, L"お気に入り", [](MusicData& music)->bool {return  music.isFavorite(); });
 	GenreManager::Sort();
 
 	//タップSE読み込み

@@ -106,6 +106,9 @@ namespace
 			->resize(size)
 			.rotate(Math::Radians(-7.0))
 			.drawAt(pos);
+		if (action != Action::GenreSelect && pMusic && pMusic->isFavorite()) {
+			TextureAsset(L"favorite").drawAt(pos + Vec2{ 155, -155 });
+		}
 	}
 }
 class MusicSelectView::Impl

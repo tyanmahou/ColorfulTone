@@ -163,6 +163,9 @@
     <Filter Include="util\Compatibility">
       <UniqueIdentifier>{5eb41d5a-80f6-4b68-b6ab-d935bbd5c9ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MusicGame\Data\Favorite">
+      <UniqueIdentifier>{9053e634-4c4e-45b3-90d2-c3da482d8907}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp">
@@ -382,6 +385,7 @@
       <Filter>Scene\KeyConfig</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CompatibilityUtil.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FavoriteLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -663,6 +667,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CompatibilityUtil.hpp">
       <Filter>util\Compatibility</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FavoriteModel.hpp">
+      <Filter>MusicGame\Data\Favorite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FavoriteLoader.hpp">
+      <Filter>MusicGame\Data\Loader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
