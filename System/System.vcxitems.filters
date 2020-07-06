@@ -160,6 +160,9 @@
     <Filter Include="MusicGame\PlayStyle\NormalArc">
       <UniqueIdentifier>{6ec0031f-d923-410f-af81-634a455747ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="util\Compatibility">
+      <UniqueIdentifier>{5eb41d5a-80f6-4b68-b6ab-d935bbd5c9ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp">
@@ -378,6 +381,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ConfigMain.cpp">
       <Filter>Scene\KeyConfig</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CompatibilityUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">
@@ -656,6 +660,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ConfigMain.hpp">
       <Filter>Scene\KeyConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CompatibilityUtil.hpp">
+      <Filter>util\Compatibility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

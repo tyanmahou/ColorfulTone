@@ -1,8 +1,8 @@
-#include "DownloadHistory.hpp"
+﻿#include "DownloadHistory.hpp"
 #include<Siv3D.hpp>
 namespace
 {
-	constexpr auto g_path = L"System/download_history.cts";
+	constexpr auto g_path = L"UserData/System/download_history.cts";
 }
 class DownloadHistory::Impl
 {

@@ -146,7 +146,7 @@ const String NotesData::getLevelNameAndLevel() const
 
 String NotesData::getScorePath()const
 {
-	return L"Score/"
+	return L"UserData/Score/"
 		+ m_pMusic->getGenreName() + L"/"
 		+ m_pMusic->getFileName() + L"/"
 		+ this->m_fileName

@@ -78,7 +78,7 @@ void CourseData::saveScore(const CourseScore& score)const
 
 String CourseData::getScorePath() const
 {
-	return L"Score/CourseScore/" + m_genre + L"/" + m_fileName + L".bin";
+	return L"UserData/CourseScore/" + m_genre + L"/" + m_fileName + L".bin";
 }
 
 Color CourseData::getColor() const

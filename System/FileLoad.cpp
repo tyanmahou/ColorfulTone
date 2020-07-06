@@ -6,6 +6,9 @@
 #include"CostumFolder.hpp"
 #include"CourseGenre.hpp"
 #include"MultiThread.hpp"
+
+#include "CompatibilityUtil.hpp"
+
 namespace
 {
 	static double g_loadingRate = 0;
@@ -34,6 +37,9 @@ void LoadTapSE()
 }
 void LoadMusicDatas()
 {
+	// スコアを移動
+	CompatibilityUtil::MoveScoreFolder();
+
 	g_loadingRate = 0;
 	Array<MusicData>& musics = Game::Musics();
 
