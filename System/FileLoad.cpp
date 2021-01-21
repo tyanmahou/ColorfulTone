@@ -75,7 +75,7 @@ void LoadMusicDatas()
 			{
 				if (System::GetPreviousEvent() == ((Input::KeyAlt + Input::KeyF4).clicked | WindowEvent::CloseButton))
 					return;
-				if (elm.includes(L"ini"))
+				if (FileSystem::Extension(elm) == L"ini")
 				{
 					g_loadingRate = curIndex / static_cast<float>(musicSize);
 					//Println(path);
@@ -127,7 +127,7 @@ void LoadCourses()
 		const auto ctcPaths = FileSystem::DirectoryContents(gPath);
 		for (const auto& path : ctcPaths)
 		{
-			if (path.includes(L"ctc"))
+			if (FileSystem::Extension(path) == L"ctc")
 			{
 				courses.emplace_back(path);
 			}

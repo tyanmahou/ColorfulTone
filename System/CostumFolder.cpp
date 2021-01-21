@@ -1,4 +1,4 @@
-﻿#include"CostumFolder.hpp"
+#include"CostumFolder.hpp"
 #include"CTCFReader.hpp"
 #include"MusicData.h"
 #include"GenreManager.h"
@@ -16,7 +16,7 @@ void LoadCustomFolder()
 	//ここからデータ読み込み
 	for (const auto& path : ctcfFiles)
 	{
-		if (path.includes(L"ctfolder"))
+		if (FileSystem::Extension(path) == L"ctfolder")
 		{
 			CTCFReader ctfolder(path);
 			if (!ctfolder)

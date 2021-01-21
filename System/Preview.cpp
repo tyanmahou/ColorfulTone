@@ -81,7 +81,7 @@ void Preview::loadProject(Optional<FilePath>& path)
 		//iniファイルがあるか検索
 		for (const auto& elm : assets)
 		{
-			if (elm.includes(L"ini"))
+			if (FileSystem::Extension(elm) == L"ini")
 			{
 				SoundManager::SE::Play(L"desisionSmall");
 
