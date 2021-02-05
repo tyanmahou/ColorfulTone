@@ -1,4 +1,4 @@
-﻿#include "SharedDraw.hpp"
+#include "SharedDraw.hpp"
 #include "BGLight.hpp"
 #include "HighSpeedDemo.h"
 #include "MusicData.h"

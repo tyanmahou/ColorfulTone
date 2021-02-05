@@ -1,4 +1,4 @@
-﻿#include"PlayMusicGame.h"
+#include"PlayMusicGame.h"
 #include"Useful.hpp"
 #include"StartAnime.h"
 #include"InputManager.hpp"

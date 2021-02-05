@@ -10,7 +10,7 @@ namespace {
 		if (!pContent) {
 			return;
 		}
-		// ƒWƒƒƒPŠG•`‰æ
+		// ã‚¸ãƒ£ã‚±çµµæç”»
 		const Vec2 pos{ Constants::JacketCenter, 180 };
 		const Vec2 size{ 210, 210 };
 		RectF(pos - size / 2.0, size).draw();

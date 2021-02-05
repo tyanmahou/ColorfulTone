@@ -55,7 +55,7 @@ public:
 			this->save();
 		}
 		else if (m_byte) {
-			// ‚·‚Å‚ÉŠ®—¹
+			// ã™ã§ã«å®Œäº†
 			this->save();
 		}
 		return false;

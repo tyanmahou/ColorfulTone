@@ -1,4 +1,4 @@
-﻿#include"Score.h";
+#include"Score.h";
 #include"Constants.hpp"
 #include<Siv3D/Math.hpp>
 #include<unordered_map>

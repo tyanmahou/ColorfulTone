@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<functional>
 #include"MusicData.h"
 using RefinerType = std::function<bool(MusicData&)>;

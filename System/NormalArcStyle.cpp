@@ -1,4 +1,4 @@
-﻿#include "NormalArcStyle.hpp"
+#include "NormalArcStyle.hpp"
 
 #include "Useful.hpp"
 

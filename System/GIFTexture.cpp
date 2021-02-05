@@ -1,4 +1,4 @@
-﻿#include"GIFTexture.h"
+#include"GIFTexture.h"
 #include<Siv3D.hpp>
 
 class GIFTexture::Impl

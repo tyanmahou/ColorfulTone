@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<Siv3D/VideoPlayer.hpp>
 #include<Siv3D/Asset.hpp>
 namespace Mahou

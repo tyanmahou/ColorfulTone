@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include"NotesData.h"
 #include"Score.h"

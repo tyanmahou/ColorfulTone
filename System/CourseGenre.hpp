@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"CourseData.h"
 #include"Singleton.h"
 

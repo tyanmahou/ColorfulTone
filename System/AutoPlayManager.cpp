@@ -1,4 +1,4 @@
-﻿#include "AutoPlayManager.h"
+#include "AutoPlayManager.h"
 #include<array>
 
 class AutoPlayManager::Impl

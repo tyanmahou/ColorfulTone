@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "FavoriteModel.hpp"
 #include <Siv3D/String.hpp>
 

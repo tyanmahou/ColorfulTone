@@ -1,4 +1,4 @@
-﻿#include"ColorfulTone.h"
+#include"ColorfulTone.h"
 #include"Game.h"
 #include"TitleApi.hpp"
 

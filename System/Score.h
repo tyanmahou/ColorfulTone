@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<array>
 #include<Siv3D/Fwd.hpp>
 #include<Siv3D/Array.hpp>

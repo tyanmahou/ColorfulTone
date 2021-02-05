@@ -1,4 +1,4 @@
-﻿#include"FontKinetic.h"
+#include"FontKinetic.h"
 
 void FontKinetic::DeleteSpace(s3d::KineticTypography& k)
 {

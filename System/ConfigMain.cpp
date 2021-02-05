@@ -1,4 +1,4 @@
-﻿#include "ConfigMain.hpp"
+#include "ConfigMain.hpp"
 #include "Useful.hpp"
 #include"KeyConfigManager.hpp"
 namespace

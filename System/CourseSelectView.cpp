@@ -1,4 +1,4 @@
-﻿#include "CourseSelectView.hpp"
+#include "CourseSelectView.hpp"
 #include "CourseSelect.hpp"
 #include "SharedDraw.hpp"
 #include "CourseGenre.hpp"

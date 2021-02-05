@@ -1,4 +1,4 @@
-﻿#include "MusicSelect.hpp"
+#include "MusicSelect.hpp"
 #include "Useful.hpp"
 #include"GenreManager.h"
 #include"AutoPlayManager.h"

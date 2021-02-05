@@ -1,4 +1,4 @@
-﻿#include "Audition.hpp"
+#include "Audition.hpp"
 #include "MusicData.h"
 #include "MultiThread.hpp"
 #include "SoundManager.h"

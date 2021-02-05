@@ -1,4 +1,4 @@
-﻿#include"Note.h"
+#include"Note.h"
 #include"Useful.hpp"
 #include"eJudge.h"
 #include"AutoPlayManager.h"

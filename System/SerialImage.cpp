@@ -1,4 +1,4 @@
-﻿#include"SerialImage.h"
+#include"SerialImage.h"
 #include<Siv3D.hpp>
 
 class SerialImage::Impl

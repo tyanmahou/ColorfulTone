@@ -1,4 +1,4 @@
-﻿#include "ResultSceneView.hpp"
+#include "ResultSceneView.hpp"
 #include "ResultScene.hpp"
 #include "Useful.hpp"
 #include "SharedDraw.hpp"

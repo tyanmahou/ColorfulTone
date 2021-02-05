@@ -1,4 +1,4 @@
-﻿#include "MusicSelectView.hpp"
+#include "MusicSelectView.hpp"
 #include "MusicSelect.hpp"
 #include "Fade.h"
 #include "PlayKey.h"

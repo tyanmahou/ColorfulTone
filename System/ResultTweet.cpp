@@ -1,4 +1,4 @@
-﻿#include"ResultTweet.h"
+#include"ResultTweet.h"
 #include"Setting.hpp"
 #include<Siv3D.hpp>
 class ResultTweet::CTweet

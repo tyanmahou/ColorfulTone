@@ -1,4 +1,4 @@
-﻿#include "Preview.h"
+#include "Preview.h"
 #include"Useful.hpp"
 #include"AutoPlayManager.h"
 

@@ -1,4 +1,4 @@
-﻿#include"CourseData.h"
+#include"CourseData.h"
 #include"MusicData.h"
 #include"Game.h"
 #include "ScoreLoader.hpp"

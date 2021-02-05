@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<Siv3D/Fwd.hpp>
 #include<memory>
 // ロード画面ビュー

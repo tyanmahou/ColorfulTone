@@ -1,4 +1,4 @@
-﻿#include "CompatibilityUtil.hpp"
+#include "CompatibilityUtil.hpp"
 #include "Useful.hpp"
 
 void CompatibilityUtil::MoveScoreFolder()

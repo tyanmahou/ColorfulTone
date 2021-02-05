@@ -1,4 +1,4 @@
-﻿#include"GenreManager.h"
+#include"GenreManager.h"
 
 bool GenreManager::add(const GenreType type, const String & name, const RefinerType & refiner, int lv)
 {

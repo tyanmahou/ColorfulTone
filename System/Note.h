@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"Object.h"
 #include<functional>
 #include<Siv3D/Color.hpp>

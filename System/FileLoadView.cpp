@@ -1,4 +1,4 @@
-﻿#include "FileLoadView.hpp"
+#include "FileLoadView.hpp"
 #include"BGLight.hpp"
 #include"SharedDraw.hpp"
 #include"FileLoad.h"

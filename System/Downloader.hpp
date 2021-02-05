@@ -11,10 +11,10 @@ private:
 public:
 	Downloader();
 	bool isActive()const;
-	// ƒ_ƒEƒ“ƒ[ƒhi’»
+	// ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰é€²æ—
 	bool downloadUpdate()const;
-	// ƒ_ƒEƒ“ƒ[ƒhŠJn
+	// ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰é–‹å§‹
 	bool download(DownloadContent& content)const;
-	// ƒ_ƒEƒ“ƒ[ƒh—¦
+	// ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ç‡
 	double getProgress() const;
 };

@@ -1,4 +1,4 @@
-﻿#include "PlayCourse.hpp"
+#include "PlayCourse.hpp"
 #include"CourseData.h"
 #include "Useful.hpp"
 namespace

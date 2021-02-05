@@ -1,4 +1,4 @@
-﻿#include "ScoreLoader.hpp"
+#include "ScoreLoader.hpp"
 #include "NotesData.h"
 #include "CourseData.h"
 ScoreModel ScoreLoader::Load(const s3d::FilePath & path)

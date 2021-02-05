@@ -1,4 +1,4 @@
-﻿#include "APAnime.hpp"
+#include "APAnime.hpp"
 #include"SerialImage.h"
 #include"Score.h"
 #include<Siv3D.hpp>

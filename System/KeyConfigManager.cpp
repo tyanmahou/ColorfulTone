@@ -1,4 +1,4 @@
-﻿#include "KeyConfigManager.hpp"
+#include "KeyConfigManager.hpp"
 #include "KeyConfig.hpp"
 #include "Useful.hpp"
 #include<Siv3D.hpp>

@@ -32,7 +32,7 @@ namespace Mahou
 
 		BarCount operator()(const Sound& sound)const
 		{
-			//1¬ß‚ÌƒTƒ“ƒvƒ‹”
+			//1å°ç¯€ã®ã‚µãƒ³ãƒ—ãƒ«æ•°
 			const int64 samplePerBar = 60.0f * 4.0f / m_bpm * 44100.0f;
 #ifdef VIEWER_MODE
 			const int64 currentSample = sound.streamPosSample()- m_offsetSample;

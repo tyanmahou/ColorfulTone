@@ -1,4 +1,4 @@
-﻿#include"NotesData.h"
+#include"NotesData.h"
 #include"GenreManager.h"
 #include<queue>
 #include"Note.h"

@@ -1,4 +1,4 @@
-﻿#include"AppBase.h"
+#include"AppBase.h"
 #include"MultiThread.hpp"
 #include "Useful.hpp"
 # include <HamFramework.hpp>

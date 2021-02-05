@@ -1,4 +1,4 @@
-﻿#include"ResultRank.h"
+#include"ResultRank.h"
 
 String ResultRank::GetRankTextureName(float clearRate)
 {

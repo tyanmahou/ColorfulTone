@@ -1,4 +1,4 @@
-﻿#include"MusicData.h"
+#include"MusicData.h"
 #include"GenreManager.h"
 #include "FavoriteLoader.hpp"
 

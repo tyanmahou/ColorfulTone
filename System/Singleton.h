@@ -2,15 +2,15 @@
 
 
 ///<summary>
-///ƒVƒ“ƒOƒ‹ƒgƒ“ƒeƒ“ƒvƒŒ[ƒg
+///ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
 ///</summary>
 template<class _Tp>
 class Singleton
 {
 public:
 	///<summary>
-	///<para>ŠT—vFƒCƒ“ƒXƒ^ƒ“ƒX‚ð•Ô‚·</para>
-	///<para>•Ô‚è’lFƒVƒ“ƒOƒ‹ƒgƒ“‚Ìclass‚Ìƒ|ƒCƒ“ƒ^Œ^</para>
+	///<para>æ¦‚è¦ï¼šã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã™</para>
+	///<para>è¿”ã‚Šå€¤ï¼šã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã®classã®ãƒã‚¤ãƒ³ã‚¿åž‹</para>
 	///</summary>
 	static _Tp* Instance()
 	{

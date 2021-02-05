@@ -1,4 +1,4 @@
-﻿#include<Siv3D.hpp>
+#include<Siv3D.hpp>
 #include"Object.h"
 #include"Score.h"
 #include"Stop.h"

@@ -1,4 +1,4 @@
-﻿#include"TitleScene.h"
+#include"TitleScene.h"
 #include "Useful.hpp"
 
 #include"FontKinetic.h"

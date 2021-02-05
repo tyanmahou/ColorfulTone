@@ -1,4 +1,4 @@
-﻿#include"Fade.h"
+#include"Fade.h"
 #include"Util.h"
 
 namespace

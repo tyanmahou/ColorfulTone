@@ -1,4 +1,4 @@
-﻿#include "NormalStyle.h"
+#include "NormalStyle.h"
 #include "Useful.hpp"
 
 #include"Note.h"

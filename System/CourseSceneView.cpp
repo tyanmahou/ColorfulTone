@@ -1,4 +1,4 @@
-﻿#include "CourseSceneView.hpp"
+#include "CourseSceneView.hpp"
 #include "CourseScene.hpp"
 #include "SharedDraw.hpp"
 #include "Useful.hpp"

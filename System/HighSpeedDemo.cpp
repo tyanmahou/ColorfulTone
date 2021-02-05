@@ -1,4 +1,4 @@
-﻿#include"HighSpeedDemo.h"
+#include"HighSpeedDemo.h"
 #include "Useful.hpp"
 #include "Constants.hpp"
 #include"PlayStyle.h"

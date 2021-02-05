@@ -18,12 +18,12 @@ private:
 	s3d::String m_title;
 	s3d::String m_detail;
 	Type m_type;
-	s3d::URL m_downloadURL; // download‚·‚éurl
-	s3d::FilePath m_saveLocalPath; // •Û‘¶‚·‚éƒpƒX
+	s3d::URL m_downloadURL; // downloadã™ã‚‹url
+	s3d::FilePath m_saveLocalPath; // ä¿å­˜ã™ã‚‹ãƒ‘ã‚¹
 
 	s3d::Texture m_texture;
 
-	bool m_isDownloaded = false; // ‚·‚Å‚Éƒ_ƒEƒ“ƒ[ƒhÏ‚İ‚©
+	bool m_isDownloaded = false; // ã™ã§ã«ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ã‹
 public:
 	DownloadContent() = default;
 	DownloadContent(const s3d::JSONValue& json);

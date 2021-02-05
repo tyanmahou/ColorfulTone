@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"PlayMusicGame.h"
 #include"HighSpeedDemo.h"
 

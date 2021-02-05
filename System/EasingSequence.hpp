@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<unordered_map>
 #include<map>
 #include<Siv3D/Array.hpp>

@@ -1,4 +1,4 @@
-﻿#include"VideoAsset.h"
+#include"VideoAsset.h"
 #include<unordered_map>
 
 //--------------------------------------------------------------------------------

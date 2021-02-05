@@ -1,4 +1,4 @@
-﻿#include"Portrait.h"
+#include"Portrait.h"
 #include"Useful.hpp"
 #include"Note.h"
 #include"Bar.h"

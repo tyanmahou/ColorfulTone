@@ -2,9 +2,9 @@
 #include <Siv3D.hpp>
 namespace
 {
-	const FilePath& g_defaultPerfectPath = L"TapSE/ƒfƒtƒHƒ‹ƒg/tapP.mp3";
-	const FilePath& g_defaultGreatPath = L"TapSE/ƒfƒtƒHƒ‹ƒg/tapGR.mp3";
-	const FilePath& g_defaultGoodPath = L"TapSE/ƒfƒtƒHƒ‹ƒg/tapGD.mp3";
+	const FilePath& g_defaultPerfectPath = L"TapSE/ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ/tapP.mp3";
+	const FilePath& g_defaultGreatPath = L"TapSE/ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ/tapGR.mp3";
+	const FilePath& g_defaultGoodPath = L"TapSE/ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ/tapGD.mp3";
 
 	void RegisterTapSE(const String& assetName, const FilePath& path, const FilePath& defaultPath)
 	{

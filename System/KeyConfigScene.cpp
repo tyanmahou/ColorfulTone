@@ -1,4 +1,4 @@
-﻿#include "KeyConfigScene.h"
+#include "KeyConfigScene.h"
 #include "Useful.hpp"
 #include "SharedDraw.hpp"
 

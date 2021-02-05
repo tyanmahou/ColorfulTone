@@ -1,4 +1,4 @@
-﻿#include"KeyConfig.hpp"
+#include"KeyConfig.hpp"
 
 namespace s3dkc
 {

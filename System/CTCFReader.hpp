@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<Siv3D/Fwd.hpp>
 #include<Siv3D/Optional.hpp>
 #include<Siv3D/String.hpp>

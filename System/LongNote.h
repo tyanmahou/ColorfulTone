@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"Note.h"
 #include<memory>
 class LongNote :public Object

@@ -17,7 +17,7 @@ private:
 public:
 	Status request(const s3d::URL& endPoint, const s3d::JSONObject& sendParams)
 	{
-		// インターネット接続をチェック
+		// 繧､繝ｳ繧ｿ繝ｼ繝阪ャ繝域磁邯壹ｒ繝√ぉ繝�繧ｯ
 		if (!Internet::IsConnected()) 
 		{
 			return m_status = Status::None;
@@ -25,7 +25,7 @@ public:
 
 		HTTPClient client;
 
-		// リクエストパラメーター
+		// 繝ｪ繧ｯ繧ｨ繧ｹ繝医ヱ繝ｩ繝｡繝ｼ繧ｿ繝ｼ
 		JSONObject send;
 		send[L"params"] = JSONValue(sendParams);
 
@@ -33,7 +33,7 @@ public:
 
 		ByteArray responseByte;
 
-		// Http通信
+		// Http騾壻ｿ｡
 		client.requestPOST(
 			endPoint,
 			responseByte,

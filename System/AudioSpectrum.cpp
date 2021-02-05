@@ -1,4 +1,4 @@
-﻿#include "AudioSpectrum.h"
+#include "AudioSpectrum.h"
 #include<Siv3D.hpp>
 
 namespace

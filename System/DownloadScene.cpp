@@ -58,7 +58,7 @@ public:
 		}
 		target = size ? target % size : 0;
 
-		// Œˆ’èƒ{ƒ^ƒ“
+		// æ±ºå®šãƒœã‚¿ãƒ³
 		if (PlayKey::Start().clicked && size)
 		{
 			auto& content = m_contents[g_selectInfo.content];
@@ -66,8 +66,8 @@ public:
 			auto command = MessageBox::Show(
 				content.getTitle(),
 				isDownloaded ?
-				L"Šù‚Éƒ_ƒEƒ“ƒ[ƒhÏ‚Ý‚Å‚·B\nÄ“xƒ_ƒEƒ“ƒ[ƒh‚ð‚µ‚Ü‚·‚©H":
-				L"ƒ_ƒEƒ“ƒ[ƒh‚ðŠJŽn‚µ‚Ü‚·B", 
+				L"æ—¢ã«ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ã§ã™ã€‚\nå†åº¦ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã‚’ã—ã¾ã™ã‹ï¼Ÿ":
+				L"ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã‚’é–‹å§‹ã—ã¾ã™ã€‚", 
 				MessageBoxStyle::OkCancel,
 				isDownloaded ? 1:0
 			);
@@ -121,7 +121,7 @@ void DownloadScene::update()
 		if (PlayKey::BigBack().clicked)
 		{
 			if (m_pModel->hasNewContent()&& 
-				MessageBox::Show(L"’Ç‰Áƒtƒ@ƒCƒ‹‚ª‚ ‚è‚Ü‚·BƒŠƒ[ƒh‚µ‚Ü‚·‚©?", MessageBoxStyle::YesNo) == MessageBoxCommand::Yes)
+				MessageBox::Show(L"è¿½åŠ ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚Šã¾ã™ã€‚ãƒªãƒ­ãƒ¼ãƒ‰ã—ã¾ã™ã‹?", MessageBoxStyle::YesNo) == MessageBoxCommand::Yes)
 			{
 				this->changeScene(SceneName::Load, 1000);
 			}
@@ -141,10 +141,10 @@ void DownloadScene::finally()
 void DownloadScene::draw() const
 {
 	m_view.draw();
-	// ƒV[ƒ“î•ñ
+	// ã‚·ãƒ¼ãƒ³æƒ…å ±
 	if (!m_pModel->isDownloading())
 	{
-		SceneInfo::Draw(L"Enter:Œˆ’è Esc:ƒ^ƒCƒgƒ‹–ß‚é");
+		SceneInfo::Draw(L"Enter:æ±ºå®š Esc:ã‚¿ã‚¤ãƒˆãƒ«æˆ»ã‚‹");
 	}
 }
 

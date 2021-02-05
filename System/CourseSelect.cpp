@@ -12,7 +12,7 @@ namespace
 
 	CourseSelect::SelectCourseInfo g_selectInfo;
 
-	// ƒR[ƒX‚Ìi‚è‚±‚İ
+	// ã‚³ãƒ¼ã‚¹ã®çµã‚Šã“ã¿
 	void RefineCourses(Array<CourseData>& musics)
 	{
 		if (CourseGenreManager::Genres().size())
@@ -20,7 +20,7 @@ namespace
 			util::Erase_not_if(musics, CourseGenreManager::GetRefiner(g_selectInfo.genre));
 		}
 	}
-	// ƒR[ƒX‚Ìi‚è‚İ
+	// ã‚³ãƒ¼ã‚¹ã®çµã‚Šè¾¼ã¿
 	void InitCourses(Array<CourseData>& courses)
 	{
 		courses = Game::Courses();
@@ -86,7 +86,7 @@ public:
 	void update()
 	{
 		m_prevAction = m_action;
-		// ‘I‘ğ‚·‚éƒ^[ƒQƒbƒg‚ÌQÆ
+		// é¸æŠã™ã‚‹ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®å‚ç…§
 		auto &target = ::GetSelectTarget(m_action);
 		size_t size = ::GetTargetSize(m_action, m_courses);
 		m_moveSelect = SharedLogic::MoveSelect();
@@ -105,7 +105,7 @@ public:
 		}
 		target = size ? target % size : 0;
 
-		// Œˆ’èƒ{ƒ^ƒ“
+		// æ±ºå®šãƒœã‚¿ãƒ³
 		if (PlayKey::Start().clicked && size)
 		{
 			if (m_action == Action::GenreSelect)
@@ -122,11 +122,11 @@ public:
 					m_isSelectedCourse = true;
 				} 
 				else {
-					MessageBox::Show(L"‘S‚Ä‚Ì•ˆ–Êƒf[ƒ^‚ª‘¶İ‚µ‚Ä‚¢‚È‚¢‚Ì‚ÅA‚±‚ÌƒR[ƒX‚ÍƒvƒŒƒC‚Å‚«‚Ü‚¹‚ñB");
+					MessageBox::Show(L"å…¨ã¦ã®è­œé¢ãƒ‡ãƒ¼ã‚¿ãŒå­˜åœ¨ã—ã¦ã„ãªã„ã®ã§ã€ã“ã®ã‚³ãƒ¼ã‚¹ã¯ãƒ—ãƒ¬ã‚¤ã§ãã¾ã›ã‚“ã€‚");
 				}
 			}
 		}
-		// ƒLƒƒƒ“ƒZƒ‹ƒ{ƒ^ƒ“
+		// ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒœã‚¿ãƒ³
 		if (PlayKey::SmallBack().clicked)
 		{
 			if (m_action == Action::CourseSelect)
@@ -135,7 +135,7 @@ public:
 				SoundManager::SE::Play(L"cancel");
 			}
 		}
-		// Ä“xindex‚Ì’²®
+		// å†åº¦indexã®èª¿æ•´
 		{
 			auto &target = ::GetSelectTarget(m_action);
 			size_t size = ::GetTargetSize(m_action, m_courses);
@@ -219,12 +219,12 @@ void CourseSelect::finally()
 	if (m_data->m_toScene == SceneName::Course)
 	{
 		SoundAsset(L"title").stop(1s);
-		// ƒf[ƒ^‰^”À
+		// ãƒ‡ãƒ¼ã‚¿é‹æ¬
 		m_data->m_course.init(m_pModel->getSelectCourse());
-		// ƒ‰ƒCƒtˆøŒp‚¬‚ª‚ ‚é‚½‚ßƒXƒRƒA‚ğ‰Šú‰»‚µ‚Ä‚¨‚­
+		// ãƒ©ã‚¤ãƒ•å¼•ç¶™ããŒã‚ã‚‹ãŸã‚ã‚¹ã‚³ã‚¢ã‚’åˆæœŸåŒ–ã—ã¦ãŠã
 		m_data->m_resultScore = Score();
 
-		//â‘ÎAuto‚Í‰ğœ‚·‚é
+		//çµ¶å¯¾Autoã¯è§£é™¤ã™ã‚‹
 		AutoPlayManager::SetAutoPlay(false);
 	}
 	else {
@@ -235,8 +235,8 @@ void CourseSelect::finally()
 void CourseSelect::draw() const
 {
 	m_view.draw();
-	// ƒV[ƒ“î•ñ
-	SceneInfo::Draw(L"Enter:Œˆ’è Esc:ƒ^ƒCƒgƒ‹–ß‚é");
+	// ã‚·ãƒ¼ãƒ³æƒ…å ±
+	SceneInfo::Draw(L"Enter:æ±ºå®š Esc:ã‚¿ã‚¤ãƒˆãƒ«æˆ»ã‚‹");
 }
 
 void CourseSelect::drawFadeIn(double t) const

@@ -1,4 +1,4 @@
-﻿#include"RepeatNote.h"
+#include"RepeatNote.h"
 #include"Useful.hpp"
 #include"AutoPlayManager.h"
 #include"PlayMusicGame.h"

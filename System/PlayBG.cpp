@@ -1,4 +1,4 @@
-﻿#include "PlayBG.h"
+#include "PlayBG.h"
 #include "MusicData.h"
 #include "Util.h"
 

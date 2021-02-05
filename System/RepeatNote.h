@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"LongNote.h"
 #include"PlayKey.h"
 #include"eJudge.h"

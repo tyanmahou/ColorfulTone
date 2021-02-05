@@ -12,8 +12,8 @@ struct StopRange
 
 struct StopInfo
 {
-	double m_firstCount;//ÅIXV‚Ì‚ ‚Á‚½ƒXƒgƒbƒv‚ÌƒJƒEƒ“ƒg
-	double m_totalOffset; //¡‚Ü‚Å‚Ìƒg[ƒ^ƒ‹‚Ì’â~ŠÔ‚É‚¨‚éƒIƒtƒZƒbƒg‚Ô‚ñ
+	double m_firstCount;//æœ€çµ‚æ›´æ–°ã®ã‚ã£ãŸã‚¹ãƒˆãƒƒãƒ—ã®ã‚«ã‚¦ãƒ³ãƒˆ
+	double m_totalOffset; //ä»Šã¾ã§ã®ãƒˆãƒ¼ã‚¿ãƒ«ã®åœæ­¢æ™‚é–“ã«ãŠã‚‹ã‚ªãƒ•ã‚»ãƒƒãƒˆã¶ã‚“
 	StopInfo():
 		m_firstCount(0),
 		m_totalOffset(0)

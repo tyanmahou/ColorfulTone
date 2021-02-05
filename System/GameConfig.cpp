@@ -1,4 +1,4 @@
-﻿#include"GameConfig.h"
+#include"GameConfig.h"
 #include"PlayKey.h"
 #include"SoundManager.h"
 

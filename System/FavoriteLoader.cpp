@@ -1,4 +1,4 @@
-﻿#include "FavoriteLoader.hpp"
+#include "FavoriteLoader.hpp"
 #include "Useful.hpp"
 
 FavoriteModel FavoriteLoader::Load(const s3d::FilePath& path)

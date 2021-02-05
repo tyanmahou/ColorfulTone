@@ -13,7 +13,7 @@ bool TitleApi::CheckVersion()
 	const auto version = response[L"version"].getString();
 	if (version != Game::Version)
 	{
-		MessageBox::Show(L"最新のバージョンは" + version + L"です。");
+		MessageBox::Show(L"譛譁ｰ縺ｮ繝舌�ｼ繧ｸ繝ｧ繝ｳ縺ｯ" + version + L"縺ｧ縺吶�");
 	}
 	return true;
 }

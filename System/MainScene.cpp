@@ -1,4 +1,4 @@
-﻿#include"MainScene.h"
+#include"MainScene.h"
 #include "Useful.hpp"
 #include"AutoPlayManager.h"
 #include"ResultRank.h"

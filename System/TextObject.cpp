@@ -1,4 +1,4 @@
-﻿#include"TextObject.h"
+#include"TextObject.h"
 #include"PlayMusicGame.h"
 #include"UtilPP.hpp"
 

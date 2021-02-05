@@ -1,4 +1,4 @@
-﻿
+
 # include <Siv3D.hpp>
 
 #include"ColorfulTone.h"

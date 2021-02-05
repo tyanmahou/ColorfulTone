@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<memory>
 #include<Siv3D/Fwd.hpp>
 #include<Siv3D/Color.hpp>

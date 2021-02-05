@@ -384,8 +384,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ConfigMain.cpp">
       <Filter>Scene\KeyConfig</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CompatibilityUtil.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FavoriteLoader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CompatibilityUtil.cpp">
+      <Filter>util\Compatibility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Bar.h">

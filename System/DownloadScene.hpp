@@ -10,7 +10,7 @@ class DownloadScene : public ISceneBase
 public:
 	struct SelectContent
 	{
-		uint32 content = 0; // ‘I‘ğ’†‚ÌƒRƒ“ƒeƒ“ƒc
+		uint32 content = 0; // é¸æŠä¸­ã®ã‚³ãƒ³ãƒ†ãƒ³ãƒ„
 	};
 private:
 	class Model;

@@ -1,4 +1,4 @@
-﻿#include"Config.hpp"
+#include"Config.hpp"
 
 #include"PlayKey.h"
 #include"SoundManager.h"

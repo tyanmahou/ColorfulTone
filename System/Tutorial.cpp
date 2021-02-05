@@ -1,4 +1,4 @@
-﻿#include"Tutorial.h"
+#include"Tutorial.h"
 #include "Useful.hpp"
 
 #include"StartAnime.h"

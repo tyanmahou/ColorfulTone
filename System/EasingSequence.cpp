@@ -1,4 +1,4 @@
-﻿#include "EasingSequence.hpp"
+#include "EasingSequence.hpp"
 #include<Siv3D.hpp>
 EasingGroup::EasingGroup(std::initializer_list<Timer> timers) :
 	m_timers(timers)

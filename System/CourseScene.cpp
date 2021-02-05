@@ -1,4 +1,4 @@
-﻿#include"CourseScene.hpp"
+#include"CourseScene.hpp"
 #include"Useful.hpp"
 
 #include "HighSpeedDemo.h"

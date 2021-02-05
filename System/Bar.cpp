@@ -1,4 +1,4 @@
-﻿#include "Bar.h"
+#include "Bar.h"
 #include "PlayStyle.h"
 #include "UtilPP.hpp"
 bool Bar::update(const double& nowCount,const double& countPerFrame)

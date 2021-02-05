@@ -1,4 +1,4 @@
-﻿#include "CTCFReader.hpp"
+#include "CTCFReader.hpp"
 #include<Siv3D.hpp>
 
 #include"MusicData.h"

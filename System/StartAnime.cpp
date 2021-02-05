@@ -1,4 +1,4 @@
-﻿#include"VideoAsset.h"
+#include"VideoAsset.h"
 #include"StartAnime.h"
 #include "Useful.hpp"
 

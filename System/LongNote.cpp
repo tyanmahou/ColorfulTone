@@ -1,4 +1,4 @@
-﻿#include"LongNote.h"
+#include"LongNote.h"
 #include"Useful.hpp"
 #include"eJudge.h"
 #include"AutoPlayManager.h"

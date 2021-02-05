@@ -1,4 +1,4 @@
-﻿#include "DownloadHistory.hpp"
+#include "DownloadHistory.hpp"
 #include<Siv3D.hpp>
 namespace
 {

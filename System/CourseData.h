@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<utility>
 #include<Siv3D.hpp>
 

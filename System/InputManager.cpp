@@ -1,4 +1,4 @@
-﻿#include<Siv3D/Key.hpp>
+#include<Siv3D/Key.hpp>
 #include"InputManager.hpp"
 #include"PlayKey.h"
 class InputManager::Impl

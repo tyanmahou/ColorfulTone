@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "ISceneBase.hpp"
 #include "FileLoadView.hpp"
 
