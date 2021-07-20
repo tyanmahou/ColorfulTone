@@ -246,6 +246,7 @@ public:
 				return n.getColor();
 			}).setDrawble([](const NotesData& n, Vec2 pos) {
 				if (n.getStarLv() != StarLv::None) {
+					// ★レベル
 					if (n.getStarLv() == StarLv::One) {
 						FontAsset(L"30")(L"★").drawAt(pos + Vec2{ 37, 30 });
 					} else if (n.getStarLv() == StarLv::Two) {
@@ -258,8 +259,9 @@ public:
 					bar.draw(ColorF(0, 0.5));
 
 					auto&& lv = FontAsset(L"info")(n.getLevel());
-					lv.draw(bar.br - lv.region().size);
+					lv.draw(bar.br - lv.region().size - Vec2{1, 0});
 				} else {
+					// 通常れレベル
 					util::ContractionDrawbleString(
 						FontAsset(L"level")(n.getLevel()),
 						pos + Vec2{ 40, 25 },
