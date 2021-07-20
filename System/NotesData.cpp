@@ -273,6 +273,21 @@ void NotesData::load(CSVReader & csv)
 			{
 				m_lv = csv.getOr<int>(i, 1, 0);
 				m_lvName = csv.getOr<String>(i, 2, L"None");
+
+				auto starKind = csv.getOpt<String>(i, 3);
+				if (starKind) {
+					if (*starKind == L"★") {
+						m_starLv = StarLv::One;
+					} else if (*starKind == L"★★") {
+						m_starLv = StarLv::Two;
+					}
+				} else {
+					if (m_lv == 14) {
+						m_starLv = StarLv::One;
+					} else if (m_lv >= 15) {
+						m_starLv = StarLv::Two;
+					}
+				}
 			}
 			else if (head == L"#BPM")
 			{
@@ -400,9 +415,16 @@ void NotesData::load(CSVReader & csv)
 	init();
 
 	int lv = m_lv;
-	GenreManager::Add(GenreType::Lv, Format(L"LEVEL:", lv), [lv](MusicData& music)->bool {
-		return s3d::AnyOf(music.getNotesData(), [lv](const NotesData& notes) {return notes.getLevel() == lv; });
-	}, lv);
+	auto starLv = m_starLv;
+	if (m_starLv != StarLv::None) {
+		GenreManager::Add(GenreType::StarLv, Format(L"LEVEL:", ToStr(starLv)), [starLv](MusicData& music)->bool {
+			return s3d::AnyOf(music.getNotesData(), [starLv](const NotesData& notes) {return notes.getStarLv() == starLv; });
+		}, static_cast<int>(starLv));
+	} else {
+		GenreManager::Add(GenreType::Lv, Format(L"LEVEL:", lv), [lv](MusicData& music)->bool {
+			return s3d::AnyOf(music.getNotesData(), [lv](const NotesData& notes) {return notes.getLevel() == lv; });
+		}, lv);
+	}
 }
 
 void NotesData::saveScore(const ScoreModel & score) const

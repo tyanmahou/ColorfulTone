@@ -7,6 +7,7 @@ enum GenreType
 {
 	All,
 	Lv,
+	StarLv,
 	MusicName,
 	ArtistName,
 	Folder,
@@ -48,6 +49,8 @@ public:
 			} else {
 				return TextureAsset(L"genre_level1");
 			}
+		case GenreType::StarLv:
+			return TextureAsset(L"genre_level_star");
 		case GenreType::Favorite:
 			return TextureAsset(L"genre_favorite");
 		default:
@@ -63,7 +66,7 @@ public:
 	{
 		if (m_genreType == right.m_genreType)
 		{
-			if (m_genreType == Lv)
+			if (m_genreType == Lv || m_genreType == StarLv)
 				return m_lv < right.m_lv;
 
 			return m_name < right.m_name;

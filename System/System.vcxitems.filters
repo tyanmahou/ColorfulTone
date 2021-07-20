@@ -676,5 +676,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FavoriteLoader.hpp">
       <Filter>MusicGame\Data\Loader</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StarLv.hpp">
+      <Filter>MusicGame\Data\NotesData</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

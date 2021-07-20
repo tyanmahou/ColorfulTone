@@ -3,8 +3,10 @@
 #include"BPMChanger.h"
 #include"Stop.h"
 #include"Score.h"
+#include "StarLv.hpp"
 
 class MusicData;
+
 
 class NotesData
 {
@@ -30,6 +32,7 @@ private:
 	ScoreModel m_score;							//スコア
 
 	Color m_color;								//色
+	StarLv m_starLv = StarLv::None;             // ★レベル
 	const MusicData* m_pMusic;					//曲情報
 	uint32 m_index;								//ID
 public:
@@ -87,6 +90,8 @@ public:
 	{
 		return m_color;
 	}
+	StarLv getStarLv() const { return m_starLv; }
+
 	const MusicData* const getMusic()const
 	{
 		return m_pMusic;

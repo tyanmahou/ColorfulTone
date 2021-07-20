@@ -90,6 +90,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedDraw.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedLogic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StarLv.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TapSE.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleApi.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleSceneView.hpp" />
