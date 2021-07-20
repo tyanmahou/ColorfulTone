@@ -25,8 +25,9 @@ void LoadCustomFolder()
 			}
 			//タイトル
 			String title = ctfolder.getTitle().value_or(L"CustomFolder");
+			int32 order = ctfolder.getOrder();
 			g_readerCache[path] = ctfolder;
-			GenreManager::Add(GenreType::Custom, title, [path](MusicData& music)->bool {return g_readerCache[path].expression(music); });
+			GenreManager::Add(GenreType::Custom, title, [path](MusicData& music)->bool {return g_readerCache[path].expression(music); }, order);
 		}
 	}
 }

@@ -238,6 +238,14 @@ namespace
 					}
 					return false;
 				}
+				if (id == L"STAR") {
+					for (const auto& elm : music.getNotesData()) {
+						if (::Compare(ToStr(elm.getStarLv()), value, op)) {
+							return true;
+						}
+					}
+					return false;
+				}
 				if (id == L"NOTE" || id == L"NOTESARTIST" || id == L"NOTESDESIGNER")
 				{
 					for (const auto& elm : music.getNotesData())
@@ -304,6 +312,9 @@ namespace
 						}
 					}
 					return false;
+				}
+				if (id == L"FAVORITE") {
+					return ::Compare(music.isFavorite(), Parse<bool>(value), op);
 				}
 				return false;
 			}
@@ -424,10 +435,12 @@ namespace
 			Array<Token> m_tokens;
 			void pushOptions(const String& option)
 			{
-				auto& parses = option.replace(L" ", L"").split(L',');
+				auto parses = option.replace(L" ", L"").split(L',');
 				if (parses[0] == L"#TITLE" && parses.size() >= 2)
 				{
 					m_options[L"TITLE"] = parses[1];
+				} else if (parses[0] == L"#ORDER" && parses.size() >= 2) {
+					m_options[L"ORDER"] = parses[1];
 				}
 			}
 

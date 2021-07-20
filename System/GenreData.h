@@ -64,14 +64,12 @@ public:
 	}
 	bool operator < (const GenreData& right)const 
 	{
-		if (m_genreType == right.m_genreType)
-		{
-			if (m_genreType == Lv || m_genreType == StarLv)
-				return m_lv < right.m_lv;
-
-			return m_name < right.m_name;
+		if (m_genreType != right.m_genreType) {
+			return m_genreType < right.m_genreType;
 		}
-		
-		return m_genreType < right.m_genreType;
+		if (m_lv != right.m_lv) {
+			return m_lv < right.m_lv;
+		}
+		return m_name < right.m_name;
 	}
 };
