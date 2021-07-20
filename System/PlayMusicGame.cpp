@@ -316,7 +316,7 @@ void PlayMusicGame::uiDraw() const
 	if (AutoPlayManager::IsAutoPlay())
 		PutText(L"AutoPlay").at(Window::Center().x, 40);
 
-	const auto levelName = Format(m_notesData.getLevel()) + L" - " + m_notesData.getLevelName();
+	const auto levelName = m_notesData.getLevelWithStar() + L" - " + m_notesData.getLevelName();
 	PutText(levelName).at(Window::Center().x, Window::Height() - 20);
 }
 

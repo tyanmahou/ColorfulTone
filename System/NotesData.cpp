@@ -139,9 +139,17 @@ void NotesData::previewDraw(const double& nowCount, float scrollRate)const
 	}
 }
 
+String NotesData::getLevelWithStar() const
+{
+	if (m_starLv != StarLv::None) {
+		return ToStr(m_starLv) + L":" + Format(m_lv);
+	}
+	return Format(m_lv);
+}
+
 const String NotesData::getLevelNameAndLevel() const
 {
-	return m_lvName + L" Lv" + Format(m_lv);
+	return m_lvName + L" Lv" + this->getLevelWithStar();
 }
 
 String NotesData::getScorePath()const

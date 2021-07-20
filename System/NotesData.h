@@ -72,6 +72,7 @@ public:
 	const double& getMaxBarCount()const { return m_maxBarCount; }
 	const int& getTotalNotes()const { return m_totalNotes; }
 	const String& getLevelName()const { return m_lvName; }
+	String getLevelWithStar()const;
 	const String getLevelNameAndLevel() const;
 	const String& getNotesArtistName()const { return  m_notesArtistName; }
 	const String& getFileName()const { return m_fileName; }

@@ -41,9 +41,8 @@ namespace
 			Palette::Black, 
 			false
 		);
-		const String name = notes.getLevelName() + L" Lv" + Format(notes.getLevel());
 		util::ContractionDrawbleString(
-			font12(name), 
+			font12(notes.getLevelNameAndLevel()), 
 			{ 130 ,y + 45 },
 			270,
 			Palette::Black, 

@@ -232,7 +232,11 @@ public:
 				.setColorCallBack([](const NotesData&n) {
 				return n.getColor();
 			}).setDrawble([](const NotesData& n, Vec2 pos) {
-				FontAsset(L"level")(n.getLevel()).drawCenter(pos + Vec2{ 40, 25 });
+				util::ContractionDrawbleString(
+					FontAsset(L"level")(n.getLevel()),
+					pos + Vec2{ 40, 25 },
+					50
+				);
 				TextureAsset(ResultRank::GetRankTextureName(n.getScore().clearRate)).scale(0.1).drawAt(pos + Vec2{ 320, 25 });
 			}).draw(
 				*pNotes,
