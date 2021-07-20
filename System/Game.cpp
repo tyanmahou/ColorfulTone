@@ -204,6 +204,9 @@ namespace
 		FontAsset::Register(L"selectMusics", 16, Typeface::Bold);
 
 		FontAsset::Register(L"20", 20);
+
+		FontAsset::Register(L"30b", 30, Typeface::Bold);
+
 		// リザルト
 		FontAsset::Register(L"20b_s", 20, L"Straight", FontStyle::Bold);
 

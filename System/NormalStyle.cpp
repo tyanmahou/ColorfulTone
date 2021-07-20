@@ -67,7 +67,7 @@ namespace
 	//--------------------------------------------------------------------------------
 	//概要：ノーツのテクスチャの名前を取得
 	//--------------------------------------------------------------------------------
-	const String& GetTxetureName(NoteType type)
+	String GetTxetureName(NoteType type)
 	{
 		static const std::unordered_map<NoteType, String> textureNameMap
 		{

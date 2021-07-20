@@ -177,7 +177,7 @@ namespace
 		return Palette::Black;
 	}
 
-	const String& GetTextureName(NoteType type)
+	String GetTextureName(NoteType type)
 	{
 		static const std::unordered_map<NoteType, String> textureNameMap
 		{

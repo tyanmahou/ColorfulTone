@@ -232,11 +232,25 @@ public:
 				.setColorCallBack([](const NotesData&n) {
 				return n.getColor();
 			}).setDrawble([](const NotesData& n, Vec2 pos) {
-				util::ContractionDrawbleString(
-					FontAsset(L"level")(n.getLevel()),
-					pos + Vec2{ 40, 25 },
-					50
-				);
+				if (n.getStarLv() != StarLv::None) {
+					util::ContractionDrawbleString(
+						FontAsset(L"30b")(ToStr(n.getStarLv())),
+						pos + Vec2{ 37, 30 },
+						65
+					);
+					constexpr Vec2 size(65, 20); // 65, 50
+					const RectF bar(pos + Vec2{ 37, 45 } - size / 2, size);
+					bar.draw(ColorF(0, 0.5));
+
+					auto&& lv = FontAsset(L"info")(n.getLevel());
+					lv.draw(bar.br - lv.region().size);
+				} else {
+					util::ContractionDrawbleString(
+						FontAsset(L"level")(n.getLevel()),
+						pos + Vec2{ 40, 25 },
+						50
+					);
+				}
 				TextureAsset(ResultRank::GetRankTextureName(n.getScore().clearRate)).scale(0.1).drawAt(pos + Vec2{ 320, 25 });
 			}).draw(
 				*pNotes,
