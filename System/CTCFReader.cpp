@@ -99,31 +99,146 @@ namespace
 
 	class Result
 	{
+	public:
+		enum class ValueType
+		{
+			Null,
+			String,
+			Bool,
+		};
+
 	private:
 		union
 		{
-			String str;
+			s3d::String* str;
 			bool b;
-		};
+		}m_value;
+
+		ValueType m_type;
 	public:
-		Result(const String& value) :
-			str(value)
-		{}
-		Result(bool value) :
-			b(value)
-		{}
+		Result() :
+			m_type(ValueType::Null)
+		{
+			memset(&m_value, 0, sizeof(m_value));
+		}
+
 		Result(const Result& other) :
-			str(other.str)
-		{}
+			m_type(ValueType::Null)
+		{
+			*this = other;
+		}
+		Result(Result&& other) noexcept :
+			m_type(ValueType::Null)
+		{
+			*this = std::move(other);
+		}
+
+		Result(const String& value) :
+			m_type(ValueType::String)
+		{
+			m_value.str = new s3d::String(value);
+		}
+		Result(bool value) :
+			m_type(ValueType::Bool)
+		{
+			m_value.b = value;
+		}
 		~Result()
-		{};
+		{
+			this->clear();
+		}
 		bool toBool()const
 		{
-			return this->b;
+			switch (m_type) {
+			case ValueType::Bool:
+				return this->m_value.b;
+			default:
+				return false;
+			}
 		}
-		const String& toString()const
+		String toString()const
 		{
-			return this->str;
+			switch (m_type) {
+			case ValueType::String:
+				return *this->m_value.str;
+			default:
+				return L"";
+			}
+		}
+
+		void clear()
+		{
+			switch (this->m_type) {
+			case ValueType::String:
+				delete this->m_value.str;
+				this->m_value.str = nullptr;
+				break;
+			case ValueType::Bool:
+				this->m_value.b = false;
+				break;
+			default:
+				break;
+			}
+			this->m_type = ValueType::Null;
+		}
+		void reset(ValueType type)
+		{
+			if (m_type == type) {
+				return;
+			}
+			this->clear();
+			switch (type) {
+			case ValueType::String:
+				m_value.str = new (std::nothrow) s3d::String();
+				break;
+			default:
+				break;
+			}
+			m_type = type;
+		}
+		Result& operator=(const Result& other)
+		{
+			if (this == &other) {
+				return *this;
+			}
+			this->reset(other.m_type);
+
+			switch (other.m_type) {
+			case ValueType::String:
+				if (this->m_value.str == nullptr) {
+					this->m_value.str = new s3d::String();
+				}
+				*this->m_value.str = *other.m_value.str;
+				break;
+			case ValueType::Bool:
+				this->m_value.b = other.m_value.b;
+				break;
+			default:
+				break;
+			}
+			return *this;
+		}
+		Result& operator=(Result&& other) noexcept
+		{
+			if (this == &other) {
+				return *this;
+			}
+			this->clear();
+			switch (other.m_type) {
+			case ValueType::String:
+				this->m_value.str = other.m_value.str;
+				break;
+			case ValueType::Bool:
+				this->m_value.b = other.m_value.b;
+				break;
+			default:
+				break;
+			}
+			this->m_type = other.m_type;
+			other.m_type = ValueType::Null;
+			memset(&other.m_value, 0, sizeof(other.m_value));
+
+			return *this;
 		}
 	};
 	namespace AST
