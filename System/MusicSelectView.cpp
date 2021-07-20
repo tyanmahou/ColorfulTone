@@ -51,6 +51,13 @@ namespace
 
 	String NotesToLevel(const NotesData& notes)
 	{
+		if (notes.getStarLv() != StarLv::None) {
+			if (Time::GetMillisec() % 4000 <= 2000) {
+				return Format(ToStr(notes.getStarLv()));
+			} else {
+				return Format(notes.getLevel());
+			}
+		}
 		return Format(notes.getLevel());
 	}
 	String NotesToRank(const NotesData& notes)
@@ -73,7 +80,13 @@ namespace
 		{
 			const Rect rect(0, 500 - w * size + w * i, w, w);
 			rect.draw(HSV(i*360.0 / size, 0.3, 1)).drawFrame(1, 0, HSV(i*360.0 / size, 1, 1));
-			FontAsset(L"info")(toStringMap(notes[i])).drawCenter(rect.center, Palette::Black);
+
+			util::ContractionDrawbleString(
+				FontAsset(L"info")(toStringMap(notes[i])),
+				rect.center,
+				rect.w,
+				Palette::Black
+			);
 		}
 	}
 
@@ -233,11 +246,13 @@ public:
 				return n.getColor();
 			}).setDrawble([](const NotesData& n, Vec2 pos) {
 				if (n.getStarLv() != StarLv::None) {
-					util::ContractionDrawbleString(
-						FontAsset(L"30b")(ToStr(n.getStarLv())),
-						pos + Vec2{ 37, 30 },
-						65
-					);
+					if (n.getStarLv() == StarLv::One) {
+						FontAsset(L"30")(L"★").drawAt(pos + Vec2{ 37, 30 });
+					} else if (n.getStarLv() == StarLv::Two) {
+						FontAsset(L"30")(L"★").drawAt(pos + Vec2{ 28, 28 });
+						FontAsset(L"20")(L"★").drawAt(pos + Vec2{ 52, 38 });
+					}
+
 					constexpr Vec2 size(65, 20); // 65, 50
 					const RectF bar(pos + Vec2{ 37, 45 } - size / 2, size);
 					bar.draw(ColorF(0, 0.5));

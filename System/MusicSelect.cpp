@@ -389,14 +389,14 @@ namespace
 	// シーン情報のメッセージを取得
 	String GetSceneInfoMsg()
 	{
-		const int32 timer = System::FrameCount();
+		const uint32 timer = Time::GetMillisec();
 
-		int timerMod = timer % 600;
-		if (timerMod <= 200)
+		int timerMod = timer % 6000;
+		if (timerMod <= 2000)
 		{
 			return L"Enter:決定　BackSpace:絞り込み,戻る　F2:ソート　Esc:タイトルに戻る";
 		}
-		if (timerMod <= 400)
+		if (timerMod <= 4000)
 		{
 			return L"F10:お気に入り　F11:コンフィグ";
 		}

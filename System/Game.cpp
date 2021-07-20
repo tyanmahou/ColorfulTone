@@ -205,7 +205,7 @@ namespace
 
 		FontAsset::Register(L"20", 20);
 
-		FontAsset::Register(L"30b", 30, Typeface::Bold);
+		FontAsset::Register(L"30", 30);
 
 		// リザルト
 		FontAsset::Register(L"20b_s", 20, L"Straight", FontStyle::Bold);
