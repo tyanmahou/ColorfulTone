@@ -22,6 +22,9 @@ public:
 	static float CalcLifeRate(const Score&score);
 
 	static ScoreModel CalcScore(const Score& score, int totalNotes);
+
+	static float ToRate(Rank rank);
+	static float ToRate(const String& rank);
 private:
 	ResultRank();
 };

@@ -1,6 +1,8 @@
 #include "CTCFReader.hpp"
 #include<Siv3D.hpp>
+#include <cwctype>
 #include"MusicData.h"
+#include "ResultRank.h"
 
 namespace
 {
@@ -10,7 +12,10 @@ namespace
 
 	enum class TokenType : size_t
 	{
-		Value = 0, Bracket = Value,
+		Bracket,
+		Value,
+		Bool,
+		Identifier,
 		Not,
 		Op,
 		And,
@@ -18,8 +23,39 @@ namespace
 		MAX,
 	};
 
-	constexpr size_t Root = static_cast<size_t>(TokenType::MAX) - 1u;
+	enum class Precedence
+	{
+		Value,
+		Not,
+		Op,
+		And,
+		Or,
+		Max,
+		Root = Max - 1,
+		Heightest = Value,
+		Lowest = Root,
+	};
 
+	Precedence ToPrecedence(TokenType token)
+	{
+		switch (token) {
+		case TokenType::Value:
+		case TokenType::Bool:
+		case TokenType::Bracket:
+		case TokenType::Identifier:
+			return Precedence::Value;
+		case TokenType::Not: return Precedence::Not;
+		case TokenType::Op: return Precedence::Op;
+		case TokenType::And: return Precedence::And;
+		case TokenType::Or: return Precedence::Or;
+		default:
+			return Precedence::Lowest;
+		}
+	}
+	constexpr Precedence operator - (Precedence p, int i)
+	{
+		return static_cast<Precedence>(static_cast<int>(p) - i);
+	}
 	TokenType GetTokenType(const String& str)
 	{
 		static const std::unordered_map<String, TokenType> ids
@@ -33,10 +69,13 @@ namespace
 			{L"<=", TokenType::Op},
 			{L">", TokenType::Op},
 			{L">=", TokenType::Op},
-			{L"includes", TokenType::Op},
 			{L"in", TokenType::Op},
 			{L"&&", TokenType::And},
 			{L"||", TokenType::Or},
+			{L"CLEAER", TokenType::Bool},
+			{L"FC", TokenType::Bool},
+			{L"AP", TokenType::Bool},
+			{L"FAVORITE", TokenType::Bool},
 		};
 		if (ids.find(str) != ids.end()) {
 			return ids.at(str);
@@ -86,7 +125,7 @@ namespace
 		RETURN_COMPARE(<= );
 		RETURN_COMPARE(> );
 		RETURN_COMPARE(>= );
-		if (op == L"includes" || op == L"in")
+		if (op == L"in")
 		{
 			return a.includes(b);
 		}
@@ -251,7 +290,7 @@ namespace
 		class INode
 		{
 		public:
-			virtual Result eval(const MusicData&) = 0;
+			virtual Result eval(const NotesData&) = 0;
 		};
 		class ILeaf : public INode
 		{
@@ -268,9 +307,36 @@ namespace
 			Value(const Token& token) :
 				ILeaf(token)
 			{}
-			Result eval(const MusicData&)override
+			Result eval(const NotesData&)override
 			{
 				return { m_token.token };
+			}
+		};
+		class BoolValue : public ILeaf
+		{
+		public:
+			BoolValue(const Token& token) :
+				ILeaf(token)
+			{}
+			Result eval(const NotesData& notes)override
+			{
+				const auto& id = m_token.token;
+				if (id == L"CLEAR") {
+					return notes.getScore().isClear;
+				}
+				if (id == L"AP" || id == L"FC") {
+					SpecialResult s = SpecialResult::None;
+					if (id == L"AP") {
+						s = SpecialResult::All_Perfect;
+					} else if (id == L"FC") {
+						s = SpecialResult::Full_Combo;
+					}
+					return notes.getScore().specialResult >= s;
+				}
+				if (id == L"FAVORITE") {
+					return notes.getMusic()->isFavorite();
+				}
+				return false;
 			}
 		};
 		using Op = Value;
@@ -285,14 +351,14 @@ namespace
 				m_op(op),
 				m_right(right)
 			{}
-			Result eval(const MusicData& music) override
+			Result eval(const NotesData& notes) override
 			{
-				const String& op = m_op->eval(music).toString();
+				const String& op = m_op->eval(notes).toString();
 				if (op == L"!")
 				{
-					return !m_right->eval(music).toBool();
+					return !m_right->eval(notes).toBool();
 				}
-				return m_right->eval(music);
+				return m_right->eval(notes);
 			}
 		};
 
@@ -303,27 +369,28 @@ namespace
 			std::shared_ptr<INode> m_op;
 			std::shared_ptr<INode> m_right;
 
-			bool compare(const MusicData& music, const String& id, const String& op, const String& value)
+			bool compare(const NotesData& notes, const String& id, const String& op, const String& value)
 			{
+				const auto*const music = notes.getMusic();
 				if (id == L"BPM")
 				{
 					auto bpm = Parse<double>(value);
-					return ::Compare(music.getMinBPM(), bpm, op) || ::Compare(music.getMaxBPM(), bpm, op);
+					return ::Compare(music->getMinBPM(), bpm, op) || ::Compare(music->getMaxBPM(), bpm, op);
 				}
 				if (id == L"MINBPM") {
-					return ::Compare(music.getMinBPM(), Parse<double>(value), op);
+					return ::Compare(music->getMinBPM(), Parse<double>(value), op);
 				}
 				if (id == L"MAXBPM")
 				{
-					return ::Compare(music.getMaxBPM(), Parse<double>(value), op);
+					return ::Compare(music->getMaxBPM(), Parse<double>(value), op);
 				}
 				if (id == L"ARTIST")
 				{
-					return ::Compare(music.getArtistName(), value, op);
+					return ::Compare(music->getArtistName(), value, op);
 				}
 				if (id == L"AUTHORITY")
 				{
-					const auto& authority = music.getAuthority();
+					const auto& authority = music->getAuthority();
 					if (authority.has_value() && !authority.value().isEmpty)
 					{
 						return ::Compare(authority.value(), value, op);
@@ -332,112 +399,37 @@ namespace
 				}
 				if (id == L"MUSICNAME")
 				{
-					return ::Compare(music.getMusicName(), value, op);
+					return ::Compare(music->getMusicName(), value, op);
 				}
 				if (id == L"GENRE")
 				{
-					return ::Compare(music.getGenreName(), value, op);
+					return ::Compare(music->getGenreName(), value, op);
 				}
 				if (id == L"LEVEL")
 				{
 					int level = Parse<int>(value);
-					for (const auto& elm : music.getNotesData())
-					{
-						if (::Compare(elm.getLevel(), level, op))
-						{
-							return true;
-						}
-					}
-					return false;
+					return ::Compare(notes.getLevel(), level, op);
 				}
 				if (id == L"LEVELNAME")
 				{
-					for (const auto& elm : music.getNotesData())
-					{
-						if (::Compare(elm.getLevelName(), value, op))
-						{
-							return true;
-						}
-					}
-					return false;
+					return ::Compare(notes.getLevelName(), value, op);
 				}
 				if (id == L"STAR") {
-					for (const auto& elm : music.getNotesData()) {
-						if (::Compare(ToStr(elm.getStarLv()), value, op)) {
-							return true;
-						}
-					}
-					return false;
+					return ::Compare(ToStr(notes.getStarLv()), value, op);
 				}
-				if (id == L"NOTE" || id == L"NOTESARTIST" || id == L"NOTESDESIGNER")
+				if (id == L"NOTE")
 				{
-					for (const auto& elm : music.getNotesData())
-					{
-						if (::Compare(elm.getNotesArtistName(), value, op))
-						{
-							return true;
-						}
-					}
-					return false;
+					return ::Compare(notes.getNotesArtistName(), value, op);
 				}
 				if (id == L"TOTALNOTE")
 				{
 					int total = Parse<int>(value);
-					for (const auto& elm : music.getNotesData())
-					{
-						if (::Compare(elm.getTotalNotes(), total, op))
-						{
-							return true;
-						}
-					}
-					return false;
+					return ::Compare(notes.getTotalNotes(), total, op);
 				}
 				if (id == L"CLEARRATE")
 				{
-					float rate = Parse<float>(value);
-					for (const auto& elm : music.getNotesData())
-					{
-						if (::Compare(elm.getScore().clearRate, rate, op))
-						{
-							return true;
-						}
-					}
-					return false;
-				}
-				if (id == L"CLEAR")
-				{
-					bool isClear = Parse<bool>(value);
-					for (const auto& elm : music.getNotesData())
-					{
-						if (::Compare(elm.getScore().isClear, isClear, op))
-						{
-							return true;
-						}
-					}
-					return false;
-				}
-				if (id == L"SPECIAL")
-				{
-					SpecialResult s;
-					if (value == L"AP")
-					{
-						s = SpecialResult::All_Perfect;
-					}
-					else if (value == L"FC")
-					{
-						s = SpecialResult::Full_Combo;
-					}
-					for (const auto& elm : music.getNotesData())
-					{
-						if (::Compare(elm.getScore().specialResult, s, op))
-						{
-							return true;
-						}
-					}
-					return false;
-				}
-				if (id == L"FAVORITE") {
-					return ::Compare(music.isFavorite(), Parse<bool>(value), op);
+					float rate = ParseOpt<float>(value).value_or(ResultRank::ToRate(value));
+					return ::Compare(notes.getScore().clearRate, rate, op);
 				}
 				return false;
 			}
@@ -447,23 +439,23 @@ namespace
 				m_op(op),
 				m_right(right)
 			{}
-			Result eval(const MusicData& music) override
+			Result eval(const NotesData& notes) override
 			{
-				const String& op = m_op->eval(music).toString();
+				const String& op = m_op->eval(notes).toString();
 				if (op == L"&&")
 				{
-					return m_left->eval(music).toBool() && m_right->eval(music).toBool();
+					return m_left->eval(notes).toBool() && m_right->eval(notes).toBool();
 				}
 				if (op == L"||")
 				{
-					return m_left->eval(music).toBool() || m_right->eval(music).toBool();
+					return m_left->eval(notes).toBool() || m_right->eval(notes).toBool();
 				}
 				return {
 					this->compare(
-					music,
-					m_left->eval(music).toString(),
+					notes,
+					m_left->eval(notes).toString(),
 					op,
-					m_right->eval(music).toString()
+					m_right->eval(notes).toString()
 					)
 				};
 			}
@@ -483,11 +475,11 @@ namespace
 			Array<Token> m_tokens;
 			std::shared_ptr<INode> m_root = nullptr;
 
-			template<size_t N>
+			template<Precedence N>
 			std::shared_ptr<INode> get(AstItr& it)
 			{
 				std::shared_ptr<INode> left = this->get<N - 1>(it);
-				while (it != m_tokens.end() && static_cast<size_t>(it->type) == N)
+				while (it != m_tokens.end() && ToPrecedence(it->type) == N)
 				{
 					std::shared_ptr<INode> op = std::make_shared<Op>(*it++);
 					std::shared_ptr<INode> right = this->get<N - 1>(it);
@@ -498,13 +490,13 @@ namespace
 			std::shared_ptr<INode> root()
 			{
 				auto itr = m_tokens.begin();
-				return this->get<Root>(itr);
+				return this->get<Precedence::Root>(itr);
 			}
 		public:
 			Parser(const Array<Token>& tokens) :
 				m_tokens(tokens)
 			{}
-			bool expression(const MusicData& music)
+			bool expression(const NotesData& notes)
 			{
 				if (!m_root)
 				{
@@ -515,33 +507,36 @@ namespace
 				{
 					return false;
 				}
-				return m_root->eval(music).toBool();
+				return m_root->eval(notes).toBool();
 			}
 		};
 		template<>
-		std::shared_ptr<INode> Parser::get<0>(AstItr& it)
+		std::shared_ptr<INode> Parser::get<Precedence::Value>(AstItr& it)
 		{
 			if (it->token == L"(")
 			{
-				auto node = this->get<Root>(++it);
+				auto node = this->get<Precedence::Root>(++it);
 				if ((it++)->token != L")")
 				{
 					Println(L"ctfolder parse error: not found ')'");
 				}
 				return node;
 			}
+			if (it->type == TokenType::Bool) {
+				return std::make_shared<BoolValue>(*it++);
+			}
 			return std::make_shared<Value>(*it++);
 		}
 		template<>
-		std::shared_ptr<INode> Parser::get<1>(AstItr& it)
+		std::shared_ptr<INode> Parser::get<Precedence::Not>(AstItr& it)
 		{
 			if (it != m_tokens.end() && it->type == TokenType::Not)
 			{
 				std::shared_ptr<INode> op = std::make_shared<Op>(*it++);
-				std::shared_ptr<INode> right = this->get<1>(it);
+				std::shared_ptr<INode> right = this->get<Precedence::Not>(it);
 				return std::make_shared<UnaryExpr>(op, right);
 			}
-			return this->get<0>(it);
+			return this->get<Precedence::Not - 1>(it);
 		}
 	}
 
@@ -606,7 +601,14 @@ namespace
 					while (this->isWhiteSpace(line[pos])) {
 						++pos;
 					}
-					if (this->isDigit(line[pos]) || line[pos] == L'-' && pos + 1< line.length && this->isDigit(line[pos + 1])) {
+					if (std::iswalpha(line[pos])) {
+						// 識別子
+						const size_t start = pos;
+						while (pos < line.length && (std::iswalnum(line[pos]) || line[pos] == L'_')) {
+							++pos;
+						}
+						m_tokens.emplace_back(line.substr(start, pos - start));
+					} else if (this->isDigit(line[pos]) || line[pos] == L'-' && pos + 1< line.length && this->isDigit(line[pos + 1])) {
 						// 数
 						const size_t start = pos;
 						bool isFoundDot = false;
@@ -637,6 +639,17 @@ namespace
 						auto strValue = line.substr(start, pos - start).replace(L"\\\"", L"\"");
 						m_tokens.emplace_back(strValue, TokenType::Value);
 						++pos;
+					} else if (line[pos] == L'★') {
+						// ★
+						const size_t start = pos;
+						++pos;
+						while (pos < line.length) {
+							if (line[pos] != L'★') {
+								break;
+							}
+							++pos;
+						}
+						m_tokens.emplace_back(line.substr(start, pos - start), TokenType::Value);
 					} else {
 						// opなど
 						if (line[pos] == L'!') {
@@ -676,7 +689,7 @@ namespace
 							m_tokens.emplace_back(String(1, line[pos]), TokenType::Bracket);
 							++pos;
 						} else {
-							// 識別子
+							// そのほか
 							const size_t start = pos;
 							while (pos < line.length && !this->isWhiteSpace(line[pos])) {
 								++pos;
@@ -729,9 +742,18 @@ public:
 	{
 		return m_lexer.getOption(option);
 	}
-	bool expression(const MusicData & music)
+	bool expression(const NotesData & notes)
 	{
-		return m_parser.expression(music);
+		return m_parser.expression(notes);
+	}
+	bool expression(const MusicData& music)
+	{
+		for(const auto& notes : music.getNotesData()) {
+			if (this->expression(notes)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	operator bool()const
 	{

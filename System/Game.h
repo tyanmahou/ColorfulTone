@@ -13,7 +13,7 @@ class TapSE;
 class Game : protected Singleton<Game>
 {
 public:
-	static constexpr auto Version = L"Ver3.1.2";
+	static constexpr auto Version = L"Ver3.2.0";
 private:
 	class Impl;
 	std::shared_ptr<Impl> m_pImpl;

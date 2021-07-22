@@ -93,3 +93,31 @@ ScoreModel ResultRank::CalcScore(const Score & score, int totalNotes)
 
 	return ret;
 }
+
+float ResultRank::ToRate(Rank rank)
+{
+	return static_cast<float>(rank);
+}
+
+float ResultRank::ToRate(const String& rank)
+{
+	Rank r = Rank::F;
+	if (rank == L"AAA") {
+		r = Rank::AAA;
+	} else if (rank == L"AA") {
+		r = Rank::AA;
+	} else if (rank == L"A") {
+		r = Rank::A;
+	} else if (rank == L"B") {
+		r = Rank::B;
+	} else if (rank == L"C") {
+		r = Rank::D;
+	} else if (rank == L"D") {
+		r = Rank::D;
+	} else if (rank == L"E") {
+		r = Rank::E;
+	} else if (rank == L"F") {
+		r = Rank::F;
+	}
+	return ToRate(r);
+}
