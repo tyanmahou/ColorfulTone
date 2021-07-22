@@ -428,8 +428,15 @@ namespace
 				}
 				if (id == L"CLEARRATE")
 				{
-					float rate = ParseOpt<float>(value).value_or(ResultRank::ToRate(value));
-					return ::Compare(notes.getScore().clearRate, rate, op);
+					auto rateOpt = ParseOpt<float>(value);
+					if (!rateOpt) {
+						float rate = ResultRank::ToRate(value);
+						float rankBaseRate = ResultRank::ToRate(ResultRank::GetRankTextureName(notes.getScore().clearRate));
+						return ::Compare(rankBaseRate, rate, op);
+					} else {
+						float rate = rateOpt.value();
+						return ::Compare(notes.getScore().clearRate, rate, op);
+					}
 				}
 				return false;
 			}
@@ -718,6 +725,8 @@ namespace
 					m_options[L"TITLE"] = parses[1];
 				} else if (parses[0] == L"#ORDER" && parses.size() >= 2) {
 					m_options[L"ORDER"] = parses[1];
+				} else if (parses[0] == L"#EVAL" && parses.size() >= 2) {
+					m_options[L"EVAL"] = parses[1];
 				}
 			}
 		private:
@@ -748,9 +757,22 @@ public:
 	}
 	bool expression(const MusicData& music)
 	{
-		for(const auto& notes : music.getNotesData()) {
-			if (this->expression(notes)) {
-				return true;
+		auto eval = this->getOption(L"EVAL").value_or(L"Any");
+		if (eval == L"ALL") {
+			if (music.getNotesData().empty()) {
+				return false;
+			}
+			for (const auto& notes : music.getNotesData()) {
+				if (!this->expression(notes)) {
+					return false;
+				}
+			}
+			return true;
+		} else {
+			for (const auto& notes : music.getNotesData()) {
+				if (this->expression(notes)) {
+					return true;
+				}
 			}
 		}
 		return false;

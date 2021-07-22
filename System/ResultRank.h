@@ -10,7 +10,7 @@ class ResultRank
 		D = 60,
 		C = 70,
 		B = 80,
-		A=90,
+		A = 90,
 		AA = 95,
 		AAA = 97,
 	};
