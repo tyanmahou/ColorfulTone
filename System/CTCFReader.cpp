@@ -1,6 +1,5 @@
 #include "CTCFReader.hpp"
 #include<Siv3D.hpp>
-
 #include"MusicData.h"
 
 namespace
@@ -35,6 +34,7 @@ namespace
 			{L">", TokenType::Op},
 			{L">=", TokenType::Op},
 			{L"includes", TokenType::Op},
+			{L"in", TokenType::Op},
 			{L"&&", TokenType::And},
 			{L"||", TokenType::Or},
 		};
@@ -51,6 +51,10 @@ namespace
 		Token(const String& str):
 			token(str),
 			type(::GetTokenType(str))
+		{}
+		Token(const String& str, TokenType _type) :
+			token(str),
+			type(_type)
 		{}
 	};
 	//----------------------------------------------------------
@@ -82,7 +86,7 @@ namespace
 		RETURN_COMPARE(<= );
 		RETURN_COMPARE(> );
 		RETURN_COMPARE(>= );
-		if (op == L"includes")
+		if (op == L"includes" || op == L"in")
 		{
 			return a.includes(b);
 		}
@@ -301,8 +305,12 @@ namespace
 
 			bool compare(const MusicData& music, const String& id, const String& op, const String& value)
 			{
-				if (id == L"BPM" || id == L"MINBPM")
+				if (id == L"BPM")
 				{
+					auto bpm = Parse<double>(value);
+					return ::Compare(music.getMinBPM(), bpm, op) || ::Compare(music.getMaxBPM(), bpm, op);
+				}
+				if (id == L"MINBPM") {
 					return ::Compare(music.getMinBPM(), Parse<double>(value), op);
 				}
 				if (id == L"MAXBPM")
@@ -546,19 +554,6 @@ namespace
 
 		class CTCFLexer
 		{
-			Options m_options;
-			Array<Token> m_tokens;
-			void pushOptions(const String& option)
-			{
-				auto parses = option.replace(L" ", L"").split(L',');
-				if (parses[0] == L"#TITLE" && parses.size() >= 2)
-				{
-					m_options[L"TITLE"] = parses[1];
-				} else if (parses[0] == L"#ORDER" && parses.size() >= 2) {
-					m_options[L"ORDER"] = parses[1];
-				}
-			}
-
 		public:
 			CTCFLexer(const FilePath & ctfolder)
 			{
@@ -572,25 +567,22 @@ namespace
 					return false;
 				}
 				String line;
-				String all;
 				while (reader.readLine(line))
 				{
 					if (line[0] == '#') // オプション
 					{
 						this->pushOptions(line);
+						continue;
 					}
-					else if (line[0] != '%') // %はコメント
+					else if (line[0] == '%') // %はコメント
 					{
-						all += line + L" ";
+						continue;
 					}
+
+					// パース
+					this->parseLine(line);
 				}
-				for (auto&& str : all.split(L' '))
-				{
-					if (!str.isEmpty)
-					{
-						m_tokens.emplace_back(str);
-					}
-				}
+
 				return true;
 			}
 			const Array<Token>& getTokens()const
@@ -605,6 +597,119 @@ namespace
 				}
 				return s3d::none;
 			}
+		private:
+			void parseLine(const String& line)
+			{
+				size_t pos = 0;
+				while (pos < line.length) {
+					// 空白スキップ
+					while (this->isWhiteSpace(line[pos])) {
+						++pos;
+					}
+					if (this->isDigit(line[pos]) || line[pos] == L'-' && pos + 1< line.length && this->isDigit(line[pos + 1])) {
+						// 数
+						const size_t start = pos;
+						bool isFoundDot = false;
+
+						++pos;
+						while (pos < line.length) {
+							if (this->isDigit(line[pos])) {
+								++pos;
+							} else if(!isFoundDot && line[pos] == L'.' && pos + 1 < line.length && this->isDigit(line[pos + 1])){
+								isFoundDot = true;
+								pos += 2;
+							} else {
+								break;
+							}
+						}
+						m_tokens.emplace_back(line.substr(start, pos - start), TokenType::Value);
+					} else if (line[pos] == L'"') {
+						// 文字列
+
+						++pos;
+						const size_t start = pos;
+						while (pos < line.length) {
+							if (line[pos] == L'\"' && line[pos - 1] != L'\\') {
+								break;
+							}
+							++pos;
+						}
+						auto strValue = line.substr(start, pos - start).replace(L"\\\"", L"\"");
+						m_tokens.emplace_back(strValue, TokenType::Value);
+						++pos;
+					} else {
+						// opなど
+						if (line[pos] == L'!') {
+							if (pos + 1 < line.length && line[pos + 1] == L'=') {
+								m_tokens.emplace_back(L"!=", TokenType::Op);
+								pos += 2;
+							} else {
+								m_tokens.emplace_back(L"!", TokenType::Not);
+								++pos;
+							}
+						} else if (line[pos] == L'=' && pos + 1 < line.length && line[pos + 1] == L'=') {
+							m_tokens.emplace_back(L"==", TokenType::Op);
+							pos += 2;
+						} else if (line[pos] == L'>') {
+							if (pos + 1 < line.length && line[pos + 1] == L'=') {
+								m_tokens.emplace_back(L">=", TokenType::Op);
+								pos += 2;
+							} else {
+								m_tokens.emplace_back(L">", TokenType::Op);
+								++pos;
+							}
+						} else if (line[pos] == L'<') {
+							if (pos + 1 < line.length && line[pos + 1] == L'=') {
+								m_tokens.emplace_back(L"<=", TokenType::Op);
+								pos += 2;
+							} else {
+								m_tokens.emplace_back(L"<", TokenType::Op);
+								++pos;
+							}
+						} else if (line[pos] == L'&' && pos + 1 < line.length && line[pos + 1] == L'&') {
+							m_tokens.emplace_back(L"&&", TokenType::And);
+							pos += 2;
+						} else if (line[pos] == L'|' && pos + 1 < line.length && line[pos + 1] == L'|') {
+							m_tokens.emplace_back(L"||", TokenType::Or);
+							pos += 2;
+						} else if (line[pos] == L'(' || line[pos] == L')') {
+							m_tokens.emplace_back(String(1, line[pos]), TokenType::Bracket);
+							++pos;
+						} else {
+							// 識別子
+							const size_t start = pos;
+							while (pos < line.length && !this->isWhiteSpace(line[pos])) {
+								++pos;
+							}
+							m_tokens.emplace_back(line.substr(start, pos - start));
+						}
+					}
+				}
+			}
+			bool isWhiteSpace(wchar c)
+			{
+				return c == L' '
+					|| c == L'\t'
+					|| c == L'\r'
+					|| c == L'\n'
+					;
+			}
+			bool isDigit(wchar c)
+			{
+				return L'0' <= c && c <= L'9';
+			}
+			void pushOptions(const String& option)
+			{
+				auto parses = option.replace(L" ", L"").split(L',');
+				if (parses[0] == L"#TITLE" && parses.size() >= 2) {
+					m_options[L"TITLE"] = parses[1];
+				} else if (parses[0] == L"#ORDER" && parses.size() >= 2) {
+					m_options[L"ORDER"] = parses[1];
+				}
+			}
+		private:
+			Options m_options;
+			Array<Token> m_tokens;
 		};
 	}
 }
