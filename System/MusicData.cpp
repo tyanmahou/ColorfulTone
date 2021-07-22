@@ -64,7 +64,7 @@ const String MusicData::getArtistAndAuthority() const
 {
 	//作曲家 + 出典
 	String ret = m_artistName;
-	if (m_authority.has_value())
+	if (m_authority.has_value() && !m_authority.value().isEmpty)
 	{
 		ret += L" / " + m_authority.value();
 	}

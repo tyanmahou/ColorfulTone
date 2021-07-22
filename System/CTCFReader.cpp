@@ -324,7 +324,7 @@ namespace
 				if (id == L"AUTHORITY")
 				{
 					const auto& authority = music.getAuthority();
-					if (authority.has_value())
+					if (authority.has_value() && !authority.value().isEmpty)
 					{
 						return ::Compare(authority.value(), value, op);
 					}
