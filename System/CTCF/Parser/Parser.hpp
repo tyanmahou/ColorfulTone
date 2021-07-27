@@ -102,7 +102,7 @@ namespace ctcf
         {
             auto expr = this->parseExpr(++it, Precedence::Lowest);
 
-            if ((it++)->type != TokenType::ParenR) {
+            if ((++it)->type != TokenType::ParenR) {
                 Println(L"ctfolder parse error: not found ')'");
             }
 
