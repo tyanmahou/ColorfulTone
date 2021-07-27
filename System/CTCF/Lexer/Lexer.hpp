@@ -1,0 +1,30 @@
+#pragma once
+#include <Siv3D.hpp>
+#include <unordered_map>
+#include "Token.hpp"
+
+namespace ctcf
+{
+    using Options = std::unordered_map<s3d::String, s3d::String>;
+
+	class Lexer
+	{
+	public:
+		Lexer(const FilePath& ctfolder);
+
+		bool load(const FilePath& ctfolder);
+
+		const Array<Token>& getTokens()const
+		{
+			return m_tokens;
+		}
+		Optional<String> getOption(const String& option)const;
+	private:
+		void parseLine(const String& line);
+
+		void pushOptions(const String& option);
+	private:
+		Options m_options;
+		Array<Token> m_tokens;
+	};
+}
