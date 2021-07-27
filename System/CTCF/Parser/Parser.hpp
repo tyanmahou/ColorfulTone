@@ -15,8 +15,11 @@ namespace ctcf
     using namespace AST;
     class Parser
     {
-        using AstItr = Array<Token>::iterator;
-
+        using AstItr = Array<Token>::const_iterator;
+    public:
+        Parser(const Array<Token>& tokens):
+            m_tokens(tokens)
+        {}
         std::shared_ptr<Root> root()
         {
             if (m_root) {
@@ -28,17 +31,13 @@ namespace ctcf
     private:
         std::shared_ptr<Root> parseRoot(AstItr& it)
         {
-
             auto root = std::make_shared<Root>();
             root->statement = this->parseStatement(it);
             return root;
         }
         std::shared_ptr<IStatement> parseStatement(AstItr& it)
         {
-            switch (it->type) {
-            default:
-                return this->parseExprStatement(it);
-            }
+            return this->parseExprStatement(it);
         }
         std::shared_ptr<ExprStatement> parseExprStatement(AstItr& it)
         {
@@ -50,25 +49,11 @@ namespace ctcf
         {
             static std::unordered_map<TokenType, decltype(&Parser::parseUnaryExpr)> prefixOp{
                 {TokenType::Not, &Parser::parseUnaryExpr},
+                {TokenType::ParenL, &Parser::parseParenExpr},
+
                 {TokenType::Number, &Parser::parseValue},
                 {TokenType::String, &Parser::parseValue},
-
-                {TokenType::Bpm, &Parser::parseIdentifierValue},
-                {TokenType::MinBpm, &Parser::parseIdentifierValue},
-                {TokenType::MaxBpm, &Parser::parseIdentifierValue},
-                {TokenType::Artist, &Parser::parseIdentifierValue},
-                {TokenType::Authority, &Parser::parseIdentifierValue},
-                {TokenType::MusicName, &Parser::parseIdentifierValue},
-                {TokenType::Genre, &Parser::parseIdentifierValue},
-                {TokenType::Level, &Parser::parseIdentifierValue},
-                {TokenType::LevelName, &Parser::parseIdentifierValue},
-                {TokenType::Star, &Parser::parseIdentifierValue},
-                {TokenType::Note, &Parser::parseIdentifierValue},
-                {TokenType::TotalNote, &Parser::parseIdentifierValue},
-                {TokenType::ClearRate, &Parser::parseIdentifierValue},
-                {TokenType::AP, &Parser::parseIdentifierValue},
-                {TokenType::FC, &Parser::parseIdentifierValue},
-                {TokenType::Favorite, &Parser::parseIdentifierValue},
+                {TokenType::IdentifierValue, &Parser::parseIdentifierValue},
             };
 
             static std::unordered_map<TokenType, decltype(&Parser::parseBinaryExpr)> binaryOp {
@@ -81,10 +66,11 @@ namespace ctcf
             }
             auto left = (this->*prefixOp[it->type])(it);
             while ((it + 1) != m_tokens.end() && precedence > ToPrecedence((it + 1)->type)) {
-                if (binaryOp.find((it + 1)->type) == binaryOp.end()) {
+                auto next = it + 1;
+                if (binaryOp.find(next->type) == binaryOp.end()) {
                     return left;
                 }
-                left = (this->*prefixOp[(it + 1)->type])(++it);
+                left = (this->*binaryOp[next->type])(++it, left);
             }
 
             return left;
@@ -98,11 +84,11 @@ namespace ctcf
         }
         std::shared_ptr<IExpression> parseIdentifierValue(AstItr& it)
         {
-            return std::make_shared<IdentifierValue>(*it++);
+            return std::make_shared<IdentifierValue>(*it);
         }
         std::shared_ptr<IExpression> parseValue(AstItr& it)
         {
-            return std::make_shared<Value>(*it++);
+            return std::make_shared<Value>(*it);
         }
         std::shared_ptr<IExpression> parseBinaryExpr(AstItr& it, std::shared_ptr<IExpression> left)
         {
@@ -123,7 +109,7 @@ namespace ctcf
             return expr;
         }
     private:
-        Array<Token> m_tokens;
+        const Array<Token>& m_tokens;
         std::shared_ptr<AST::Root> m_root = nullptr;
     };
 }

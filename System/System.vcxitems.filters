@@ -166,6 +166,27 @@
     <Filter Include="MusicGame\Data\Favorite">
       <UniqueIdentifier>{9053e634-4c4e-45b3-90d2-c3da482d8907}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MusicGame\Data\GenreManager\CTCF">
+      <UniqueIdentifier>{9b12df68-8ce3-4916-bac0-9d076ef80c61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MusicGame\Data\GenreManager\CTCF\Lexer">
+      <UniqueIdentifier>{590b9009-9b52-43ee-923c-ca1fe4c62927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MusicGame\Data\GenreManager\CTCF\AST">
+      <UniqueIdentifier>{f385c881-323c-4c0a-8c8d-ca7c543827bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MusicGame\Data\GenreManager\CTCF\Parser">
+      <UniqueIdentifier>{1741ca86-eef5-40c1-a9e7-bfd256da167a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MusicGame\Data\GenreManager\CTCF\Evaluator">
+      <UniqueIdentifier>{98cf5780-2e34-46e3-a3cd-714a661b406e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MusicGame\Data\GenreManager\CTCF\AST\Expression">
+      <UniqueIdentifier>{4803d5ce-e5b3-406b-8857-6d67b94720d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MusicGame\Data\GenreManager\CTCF\AST\Statement">
+      <UniqueIdentifier>{d0218fa5-490b-4945-8c63-bdd429a09ed9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Bar.cpp">
@@ -387,6 +408,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FavoriteLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CompatibilityUtil.cpp">
       <Filter>util\Compatibility</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTCF\Lexer\Token.cpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTCF\Lexer\Lexer.cpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\Lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTCF\Evaluator\Evaluator.cpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\Evaluator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -678,6 +708,48 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)StarLv.hpp">
       <Filter>MusicGame\Data\NotesData</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\Lexer\Token.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\Lexer\Lexer.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\Lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\AST\INode.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\AST\IExpression.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\AST\IStatement.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\AST\Root.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\AST\Statement\ExprStatement.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\AST\Statement</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\AST\Expression\UnaryExpr.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\AST\Expression\BinaryExpr.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\AST\Expression\IdentifierValue.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\AST\Expression\Value.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\Evaluator\Evaluator.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\Evaluator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\Parser\Parser.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTCF\Parser\Precedence.hpp">
+      <Filter>MusicGame\Data\GenreManager\CTCF\Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,22 +3,10 @@
 
 namespace ctcf
 {
-	enum class TokenType : size_t
+	enum class IdentifierValueKind
 	{
 		Invalid,
 
-		ParenL,
-		ParenR,
-		Not,
-		Op,
-		And,
-		Or,
-
-		// リテラル
-		Number,
-		String,
-
-		// 予約識別子
 		Bpm,
 		MinBpm,
 		MaxBpm,
@@ -36,14 +24,25 @@ namespace ctcf
 		AP,
 		FC,
 		Favorite,
+	};
+	enum class TokenType : size_t
+	{
+		Invalid,
+
+		ParenL,
+		ParenR,
+		Not,
+		Op,
+		And,
+		Or,
+
+		// リテラル
+		Number,
+		String,
+		IdentifierValue,
 
 		MAX,
 	};
-
-	/// <summary>
-	/// トークンタイプを探す
-	/// </summary>
-	TokenType FindTokenType(const s3d::String& str);
 
 	struct Token
 	{
@@ -54,4 +53,13 @@ namespace ctcf
 
 		Token(const s3d::String& str, TokenType _type);
 	};
+
+
+	/// <summary>
+	/// トークンタイプを探す
+	/// </summary>
+	TokenType FindTokenType(const s3d::String& str);
+	
+	IdentifierValueKind FindIdentifierValueKind(const s3d::String& str);
+
 }

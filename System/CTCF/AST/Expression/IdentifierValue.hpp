@@ -7,7 +7,10 @@ namespace ctcf::AST
     struct IdentifierValue : Value
     {
         IdentifierValue(const Token& _token) :
-            Value(_token)
+            Value(_token),
+            kind(FindIdentifierValueKind(_token.token))
         {}
+
+		IdentifierValueKind kind;
     };
 }

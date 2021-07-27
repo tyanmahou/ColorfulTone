@@ -94,55 +94,55 @@ namespace
             }
             return this->eval(node->right.get());
         }
-        bool compare(Value* lValue, const String& op, Value* rValue)
+        bool compare(IdentifierValue* lValue, const String& op, Value* rValue)
         {
-            auto type = lValue->token.type;
+            auto kind = lValue->kind;
             const auto& value = rValue->token.token;
             const auto* const music = m_notes.getMusic();
-            if (type == TokenType::Bpm) {
+            if (kind == IdentifierValueKind::Bpm) {
                 auto bpm = Parse<double>(value);
                 return ::Compare(music->getMinBPM(), bpm, op) || ::Compare(music->getMaxBPM(), bpm, op);
             }
-            if (type == TokenType::MinBpm) {
+            if (kind == IdentifierValueKind::MinBpm) {
                 return ::Compare(music->getMinBPM(), Parse<double>(value), op);
             }
-            if (type == TokenType::MaxBpm) {
+            if (kind == IdentifierValueKind::MaxBpm) {
                 return ::Compare(music->getMaxBPM(), Parse<double>(value), op);
             }
-            if (type == TokenType::Artist) {
+            if (kind == IdentifierValueKind::Artist) {
                 return ::Compare(music->getArtistName(), value, op);
             }
-            if (type == TokenType::Authority) {
+            if (kind == IdentifierValueKind::Authority) {
                 const auto& authority = music->getAuthority();
                 if (authority.has_value() && !authority.value().isEmpty) {
                     return ::Compare(authority.value(), value, op);
                 }
                 return false;
             }
-            if (type == TokenType::MusicName) {
+            if (kind == IdentifierValueKind::MusicName) {
                 return ::Compare(music->getMusicName(), value, op);
             }
-            if (type == TokenType::Genre) {
+            if (kind == IdentifierValueKind::Genre) {
                 return ::Compare(music->getGenreName(), value, op);
             }
-            if (type == TokenType::Level) {
+            if (kind == IdentifierValueKind::Level) {
                 int level = Parse<int>(value);
                 return ::Compare(m_notes.getLevel(), level, op);
             }
-            if (type == TokenType::LevelName) {
+            if (kind == IdentifierValueKind::LevelName) {
                 return ::Compare(m_notes.getLevelName(), value, op);
             }
-            if (type == TokenType::Star) {
+            if (kind == IdentifierValueKind::Star) {
                 return ::Compare(ToStr(m_notes.getStarLv()), value, op);
             }
-            if (type == TokenType::Note) {
+            if (kind == IdentifierValueKind::Note) {
                 return ::Compare(m_notes.getNotesArtistName(), value, op);
             }
-            if (type == TokenType::TotalNote) {
+            if (kind == IdentifierValueKind::TotalNote) {
                 int total = Parse<int>(value);
                 return ::Compare(m_notes.getTotalNotes(), total, op);
             }
-            if (type == TokenType::ClearRate) {
+            if (kind == IdentifierValueKind::ClearRate) {
                 auto rateOpt = ParseOpt<float>(value);
                 if (!rateOpt) {
                     float rate = ResultRank::ToRate(value);
@@ -152,12 +152,6 @@ namespace
                     float rate = rateOpt.value();
                     return ::Compare(m_notes.getScore().clearRate, rate, op);
                 }
-            }
-            if (type == TokenType::Number) {
-                return ::Compare(Parse<double>(lValue->token.token), Parse<double>(value), op);
-            }
-            if (type == TokenType::String) {
-                return ::Compare(lValue->token.token, value, op);
             }
             return false;
         }
@@ -169,7 +163,7 @@ namespace
             if (node->op == L"||") {
                 return this->eval(node->left.get()) || this->eval(node->right.get());
             }
-            auto valueL = dynamic_cast<Value*>(node->left.get());
+            auto valueL = dynamic_cast<IdentifierValue*>(node->left.get());
             auto valueR = dynamic_cast<Value*>(node->right.get());
             if (!valueL || !valueR) {
                 return false;
@@ -184,20 +178,20 @@ namespace
         }
         bool evalIdentiferValue(IdentifierValue* node)
         {
-            auto type = node->token.type;
-            if (type == TokenType::Clear) {
+            auto kind = node->kind;
+            if (kind == IdentifierValueKind::Clear) {
                 return m_notes.getScore().isClear;
             }
-            if (type == TokenType::AP || type == TokenType::FC) {
+            if (kind == IdentifierValueKind::AP || kind == IdentifierValueKind::FC) {
                 SpecialResult s = SpecialResult::None;
-                if (type == TokenType::AP) {
+                if (kind == IdentifierValueKind::AP) {
                     s = SpecialResult::All_Perfect;
-                } else if (type == TokenType::FC) {
+                } else if (kind == IdentifierValueKind::FC) {
                     s = SpecialResult::Full_Combo;
                 }
                 return m_notes.getScore().specialResult >= s;
             }
-            if (type == TokenType::Favorite) {
+            if (kind == IdentifierValueKind::Favorite) {
                 return m_notes.getMusic()->isFavorite();
             }
             return false;
