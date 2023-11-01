@@ -14,19 +14,30 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)apis\ApiEndPoints.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)apis\Title\TitleApi.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Application\AppRunner.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Application\base\BaseApp.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Application\base\IApplication.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Application\WindowCtrl.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)commons\Constants.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)commons\Game\Game.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)commons\Secret\Secret.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Http\RestRequestor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Singleton\DynamicSingleton.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Singleton\Singleton.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Version\Version.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)apis\Title\TitleApi.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Application\AppRunner.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Application\base\BaseApp.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Application\WindowCtrl.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)commons\Game\Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Http\RestRequestor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Singleton\DynamicSingleton.cpp" />
   </ItemGroup>
 </Project>

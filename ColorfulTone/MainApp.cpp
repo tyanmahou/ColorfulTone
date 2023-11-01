@@ -1,9 +1,11 @@
 #include "MainApp.hpp"
+#include <commons/Game/Game.hpp>
+#include <commons/Constants.hpp>
 
 namespace ct
 {
     MainApp::MainApp():
-        BaseApp(U"ColorfulTone", Size{ 800, 600 }, true)
+        BaseApp(Constants::AppName, Constants::AppResolution, true)
     {
     }
     MainApp::~MainApp()
@@ -11,16 +13,17 @@ namespace ct
     }
     void MainApp::onStartup()
     {
+        Game::Startup();
     }
     bool MainApp::onUpdate()
     {
         if (KeyF4.down()) {
             m_windowCtrl.changeWindowSizeNext();
         }
-        Rect(0, 0, 100, 100).draw();
-        return true;
+        return Game::Update();
     }
     void MainApp::onShutdown()
     {
+        Game::Shutdown();
     }
 }
