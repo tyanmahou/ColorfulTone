@@ -399,17 +399,17 @@ lib/
 # =========================
 # ColorfulTone
 # =========================
-ColorfulTone/UserData/
-ColorfulTone/System/
-ColorfulTone/Music/
-ColorfulTone/Course/
-ColorfulTone/CustomFolder/
-ColorfulTone/Score/
-ColorfulTone/TapSE/
-ColorfulTone/Work/
-ColorfulTone/Old/
-ColorfulTone/Sample/
-ColorfulTone/Resource/
-ColorfulTone/DownloadContents/
-ColorfulTone/config.ini
+ColorfulTone/App/UserData/
+ColorfulTone/App/System/
+ColorfulTone/App/Music/
+ColorfulTone/App/Course/
+ColorfulTone/App/CustomFolder/
+ColorfulTone/App/Score/
+ColorfulTone/App/TapSE/
+ColorfulTone/App/Work/
+ColorfulTone/App/Old/
+ColorfulTone/App/Sample/
+ColorfulTone/App/Resource/
+ColorfulTone/App/DownloadContents/
+ColorfulTone/App/config.ini
 Setting.hpp
