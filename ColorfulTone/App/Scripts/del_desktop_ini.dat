@@ -1,0 +1,3 @@
+echo "Delete desktop.ini"
+find . -name "desktop.ini"
+find . -name "desktop.ini" -printf '"%p"\n'| xargs rm
