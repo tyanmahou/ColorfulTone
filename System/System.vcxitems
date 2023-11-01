@@ -25,6 +25,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Secret\Secret.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Anime\StartAnime\StartAnime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\ResultRank.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\Score.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\SpecialResult.hpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Game\Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\StartAnime\StartAnime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\ResultRank.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\Score.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Flipbook\Flipbook.cpp" />
