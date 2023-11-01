@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ColorfulTone", "ColorfulTone\ColorfulTone.vcxproj", "{BC87828F-65DA-4F1A-AC7D-C0D2E6B53742}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "System", "System\System.vcxitems", "{689157D6-CF42-413A-A0FB-A42E800A3ED3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,5 +23,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED4C16F3-35E4-46A3-ABEB-614AD105263F}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		System\System.vcxitems*{689157d6-cf42-413a-a0fb-a42e800a3ed3}*SharedItemsImports = 9
+		System\System.vcxitems*{bc87828f-65da-4f1a-ac7d-c0d2e6b53742}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal

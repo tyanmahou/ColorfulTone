@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{689157d6-cf42-413a-a0fb-a42e800a3ed3}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)commons\Application\AppRunner.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)commons\Application\base\BaseApp.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)commons\Application\base\IApplication.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)commons\Application\WindowCtrl.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Singleton\DynamicSingleton.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Singleton\Singleton.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)commons\Application\AppRunner.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)commons\Application\base\BaseApp.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)commons\Application\WindowCtrl.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Singleton\DynamicSingleton.cpp" />
+  </ItemGroup>
+</Project>
