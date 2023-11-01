@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 
 #include <commons/Game/Game.hpp>
-//#include "GameConfig.h"
+#include <commons/Game/GameConfig.hpp>
 //#include "MusicData.h"
 //#include "CourseData.h"
 //#include "SoundManager.h"

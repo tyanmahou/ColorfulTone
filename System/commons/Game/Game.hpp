@@ -23,7 +23,7 @@ namespace ct
 		//static s3d::Array<MusicData>& Musics();
 		//static s3d::Array<CourseData>& Courses();
 		//static s3d::Array<TapSE>& TapSEs();
-		//static GameConfig& Config();
+		static GameConfig& Config();
 
 		static void Startup();
 		static bool Update();	//更新と描画
