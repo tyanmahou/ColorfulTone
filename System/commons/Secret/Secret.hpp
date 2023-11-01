@@ -1,8 +1,8 @@
-#pragma once
+﻿#pragma once
 #if __has_include(<commons/Secret/Secret_Product.hpp>)
-#include<commons/Secret/Secret_Product.hpp>
+#include <commons/Secret/Secret_Product.hpp>
 #else
-#include<Siv3D/String.hpp>
+#include <Siv3D/String.hpp>
 namespace ct
 {
     class Secret

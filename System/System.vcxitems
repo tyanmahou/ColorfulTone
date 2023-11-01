@@ -24,7 +24,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Game\Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Secret\Secret.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\ResultRank.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\Score.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\SpecialResult.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\SoundBeat.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Types.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Flipbook\Flipbook.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Fps\Fps.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Http\RestRequestor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Singleton\DynamicSingleton.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Singleton\Singleton.hpp" />
@@ -37,6 +45,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Application\WindowCtrl.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Game\Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\ResultRank.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\Score.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Flipbook\Flipbook.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Http\RestRequestor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Singleton\DynamicSingleton.cpp" />
   </ItemGroup>

@@ -1,9 +1,9 @@
-#pragma once
-#include<Siv3D/Fwd.hpp>
-#include<Siv3D/Array.hpp>
-#include<memory>
-#include<utils/Singleton/DynamicSingleton.hpp>
-#include<utils/Version/Version.hpp>
+﻿#pragma once
+#include <Siv3D/Fwd.hpp>
+#include <Siv3D/Array.hpp>
+#include <memory>
+#include <utils/Singleton/DynamicSingleton.hpp>
+#include <utils/Version/Version.hpp>
 
 namespace ct
 {
