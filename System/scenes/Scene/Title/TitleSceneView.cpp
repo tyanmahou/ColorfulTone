@@ -46,7 +46,7 @@ namespace ct
             ::DrawBgs(timer);
             TextureAsset(U"logo").scaled(0.8).drawAt(400, 150);
 
-            static Array<String> name = {
+            static constexpr StringView name[] = {
                 U"FREE PLAY",
                 U"COURSE PLAY",
                 U"CONFIG",
@@ -54,9 +54,10 @@ namespace ct
                 U"RELOAD",
                 U"TUTORIAL",
                 U"ACCESS",
+                U"LICENCE",
                 U"EXIT",
             };
-
+            static constexpr size_t modeCount = sizeof(name) / sizeof(StringView);
             constexpr double x = 400;
             constexpr double y = 350;
             constexpr int off = 40;
@@ -67,14 +68,14 @@ namespace ct
             auto font = FontAsset(FontName::TitleLabel);
             {
                 ScopedRenderStates2D sampler(SamplerState::ClampLinear);
-                auto outline = TextStyle::Outline(0.3, s3d::Palette::Black);
                 for (size_t i = 0; i < 5; ++i) {
-                    const size_t index = (static_cast<size_t>(mode) + i + 6) % 8;
+                    const size_t index = (static_cast<size_t>(mode) + i + (modeCount - 2)) % modeCount;
                     const auto size = font(name[index]).region().size;
 
                     int diff = s3d::Abs(static_cast<int>(2 - i));
                     const ColorF color(0, i == 2 ? 1 : 0.5 - 0.1 * diff);
                     Vec2 pos{ x - size.x / 2.0, y + off * i - size.y / 2.0 };
+                    auto outline = TextStyle::Outline(0.3, color);
                     FontKinetic::DeleteSpace(font, name[index], outline, pos, color);
 
                     const Vec2 xy{ index % 4 * 250,index / 4 * 250 };

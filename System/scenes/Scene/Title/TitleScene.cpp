@@ -10,13 +10,8 @@ namespace
     void AccessHomePage()
     {
         const FilePath url = ct::Secret::HOMEPAGE_URL;
-
-        if (Network::IsConnected()) {
-            // インターネット接続をチェック
-            System::LaunchBrowser(url);
-        } else {
-            System::MessageBoxOK(U"インターネットに接続できませんでした。");
-        }
+        // インターネット接続をチェック
+        System::LaunchBrowser(url);
     }
 }
 
@@ -81,11 +76,14 @@ namespace ct
         if (m_mode == Mode::Exit) {
             System::Exit();
             return;
-        }
-
-        if (m_mode == Mode::Access) {
-            if (System::MessageBoxOKCancel(U"インターネットに接続しホームページにアクセスします。") == MessageBoxResult::OK) {
+        } else if (m_mode == Mode::Access) {
+            if (System::MessageBoxOKCancel(U"ブラウザを起動しホームページにアクセスします。") == MessageBoxResult::OK) {
                 ::AccessHomePage();
+            }
+            return;
+        } else if (m_mode == Mode::Licence) {
+            if (System::MessageBoxOKCancel(U"ブラウザを起動しライセンスを表示します。") == MessageBoxResult::OK) {
+                LicenseManager::ShowInBrowser();
             }
             return;
         }

@@ -16,6 +16,7 @@ namespace ct
             Reload,
             Tutorial,
             Access,
+            Licence,
             Exit,
         };
     private:
