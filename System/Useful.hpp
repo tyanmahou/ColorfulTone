@@ -7,7 +7,7 @@
 #include <core/Data/MusicData/MusicData.hpp>
 #include <core/Data/NotesData/NotesData.hpp>
 #include <core/Input/PlayKey.hpp>
-//#include "Util.h"
-//
-//#include "Fade.h"
-//#include "SceneInfo.h"
+
+#include <scenes/Fade/Fade.hpp>
+#include <scenes/utils/Util.hpp>
+#include <commons/FontName.hpp>

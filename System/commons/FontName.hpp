@@ -17,4 +17,6 @@ namespace ct::FontName
     inline constexpr s3d::AssetNameView ConfigSelect = U"r-13";
     inline constexpr s3d::AssetNameView ConfigTitle = U"i-15";
     inline constexpr s3d::AssetNameView SelectMusic = U"b-16";
+
+    inline constexpr s3d::AssetNameView TitleLabel = U"s-o-10";
 }

@@ -6,7 +6,7 @@ namespace ct
     class SoundManager
     {
     public:
-        static void PlayBgm(s3d::AssetNameView name);
+        static void PlayBgm(s3d::AssetNameView name, const s3d::Duration& fade = 0.0s);
         static void SetBgmVolume(double volume);
         static double GetBgmVolume();
 

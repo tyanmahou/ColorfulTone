@@ -4,9 +4,9 @@
 
 namespace ct
 {
-    void SoundManager::PlayBgm(s3d::AssetNameView name)
+    void SoundManager::PlayBgm(s3d::AssetNameView name, const s3d::Duration& fade)
     {
-        AudioAsset(name).play(MixBusKind::Bgm);
+        AudioAsset(name).play(MixBusKind::Bgm, fade);
     }
     void SoundManager::SetBgmVolume(double volume)
     {

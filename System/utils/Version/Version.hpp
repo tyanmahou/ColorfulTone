@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <Siv3D/Types.hpp>
 #include <Siv3D/StringView.hpp>
 #include <Siv3D/Char.hpp>
@@ -56,6 +56,10 @@ namespace ct
 
 		constexpr auto operator<=>(const Version& other)const = default;
 
+		s3d::String format(s3d::StringView fmt) const
+		{
+			return s3d::Fmt(fmt)(major, minor, build, revision);
+		}
 		s3d::uint32 major = 0;
 		s3d::uint32 minor = 0;
 		s3d::uint32 build = 0;

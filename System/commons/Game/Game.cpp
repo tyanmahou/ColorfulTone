@@ -6,9 +6,7 @@
 #include <core/Data/CourseData/CourseData.hpp>
 #include <core/Data/TapSE/TapSE.hpp>
 #include <utils/Audio/Loop.hpp>
-//#include"SoundManager.h"
-//#include"ISceneBase.hpp"
-//#include"TitleScene.h"
+#include <scenes/Scene/Title/TitleScene.hpp>
 //#include"FileLoad.h"
 //#include"Tutorial.h"
 //#include"KeyConfigScene.h"
@@ -177,6 +175,8 @@ namespace
 
 		FontAsset::Register(U"s-r-8", 8, straightPath);
 		FontAsset::Register(U"s-r-10", 10, straightPath);
+		FontAsset::Register(U"s-o-10", FontMethod::SDF, 10 + 10, straightPath, FontStyle::Bold);
+		FontAsset(U"s-o-10").setBufferThickness(3);
 		FontAsset::Register(U"s-r-12", 12, straightPath);
 		FontAsset::Register(U"s-b-20", 20, straightPath, FontStyle::Bold);
 		FontAsset::Register(U"s-i-15", 15, straightPath, FontStyle::Italic);
@@ -185,7 +185,7 @@ namespace
 		FontAsset::Register(U"r-13", 13);
 		FontAsset::Register(U"r-20", 20);
 		FontAsset::Register(U"r-30", 30);
-		FontAsset::Register(U"b-10", 10, Typeface::Regular, FontStyle::Bold);
+		FontAsset::Register(U"b-10", 10 + 5, Typeface::Regular, FontStyle::Bold);
 		FontAsset::Register(U"b-16", 16, Typeface::Bold);
 		FontAsset::Register(U"i-15", 15, Typeface::Regular, FontStyle::Italic);
 
@@ -214,9 +214,9 @@ namespace ct
 		}
 		bool updateAndDraw()
 		{
-			//if (!m_scene.updateAndDraw()) {
-			//	return false;
-			//}
+			if (!m_scene.update()) {
+				return false;
+			}
 			return true;
 		}
     public:
@@ -229,7 +229,7 @@ namespace ct
 		void registerScene()
 		{
 			//m_scene.add<FileLoad>(SceneName::Load);
-			//m_scene.add<TitleScene>(SceneName::Title);
+			m_scene.add<TitleScene>(SceneName::Title);
 			//m_scene.add<ConfigScene>(SceneName::Config);
 			//m_scene.add<Tutorial>(SceneName::Tutorial);
 			//m_scene.add<MusicSelect>(SceneName::Select);
@@ -245,7 +245,7 @@ namespace ct
 			::AssetLoad();
 		}
 	private:
-		//MyApp m_scene; //シーン
+		MyApp m_scene; //シーン
 	};
     Game::Game() :
         m_pImpl(std::make_unique<Impl>())
