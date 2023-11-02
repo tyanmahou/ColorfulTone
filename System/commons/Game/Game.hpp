@@ -19,10 +19,9 @@ namespace ct
 	public:
 		static constexpr Version Version{3,3,0};
 	public:
-		// TODO
-		//static s3d::Array<MusicData>& Musics();
-		//static s3d::Array<CourseData>& Courses();
-		//static s3d::Array<TapSE>& TapSEs();
+		static s3d::Array<MusicData>& Musics();
+		static s3d::Array<CourseData>& Courses();
+		static s3d::Array<TapSE>& TapSEs();
 		static GameConfig& Config();
 
 		static void Startup();

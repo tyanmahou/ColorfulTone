@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <Siv3D/AudioAsset.hpp>
 
 namespace ct
 {
@@ -8,6 +9,7 @@ namespace ct
         static void SetBgmVolume(double volume);
         static double GetBgmVolume();
 
+        static void PlaySe(s3d::AssetNameView name);
         static void SetSeVolume(double volume);
         static double GetSeVolume();
 

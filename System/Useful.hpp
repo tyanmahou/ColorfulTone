@@ -2,11 +2,11 @@
 
 #include <commons/Game/Game.hpp>
 #include <commons/Game/GameConfig.hpp>
-//#include "MusicData.h"
-//#include "CourseData.h"
-//#include "SoundManager.h"
-//
-//#include "PlayKey.h"
+#include <commons/Audio/SoundManager.hpp>
+
+#include <core/Data/MusicData/MusicData.hpp>
+#include <core/Data/NotesData/NotesData.hpp>
+#include <core/Input/PlayKey.hpp>
 //#include "Util.h"
 //
 //#include "Fade.h"

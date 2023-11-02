@@ -1,45 +1,113 @@
-﻿#pragma once
-#include <array>
-#include <Siv3D/Fwd.hpp>
-#include <Siv3D/Array.hpp>
+﻿#include <core/Data/Score/ResultRank.hpp>
+#include <Siv3D.hpp>
 
 namespace ct
 {
-	enum class SpecialResult : unsigned int
+	String ResultRank::GetRankTextureName(float clearRate)
 	{
-		None,
-		Full_Combo,
-		All_Perfect,
-	};
-	bool operator > (SpecialResult& l, SpecialResult& r);
-	struct Score
+		s3d::int32 r = static_cast<s3d::int32>(clearRate);
+		if (r >= Rank::AAA) {
+			return U"AAA";
+		} else if (r >= Rank::AA) {
+			return U"AA";
+		} else if (r >= Rank::A) {
+			return U"A";
+		} else if (r >= Rank::B) {
+			return U"B";
+		} else if (r >= Rank::C) {
+			return U"C";
+		} else if (r >= Rank::D) {
+			return U"D";
+		} else if (r >= Rank::E) {
+			return U"E";
+		}
+
+		return U"F";
+	}
+
+	float ResultRank::CalcBaseRate(const std::array<uint32, Score::TERM>& judges, uint32 total)
 	{
-		enum  Judge
-		{
-			Perfect,
-			Great,
-			Good,
-			Miss,
+		if (total == 0) {
+			return 1.0f;
+		}
+		return (judges[Score::Perfect] + judges[Score::Great] * 0.7f + judges[Score::Good] * 0.5f) / static_cast<float>(total);
+	}
 
-			TERM,
-		};
-		s3d::uint32	m_currentCombo;
-		s3d::uint32 m_maxCombo;
-		std::array<s3d::uint32, Judge::TERM> m_judgeCount{ 0 };
-		s3d::Array<Judge> m_judgeHistory;
-		// ライフ(桁落ちの対策のため整数型)
-		s3d::int32 m_initLife;
-		s3d::int32 m_life;
-		s3d::Array<s3d::int32> m_lifeHistory;
-
-		Score();
-		void add(Judge judge);
-	};
-
-	struct ScoreModel
+	float ResultRank::CalcClearRate(const Score& score, s3d::uint32 totalNotes)
 	{
-		bool isClear = 0;
-		SpecialResult specialResult = SpecialResult::None;
-		float clearRate = 0.0f;
-	};
+		float clearRate;
+		auto& judges = score.m_judgeCount;
+		clearRate = ResultRank::CalcBaseRate(judges, totalNotes);
+		int tmpRate = static_cast<int>(clearRate * 10000);
+		clearRate = tmpRate / 100.0f;
+		return clearRate;
+	}
+
+	float ResultRank::CalcClearRateAsDownType(const Score& score, s3d::uint32 totalNotes)
+	{
+		float clearRate;
+		auto& judges = score.m_judgeCount;
+		if (totalNotes != 0)
+			clearRate = 1.0f - (judges[Score::Great] * 0.3f + judges[Score::Good] * 0.5f + judges[Score::Miss] * 1) / static_cast<float>(totalNotes);
+		else
+			clearRate = 1.0f;
+		int tmpRate = static_cast<int>(clearRate * 10000);
+		clearRate = tmpRate / 100.0f;
+		return clearRate;
+	}
+
+	float ResultRank::CalcLifeRate(const Score& score)
+	{
+		//率
+		return static_cast<float>(score.m_life) / 100.0f;
+	}
+
+	ScoreModel ResultRank::CalcScore(const Score& score, s3d::uint32 totalNotes)
+	{
+		ScoreModel ret;
+		const auto& judges = score.m_judgeCount;
+		//ＡＰ処理
+		if (judges[Score::Perfect] == totalNotes) {
+			ret.specialResult = SpecialResult::All_Perfect;
+		}
+		//フルコン処理
+		else if (score.m_currentCombo == totalNotes) {
+			ret.specialResult = SpecialResult::Full_Combo;
+		}
+
+		ret.clearRate = ResultRank::CalcClearRate(score, totalNotes);
+
+		ret.isClear = ret.clearRate >= 80;
+
+		return ret;
+	}
+
+	float ResultRank::ToRate(Rank rank)
+	{
+		return static_cast<float>(rank);
+	}
+
+	float ResultRank::ToRate(const String& rank)
+	{
+		Rank r = Rank::F;
+		if (rank == U"AAA") {
+			r = Rank::AAA;
+		} else if (rank == U"AA") {
+			r = Rank::AA;
+		} else if (rank == U"A") {
+			r = Rank::A;
+		} else if (rank == U"B") {
+			r = Rank::B;
+		} else if (rank == U"C") {
+			r = Rank::D;
+		} else if (rank == U"D") {
+			r = Rank::D;
+		} else if (rank == U"E") {
+			r = Rank::E;
+		} else if (rank == U"F") {
+			r = Rank::F;
+		}
+		return ToRate(r);
+	}
+
 }
