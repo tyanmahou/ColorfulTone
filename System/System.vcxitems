@@ -23,6 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Audio\MixBus.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Audio\SoundManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Constants.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)commons\FontName.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Game\Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Game\GameConfig.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Secret\Secret.hpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Types.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Audio\AudioSpectrum.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Audio\Loop.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Flipbook\Flipbook.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Fps\Fps.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Http\RestRequestor.hpp" />

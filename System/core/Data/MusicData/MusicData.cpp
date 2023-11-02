@@ -1,5 +1,6 @@
 ﻿#include <core/Data/MusicData/MusicData.hpp>
 #include <core/Data/Loader/FavoriteLoader.hpp>
+#include <utils/Audio/Loop.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -27,7 +28,7 @@ namespace ct
 		m_soundNameID = genreName + U"." + m_fileName;
 		m_loop = iniReader.getOr<ABLoop>(U"Data.LOOP", ABLoop(0, 10));
 
-		AudioAsset::Register({ m_soundNameID,  { U"MusicData" } }, wavPath, AudioLoopTiming(static_cast<uint64>(SecondsF(m_loop.x).count() * 44100), static_cast<uint64>(SecondsF(m_loop.y).count() * 44100)));
+		AudioAsset::Register({ m_soundNameID,  { U"MusicData" } }, wavPath, MakeLoopTiming(m_loop.x, m_loop.y));
 
 
 		m_artistName = iniReader.getOr<String>(U"Data.ARTIST", U"None");

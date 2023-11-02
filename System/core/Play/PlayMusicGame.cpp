@@ -124,7 +124,7 @@ namespace ct
 	void PlayMusicGame::update()
 	{
 		if (!m_isStart) {
-			m_sound.play();
+			SoundManager::PlayInGameMusic(m_sound);
 			m_barXEasing.start();
 			m_isStart = true;
 			g_startTimer.restart();
@@ -179,7 +179,7 @@ namespace ct
 		::HandleAddJudgeEffect(judge, type);
 
 		if (playSe && judge != Score::Miss) {
-			SoundManager::PlaySe(scoreMap.at(judge));
+			SoundManager::PlayInGameSe(scoreMap.at(judge));
 		}
 	}
 

@@ -4,6 +4,10 @@
 
 namespace ct
 {
+    void SoundManager::PlayBgm(s3d::AssetNameView name)
+    {
+        AudioAsset(name).play(MixBusKind::Bgm);
+    }
     void SoundManager::SetBgmVolume(double volume)
     {
         GlobalAudio::BusSetVolume(MixBusKind::Bgm, volume);
@@ -24,6 +28,30 @@ namespace ct
     double SoundManager::GetSeVolume()
     {
         return GlobalAudio::BusGetVolume(MixBusKind::Se);
+    }
+    void SoundManager::PlayInGameMusic(const s3d::Audio& audio)
+    {
+        audio.play(MixBusKind::InGameMusic);
+    }
+    void SoundManager::SetInGameMusicVolume(double volume)
+    {
+        GlobalAudio::BusSetVolume(MixBusKind::InGameMusic, volume);
+    }
+    double SoundManager::GetInGameMusicVolume()
+    {
+        return GlobalAudio::BusGetVolume(MixBusKind::InGameMusic);
+    }
+    void SoundManager::PlayInGameSe(s3d::AssetNameView name)
+    {
+        AudioAsset(name).playOneShot(MixBusKind::InGameSe, 1.0);
+    }
+    void SoundManager::SetInGameSeVolume(double volume)
+    {
+        GlobalAudio::BusSetVolume(MixBusKind::InGameSe, volume);
+    }
+    double SoundManager::GetInGameSeVolume()
+    {
+        return GlobalAudio::BusGetVolume(MixBusKind::InGameSe);
     }
     void SoundManager::SetMasterVolume(double volume)
     {

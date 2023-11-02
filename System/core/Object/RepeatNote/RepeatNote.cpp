@@ -18,7 +18,7 @@ namespace
             PlayStyle::Instance()->drawTapEffect(2);
         if (yellow)
             PlayStyle::Instance()->drawTapEffect(3);
-        SoundManager::PlaySe(U"PERFECT");
+        SoundManager::PlayInGameSe(U"PERFECT");
     }
 }
 
