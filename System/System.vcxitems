@@ -75,6 +75,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\BGType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\IPlayBG.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\PlayBGFactory.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayCourse.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayMusicGame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\IPlayStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.hpp" />
@@ -127,6 +128,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Object\RepeatNote\RepeatNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Object\Text\TextObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\PlayBGFactory.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayCourse.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayMusicGame.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Audio\AudioSpectrum.cpp" />
