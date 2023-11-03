@@ -5,4 +5,7 @@ namespace ct::SharedLogic
 {
 	s3d::int32 MoveSelectH();
 	s3d::int32 MoveSelectV();
+
+
+	s3d::int32 MoveSelectV(bool& playSe);
 }

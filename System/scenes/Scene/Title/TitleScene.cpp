@@ -103,14 +103,16 @@ namespace ct
 
     void TitleScene::update()
     {
-        int move = SharedLogic::MoveSelectV();
-
-        if (move > 0) {
-            SoundManager::PlaySe(U"select");
-            --m_mode;
-        } else if (move < 0) {
-            SoundManager::PlaySe(U"select");
-            ++m_mode;
+        bool playSe = false;
+        if (int move = SharedLogic::MoveSelectV(playSe); move != 0) {
+            if (playSe) {
+                SoundManager::PlaySe(U"select");
+            }
+            if (move > 0) {
+                --m_mode;
+            } else if (move < 0){
+                ++m_mode;
+            }
         }
         if (PlayKey::Start().down()) {
             this->onEnterMode();

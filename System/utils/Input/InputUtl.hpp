@@ -2,6 +2,7 @@
 #include <Siv3D/Types.hpp>
 #include <Siv3D/InputGroups.hpp>
 #include <Siv3D/Scene.hpp>
+#include <utils/Fps/Fps.hpp>
 
 namespace ct
 {
@@ -9,15 +10,21 @@ namespace ct
     {
 	public:
 		template<class KeyType>
-		static auto AccelPressed(const KeyType& key, s3d::int32 timeMillisec = 5000, s3d::int32 waitMillisec = 500)
+		static auto AccelPressed(const KeyType& key, s3d::int32 timeMillisec = 5000, s3d::int32 waitMillisec = 500, const Fps& fps = 12_fps)
 			-> decltype(key.down(), key.pressedDuration(), true)
 		{
+			double deltaFrame = fps.frame(s3d::Scene::DeltaTime());
+			if (deltaFrame == 0) {
+				return key.down();
+			}
 			const s3d::int32 duration = s3d::DurationCast<s3d::Milliseconds>(key.pressedDuration()).count();
 			const s3d::int32 time = timeMillisec - waitMillisec;
-			const s3d::int32 interval = time <= 0 ? 1 : 10 - 9 * s3d::Min(time, (duration - waitMillisec)) / time;
 
-			const s3d::int32 frame = static_cast<s3d::int32>(s3d::Scene::Time() * 60);
-			return key.down() || duration >= waitMillisec && frame % interval == 0;
+			const s3d::int32 frame = s3d::Max(1, static_cast<s3d::int32>(s3d::Round(1.0 / deltaFrame)));
+
+			const s3d::int32 interval = s3d::Max(time <= 0 ? 1 : 10 - 9 * s3d::Min(time, (duration - waitMillisec)) / time, frame);
+
+			return key.down() || duration >= waitMillisec && s3d::Scene::FrameCount() % interval == 0;
 		}
     };
 }
