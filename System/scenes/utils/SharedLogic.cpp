@@ -28,13 +28,11 @@ namespace ct::SharedLogic
     }
     s3d::int32 MoveSelectV(bool& playSe)
     {
-        s3d::int32 timeMillisec = 5000;
-        s3d::int32 waitMillisec = 500;
-        if (InputUtil::AccelPressed(PlayKey::Down(), timeMillisec, waitMillisec, 12_fps)) {
+        if (InputUtil::AccelPressed(PlayKey::Down())) {
             playSe = true;
             return -1;
         }
-        if (InputUtil::AccelPressed(PlayKey::Up(), timeMillisec, waitMillisec, 12_fps)) {
+        if (InputUtil::AccelPressed(PlayKey::Up())) {
             playSe = true;
             return 1;
         }
