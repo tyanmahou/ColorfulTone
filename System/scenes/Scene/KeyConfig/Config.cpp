@@ -124,7 +124,7 @@ namespace ct
 		if (m_select + 4 < size) {
 			offset = 110.0 * m_select;
 		} else {
-			offset = 110.0 * Max<size_t>(0, size - 4);
+			offset = 110.0 * Max<int>(0, static_cast<int>(size) - 4);
 		}
 		for (size_t i = 0; i < size; ++i) {
 			const double alpha = static_cast<int>(i) == m_select ? 1 : 0.5;
