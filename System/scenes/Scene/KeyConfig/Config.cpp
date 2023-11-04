@@ -1,6 +1,7 @@
 ﻿#include <scenes/Scene/KeyConfig/Config.hpp>
 #include <core/Input/PlayKey.hpp>
 #include <commons/Audio/SoundManager.hpp>
+#include <commons/FontName.hpp>
 
 namespace ct
 {
@@ -79,7 +80,7 @@ namespace ct
 	void Config::draw(double y, double alpha)const
 	{
 		RectF(150, y - 50, 500, 90).draw({ ColorF(1,0.6,0.2, alpha),ColorF(0.2, alpha),ColorF(0, alpha),ColorF(0, alpha) });
-		FontAsset(U"configTitle")(m_name).draw(160, y - 40, ColorF(1, alpha));
+		FontAsset(FontName::ConfigTitle)(m_name).draw(160, y - 40, ColorF(1, alpha));
 
 		if (m_hasOnEnterd)return;
 
@@ -88,12 +89,12 @@ namespace ct
 		}
 
 		if (m_select > 0)
-			FontAsset(U"configSelect")(U"←").drawAt(500 - 130, y);
+			FontAsset(FontName::ConfigSelect)(U"←").drawAt(500 - 130, y);
 
 		if (m_select < m_actions.size() - 1)
-			FontAsset(U"configSelect")(U"→").drawAt(500 + 130, y);
+			FontAsset(FontName::ConfigSelect)(U"→").drawAt(500 + 130, y);
 
-		FontAsset(U"configSelect")(m_actions.at(m_select).first).drawAt(500, y);
+		FontAsset(FontName::ConfigSelect)(m_actions.at(m_select).first).drawAt(500, y);
 	}
 
 	bool IConfigHierchy::update()

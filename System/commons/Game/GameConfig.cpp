@@ -7,7 +7,8 @@ namespace
 {
     void InitKey(const INI& ini, const String& str, Input& key, const uint8 defaultCode = 0)
     {
-        const InputDeviceType device = static_cast<InputDeviceType>(ini.getOr<int>(U"Key." + str + U"_Device", 0));
+        // NOTE: +1は旧Siv3Dとの互換性でする
+        const InputDeviceType device = static_cast<InputDeviceType>(ini.getOr<int>(U"Key." + str + U"_Device", 0) + 1);
         uint8 code = ini.getOr<uint8>(U"Key." + str + U"_Code", -1);
         if (code == -1) {
             code = defaultCode;
@@ -18,7 +19,8 @@ namespace
 
     void SaveKey(INI& ini, const String& str, Input& key)
     {
-        ini.write(U"Key", str + U"_Device", static_cast<int>(key.deviceType()));
+        // NOTE: -1は旧Siv3Dとの互換性でする
+        ini.write(U"Key", str + U"_Device", static_cast<int>(key.deviceType())-1);
         ini.write(U"Key", str + U"_Code", key.code());
         ini.write(U"Key", str + U"_User", key.playerIndex());
     }
@@ -146,5 +148,7 @@ namespace  ct
 
         ini.write(U"Config", U"BGType", static_cast<int32>(m_bgType));
         ini.write(U"Config", U"StyleType", static_cast<int32>(m_styleType));
+
+        ini.save(U"config.ini");
     }
 }

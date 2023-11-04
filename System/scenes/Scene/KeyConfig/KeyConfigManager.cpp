@@ -23,7 +23,7 @@ namespace ct
     protected:
         KeyConfig m_config;
 
-        int m_timer;
+        double m_timer;
         Font m_font;
 
         template<class Type>
@@ -32,7 +32,7 @@ namespace ct
             m_pKeyConfig->changeMode<Type>();
         }
     public:
-        Impl(int fontSize = 20) :
+        Impl(int fontSize = 25) :
             m_timer(0),
             m_font(fontSize)
         {
@@ -202,7 +202,7 @@ namespace ct
         }
         bool update()override
         {
-            ++m_timer;
+            m_timer += Scene::DeltaTime() * 60;
 
             auto* pSelectKey = this->selectKey();
             if (pSelectKey) {
@@ -250,7 +250,7 @@ namespace ct
             const auto getColor = [=](Select s) {
                 if (m_select == s) {
                     if (m_config.isSetting())
-                        return Color(255, 0, 0, 128 * ((m_timer / 10) % 2));
+                        return Color(255, 0, 0, 128 * (static_cast<int>(m_timer / 10.0) % 2));
                     else
                         return Palette::Red;
                 }
@@ -356,7 +356,7 @@ namespace ct
         }
         bool update()override
         {
-            ++m_timer;
+            m_timer += Scene::DeltaTime() * 60;
 
             auto* pSelectKey = this->selectKey();
             if (pSelectKey) {
@@ -391,7 +391,7 @@ namespace ct
             const auto getColor = [=](Select s) {
                 if (m_select == s) {
                     if (m_config.isSetting())
-                        return Color(255, 0, 0, 128 * ((m_timer / 10) % 2));
+                        return Color(255, 0, 0, 128 * (static_cast<int>(m_timer / 10.0) % 2));
                     else
                         return Palette::Red;
                 }
@@ -424,7 +424,7 @@ namespace ct
         }
     public:
         DetailKeyConfig() :
-            KeyConfigManager::Impl(15),
+            KeyConfigManager::Impl(20),
             m_select(Select::Up)
         {
             m_config.registerStrictKeys({

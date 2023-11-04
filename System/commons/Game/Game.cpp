@@ -181,13 +181,13 @@ namespace
 		FontAsset::Register(U"s-b-20", 20, straightPath, FontStyle::Bold);
 		FontAsset::Register(U"s-i-15", 15, straightPath, FontStyle::Italic);
 
-		FontAsset::Register(U"r-12", 12);
-		FontAsset::Register(U"r-13", 13);
+		FontAsset::Register(U"r-12", 12 + 5);
+		FontAsset::Register(U"r-13", 13 + 5);
 		FontAsset::Register(U"r-20", 20);
 		FontAsset::Register(U"r-30", 30);
 		FontAsset::Register(U"b-10", 10 + 5, Typeface::Regular, FontStyle::Bold);
 		FontAsset::Register(U"b-16", 16, Typeface::Bold);
-		FontAsset::Register(U"i-15", 15, Typeface::Regular, FontStyle::Italic);
+		FontAsset::Register(U"i-15", 15 + 5, Typeface::Regular, FontStyle::Italic);
 
 		//FontAsset::Register(U"8o_s", 8, straightPath);
 		//FontAsset(U"8o_s").changeOutlineStyle(TextOutlineStyle(Palette::Black, Palette::Black, 1));
