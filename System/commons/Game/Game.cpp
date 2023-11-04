@@ -9,7 +9,7 @@
 #include <scenes/Scene/Title/TitleScene.hpp>
 //#include"FileLoad.h"
 //#include"Tutorial.h"
-//#include"KeyConfigScene.h"
+#include <scenes/Scene/KeyConfig/ConfigScene.hpp>
 //#include"MusicSelect.hpp"
 //#include"MainScene.h"
 //#include"ResultScene.hpp"
@@ -230,7 +230,7 @@ namespace ct
 		{
 			//m_scene.add<FileLoad>(SceneName::Load);
 			m_scene.add<TitleScene>(SceneName::Title);
-			//m_scene.add<ConfigScene>(SceneName::Config);
+			m_scene.add<ConfigScene>(SceneName::Config);
 			//m_scene.add<Tutorial>(SceneName::Tutorial);
 			//m_scene.add<MusicSelect>(SceneName::Select);
 			//m_scene.add<MainScene>(SceneName::Main);

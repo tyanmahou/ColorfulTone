@@ -89,6 +89,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\ConfigMain.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\KeyConfig.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\KeyConfigManager.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\ConfigScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Title\TitleScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Title\TitleSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\Font\FontKinetic.hpp" />
@@ -156,12 +157,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\ConfigMain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\KeyConfig.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\KeyConfigManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\ConfigScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Title\TitleSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\Font\FontKinetic.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\DrawBGLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SceneInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedLogic.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\Util.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Audio\AudioSpectrum.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Flipbook\Flipbook.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Http\RestRequestor.cpp" />
