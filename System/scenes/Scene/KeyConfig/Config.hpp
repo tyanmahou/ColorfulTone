@@ -53,10 +53,7 @@ namespace ct
 			m_manager = manager;
 		}
 		template<class T>
-		void changePush()
-		{
-			m_manager->changePush<T>();
-		}
+		void changePush();
 	};
 	class ConfigManager
 	{
@@ -85,4 +82,9 @@ namespace ct
 		void reset();
 		bool isRoot()const;
 	};
+	template<class T>
+	inline void IConfigHierchy::changePush()
+	{
+		m_manager->changePush<T>();
+	}
 }
