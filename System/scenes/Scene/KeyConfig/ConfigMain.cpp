@@ -62,7 +62,7 @@ namespace ct
     namespace
     {
         //volume
-        void VolumeInit(Config& config, std::function<void(float)> func, double& configParam, const String& defaultValue = U"x1.0")
+        void VolumeInit(Config& config, std::function<void(double)> func, double& configParam, const String& defaultValue = U"x1.0")
         {
             static const std::map<double, String> map
             {
@@ -153,16 +153,16 @@ namespace ct
         void PlayScaleInit(Config& config)
         {
             config.setName(U"プレイ画面の拡大率");
-            static const std::map<float, String> map
+            static const std::map<double, String> map
             {
-                { 0.5f,U"x0.5" },
-                { 0.6f, U"x0.6" },
-                { 0.7f, U"x0.7" },
-                { 0.8f, U"x0.8" },
-                { 0.9f, U"x0.9" },
-                { 1.0f, U"x1.0" },
-                { 1.1f, U"x1.1" },
-                { 1.2f, U"x1.2" },
+                { 0.5,U"x0.5" },
+                { 0.6, U"x0.6" },
+                { 0.7, U"x0.7" },
+                { 0.8, U"x0.8" },
+                { 0.9, U"x0.9" },
+                { 1.0, U"x1.0" },
+                { 1.1, U"x1.1" },
+                { 1.2, U"x1.2" },
             };
             for (auto&& pair : map) {
                 config.add(pair.second, [&pair]() {Game::Config().m_playScale = pair.first; });
@@ -174,7 +174,7 @@ namespace ct
         {
             config.setName(U"タイミング調整");
             for (int adjust : step_to(-10, 10)) {
-                config.add(Format(adjust), [=]() {Game::Config().m_timingAdjust = adjust; });
+                config.add(Format(adjust), [=]() {Game::Config().m_timingAdjust = static_cast<int8>(adjust); });
             }
             config.setDefault(U"0");
             config.init(Format(Game::Config().m_timingAdjust));

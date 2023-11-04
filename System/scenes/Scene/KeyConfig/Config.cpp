@@ -76,9 +76,9 @@ namespace ct
 			++i;
 		}
 	}
-	void Config::draw(double y, float alpha)const
+	void Config::draw(double y, double alpha)const
 	{
-		Rect(150, y - 50, 500, 90).draw({ ColorF(1,0.6,0.2, alpha),ColorF(0.2, alpha),ColorF(0, alpha),ColorF(0, alpha) });
+		RectF(150, y - 50, 500, 90).draw({ ColorF(1,0.6,0.2, alpha),ColorF(0.2, alpha),ColorF(0, alpha),ColorF(0, alpha) });
 		FontAsset(U"configTitle")(m_name).draw(160, y - 40, ColorF(1, alpha));
 
 		if (m_hasOnEnterd)return;
@@ -117,16 +117,16 @@ namespace ct
 
 	void IConfigHierchy::draw()const
 	{
-		int size = static_cast<int>(m_configs.size());
+		size_t size = m_configs.size();
 		double offset = 0;
 
-		if (m_select < size - 4) {
-			offset = 110 * m_select;
+		if (m_select + 4 < size) {
+			offset = 110.0 * m_select;
 		} else {
-			offset = 110 * Max(0, size - 4);
+			offset = 110.0 * Max<size_t>(0, size - 4);
 		}
-		for (unsigned i = 0; i < size; ++i) {
-			const float alpha = i == m_select ? 1 : 0.5;
+		for (size_t i = 0; i < size; ++i) {
+			const double alpha = static_cast<int>(i) == m_select ? 1 : 0.5;
 			m_configs.at(i).draw(150 + 110 * i - offset, alpha);
 		}
 	}

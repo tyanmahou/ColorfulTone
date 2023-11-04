@@ -32,7 +32,7 @@ namespace ct
 		bool init(const String& text);
 
 		void setDefault(const String& text);
-		void draw(double y, float alpha = 1.0)const;
+		void draw(double y, double alpha = 1.0)const;
 	};
 
 	class ConfigManager;
