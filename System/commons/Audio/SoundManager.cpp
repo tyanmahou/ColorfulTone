@@ -1,6 +1,7 @@
 ﻿#include <commons/Audio/SoundManager.hpp>
 #include <commons/Audio/MixBus.hpp>
 #include <Siv3D.hpp>
+#include "SoundManager.hpp"
 
 namespace ct
 {
@@ -11,6 +12,11 @@ namespace ct
     void SoundManager::SetBgmVolume(double volume)
     {
         GlobalAudio::BusSetVolume(MixBusKind::Bgm, volume);
+    }
+
+    void SoundManager::FadeBgmVolume(double volume, const s3d::Duration& fade)
+    {
+        GlobalAudio::BusFadeVolume(MixBusKind::Bgm, volume, fade);
     }
 
     double SoundManager::GetBgmVolume()

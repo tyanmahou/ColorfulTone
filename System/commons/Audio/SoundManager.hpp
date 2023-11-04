@@ -8,6 +8,7 @@ namespace ct
     public:
         static void PlayBgm(s3d::AssetNameView name, const s3d::Duration& fade = 0.0s);
         static void SetBgmVolume(double volume);
+        static void FadeBgmVolume(double volume, const s3d::Duration& fade);
         static double GetBgmVolume();
 
         static void PlaySe(s3d::AssetNameView name);

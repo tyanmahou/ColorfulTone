@@ -10,7 +10,7 @@ namespace ct
     {
 	public:
 		template<class KeyType>
-		static auto AccelPressed(const KeyType& key, s3d::int32 timeMillisec = 2500, s3d::int32 waitMillisec = 500, const Fps& fps = 60_fps)
+		static auto AccelPressed(const KeyType& key, s3d::int32 timeMillisec = 2500, s3d::int32 waitMillisec = 500, const Fps& fps = 50_fps)
 			-> decltype(key.down(), key.pressedDuration(), true)
 		{
 			double deltaFrame = fps.frame(s3d::Scene::DeltaTime());

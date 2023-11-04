@@ -33,7 +33,7 @@ namespace ct
             {
                 // BGM音量を下げる
                 m_volume = SoundManager::GetBgmVolume();
-                SoundManager::SetBgmVolume(s3d::Min(0.1, m_volume));
+                SoundManager::FadeBgmVolume(s3d::Min(0.1, m_volume), 0.5s);
 
                 m_configs.resize(TOTAL_CONFIG);
                 m_configs[All].setName(U"タップ音");
@@ -56,7 +56,7 @@ namespace ct
             ~TapSEConfig()
             {
                 // BGM音量を戻す
-                SoundManager::SetBgmVolume(m_volume);
+                SoundManager::FadeBgmVolume(m_volume, 0.5s);
             }
         };
     }
