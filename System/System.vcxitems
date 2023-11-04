@@ -85,6 +85,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)effects\BGLight.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Fade\Fade.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\ISceneBase.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\Config.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\ConfigMain.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\KeyConfig.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\KeyConfigManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Title\TitleScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Title\TitleSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\Font\FontKinetic.hpp" />
@@ -148,6 +152,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayMusicGame.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Fade\Fade.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\Config.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\ConfigMain.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\KeyConfig.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\KeyConfig\KeyConfigManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Title\TitleSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\Font\FontKinetic.cpp" />
