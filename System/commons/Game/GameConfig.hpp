@@ -41,7 +41,7 @@ namespace ct
         TapSE m_tapSE;
 
         //BGM SE音量
-        double m_bgmVolume, m_seVolume, m_masterVolume;
+        double m_bgmVolume, m_seVolume, m_inGameMusicVolume, m_inGameSeVolume, m_masterVolume;
 
         //背景演出
         BGType m_bgType = BGType::Default;

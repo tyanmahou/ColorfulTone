@@ -31,8 +31,9 @@ namespace ct
         public:
             TapSEConfig()
             {
-                m_volume = SoundManager::GetInGameSeVolume();
-                SoundManager::SetInGameSeVolume(s3d::Min(0.1, m_volume));
+                // BGM音量を下げる
+                m_volume = SoundManager::GetBgmVolume();
+                SoundManager::SetBgmVolume(s3d::Min(0.1, m_volume));
 
                 m_configs.resize(TOTAL_CONFIG);
                 m_configs[All].setName(U"タップ音");
@@ -54,7 +55,8 @@ namespace ct
             }
             ~TapSEConfig()
             {
-                SoundManager::SetInGameSeVolume(m_volume);
+                // BGM音量を戻す
+                SoundManager::SetBgmVolume(m_volume);
             }
         };
     }
@@ -97,6 +99,8 @@ namespace ct
             {
                 BGMVolume,
                 SEVolume,
+                InGameMusicVolume,
+                InGameSeVolume,
                 MasterVolume,
                 TOTAL_SIZE
             };
@@ -111,6 +115,14 @@ namespace ct
                 m_configs[SEVolume].setName(U"SE");
                 VolumeInit(m_configs[SEVolume], SoundManager::SetSeVolume,
                     Game::Config().m_seVolume);
+
+                m_configs[InGameMusicVolume].setName(U"プレイ中 楽曲");
+                VolumeInit(m_configs[InGameMusicVolume], SoundManager::SetInGameMusicVolume,
+                    Game::Config().m_inGameMusicVolume);
+
+                m_configs[InGameSeVolume].setName(U"プレイ中 SE");
+                VolumeInit(m_configs[InGameSeVolume], SoundManager::SetInGameSeVolume,
+                    Game::Config().m_inGameSeVolume);
 
                 m_configs[MasterVolume].setName(U"Master");
                 VolumeInit(m_configs[MasterVolume], SoundManager::SetMasterVolume,

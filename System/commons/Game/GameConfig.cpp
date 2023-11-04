@@ -31,6 +31,8 @@ namespace  ct
         m_scrollRate(1.0f),
         m_bgmVolume(1.0),
         m_seVolume(1.0),
+        m_inGameMusicVolume(1.0),
+        m_inGameSeVolume(1.0),
         m_masterVolume(1.0)
     {
         m_red1 = KeyF;
@@ -91,10 +93,14 @@ namespace  ct
 
         m_bgmVolume = ini.getOr<double>(U"Config.BGMVolume", 1.0);
         m_seVolume = ini.getOr<double>(U"Config.SEVolume", 1.0);
+        m_inGameMusicVolume = ini.getOr<double>(U"Config.InGameMusicVolume", 1.0);
+        m_inGameSeVolume = ini.getOr<double>(U"Config.InGameSEVolume", 1.0);
         m_masterVolume = ini.getOr<double>(U"Config.MasterVolume", 1.0);
 
         SoundManager::SetBgmVolume(m_bgmVolume);
         SoundManager::SetSeVolume(m_seVolume);
+        SoundManager::SetInGameMusicVolume(m_inGameMusicVolume);
+        SoundManager::SetInGameSeVolume(m_inGameSeVolume);
         SoundManager::SetMasterVolume(m_masterVolume);
 
         m_isSpectrum = ini.getOr<bool>(U"Config.IsSpectrum", true);
@@ -142,6 +148,8 @@ namespace  ct
 
         ini.write(U"Config", U"BGMVolume", m_bgmVolume);
         ini.write(U"Config", U"SEVolume", m_seVolume);
+        ini.write(U"Config", U"InGameMusicVolume", m_inGameMusicVolume);
+        ini.write(U"Config", U"InGameSEVolume", m_inGameSeVolume);
         ini.write(U"Config", U"MasterVolume", m_masterVolume);
 
         ini.write(U"Config", U"IsSpectrum", m_isSpectrum);

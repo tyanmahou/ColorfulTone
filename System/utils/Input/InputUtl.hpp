@@ -17,7 +17,7 @@ namespace ct
 			if (deltaFrame == 0) {
 				return key.down();
 			}
-			const s3d::int32 duration = s3d::DurationCast<s3d::Milliseconds>(key.pressedDuration()).count();
+			const s3d::int32 duration = static_cast<s3d::int32>(s3d::DurationCast<s3d::Milliseconds>(key.pressedDuration()).count());
 			const s3d::int32 time = timeMillisec - waitMillisec;
 
 			const s3d::int32 frame = s3d::Max(1, static_cast<s3d::int32>(s3d::Round(1.0 / deltaFrame)));
