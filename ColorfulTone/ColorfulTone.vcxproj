@@ -116,7 +116,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\System\scenes\utils\SharedDraw.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainApp.cpp" />
     <ClCompile Include="stdafx.cpp">

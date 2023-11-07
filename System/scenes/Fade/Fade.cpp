@@ -1,5 +1,6 @@
 ﻿#include <scenes/Fade/Fade.hpp>
 #include <scenes/utils/Util.hpp>
+#include <scenes/utils/Shaders.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -40,18 +41,19 @@ namespace ct
 		//3次関数的に広がる円形マスク
 		void SmoothCircle(double t)
 		{
-			//if (!::FadeBase(t)) {
-			//	return;
-			//}
-			//static auto func = [=](double t) {
-			//	return ((t - 0.3f) * (t - 0.3f) * (t - 0.3f) + 0.027) / 0.37f;
-			//	};
+			if (!::FadeBase(t)) {
+				return;
+			}
+			static auto func = [=](double t) {
+				return ((t - 0.3f) * (t - 0.3f) * (t - 0.3f) + 0.027) / 0.37f;
+				};
 
-			//util::StencilMask(
-			//	[t] { Circle(Scene::Size(), Scene::Width() * func(1.0 - t)).draw(); },
-			//	[] { Scene::Rect().draw(g_fadeColor); },
-			//	StencilFunc::NotEqual
-			//);
+			{
+				auto mask = Shaders::Mask().notEqual([t] { 
+					Circle(Scene::Size(), Scene::Width() * func(1.0 - t)).draw(); 
+				});
+				Scene::Rect().draw(g_fadeColor);
+			}
 		}
 		struct CBufferFlipPage {
 			float timer;
