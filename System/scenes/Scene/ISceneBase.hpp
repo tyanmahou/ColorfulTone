@@ -10,7 +10,7 @@ namespace ct
     {
         NotesData m_nowNotes;
 
-        float m_scrollRate;
+        double m_scrollRate;
         Score m_resultScore;
 
         PlayCourse m_course;

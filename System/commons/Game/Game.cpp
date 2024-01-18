@@ -7,7 +7,7 @@
 #include <core/Data/TapSE/TapSE.hpp>
 #include <utils/Audio/Loop.hpp>
 #include <scenes/Scene/Title/TitleScene.hpp>
-//#include"FileLoad.h"
+#include <scenes/Scene/FileLoad/FileLoadScene.hpp>
 //#include"Tutorial.h"
 #include <scenes/Scene/KeyConfig/ConfigScene.hpp>
 //#include"MusicSelect.hpp"
@@ -178,6 +178,7 @@ namespace
 		FontAsset::Register(U"s-o-10", FontMethod::SDF, 10 + 10, straightPath, FontStyle::Bold);
 		FontAsset(U"s-o-10").setBufferThickness(3);
 		FontAsset::Register(U"s-r-12", 12, straightPath);
+		FontAsset::Register(U"s-b-15", 15, straightPath, FontStyle::Bold);
 		FontAsset::Register(U"s-b-20", 20, straightPath, FontStyle::Bold);
 		FontAsset::Register(U"s-i-15", 15, straightPath, FontStyle::Italic);
 
@@ -228,7 +229,7 @@ namespace ct
 	private:
 		void registerScene()
 		{
-			//m_scene.add<FileLoad>(SceneName::Load);
+			m_scene.add<FileLoadScene>(SceneName::Load);
 			m_scene.add<TitleScene>(SceneName::Title);
 			m_scene.add<ConfigScene>(SceneName::Config);
 			//m_scene.add<Tutorial>(SceneName::Tutorial);

@@ -20,4 +20,6 @@ namespace ct::FontName
 
     inline constexpr s3d::AssetNameView TitleLabel = U"s-o-10";
     inline constexpr s3d::AssetNameView StickyLabel = U"r-12";
+
+    inline constexpr s3d::AssetNameView LodingLabel = U"s-b-15";
 }

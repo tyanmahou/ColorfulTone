@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <scenes/utils/SharedDraw/DrawBGLight.hpp>
+#include <scenes/utils/SharedDraw/LoadingProgress.hpp>
 
 namespace ct::SharedDraw
 {

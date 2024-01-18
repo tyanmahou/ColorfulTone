@@ -18,7 +18,6 @@ namespace ct
 				continue;
 			}
 
-			// 位置に応じて色を変える
 			if (glyph.codePoint != U' ') {
 				glyph.texture.draw(Math::Round(penPos + glyph.getOffset()), color);
 			}
