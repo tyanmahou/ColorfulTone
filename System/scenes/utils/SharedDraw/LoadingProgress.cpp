@@ -28,19 +28,30 @@ namespace ct::SharedDraw
     void LoadingProgress::draw(double progress) const
     {
         const Vec2 center = Scene::Center();
-        const int32 timer = static_cast<int32>(Scene::Time() * 60) % 360;
-
-        const double rad = static_cast<double>(timer) / 360 * Math::TwoPi;
-        const double startAngle = rad;
-        const double mod = Fmod(rad, 1.0);
-        const double angle = Math::TwoPi * Pow(2.0 * (mod > 1.0 ? 1.0 : mod) - 1.0, 3);
+        constexpr Duration periodSec = 2s;
+        double rotatePeriod = s3d::Periodic::Sawtooth0_1(periodSec * 0.75);
+        double period = s3d::Periodic::Sawtooth0_1(periodSec) * 2.0;
+        const double offsAngle = -Math::TwoPi + rotatePeriod * Math::TwoPi;
+        double startAngle = offsAngle;
+        if (period <= 1.0) {
+            startAngle += Math::Lerp(0, Math::TwoPi, period);
+        } else {
+            startAngle += Math::TwoPi;
+        }
+        double endAngle = offsAngle;
+        if (period <= 1.0) {
+            endAngle += Math::Lerp(0, Math::HalfPi, period);
+        } else {
+            endAngle += Math::Lerp(Math::HalfPi, Math::TwoPi, period - 1.0);
+        }
+        const double angle = -(startAngle-endAngle);
 
         if (m_isCompleted) {
             const double size = static_cast<double>(Min(m_stopwatch.ms(), 350));
             Line(center + Vec2{ size, 20 }, center + Vec2{ -size,20 }).draw(ColorF(0, 0.5));
             Circle(center, 200 + m_stopwatch.ms()).drawFrame(0, 1.2, ColorF(0, 0.5));
         } else {
-            Circle(center, 200).drawArc(startAngle, angle, 0, 1.2, ColorF(0, 0.5));
+            Circle(center, 200).drawArc(startAngle, angle, 0, 3, ColorF(0, 0.5));
         }
         const double index = m_stopwatch.ms() / (m_isCompleted ? 50 : 160.0);
         //現在の文
