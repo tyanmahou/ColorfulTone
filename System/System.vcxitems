@@ -106,6 +106,17 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Audio\AudioSpectrum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Audio\Loop.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Clock\Clock.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Clock\ClockUtil.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Coro\AsyncGenerator\AsyncGenerator.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Coro\Fiber\Fiber.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Coro\Fiber\Fiber.ipp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Coro\Fiber\FiberHolder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Coro\Fiber\FiberUtil.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Coro\Fiber\IAwaiter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Coro\Fiber\MultiFibers.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Coro\Fiber\Tween.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Coro\Fiber\Yield.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Coro\Generator\Generator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Flipbook\Flipbook.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Fps\Fps.hpp" />
@@ -114,6 +125,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Shader\Mask\MaskShader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Singleton\DynamicSingleton.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Singleton\Singleton.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Thread\Task.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\TimeLite\IntervalTimer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\TimeLite\Timer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Version\Version.hpp" />
@@ -176,6 +188,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedLogic.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\Util.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Audio\AudioSpectrum.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Clock\Clock.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Clock\ClockUtil.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Coro\Fiber\FiberUtil.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Coro\Fiber\MultiFibers.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Coro\Fiber\Tween.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Flipbook\Flipbook.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Http\RestRequestor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Shader\Mask\MaskShader.cpp" />
