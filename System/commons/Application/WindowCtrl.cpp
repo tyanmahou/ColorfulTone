@@ -1,4 +1,4 @@
-#include <commons/Application/WindowCtrl.hpp>
+﻿#include <commons/Application/WindowCtrl.hpp>
 
 #include <Siv3D.hpp>
 
@@ -46,8 +46,11 @@ namespace ct
         // 画面サイズはキープ
         Scene::SetResizeMode(ResizeMode::Keep);
 
-        Scene::SetBackground(Palette::Black);
+        Scene::SetBackground(Palette::White);
         System::SetTerminationTriggers((KeyAlt + KeyF4).down() | UserAction::CloseButtonClicked);
+
+        // F1でライセンス表示はオフ
+        LicenseManager::DisableDefaultTrigger();
 
         if (useScalable) {
             Window::SetStyle(WindowStyle::Sizable);
