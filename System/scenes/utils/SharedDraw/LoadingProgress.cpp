@@ -29,22 +29,23 @@ namespace ct::SharedDraw
     {
         const Vec2 center = Scene::Center();
         constexpr Duration periodSec = 2s;
-        double rotatePeriod = s3d::Periodic::Sawtooth0_1(periodSec * 0.75);
-        double period = s3d::Periodic::Sawtooth0_1(periodSec) * 2.0;
-        const double offsAngle = -Math::TwoPi + rotatePeriod * Math::TwoPi;
-        double startAngle = offsAngle;
-        if (period <= 1.0) {
-            startAngle += Math::Lerp(0, Math::TwoPi, period);
+        const double rotateRate = s3d::Periodic::Sawtooth0_1(periodSec * 0.75);
+        const double offsetAngle = rotateRate * Math::TwoPi;
+
+        const double rate0_2 = s3d::Periodic::Sawtooth0_1(periodSec) * 2.0;
+        double startAngle = offsetAngle;
+        if (rate0_2 <= 1) {
+            startAngle += Math::Lerp(0, Math::TwoPi, rate0_2);
         } else {
             startAngle += Math::TwoPi;
         }
-        double endAngle = offsAngle;
-        if (period <= 1.0) {
-            endAngle += Math::Lerp(0, Math::HalfPi, period);
+        double endAngle = offsetAngle;
+        if (rate0_2 <= 1) {
+            endAngle += Math::Lerp(0, Math::HalfPi, rate0_2);
         } else {
-            endAngle += Math::Lerp(Math::HalfPi, Math::TwoPi, period - 1.0);
+            endAngle += Math::Lerp(Math::HalfPi, Math::TwoPi, rate0_2 - 1);
         }
-        const double angle = -(startAngle-endAngle);
+        const double angle = -(startAngle - endAngle);
 
         if (m_isCompleted) {
             const double size = static_cast<double>(Min(m_stopwatch.ms(), 350));
