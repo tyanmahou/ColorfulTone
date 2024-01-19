@@ -56,9 +56,4 @@ namespace ct
 	{
 		m_pImpl->onCompleted();
 	}
-
-	int32 FileLoadSceneView::getStopwatchMs() const
-	{
-		return m_pImpl->getStopwatchMs();
-	}
 }

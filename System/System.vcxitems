@@ -104,6 +104,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\SharedLogic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\Util.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Asset\SivAssetUtil.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Audio\AudioSpectrum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Audio\Loop.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Clock\Clock.hpp" />

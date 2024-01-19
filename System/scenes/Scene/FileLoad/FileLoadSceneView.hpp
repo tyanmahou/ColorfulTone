@@ -17,7 +17,5 @@ namespace ct
 		void update();
 		void draw()const;
 		void onCompleted();
-
-		s3d::int32 getStopwatchMs()const;
 	};
 }

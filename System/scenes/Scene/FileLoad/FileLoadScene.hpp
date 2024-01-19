@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <scenes/Scene/ISceneBase.hpp>
 #include <scenes/Scene/FileLoad/FileLoadSceneView.hpp>
+#include <utils/Coro/Fiber/FiberHolder.hpp>
 
 namespace ct
 {
@@ -10,10 +11,9 @@ namespace ct
 		enum class State
 		{
 			Loading,
-			OnLoadCompleted,
+			LoadCompleted,
 			Wait
-		} m_state = State::Loading;
-		FileLoadSceneView m_view;	//ビュー
+		};
 	public:
 
 		FileLoadScene(const InitData& init);
@@ -25,5 +25,11 @@ namespace ct
 		void drawFadeOut(double t) const override;
 
 		double progress() const;
+	private:
+		Coro::Fiber<void> updateAsync();
+	private:
+		State m_state = State::Loading;
+		FileLoadSceneView m_view;	//ビュー
+		Coro::FiberHolder<void> m_asyncUpdater;
 	};
 }

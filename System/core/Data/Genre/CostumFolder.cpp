@@ -10,7 +10,7 @@ namespace
 }
 namespace ct
 {
-	void LoadCustomFolder()
+	void LoadCustomFolder(const std::stop_token& stopSource)
 	{
 		g_readerCache.clear();
 
@@ -18,6 +18,9 @@ namespace ct
 
 		//ここからデータ読み込み
 		for (const auto& path : ctcfFiles) {
+			if (stopSource.stop_requested()) {
+				return;
+			}
 			if (FileSystem::Extension(path) == U"ctfolder") {
 				CTCFReader ctfolder(path);
 				if (!ctfolder) {
