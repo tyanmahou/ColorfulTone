@@ -19,36 +19,13 @@ namespace
 {
 	using namespace ct;
 	static double g_loadingRate = 0;
-
     //--------------------------------------------------------------------------------
     //関数：LoadMusicDatas
     //--------------------------------------------------------------------------------
     //概要:楽曲のロード
     //--------------------------------------------------------------------------------
-	void LoadCourses(const std::stop_token& stopSource);
-	//se読み込み
-	void LoadTapSE(const std::stop_token& stopSource)
+	bool LoadMusicData(const std::stop_token& stopSource)
 	{
-		auto& tapSEs = Game::TapSEs();
-		tapSEs.clear();
-		static const FilePath& nonePath = U"Resource/Sound/SE/none.mp3";
-		tapSEs.emplace_back(U"なし", nonePath, nonePath, nonePath);
-
-		for (auto&& rootFilePath : FileSystem::DirectoryContents(U"TapSE")) {
-			if (stopSource.stop_requested()) {
-				return;
-			}
-			if (FileSystem::IsDirectory(rootFilePath)) {
-				tapSEs.emplace_back(rootFilePath);
-			}
-		}
-	}
-	void LoadMusicDatas(const std::stop_token& stopSource)
-	{
-		// TODO
-		// スコアを移動
-		//CompatibilityUtil::MoveScoreFolder();
-
 		g_loadingRate = 0;
 		Array<MusicData>& musics = Game::Musics();
 		SivAssetUtil::UnregisterByTag<AudioAsset>(U"MusicData");
@@ -79,7 +56,7 @@ namespace
 				//iniファイルがあるか検索
 				for (const auto& elm : assets) {
 					if (stopSource.stop_requested()) {
-						return;
+						return false;
 					}
 					if (FileSystem::Extension(elm) == U"ini") {
 						g_loadingRate = curIndex / static_cast<double>(musicSize);
@@ -99,15 +76,10 @@ namespace
 		GenreManager::Add(GenreType::All, U"ALL", []([[maybe_unused]]MusicData& music)->bool {return true; });
 		GenreManager::Add(GenreType::Favorite, U"お気に入り", [](MusicData& music)->bool {return  music.isFavorite(); });
 		GenreManager::Sort();
-
-		//タップSE読み込み
-		::LoadTapSE(stopSource);
-
-		::LoadCourses(stopSource);
-		ClearPrint();
+		return true;
 	}
 	//コースデータ読み込み
-	void LoadCourses(const std::stop_token& stopSource)
+	bool LoadCourses(const std::stop_token& stopSource)
 	{
 		CourseGenreManager::Clear();
 		CourseData::Index = 0;
@@ -137,7 +109,7 @@ namespace
 			const auto ctcPaths = FileSystem::DirectoryContents(gPath);
 			for (const auto& path : ctcPaths) {
 				if (stopSource.stop_requested()) {
-					return;
+					return false;
 				}
 				if (FileSystem::Extension(path) == U"ctc") {
 					courses.emplace_back(path);
@@ -145,6 +117,44 @@ namespace
 			}
 			CourseGenreManager::Add(genreName);
 		}
+		return true;
+	}
+
+	//se読み込み
+	bool LoadTapSE(const std::stop_token& stopSource)
+	{
+		auto& tapSEs = Game::TapSEs();
+		tapSEs.clear();
+		static const FilePath& nonePath = U"Resource/Sound/SE/none.mp3";
+		tapSEs.emplace_back(U"なし", nonePath, nonePath, nonePath);
+
+		for (auto&& rootFilePath : FileSystem::DirectoryContents(U"TapSE")) {
+			if (stopSource.stop_requested()) {
+				return false;
+			}
+			if (FileSystem::IsDirectory(rootFilePath)) {
+				tapSEs.emplace_back(rootFilePath);
+			}
+		}
+		return true;
+	}
+
+	void LoadContentsData(const std::stop_token& stopSource)
+	{
+		// TODO
+		// スコアを移動
+		//CompatibilityUtil::MoveScoreFolder();
+
+		if (!LoadMusicData(stopSource)) {
+			return;
+		}
+		if (!LoadCourses(stopSource)) {
+			return;
+		}
+		if (!LoadTapSE(stopSource)) {
+			return;
+		}
+		ClearPrint();
 	}
 }
 namespace ct
@@ -213,7 +223,7 @@ namespace ct
 	Coro::Fiber<void> FileLoadScene::updateAsync()
 	{
 		// ロード開始
-		co_await Thread::Task(::LoadMusicDatas);
+		co_await Thread::Task(::LoadContentsData);
 
 		// ロード完了
 		m_state = State::LoadCompleted;
