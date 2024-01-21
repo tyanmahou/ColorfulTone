@@ -62,7 +62,7 @@ namespace
 						g_loadingRate = curIndex / static_cast<double>(musicSize);
 						//Println(path);
 						musics.emplace_back(genreName, path, elm);
-						GenreManager::Add(GenreType::Folder, genreName, [genreName](MusicData& music)->bool {return music.getGenreName() == genreName; });
+						GenreManager::Add(GenreType::Folder, genreName, [genreName](const MusicData& music)->bool {return music.getGenreName() == genreName; });
 						break;
 					}
 				}
@@ -73,8 +73,8 @@ namespace
 		//カスタムフォルダ読み込み
 		::LoadCustomFolder(stopSource);
 
-		GenreManager::Add(GenreType::All, U"ALL", []([[maybe_unused]]MusicData& music)->bool {return true; });
-		GenreManager::Add(GenreType::Favorite, U"お気に入り", [](MusicData& music)->bool {return  music.isFavorite(); });
+		GenreManager::Add(GenreType::All, U"ALL", []([[maybe_unused]] const MusicData& music)->bool {return true; });
+		GenreManager::Add(GenreType::Favorite, U"お気に入り", [](const MusicData& music)->bool {return  music.isFavorite(); });
 		GenreManager::Sort();
 		return true;
 	}

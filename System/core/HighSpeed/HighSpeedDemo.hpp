@@ -24,11 +24,11 @@ namespace ct
 		const s3d::Rect m_bgRect;
 		const s3d::Circle m_judgeCircle;
 		s3d::Stopwatch m_stopwatch;
-		void drawDemoNotes(const SoundBar& bar, float scrollRate) const;
+		void drawDemoNotes(const SoundBar& bar, double scrollRate) const;
 	public:
 		HighSpeedDemo();
 		~HighSpeedDemo();
-		bool update(float& scrollRate);
-		void draw(const SoundBar& min, const SoundBar& max, float scrollRate)const;
+		bool update(double& scrollRate);
+		void draw(const SoundBar& min, const SoundBar& max, double scrollRate)const;
 	};
 }

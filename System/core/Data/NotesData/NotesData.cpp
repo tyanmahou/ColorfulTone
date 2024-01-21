@@ -376,11 +376,11 @@ namespace ct
         int lv = m_lv;
         auto starLv = m_starLv;
         if (m_starLv != StarLv::None) {
-            GenreManager::Add(GenreType::StarLv, Format(U"LEVEL:", ToStr(starLv)), [starLv](MusicData& music)->bool {
+            GenreManager::Add(GenreType::StarLv, Format(U"LEVEL:", ToStr(starLv)), [starLv](const MusicData& music)->bool {
                 return music.getNotesData().any([starLv](const NotesData& notes) {return notes.getStarLv() == starLv; });
             });
         } else {
-            GenreManager::Add(GenreType::Lv, Format(U"LEVEL:", lv), [lv](MusicData& music)->bool {
+            GenreManager::Add(GenreType::Lv, Format(U"LEVEL:", lv), [lv](const MusicData& music)->bool {
                 return music.getNotesData().any([lv](const NotesData& notes) {return notes.getLevel() == lv; });
             }, lv);
         }

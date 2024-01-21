@@ -10,7 +10,7 @@
 #include <scenes/Scene/FileLoad/FileLoadScene.hpp>
 //#include"Tutorial.h"
 #include <scenes/Scene/KeyConfig/ConfigScene.hpp>
-//#include"MusicSelect.hpp"
+#include <scenes/Scene/MusicSelect/MusicSelectScene.hpp>
 //#include"MainScene.h"
 //#include"ResultScene.hpp"
 //#include"VideoAsset.h"
@@ -190,8 +190,6 @@ namespace
 		FontAsset::Register(U"b-16", 16, Typeface::Bold);
 		FontAsset::Register(U"i-15", 15 + 5, Typeface::Regular, FontStyle::Italic);
 
-		//FontAsset::Register(U"8o_s", 8, straightPath);
-		//FontAsset(U"8o_s").changeOutlineStyle(TextOutlineStyle(Palette::Black, Palette::Black, 1));
 		//FontAsset::Register(U"10o_s", 10, straightPath);
 		//FontAsset(L"10o_s").changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 2));
 		//FontAsset(L"level").changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 2));
@@ -233,7 +231,7 @@ namespace ct
 			m_scene.add<TitleScene>(SceneName::Title);
 			m_scene.add<ConfigScene>(SceneName::Config);
 			//m_scene.add<Tutorial>(SceneName::Tutorial);
-			//m_scene.add<MusicSelect>(SceneName::Select);
+			m_scene.add<MusicSelectScene>(SceneName::Select);
 			//m_scene.add<MainScene>(SceneName::Main);
 			//m_scene.add<ResultScene>(SceneName::Result);
 			//m_scene.add<CourseSelect>(SceneName::CourseSelect);

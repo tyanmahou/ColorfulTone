@@ -9,11 +9,11 @@ namespace ct
     {
     public:
         // TwitterAPI使用できなくなった
-        // static inline const s3d::String TwitterApiKey = L"";
-        // static inline const s3d::String TwitterApiSecret = L"";
-        static inline const s3d::String HOMEPAGE_URL = L"HOMEPAGE_URL";
-        static inline const s3d::String API_ENDPOINT = L"API_ENDPOINT";
-        static inline const s3d::String DOWNLOAD_URL = L"DOWNLOAD_URL";
+        // static inline const s3d::String TwitterApiKey = U"";
+        // static inline const s3d::String TwitterApiSecret = U"";
+        static inline const s3d::String HOMEPAGE_URL = U"HOMEPAGE_URL";
+        static inline const s3d::String API_ENDPOINT = U"API_ENDPOINT";
+        static inline const s3d::String DOWNLOAD_URL = U"DOWNLOAD_URL";
     };
 }
 #endif

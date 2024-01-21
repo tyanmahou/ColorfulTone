@@ -3,8 +3,8 @@
 //#include "Constants.hpp"
 #include <core/Play/PlayStyle/PlayStyle.hpp>
 //
-//#include"Note.h"
-//#include"Bar.h"
+#include <core/Object/Note/Note.hpp>
+#include <core/Object/Bar/Bar.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -35,10 +35,10 @@ namespace ct
 				auto count = NotesData::RESOLUTION * i + NotesData::RESOLUTION * j / 2;
 				m_objects.emplace_back(std::make_shared<Note>(
 					Game::Config().m_styleType == PlayStyleType::Default ? 5 : 2,
-					count, 1));
+					static_cast<double>(count), 1));
 			}
 		for (size_t i = 0; i < 10; ++i) {
-			m_objects.emplace_back(std::make_shared<Bar>(NotesData::RESOLUTION * i, 1));
+			m_objects.emplace_back(std::make_shared<Bar>(static_cast<double>(NotesData::RESOLUTION * i), 1));
 		}
 
 	}
@@ -50,12 +50,12 @@ namespace ct
 	namespace
 	{
 
-		void SpeedUpdate(const s3d::InputGroup& key, Stopwatch& sw, float& scrollRate, int32 value)
+		void SpeedUpdate(const s3d::InputGroup& key, Stopwatch& sw, double& scrollRate, int32 value)
 		{
 			if (
 				key.down() ||
 				key.pressed() && sw.ms() >= 80) {
-				int32 tmp = scrollRate * 10;
+				int32 tmp = static_cast<int32>(scrollRate * 10);
 				tmp += value;
 				scrollRate = tmp / 10.0f;
 				sw.restart();
@@ -63,7 +63,7 @@ namespace ct
 		}
 
 	}
-	bool HighSpeedDemo::update(float& scrollRate)
+	bool HighSpeedDemo::update(double& scrollRate)
 	{
 		bool isCtrlPressed = KeyControl.pressed();
 		if (!m_sound.isPlaying())
@@ -79,7 +79,7 @@ namespace ct
 			m_offset.reset();
 			m_stopwatch.reset();
 		}
-		if (m_offset.isMoving())
+		if (!m_offset.done())
 			return isCtrlPressed;
 
 		if (isCtrlPressed) {
@@ -89,13 +89,13 @@ namespace ct
 			SpeedUpdate(PlayKey::Left(), m_stopwatch, scrollRate, -10);
 
 		}
-		if (scrollRate < 0.1f) {
-			scrollRate = 0.1f;
+		if (scrollRate < 0.1) {
+			scrollRate = 0.1;
 		}
 		return isCtrlPressed;
 	}
 
-	void HighSpeedDemo::drawDemoNotes(const SoundBar& bar, float scrollRate)const
+	void HighSpeedDemo::drawDemoNotes(const SoundBar& bar, double  scrollRate)const
 	{
 		// TODO マスク処理
 		//m_bgRect.draw(ColorF(0, 0.5));
@@ -121,7 +121,7 @@ namespace ct
 		//Graphics2D::SetStencilState(StencilState::Default);
 
 	}
-	void HighSpeedDemo::draw(const SoundBar& min, const SoundBar& max, float scrollRate)const
+	void HighSpeedDemo::draw(const SoundBar& min, const SoundBar& max, double scrollRate)const
 	{
 		{
 			Transformer2D t2d(Mat3x2::Translate({ m_offset.easeInOut() - 350,0 }));

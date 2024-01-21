@@ -5,7 +5,7 @@
 
 namespace ct
 {
-	using RefinerType = std::function<bool(MusicData&)>;
+	using RefinerType = std::function<bool(const MusicData&)>;
 
 	enum class GenreType
 	{

@@ -30,7 +30,7 @@ namespace ct
 				String title = ctfolder.getTitle().value_or(U"CustomFolder");
 				int32 order = ctfolder.getOrder();
 				g_readerCache[path] = ctfolder;
-				GenreManager::Add(GenreType::Custom, title, [path](MusicData& music)->bool {return g_readerCache[path].expression(music); }, order);
+				GenreManager::Add(GenreType::Custom, title, [path](const MusicData& music)->bool {return g_readerCache[path].expression(music); }, order);
 			}
 		}
 	}
