@@ -4,7 +4,6 @@
 #include <utils/Thread/Task.hpp>
 #include <Siv3D.hpp>
 
-// TODO 調整
 namespace {
 	using namespace ct;
 
