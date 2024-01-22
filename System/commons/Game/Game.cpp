@@ -208,6 +208,10 @@ namespace ct
 		{
 			this->init();
 		}
+		void startUp()
+		{
+			m_scene.init(SceneName::Load, 1000);
+		}
 		bool updateAndDraw()
 		{
 			if (!m_scene.update()) {
@@ -258,6 +262,8 @@ namespace ct
         //ゲームコンフィグの初期化
         //キー入力やハイスピ等
         Config().init();
+
+		Instance()->m_pImpl->startUp();
     }
 
     bool Game::Update()
