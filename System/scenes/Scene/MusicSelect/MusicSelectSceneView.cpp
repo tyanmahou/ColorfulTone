@@ -2,8 +2,6 @@
 #include <scenes/Scene/MusicSelect/MusicSelectScene.hpp>
 #include <commons/Constants.hpp>
 #include <commons/FontName.hpp>
-//#include "Fade.h"
-//#include "PlayKey.h"
 #include <scenes/utils/SharedDraw.hpp>
 #include <core/Data/Score/ResultRank.hpp>
 #include <core/Data/Genre/GenreManager.hpp>
