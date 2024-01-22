@@ -20,6 +20,8 @@ namespace ct
 		~FileLoadScene();
 
 		void update() override;
+		void updateFadeIn(double t) override;
+		void updateFadeOut(double t) override;
 		void draw() const override;
 		void drawFadeIn(double t) const override;
 		void drawFadeOut(double t) const override;

@@ -19,6 +19,9 @@ namespace ct::SharedDraw
     }
     void LoadingProgress::update()
     {
+        if (m_isCompleted) {
+            return;
+        }
         // now loadingのインターバル時間
         constexpr int nowLoadingInterval = 4;
         if (m_stopwatch.s() > nowLoadingInterval) {

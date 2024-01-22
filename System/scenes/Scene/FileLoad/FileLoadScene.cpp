@@ -13,6 +13,7 @@
 #include <core/Data/TapSE/TapSE.hpp>
 //#include "CompatibilityUtil.hpp"
 #include <Siv3D.hpp>
+#include "FileLoadScene.hpp"
 
 
 namespace
@@ -59,10 +60,10 @@ namespace
 						return false;
 					}
 					if (FileSystem::Extension(elm) == U"ini") {
-						g_loadingRate = curIndex / static_cast<double>(musicSize);
 						//Println(path);
 						musics.emplace_back(genreName, path, elm);
 						GenreManager::Add(GenreType::Folder, genreName, [genreName](const MusicData& music)->bool {return music.getGenreName() == genreName; });
+						g_loadingRate = curIndex / static_cast<double>(musicSize);
 						break;
 					}
 				}
@@ -81,6 +82,7 @@ namespace
 	//コースデータ読み込み
 	bool LoadCourses(const std::stop_token& stopToken)
 	{
+		//g_loadingRate = 0;
 		CourseGenreManager::Clear();
 		CourseData::Index = 0;
 
@@ -103,6 +105,7 @@ namespace
 		courses.reserve(coureSize);
 
 		//ここから楽曲データ読み込み
+		size_t curIndex = 0;
 		for (const auto& gPath : genreFiles) {
 			const auto genreName = FileSystem::BaseName(gPath);
 
@@ -113,6 +116,8 @@ namespace
 				}
 				if (FileSystem::Extension(path) == U"ctc") {
 					courses.emplace_back(path);
+					//g_loadingRate = curIndex / static_cast<double>(coureSize);
+					++curIndex;
 				}
 			}
 			CourseGenreManager::Add(genreName);
@@ -123,10 +128,23 @@ namespace
 	//se読み込み
 	bool LoadTapSE(const std::stop_token& stopToken)
 	{
+		//g_loadingRate = 0;
 		auto& tapSEs = Game::TapSEs();
 		tapSEs.clear();
-		static const FilePath& nonePath = U"Resource/Sound/SE/none.mp3";
+
+		size_t size = 1; // noneの分+1
+		for (auto&& rootFilePath : FileSystem::DirectoryContents(U"TapSE")) {
+			if (FileSystem::IsDirectory(rootFilePath)) {
+				size += 1;
+			}
+		}
+		tapSEs.reserve(size);
+
+		const FilePath nonePath = U"Resource/Sound/SE/none.mp3";
 		tapSEs.emplace_back(U"なし", nonePath, nonePath, nonePath);
+
+		size_t curIndex = 1;
+		//g_loadingRate = curIndex / static_cast<double>(size);
 
 		for (auto&& rootFilePath : FileSystem::DirectoryContents(U"TapSE")) {
 			if (stopToken.stop_requested()) {
@@ -134,6 +152,8 @@ namespace
 			}
 			if (FileSystem::IsDirectory(rootFilePath)) {
 				tapSEs.emplace_back(rootFilePath);
+				//g_loadingRate = curIndex / static_cast<double>(size);
+				++curIndex;
 			}
 		}
 		return true;
@@ -169,6 +189,7 @@ namespace ct
 		getData().m_scrollRate = Game::Config().m_scrollRate;
 
 		m_asyncUpdater.reset(std::bind(&FileLoadScene::updateAsync, this));
+		m_asyncUpdater.resume();
 	}
 
 	//--------------------------------------------------------------------------------
@@ -183,10 +204,18 @@ namespace ct
 	//--------------------------------------------------------------------------------
 	void FileLoadScene::update()
 	{
-		if (m_state == State::Loading) {
-			m_view.update();
-		}
+		m_view.update();
 		m_asyncUpdater.resume();
+	}
+
+	void FileLoadScene::updateFadeIn([[maybe_unused]]double t)
+	{
+		m_view.update();
+	}
+
+	void FileLoadScene::updateFadeOut([[maybe_unused]] double t)
+	{
+		m_view.update();
 	}
 
 	//--------------------------------------------------------------------------------
