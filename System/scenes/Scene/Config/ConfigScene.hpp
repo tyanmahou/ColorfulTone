@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <scenes/Scene/ISceneBase.hpp>
-#include <scenes/Scene/KeyConfig/ConfigMain.hpp>
+#include <scenes/Scene/Config/ConfigMain.hpp>
 
 namespace ct
 {

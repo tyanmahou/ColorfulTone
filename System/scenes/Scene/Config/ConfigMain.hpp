@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <scenes/Scene/KeyConfig/Config.hpp>
+#include <scenes/Scene/Config/Config.hpp>
 
 namespace ct
 {

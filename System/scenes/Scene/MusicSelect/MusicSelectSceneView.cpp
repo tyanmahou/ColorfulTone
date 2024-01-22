@@ -5,7 +5,7 @@
 #include <scenes/utils/SharedDraw.hpp>
 #include <core/Data/Score/ResultRank.hpp>
 #include <core/Data/Genre/GenreManager.hpp>
-#include <scenes/Scene/KeyConfig/ConfigMain.hpp>
+#include <scenes/Scene/Config/ConfigMain.hpp>
 #include <Siv3D.hpp>
 
 namespace

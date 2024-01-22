@@ -38,7 +38,7 @@ namespace ct::SharedDraw
 
 		const ScoreModel& score = notes.getScore();
 		// クリアレート
-		constexpr Vec2 ratePos{ -55,-63 };
+		constexpr Vec2 ratePos{ -55 + 5,-63 + 4 };
 		FontAsset(FontName::Level)(U"{:.2f}%"_fmt(score.clearRate)).drawAt(style, ratePos, Palette::Black);
 		// 譜面製作者
 		constexpr Vec2 designerPos = ratePos + Vec2{ 0, 60 };
@@ -78,7 +78,7 @@ namespace ct::SharedDraw
 		}
 		FontAsset font12os = FontAsset(FontName::Level);
 		// クリアレート
-		constexpr Vec2 ratePos{ -55,-63 };
+		constexpr Vec2 ratePos{ -55 + 5,-63 + 4 };
 		font12os(U"{:.2f}%"_fmt(courseScore.totalRate)).drawAt(style, ratePos, Palette::Black);
 		// ライフ
 		constexpr Vec2 lifePos = ratePos + Vec2{ 0, 60 };

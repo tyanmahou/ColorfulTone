@@ -1,5 +1,5 @@
-﻿#include <scenes/Scene/KeyConfig/KeyConfigManager.hpp>
-#include <scenes/Scene/KeyConfig/KeyConfig.hpp>
+﻿#include <scenes/Scene/Config/KeyConfigManager.hpp>
+#include <scenes/Scene/Config/KeyConfig.hpp>
 #include <Useful.hpp>
 #include <Siv3D.hpp>
 

@@ -1,4 +1,4 @@
-﻿#include <scenes/Scene/KeyConfig/Config.hpp>
+﻿#include <scenes/Scene/Config/Config.hpp>
 #include <core/Input/PlayKey.hpp>
 #include <commons/Audio/SoundManager.hpp>
 #include <commons/FontName.hpp>

@@ -9,7 +9,7 @@
 #include <scenes/Scene/Title/TitleScene.hpp>
 #include <scenes/Scene/FileLoad/FileLoadScene.hpp>
 //#include"Tutorial.h"
-#include <scenes/Scene/KeyConfig/ConfigScene.hpp>
+#include <scenes/Scene/Config/ConfigScene.hpp>
 #include <scenes/Scene/MusicSelect/MusicSelectScene.hpp>
 //#include"MainScene.h"
 //#include"ResultScene.hpp"
@@ -37,7 +37,7 @@ namespace
 		TextureAsset::Register(U"titleIcons", U"Resource/Img/Title/title_icons.png");
 
 		//キーコン
-		TextureAsset::Register(U"keyconBG2", U"Resource/Img/KeyConfig/keyconBG2.png");
+		TextureAsset::Register(U"keyconBG2", U"Resource/Img/Config/keyconBG2.png");
 
 		//選曲
 		TextureAsset::Register(U"sticky", U"Resource/Img/MusicSelect/sticky.png");

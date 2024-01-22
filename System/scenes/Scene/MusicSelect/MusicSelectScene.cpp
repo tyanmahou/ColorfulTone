@@ -5,7 +5,7 @@
 #include <scenes/utils/Audition.hpp>
 #include <scenes/utils/SharedLogic.hpp>
 #include <core/Data/Genre/GenreManager.hpp>
-#include <scenes/Scene/KeyConfig/ConfigMain.hpp>
+#include <scenes/Scene/Config/ConfigMain.hpp>
 #include <Siv3D.hpp>
 
 namespace

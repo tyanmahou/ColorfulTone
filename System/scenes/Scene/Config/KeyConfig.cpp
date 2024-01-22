@@ -1,4 +1,4 @@
-﻿#include <scenes/Scene/KeyConfig/KeyConfig.hpp>
+﻿#include <scenes/Scene/Config/KeyConfig.hpp>
 
 namespace ct
 {
