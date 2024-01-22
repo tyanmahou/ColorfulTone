@@ -177,22 +177,19 @@ namespace
 		FontAsset::Register(U"s-r-10", 10, straightPath);
 		FontAsset::Register(U"s-o-10", FontMethod::SDF, 10 + 10, straightPath, FontStyle::Bold);
 		FontAsset(U"s-o-10").setBufferThickness(3);
-		FontAsset::Register(U"s-r-12", 12, straightPath);
+		FontAsset::Register(U"s-o-12", FontMethod::SDF, 12 + 11, straightPath, FontStyle::Bold);
+		FontAsset(U"s-o-12").setBufferThickness(3);
 		FontAsset::Register(U"s-b-15", 15, straightPath, FontStyle::Bold);
 		FontAsset::Register(U"s-b-20", 20, straightPath, FontStyle::Bold);
 		FontAsset::Register(U"s-i-15", 15, straightPath, FontStyle::Italic);
 
 		FontAsset::Register(U"r-12", 12 + 5);
 		FontAsset::Register(U"r-13", 13 + 5);
-		FontAsset::Register(U"r-20", 20);
-		FontAsset::Register(U"r-30", 30);
+		FontAsset::Register(U"r-20", 20 + 10);
+		FontAsset::Register(U"r-30", 30 + 15);
 		FontAsset::Register(U"b-10", 10 + 5, Typeface::Regular, FontStyle::Bold);
-		FontAsset::Register(U"b-16", 16, Typeface::Bold);
+		FontAsset::Register(U"b-16", 16 + 7, Typeface::Bold);
 		FontAsset::Register(U"i-15", 15 + 5, Typeface::Regular, FontStyle::Italic);
-
-		//FontAsset::Register(U"10o_s", 10, straightPath);
-		//FontAsset(L"10o_s").changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 2));
-		//FontAsset(L"level").changeOutlineStyle(TextOutlineStyle(Palette::White, Palette::White, 2));
 	}
 
 	void AssetLoad()

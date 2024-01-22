@@ -260,10 +260,10 @@ namespace ct
 					    	auto&& lv = FontAsset(FontName::Info)(n.getLevel());
 					    	lv.draw(bar.br() - lv.region().size - Vec2{1, 0});
 					    } else {
-					    	// 通常れレベル
-					    	ContractionDrawbleString(
+					    	// 通常レベル
+					    	ContractionDrawbleStringOutline(
 					    		FontAsset(FontName::Level)(n.getLevel()),
-					    		pos + Vec2{ 40, 25 },
+					    		pos + Vec2{ 42, 30 },
 					    		50
 					    	);
 					    }

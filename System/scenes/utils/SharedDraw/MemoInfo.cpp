@@ -5,8 +5,13 @@
 #include <commons/FontName.hpp>
 #include <Siv3D.hpp>
 
+namespace
+{
+	constexpr TextStyle style = TextStyle::Outline(0.3, Palette::Black);
+}
 namespace ct::SharedDraw
 {
+
     MemoInfo::MemoInfo() :
         m_pos(DefaultPos)
     {}
@@ -34,7 +39,7 @@ namespace ct::SharedDraw
 		const ScoreModel& score = notes.getScore();
 		// クリアレート
 		constexpr Vec2 ratePos{ -55,-63 };
-		FontAsset(FontName::Level)(U"{:.2f}%"_fmt(score.clearRate)).drawAt(ratePos, Palette::Black);
+		FontAsset(FontName::Level)(U"{:.2f}%"_fmt(score.clearRate)).drawAt(style, ratePos, Palette::Black);
 		// 譜面製作者
 		constexpr Vec2 designerPos = ratePos + Vec2{ 0, 60 };
 		ContractionDrawbleString(
@@ -74,9 +79,9 @@ namespace ct::SharedDraw
 		FontAsset font12os = FontAsset(FontName::Level);
 		// クリアレート
 		constexpr Vec2 ratePos{ -55,-63 };
-		font12os(U"{:.2f}%"_fmt(courseScore.totalRate)).drawAt(ratePos, Palette::Black);
+		font12os(U"{:.2f}%"_fmt(courseScore.totalRate)).drawAt(style, ratePos, Palette::Black);
 		// ライフ
 		constexpr Vec2 lifePos = ratePos + Vec2{ 0, 60 };
-		font12os(U"{:.2f}%"_fmt(courseScore.life)).drawAt(lifePos, Palette::Black);
+		font12os(U"{:.2f}%"_fmt(courseScore.life)).drawAt(style, lifePos, Palette::Black);
 	}
 }

@@ -6,5 +6,7 @@
 
 namespace ct
 {
-    void ContractionDrawbleString(const s3d::DrawableText& font, const s3d::Vec2& pos, int width, const s3d::Color& color = s3d::Palette::White, bool drawCenter = true);
+    void ContractionDrawbleString(const s3d::DrawableText& font, const s3d::Vec2& pos, s3d::int32 width, const s3d::Color& color = s3d::Palette::White, bool drawCenter = true);
+    void ContractionDrawbleString(const s3d::TextStyle& style, const s3d::DrawableText& font, const s3d::Vec2& pos, s3d::int32 width, const s3d::Color& color = s3d::Palette::White, bool drawCenter = true);
+    void ContractionDrawbleStringOutline(const s3d::DrawableText& font, const s3d::Vec2& pos, s3d::int32 width, const s3d::Color& color = s3d::Palette::White, bool drawCenter = true);
 }
