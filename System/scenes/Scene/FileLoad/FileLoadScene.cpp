@@ -24,7 +24,7 @@ namespace
     //--------------------------------------------------------------------------------
     //概要:楽曲のロード
     //--------------------------------------------------------------------------------
-	bool LoadMusicData(const std::stop_token& stopSource)
+	bool LoadMusicData(const std::stop_token& stopToken)
 	{
 		g_loadingRate = 0;
 		Array<MusicData>& musics = Game::Musics();
@@ -55,7 +55,7 @@ namespace
 				auto assets = FileSystem::DirectoryContents(path);
 				//iniファイルがあるか検索
 				for (const auto& elm : assets) {
-					if (stopSource.stop_requested()) {
+					if (stopToken.stop_requested()) {
 						return false;
 					}
 					if (FileSystem::Extension(elm) == U"ini") {
@@ -71,7 +71,7 @@ namespace
 		}
 
 		//カスタムフォルダ読み込み
-		::LoadCustomFolder(stopSource);
+		::LoadCustomFolder(stopToken);
 
 		GenreManager::Add(GenreType::All, U"ALL", []([[maybe_unused]] const MusicData& music)->bool {return true; });
 		GenreManager::Add(GenreType::Favorite, U"お気に入り", [](const MusicData& music)->bool {return  music.isFavorite(); });
@@ -79,7 +79,7 @@ namespace
 		return true;
 	}
 	//コースデータ読み込み
-	bool LoadCourses(const std::stop_token& stopSource)
+	bool LoadCourses(const std::stop_token& stopToken)
 	{
 		CourseGenreManager::Clear();
 		CourseData::Index = 0;
@@ -108,7 +108,7 @@ namespace
 
 			const auto ctcPaths = FileSystem::DirectoryContents(gPath);
 			for (const auto& path : ctcPaths) {
-				if (stopSource.stop_requested()) {
+				if (stopToken.stop_requested()) {
 					return false;
 				}
 				if (FileSystem::Extension(path) == U"ctc") {
@@ -121,7 +121,7 @@ namespace
 	}
 
 	//se読み込み
-	bool LoadTapSE(const std::stop_token& stopSource)
+	bool LoadTapSE(const std::stop_token& stopToken)
 	{
 		auto& tapSEs = Game::TapSEs();
 		tapSEs.clear();
@@ -129,7 +129,7 @@ namespace
 		tapSEs.emplace_back(U"なし", nonePath, nonePath, nonePath);
 
 		for (auto&& rootFilePath : FileSystem::DirectoryContents(U"TapSE")) {
-			if (stopSource.stop_requested()) {
+			if (stopToken.stop_requested()) {
 				return false;
 			}
 			if (FileSystem::IsDirectory(rootFilePath)) {
@@ -139,19 +139,19 @@ namespace
 		return true;
 	}
 
-	void LoadContentsData(const std::stop_token& stopSource)
+	void LoadContentsData(const std::stop_token& stopToken)
 	{
 		// TODO
 		// スコアを移動
 		//CompatibilityUtil::MoveScoreFolder();
 
-		if (!LoadMusicData(stopSource)) {
+		if (!LoadMusicData(stopToken)) {
 			return;
 		}
-		if (!LoadCourses(stopSource)) {
+		if (!LoadCourses(stopToken)) {
 			return;
 		}
-		if (!LoadTapSE(stopSource)) {
+		if (!LoadTapSE(stopToken)) {
 			return;
 		}
 		ClearPrint();

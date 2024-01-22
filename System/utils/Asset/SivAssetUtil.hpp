@@ -14,5 +14,14 @@ namespace ct
                 }
             }
         }
+        template<class AssetType>
+        static void ReleaseByTag(const s3d::String& tag)
+        {
+            for (auto [name, info] : AssetType::Enumerate()) {
+                if (info.tags.includes(tag)) {
+                    AssetType::Release(name);
+                }
+            }
+        }
     };
 }

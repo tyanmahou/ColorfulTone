@@ -82,7 +82,7 @@ namespace ct
 				++left;
 				++right;
 			}
-			return Wave{ wavSamples };
+			return Wave{ std::move(wavSamples) };
 		}(sound);
 		AudioAsset::Release(m_soundNameID);// .release();
 

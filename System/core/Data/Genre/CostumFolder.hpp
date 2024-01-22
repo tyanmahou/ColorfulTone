@@ -3,5 +3,5 @@
 
 namespace ct
 {
-    void LoadCustomFolder(const std::stop_token& stopSource);
+    void LoadCustomFolder(const std::stop_token& stopToken);
 }

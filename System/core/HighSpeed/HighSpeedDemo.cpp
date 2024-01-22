@@ -57,7 +57,7 @@ namespace ct
 				key.pressed() && sw.ms() >= 80) {
 				int32 tmp = static_cast<int32>(scrollRate * 10);
 				tmp += value;
-				scrollRate = tmp / 10.0f;
+				scrollRate = tmp / 10.0;
 				sw.restart();
 			}
 		}
