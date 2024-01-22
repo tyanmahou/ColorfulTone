@@ -1,6 +1,8 @@
 ﻿#pragma once
-#include <Siv3D/TextureAsset.hpp>
+#include <functional>
+#include <commons/FontName.hpp>
 #include <scenes/utils/Util.hpp>
+#include <Siv3D/TextureAsset.hpp>
 
 namespace ct::SharedDraw
 {
@@ -22,7 +24,7 @@ namespace ct::SharedDraw
 			this->m_drawable = callback;
 			return *this;
 		}
-		Select& setWidth(uint32 width)
+		Select& setWidth(s3d::uint32 width)
 		{
 			this->m_width = width;
 			return *this;
@@ -42,17 +44,17 @@ namespace ct::SharedDraw
 			s3d::uint32 select,
 			std::function<const s3d::String& (const T&)> strCallBack
 		)const {
-			const s3d::uint32 size = ar.size();
+			const s3d::uint32 size = static_cast<s3d::uint32>(ar.size());
 			if (size == 0) {
 				return;
 			}
-			for (int i = 0; i < 10; ++i) {
+			for (s3d::int32 i = 0; i < 10; ++i) {
 				double offset = i == 4 ? m_offset : 0.0;
 				s3d::Color uiColor = i == 4 ? s3d::Palette::Yellow : s3d::Palette::White;
 				const s3d::Vec2 pos{ 430 + offset, 60 * i };
 				s3d::TextureAsset(U"levelbg").draw(pos, uiColor);
-				const int noneLoopIndex = static_cast<s3d::int32>(select) + i - 4;
-				if (!m_isLoop && (noneLoopIndex >= size || noneLoopIndex < 0)) {
+				const s3d::int32 noneLoopIndex = static_cast<s3d::int32>(select) + i - 4;
+				if (!m_isLoop && (noneLoopIndex >= static_cast<s3d::int32>(size) || noneLoopIndex < 0)) {
 					// 範囲外はスルー
 					continue;
 				}
@@ -61,7 +63,7 @@ namespace ct::SharedDraw
 
 				const auto color = m_colorCallback(ar[index]);
 				ContractionDrawbleString(
-					FontAsset(U"selectMusics")(strCallBack(ar[index])),
+					FontAsset(FontName::SelectMusic)(strCallBack(ar[index])),
 					pos + Vec2{ 80,13 },
 					m_width,
 					color,

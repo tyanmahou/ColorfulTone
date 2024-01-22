@@ -60,7 +60,7 @@ namespace ct
 	//--------------------------------------------------------------------------------
 	//関数：drawFadeOut
 	//--------------------------------------------------------------------------------
-	void ConfigScene::drawFadeOut(double t) const
+	void ConfigScene::drawFadeOut([[maybe_unused]]double t) const
 	{
 		this->draw();
 	}

@@ -1,6 +1,8 @@
 ﻿#include <scenes/utils/SharedDraw/MemoInfo.hpp>
+#include <scenes/utils/Util.hpp>
 #include <core/Data/NotesData/NotesData.hpp>
 #include <core/Data/CourseData/CourseData.hpp>
+#include <commons/FontName.hpp>
 #include <Siv3D.hpp>
 
 namespace ct::SharedDraw
@@ -22,7 +24,7 @@ namespace ct::SharedDraw
 	{
 		Transformer2D t2d(Mat3x2::Rotate(Math::ToRadians(8)).translated(m_pos));
 		// フォント
-		const auto& font12 = FontAsset(U"bpm");
+		const auto& font12 = FontAsset(FontName::Bpm);
 
 		{
 			ScopedRenderStates2D sampler(SamplerState::ClampLinear);
@@ -32,7 +34,7 @@ namespace ct::SharedDraw
 		const ScoreModel& score = notes.getScore();
 		// クリアレート
 		constexpr Vec2 ratePos{ -55,-63 };
-		FontAsset(U"level")(U"{:.2f}%"_fmt(score.clearRate)).drawAt(ratePos, Palette::Black);
+		FontAsset(FontName::Level)(U"{:.2f}%"_fmt(score.clearRate)).drawAt(ratePos, Palette::Black);
 		// 譜面製作者
 		constexpr Vec2 designerPos = ratePos + Vec2{ 0, 60 };
 		ContractionDrawbleString(
@@ -69,7 +71,7 @@ namespace ct::SharedDraw
 		} else if (drawFailure && courseScore.totalRate > 0) {
 			TextureAsset(U"noPass").scaled(0.3).drawAt({ 80, 10 });
 		}
-		FontAsset font12os = FontAsset(U"level");
+		FontAsset font12os = FontAsset(FontName::Level);
 		// クリアレート
 		constexpr Vec2 ratePos{ -55,-63 };
 		font12os(U"{:.2f}%"_fmt(courseScore.totalRate)).drawAt(ratePos, Palette::Black);

@@ -4,7 +4,7 @@
 namespace ct
 {
 	class NotesData;
-	class CourseScore;
+	struct CourseScore;
 }
 namespace ct::SharedDraw
 {

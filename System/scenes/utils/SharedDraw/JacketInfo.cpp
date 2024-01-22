@@ -1,14 +1,14 @@
 ﻿#include <scenes/utils/SharedDraw/JacketInfo.hpp>
 #include <commons/Constants.hpp>
+#include <commons/FontName.hpp>
 #include <scenes/utils/Util.hpp>
 #include <Siv3D.hpp>
 
 namespace ct::SharedDraw
 {
-	// TODO フォント調整
 	JacketInfo::JacketInfo() :
-		m_font12(FontAsset(U"bpm")),
-		m_font16b(FontAsset(U"selectMusics")),
+		m_font12(FontAsset(FontName::Bpm)),
+		m_font16b(FontAsset(FontName::SelectMusic)),
 		m_pos(Constants::JacketCenter, 475)
 	{}
 
@@ -77,16 +77,6 @@ namespace ct::SharedDraw
 
 		const Vec2 topLeft = m_pos + Vec2{ Constants::JacketWidth / 2.0 - width, 20 };
 		for (const auto& [i, glyph] : s3d::Indexed(m_font12.getGlyphs(detail))) {
-			// 改行文字なら
-			//if (glyph.codePoint == U'\n') {
-			//	// ペンの X 座標をリセット
-			//	penPos.x = topLeft.x;
-
-			//	// ペンの Y 座標をフォントの高さ分進める
-			//	penPos.y += m_font12.height();
-
-			//	continue;
-			//}
 			Vec2 drawPos = topLeft + glyph.getOffset();
 			drawPos.x += wSize * i;
 			glyph.texture.draw(Math::Round(drawPos), color);

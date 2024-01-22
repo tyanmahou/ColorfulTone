@@ -24,6 +24,6 @@ namespace ct
             //{ PlayStyleType::NormalArc,std::make_shared<NormalArcStyle>() },
         };
 
-        m_style = factory.at(type)();
+        //m_style = factory.at(type)();
     }
 }

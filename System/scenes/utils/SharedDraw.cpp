@@ -43,9 +43,9 @@ namespace ct::SharedDraw
 
 		const Vec2 topLeft{ 10, 533 };
 		Vec2 penPos{ topLeft };
-		for (const auto& [i, glyph] : s3d::Indexed(FontAsset(U"bpm").getGlyphs(tmp))) {
-			static int fBpm = 0;
-			static int eBpm = 0;
+		for (const auto& [i, glyph] : s3d::Indexed(FontAsset(FontName::Bpm).getGlyphs(tmp))) {
+			static size_t fBpm = 0;
+			static size_t eBpm = 0;
 
 			if (glyph.codePoint == U'*') {
 				fBpm = i;

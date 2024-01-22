@@ -1,12 +1,12 @@
 ﻿#include <scenes/Scene/MusicSelect/MusicSelectSceneView.hpp>
 #include <scenes/Scene/MusicSelect/MusicSelectScene.hpp>
 #include <commons/Constants.hpp>
+#include <commons/FontName.hpp>
 //#include "Fade.h"
 //#include "PlayKey.h"
 #include <scenes/utils/SharedDraw.hpp>
 #include <core/Data/Score/ResultRank.hpp>
 #include <core/Data/Genre/GenreManager.hpp>
-//#include "HighSpeedDemo.h"
 #include <scenes/Scene/KeyConfig/ConfigMain.hpp>
 #include <Siv3D.hpp>
 
@@ -81,13 +81,13 @@ namespace
 			::NotesToLevel :
 			::NotesToRank;
 
-		for (unsigned i = 0, size = notes.size(); i < size; ++i)
+		for (size_t i = 0, size = notes.size(); i < size; ++i)
 		{
 			const Rect rect(0, 500 - w * size + w * i, w, w);
 			rect.draw(HSV(i*360.0 / size, 0.3, 1)).drawFrame(1, 0, HSV(i*360.0 / size, 1, 1));
 
 			ContractionDrawbleString(
-				FontAsset(U"info")(toStringMap(notes[i])),
+				FontAsset(FontName::Info)(toStringMap(notes[i])),
 				rect.center(),
 				rect.w,
 				Palette::Black
@@ -241,37 +241,39 @@ namespace ct
 					.setOffset(offset)
 					.setWidth(206)
 					.setColorCallBack([](const NotesData& n) {
-					return n.getColor();
-						}).setDrawble([](const NotesData& n, Vec2 pos) {
-							if (n.getStarLv() != StarLv::None) {
-								// ★レベル
-								if (n.getStarLv() == StarLv::One) {
-									FontAsset(U"30")(U"★").drawAt(pos + Vec2{ 37, 30 });
-								} else if (n.getStarLv() == StarLv::Two) {
-									FontAsset(U"30")(U"★").drawAt(pos + Vec2{ 28, 28 });
-									FontAsset(U"20")(U"★").drawAt(pos + Vec2{ 52, 38 });
-								}
-
-								constexpr Vec2 size(65, 20); // 65, 50
-								const RectF bar(pos + Vec2{ 37, 45 } - size / 2, size);
-								bar.draw(ColorF(0, 0.5));
-
-								auto&& lv = FontAsset(U"info")(n.getLevel());
-								lv.draw(bar.br() - lv.region().size - Vec2{1, 0});
-							} else {
-								// 通常れレベル
-								ContractionDrawbleString(
-									FontAsset(U"level")(n.getLevel()),
-									pos + Vec2{ 40, 25 },
-									50
-								);
-							}
-							TextureAsset(ResultRank::GetRankTextureName(n.getScore().clearRate)).scaled(0.1).drawAt(pos + Vec2{ 320, 25 });
-							}).draw(
-								*pNotes,
-								select.level,
-								[](const NotesData& n)->decltype(auto) {return n.getLevelName(); }
-							);
+					    return n.getColor();
+					})
+					.setDrawble([](const NotesData& n, Vec2 pos) {
+					    if (n.getStarLv() != StarLv::None) {
+					    	// ★レベル
+					    	if (n.getStarLv() == StarLv::One) {
+								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(pos + Vec2{ 37, 30 });
+					    	} else if (n.getStarLv() == StarLv::Two) {
+								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(pos + Vec2{ 28, 28 });
+								FontAsset(AssetNameView(FontName::StarLv2))(U"★").drawAt(pos + Vec2{52, 38});
+					    	}
+					    
+					    	constexpr Vec2 size(65, 20); // 65, 50
+					    	const RectF bar(pos + Vec2{ 37, 45 } - size / 2, size);
+					    	bar.draw(ColorF(0, 0.5));
+					    
+					    	auto&& lv = FontAsset(FontName::Info)(n.getLevel());
+					    	lv.draw(bar.br() - lv.region().size - Vec2{1, 0});
+					    } else {
+					    	// 通常れレベル
+					    	ContractionDrawbleString(
+					    		FontAsset(FontName::Level)(n.getLevel()),
+					    		pos + Vec2{ 40, 25 },
+					    		50
+					    	);
+					    }
+					    TextureAsset(ResultRank::GetRankTextureName(n.getScore().clearRate)).scaled(0.1).drawAt(pos + Vec2{ 320, 25 });
+					})
+					.draw(
+						*pNotes,
+						select.level,
+						[](const NotesData& n)->decltype(auto) {return n.getLevelName(); }
+					);
 			}
 
 			if (action != Action::GenreSelect) {

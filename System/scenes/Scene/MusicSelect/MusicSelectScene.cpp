@@ -111,7 +111,7 @@ namespace
     // シーン情報のメッセージを取得
     String GetSceneInfoMsg()
     {
-        const uint32 timer = Time::GetMillisec();
+        const uint64 timer = Time::GetMillisec();
 
         int timerMod = timer % 6000;
         if (timerMod <= 2000) {
@@ -176,7 +176,7 @@ namespace ct
                 if (m_moveSelect < 0) {
                     ++target;
                 } else {
-                    target += size;
+                    target += static_cast<uint32>(size);
                     --target;
                 }
 
@@ -227,7 +227,7 @@ namespace ct
                 ::SortMusics(m_musics);
 
                 for (uint32 i = 0; i < m_musics.size(); ++i) {
-                    if (index == m_musics[i].getIndex()) {
+                    if (index == static_cast<uint32>(m_musics[i].getIndex())) {
                         g_selectInfo.music = i;
                         break;
                     }
@@ -236,9 +236,9 @@ namespace ct
             }
             // 再度indexの調整
             {
-                auto& target = ::GetSelectTarget(m_action);
-                size_t size = ::GetTargetSize(m_action, m_musics);
-                target = size ? target % size : 0;
+                auto& target2 = ::GetSelectTarget(m_action);
+                size_t size2 = ::GetTargetSize(m_action, m_musics);
+                target2 = size2 ? target2 % size2 : 0;
             }
             // 試聴
             if (m_musics.size() && !(m_action == Action::MusicSelect && (PlayKey::Up().pressed() || PlayKey::Down().pressed()))) {
@@ -267,7 +267,7 @@ namespace ct
 
         bool onChangeSelectMusic()
         {
-            return m_prevSelect != g_selectInfo.music;
+            return m_prevSelect != static_cast<int32>(g_selectInfo.music);
         }
 
         bool onChangeAction()
