@@ -21,7 +21,7 @@ namespace ct
 		Impl(uint32 width, uint32 height) :
 			m_rt(width, height),
 			m_rt2(width, height),
-			m_maskPs(PixelShader::HLSL(U"Shaders/mask.hlsl"))
+			m_maskPs(PixelShader::HLSL(Resource(U"Shaders/mask.ps")))
 		{}
 
 		void draw(MaskFunc func, const std::function<void()> mask)

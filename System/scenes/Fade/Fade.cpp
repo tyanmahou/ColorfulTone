@@ -55,28 +55,12 @@ namespace ct
 				Scene::Rect().draw(g_fadeColor);
 			}
 		}
-		struct CBufferFlipPage {
-			float timer;
-			int32 in;
-			Float2 _unused;
-		};
 		void FlipPage(double t, std::function<void()> drawble, bool in)
 		{
-			//static RenderTexture tex(Scene::Size());
-			//{
-			//	auto render = util::RenderTextureUtil(tex);
-			//	auto t2d = render.getTransformer2D();
-			//	drawble();
-			//}
-			//static PixelShader ps(L"Shaders/flipPage.ps");
-
-			//static ConstantBuffer<CBufferFlipPage> cb;
-			//cb->timer = t; // timer
-			//cb->in = static_cast<int>(in);
-			//Graphics2D::SetConstant(ShaderStage::Pixel, 1, cb);
-			//Graphics2D::BeginPS(ps);
-			//tex.draw();
-			//Graphics2D::EndPS();
+			Shaders::FlipPage()
+				.setTimer(t)
+				.setIn(in)
+				.apply(drawble);
 		}
 		void DrawCanvas(double t, std::function<void()> drawble)
 		{

@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ColorfulTone", "ColorfulTon
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "System", "System\System.vcxitems", "{689157D6-CF42-413A-A0FB-A42E800A3ED3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShaderCompile", "ShaderCompile\ShaderCompile.vcxproj", "{FD21862A-5B5F-4BA8-996D-560546C40992}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -17,6 +19,10 @@ Global
 		{BC87828F-65DA-4F1A-AC7D-C0D2E6B53742}.Debug|x64.Build.0 = Debug|x64
 		{BC87828F-65DA-4F1A-AC7D-C0D2E6B53742}.Release|x64.ActiveCfg = Release|x64
 		{BC87828F-65DA-4F1A-AC7D-C0D2E6B53742}.Release|x64.Build.0 = Release|x64
+		{FD21862A-5B5F-4BA8-996D-560546C40992}.Debug|x64.ActiveCfg = Debug|x64
+		{FD21862A-5B5F-4BA8-996D-560546C40992}.Debug|x64.Build.0 = Debug|x64
+		{FD21862A-5B5F-4BA8-996D-560546C40992}.Release|x64.ActiveCfg = Release|x64
+		{FD21862A-5B5F-4BA8-996D-560546C40992}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -119,9 +119,13 @@ Resource(engine/soundfont/GMGSx.sf2.zstdcmp)
 //
 //////////////////////////////////////////////////////
 
+// Shaders
+Resource(Shaders/flipPage.ps)
+Resource(Shaders/mainBg.ps)
+Resource(Shaders/drawCanvas.ps)
+Resource(Shaders/mask.ps)
 
-
-/* examples 
+/* examples
 
 	//
 	// Define your resource path inside `Resource()` macro.
