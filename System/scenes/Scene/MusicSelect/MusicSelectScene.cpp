@@ -142,7 +142,7 @@ namespace ct
         {
             ::InitMusics(m_musics);
             if (m_musics.size()) {
-                m_audition.autoPlayAndStop(m_musics[g_selectInfo.music]);
+                m_audition.request(m_musics[g_selectInfo.music]);
             }
         }
 
@@ -242,8 +242,9 @@ namespace ct
             }
             // 試聴
             if (m_musics.size() && !(m_action == Action::MusicSelect && (PlayKey::Up().pressed() || PlayKey::Down().pressed()))) {
-                m_audition.autoPlayAndStop(m_musics[g_selectInfo.music]);
+                m_audition.request(m_musics[g_selectInfo.music]);
             }
+            m_audition.update();
 
             // お気に入り
             if (m_musics.size() && m_action == Action::MusicSelect || m_action == Action::LevelSelect) {

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <Siv3D/Types.hpp>
+#include <utils/Coro/Fiber/FiberHolder.hpp>
 #include <utils/Thread/Task.hpp>
 
 namespace ct
@@ -12,16 +13,16 @@ namespace ct
 		Audition();
 		~Audition();
 
-		bool autoPlayAndStop(const MusicData& musicData);
-
-		void play(const MusicData& musicData);
+		void update();
+		bool request(const MusicData& musicData);
 		void stop();
 	private:
-		void playInternal(const std::stop_token& stopToken, const MusicData& musicData);
+		Coro::Fiber<void> playAsync(s3d::uint64 requestId, const MusicData& musicData);
 	private:
 		s3d::int32 m_nowPlayMusicIndex;
 		Audio m_audio;
-		std::unique_ptr<Thread::Task<void>> m_loadTask;
+		s3d::Array<Coro::FiberHolder<void>> m_loadTask;
+		s3d::uint64 m_requestId = 0;
 	};
 
 }

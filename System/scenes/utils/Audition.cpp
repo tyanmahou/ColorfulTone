@@ -1,6 +1,7 @@
 ﻿#include <scenes/utils/Audition.hpp>
 #include <core/Data/MusicData/MusicData.hpp>
 #include <utils/Asset/SivAssetUtil.hpp>
+#include <utils/Thread/Task.hpp>
 #include <Siv3D.hpp>
 
 // TODO 調整
@@ -8,14 +9,14 @@ namespace {
 	using namespace ct;
 
 	template<class T>
-	struct ScopedAsset
+	struct ScopedLoadAssetAsync
 	{
-		ScopedAsset(AssetNameView _id):
+		ScopedLoadAssetAsync(AssetNameView _id):
 			id(_id)
 		{
-			T::Load(id);
+			T::LoadAsync(id);
 		}
-		~ScopedAsset()
+		~ScopedLoadAssetAsync()
 		{
 			T::Release(id);
 		}
@@ -23,7 +24,6 @@ namespace {
 	};
 	Audio CreateAuditionSound(const std::stop_token& stopToken, AssetNameView id, const MusicData::ABLoop& loop)
 	{
-		ScopedAsset<AudioAsset> scopedAsset(id);
 		AudioAsset asset(id);
 		Wave wav = [&stopToken](const Audio& sound)->Wave {
 			Array<WaveSample> wavSamples;
@@ -65,12 +65,22 @@ namespace ct
 
 	Audition::~Audition()
 	{
-		this->stop();
+		m_loadTask.clear();
 		SivAssetUtil::ReleaseByTag<AudioAsset>(U"MusicData");
 		m_audio.release();
 	}
 
-	bool Audition::autoPlayAndStop(const MusicData& musicData)
+	void Audition::update()
+	{
+		for (auto&& task : m_loadTask) {
+			task.resume();
+		}
+		m_loadTask.remove_if([](const Coro::FiberHolder<void>& task) {
+			return task.isDone();
+		});
+	}
+
+	bool Audition::request(const MusicData& musicData)
 	{
 		const int32 id = musicData.getIndex();
 
@@ -78,33 +88,43 @@ namespace ct
 			// 同じidだった場合は何もしない
 			return false;
 		}
-		this->stop();
-		this->play(musicData);
-		return true;
-	}
-
-	void Audition::play(const MusicData& musicData)
-	{
 		m_nowPlayMusicIndex = musicData.getIndex();
 
-		m_loadTask = std::make_unique<Thread::Task<void>>([&](const std::stop_token& stopToken){
-			this->playInternal(stopToken, musicData);
-		});
+		stop();
+
+		m_loadTask.push_back({});
+		m_loadTask.back().reset(std::bind(&Audition::playAsync, this, m_requestId, musicData));
+		return true;
 	}
 
 	void Audition::stop()
 	{
-		m_loadTask = nullptr;
+		++m_requestId;
 		m_audio.stop(1s);
 	}
-	void Audition::playInternal(const std::stop_token& stopToken, const MusicData& musicData)
+	Coro::Fiber<void> Audition::playAsync(s3d::uint64 requestId, const MusicData& musicData)
 	{
 		const String& id = musicData.getSoundNameID();
 		const MusicData::ABLoop& loop = musicData.getLoopRange();
-		m_audio = ::CreateAuditionSound(stopToken, id, loop);
+		ScopedLoadAssetAsync<AudioAsset> scopedLoad(id);
+		while (!AudioAsset::IsReady(id)) {
+			co_yield{};
+		}
+		if (requestId != m_requestId) {
+			co_return;
+		}
+		Audio loadedAudio = co_await Thread::Task{ ::CreateAuditionSound , id,loop };
+		if (!loadedAudio) {
+			co_return;
+		}
+		if (requestId != m_requestId) {
+			co_return;
+		}
+		m_audio = loadedAudio;
 		if (!m_audio.isPlaying()) {
 			m_audio.seekSamples(loop.x * m_audio.sampleRate());
 			m_audio.play(3s);
 		}
+		co_return;
 	}
 }
