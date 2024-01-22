@@ -112,7 +112,17 @@ namespace ct
 		if (requestId != m_requestId) {
 			co_return;
 		}
-		Audio loadedAudio = co_await Thread::Task{ ::CreateAuditionSound , id,loop };
+		Thread::Task loadTask{ ::CreateAuditionSound, id, loop };
+		while (loadTask.isBusy()) {
+			if (requestId != m_requestId) {
+				// リクエストが変わった時点で停止
+				loadTask.request_stop();
+				loadTask.get();
+				co_return;
+			}
+			co_yield{};
+		}
+		Audio loadedAudio = loadTask.get();
 		if (!loadedAudio) {
 			co_return;
 		}
