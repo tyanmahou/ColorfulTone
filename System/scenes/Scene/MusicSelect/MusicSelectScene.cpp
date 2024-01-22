@@ -244,7 +244,6 @@ namespace ct
             if (m_musics.size() && !(m_action == Action::MusicSelect && (PlayKey::Up().pressed() || PlayKey::Down().pressed()))) {
                 m_audition.request(m_musics[g_selectInfo.music]);
             }
-            m_audition.update();
 
             // お気に入り
             if (m_musics.size() && m_action == Action::MusicSelect || m_action == Action::LevelSelect) {
@@ -260,7 +259,10 @@ namespace ct
                 }
             }
         }
-
+        void postUpdate()
+        {
+            m_audition.update();
+        }
         void finally()
         {
             m_audition.stop();
@@ -348,6 +350,7 @@ namespace ct
     void MusicSelectScene::update()
     {
         m_pModel->update();
+        m_pModel->postUpdate();
 
         if (m_pModel->isSelectedNotes()) {
             changeScene(SceneName::Main, 2000, CrossFade::No);
