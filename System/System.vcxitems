@@ -98,6 +98,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\MusicSelect\MusicSelectSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Title\TitleScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Title\TitleSceneView.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Tutorial\TutorialScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\Audition.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\Font\FontKinetic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\Shaders.hpp" />
@@ -193,6 +194,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\MusicSelect\MusicSelectSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Title\TitleSceneView.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Tutorial\TutorialScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\Audition.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\Font\FontKinetic.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\Shaders.cpp" />

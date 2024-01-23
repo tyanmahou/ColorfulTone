@@ -1,8 +1,5 @@
 ﻿#include <scenes/Scene/Main/MainScene.hpp>
 #include <Useful.hpp>
-#include <core/Input/AutoPlayManager.hpp>
-#include <core/Data/Score/ResultRank.hpp>
-#include <scenes/utils/Font/FontKinetic.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -31,7 +28,7 @@ namespace ct
 	{
 		m_musicGame.finally();
 	}
-	void MainScene::updateFadeIn(double t)
+	void MainScene::updateFadeIn([[maybe_unused]]double t)
 	{
 		m_musicGame.update();
 	}
@@ -74,21 +71,23 @@ namespace ct
 		m_musicGame.draw();
 		m_musicGame.drawCurrentBPM();
 		FontAsset font20(FontName::Regular20);
-		double backAlpha = 0.3 + Min(PlayKey::BigBack().pressedDuration().count() / 1000.0, 0.7);
+		const double backAlpha = 0.3 + Min(PlayKey::BigBack().pressedDuration().count() / 1000.0, 0.7);
+		const ColorF backColor(0, backAlpha);
+
 		if (!m_isCourse) {
 			PutText(U"Press Esc or BackSpace", Arg::center = Vec2{ 100, Scene::Height() - 20 });
 
 			if (PlayKey::BigBack().pressed()) {
-				font20(U"Esc長押しで戻る").drawAt(400, 400, ColorF(0, backAlpha));
+				font20(U"Esc長押しで戻る").drawAt(400, 400, backColor);
 			}
 			if (PlayKey::SmallBack().pressed()) {
-				font20(U"BackSpace長押しでリザルトへ").drawAt(400, 400, ColorF(0, backAlpha));
+				font20(U"BackSpace長押しでリザルトへ").drawAt(400, 400, backColor);
 			}
 		} else {
 			PutText(U"Press Esc", Arg::center = Vec2{ 100, Scene::Height() - 20 });
 
 			if (PlayKey::BigBack().pressed()) {
-				font20(U"Esc長押しで諦める").drawAt(400, 400, ColorF(0, backAlpha));
+				font20(U"Esc長押しで諦める").drawAt(400, 400, backColor);
 			}
 
 		}

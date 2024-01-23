@@ -8,7 +8,7 @@
 #include <utils/Audio/Loop.hpp>
 #include <scenes/Scene/Title/TitleScene.hpp>
 #include <scenes/Scene/FileLoad/FileLoadScene.hpp>
-//#include"Tutorial.h"
+#include <scenes/Scene/Tutorial/TutorialScene.hpp>
 #include <scenes/Scene/Config/ConfigScene.hpp>
 #include <scenes/Scene/MusicSelect/MusicSelectScene.hpp>
 #include <scenes/Scene/Main/MainScene.hpp>
@@ -173,6 +173,8 @@ namespace
 	{
 		const FilePathView straightPath = U"Resource/Font/Straightfont.ttf";
 
+		// NOTE: 旧Siv3D移植の都合でネーミングと数値に差異がある
+
 		FontAsset::Register(U"s-r-8", 8, straightPath);
 		FontAsset::Register(U"s-r-10", 10, straightPath);
 		FontAsset::Register(U"s-o-10", FontMethod::SDF, 10 + 10, straightPath, FontStyle::Bold);
@@ -231,7 +233,7 @@ namespace ct
 			m_scene.add<FileLoadScene>(SceneName::Load);
 			m_scene.add<TitleScene>(SceneName::Title);
 			m_scene.add<ConfigScene>(SceneName::Config);
-			//m_scene.add<Tutorial>(SceneName::Tutorial);
+			m_scene.add<TutorialScene>(SceneName::Tutorial);
 			m_scene.add<MusicSelectScene>(SceneName::Select);
 			m_scene.add<MainScene>(SceneName::Main);
 			//m_scene.add<ResultScene>(SceneName::Result);
