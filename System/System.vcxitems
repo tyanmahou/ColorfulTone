@@ -60,7 +60,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\Score.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\SpecialResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\TapSE\TapSE.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\HighSpeed\HighSpeedDemo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\Effects\JudgeEffect.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\Effects\TapEffect.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\AutoPlayManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\InputManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\PlayKey.hpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Object\RepeatNote\RepeatNote.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Object\Stop\Stop.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Object\Text\TextObjcet.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\HighSpeed\HighSpeedDemo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\BGType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Blur\BlurBG.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Default\DefaultBG.hpp" />
@@ -83,6 +85,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayCourse.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayMusicGame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\IPlayStyle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Normal\NormalStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyleType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\SoundBeat.hpp" />
@@ -172,7 +175,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\ResultRank.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\Score.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\TapSE\TapSE.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\HighSpeed\HighSpeedDemo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\Effects\JudgeEffect.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\Effects\TapEffect.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\AutoPlayManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\InputManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\PlayKey.cpp" />
@@ -183,6 +187,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Object\Object.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Object\RepeatNote\RepeatNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Object\Text\TextObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\HighSpeed\HighSpeedDemo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Blur\BlurBG.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Default\DefaultBG.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Monochro\MonochroBG.cpp" />
@@ -190,6 +195,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Simple\SimpleBG.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayCourse.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayMusicGame.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Normal\NormalStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Fade\Fade.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadScene.cpp" />

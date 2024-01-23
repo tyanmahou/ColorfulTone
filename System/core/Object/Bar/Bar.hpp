@@ -9,7 +9,7 @@ namespace ct
         Bar(double firstCount, double speed) :Object(firstCount), m_speed(speed) {};
         virtual ~Bar() = default;
         virtual bool update(double nowCount, double countPerFrame)override;
-        virtual void diffDraw(double count, float scrollRate)const override;
+        virtual void diffDraw(double count, double scrollRate)const override;
         const double& getSpeed()const
         {
             return m_speed;

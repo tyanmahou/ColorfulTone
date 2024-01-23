@@ -1,5 +1,6 @@
 ﻿#include <scenes/Scene/Main/MainScene.hpp>
 #include <Useful.hpp>
+#include <scenes/utils/SharedDraw.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -69,34 +70,35 @@ namespace ct
 	void MainScene::draw()const
 	{
 		m_musicGame.draw();
-		m_musicGame.drawCurrentBPM();
 		FontAsset font20(FontName::Regular20);
-		const double backAlpha = 0.3 + Min(PlayKey::BigBack().pressedDuration().count() / 1000.0, 0.7);
-		const ColorF backColor(0, backAlpha);
+		auto backColor = [](const InputGroup& input) -> ColorF {
+			const double backAlpha = 0.3 + Min(input.pressedDuration().count(), 0.7);
+			return ColorF{ 0, backAlpha };
+			};
 
 		if (!m_isCourse) {
 			PutText(U"Press Esc or BackSpace", Arg::center = Vec2{ 100, Scene::Height() - 20 });
 
 			if (PlayKey::BigBack().pressed()) {
-				font20(U"Esc長押しで戻る").drawAt(400, 400, backColor);
+				font20(U"Esc長押しで戻る").drawAt(400, 400, backColor(PlayKey::BigBack()));
 			}
 			if (PlayKey::SmallBack().pressed()) {
-				font20(U"BackSpace長押しでリザルトへ").drawAt(400, 400, backColor);
+				font20(U"BackSpace長押しでリザルトへ").drawAt(400, 400, backColor(PlayKey::SmallBack()));
 			}
 		} else {
 			PutText(U"Press Esc", Arg::center = Vec2{ 100, Scene::Height() - 20 });
 
 			if (PlayKey::BigBack().pressed()) {
-				font20(U"Esc長押しで諦める").drawAt(400, 400, backColor);
+				font20(U"Esc長押しで諦める").drawAt(400, 400, backColor(PlayKey::BigBack()));
 			}
 
 		}
 		const MusicData& music = *getData().m_nowNotes.getMusic();
-		m_highSpeed.draw(
-			music.getMinSoundBeat(),
-			music.getMaxSoundBeat(),
+		SharedDraw::HighSpeedPlay(
+			m_highSpeed,
+			music,
 			getData().m_scrollRate
-		);
+			);
 	}
 
 

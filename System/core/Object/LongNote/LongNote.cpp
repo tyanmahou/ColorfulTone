@@ -120,7 +120,7 @@ namespace ct
         }
         return true;
     }
-    void LongNote::diffDraw(double count, float scrollRate)const
+    void LongNote::diffDraw(double count, double scrollRate)const
     {
         PlayStyle::Instance()->draw(*this, count, scrollRate);
     }

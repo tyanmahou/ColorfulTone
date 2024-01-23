@@ -31,10 +31,10 @@ namespace ct
         {
         };
 
-        virtual void draw(const Bar& note, double count, float scrollRate)const = 0;
-        virtual void draw(const Note& note, double count, float scrollRate)const = 0;
-        virtual void draw(const LongNote& note, double count, float scrollRate)const = 0;
-        virtual void draw(const RepeatNote& note, double count, float scrollRate)const = 0;
-        virtual void draw(const RepeatEnd& note, double count, float scrollRate)const = 0;
+        virtual void draw(const Bar& note, double count, double scrollRate)const = 0;
+        virtual void draw(const Note& note, double count, double scrollRate)const = 0;
+        virtual void draw(const LongNote& note, double count, double scrollRate)const = 0;
+        virtual void draw(const RepeatNote& note, double count, double scrollRate)const = 0;
+        virtual void draw(const RepeatEnd& note, double count, double scrollRate)const = 0;
     };
 }

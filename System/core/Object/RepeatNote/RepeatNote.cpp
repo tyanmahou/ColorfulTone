@@ -47,7 +47,7 @@ namespace ct
         }
         return true;
     }
-    void RepeatNote::diffDraw(double count, float scrollRate) const
+    void RepeatNote::diffDraw(double count, double scrollRate) const
     {
         PlayStyle::Instance()->draw(*this, count, scrollRate);
 
@@ -130,7 +130,7 @@ namespace ct
         return false;
     }
 
-    void RepeatEnd::diffDraw(double count, float scrollRate) const
+    void RepeatEnd::diffDraw(double count, double scrollRate) const
     {
         PlayStyle::Instance()->draw(*this, count, scrollRate);
     }

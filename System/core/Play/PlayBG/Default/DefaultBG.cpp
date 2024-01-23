@@ -1,5 +1,6 @@
 ﻿#include <core/Play/PlayBG/Default/DefaultBG.hpp>
 #include <scenes/utils/Shaders.hpp>
+#include <Siv3D.hpp>
 
 namespace ct
 {
@@ -13,6 +14,8 @@ namespace ct
         auto shader = Shaders::MainBg()
             .setTimer(count)
             .start();
+
+        s3d::ScopedRenderStates2D sampler(SamplerState::RepeatLinear);
         m_texture.drawAt(Scene::CenterF());
     }
 }

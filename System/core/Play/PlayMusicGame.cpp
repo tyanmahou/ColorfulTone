@@ -55,7 +55,7 @@ namespace ct
 		g_pSound = &m_sound;
 	}
 
-	void PlayMusicGame::init(const NotesData& notes, const float scrollRate)
+	void PlayMusicGame::init(const NotesData& notes, const double scrollRate)
 	{
 		//譜面取得
 		m_notesData = notes;

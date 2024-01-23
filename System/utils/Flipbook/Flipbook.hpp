@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include<memory>
-#include<Siv3D/Fwd.hpp>
-#include<Siv3D/Color.hpp>
-#include<Siv3D/Texture.hpp>
-#include<utils/Fps/Fps.hpp>
+#include <memory>
+#include <Siv3D/Fwd.hpp>
+#include <Siv3D/Color.hpp>
+#include <Siv3D/Texture.hpp>
+#include <utils/Fps/Fps.hpp>
 
 namespace ct
 {

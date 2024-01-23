@@ -52,7 +52,7 @@ namespace ct
 
 		PlayMusicGame();
 
-		void init(const NotesData& notes, const float scrollRate);
+		void init(const NotesData& notes, const double scrollRate);
 		void finally();
 
 		void synchroCount(double& count)

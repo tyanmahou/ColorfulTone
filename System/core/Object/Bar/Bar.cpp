@@ -7,7 +7,7 @@ namespace ct
     {
         return true;
     }
-    void Bar::diffDraw(double count, float scrollRate)const
+    void Bar::diffDraw(double count, double scrollRate)const
     {
         PlayStyle::Instance()->draw(*this, count, scrollRate);
     }

@@ -50,8 +50,8 @@ namespace {
 		auto sam = WaveSample(0, 0);
 		wav.reserve(sample);
 		//wavに4秒間のオフセット追加
-		wav.insert(wav.begin() + 44100 * loop.x, 22050, sam);
-		return Audio(std::move(wav), 44100 * (loop.x + 0.5), 44100 * (loop.y + 0.5));
+		wav.insert(wav.begin() + static_cast<size_t>(44100 * loop.x), 22050, sam);
+		return Audio(std::move(wav), static_cast<uint64>(44100 * (loop.x + 0.5)), static_cast<uint64>(44100 * (loop.y + 0.5)));
 	}
 }
 
@@ -131,7 +131,7 @@ namespace ct
 		}
 		m_audio = loadedAudio;
 		if (!m_audio.isPlaying()) {
-			m_audio.seekSamples(loop.x * m_audio.sampleRate());
+			m_audio.seekSamples(static_cast<size_t>(loop.x * m_audio.sampleRate()));
 			m_audio.play(3s);
 		}
 		co_return;

@@ -22,7 +22,7 @@ namespace ct
         {};
         virtual ~TextObject() = default;
         virtual bool update(double nowCount, double countPerFrame)override;
-        virtual void diffDraw(double count, float scrollRate)const override;
+        virtual void diffDraw(double count, double scrollRate)const override;
         void init()override;
     };
 }

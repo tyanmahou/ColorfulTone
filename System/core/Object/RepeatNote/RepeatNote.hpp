@@ -19,7 +19,7 @@ namespace ct
         void init()override;
 
         bool update(double nowCount, double countPerFrame)override;
-        void diffDraw(double count, float scrollRate)const override;
+        void diffDraw(double count, double scrollRate)const override;
 
         bool isFirstTap()const override
         {
@@ -41,6 +41,6 @@ namespace ct
         RepeatEnd(double firstCount, double speed, std::shared_ptr<Note>& parent, double interval = 8.0);
         void init()override;
         bool update(double nowCount, double countPerFrame)override;
-        void diffDraw(double count, float scrollRate)const override;
+        void diffDraw(double count, double scrollRate)const override;
     };
 }

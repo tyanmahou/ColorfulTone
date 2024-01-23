@@ -175,8 +175,8 @@ namespace
 
 		// NOTE: 旧Siv3D移植の都合でネーミングと数値に差異がある
 
-		FontAsset::Register(U"s-r-8", 8, straightPath);
-		FontAsset::Register(U"s-r-10", 10, straightPath);
+		FontAsset::Register(U"s-r-8", 8 + 8, straightPath);
+		FontAsset::Register(U"s-r-10", 10 + 10, straightPath);
 		FontAsset::Register(U"s-o-10", FontMethod::SDF, 10 + 10, straightPath, FontStyle::Bold);
 		FontAsset(U"s-o-10").setBufferThickness(3);
 		FontAsset::Register(U"s-o-12", FontMethod::SDF, 12 + 11, straightPath, FontStyle::Bold);

@@ -322,7 +322,7 @@ namespace ct
 	//関数：draw
 	//----------------------------------------------------------------------------
 
-	void Note::diffDraw(double count, float scrollRate) const
+	void Note::diffDraw(double count, double scrollRate) const
 	{
 		PlayStyle::Instance()->draw(*this, count, scrollRate);
 	}

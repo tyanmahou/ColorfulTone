@@ -53,9 +53,9 @@ namespace ct
         void synchroCount(const s3d::Audio& sound, double& nowCount);	//カウントと同期
 
         void update(s3d::Audio& sound, double& nowCount, Score& score);
-        void draw(double nowCount, float scrollRate)const;
+        void draw(double nowCount, double scrollRate)const;
 
-        void previewDraw(double nowCount, float scrollRate) const;
+        void previewDraw(double nowCount, double scrollRate) const;
 
         const double calDrawCount(const double currentCount)const
         {

@@ -32,7 +32,7 @@ namespace ct
         }
         return true;
     }
-    void TextObject::diffDraw([[maybe_unused]]double count, [[maybe_unused]] float scrollRate)const
+    void TextObject::diffDraw([[maybe_unused]]double count, [[maybe_unused]] double scrollRate)const
     {
         if (m_isDraw) {
             const auto win = s3d::Scene::Size();

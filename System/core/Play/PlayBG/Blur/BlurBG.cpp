@@ -15,6 +15,6 @@ namespace ct
 
     void BlurBG::apply([[maybe_unused]] double count) const
     {
-        m_renderTexture.draw(Scene::CenterF());
+        m_renderTexture.drawAt(Scene::CenterF());
     }
 }

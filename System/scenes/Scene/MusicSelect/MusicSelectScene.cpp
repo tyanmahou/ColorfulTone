@@ -1,7 +1,7 @@
 ﻿#include <scenes/Scene/MusicSelect/MusicSelectScene.hpp>
 #include <Useful.hpp>
 #include <core/Input/AutoPlayManager.hpp>
-#include <core/HighSpeed/HighSpeedDemo.hpp>
+#include <core/Play/HighSpeed/HighSpeedDemo.hpp>
 #include <scenes/utils/Audition.hpp>
 #include <scenes/utils/SharedLogic.hpp>
 #include <core/Data/Genre/GenreManager.hpp>

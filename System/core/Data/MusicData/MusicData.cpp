@@ -28,7 +28,7 @@ namespace ct
 		m_soundNameID = genreName + U"." + m_fileName;
 		m_loop = iniReader.getOr<ABLoop>(U"Data.LOOP", ABLoop(0, 10));
 
-		AudioAsset::Register({ m_soundNameID,  { U"MusicData" } }, wavPath, MakeLoopTiming(m_loop.x, m_loop.y));
+		AudioAsset::Register({ m_soundNameID,  { U"MusicData" } }, wavPath);
 
 
 		m_artistName = iniReader.getOr<String>(U"Data.ARTIST", U"None");

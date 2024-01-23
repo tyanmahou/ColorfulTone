@@ -1,4 +1,5 @@
 ﻿#include <core/Anime/StartAnime/StartAnime.hpp>
+#include <Siv3D.hpp>
 
 namespace ct
 {
@@ -17,10 +18,5 @@ namespace ct
 			double v = isOdd ? 0 : 1 - tmp;
 			TextureAsset(U"start0" + Format(i)).uv(0, v, 1, tmp).draw({ 0, 600 * v }, color);
 		}
-		//double tmp = Min(1.0, 10 * t);
-		//TextureAsset(L"start01").uv(0, 0, 1, tmp).draw(color);
-
-		//tmp = Clamp(10 * (t - 0.1), 0.0, 1.0);
-		//TextureAsset(L"start02").uv(0, 1-tmp, 1, tmp).draw({ 0, 600 - tmp * 600 }, color);
 	}
 }

@@ -26,8 +26,7 @@ namespace ct
 		wav.insert(wav.begin(), 44100 * 10, sam);
 		m_sound = Audio(wav);
 		//***********************************************************
-
-			//ノーツ作成
+		//ノーツ作成
 		PlayStyle::Instance()->setStyle(Game::Config().m_styleType);
 
 		for (size_t i = 0; i < 10; ++i)

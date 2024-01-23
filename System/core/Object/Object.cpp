@@ -4,7 +4,7 @@
 #include <Siv3D.hpp>
 namespace ct
 {
-    void Object::draw(double nowCount, float scrollRate) const
+    void Object::draw(double nowCount, double scrollRate) const
     {
         const double count = m_drawCount - nowCount;
 

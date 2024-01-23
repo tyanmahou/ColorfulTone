@@ -1,29 +1,32 @@
 ﻿#include <core/Play/PlayStyle/PlayStyle.hpp>
 
 // TODO
-//#include"NormalStyle.h"
+#include <core/Play/PlayStyle/Normal/NormalStyle.hpp>
 //#include"Portrait.h"
 //#include"NormalArcStyle.hpp"
-#include<unordered_map>
+#include <Siv3D.hpp>
 
 namespace ct
 {
     PlayStyle::PlayStyle() :
-        m_style(nullptr)
-        //m_style(std::make_unique<NormalStyle>())
+        m_style(std::make_unique<NormalStyle>())
     {}
     PlayStyle::~PlayStyle()
     {}
 
     void PlayStyle::setStyle(PlayStyleType type)
     {
-        static const std::unordered_map<PlayStyleType, std::function<std::unique_ptr<IPlayStyle>()>> factory
+        static const HashTable<PlayStyleType, std::function<std::unique_ptr<IPlayStyle>()>> factory
         {
-            //{PlayStyleType::Normal,std::make_shared<NormalStyle>()},
-            //{ PlayStyleType::Portrait,std::make_shared<Portrait>() },
-            //{ PlayStyleType::NormalArc,std::make_shared<NormalArcStyle>() },
+           { PlayStyleType::Normal,  [] { return std::make_unique<NormalStyle>(); }},
+           { PlayStyleType::Portrait,  [] { return std::make_unique<NormalStyle>(); }},
+           { PlayStyleType::NormalArc,  [] { return std::make_unique<NormalStyle>(); }},
         };
-
-        //m_style = factory.at(type)();
+        auto it = factory.find(type);
+        if (it == factory.end()) {
+            m_style = std::make_unique<NormalStyle>();
+        } else {
+            m_style = it->second();
+        }
     }
 }

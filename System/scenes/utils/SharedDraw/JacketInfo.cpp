@@ -72,8 +72,8 @@ namespace ct::SharedDraw
 	}
 	const JacketInfo& JacketInfo::drawDetailRight(const String& detail, const Color& color) const
 	{
-		const int wSize = 12;
-		const int width = wSize * detail.length();
+		const int32 wSize = 12;
+		const int32 width = static_cast<int32>(wSize * detail.length());
 
 		const Vec2 topLeft = m_pos + Vec2{ Constants::JacketWidth / 2.0 - width, 20 };
 		for (const auto& [i, glyph] : s3d::Indexed(m_font12.getGlyphs(detail))) {

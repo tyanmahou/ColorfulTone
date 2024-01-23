@@ -84,7 +84,7 @@ namespace ct
 		Texture m_texture;
 		const Point m_size;
 		const s3d::int32 m_maxSize;
-		int m_index;
+		int32 m_index;
 		bool m_loop;
 		bool m_isEnd;
 		Fps m_baseFps;

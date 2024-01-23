@@ -115,14 +115,14 @@ namespace ct
             }
         }
     }
-    void NotesData::draw(double nowCount, float scrollRate)const
+    void NotesData::draw(double nowCount, double scrollRate)const
     {
         for (auto it = m_objects.rbegin(); it != m_objects.rend(); it++) {
             (*it)->draw(nowCount, scrollRate);
         }
     }
 
-    void NotesData::previewDraw(double nowCount, float scrollRate)const
+    void NotesData::previewDraw(double nowCount, double scrollRate)const
     {
         for (auto it = m_objects.rbegin(); it != m_objects.rend(); it++) {
             if ((*it)->getDrawCount() >= nowCount)

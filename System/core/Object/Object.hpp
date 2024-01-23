@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include<Siv3D/Fwd.hpp>
-#include<core/Types.hpp>
+#include <Siv3D/Fwd.hpp>
+#include <core/Types.hpp>
 
 namespace ct
 {
@@ -30,9 +30,9 @@ namespace ct
         virtual ~Object() {};
         virtual bool update(double nowCount, double countPerFrame) = 0;
 
-        virtual void diffDraw(double count, float scrollRate)const = 0;
+        virtual void diffDraw(double count, double scrollRate)const = 0;
 
-        void draw(double nowCount, float scrollRate)const;
+        void draw(double nowCount, double scrollRate)const;
         const double& getCount()const { return m_count; }
         const double& getDrawCount()const { return m_drawCount; }
 

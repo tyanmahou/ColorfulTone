@@ -1,6 +1,7 @@
 ﻿#include <scenes/Scene/Tutorial/TutorialScene.hpp>
 #include <Useful.hpp>
 #include <core/Input/AutoPlayManager.hpp>
+#include <scenes/utils/SharedDraw.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -29,7 +30,7 @@ namespace ct
 	{
 		m_musicGame.finally();
 	}
-	void TutorialScene::updateFadeIn(double t)
+	void TutorialScene::updateFadeIn([[maybe_unused]]double t)
 	{
 		m_musicGame.update();
 	}
@@ -62,18 +63,20 @@ namespace ct
 		PutText(U"Press Ese or BackSpace", Arg::center = Vec2{ 100, Scene::Height() - 20 });
 
 		FontAsset font20(FontName::Regular20);
-		const double backAlpha = 0.3 + Min(PlayKey::BigBack().pressedDuration().count() / 1000.0, 0.7);
-		const ColorF backColor(0, backAlpha);
+		auto backColor = [](const InputGroup& input) -> ColorF {
+			const double backAlpha = 0.3 + Min(input.pressedDuration().count(), 0.7);
+			return ColorF{ 0, backAlpha };
+		};
 
 		if (PlayKey::BigBack().pressed()) {
-			font20(U"Ese長押しで戻る").drawAt(400, 400, backColor);
+			font20(U"Ese長押しで戻る").drawAt(400, 400, backColor(PlayKey::BigBack()));
 		}
 		if (PlayKey::SmallBack().pressed()) {
-			font20(U"BackSpace長押しで戻る").drawAt(400, 400, backColor);
+			font20(U"BackSpace長押しで戻る").drawAt(400, 400, backColor(PlayKey::SmallBack()));
 		}
-		m_highSpeed.draw(
-			m_music.getMinSoundBeat(),
-			m_music.getMaxSoundBeat(),
+		SharedDraw::HighSpeedPlay(
+			m_highSpeed,
+			m_music,
 			getData().m_scrollRate
 		);
 	}

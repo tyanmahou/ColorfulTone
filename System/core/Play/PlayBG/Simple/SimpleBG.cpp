@@ -14,7 +14,7 @@ namespace ct
 
     void SimpleBG::apply([[maybe_unused]] double count) const
     {
-        m_texture.draw(Scene::CenterF());
+        m_texture.drawAt(Scene::CenterF());
         Scene::Rect().draw(m_color);
     }
 }

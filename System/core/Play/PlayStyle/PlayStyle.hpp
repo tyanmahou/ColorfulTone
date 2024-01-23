@@ -13,7 +13,7 @@ namespace ct
         void setStyle(PlayStyleType type);
 
         template<class T>
-        void draw(const T& note, double count, float scrollRate)const
+        void draw(const T& note, double count, double scrollRate)const
         {
             m_style->draw(note, count, scrollRate);
         }

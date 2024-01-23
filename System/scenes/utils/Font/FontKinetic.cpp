@@ -25,6 +25,11 @@ namespace ct
 			penPos.x += glyph.xAdvance;
 		}
 	}
+	void FontKinetic::DeleteSpace(const s3d::Font& font, s3d::StringView text, const Vec2& topLeft, const s3d::Color& color, const s3d::Color& shadeColor)
+	{
+		FontKinetic::DeleteSpace(font, text, topLeft + Vec2{ 1, 1 }, shadeColor);
+		FontKinetic::DeleteSpace(font, text, topLeft, color);
+	}
 	void FontKinetic::DeleteSpace(const s3d::Font& font, s3d::StringView text, s3d::TextStyle& style, const Vec2& topLeft, const s3d::Color& color)
 	{
 		// MSDF フォント + 影 + 輪郭描画のための設定
