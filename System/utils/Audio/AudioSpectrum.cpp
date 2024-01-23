@@ -29,9 +29,7 @@ namespace
     }
     double getRad(double freq)
     {
-
         return 2 * Math::Pi * Log(freq) / Log(2.0) + 2.42;
-
     }
 
     float bufferAverage(const float buffer[], int index, int sample)
@@ -54,8 +52,9 @@ namespace ct
 
         FFTResult fft;
         s3d::FFT::Analyze(fft, sound);
-        if (!sound.isPlaying())
+        if (!sound.isPlaying()) {
             return;
+        }
 
         const auto base = bufferAverage(fft.buffer.data(), static_cast<int>(m_baseHz / 5.38), 10);
 
@@ -65,7 +64,6 @@ namespace ct
             const double di = i * devide;
 
             const double radian = getRad(di);
-
             const double radianWidth = Max((radian)-getRad(di - 1), 0.0);
 
             const double width = Clamp(m_radius * (radianWidth), 0.0, 50.0) + Pow(base, 0.8f) * 200;
@@ -76,21 +74,11 @@ namespace ct
 
             const double strength = sliderStrength * Pow(size, 2.0) * Log(di) / 10000000.0;
 
-            //const Vec2 pos = Circular(size / 2.0, radian) + Window::BaseCenter();
-
-            Color col = HSV(240 - Log(di) * 100, 1.0, strength).toColor(150);
-
-            //grad.resize(width, size).rotate(radian).drawAt(pos, col);
-
+            int32 h = (static_cast<int32>(240 - Log(di) * 100) % 360 + 360) % 360;
+            Color col = HSV(h, 1.0, Saturate(strength)).toColor(150);
             const Vec2 posOuter = Circular(m_radius, radian) + Scene::Center();
 
             grad.resized(width * 2, width * 2).rotated(radian).drawAt(posOuter, col);
-
         }
-        //Graphics2D::SetRenderTarget(Graphics::GetSwapChainTexture());
-        //constexpr auto blend = BlendState(true, Blend::InvDestColor, Blend::InvSrcColor, s3d::BlendOp::Add);
-        //Graphics2D::SetBlendState(blend);
-
-        //tex.draw();
     }
 }
