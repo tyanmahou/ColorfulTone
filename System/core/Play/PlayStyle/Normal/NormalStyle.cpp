@@ -6,12 +6,13 @@
 #include <core/Object/LongNote/LongNote.hpp>
 #include <core/Object/RepeatNote/RepeatNote.hpp>
 
-#include <core/Play/PlayMusicGame.hpp>
 #include <core/Play/Effects/TapEffect.hpp>
 #include <core/Play/Effects/JudgeEffect.hpp>
 #include <scenes/utils/Font/FontKinetic.hpp>
 #include <scenes/utils/Shaders.hpp>
 #include <Siv3D.hpp>
+
+#include <core/Play/PlayMusicGame.hpp>
 
 namespace
 {
@@ -131,11 +132,6 @@ namespace ct
 			this->drawJudgeLine();
 
 			drawCallback();
-
-			{
-				ScopedRenderStates2D blend(BlendState::Additive);
-				PlayMusicGame::GetEffect(1).update();
-			}
 		};
 		if (config.m_isCirleCut) {
 			const Circle mask(400, 300, 300);
@@ -149,6 +145,10 @@ namespace ct
 			render();
 		} else {
 			render();
+		}
+		{
+			ScopedRenderStates2D blend(BlendState::Additive);
+			PlayMusicGame::GetEffect(1).update();
 		}
 	}
 

@@ -3,7 +3,7 @@
 // TODO
 #include <core/Play/PlayStyle/Normal/NormalStyle.hpp>
 //#include"Portrait.h"
-//#include"NormalArcStyle.hpp"
+#include <core/Play/PlayStyle/NormalArc/NormalArcStyle.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -20,7 +20,7 @@ namespace ct
         {
            { PlayStyleType::Normal,  [] { return std::make_unique<NormalStyle>(); }},
            { PlayStyleType::Portrait,  [] { return std::make_unique<NormalStyle>(); }},
-           { PlayStyleType::NormalArc,  [] { return std::make_unique<NormalStyle>(); }},
+           { PlayStyleType::NormalArc,  [] { return std::make_unique<NormalArcStyle>(); }},
         };
         auto it = factory.find(type);
         if (it == factory.end()) {

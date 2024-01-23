@@ -3,7 +3,7 @@
 
 namespace ct
 {
-	//通常
+	// 通常
 	class NormalStyle : public IPlayStyle
 	{
 
