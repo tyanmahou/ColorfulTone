@@ -60,19 +60,15 @@ namespace ct
 			Shaders::FlipPage()
 				.setTimer(t)
 				.setIn(in)
-				.apply(drawble);
+				.apply(std::move(drawble))
+				;
 		}
 		void DrawCanvas(double t, std::function<void()> drawble)
 		{
-			//static PixelShader ps(L"Shaders/drawCanvas.ps");
-			//static Texture mask(L"Resource/Img/MusicSelect/maskDrawCanvas.png");
-			//static ConstantBuffer<Float4> cb;
-			//cb->x = t; // timer
-			//Graphics2D::SetTexture(ShaderStage::Pixel, 1, mask);
-			//Graphics2D::SetConstant(ShaderStage::Pixel, 1, cb);
-			//Graphics2D::BeginPS(ps);
-			//drawble();
-			//Graphics2D::EndPS();
+			Shaders::DrawCanvas()
+				.setTimer(t)
+				.apply(std::move(drawble))
+				;
 		}
 		void DrawCanvas(double t)
 		{

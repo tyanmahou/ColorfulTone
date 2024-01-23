@@ -11,9 +11,14 @@ namespace ct
     {
         return Instance()->m_flipPageShader;
     }
+    const DrawCanvasShader& Shaders::DrawCanvas()
+    {
+        return Instance()->m_drawCanvasShader;
+    }
     Shaders::Shaders():
         m_maskShader(Scene::Size()),
-        m_flipPageShader(Scene::Size())
+        m_flipPageShader(Scene::Size()),
+        m_drawCanvasShader()
     {
     }
 }

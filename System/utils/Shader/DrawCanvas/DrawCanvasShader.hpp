@@ -4,15 +4,13 @@
 
 namespace ct
 {
-    class FlipPageShader
+    class DrawCanvasShader
     {
         class Impl;
     public:
-        FlipPageShader(const s3d::Size& size);
-        ~FlipPageShader();
-        const FlipPageShader& setTimer(double timer) const;
-        const FlipPageShader& setIn(bool in) const;
-
+        DrawCanvasShader();
+        ~DrawCanvasShader();
+        const DrawCanvasShader& setTimer(double timer) const;
         s3d::ScopedCustomShader2D start() const;
         void apply(std::function<void()> drawble) const;
     private:
