@@ -11,7 +11,7 @@
 //#include"Tutorial.h"
 #include <scenes/Scene/Config/ConfigScene.hpp>
 #include <scenes/Scene/MusicSelect/MusicSelectScene.hpp>
-//#include"MainScene.h"
+#include <scenes/Scene/Main/MainScene.hpp>
 //#include"ResultScene.hpp"
 //#include"VideoAsset.h"
 //#include"CourseSelect.hpp"
@@ -233,7 +233,7 @@ namespace ct
 			m_scene.add<ConfigScene>(SceneName::Config);
 			//m_scene.add<Tutorial>(SceneName::Tutorial);
 			m_scene.add<MusicSelectScene>(SceneName::Select);
-			//m_scene.add<MainScene>(SceneName::Main);
+			m_scene.add<MainScene>(SceneName::Main);
 			//m_scene.add<ResultScene>(SceneName::Result);
 			//m_scene.add<CourseSelect>(SceneName::CourseSelect);
 			//m_scene.add<CourseScene>(SceneName::Course);

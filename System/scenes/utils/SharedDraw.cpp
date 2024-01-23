@@ -1,6 +1,6 @@
 ﻿#include <scenes/utils/SharedDraw.hpp>
 #include <scenes/utils/Util.hpp>
-#include <core/HighSpeed/HighSpeedDemo.hpp>
+#include <core/Play/HighSpeed/HighSpeedDemo.hpp>
 #include <commons/FontName.hpp>
 #include <Siv3D.hpp>
 

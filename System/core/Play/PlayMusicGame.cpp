@@ -7,7 +7,6 @@
 #include <core/Play/PlayBG/PlayBGFactory.hpp>
 #include <core/Play/PlayStyle/PlayStyle.hpp>
 #include <Siv3D.hpp>
-#include "PlayMusicGame.hpp"
 
 namespace
 {

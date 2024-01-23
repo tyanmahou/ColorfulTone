@@ -24,7 +24,7 @@ namespace ct
 		ApAnime m_FCAPAnime;	//フルコンAPアニメ
 		Score m_score;
 
-		float m_scrollRate;			//スクロールレート
+		double m_scrollRate;			//スクロールレート
 		s3d::uint32 m_totalNotes;			//トータルノーツ数
 		s3d::uint64 m_finishSample;		//終了のサンプリング位置
 
@@ -84,7 +84,7 @@ namespace ct
 		{
 			m_sound.stop(fadeoutDuration);
 		}
-		inline void setScrollRate(float rate)
+		inline void setScrollRate(double rate)
 		{
 			m_scrollRate = rate;
 		}
