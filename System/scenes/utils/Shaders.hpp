@@ -11,7 +11,7 @@ namespace ct
     {
         friend class DynamicSingleton<Shaders>;
     public:
-        static const MaskShader& Mask();
+        static const MaskShader& Mask(size_t useBufferIndex = 0);
         static const FlipPageShader& FlipPage();
         static const DrawCanvasShader& DrawCanvas();
         static const MainBgShader& MainBg();

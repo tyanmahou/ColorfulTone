@@ -35,8 +35,10 @@ namespace ct
             s3d::Optional <s3d::Rect> m_oldViewport;
         };
     public:
-        MaskShader(const s3d::Size& size);
-        MaskShader(s3d::uint32 width, s3d::uint32 height);
+        MaskShader(const s3d::Size& size, size_t buffer = 1);
+        MaskShader(s3d::uint32 width, s3d::uint32 height, size_t buffer = 1);
+
+        const MaskShader& useBuffer(size_t bufferIndex)const;
 
         ScopedMask equal(const std::function<void()>& mask)const;
         ScopedMask notEqual(const std::function<void()>& mask)const;

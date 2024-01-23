@@ -49,7 +49,7 @@ namespace ct
 				};
 
 			{
-				auto mask = Shaders::Mask().notEqual([t] { 
+				auto mask = Shaders::Mask(3).notEqual([t] { 
 					Circle(Scene::Size(), Scene::Width() * func(1.0 - t)).draw(); 
 				});
 				Scene::Rect().draw(g_fadeColor);

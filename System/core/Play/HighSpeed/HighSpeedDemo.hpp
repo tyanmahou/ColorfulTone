@@ -24,7 +24,7 @@ namespace ct
 		const s3d::Rect m_bgRect;
 		const s3d::Circle m_judgeCircle;
 		s3d::Stopwatch m_stopwatch;
-		void drawDemoNotes(const SoundBar& bar, double scrollRate) const;
+		void drawDemoNotes(const SoundBar& bar, double scrollRate, size_t index) const;
 	public:
 		HighSpeedDemo();
 		~HighSpeedDemo();

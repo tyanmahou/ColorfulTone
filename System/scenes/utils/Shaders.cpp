@@ -2,9 +2,9 @@
 #include <Siv3D.hpp>
 namespace ct
 {
-    const MaskShader& Shaders::Mask()
+    const MaskShader& Shaders::Mask(size_t useBufferIndex)
     {
-        return Instance()->m_maskShader;
+        return Instance()->m_maskShader.useBuffer(useBufferIndex);
     }
     const FlipPageShader& Shaders::FlipPage()
     {
@@ -19,7 +19,7 @@ namespace ct
         return Instance()->m_mainBgShader;
     }
     Shaders::Shaders():
-        m_maskShader(Scene::Size()),
+        m_maskShader(Scene::Size(), 4),
         m_flipPageShader(Scene::Size()),
         m_drawCanvasShader(),
         m_mainBgShader()

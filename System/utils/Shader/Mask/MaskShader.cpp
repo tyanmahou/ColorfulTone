@@ -2,31 +2,37 @@
 
 #include <commons/Constants.hpp>
 #include <Siv3D.hpp>
+#include "MaskShader.hpp"
 
+namespace
+{
+	struct ShaderParam
+	{
+		s3d::int32 isEqual;
+		Float3 _unused;
+	};
+}
 namespace ct
 {
 	class MaskShader::Impl
 	{
-	private:
-		RenderTexture m_rt;
-		RenderTexture m_rt2;
-		PixelShader m_maskPs;
-		struct ShaderParam
-		{
-			s3d::int32 isEqual;
-			Float3 _unused;
-		};
-		ConstantBuffer<ShaderParam> m_cb;
 	public:
-		Impl(uint32 width, uint32 height) :
-			m_rt(width, height),
-			m_rt2(width, height),
+		Impl(uint32 width, uint32 height, size_t buffer) :
 			m_maskPs(PixelShader::HLSL(Resource(U"Shaders/mask.ps")))
-		{}
+		{
+			m_rt.reserve(buffer);
+			for (size_t count = 0; count < buffer; ++count) {
+				m_rt.emplace_back(width, height);
+			}
+			m_rt2.reserve(buffer);
+			for (size_t count = 0; count < buffer; ++count) {
+				m_rt2.emplace_back(width, height);
+			}
+		}
 
 		void draw(MaskFunc func, const std::function<void()> mask)
 		{
-			m_rt.clear(ColorF(0.0, 0.0));
+			m_rt[m_bufferIndex].clear(ColorF(0.0, 0.0));
 			{
 				static constexpr BlendState blend{
 					true,
@@ -37,10 +43,10 @@ namespace ct
 					Blend::One,
 				};
 				ScopedRenderStates2D state(blend);
-				ScopedRenderTarget2D target(m_rt);
+				ScopedRenderTarget2D target(m_rt[m_bufferIndex]);
 				mask();
 			}
-			Graphics2D::SetPSTexture(1, m_rt);
+			Graphics2D::SetPSTexture(1, m_rt[m_bufferIndex]);
 
 			m_cb->isEqual = func == MaskFunc::Equal ? 1 : 0;
 			Graphics2D::SetConstantBuffer(ShaderStage::Pixel, 1, m_cb);
@@ -60,7 +66,7 @@ namespace ct
 				auto colorMul = s3d::Graphics2D::GetColorMul();
 				s3d::Graphics2D::Internal::SetColorMul(Float4(1, 1, 1, 1));
 				s3d::Graphics2D::Internal::SetColorAdd(Float4(0, 0, 0, 0));
-				m_rt2.draw();
+				m_rt2[m_bufferIndex].draw();
 				s3d::Graphics2D::Internal::SetColorAdd(colorAdd);
 				s3d::Graphics2D::Internal::SetColorMul(colorMul);
 			}
@@ -68,15 +74,30 @@ namespace ct
 
 		const RenderTexture& getDrawerTarget()
 		{
-			return m_rt2;
+			return m_rt2[m_bufferIndex];
 		}
+		void useBuffer(size_t bufferIndex)
+		{
+			m_bufferIndex = bufferIndex;
+		}
+	private:
+		PixelShader m_maskPs;
+		ConstantBuffer<ShaderParam> m_cb;
+		Array<RenderTexture> m_rt;
+		Array<RenderTexture> m_rt2;
+		size_t m_bufferIndex = 0;
 	};
-	MaskShader::MaskShader(const Size& size) :
-		MaskShader(size.x, size.y)
+	MaskShader::MaskShader(const Size& size, size_t buffer) :
+		MaskShader(size.x, size.y, buffer)
 	{}
-	MaskShader::MaskShader(uint32 width, uint32 height) :
-		m_pImpl(std::make_shared<Impl>(width, height))
+	MaskShader::MaskShader(uint32 width, uint32 height, size_t buffer) :
+		m_pImpl(std::make_shared<Impl>(width, height, buffer))
 	{}
+	const MaskShader& MaskShader::useBuffer(size_t bufferIndex) const
+	{
+		m_pImpl->useBuffer(bufferIndex);
+		return *this;
+	}
 	MaskShader::ScopedMask MaskShader::equal(const std::function<void()>& mask) const
 	{
 		return ScopedMask(this->m_pImpl, MaskFunc::Equal, mask);

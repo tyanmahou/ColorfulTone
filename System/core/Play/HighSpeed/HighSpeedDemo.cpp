@@ -1,10 +1,10 @@
 ﻿#include <core/Play/HighSpeed/HighSpeedDemo.hpp>
 #include <Useful.hpp>
-//#include "Constants.hpp"
 #include <core/Play/PlayStyle/PlayStyle.hpp>
 //
 #include <core/Object/Note/Note.hpp>
 #include <core/Object/Bar/Bar.hpp>
+#include <scenes/utils/Shaders.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -94,42 +94,35 @@ namespace ct
 		return isCtrlPressed;
 	}
 
-	void HighSpeedDemo::drawDemoNotes(const SoundBar& bar, double  scrollRate)const
+	void HighSpeedDemo::drawDemoNotes(const SoundBar& bar, double  scrollRate, size_t index)const
 	{
-		// TODO マスク処理
-		//m_bgRect.draw(ColorF(0, 0.5));
+		// マスク処理
+		m_bgRect.draw(ColorF(0, 0.5));
 
-		//Graphics2D::SetStencilState(StencilState::Replace);
-		//Graphics2D::SetStencilValue(stencilNum);
+		auto scopedMask = Shaders::Mask(index).equal([&] {
+			m_bgRect.draw();
+		});
 
-		//m_bgRect.draw();
+		PlayStyle::Instance()->drawJudgeLine();
 
-		//Graphics2D::SetStencilState(StencilState::Test(StencilFunc::Equal));
+		const auto b = bar(m_sound);
 
+		const auto nowCount = static_cast<double>(NotesData::RESOLUTION) * b.bar + static_cast<double>(NotesData::RESOLUTION) * (b.f);
 
-		//PlayStyle::Instance()->drawJudgeLine();
-
-		//const auto b = bar(m_sound);
-
-		//const auto nowCount = NotesData::RESOLUTION * b.bar + NotesData::RESOLUTION * (b.f);
-
-		//for (auto it = m_objects.rbegin(); it != m_objects.rend(); ++it) {
-		//	if ((*it)->getCount() - nowCount > 0)
-		//		(*it)->draw(nowCount, scrollRate);
-		//}
-		//Graphics2D::SetStencilState(StencilState::Default);
-
+		for (auto it = m_objects.rbegin(); it != m_objects.rend(); ++it) {
+			if ((*it)->getCount() - nowCount > 0)
+				(*it)->draw(nowCount, scrollRate);
+		}
 	}
 	void HighSpeedDemo::draw(const SoundBar& min, const SoundBar& max, double scrollRate)const
 	{
 		{
 			Transformer2D t2d(Mat3x2::Translate({ m_offset.easeInOut() - 350,0 }));
-			drawDemoNotes(min, scrollRate);
+			drawDemoNotes(min, scrollRate, 1);
 		}
 		{
 			Transformer2D t2d(Mat3x2::Translate({ m_offset.easeInOut() - 250,0 }));
-			drawDemoNotes(max, scrollRate);
+			drawDemoNotes(max, scrollRate, 2);
 		}
-
 	}
 }
