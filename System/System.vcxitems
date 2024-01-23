@@ -89,6 +89,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Normal\NormalStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyleType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Portrait\PortraitStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\SoundBeat.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Types.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)effects\BGLight.hpp" />
@@ -199,6 +200,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\NormalArc\NormalArcStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Normal\NormalStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Portrait\PortraitStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Fade\Fade.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadSceneView.cpp" />

@@ -123,7 +123,7 @@ namespace ct
 
     void NormalArcStyle::drawComboAndRate(int combo, float rate)
     {
-        const auto& font = FontAsset(FontName::Combo);
+        const FontAsset font(FontName::Combo);
 
         if (combo) {
             const int x = 115;
