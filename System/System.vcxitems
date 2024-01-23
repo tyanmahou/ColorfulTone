@@ -74,8 +74,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Object\Stop\Stop.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Object\Text\TextObjcet.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\BGType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Blur\BlurBG.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Default\DefaultBG.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\IPlayBG.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Monochro\MonochroBG.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\PlayBGFactory.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Simple\SimpleBG.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayCourse.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayMusicGame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\IPlayStyle.hpp" />
@@ -134,6 +138,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Input\InputUtl.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Shader\DrawCanvas\DrawCanvasShader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Shader\FlipPage\FlipPageShader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Shader\MainBg\MainBgShader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Shader\Mask\MaskShader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Singleton\DynamicSingleton.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Singleton\Singleton.hpp" />
@@ -178,7 +183,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Object\Object.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Object\RepeatNote\RepeatNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Object\Text\TextObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Blur\BlurBG.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Default\DefaultBG.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Monochro\MonochroBG.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\PlayBGFactory.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Simple\SimpleBG.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayCourse.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayMusicGame.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.cpp" />
@@ -217,6 +226,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Http\RestRequestor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Shader\DrawCanvas\DrawCanvasShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Shader\FlipPage\FlipPageShader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Shader\MainBg\MainBgShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Shader\Mask\MaskShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Singleton\DynamicSingleton.cpp" />
   </ItemGroup>

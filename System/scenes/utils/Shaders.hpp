@@ -3,6 +3,7 @@
 #include <utils/Shader/Mask/MaskShader.hpp>
 #include <utils/Shader/FlipPage/FlipPageShader.hpp>
 #include <utils/Shader/DrawCanvas/DrawCanvasShader.hpp>
+#include <utils/Shader/MainBg/MainBgShader.hpp>
 
 namespace ct
 {
@@ -13,10 +14,12 @@ namespace ct
         static const MaskShader& Mask();
         static const FlipPageShader& FlipPage();
         static const DrawCanvasShader& DrawCanvas();
+        static const MainBgShader& MainBg();
     private:
         Shaders();
         MaskShader m_maskShader;
         FlipPageShader m_flipPageShader;
         DrawCanvasShader m_drawCanvasShader;
+        MainBgShader m_mainBgShader;
     };
 }

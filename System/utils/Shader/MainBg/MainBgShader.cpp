@@ -1,4 +1,4 @@
-﻿#include <utils/Shader/DrawCanvas/DrawCanvasShader.hpp>
+﻿#include <utils/Shader/MainBg/MainBgShader.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -10,12 +10,11 @@ namespace
 }
 namespace ct
 {
-    class DrawCanvasShader::Impl
+    class MainBgShader::Impl
     {
     public:
         Impl() :
-            m_ps(HLSL(Resource(U"Shaders/drawCanvas.ps"))),
-            m_mask(U"Resource/Img/MusicSelect/maskDrawCanvas.png")
+            m_ps(HLSL(Resource(U"Shaders/mainBg.ps")))
         {}
         void setTimer(double timer)
         {
@@ -24,7 +23,6 @@ namespace ct
         ScopedCustomShader2D start() const
         {
             Graphics2D::SetConstantBuffer(ShaderStage::Pixel, 1, m_cb);
-            Graphics2D::SetPSTexture( 1, m_mask);
             return ScopedCustomShader2D{ m_ps };
         }
         void apply(std::function<void()> drawble) const
@@ -35,25 +33,24 @@ namespace ct
     private:
         PixelShader m_ps;
         ConstantBuffer<ShaderParam> m_cb;
-        Texture m_mask;
     };
-    DrawCanvasShader::DrawCanvasShader() :
+    MainBgShader::MainBgShader() :
         m_pImpl(std::make_unique<Impl>())
     {
     }
-    DrawCanvasShader::~DrawCanvasShader()
+    MainBgShader::~MainBgShader()
     {
     }
-    const DrawCanvasShader& DrawCanvasShader::setTimer(double timer) const
+    const MainBgShader& MainBgShader::setTimer(double timer) const
     {
         m_pImpl->setTimer(timer);
         return *this;
     }
-    s3d::ScopedCustomShader2D DrawCanvasShader::start() const
+    s3d::ScopedCustomShader2D MainBgShader::start() const
     {
         return m_pImpl->start();
     }
-    void DrawCanvasShader::apply(std::function<void()> drawble) const
+    void MainBgShader::apply(std::function<void()> drawble) const
     {
         m_pImpl->apply(std::move(drawble));
     }
