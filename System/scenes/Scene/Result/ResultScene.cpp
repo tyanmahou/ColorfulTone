@@ -95,7 +95,6 @@ namespace ct
 
 		ScoreModel m_score;
 		bool m_isNewRecord = false;
-
 	public:
 
 		Model() {}
@@ -135,6 +134,21 @@ namespace ct
 		{
 			return m_isNewRecord;
 		}
+
+		String getTweetText()const
+		{
+			auto& course = m_data->m_course;
+			if (course.isActive()) {
+				return course.getCourse().getTitle()
+					+ ::GetCourseStateTweetText(course.getState()) + U"/"
+					+ U"{:.2f}%達成\n#ColorfulTone"_fmt(course.getScore().totalRate);
+			}
+			const auto& music = *m_data->m_nowNotes.getMusic();
+			return
+				music.getMusicName() + U"/"
+				+ m_data->m_nowNotes.getLevelName() + U"で"
+				+ U"{:.2f}%達成\n#ColorfulTone"_fmt(m_score.clearRate);
+		}
 	};
 
 	ResultScene::ResultScene(const InitData& init) :
@@ -159,6 +173,10 @@ namespace ct
 
 	void ResultScene::update()
 	{
+		if (KeyT.down()) {
+			// ツイート
+			Twitter::OpenTweetWindow(m_model->getTweetText());
+		}
 		if (PlayKey::Start().down() || PlayKey::BigBack().down()) {
 			SoundManager::PlaySe(U"desisionLarge");
 			if (getData().m_course.isActive()) {
@@ -186,7 +204,7 @@ namespace ct
 	{
 		m_view.draw();
 
-		SceneInfo::Draw(U"F10:お気に入り　Enter:戻る");
+		SceneInfo::Draw(U"T:リザルトをツイート　F10:お気に入り　Enter:戻る");
 
 		if (AutoPlayManager::IsAutoPlay()) {
 			PutText(U"AutoPlay", Arg::center = Vec2{Scene::CenterF().x, 40});
