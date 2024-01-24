@@ -13,7 +13,6 @@ namespace ct
 		void init(const NotesData& notes)override;
 		void apply(double count)const override;
 	private:
-		s3d::RenderTexture m_internalTexture;
-		s3d::RenderTexture m_renderTexture;
+		TextureRegion m_texturRegion;
 	};
 }

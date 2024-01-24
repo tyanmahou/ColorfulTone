@@ -54,18 +54,25 @@ namespace ct
 	}
 	bool Config::init(const String& text)
 	{
-		unsigned i = 0;
-		for (auto&& a : m_actions) {
+		for (const auto& [i, a] : Indexed(m_actions)) {
 			if (text == a.first) {
 				m_select = i;
 				return true;
 			}
-			++i;
 		}
 		m_select = m_default;
 		return false;
 	}
-
+	bool Config::init(size_t index)
+	{
+		if (index < m_actions.size()) {
+			m_select = index;
+			return true;
+		} else {
+			m_select = m_default;
+			return false;
+		}
+	}
 	void Config::setDefault(const String& text)
 	{
 		unsigned i = 0;

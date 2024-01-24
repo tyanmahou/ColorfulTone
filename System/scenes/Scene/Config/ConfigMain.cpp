@@ -199,18 +199,10 @@ namespace ct
             config.add(U"ガウスぼかし", []() {Game::Config().m_bgType = BGType::Blur; });
             config.add(U"黒", []() {Game::Config().m_bgType = BGType::Black; });
             config.add(U"白", []() {Game::Config().m_bgType = BGType::White; });
+            config.add(U"背景なし 黒", []() {Game::Config().m_bgType = BGType::NoneBlack; });
+            config.add(U"背景なし 白", []() {Game::Config().m_bgType = BGType::NoneWhite; });
 
-            switch (Game::Config().m_bgType) {
-            case BGType::Default: config.init(U"デフォルト");
-                break;
-            case BGType::Blur: config.init(U"ガウスぼかし");
-                break;
-            case BGType::Black: config.init(U"黒");
-                break;
-            case BGType::White: config.init(U"白");
-                break;
-
-            }
+            config.init(static_cast<size_t>(Game::Config().m_bgType));
         }
         //style
         void PlayStyleInit(Config& config)

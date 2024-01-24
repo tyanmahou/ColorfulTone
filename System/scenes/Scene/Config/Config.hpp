@@ -7,8 +7,8 @@ namespace ct
 	class Config
 	{
 	private:
-		unsigned m_select = 0;
-		unsigned m_default = 0;
+		size_t m_select = 0;
+		size_t m_default = 0;
 		bool m_hasOnEnterd = false;
 		String m_name;
 		Array<std::pair<String, std::function<void()>>> m_actions;
@@ -30,6 +30,7 @@ namespace ct
 		bool add(const String& text, std::function<void()> func);
 		void applyOnEnterd(std::function<void()> func);
 		bool init(const String& text);
+		bool init(size_t index);
 
 		void setDefault(const String& text);
 		void draw(double y, double alpha = 1.0)const;
