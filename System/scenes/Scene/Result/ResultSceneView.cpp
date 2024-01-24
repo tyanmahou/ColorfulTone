@@ -211,8 +211,8 @@ namespace
 			return;
 		}
 		const auto t = timer[U"course"].easeIn();
-		const double scale = s3d::Math::Lerp(2.0, 0.4, s3d::EaseInBack(t));
-		const Vec2 pos = s3d::Math::Lerp(Vec2{ 400, 300 }, Vec2{ 435,450 }, s3d::EaseInExpo(t));
+		const double scale = s3d::EaseIn(s3d::Easing::Back, 2.0, 0.4, t);
+		const Vec2 pos = s3d::EaseIn(s3d::Easing::Expo, Vec2{ 400, 300 }, Vec2{ 435,450 }, t);
 		if (course.isSuccess())
 		{
 			TextureAsset(U"pass").scaled(scale).drawAt(pos);

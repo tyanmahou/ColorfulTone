@@ -14,7 +14,7 @@ namespace ct
 	{
 		g_readerCache.clear();
 
-		const auto ctcfFiles = FileSystem::DirectoryContents(U"CustomFolder");
+		const auto ctcfFiles = FileSystem::DirectoryContents(U"CustomFolder", Recursive::No);
 
 		//ここからデータ読み込み
 		for (const auto& path : ctcfFiles) {

@@ -28,13 +28,13 @@ namespace
 		musics.clear();
 
 		GenreManager::Clear();
-		const auto genrePaths = FileSystem::DirectoryContents(U"Music");
+		const auto genrePaths = FileSystem::DirectoryContents(U"Music", Recursive::No);
 		MusicData::Index = 0;
 
 		size_t musicSize = 0;
 		for (const auto& gPath : genrePaths) {
 
-			const auto musicPaths = FileSystem::DirectoryContents(gPath);
+			const auto musicPaths = FileSystem::DirectoryContents(gPath, Recursive::No);
 			musicSize += musicPaths.size();
 		}
 
@@ -44,11 +44,11 @@ namespace
 		//ここから楽曲データ読み込み
 		for (const auto& gPath : genrePaths) {
 
-			const auto musicPaths = FileSystem::DirectoryContents(gPath);
+			const auto musicPaths = FileSystem::DirectoryContents(gPath, Recursive::No);
 			const auto genreName = FileSystem::BaseName(gPath);
 			for (const auto& path : musicPaths) {
 				//各楽曲に入っているアセットのパス取得
-				auto assets = FileSystem::DirectoryContents(path);
+				auto assets = FileSystem::DirectoryContents(path, Recursive::No);
 				//iniファイルがあるか検索
 				for (const auto& elm : assets) {
 					if (stopToken.stop_requested()) {
@@ -84,13 +84,13 @@ namespace
 		Array<CourseData>& courses = Game::Courses();
 		courses.clear();
 
-		const auto genreFiles = FileSystem::DirectoryContents(U"Course");
+		const auto genreFiles = FileSystem::DirectoryContents(U"Course", Recursive::No);
 
 		size_t coureSize = 0;
 
 		//リサーブ
 		for (const auto& gPath : genreFiles) {
-			const auto ctcPaths = FileSystem::DirectoryContents(gPath);
+			const auto ctcPaths = FileSystem::DirectoryContents(gPath, Recursive::No);
 			for (const auto& path : ctcPaths) {
 				if (FileSystem::Extension(path) == U"ctc") {
 					++coureSize;
@@ -104,7 +104,7 @@ namespace
 		for (const auto& gPath : genreFiles) {
 			const auto genreName = FileSystem::BaseName(gPath);
 
-			const auto ctcPaths = FileSystem::DirectoryContents(gPath);
+			const auto ctcPaths = FileSystem::DirectoryContents(gPath, Recursive::No);
 			for (const auto& path : ctcPaths) {
 				if (stopToken.stop_requested()) {
 					return false;
@@ -128,7 +128,7 @@ namespace
 		tapSEs.clear();
 
 		size_t size = 1; // noneの分+1
-		for (auto&& rootFilePath : FileSystem::DirectoryContents(U"TapSE")) {
+		for (auto&& rootFilePath : FileSystem::DirectoryContents(U"TapSE", Recursive::No)) {
 			if (FileSystem::IsDirectory(rootFilePath)) {
 				size += 1;
 			}
@@ -141,7 +141,7 @@ namespace
 		size_t curIndex = 1;
 		//g_loadingRate = curIndex / static_cast<double>(size);
 
-		for (auto&& rootFilePath : FileSystem::DirectoryContents(U"TapSE")) {
+		for (auto&& rootFilePath : FileSystem::DirectoryContents(U"TapSE", Recursive::No)) {
 			if (stopToken.stop_requested()) {
 				return false;
 			}
