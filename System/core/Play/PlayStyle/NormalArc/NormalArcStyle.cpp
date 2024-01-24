@@ -8,8 +8,6 @@
 
 #include <core/Play/Effects/TapEffect.hpp>
 #include <core/Play/Effects/JudgeEffect.hpp>
-#include <scenes/utils/Font/FontKinetic.hpp>
-#include <scenes/utils/Shaders.hpp>
 #include <Siv3D.hpp>
 
 #include <core/Play/PlayMusicGame.hpp>

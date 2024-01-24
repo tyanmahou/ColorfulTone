@@ -1,6 +1,5 @@
 ﻿#include <scenes/Scene/Config/ConfigScene.hpp>
 #include <Useful.hpp>
-#include <scenes/utils/SharedDraw.hpp>
 
 namespace ct
 {

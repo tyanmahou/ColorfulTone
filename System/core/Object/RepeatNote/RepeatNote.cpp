@@ -1,8 +1,6 @@
 ﻿#include <core/Object/RepeatNote/RepeatNote.hpp>
 #include <Useful.hpp>
 #include <core/Judge/Judge.hpp>
-#include <core/Input/AutoPlayManager.hpp>
-#include <core/Input/PlayKey.hpp>
 
 #include <core/Play/PlayStyle/PlayStyle.hpp>
 #include <core/Play/PlayMusicGame.hpp>

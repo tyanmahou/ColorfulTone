@@ -4,7 +4,6 @@
 //
 #include <core/Object/Note/Note.hpp>
 #include <core/Object/Bar/Bar.hpp>
-#include <scenes/utils/Shaders.hpp>
 #include <Siv3D.hpp>
 
 namespace ct

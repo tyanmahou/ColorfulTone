@@ -2,7 +2,6 @@
 #include <Useful.hpp>
 
 #include <commons/Secret/Secret.hpp>
-#include <scenes/utils/SharedLogic.hpp>
 #include <Siv3D.hpp>
 
 namespace

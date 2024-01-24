@@ -5,11 +5,7 @@
 #include <utils/Coro/Fiber/FiberUtil.hpp>
 #include <utils/Asset/SivAssetUtil.hpp>
 
-#include <core/Data/MusicData/MusicData.hpp>
-#include <core/Data/Genre/GenreManager.hpp>
 #include <core/Data/Genre/CostumFolder.hpp>
-#include <core/Data/CourseData/CourseData.hpp>
-#include <core/Data/CourseGenre/CourseGenre.hpp>
 #include <core/Data/TapSE/TapSE.hpp>
 //#include "CompatibilityUtil.hpp"
 #include <Siv3D.hpp>

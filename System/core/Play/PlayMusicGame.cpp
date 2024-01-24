@@ -2,7 +2,6 @@
 #include <Useful.hpp>
 #include <core/Anime/StartAnime/StartAnime.hpp>
 #include <core/Input/InputManager.hpp>
-#include <core/Input/AutoPlayManager.hpp>
 #include <core/Data/Score/ResultRank.hpp>
 #include <core/Play/PlayBG/PlayBGFactory.hpp>
 #include <core/Play/PlayStyle/PlayStyle.hpp>

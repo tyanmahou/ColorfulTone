@@ -1,6 +1,5 @@
 ﻿#include <scenes/Scene/Main/MainScene.hpp>
 #include <Useful.hpp>
-#include <scenes/utils/SharedDraw.hpp>
 #include <Siv3D.hpp>
 
 namespace ct

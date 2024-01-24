@@ -1,7 +1,5 @@
 ﻿#include <scenes/Scene/Tutorial/TutorialScene.hpp>
 #include <Useful.hpp>
-#include <core/Input/AutoPlayManager.hpp>
-#include <scenes/utils/SharedDraw.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
