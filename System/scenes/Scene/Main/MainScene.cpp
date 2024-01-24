@@ -70,28 +70,16 @@ namespace ct
 	void MainScene::draw()const
 	{
 		m_musicGame.draw();
-		FontAsset font20(FontName::Regular20);
-		auto backColor = [](const InputGroup& input) -> ColorF {
-			const double backAlpha = 0.3 + Min(input.pressedDuration().count(), 0.7);
-			return ColorF{ 0, backAlpha };
-			};
 
 		if (!m_isCourse) {
 			PutText(U"Press Esc or BackSpace", Arg::center = Vec2{ 100, Scene::Height() - 20 });
 
-			if (PlayKey::BigBack().pressed()) {
-				font20(U"Esc長押しで戻る").drawAt(400, 400, backColor(PlayKey::BigBack()));
-			}
-			if (PlayKey::SmallBack().pressed()) {
-				font20(U"BackSpace長押しでリザルトへ").drawAt(400, 400, backColor(PlayKey::SmallBack()));
-			}
+			SharedDraw::LongPressBack(PlayKey::BigBack(), U"Esc長押しで戻る");
+			SharedDraw::LongPressBack(PlayKey::SmallBack(), U"BackSpace長押しでリザルトへ");
 		} else {
 			PutText(U"Press Esc", Arg::center = Vec2{ 100, Scene::Height() - 20 });
 
-			if (PlayKey::BigBack().pressed()) {
-				font20(U"Esc長押しで諦める").drawAt(400, 400, backColor(PlayKey::BigBack()));
-			}
-
+			SharedDraw::LongPressBack(PlayKey::BigBack(), U"Esc長押しで諦める");
 		}
 		const MusicData& music = *getData().m_nowNotes.getMusic();
 		SharedDraw::HighSpeedPlay(

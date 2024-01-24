@@ -100,4 +100,13 @@ namespace ct::SharedDraw
 			highSpeedDemo.draw(music.getMinSoundBeat(), music.getMaxSoundBeat(), scrollRate);
 		}
 	}
+	void LongPressBack(const s3d::InputGroup& input, const s3d::String& text)
+	{
+		if (input.pressed()) {
+			return;
+		}
+		const double backAlpha = 0.3 + Min(input.pressedDuration().count(), 0.7);
+		ColorF color{ 0, backAlpha };
+		FontAsset(FontName::Regular20)(text).drawAt(400, 400, color);
+	}
 }

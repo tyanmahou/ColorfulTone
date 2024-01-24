@@ -3,6 +3,8 @@
 #include <commons/Game/Game.hpp>
 #include <commons/Game/GameConfig.hpp>
 #include <commons/Audio/SoundManager.hpp>
+#include <commons/Constants.hpp>
+#include <commons/FontName.hpp>
 
 #include <core/Data/MusicData/MusicData.hpp>
 #include <core/Data/NotesData/NotesData.hpp>
@@ -16,4 +18,3 @@
 #include <scenes/utils/SharedLogic.hpp>
 #include <scenes/utils/SharedDraw.hpp>
 #include <scenes/utils/Font/FontKinetic.hpp>
-#include <commons/FontName.hpp>

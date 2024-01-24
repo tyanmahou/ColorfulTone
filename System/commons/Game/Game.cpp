@@ -14,7 +14,7 @@
 #include <scenes/Scene/Main/MainScene.hpp>
 #include <scenes/Scene/Result/ResultScene.hpp>
 //#include"CourseSelect.hpp"
-//#include"CourseScene.hpp"
+#include <scenes/Scene/Course/CourseScene.hpp>
 //#include"DownloadScene.hpp"
 
 #include <Siv3D.hpp>
@@ -237,7 +237,7 @@ namespace ct
 			m_scene.add<MainScene>(SceneName::Main);
 			m_scene.add<ResultScene>(SceneName::Result);
 			//m_scene.add<CourseSelect>(SceneName::CourseSelect);
-			//m_scene.add<CourseScene>(SceneName::Course);
+			m_scene.add<CourseScene>(SceneName::Course);
 			//m_scene.add<DownloadScene>(SceneName::Download);
 		}
 		void init()

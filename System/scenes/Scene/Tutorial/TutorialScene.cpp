@@ -61,19 +61,9 @@ namespace ct
 		PutText(U"Tutorial", Arg::center = Vec2{ Scene::Center().x, 40 });
 
 		PutText(U"Press Ese or BackSpace", Arg::center = Vec2{ 100, Scene::Height() - 20 });
+		SharedDraw::LongPressBack(PlayKey::BigBack(), U"Esc長押しで戻る");
+		SharedDraw::LongPressBack(PlayKey::SmallBack(), U"BackSpace長押しで戻る");
 
-		FontAsset font20(FontName::Regular20);
-		auto backColor = [](const InputGroup& input) -> ColorF {
-			const double backAlpha = 0.3 + Min(input.pressedDuration().count(), 0.7);
-			return ColorF{ 0, backAlpha };
-		};
-
-		if (PlayKey::BigBack().pressed()) {
-			font20(U"Ese長押しで戻る").drawAt(400, 400, backColor(PlayKey::BigBack()));
-		}
-		if (PlayKey::SmallBack().pressed()) {
-			font20(U"BackSpace長押しで戻る").drawAt(400, 400, backColor(PlayKey::SmallBack()));
-		}
 		SharedDraw::HighSpeedPlay(
 			m_highSpeed,
 			m_music,

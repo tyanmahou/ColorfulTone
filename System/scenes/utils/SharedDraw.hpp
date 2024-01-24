@@ -36,4 +36,11 @@ namespace ct::SharedDraw
     /// <param name="scrollRate"></param>
     /// <param name="canDemo"></param>
     void HighSpeedPlay(const HighSpeedDemo& highSpeedDemo, const MusicData& music, double scrollRate, bool canDemo = true);
+
+    /// <summary>
+    /// 長押しバック
+    /// </summary>
+    /// <param name="input"></param>
+    /// <param name="text"></param>
+    void LongPressBack(const s3d::InputGroup& input, const s3d::String& text);
 }
