@@ -1,45 +1,45 @@
-#pragma once
-#include "ISceneBase.hpp"
-#include "CourseSelectView.hpp"
+﻿#pragma once
+#include <scenes/Scene/ISceneBase.hpp>
+#include <scenes/Scene/CourseSelect/CourseSelectSceneView.hpp>
 
-
-class CourseSelect : public ISceneBase
+namespace ct
 {
-public:
-	enum class Action : uint8
+	class CourseSelectScene : public ISceneBase
 	{
-		GenreSelect,
-		CourseSelect,
+	public:
+		enum class Action : uint8
+		{
+			GenreSelect,
+			CourseSelect,
+		};
+		struct SelectCourseInfo
+		{
+			uint32 genre = 0;	// 選択中のジャンル
+			uint32 course = 0;	// 選択中のコース
+		};
+	private:
+
+		class Model;
+		std::shared_ptr<Model> m_pModel;
+		CourseSelectSceneView m_view;
+	public:
+		CourseSelectScene(const InitData& init);
+		~CourseSelectScene() = default;
+
+		void update() override;
+		void finally() override;
+		void draw() const override;
+		void drawFadeIn(double t) const override;
+		void drawFadeOut(double t) const override;
+
+		static SelectCourseInfo GetSelectInfo();
+
+		const Array<CourseData>& getCourses()const;
+
+		Action getAction()const;
+
+		// previous , current
+		std::pair<Action, Action> getChangeAction()const;
+		s3d::int32 getMoveSelect() const;
 	};
-	struct SelectCourseInfo
-	{
-		uint32 genre = 0;	// 選択中のジャンル
-		uint32 course = 0;	// 選択中のコース
-	};
-private:
-
-	class Model;
-	std::shared_ptr<Model> m_pModel;
-	CourseSelectView m_view;
-public:
-	CourseSelect();
-	~CourseSelect() = default;
-
-	void init() override;
-	void update() override;
-	void finally() override;
-	void draw() const override;
-	void drawFadeIn(double t) const override;
-	void drawFadeOut(double t) const override;
-
-	static SelectCourseInfo GetSelectInfo();
-
-	const Array<CourseData>& getCourses()const;
-
-	Action getAction()const;
-
-	// previous , current
-	std::pair<Action, Action> getChangeAction()const;
-	int getMoveSelect()const;
-};
-
+}

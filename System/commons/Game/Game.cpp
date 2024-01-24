@@ -13,7 +13,7 @@
 #include <scenes/Scene/MusicSelect/MusicSelectScene.hpp>
 #include <scenes/Scene/Main/MainScene.hpp>
 #include <scenes/Scene/Result/ResultScene.hpp>
-//#include"CourseSelect.hpp"
+#include <scenes/Scene/CourseSelect/CourseSelectScene.hpp>
 #include <scenes/Scene/Course/CourseScene.hpp>
 //#include"DownloadScene.hpp"
 
@@ -182,7 +182,6 @@ namespace
 		FontAsset(U"s-o-12").setBufferThickness(3);
 		FontAsset::Register(U"s-b-15", 15, straightPath, FontStyle::Bold);
 		FontAsset::Register(U"s-b-20", 20 + 20, straightPath, FontStyle::Bold);
-		FontAsset::Register(U"s-i-15", 15, straightPath, FontStyle::Italic);
 
 		FontAsset::Register(U"r-12", 12 + 5);
 		FontAsset::Register(U"r-13", 13 + 5);
@@ -236,7 +235,7 @@ namespace ct
 			m_scene.add<MusicSelectScene>(SceneName::Select);
 			m_scene.add<MainScene>(SceneName::Main);
 			m_scene.add<ResultScene>(SceneName::Result);
-			//m_scene.add<CourseSelect>(SceneName::CourseSelect);
+			m_scene.add<CourseSelectScene>(SceneName::CourseSelect);
 			m_scene.add<CourseScene>(SceneName::Course);
 			//m_scene.add<DownloadScene>(SceneName::Download);
 		}

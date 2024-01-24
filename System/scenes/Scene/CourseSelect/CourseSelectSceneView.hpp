@@ -1,20 +1,21 @@
-#pragma once
+﻿#pragma once
+#include <memory>
 
-#include<memory>
-
-class CourseSelect;
-
-class CourseSelectView
+namespace ct
 {
-private:
-	class Impl;
-	std::shared_ptr<Impl> m_pImpl;
-public:
-	CourseSelectView(const CourseSelect*const scene);
-	~CourseSelectView() = default;
+	class CourseSelectScene;
 
-	void update() const;
-	void onChangeAction()const;
-	void draw()const;
-};
+	class CourseSelectSceneView
+	{
+	private:
+		class Impl;
+		std::shared_ptr<Impl> m_pImpl;
+	public:
+		CourseSelectSceneView(const CourseSelectScene* const scene);
+		~CourseSelectSceneView() = default;
 
+		void update() const;
+		void onChangeAction()const;
+		void draw()const;
+	};
+}

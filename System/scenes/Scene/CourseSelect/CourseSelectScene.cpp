@@ -1,23 +1,22 @@
-#include "CourseSelect.hpp"
-#include"CourseGenre.hpp"
-
-#include"Useful.hpp"
-#include"Fade.h"
-#include"AutoPlayManager.h"
-#include"SharedLogic.hpp"
+﻿#include <scenes/Scene/CourseSelect/CourseSelectScene.hpp>
+#include <Useful.hpp>
+#include <Siv3D.hpp>
 
 namespace
 {
-	using Action = CourseSelect::Action;
+	using namespace ct;
+	using Action = CourseSelectScene::Action;
 
-	CourseSelect::SelectCourseInfo g_selectInfo;
+	CourseSelectScene::SelectCourseInfo g_selectInfo;
 
 	// コースの絞りこみ
 	void RefineCourses(Array<CourseData>& musics)
 	{
 		if (CourseGenreManager::Genres().size())
 		{
-			util::Erase_not_if(musics, CourseGenreManager::GetRefiner(g_selectInfo.genre));
+			musics.remove_if([](const CourseData& genere) {
+				return !CourseGenreManager::GetRefiner(g_selectInfo.genre)(genere);
+			});
 		}
 	}
 	// コースの絞り込み
@@ -59,224 +58,203 @@ namespace
 	}
 }
 
-class CourseSelect::Model
+namespace ct
 {
-private:
-	std::shared_ptr<GameData> m_data;
-	Action m_action = Action::GenreSelect;
-	Action m_prevAction = Action::GenreSelect;
-	int m_moveSelect = 0;
-	Array<CourseData> m_courses;
+	class CourseSelectScene::Model
+	{
+	private:
+		GameData* m_data;
+		Action m_action = Action::GenreSelect;
+		Action m_prevAction = Action::GenreSelect;
+		int m_moveSelect = 0;
+		Array<CourseData> m_courses;
 
-	bool m_isSelectedCourse;
-public:
-	void setData(std::shared_ptr<GameData> data)
-	{
-		m_data = data;
-	}
-	void init()
-	{
-		::InitCourses(m_courses);
-		if (m_data->m_fromScene == SceneName::Course || 
-			m_data->m_fromScene == SceneName::Main)
+		bool m_isSelectedCourse;
+	public:
+		void setData(GameData& data)
 		{
-			m_action = Action::CourseSelect;
+			m_data = &data;
 		}
-	}
-	void update()
-	{
-		m_prevAction = m_action;
-		// 選択するターゲットの参照
-		auto &target = ::GetSelectTarget(m_action);
-		size_t size = ::GetTargetSize(m_action, m_courses);
-		m_moveSelect = SharedLogic::MoveSelect();
-		if (m_moveSelect)
+		void init()
 		{
-			if (m_moveSelect < 0)
-			{
-				++target;
-			}
-			else
-			{
-				target += size;
-				--target;
-			}
-			SoundManager::SE::Play(L"select");
-		}
-		target = size ? target % size : 0;
-
-		// 決定ボタン
-		if (PlayKey::Start().clicked && size)
-		{
-			if (m_action == Action::GenreSelect)
-			{
-				::InitCourses(m_courses);
-
+			::InitCourses(m_courses);
+			if (m_data->m_fromScene == SceneName::Course ||
+				m_data->m_fromScene == SceneName::Main) {
 				m_action = Action::CourseSelect;
-				SoundManager::SE::Play(L"desisionSmall");
 			}
-			else if (m_action == Action::CourseSelect)
-			{
-				if (m_courses[g_selectInfo.course].canPlay())
-				{
-					m_isSelectedCourse = true;
-				} 
-				else {
-					MessageBox::Show(L"全ての譜面データが存在していないので、このコースはプレイできません。");
+		}
+		void update()
+		{
+			m_prevAction = m_action;
+			// 選択するターゲットの参照
+			auto& target = ::GetSelectTarget(m_action);
+			size_t size = ::GetTargetSize(m_action, m_courses);
+			m_moveSelect = SharedLogic::MoveSelectV();
+			if (m_moveSelect) {
+				if (m_moveSelect < 0) {
+					++target;
+				} else {
+					target += static_cast<uint32>(size);
+					--target;
+				}
+				SoundManager::PlaySe(U"select");
+			}
+			target = size ? target % size : 0;
+
+			// 決定ボタン
+			if (PlayKey::Start().down() && size) {
+				if (m_action == Action::GenreSelect) {
+					::InitCourses(m_courses);
+
+					m_action = Action::CourseSelect;
+					SoundManager::PlaySe(U"desisionSmall");
+				} else if (m_action == Action::CourseSelect) {
+					if (m_courses[g_selectInfo.course].canPlay()) {
+						m_isSelectedCourse = true;
+					} else {						
+						System::MessageBoxOK(U"全ての譜面データが存在していないので、このコースはプレイできません。");
+					}
 				}
 			}
-		}
-		// キャンセルボタン
-		if (PlayKey::SmallBack().clicked)
-		{
-			if (m_action == Action::CourseSelect)
+			// キャンセルボタン
+			if (PlayKey::SmallBack().down()) {
+				if (m_action == Action::CourseSelect) {
+					m_action = Action::GenreSelect;
+					SoundManager::PlaySe(U"cancel");
+				}
+			}
+			// 再度indexの調整
 			{
-				m_action = Action::GenreSelect;
-				SoundManager::SE::Play(L"cancel");
+				auto& target2 = ::GetSelectTarget(m_action);
+				size_t size2 = ::GetTargetSize(m_action, m_courses);
+				target2 = size2 ? target2 % size2 : 0;
 			}
 		}
-		// 再度indexの調整
+		bool onChangeAction()
 		{
-			auto &target = ::GetSelectTarget(m_action);
-			size_t size = ::GetTargetSize(m_action, m_courses);
-			target = size ? target % size : 0;
+			return m_action != m_prevAction;
+		}
+		const CourseData& getSelectCourse()const
+		{
+			return m_courses[g_selectInfo.course];
+		}
+		const Array<CourseData>& getCourses()const
+		{
+			return m_courses;
+		}
+		Action getAction()const
+		{
+			return m_action;
+		}
+		// previous , current
+		std::pair<Action, Action> getChangeAction()const
+		{
+			return { m_prevAction ,m_action };
+		}
+
+		int32 getMoveSelect()const
+		{
+			return m_moveSelect;
+		}
+		bool isSelectedCourse()
+		{
+			return m_isSelectedCourse;
+		}
+	};
+
+	CourseSelectScene::CourseSelectScene(const InitData& init) :
+		ISceneBase(init),
+		m_pModel(std::make_shared<Model>()),
+		m_view(this)
+	{
+
+		m_pModel->setData(getData());
+		m_pModel->init();
+
+		if (!AudioAsset(U"title").isPlaying()) {
+			SoundManager::PlayBgm(U"title", 1s);
+		}
+		if (getData().m_fromScene == SceneName::Course ||
+			getData().m_fromScene == SceneName::Main) {
+			m_view.onChangeAction();
 		}
 	}
-	bool onChangeAction()
+
+	void CourseSelectScene::update()
 	{
-		return m_action != m_prevAction;
-	}
-	const CourseData& getSelectCourse()const
-	{
-		return m_courses[g_selectInfo.course];
-	}
-	const Array<CourseData>& getCourses()const
-	{
-		return m_courses;
-	}
-	Action getAction()const
-	{
-		return m_action;
-	}
-	// previous , current
-	std::pair<Action, Action> getChangeAction()const
-	{
-		return { m_prevAction ,m_action };
+		m_pModel->update();
+		if (m_pModel->isSelectedCourse()) {
+			this->changeScene(SceneName::Course, 1000);
+			SoundManager::PlaySe(U"desisionLarge");
+		} else if (PlayKey::BigBack().down()) {
+			this->changeScene(U"title", 1000);
+			SoundManager::PlaySe(U"desisionLarge");
+		}
+		m_view.update();
+		if (m_pModel->onChangeAction()) {
+			m_view.onChangeAction();
+		}
 	}
 
-	int getMoveSelect()const
+	void CourseSelectScene::finally()
 	{
-		return m_moveSelect;
+		if (getData().m_toScene == SceneName::Course) {
+			SoundManager::StopBgm(U"title", 1s);
+			// データ運搬
+			getData().m_course.init(m_pModel->getSelectCourse());
+			// ライフ引継ぎがあるためスコアを初期化しておく
+			getData().m_resultScore = Score();
+
+			//絶対Autoは解除する
+			AutoPlayManager::SetAutoPlay(false);
+		} else {
+			getData().m_course.exit();
+		}
 	}
-	bool isSelectedCourse()
+
+	void CourseSelectScene::draw() const
 	{
-		return m_isSelectedCourse;
+		m_view.draw();
+		// シーン情報
+		SceneInfo::Draw(U"Enter:決定 Esc:タイトル戻る");
 	}
-};
 
-CourseSelect::CourseSelect() :
-	m_pModel(std::make_shared<Model>()),
-	m_view(this)
-{}
-
-void CourseSelect::init()
-{
-	m_pModel->setData(m_data);
-	m_pModel->init();
-
-	if (!SoundAsset(L"title").isPlaying())
+	void CourseSelectScene::drawFadeIn(double t) const
 	{
-		SoundManager::BGM::Play(L"title", 1s);
+		if (getData().m_fromScene == SceneName::Course) {
+			FadeOut(Fade::FlipPage, t, [this]() {draw(); }, false);
+		} else {
+			FadeIn(Fade::FlipPage, t, [this]() {draw(); }, true);
+		}
 	}
-	if (m_data->m_fromScene == SceneName::Course ||
-		m_data->m_fromScene == SceneName::Main)
+
+	void CourseSelectScene::drawFadeOut([[maybe_unused]]double t) const
 	{
-		m_view.onChangeAction();
+		this->draw();
 	}
-}
 
-void CourseSelect::update()
-{
-	m_pModel->update();
-	if (m_pModel->isSelectedCourse())
+	CourseSelectScene::SelectCourseInfo CourseSelectScene::GetSelectInfo()
 	{
-		this->changeScene(SceneName::Course, 1000);
-		SoundManager::SE::Play(L"desisionLarge");
-	}else if (PlayKey::BigBack().clicked)
+		return g_selectInfo;
+	}
+
+	const Array<CourseData>& CourseSelectScene::getCourses() const
 	{
-		this->changeScene(L"title", 1000);
-		SoundManager::SE::Play(L"desisionLarge");
+		return m_pModel->getCourses();
 	}
-	m_view.update();
-	if (m_pModel->onChangeAction())
+
+	Action CourseSelectScene::getAction() const
 	{
-		m_view.onChangeAction();
+		return m_pModel->getAction();
 	}
-}
 
-void CourseSelect::finally()
-{
-	if (m_data->m_toScene == SceneName::Course)
+	std::pair<Action, Action> CourseSelectScene::getChangeAction() const
 	{
-		SoundAsset(L"title").stop(1s);
-		// データ運搬
-		m_data->m_course.init(m_pModel->getSelectCourse());
-		// ライフ引継ぎがあるためスコアを初期化しておく
-		m_data->m_resultScore = Score();
-
-		//絶対Autoは解除する
-		AutoPlayManager::SetAutoPlay(false);
+		return m_pModel->getChangeAction();
 	}
-	else {
-		m_data->m_course.exit();
-	}
-}
 
-void CourseSelect::draw() const
-{
-	m_view.draw();
-	// シーン情報
-	SceneInfo::Draw(L"Enter:決定 Esc:タイトル戻る");
-}
-
-void CourseSelect::drawFadeIn(double t) const
-{
-	if (m_data->m_fromScene == SceneName::Course)
+	int32 CourseSelectScene::getMoveSelect() const
 	{
-		FadeOut(Fade::FlipPage, t, [this]() {draw(); }, false);
+		return m_pModel->getMoveSelect();
 	}
-	else
-	{
-		FadeIn(Fade::FlipPage, t, [this]() {draw(); }, true);
-	}
-}
-
-void CourseSelect::drawFadeOut(double t) const
-{
-	this->draw();
-}
-
-CourseSelect::SelectCourseInfo CourseSelect::GetSelectInfo()
-{
-	return g_selectInfo;
-}
-
-const Array<CourseData>& CourseSelect::getCourses() const
-{
-	return m_pModel->getCourses();
-}
-
-Action CourseSelect::getAction() const
-{
-	return m_pModel->getAction();
-}
-
-std::pair<Action, Action> CourseSelect::getChangeAction() const
-{
-	return m_pModel->getChangeAction();
-}
-
-int CourseSelect::getMoveSelect() const
-{
-	return m_pModel->getMoveSelect();
 }

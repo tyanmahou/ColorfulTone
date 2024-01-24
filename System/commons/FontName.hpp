@@ -10,7 +10,6 @@ namespace ct::FontName
     inline constexpr s3d::AssetNameView Info = U"b-10";
     inline constexpr s3d::AssetNameView Combo = U"s-r-10";
     inline constexpr s3d::AssetNameView Level = U"s-o-12";
-    inline constexpr s3d::AssetNameView CourseLabel = U"s-i-15";
     inline constexpr s3d::AssetNameView ResultClearRate = U"s-b-20";
 
     inline constexpr s3d::AssetNameView StarLv = U"r-30";

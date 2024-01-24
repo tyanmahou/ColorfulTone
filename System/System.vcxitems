@@ -94,6 +94,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Types.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)effects\BGLight.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Fade\Fade.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\CourseSelect\CourseSelectScene.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\CourseSelect\CourseSelectSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Course\CourseScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Course\CourseSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadScene.hpp" />
@@ -207,6 +209,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Portrait\PortraitStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Fade\Fade.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\CourseSelect\CourseSelectScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\CourseSelect\CourseSelectSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Course\CourseScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Course\CourseSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadScene.cpp" />

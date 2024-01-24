@@ -8,16 +8,16 @@ namespace ct
     class CourseGenre
     {
     public:
-        using RefinerType = std::function<bool(CourseData&)>;
+        using RefinerType = std::function<bool(const CourseData&)>;
     private:
         RefinerType m_refiner;
         s3d::String m_name;
     public:
         CourseGenre(s3d::String name) :
             m_name(name),
-            m_refiner([name](CourseData& course) {
-            return course.getGenre() == name;
-                })
+            m_refiner([name](const CourseData& course) {
+                return course.getGenre() == name;
+            })
         {}
         const s3d::String& getName()const
         {

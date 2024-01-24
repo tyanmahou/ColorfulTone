@@ -3,6 +3,7 @@
 #include <commons/FontName.hpp>
 #include <scenes/utils/Util.hpp>
 #include <Siv3D/TextureAsset.hpp>
+#include <Siv3D/FontAsset.hpp>
 
 namespace ct::SharedDraw
 {
@@ -16,12 +17,12 @@ namespace ct::SharedDraw
 		{}
 		Select& setColorCallBack(std::function<s3d::Color(const T&)> callback)
 		{
-			this->m_colorCallback = callback;
+			this->m_colorCallback = std::move(callback);
 			return *this;
 		}
 		Select& setDrawble(std::function<void(const T&, s3d::Vec2 pos)> callback)
 		{
-			this->m_drawable = callback;
+			this->m_drawable = std::move(callback);
 			return *this;
 		}
 		Select& setWidth(s3d::uint32 width)
@@ -63,7 +64,7 @@ namespace ct::SharedDraw
 
 				const auto color = m_colorCallback(ar[index]);
 				ContractionDrawbleString(
-					FontAsset(FontName::SelectMusic)(strCallBack(ar[index])),
+					s3d::FontAsset(FontName::SelectMusic)(strCallBack(ar[index])),
 					pos + Vec2{ 80,13 },
 					m_width,
 					color,
