@@ -25,5 +25,7 @@ namespace ct
 
         static void SetMasterVolume(double volume);
         static double GetMasterVolume();
+
+        static void StopBgm(s3d::AssetNameView name, const s3d::Duration& fade = 0.0s);
     };
 }

@@ -1,7 +1,6 @@
 ﻿#include <commons/Audio/SoundManager.hpp>
 #include <commons/Audio/MixBus.hpp>
 #include <Siv3D.hpp>
-#include "SoundManager.hpp"
 
 namespace ct
 {
@@ -66,5 +65,9 @@ namespace ct
     double SoundManager::GetMasterVolume()
     {
         return GlobalAudio::GetVolume();
+    }
+    void SoundManager::StopBgm(s3d::AssetNameView name, const s3d::Duration& fade)
+    {
+        AudioAsset(name).stop(fade);
     }
 }

@@ -12,8 +12,7 @@
 #include <scenes/Scene/Config/ConfigScene.hpp>
 #include <scenes/Scene/MusicSelect/MusicSelectScene.hpp>
 #include <scenes/Scene/Main/MainScene.hpp>
-//#include"ResultScene.hpp"
-//#include"VideoAsset.h"
+#include <scenes/Scene/Result/ResultScene.hpp>
 //#include"CourseSelect.hpp"
 //#include"CourseScene.hpp"
 //#include"DownloadScene.hpp"
@@ -182,7 +181,7 @@ namespace
 		FontAsset::Register(U"s-o-12", FontMethod::SDF, 12 + 11, straightPath, FontStyle::Bold);
 		FontAsset(U"s-o-12").setBufferThickness(3);
 		FontAsset::Register(U"s-b-15", 15, straightPath, FontStyle::Bold);
-		FontAsset::Register(U"s-b-20", 20, straightPath, FontStyle::Bold);
+		FontAsset::Register(U"s-b-20", 20 + 20, straightPath, FontStyle::Bold);
 		FontAsset::Register(U"s-i-15", 15, straightPath, FontStyle::Italic);
 
 		FontAsset::Register(U"r-12", 12 + 5);
@@ -236,7 +235,7 @@ namespace ct
 			m_scene.add<TutorialScene>(SceneName::Tutorial);
 			m_scene.add<MusicSelectScene>(SceneName::Select);
 			m_scene.add<MainScene>(SceneName::Main);
-			//m_scene.add<ResultScene>(SceneName::Result);
+			m_scene.add<ResultScene>(SceneName::Result);
 			//m_scene.add<CourseSelect>(SceneName::CourseSelect);
 			//m_scene.add<CourseScene>(SceneName::Course);
 			//m_scene.add<DownloadScene>(SceneName::Download);
