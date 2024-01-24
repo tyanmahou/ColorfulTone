@@ -102,7 +102,7 @@ namespace ct::SharedDraw
 	}
 	void LongPressBack(const s3d::InputGroup& input, const s3d::String& text)
 	{
-		if (input.pressed()) {
+		if (!input.pressed()) {
 			return;
 		}
 		const double backAlpha = 0.3 + Min(input.pressedDuration().count(), 0.7);
