@@ -73,10 +73,11 @@ void PortraitStyle::drawFrame(bool red, bool blue, bool yellow, std::function<vo
 
         this->drawJudgeLine();
 
+        m_effetcs[0].update();
         drawCallback();
         {
             ScopedRenderStates2D blend(BlendState::Additive);
-            PlayMusicGame::GetEffect(1).update();
+            m_effetcs[1].update();
         }
     }
 }
@@ -129,19 +130,19 @@ void PortraitStyle::drawTapEffect(int type)
         };
 
     if (type == 5 || type == 15) {
-        PlayMusicGame::GetEffect().add<TapEffect2>(GetX(1), getWidth(1));
-        PlayMusicGame::GetEffect().add<TapEffect2>(GetX(3), getWidth(3));
-        PlayMusicGame::GetEffect(1).add<TapEffect2_2>(400 - g_width / 2);
-        PlayMusicGame::GetEffect(1).add<TapEffect2_2>(400 + g_width / 2);
+        m_effetcs[0].add<TapEffect2>(GetX(1), getWidth(1));
+        m_effetcs[0].add<TapEffect2>(GetX(3), getWidth(3));
+        m_effetcs[1].add<TapEffect2_2>(400 - g_width / 2);
+        m_effetcs[1].add<TapEffect2_2>(400 + g_width / 2);
     } else {
-        PlayMusicGame::GetEffect(1).add<TapEffect2>(GetX(type), getWidth(type));
-        PlayMusicGame::GetEffect(1).add<TapEffect2_2>(GetX(type));
+        m_effetcs[1].add<TapEffect2>(GetX(type), getWidth(type));
+        m_effetcs[1].add<TapEffect2_2>(GetX(type));
     }
 }
 
 void PortraitStyle::drawJudgeEffect(const String& str, int type)
 {
-    PlayMusicGame::GetEffect().add<JudgeEffect>(str, Vec2{ GetX(type),400 });
+    m_effetcs[0].add<JudgeEffect>(str, Vec2{ GetX(type),400 });
 }
 
 void PortraitStyle::draw(const Bar& note, double count, double scrollRate) const

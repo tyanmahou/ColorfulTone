@@ -42,14 +42,6 @@ namespace ct
 		AudioSpectrum m_spectrum;
 		void uiDraw()const;
 	public:
-
-		static s3d::Effect& GetEffect(std::size_t index = 0)
-		{
-			static std::array<s3d::Effect, 2> effects;
-
-			return effects[index];
-		}
-
 		PlayMusicGame();
 
 		void init(const NotesData& notes, const double scrollRate);

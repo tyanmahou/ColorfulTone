@@ -22,5 +22,7 @@ namespace ct
 		void draw(const RepeatNote& note, double count, double scrollRate)const override;
 
 		void draw(const RepeatEnd& note, double count, double scrollRate)const override;
+	private:
+		s3d::Effect m_effetcs[2];
 	};
 }

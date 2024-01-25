@@ -227,7 +227,6 @@ namespace ct
 
 		PlayStyle::Instance()->drawFrame(redInput, blueInput, yellowInput,
 			[&] {
-				PlayMusicGame::GetEffect().update();
 				m_notesData.draw(drawCount, m_scrollRate);
 			});
 
