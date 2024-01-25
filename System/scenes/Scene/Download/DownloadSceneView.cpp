@@ -70,6 +70,9 @@ namespace ct
 				.setColorCallBack([](const DownloadContent& c) { 
 				    return c.isDownloaded() ? Palette::Gray : Palette::White;
 				})
+				.setDrawble([](const DownloadContent& c, Vec2 pos) {
+					c.getTexture().resized(50, 50).drawAt(pos + Vec2{ 37, 30 }, c.getColor());
+				})
 				.draw(
 					contents,
 					select.content,
