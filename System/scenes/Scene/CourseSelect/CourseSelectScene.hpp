@@ -7,15 +7,15 @@ namespace ct
 	class CourseSelectScene : public ISceneBase
 	{
 	public:
-		enum class Action : uint8
+		enum class Action : s3d::uint8
 		{
 			GenreSelect,
 			CourseSelect,
 		};
 		struct SelectCourseInfo
 		{
-			uint32 genre = 0;	// 選択中のジャンル
-			uint32 course = 0;	// 選択中のコース
+			s3d::uint32 genre = 0;	// 選択中のジャンル
+			s3d::uint32 course = 0;	// 選択中のコース
 		};
 	private:
 

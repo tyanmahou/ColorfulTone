@@ -15,7 +15,7 @@
 #include <scenes/Scene/Result/ResultScene.hpp>
 #include <scenes/Scene/CourseSelect/CourseSelectScene.hpp>
 #include <scenes/Scene/Course/CourseScene.hpp>
-//#include"DownloadScene.hpp"
+#include <scenes/Scene/Download/DownloadScene.hpp>
 
 #include <Siv3D.hpp>
 
@@ -44,7 +44,7 @@ namespace
 		TextureAsset::Register(U"line", U"Resource/Img/MusicSelect/line.png");
 		TextureAsset::Register(U"memo", U"Resource/Img/MusicSelect/memo.png");
 		TextureAsset::Register(U"memoCourse", U"Resource/Img/MusicSelect/memo_course.png");
-		TextureAsset::Register(U"memoDU", U"Resource/Img/MusicSelect/memo_dl.png");
+		TextureAsset::Register(U"memoDL", U"Resource/Img/MusicSelect/memo_dl.png");
 		TextureAsset::Register(U"favorite", U"Resource/Img/MusicSelect/favorite.png");
 
 		TextureAsset::Register(U"levelbg", U"Resource/Img/MusicSelect/select.png");
@@ -60,6 +60,9 @@ namespace
 		TextureAsset::Register(U"genre_file", U"Resource/Img/MusicSelect/icon/file.png");
 		TextureAsset::Register(U"genre_all", U"Resource/Img/MusicSelect/icon/red.png");
 		TextureAsset::Register(U"genre_favorite", U"Resource/Img/MusicSelect/icon/favorite.png");
+
+		// dl_file
+		TextureAsset::Register(U"dl_file", U"Resource/Img/MusicSelect/icon/dl_file.png");
 
 		//リザルトシーン
 		TextureAsset::Register(U"AAA", U"Resource/Img/Result/rank/AAA.png");
@@ -237,7 +240,7 @@ namespace ct
 			m_scene.add<ResultScene>(SceneName::Result);
 			m_scene.add<CourseSelectScene>(SceneName::CourseSelect);
 			m_scene.add<CourseScene>(SceneName::Course);
-			//m_scene.add<DownloadScene>(SceneName::Download);
+			m_scene.add<DownloadScene>(SceneName::Download);
 		}
 		void init()
 		{

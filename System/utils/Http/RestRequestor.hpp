@@ -1,10 +1,14 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 #include <Siv3D/URL.hpp>
 #include <Siv3D/JSON.hpp>
+#include <utils/Coro/Fiber/Fiber.hpp>
 
 namespace ct
 {
+	/// <summary>
+	/// Restリクエスタ
+	/// </summary>
 	class RestRequestor
 	{
 	public:
@@ -15,11 +19,33 @@ namespace ct
 			Failed,
 		};
 	public:
+		/// <summary>
+		/// POSTでHTTPリクエストしてリクエスタを生成
+		/// </summary>
+		/// <param name="endPoint"></param>
+		/// <param name="sendParams"></param>
+		/// <returns></returns>
+		static RestRequestor Post(const s3d::URL& endPoint, const s3d::JSON& sendParams = {});
+	public:
 		RestRequestor();
-		RestRequestor(const s3d::URL& endPoint, const s3d::JSON& sendParams = {});
 		~RestRequestor() = default;
 
-		Status  request(const s3d::URL& endPoint, const s3d::JSON& sendParams = {})const;
+		/// <summary>
+		/// POSTでHTTPリクエスト
+		/// </summary>
+		/// <param name="endPoint"></param>
+		/// <param name="sendParams"></param>
+		/// <returns></returns>
+		Status post(const s3d::URL& endPoint, const s3d::JSON& sendParams = {}) const;
+
+		/// <summary>
+		/// POSTでHTTPリクエスト 非同期
+		/// </summary>
+		/// <param name="endPoint"></param>
+		/// <param name="sendParams"></param>
+		/// <returns></returns>
+		Coro::Fiber<Status> postAsync(const s3d::URL& endPoint, const s3d::JSON& sendParams = {}) const;
+
 		Status getStatus()const;
 		s3d::JSON getResponse()const;
 

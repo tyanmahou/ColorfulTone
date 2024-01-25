@@ -1,12 +1,14 @@
 ﻿#include <apis/Title/TitleApi.hpp>
 #include <apis/ApiEndPoints.hpp>
 #include <utils/Http/RestRequestor.hpp>
+#include <commons/Game/Game.hpp>
+#include <Siv3D.hpp>
 
 namespace ct
 {
     bool TitleApi::CheckVersion()
     {
-        auto httpRequest = RestRequestor(Api::TitleVersion);
+        auto httpRequest = RestRequestor::Post(Api::TitleVersion);
         if (!httpRequest) {
             return false;
         }

@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)apis\ApiEndPoints.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)apis\Download\DownloadApi.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)apis\Title\TitleApi.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Application\AppRunner.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Application\base\BaseApp.hpp" />
@@ -32,6 +33,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Anime\StartAnime\StartAnime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\CourseData\CourseData.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\CourseGenre\CourseGenre.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\DownloadContent.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\Downloader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\DownloadHistory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Favorite\FavoriteModel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Genre\CostumFolder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCFReader.hpp" />
@@ -98,6 +102,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\CourseSelect\CourseSelectSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Course\CourseScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Course\CourseSceneView.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Download\DownloadScene.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Download\DownloadSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\ISceneBase.hpp" />
@@ -160,6 +166,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Version\Version.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)apis\Download\DownloadApi.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)apis\Title\TitleApi.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Application\AppRunner.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Application\base\BaseApp.cpp" />
@@ -171,6 +178,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\StartAnime\StartAnime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\CourseData\CourseData.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\DownloadContent.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\Downloader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\DownloadHistory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\CostumFolder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCFReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCF\Evaluator\Evaluator.cpp" />
@@ -213,6 +223,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\CourseSelect\CourseSelectSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Course\CourseScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Course\CourseSceneView.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Download\DownloadScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Download\DownloadSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Config\Config.cpp" />
