@@ -187,14 +187,19 @@ namespace ct
 	}
 	void PlayMusicGame::drawBG(const double drawCount)const
 	{
-
 		m_playBG->apply(drawCount);
+
+		const double brightness = static_cast<double>(Game::Config().m_bgBrightness) / 10.0;
+		if (brightness < 1) {
+			Scene::Rect().draw(ColorF(0, 1 - brightness));
+		}
 
 		//スペクトラム描画
 		if (Game::Config().m_isSpectrum) {
 			m_spectrum.draw(m_sound);
 		}
-		TextureAsset(U"mainbg").draw();
+		TextureAsset(U"mainbg_back").draw(ColorF(1, brightness));
+		TextureAsset(U"mainbg_front").draw();
 	}
 
 	void PlayMusicGame::draw() const

@@ -185,7 +185,7 @@ namespace ct
         void TimingAdjustInit(Config& config)
         {
             config.setName(U"タイミング調整");
-            for (int adjust : step_to(-10, 10)) {
+            for (int32 adjust : step_to(-10, 10)) {
                 config.add(Format(adjust), [=]() {Game::Config().m_timingAdjust = static_cast<int8>(adjust); });
             }
             config.setDefault(U"0");
@@ -203,6 +203,15 @@ namespace ct
             config.add(U"背景なし 白", []() {Game::Config().m_bgType = BGType::NoneWhite; });
 
             config.init(static_cast<size_t>(Game::Config().m_bgType));
+        }
+        void PlayBGBrightnessInit(Config& config)
+        {
+            config.setName(U"背景明るさ");
+            for (int32 adjust : step_to(0, 10)) {
+                config.add(Format(adjust), [=]() {Game::Config().m_bgBrightness = static_cast<int8>(adjust); });
+            }
+            config.setDefault(U"10");
+            config.init(Format(Game::Config().m_bgBrightness));
         }
         //style
         void PlayStyleInit(Config& config)
@@ -249,6 +258,7 @@ namespace ct
                 PlayScale,
                 TimingAdjust,
                 BGType,
+                BGBrightness,
                 IsSpectrum,
                 Style,
                 TOTAL_CONFIG //コンフィグの数
@@ -262,6 +272,7 @@ namespace ct
                 PlayScaleInit(m_configs[PlayScale]);
                 TimingAdjustInit(m_configs[TimingAdjust]);
                 PlayBGInit(m_configs[BGType]);
+                PlayBGBrightnessInit(m_configs[BGBrightness]);
                 IsSpectrumInit(m_configs[IsSpectrum]);
                 PlayStyleInit(m_configs[Style]);
             }

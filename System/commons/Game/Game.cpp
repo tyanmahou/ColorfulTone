@@ -81,7 +81,6 @@ namespace
 
 		//メイン
 		//portrait
-
 		TextureAsset::Register(U"tapEffect2", U"Resource/Img/Main/tapeffect2.png");
 
 		TextureAsset::Register(U"portrait_notes9", U"Resource/Img/Main/ノーツ/portrait/portrait_notes.png");
@@ -94,7 +93,9 @@ namespace
 		TextureAsset::Register(U"portrait_notes7", U"Resource/Img/Main/ノーツ/portrait/portrait_notes7.png");
 		TextureAsset::Register(U"portrait_notes10", U"Resource/Img/Main/ノーツ/portrait/portrait_notes10.png");
 
-		TextureAsset::Register(U"mainbg", U"Resource/Img/Main/back.png");
+		TextureAsset::Register(U"mainbg_front", U"Resource/Img/Main/back1.png");
+		TextureAsset::Register(U"mainbg_back", U"Resource/Img/Main/back2.png");
+
 		//隕石
 		TextureAsset::Register(U"note_black", U"Resource/Img/Main/ノーツ/通常/kuro.png");
 		TextureAsset::Register(U"note_red", U"Resource/Img/Main/ノーツ/通常/aka.png");

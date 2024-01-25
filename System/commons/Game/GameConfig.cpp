@@ -106,7 +106,7 @@ namespace  ct
         m_isSpectrum = ini.getOr<bool>(U"Config.IsSpectrum", true);
         m_bgType = static_cast<BGType>(ini.getOr<int32>(U"Config.BGType", 0));
         m_styleType = static_cast<PlayStyleType>(ini.getOr<int32>(U"Config.StyleType", 0));
-
+        m_bgBrightness = ini.getOr<int8>(U"Config.BGBrightness", 10);
     }
 
     void GameConfig::save()
@@ -156,6 +156,7 @@ namespace  ct
 
         ini.write(U"Config", U"BGType", static_cast<int32>(m_bgType));
         ini.write(U"Config", U"StyleType", static_cast<int32>(m_styleType));
+        ini.write(U"Config", U"BGBrightness", m_bgBrightness);
 
         ini.save(U"config.ini");
     }
