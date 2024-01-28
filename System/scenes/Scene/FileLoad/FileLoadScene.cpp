@@ -156,10 +156,6 @@ namespace
 
 	void LoadContentsData(const std::stop_token& stopToken)
 	{
-		// TODO
-		// スコアを移動
-		//CompatibilityUtil::MoveScoreFolder();
-
 		if (!LoadMusicData(stopToken)) {
 			return;
 		}
@@ -246,6 +242,10 @@ namespace ct
 
 	Coro::Fiber<void> FileLoadScene::updateAsync()
 	{
+		// TODO
+		// スコアを移動
+		//CompatibilityUtil::MoveScoreFolder();
+
 		// ロード開始
 		co_await Thread::Task(::LoadContentsData);
 
