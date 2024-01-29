@@ -27,6 +27,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\FontName.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Game\Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Game\GameConfig.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)commons\Migration\MigrationUtil.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Secret\Secret.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.hpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\SharedLogic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\Util.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Addon\IntervalCounter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Asset\SivAssetUtil.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Audio\AudioSpectrum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Audio\Loop.hpp" />
@@ -175,6 +177,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Audio\SoundManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Game\Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Game\GameConfig.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)commons\Migration\MigrationUtil.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\StartAnime\StartAnime.cpp" />
@@ -252,6 +255,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\MemoInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedLogic.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\Util.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Addon\IntervalCounter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Audio\AudioSpectrum.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Clock\Clock.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Clock\ClockUtil.cpp" />
