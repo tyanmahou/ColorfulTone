@@ -149,6 +149,18 @@ namespace ct
                 config.init(U"ライフゲージ");
             }
         }
+        void LifeDeadInit(Config& config)
+        {
+            config.setName(U"ライフ制モード");
+            config.add(U"ON", []() {Game::Config().m_isLifeDead = true; });
+            config.add(U"OFF", []() {Game::Config().m_isLifeDead = false; });
+
+            if (Game::Config().m_isLifeDead)
+                config.init(U"ON");
+            else
+                config.init(U"OFF");
+
+        }
         //円形切り取りの初期化
         void CircleCutInit(Config& config)
         {
@@ -254,6 +266,7 @@ namespace ct
             enum Mode
             {
                 ClearRate,
+                LifeDead,
                 CircleCut,
                 PlayScale,
                 TimingAdjust,
@@ -268,6 +281,7 @@ namespace ct
             {
                 m_configs.resize(TOTAL_CONFIG);
                 ClearRateInit(m_configs[ClearRate]);
+                LifeDeadInit(m_configs[LifeDead]);
                 CircleCutInit(m_configs[CircleCut]);
                 PlayScaleInit(m_configs[PlayScale]);
                 TimingAdjustInit(m_configs[TimingAdjust]);

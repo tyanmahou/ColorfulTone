@@ -82,6 +82,7 @@ namespace  ct
 
         m_playScale = ini.getOr<double>(U"Config.PlayScale", 1.0);
         m_timingAdjust = ini.getOr<int8>(U"Config.TimingAdjust", 0);
+        m_isLifeDead = ini.getOr<bool>(U"Config.LifeDead", false);
 
         const auto seName = ini.getOr<String>(U"Tap.Name", U"デフォルト");
         const auto perfectSE = ini.getOr<String>(U"Tap.Perfect", U"TapSE/デフォルト/tapP.mp3");
@@ -145,6 +146,7 @@ namespace  ct
         ini.write(U"Config", U"TimingAdjust", m_timingAdjust);
         ini.write(U"Config", U"CirleCut", m_isCirleCut);
         ini.write(U"Config", U"IndicateRate", static_cast<int32>(m_rateType));
+        ini.write(U"Config", U"LifeDead", m_isLifeDead);
 
         ini.write(U"Config", U"BGMVolume", m_bgmVolume);
         ini.write(U"Config", U"SEVolume", m_seVolume);

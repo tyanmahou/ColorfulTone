@@ -153,7 +153,7 @@ namespace ct
 				this->stopSound();
 			}
 		}
-		if (m_isCourse && m_score.m_life <= 0) {
+		if ((m_isCourse || Game::Config().m_isLifeDead) && m_score.m_life <= 0) {
 			m_isFinish = true;
 		}
 	}
@@ -229,7 +229,6 @@ namespace ct
 		const bool blueInput = isInput(AutoPlayManager::IsBluePressed(), PlayKey::Blue().pressed());
 		const bool yellowInput = isInput(AutoPlayManager::IsYellowPressed(), PlayKey::Yellow().pressed());
 
-
 		PlayStyle::Instance()->drawFrame(redInput, blueInput, yellowInput,
 			[&] {
 				m_notesData.draw(drawCount, m_scrollRate);
@@ -275,7 +274,7 @@ namespace ct
 		//UI***************************************************************
 
 		const IndicateRate rateType = Game::Config().m_rateType;
-		const auto rate = m_isCourse || rateType == IndicateRate::Life ?
+		const auto rate = m_isCourse || Game::Config().m_isLifeDead || rateType == IndicateRate::Life ?
 			ResultRank::CalcLifeRate(m_score) :
 			rateType == IndicateRate::Down ?
 			ResultRank::CalcClearRateAsDownType(m_score, m_notesData.getTotalNotes()) :

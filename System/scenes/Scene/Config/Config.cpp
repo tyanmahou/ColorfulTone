@@ -52,6 +52,10 @@ namespace ct
 		m_actions.emplace_back(U"Func", func);
 		m_hasOnEnterd = true;
 	}
+	void Config::setNeedEnterdSe(bool needEnterdSe)
+	{
+		m_needEnterdSe = needEnterdSe;
+	}
 	bool Config::init(const String& text)
 	{
 		for (const auto& [i, a] : Indexed(m_actions)) {

@@ -6,12 +6,6 @@ namespace ct
 {
 	class Config
 	{
-	private:
-		size_t m_select = 0;
-		size_t m_default = 0;
-		bool m_hasOnEnterd = false;
-		String m_name;
-		Array<std::pair<String, std::function<void()>>> m_actions;
 	public:
 		Config();
 		Config(const String& name);
@@ -29,11 +23,19 @@ namespace ct
 
 		bool add(const String& text, std::function<void()> func);
 		void applyOnEnterd(std::function<void()> func);
+		void setNeedEnterdSe(bool needEnterdSe);
 		bool init(const String& text);
 		bool init(size_t index);
 
 		void setDefault(const String& text);
 		void draw(double y, double alpha = 1.0)const;
+	private:
+		size_t m_select = 0;
+		size_t m_default = 0;
+		bool m_hasOnEnterd = false;
+		bool m_needEnterdSe = true;
+		String m_name;
+		Array<std::pair<String, std::function<void()>>> m_actions;
 	};
 
 	class ConfigManager;
