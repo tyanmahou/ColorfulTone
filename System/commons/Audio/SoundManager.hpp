@@ -12,6 +12,7 @@ namespace ct
         static double GetBgmVolume();
 
         static void PlaySe(s3d::AssetNameView name);
+        static void PlaySeIfNotPlaying(s3d::AssetNameView name);
         static void SetSeVolume(double volume);
         static double GetSeVolume();
 

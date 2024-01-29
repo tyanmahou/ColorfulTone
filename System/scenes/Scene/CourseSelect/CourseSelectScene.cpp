@@ -90,7 +90,7 @@ namespace ct
 			auto& target = ::GetSelectTarget(m_action);
 			size_t size = ::GetTargetSize(m_action, m_courses);
 			m_moveSelect = SharedLogic::MoveSelectV();
-			if (m_moveSelect) {
+			if (m_moveSelect != 0) {
 				if (m_moveSelect < 0) {
 					++target;
 				} else {

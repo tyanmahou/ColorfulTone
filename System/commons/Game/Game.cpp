@@ -167,7 +167,7 @@ namespace
 		AudioAsset::Register({ U"result" , {U"System"} }, U"Resource/Sound/BGM/result.mp3", ct::MakeLoopTiming(6s, 90.0s));
 
 		// SE
-		AudioAsset::Register({ U"select",{ U"System" } }, U"Resource/Sound/SE/select.mp3");
+		AudioAsset::Register({ U"select",{ U"System" } }, U"Resource/Sound/SE/select.ogg");
 		AudioAsset::Register({U"desisionSmall",{ U"System" } }, U"Resource/Sound/SE/decide.mp3");
 		AudioAsset::Register({U"desisionLarge",{ U"System" } }, U"Resource/Sound/SE/mekuru.mp3");
 		AudioAsset::Register({U"desisionLarge2",{ U"System" } }, U"Resource/Sound/SE/ironuri.mp3");

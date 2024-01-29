@@ -60,7 +60,6 @@ namespace ct
 					--target;
 				}
 				SoundManager::PlaySe(U"select");
-
 			}
 			target = size ? target % size : 0;
 

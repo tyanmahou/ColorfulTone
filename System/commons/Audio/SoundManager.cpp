@@ -26,6 +26,10 @@ namespace ct
     {
         AudioAsset(name).playOneShot(MixBusKind::Se, 1.0);
     }
+    void SoundManager::PlaySeIfNotPlaying(s3d::AssetNameView name)
+    {
+        AudioAsset(name).play(MixBusKind::Se);
+    }
     void SoundManager::SetSeVolume(double volume)
     {
         GlobalAudio::BusSetVolume(MixBusKind::Se, volume);
