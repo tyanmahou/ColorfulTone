@@ -42,16 +42,18 @@ namespace ct
                 m_configs[Perfect].applyOnEnterd([]() {
                     SoundManager::PlayInGameSe(U"PERFECT");
                     });
-
+                m_configs[Perfect].setNeedEnterdSe(false);
                 m_configs[Great].setName(U"GREAT 試聴");
                 m_configs[Great].applyOnEnterd([]() {
                     SoundManager::PlayInGameSe(U"GREAT");
                     });
+                m_configs[Great].setNeedEnterdSe(false);
 
                 m_configs[Good].setName(U"GOOD 試聴");
                 m_configs[Good].applyOnEnterd([]() {
                     SoundManager::PlayInGameSe(U"GOOD");
                     });
+                m_configs[Good].setNeedEnterdSe(false);
             }
             ~TapSEConfig()
             {

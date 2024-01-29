@@ -19,7 +19,9 @@ namespace ct
 		}
 		if (m_hasOnEnterd) {
 			if (PlayKey::Start().down()) {
-				SoundManager::PlaySe(U"select");
+				if (m_needEnterdSe) {
+					SoundManager::PlaySe(U"select");
+				}
 
 				m_actions.at(0).second();
 			}
