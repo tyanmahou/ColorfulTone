@@ -12,7 +12,7 @@ namespace ct
         if (FileSystem::Exists(U"Score")) {
             FileSystem::Rename(U"Score", U"UserData/Score");
         }
-        if (FileSystem::Exists(L"System")) {
+        if (FileSystem::Exists(U"System")) {
             FileSystem::Rename(U"System", U"UserData/System");
         }
     }
