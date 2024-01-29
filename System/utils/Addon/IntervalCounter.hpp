@@ -4,8 +4,19 @@
 
 namespace ct
 {
+    /// <summary>
+    /// 定期更新カウンタ
+    /// </summary>
     class IntervalCounter : public s3d::IAddon
     {
+        static constexpr auto* AddonName = U"IntervalCounter";
+    public:
+        static bool RegisterAddon(const Fps& fps = 60_fps);
+
+        static IntervalCounter* Instance();
+
+        static bool IsUpdated();
+        static bool IsUpdatedEvery(s3d::uint64 n = 1);
     public:
         IntervalCounter(const Fps& fps = 60_fps);
     protected:
@@ -19,7 +30,7 @@ namespace ct
         {
             return m_isUpdateFrame;
         }
-        bool isUpdatedMod(s3d::uint64 mod = 1) const;
+        bool isUpdatedEvery(s3d::uint64 n = 1) const;
 
         template<class Pred>
         bool isUpdatedWhen(Pred pred)
@@ -28,7 +39,7 @@ namespace ct
         }
     private:
         s3d::uint64 m_count = 0;
-        double m_interval = 0;
+        const double m_interval = 0;
         double m_current = 0;
         bool m_isUpdateFrame = false;
     };

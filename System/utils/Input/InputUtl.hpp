@@ -2,28 +2,29 @@
 #include <Siv3D/Types.hpp>
 #include <Siv3D/InputGroups.hpp>
 #include <Siv3D/Scene.hpp>
-#include <utils/Fps/Fps.hpp>
 
 namespace ct
 {
+	/// <summary>
+	/// 加速設定
+	/// </summary>
+	struct AccelPressedDesc
+	{
+		static AccelPressedDesc CreateDefault();
+
+		s3d::int32 timeMillisec = 5000;
+		s3d::int32 waitMillisec = 500;
+		s3d::int32 frameMin = 1;
+		s3d::int32 frameMax = 10;
+
+		bool isLongPress(const s3d::Duration& pressedDuration) const;
+		bool isLongPress(s3d::int32 pressedDuration) const;
+		s3d::int32 intervalFrame(s3d::int32 pressedDuration) const;
+		s3d::int32 intervalFrame(const s3d::Duration& pressedDuration) const;
+	};
     class InputUtil
     {
 	public:
-		template<class KeyType>
-		static auto AccelPressed(const KeyType& key, s3d::int32 timeMillisec = 2500, s3d::int32 waitMillisec = 500, const Fps& fps = 50_fps)
-			-> decltype(key.down(), key.pressedDuration(), true)
-		{
-			double deltaFrame = fps.frame(s3d::Scene::DeltaTime());
-			if (deltaFrame == 0) {
-				return key.down();
-			}
-			const s3d::int32 duration = static_cast<s3d::int32>(s3d::DurationCast<s3d::Milliseconds>(key.pressedDuration()).count());
-			const s3d::int32 time = timeMillisec - waitMillisec;
-
-			const s3d::int32 frame = s3d::Max(1, static_cast<s3d::int32>(s3d::Round(1.0 / deltaFrame)));
-
-			const s3d::int32 interval = (time <= 0 ? 5 : 10 - 5 * s3d::Min(time, (duration - waitMillisec)) / time) * frame;
-			return key.down() || duration >= waitMillisec && s3d::Scene::FrameCount() % interval == 0;
-		}
+		static bool AccelPressed(const s3d::InputGroup& key, const AccelPressedDesc& desc = AccelPressedDesc::CreateDefault());
     };
 }

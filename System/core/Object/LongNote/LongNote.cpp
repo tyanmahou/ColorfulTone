@@ -3,6 +3,7 @@
 #include <core/Judge/Judge.hpp>
 #include <core/Play/PlayStyle/PlayStyle.hpp>
 #include <core/Play/PlayMusicGame.hpp>
+#include <utils/Addon/IntervalCounter.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -93,11 +94,12 @@ namespace ct
 
             return true;
         }
-        if (!(Scene::FrameCount() % 6)) {
+        if (IntervalCounter::IsUpdatedEvery(3)) {
             if (m_type == 17) {
                 PlayStyle::Instance()->drawTapEffect(7);
-            } else
+            } else {
                 PlayStyle::Instance()->drawTapEffect(m_parent->getType());
+            }
         }
         //オートプレイ----------------------
         if (AutoPlayManager::IsAutoPlay()) {

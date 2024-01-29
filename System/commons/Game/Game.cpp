@@ -17,6 +17,7 @@
 #include <scenes/Scene/Course/CourseScene.hpp>
 #include <scenes/Scene/Download/DownloadScene.hpp>
 
+#include <utils/Addon/IntervalCounter.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -243,8 +244,13 @@ namespace ct
 			m_scene.add<CourseScene>(SceneName::Course);
 			m_scene.add<DownloadScene>(SceneName::Download);
 		}
+		void registerAddon()
+		{
+			IntervalCounter::RegisterAddon();
+		}
 		void init()
 		{
+			this->registerAddon();
 			this->registerScene();
 			::AssetLoad();
 		}

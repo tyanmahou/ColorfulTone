@@ -1,6 +1,7 @@
-#include "MainApp.hpp"
+﻿#include "MainApp.hpp"
 #include <commons/Game/Game.hpp>
 #include <commons/Constants.hpp>
+#include <Siv3D.hpp>
 
 namespace ct
 {
@@ -20,6 +21,13 @@ namespace ct
         if (KeyF4.down()) {
             m_windowCtrl.changeWindowSizeNext();
         }
+        if (KeyF7.down()) {
+            m_showFps ^= true;
+        }
+        if (m_showFps) {
+            PutText(U"{}"_fmt(Profiler::FPS()), Arg::topLeft = Vec2{ 0, 0 });
+        }
+
         return Game::Update();
     }
     void MainApp::onShutdown()

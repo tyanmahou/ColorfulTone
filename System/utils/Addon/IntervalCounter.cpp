@@ -1,9 +1,24 @@
 ﻿#include <utils/Addon/IntervalCounter.hpp>
 #include <Siv3D.hpp>
-#include "IntervalCounter.hpp"
 
 namespace ct
 {
+    bool IntervalCounter::RegisterAddon(const Fps& fps)
+    {
+        return s3d::Addon::Register(AddonName, std::make_unique<IntervalCounter>(fps));
+    }
+    IntervalCounter* IntervalCounter::Instance()
+    {
+        return s3d::Addon::GetAddon<IntervalCounter>(AddonName);
+    }
+    bool IntervalCounter::IsUpdated()
+    {
+        return Instance()->isUpdated();
+    }
+    bool IntervalCounter::IsUpdatedEvery(s3d::uint64 n)
+    {
+        return Instance()->isUpdatedEvery(n);
+    }
     IntervalCounter::IntervalCounter(const Fps& fps):
         m_interval(fps.deltaTime()),
         m_current(0)
@@ -21,13 +36,13 @@ namespace ct
             if (m_current >= m_interval) {
                 m_current = s3d::Fmod(m_current, m_interval);
                 ++m_count;
+                m_isUpdateFrame = true;
             }
-            m_isUpdateFrame = true;
         }
         return true;
     }
-    bool IntervalCounter::isUpdatedMod(s3d::uint64 mod) const
+    bool IntervalCounter::isUpdatedEvery(s3d::uint64 n) const
     {
-        return m_isUpdateFrame && m_count % mod == 0;
+        return m_isUpdateFrame && (m_count % n == 0);
     }
 }

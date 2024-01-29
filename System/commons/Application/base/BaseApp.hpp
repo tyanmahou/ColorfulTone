@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <commons/Application/base/IApplication.hpp>
 #include <commons/Application/WindowCtrl.hpp>
 
@@ -12,5 +12,6 @@ namespace ct
 		bool run();
 	protected:
 		WindowCtrl m_windowCtrl;
+		bool m_showFps = false;
 	};
 }

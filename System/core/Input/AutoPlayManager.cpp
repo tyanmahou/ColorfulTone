@@ -1,4 +1,5 @@
 ﻿#include <core/Input/AutoPlayManager.hpp>
+#include <utils/Addon/IntervalCounter.hpp>
 #include <array>
 
 namespace ct
@@ -9,10 +10,10 @@ namespace ct
         struct FrameCount
         {
             FrameCount() = default;
-            FrameCount(int _c = 15) :
+            FrameCount(s3d::int32 _c = 15) :
                 count(_c)
             {}
-            int count = 0;
+            s3d::int32 count = 0;
         };
 
         std::array<FrameCount, 3> m_isPressed;
@@ -37,9 +38,11 @@ namespace ct
         }
         void update()
         {
-            for (auto&& elm : m_isPressed) {
-                if (elm.count > 0) {
-                    --elm.count;
+            if (IntervalCounter::IsUpdated()) {
+                for (auto&& elm : m_isPressed) {
+                    if (elm.count > 0) {
+                        --elm.count;
+                    }
                 }
             }
         }
