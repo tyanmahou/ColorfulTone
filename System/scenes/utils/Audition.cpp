@@ -107,6 +107,8 @@ namespace ct
 		const MusicData::ABLoop& loop = musicData.getLoopRange();
 		ScopedLoadAssetAsync<AudioAsset> scopedLoad(id);
 		while (!AudioAsset::IsReady(id)) {
+			// 他のリクエストでキャンセルされる可能性があるので毎回ロードリクエストはしておく
+			AudioAsset::LoadAsync(id);
 			co_yield{};
 		}
 		if (requestId != m_requestId) {
