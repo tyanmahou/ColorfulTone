@@ -11,7 +11,7 @@ namespace ct
         YRB,
         BRY,
         Random,
-        // SRandom,
+        SRandom,
 
         None = RBY,
         Mirror = YBR,

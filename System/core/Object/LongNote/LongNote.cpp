@@ -38,7 +38,10 @@ namespace ct
         Object::init();
 
         // 配置決定
-        m_type = RandomNote::Cast(m_baseType);
+        m_type = m_parent->getType();
+
+        // ロングの終点でロックを解除
+        RandomNote::ResetIgnore();
 
         HSV hsv = m_parent->getColor();
         hsv.s = Min(0.5, hsv.s);

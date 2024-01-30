@@ -146,6 +146,7 @@ namespace ct
             config.add(U"240度回転", []() {Game::Config().m_random = RandomNoteType::Rotate240; });
             config.add(U"240度回転ミラー", []() {Game::Config().m_random = RandomNoteType::Rotate240Mirror; });
             config.add(U"ランダム", []() {Game::Config().m_random = RandomNoteType::Random; });
+            config.add(U"完全ランダム", []() {Game::Config().m_random = RandomNoteType::SRandom; });
 
             config.init(static_cast<size_t>(Game::Config().m_random));
         }
