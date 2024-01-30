@@ -132,24 +132,9 @@ namespace ct
             }
         };
     }
-
     namespace
     {
-        // ランダム
-        void RandomInit(Config& config)
-        {
-            config.setName(U"ランダム配置設定");
-            config.add(U"なし", []() {Game::Config().m_random = RandomNoteType::None; });
-            config.add(U"ミラー", []() {Game::Config().m_random = RandomNoteType::Mirror; });
-            config.add(U"120度回転", []() {Game::Config().m_random = RandomNoteType::Rotate120; });
-            config.add(U"120度回転ミラー", []() {Game::Config().m_random = RandomNoteType::Rotatee120Mirror; });
-            config.add(U"240度回転", []() {Game::Config().m_random = RandomNoteType::Rotate240; });
-            config.add(U"240度回転ミラー", []() {Game::Config().m_random = RandomNoteType::Rotate240Mirror; });
-            config.add(U"ランダム", []() {Game::Config().m_random = RandomNoteType::Random; });
-            config.add(U"完全ランダム", []() {Game::Config().m_random = RandomNoteType::SRandom; });
-
-            config.init(static_cast<size_t>(Game::Config().m_random));
-        }
+        // 表示設定
         //表示クリアレート
         void ClearRateInit(Config& config)
         {
@@ -165,18 +150,6 @@ namespace ct
             } else if (Game::Config().m_rateType == IndicateRate::Life) {
                 config.init(U"ライフゲージ");
             }
-        }
-        void LifeDeadInit(Config& config)
-        {
-            config.setName(U"ライフ制モード");
-            config.add(U"ON", []() {Game::Config().m_isLifeDead = true; });
-            config.add(U"OFF", []() {Game::Config().m_isLifeDead = false; });
-
-            if (Game::Config().m_isLifeDead)
-                config.init(U"ON");
-            else
-                config.init(U"OFF");
-
         }
         //円形切り取りの初期化
         void CircleCutInit(Config& config)
@@ -210,15 +183,6 @@ namespace ct
             }
             config.setDefault(U"x1.0");
             config.init(map.at(Game::Config().m_playScale));
-        }
-        void TimingAdjustInit(Config& config)
-        {
-            config.setName(U"タイミング調整");
-            for (int32 adjust : step_to(-10, 10)) {
-                config.add(Format(adjust), [=]() {Game::Config().m_timingAdjust = static_cast<int8>(adjust); });
-            }
-            config.setDefault(U"0");
-            config.init(Format(Game::Config().m_timingAdjust));
         }
         void PlayBGInit(Config& config)
         {
@@ -278,16 +242,13 @@ namespace ct
             else
                 config.init(U"OFF");
         }
-        class PlayConfig :public IConfigHierchy
+        class PlayViewConfig :public IConfigHierchy
         {
             enum Mode
             {
-                Random,
                 ClearRate,
-                LifeDead,
                 CircleCut,
                 PlayScale,
-                TimingAdjust,
                 BGType,
                 BGBrightness,
                 IsSpectrum,
@@ -295,19 +256,78 @@ namespace ct
                 TOTAL_CONFIG //コンフィグの数
             };
         public:
-            PlayConfig()
+            PlayViewConfig()
             {
                 m_configs.resize(TOTAL_CONFIG);
-                RandomInit(m_configs[Random]);
                 ClearRateInit(m_configs[ClearRate]);
-                LifeDeadInit(m_configs[LifeDead]);
                 CircleCutInit(m_configs[CircleCut]);
                 PlayScaleInit(m_configs[PlayScale]);
-                TimingAdjustInit(m_configs[TimingAdjust]);
                 PlayBGInit(m_configs[BGType]);
                 PlayBGBrightnessInit(m_configs[BGBrightness]);
                 IsSpectrumInit(m_configs[IsSpectrum]);
                 PlayStyleInit(m_configs[Style]);
+            }
+        };
+    }
+    namespace
+    {
+        // ランダム
+        void RandomInit(Config& config)
+        {
+            config.setName(U"ランダム配置設定");
+            config.add(U"なし", []() {Game::Config().m_random = RandomNoteType::None; });
+            config.add(U"ミラー", []() {Game::Config().m_random = RandomNoteType::Mirror; });
+            config.add(U"120度回転", []() {Game::Config().m_random = RandomNoteType::Rotate120; });
+            config.add(U"120度回転ミラー", []() {Game::Config().m_random = RandomNoteType::Rotatee120Mirror; });
+            config.add(U"240度回転", []() {Game::Config().m_random = RandomNoteType::Rotate240; });
+            config.add(U"240度回転ミラー", []() {Game::Config().m_random = RandomNoteType::Rotate240Mirror; });
+            config.add(U"ランダム", []() {Game::Config().m_random = RandomNoteType::Random; });
+            config.add(U"完全ランダム", []() {Game::Config().m_random = RandomNoteType::SRandom; });
+
+            config.init(static_cast<size_t>(Game::Config().m_random));
+        }
+        void LifeDeadInit(Config& config)
+        {
+            config.setName(U"ライフ制モード");
+            config.add(U"ON", []() {Game::Config().m_isLifeDead = true; });
+            config.add(U"OFF", []() {Game::Config().m_isLifeDead = false; });
+
+            if (Game::Config().m_isLifeDead)
+                config.init(U"ON");
+            else
+                config.init(U"OFF");
+
+        }
+        void TimingAdjustInit(Config& config)
+        {
+            config.setName(U"タイミング調整");
+            for (int32 adjust : step_to(-10, 10)) {
+                config.add(Format(adjust), [=]() {Game::Config().m_timingAdjust = static_cast<int8>(adjust); });
+            }
+            config.setDefault(U"0");
+            config.init(Format(Game::Config().m_timingAdjust));
+        }
+        class PlayConfig :public IConfigHierchy
+        {
+            enum Mode
+            {
+                ViewConfig,
+                Random,
+                LifeDead,
+                TimingAdjust,
+                TOTAL_CONFIG //コンフィグの数
+            };
+        public:
+            PlayConfig()
+            {
+                m_configs.resize(TOTAL_CONFIG);
+                m_configs[ViewConfig].setName(U"表示設定");
+                m_configs[ViewConfig].applyOnEnterd([this]() {
+                    this->changePush<PlayViewConfig>();
+                });
+                RandomInit(m_configs[Random]);
+                LifeDeadInit(m_configs[LifeDead]);
+                TimingAdjustInit(m_configs[TimingAdjust]);
             }
         };
 
