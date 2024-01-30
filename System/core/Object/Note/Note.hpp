@@ -20,7 +20,8 @@ namespace ct
 
         bool m_isClicked[3];
 
-        const NoteType m_type;	//あとでenumに？
+        const NoteType m_baseType;	//あとでenumに？
+        NoteType m_type;
         s3d::Color m_color;
         std::function<bool(void)> m_judge;
 

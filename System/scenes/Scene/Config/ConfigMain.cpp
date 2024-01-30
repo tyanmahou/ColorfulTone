@@ -135,6 +135,20 @@ namespace ct
 
     namespace
     {
+        // ランダム
+        void RandomInit(Config& config)
+        {
+            config.setName(U"ランダム配置設定");
+            config.add(U"なし", []() {Game::Config().m_random = RandomNoteType::None; });
+            config.add(U"ミラー", []() {Game::Config().m_random = RandomNoteType::Mirror; });
+            config.add(U"120度回転", []() {Game::Config().m_random = RandomNoteType::Rotate120; });
+            config.add(U"120度回転ミラー", []() {Game::Config().m_random = RandomNoteType::Rotatee120Mirror; });
+            config.add(U"240度回転", []() {Game::Config().m_random = RandomNoteType::Rotate240; });
+            config.add(U"240度回転ミラー", []() {Game::Config().m_random = RandomNoteType::Rotate240Mirror; });
+            config.add(U"ランダム", []() {Game::Config().m_random = RandomNoteType::Random; });
+
+            config.init(static_cast<size_t>(Game::Config().m_random));
+        }
         //表示クリアレート
         void ClearRateInit(Config& config)
         {
@@ -267,6 +281,7 @@ namespace ct
         {
             enum Mode
             {
+                Random,
                 ClearRate,
                 LifeDead,
                 CircleCut,
@@ -282,6 +297,7 @@ namespace ct
             PlayConfig()
             {
                 m_configs.resize(TOTAL_CONFIG);
+                RandomInit(m_configs[Random]);
                 ClearRateInit(m_configs[ClearRate]);
                 LifeDeadInit(m_configs[LifeDead]);
                 CircleCutInit(m_configs[CircleCut]);

@@ -3,6 +3,7 @@
 #include <core/Judge/Judge.hpp>
 #include <core/Play/PlayStyle/PlayStyle.hpp>
 #include <core/Play/PlayMusicGame.hpp>
+#include <core/Play/Random/RandomNote.hpp>
 #include <utils/Addon/IntervalCounter.hpp>
 #include <Siv3D.hpp>
 
@@ -10,16 +11,41 @@ namespace ct
 {
     LongNote::LongNote(int type, double firstCount, double speed, std::shared_ptr<Note>& parent) :
         Object(firstCount),
+        m_baseType(type),
         m_type(type),
         m_scrollSpeed(speed),
         m_parent(parent)
     {
+    }
+
+    //
+    void LongNote::perfect()
+    {
+        PlayMusicGame::ScoreUpdate(Score::Perfect, m_parent->getType(), false);
+        m_isActive = false;
+        m_parent->m_isActive = false;
+    }
+
+    void LongNote::miss()
+    {
+        PlayMusicGame::ScoreUpdate(Score::Miss, m_parent->getType(), false);
+        m_isActive = false;
+        m_parent->m_isActive = false;
+    }
+
+    void LongNote::init()
+    {
+        Object::init();
+
+        // 配置決定
+        m_type = RandomNote::Cast(m_baseType);
+
         HSV hsv = m_parent->getColor();
         hsv.s = Min(0.5, hsv.s);
         hsv.v = 1.0;
         m_color = hsv.toColor();
         //判定処理
-        switch (type) {
+        switch (m_type) {
         case 11:
             m_judge = []() {
                 return PlayKey::Red().pressed();
@@ -60,22 +86,6 @@ namespace ct
                 return false;
                 };
         };
-
-    };
-
-    //
-    void LongNote::perfect()
-    {
-        PlayMusicGame::ScoreUpdate(Score::Perfect, m_parent->getType(), false);
-        m_isActive = false;
-        m_parent->m_isActive = false;
-    }
-
-    void LongNote::miss()
-    {
-        PlayMusicGame::ScoreUpdate(Score::Miss, m_parent->getType(), false);
-        m_isActive = false;
-        m_parent->m_isActive = false;
     }
 
     bool LongNote::update(double nowCount, double countPerFrame)

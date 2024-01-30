@@ -3,6 +3,7 @@
 #include <Siv3D/Input.hpp>
 #include <core/Play/PlayBG/BGType.hpp>
 #include <core/Play/PlayStyle/PlayStyleType.hpp>
+#include <core/Play/Random/RandomNoteType.hpp>
 #include <core/Data/TapSE/TapSE.hpp>
 
 namespace ct
@@ -49,5 +50,8 @@ namespace ct
         bool m_isSpectrum = true;
         PlayStyleType m_styleType = PlayStyleType::Default;
         s3d::int8 m_bgBrightness = 10;
+
+        // ランダム
+        RandomNoteType m_random = RandomNoteType::None;
     };
 }

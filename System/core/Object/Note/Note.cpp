@@ -5,7 +5,9 @@
 
 #include <core/Object/RepeatNote/RepeatNote.hpp>
 #include <core/Play/PlayStyle/PlayStyle.hpp>
+#include <core/Play/Random/RandomNote.hpp>
 #include <core/Play/PlayMusicGame.hpp>
+#include <Siv3D.hpp>
 
 namespace {
 	//--------------------------------------------------------------------------------
@@ -43,17 +45,34 @@ namespace ct
 
 	Note::Note(const NoteType type, double firstCount, double speed) :
 		Object(firstCount),
+		m_baseType(type),
 		m_type(type),
 		m_scrollSpeed(speed)
 	{
 		m_isClicked[0] = false;
 		m_isClicked[1] = false;
 		m_isClicked[2] = false;
+	};
 
-		m_color = GetColor(type);
+	//--------------------------------------------------------------------------------
+	//関数：init
+	//--------------------------------------------------------------------------------
+	//概要：初期化
+	//--------------------------------------------------------------------------------
+
+	void Note::init()
+	{
+		Object::init();
+		m_isClicked[ColorIndex::Red] = false;
+		m_isClicked[ColorIndex::Blue] = false;
+		m_isClicked[ColorIndex::Yellow] = false;
+
+		// 配置決定
+		m_type = RandomNote::Cast(m_baseType);
+		m_color = GetColor(m_type);
 
 		//アクション
-		switch (type) {
+		switch (m_type) {
 		case 1:
 		case 11:
 			m_judge = [&]() {
@@ -178,20 +197,6 @@ namespace ct
 		default:
 			m_judge = []() {return false; };
 		}
-	};
-
-	//--------------------------------------------------------------------------------
-	//関数：init
-	//--------------------------------------------------------------------------------
-	//概要：初期化
-	//--------------------------------------------------------------------------------
-
-	void Note::init()
-	{
-		Object::init();
-		m_isClicked[ColorIndex::Red] = false;
-		m_isClicked[ColorIndex::Blue] = false;
-		m_isClicked[ColorIndex::Yellow] = false;
 	}
 
 	//--------------------------------------------------------------------------------

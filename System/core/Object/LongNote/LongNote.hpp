@@ -7,7 +7,8 @@ namespace ct
     class LongNote :public Object
     {
     private:
-        const NoteType m_type;
+        const NoteType m_baseType;
+        NoteType m_type;
         s3d::Color m_color;
     protected:
         std::shared_ptr<Note> m_parent;
@@ -19,6 +20,7 @@ namespace ct
     public:
         LongNote(int type, double firstCount, double speed, std::shared_ptr<Note>& parent);
         virtual ~LongNote() = default;
+        virtual void init() override;
         virtual bool update(double nowCount, double countPerFrame)override;
         virtual void diffDraw(double count, double scrollRate)const override;
         const double& getSpeed()const { return m_scrollSpeed; }

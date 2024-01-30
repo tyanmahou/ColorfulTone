@@ -5,6 +5,7 @@
 #include <core/Data/Score/ResultRank.hpp>
 #include <core/Play/PlayBG/PlayBGFactory.hpp>
 #include <core/Play/PlayStyle/PlayStyle.hpp>
+#include <core/Play/Random/RandomNote.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -58,6 +59,9 @@ namespace ct
 	{
 		//譜面取得
 		m_notesData = notes;
+
+		// ランダム初期化
+		RandomNote::Init(Game::Config().m_random);
 		//譜面の初期化
 		m_notesData.init();
 

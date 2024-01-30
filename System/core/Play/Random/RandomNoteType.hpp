@@ -16,7 +16,7 @@ namespace ct
         None = RBY,
         Mirror = YBR,
         Rotate120 = BYR,
-        Rotate60Mirror = RYB,
+        Rotatee120Mirror = RYB,
         Rotate240 = YRB,
         Rotate240Mirror = BRY,
     };

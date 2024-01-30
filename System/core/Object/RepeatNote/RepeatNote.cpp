@@ -58,10 +58,6 @@ namespace ct
         LongNote(10, firstCount, speed, parent),
         m_interval(interval)
     {
-        //どれかおしたら
-        m_judge = []() {
-            return PlayKey::Red().down() || PlayKey::Blue().down() || PlayKey::Yellow().down();
-            };
     }
 
     void RepeatEnd::init()
@@ -69,6 +65,10 @@ namespace ct
         m_isTap = false;
         m_isStart = false;
         LongNote::init();
+        //どれかおしたら
+        m_judge = []() {
+            return PlayKey::Red().down() || PlayKey::Blue().down() || PlayKey::Yellow().down();
+        };
     }
 
     bool RepeatEnd::update(double nowCount, double countPerFrame)
