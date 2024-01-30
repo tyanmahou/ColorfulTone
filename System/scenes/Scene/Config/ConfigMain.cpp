@@ -276,13 +276,13 @@ namespace ct
         {
             config.setName(U"ランダム配置設定");
             config.add(U"なし", []() {Game::Config().m_random = RandomNoteType::None; });
-            config.add(U"ミラー", []() {Game::Config().m_random = RandomNoteType::Mirror; });
-            config.add(U"120度回転", []() {Game::Config().m_random = RandomNoteType::Rotate120; });
-            config.add(U"120度回転ミラー", []() {Game::Config().m_random = RandomNoteType::Rotatee120Mirror; });
-            config.add(U"240度回転", []() {Game::Config().m_random = RandomNoteType::Rotate240; });
-            config.add(U"240度回転ミラー", []() {Game::Config().m_random = RandomNoteType::Rotate240Mirror; });
-            config.add(U"ランダム", []() {Game::Config().m_random = RandomNoteType::Random; });
-            config.add(U"完全ランダム", []() {Game::Config().m_random = RandomNoteType::SRandom; });
+            config.add(U"MIRROR", []() {Game::Config().m_random = RandomNoteType::Mirror; });
+            config.add(U"ROTATE120", []() {Game::Config().m_random = RandomNoteType::Rotate120; });
+            config.add(U"ROTATE120 MIRROR", []() {Game::Config().m_random = RandomNoteType::Rotatee120Mirror; });
+            config.add(U"ROTATE240", []() {Game::Config().m_random = RandomNoteType::Rotate240; });
+            config.add(U"ROTATE240 MIRROR", []() {Game::Config().m_random = RandomNoteType::Rotate240Mirror; });
+            config.add(U"RANDOM", []() {Game::Config().m_random = RandomNoteType::Random; });
+            config.add(U"PURE RANDOM", []() {Game::Config().m_random = RandomNoteType::SRandom; });
 
             config.init(static_cast<size_t>(Game::Config().m_random));
         }
