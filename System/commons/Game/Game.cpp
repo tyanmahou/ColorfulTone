@@ -195,6 +195,10 @@ namespace
 		FontAsset::Register(U"b-10", 10 + 5, Typeface::Regular, FontStyle::Bold);
 		FontAsset::Register(U"b-16", 16 + 7, Typeface::Bold);
 		FontAsset::Register(U"i-15", 15 + 5, Typeface::Regular, FontStyle::Italic);
+
+		FontAsset::Register(U"fallback", FontMethod::MSDF, 18);
+		FontAsset fallback(U"fallback");
+		Print.getFont().addFallback(fallback);
 	}
 
 	void AssetLoad()
