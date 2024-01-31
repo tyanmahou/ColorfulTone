@@ -27,7 +27,7 @@ namespace ct
 		{
 			if (
 				key.down() ||
-				key.pressed() && IntervalCounter::IsUpdatedEvery(5)) {
+				key.pressed() && key.pressedDuration() >= 160ms && IntervalCounter::IsUpdatedEvery(5)) {
 				int32 tmp = static_cast<int32>(scrollRate * 10);
 				tmp += value;
 				scrollRate = tmp / 10.0;
