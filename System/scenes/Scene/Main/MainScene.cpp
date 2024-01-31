@@ -80,10 +80,9 @@ namespace ct
 
 			SharedDraw::LongPressBack(PlayKey::BigBack(), U"Esc長押しで諦める");
 		}
-		const MusicData& music = *getData().m_nowNotes.getMusic();
 		SharedDraw::HighSpeedPlay(
 			m_highSpeed,
-			music,
+			m_musicGame.getNotesData(),
 			getData().m_scrollRate
 			);
 	}

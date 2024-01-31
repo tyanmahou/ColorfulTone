@@ -67,10 +67,11 @@ namespace ct::SharedDraw
 			highSpeedDemo.draw(music.getMinSoundBeat(), music.getMaxSoundBeat(), scrollRate);
 		}
 	}
-	void HighSpeedPlay(const HighSpeedDemo& highSpeedDemo, const MusicData& music, double scrollRate, bool canDemo)
+	void HighSpeedPlay(const HighSpeedDemo& highSpeedDemo, const NotesData& noteData, double scrollRate, bool canDemo)
 	{
-		double result = music.getBPM() * scrollRate;
-		String tmp = U"{}*{:.1f}={:.1f}"_fmt(music.getBPM(), scrollRate, result);
+		const MusicData music = *noteData.getMusic();
+		double result = noteData.getCurrentBPM() * scrollRate;
+		String tmp = U"{}*{:.1f}={:.1f}"_fmt(static_cast<int32>(noteData.getCurrentBPM()), scrollRate, result);
 
 		const Vec2 topLeft{ 10, 533 };
 		Vec2 penPos{ topLeft };

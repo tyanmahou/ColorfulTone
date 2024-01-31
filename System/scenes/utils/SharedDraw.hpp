@@ -35,7 +35,7 @@ namespace ct::SharedDraw
     /// <param name="music"></param>
     /// <param name="scrollRate"></param>
     /// <param name="canDemo"></param>
-    void HighSpeedPlay(const HighSpeedDemo& highSpeedDemo, const MusicData& music, double scrollRate, bool canDemo = true);
+    void HighSpeedPlay(const HighSpeedDemo& highSpeedDemo, const NotesData& noteData, double scrollRate, bool canDemo = true);
 
     /// <summary>
     /// 長押しバック
