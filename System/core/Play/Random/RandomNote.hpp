@@ -1,16 +1,16 @@
 ﻿#pragma once
 #include <core/Play/Random/RandomNoteType.hpp>
 #include <core/Types.hpp>
-#include <utils/Singleton/DynamicSingleton.hpp>
+#include <utils/Singleton/Singleton.hpp>
 
 namespace ct
 {
     /// <summary>
     /// ランダム機能
     /// </summary>
-    class RandomNote : protected DynamicSingleton<RandomNote>
+    class RandomNote : protected Singleton<RandomNote>
     {
-        friend class  DynamicSingleton<RandomNote>;
+        friend class Singleton<RandomNote>;
     public:
         static void Init(RandomNoteType randomType);
         static NoteType Cast(NoteType type);
