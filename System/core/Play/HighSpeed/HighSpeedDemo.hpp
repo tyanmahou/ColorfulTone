@@ -1,11 +1,9 @@
 ﻿#pragma once
-#include <Siv3D/Audio.hpp>
+#include <memory>
 #include <Siv3D/Array.hpp>
 #include <Siv3D/EasingAB.hpp>
 #include <Siv3D/Rect.hpp>
-#include <Siv3D/Circle.hpp>
-#include <Siv3D/Stopwatch.hpp>
-#include <memory>
+#include <core/Play/PlayStyle/PlayStyleType.hpp>
 
 namespace ct
 {
@@ -14,21 +12,19 @@ namespace ct
 
 	class HighSpeedDemo
 	{
-	private:
-		s3d::Array<std::shared_ptr<Object>> m_objects;//デモ用譜面データ
-
-		s3d::EasingAB<s3d::int32> m_offset;
-
-		s3d::Audio m_sound;
-
-		const s3d::Rect m_bgRect;
-		const s3d::Circle m_judgeCircle;
-		s3d::Stopwatch m_stopwatch;
-		void drawDemoNotes(const SoundBar& bar, double scrollRate, size_t index) const;
 	public:
 		HighSpeedDemo();
 		~HighSpeedDemo();
 		bool update(double& scrollRate);
 		void draw(const SoundBar& min, const SoundBar& max, double scrollRate)const;
+	private:
+		void resetStyle(PlayStyleType style);
+		void drawDemoNotes(const SoundBar& bar, double scrollRate, size_t index) const;
+	private:
+		s3d::Array<std::shared_ptr<Object>> m_objects;
+		s3d::EasingAB<s3d::int32> m_offset;
+		const s3d::Rect m_bgRect;
+
+		PlayStyleType m_style;
 	};
 }

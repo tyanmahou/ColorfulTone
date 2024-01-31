@@ -1,6 +1,7 @@
 ﻿#include <commons/Game/GameConfig.hpp>
 #include <commons/Audio/SoundManager.hpp>
 #include <core/Input/PlayKey.hpp>
+#include <core/Play/PlayStyle/PlayStyle.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -107,6 +108,8 @@ namespace  ct
         m_isSpectrum = ini.getOr<bool>(U"Config.IsSpectrum", true);
         m_bgType = static_cast<BGType>(ini.getOr<int32>(U"Config.BGType", 0));
         m_styleType = static_cast<PlayStyleType>(ini.getOr<int32>(U"Config.StyleType", 0));
+        PlayStyle::Instance()->setStyle(m_styleType);
+
         m_bgBrightness = ini.getOr<int8>(U"Config.BGBrightness", 10);
 
         m_random = static_cast<RandomNoteType>(ini.getOr<int32>(U"Config.Random", 0));

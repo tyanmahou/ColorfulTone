@@ -11,7 +11,6 @@ namespace ct
         if (m_isActive) {
             diffDraw(count, scrollRate);
         }
-
     }
     void Object::addStopCount(const StopRange& stopRange)
     {

@@ -42,17 +42,21 @@ namespace ct
 			m_offsetSample(0)
 		{}
 
-		BarCount operator()(const s3d::Audio& sound)const
+		BarCount operator()(const s3d::int64 samples)const
 		{
 			//1小節のサンプル数
 			const s3d::int64 samplePerBar = static_cast<s3d::int64>(60.0 * 4.0 / m_bpm * 44100);
-			const s3d::int64 currentSample = GetSamplePos(sound) - m_offsetSample;
+			const s3d::int64 currentSample = samples - m_offsetSample;
 
 			const s3d::int64 currentBar = currentSample / samplePerBar;
 			const s3d::int64 lastSample = currentSample % samplePerBar;
-			const double f = (double)lastSample / samplePerBar;
+			const double f = static_cast<double>(lastSample) / samplePerBar;
 
 			return BarCount{ currentBar,f };
+		}
+		BarCount operator()(const s3d::Audio& sound)const
+		{
+			return (*this)(GetSamplePos(sound));
 		}
 		const s3d::int64 getOffset()const { return m_offsetSample; }
 		const BPMType& getBPM()const { return m_bpm; }
