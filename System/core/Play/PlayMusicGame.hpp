@@ -95,6 +95,5 @@ namespace ct
 
 		void setCourseMode(const Score& score);
 		static void ScoreUpdate(Score::Judge judge, NoteType type, bool playSe = true);
-        static const s3d::Audio* const CurrentSound();
     };
 }

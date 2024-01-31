@@ -9,8 +9,8 @@
 
 namespace ct
 {
-    LongNote::LongNote(int type, double firstCount, double speed, std::shared_ptr<Note>& parent) :
-        Object(firstCount),
+    LongNote::LongNote(s3d::int64 timingSample, const NoteType type, double firstCount, double speed, std::shared_ptr<Note>& parent) :
+        Object(timingSample, firstCount),
         m_baseType(type),
         m_type(type),
         m_scrollSpeed(speed),
@@ -91,17 +91,17 @@ namespace ct
         };
     }
 
-    bool LongNote::update(double nowCount, double countPerFrame)
+    bool LongNote::update(const PlayContext& context)
     {
         m_isActive = m_parent->m_isActive;//親のノーツの存在と同期
 
         if (!m_isActive || !m_parent->isFirstTap())
             return true;
 
-        auto count = m_count - nowCount;
+        const auto timing = m_timingSample - context.samplePos;
 
 
-        if (count <= 0)//ロングの終点
+        if (timing <= 0)//ロングの終点
         {
             this->perfect();
 
@@ -123,9 +123,9 @@ namespace ct
         //親を押したのに途中で離した
         {
             if (!m_judge()) {
-                auto aCount = Abs(count);
+                int64 aTiming = s3d::Abs(timing);
                 //パーフェクト範囲内での話はセーフ
-                if (aCount <= JudgeRange(countPerFrame, Judge::Great))
+                if (aTiming <= JudgeRange(Judge::Great))
                     this->perfect();
                 else
                     this->miss();

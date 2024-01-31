@@ -43,8 +43,8 @@ namespace ct
 	//--------------------------------------------------------------------------------
 
 
-	Note::Note(const NoteType type, double firstCount, double speed) :
-		Object(firstCount),
+	Note::Note(s3d::int64 timingSample, const NoteType type, double firstCount, double speed) :
+		Object(timingSample, firstCount),
 		m_baseType(type),
 		m_type(type),
 		m_scrollSpeed(speed)
@@ -256,7 +256,7 @@ namespace ct
 	//関数：update
 	//--------------------------------------------------------------------------------
 
-	bool Note::update(double nowCount, double countPerFrame)
+	bool Note::update(const PlayContext& context)
 	{
 		if (!m_isActive)
 			return true;
@@ -267,24 +267,24 @@ namespace ct
 				AutoPlayManager::Input(m_type);
 			return true;
 		}
-		auto count = m_count - nowCount;
+		const auto timing = m_timingSample - context.samplePos;
 
 		//ミス
-		if (count < -JudgeRange(countPerFrame, Judge::Good) || (m_type == 9 && count <= 0)) {
+		if (timing < -JudgeRange(Judge::Good) || (m_type == 9 && timing <= 0)) {
 			this->tapMiss();
 			return true;
 		}
 
 		//判定範囲まで到達してなければタップ処理を行わない
-		if (count > JudgeRange(countPerFrame, Judge::Good))
+		if (timing > JudgeRange(Judge::Good))
 			return true;
 
 		//オートプレイ---------------------------------
 		if (AutoPlayManager::IsAutoPlay()) {
-			if (count <= countPerFrame && m_type != 9) {
-				int type = m_type;
+			if (timing <= OneFrameSample() && m_type != 9) {
+				NoteType type = m_type;
 				if (type == 18) {
-					static int tap = 0;
+					static int32 tap = 0;
 					++tap %= 3;
 					type = tap + 1;
 					m_isClicked[tap] = true;
@@ -306,16 +306,15 @@ namespace ct
 
 		//遅れてしまったか
 		if (m_judge()) {
-			auto aCount = s3d::Abs(count);
-			if (aCount <= JudgeRange(countPerFrame, Judge::Perfect)) {
+			int64 aTiming = s3d::Abs(timing);
+			if (aTiming <= JudgeRange(Judge::Perfect)) {
 				this->tapUpdate(Score::Perfect);
-			} else if (aCount <= JudgeRange(countPerFrame, Judge::Great)) {
+			} else if (aTiming <= JudgeRange(Judge::Great)) {
 				this->tapUpdate(Score::Great);
-			} else if (aCount <= JudgeRange(countPerFrame, Judge::Good)) {
+			} else if (aTiming <= JudgeRange(Judge::Good)) {
 				this->tapUpdate(Score::Good);
 			}
-
-			RepeatEnd::notesTapCount = nowCount;
+			RepeatEnd::notesTapSample = context.samplePos;
 
 			return InputManager::IsAnyClicked();
 		}

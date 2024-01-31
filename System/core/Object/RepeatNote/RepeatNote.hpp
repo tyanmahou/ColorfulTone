@@ -12,13 +12,13 @@ namespace ct
         bool m_isStart = false;
 
     public:
-        RepeatNote(double firstCount, double speed) :
-            Note(10, firstCount, speed)
+        RepeatNote(s3d::int64 timingSample, double firstCount, double speed) :
+            Note(timingSample, 10, firstCount, speed)
         {}
 
         void init()override;
 
-        bool update(double nowCount, double countPerFrame)override;
+        bool update(const PlayContext& context)override;
         void diffDraw(double count, double scrollRate)const override;
 
         bool isFirstTap()const override
@@ -31,16 +31,16 @@ namespace ct
     class RepeatEnd :public LongNote
     {
     private:
-        double m_lastCount = 0;
+        s3d::int64 m_lastSamplePos = 0;
         bool m_isStart = false;
         bool m_isTap = false;
         double m_interval;//連打間隔
     public:
-        static double notesTapCount;
+        static s3d::int64 notesTapSample;
 
-        RepeatEnd(double firstCount, double speed, std::shared_ptr<Note>& parent, double interval = 8.0);
+        RepeatEnd(s3d::int64 timingSample, double firstCount, double speed, std::shared_ptr<Note>& parent, double interval = 8.0);
         void init()override;
-        bool update(double nowCount, double countPerFrame)override;
+        bool update(const PlayContext& context)override;
         void diffDraw(double count, double scrollRate)const override;
     };
 }

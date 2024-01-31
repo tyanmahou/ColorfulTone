@@ -78,7 +78,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Object\Object.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Object\RepeatNote\RepeatNote.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Object\Stop\Stop.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)core\Object\Text\TextObjcet.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Object\Text\TextObject.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\HighSpeed\HighSpeedDemo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\BGType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Blur\BlurBG.hpp" />

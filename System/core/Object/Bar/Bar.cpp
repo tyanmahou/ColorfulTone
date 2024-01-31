@@ -3,7 +3,7 @@
 
 namespace ct
 {
-    bool Bar::update([[maybe_unused]] double nowCount, [[maybe_unused]] double countPerFrame)
+    bool Bar::update([[maybe_unused]] const PlayContext& context)
     {
         return true;
     }

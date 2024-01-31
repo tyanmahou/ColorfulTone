@@ -80,7 +80,7 @@ namespace ct
 		for (size_t i = 0; i < barCount; ++i) {
 			for (size_t j = 0; j < 2; ++j) {
 				auto count = NotesData::RESOLUTION * i + NotesData::RESOLUTION * j / 2;
-				m_objects.emplace_back(std::make_shared<Note>(noteType, static_cast<double>(count), 1));
+				m_objects.emplace_back(std::make_shared<Note>(0,noteType, static_cast<double>(count), 1));
 			}
 		}
 		for (size_t i = 0; i < barCount; ++i) {
@@ -107,7 +107,7 @@ namespace ct
 		const auto nowCount = static_cast<double>(NotesData::RESOLUTION) * f;
 
 		for (const std::shared_ptr<Object>& obj : m_objects | std::ranges::views::reverse) {
-			if (obj->getCount() - nowCount >= 0)
+			if (obj->getDrawCount() - nowCount >= 0)
 				obj->draw(nowCount, scrollRate);
 		}
 	}

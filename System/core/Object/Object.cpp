@@ -14,9 +14,9 @@ namespace ct
     }
     void Object::addStopCount(const StopRange& stopRange)
     {
-        if (m_count > stopRange.m_judgeCount) {
+        if (m_drawCountBase > stopRange.m_judgeCount) {
 
-            const auto range = std::min(m_count - stopRange.m_judgeCount, stopRange.m_rangeCount);
+            const auto range = std::min(m_drawCountBase - stopRange.m_judgeCount, stopRange.m_rangeCount);
 
             m_drawCount -= range;
         }

@@ -2,7 +2,7 @@
 #include <core/Data/Genre/GenreManager.hpp>
 #include <core/Object/Note/Note.hpp>
 #include <core/Object/Bar/Bar.hpp>
-#include <core/Object/Text/TextObjcet.hpp>
+#include <core/Object/Text/TextObject.hpp>
 #include <core/Object/LongNote/LongNote.hpp>
 #include <core/Object/RepeatNote/RepeatNote.hpp>
 #include <core/Data/Loader/ScoreLoader.hpp>
@@ -67,7 +67,7 @@ namespace ct
     }
     void NotesData::init()
     {
-        RepeatEnd::notesTapCount = 0;
+        RepeatEnd::notesTapSample = 0;
         for (auto&& elm : m_objects) {
             elm->init();
         }
@@ -94,23 +94,13 @@ namespace ct
 
         this->synchroCount(sound, nowCount);
 
-        if (GetSamplePos(sound) < 3)
+        const int64 samplePos = GetSamplePos(sound);
+        if (samplePos < 3)
             return;
 
-        /*
-        bpm= beat / 1 min
-        bpm/60 = beat / 1sec
-        bpm/60 : x = 4 : NotesData::RESOLUTION
-        x=bpm*NotesData::RESOLUTION/240
-
-        count / fream = x/60;
-        */
-        auto& currentTempo = m_tempoInfos.at(m_currentBarIndex).m_bar;
-
-        double countPerFrame = currentTempo.getBPM() * NotesData::RESOLUTION / 14400;
-
+        PlayContext context{ samplePos, m_tempoInfos.at(m_currentBarIndex).m_bar.getBPM()};
         for (auto&& elm : m_objects) {
-            if (!elm->update(nowCount, countPerFrame)) {
+            if (!elm->update(context)) {
                 break;
             }
         }
@@ -161,7 +151,7 @@ namespace ct
         std::queue<double> barSpeed;		//小節線のスピード変化を覚えておく
         std::queue<double> measures;		//拍子記憶用
         double nowMeasure = 1.0;				//拍子の初期化
-        std::shared_ptr<Note> parentNote = std::make_shared<Note>(0, 0, 0);	//ノーツの記憶(ロング用)
+        std::shared_ptr<Note> parentNote = std::make_shared<Note>(0, 0, 0, 0);	//ノーツの記憶(ロング用)
         uint32 totalNotes = 0;					//ノーツ数
         double scrollBaseSpeed = 1.0;
         double repeatInterval = 8.0;					//連打間隔
@@ -177,8 +167,32 @@ namespace ct
         double lastBPMChangeCount = 0;
         int64 totalSample = static_cast<s3d::int64>(44100) * 4;
 
-        double nowCount = 0;
+        struct BpmHistory
+        {
+            BPMType bpm;
+            double changeCount;
+            int64 changeSample;
+        };
+        Array<BpmHistory> bpmHistory;
+        bpmHistory.push_back({nowBPM, lastBPMChangeCount, totalSample});
 
+        double nowCount = 0;
+        const auto calcTimingSample = [&](double count)->int64 {
+            size_t historyIndex = 0;
+            for (size_t i = bpmHistory.size() - 1; i >= 0; --i) {
+                if (count >= bpmHistory[i].changeCount) {
+                    historyIndex = i;
+                    break;
+                }
+            }
+            const BPMType bpm = bpmHistory[historyIndex].bpm;
+            const double changeCount = bpmHistory[historyIndex].changeCount;
+            const int64 changeSample = bpmHistory[historyIndex].changeSample;
+
+            const double samplePerBar = 4 * 44100 * 60 / bpm;
+            const double preBPMSample = (count - changeCount) * samplePerBar / static_cast<double>(NotesData::RESOLUTION);
+            return changeSample + static_cast<int64>(preBPMSample);
+        };
         for (unsigned int i = 0; i < rows; i++) {
             head = csv.get<String>(i, 0);
 
@@ -216,6 +230,8 @@ namespace ct
                     double count = nowCount + NotesData::RESOLUTION * nowMeasure * j / col;
 
                     double judgeOffset = GetJudgeOffset(count, stopInfos);
+                    const double fixedCount = count + judgeOffset;
+                    const int64 timingSample = calcTimingSample(fixedCount);
 
                     //ノーツのスピード
                     double spd;
@@ -230,9 +246,9 @@ namespace ct
 
                     if (type == 10)//連打ノーツかどうか
                     {
-                        note = std::make_shared<RepeatNote>(count + judgeOffset, spd);
+                        note = std::make_shared<RepeatNote>(timingSample, fixedCount, spd);
                     } else {
-                        note = std::make_shared<Note>(type, count + judgeOffset, spd);
+                        note = std::make_shared<Note>(timingSample, type, fixedCount, spd);
                     }
                     if (type >= 10 && type <= 17)//ロングノーツの場合親ノーツを保存
                         parentNote = note;
@@ -241,9 +257,9 @@ namespace ct
                     if (type == 8) {
                         if (parentNote->getType() == 10)//親が連打ノーツか
                         {
-                            m_objects.emplace_back(std::make_shared<RepeatEnd>(count + judgeOffset, spd, parentNote, repeatInterval));
+                            m_objects.emplace_back(std::make_shared<RepeatEnd>(timingSample, fixedCount, spd, parentNote, repeatInterval));
                         } else {
-                            m_objects.emplace_back(std::make_shared<LongNote>(parentNote->getType(), count + judgeOffset, spd, parentNote));
+                            m_objects.emplace_back(std::make_shared<LongNote>(timingSample, parentNote->getType(), fixedCount, spd, parentNote));
                         }
                     } else {
                         m_objects.emplace_back(note);
@@ -277,10 +293,11 @@ namespace ct
                     }
                 } else if (head == U"#BPM") {
                     m_bpm = csv.getOr<BPMType>(i, 1, 120);
-                    nowBPM = m_bpm;
+                    bpmHistory.back().bpm = nowBPM = m_bpm;
                 } else if (head == U"#OFFSET") {
                     m_offsetSample = csv.getOr<int>(i, 1, 0);
                     totalSample += m_offsetSample;
+                    bpmHistory.back().changeSample = totalSample;
                 } else if (head == U"#SCROLL") {
                     size_t col = csv.columns(i);
                     for (size_t j = 1; j < col; ++j)
@@ -305,6 +322,8 @@ namespace ct
                     }
                     nowBPM = bpm;
                     lastBPMChangeCount = count;
+
+                    bpmHistory.push_back({nowBPM, lastBPMChangeCount, totalSample});
                 } else if (head == U"#STOP") {
                     double count = nowCount + NotesData::RESOLUTION * nowMeasure * csv.getOr<double>(i, 3, 0) / csv.getOr<double>(i, 4, 1);
                     double judgeOffset = GetJudgeOffset(count, stopInfos);
@@ -332,9 +351,11 @@ namespace ct
                     const double drawSec = csv.getOr<double>(i, 2, 2);
                     const String msg = csv.getOr<String>(i, 1, U"");
 
-                    double judgeOffset = GetJudgeOffset(count, stopInfos);
+                    const double judgeOffset = GetJudgeOffset(count, stopInfos);
+                    const double fixedCount = count + judgeOffset;
+                    const int64 timingSample = calcTimingSample(fixedCount);
 
-                    m_objects.emplace_back(std::make_shared<TextObject>(count + judgeOffset, msg, drawSec));
+                    m_objects.emplace_back(std::make_shared<TextObject>(timingSample, fixedCount, msg, drawSec));
                 } else if (head == U"#COLOR") {
                     const String colorHex = csv.getOr<String>(i, 1, U"#FFFFFF");
                     m_color = Color(colorHex);

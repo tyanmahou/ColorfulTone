@@ -1,31 +1,30 @@
-﻿#include <core/Object/Text/TextObjcet.hpp>
+﻿#include <core/Object/Text/TextObject.hpp>
 #include <core/Play/PlayMusicGame.hpp>
 #include <core/SoundBeat.hpp>
 #include <Siv3D/PutText.hpp>
 #include <Siv3D/Scene.hpp>
+#include <core/Judge/Judge.hpp>
 
 namespace ct
 {
-    bool TextObject::update(double nowCount, double countPerFrame)
+    bool TextObject::update(const PlayContext& context)
     {
-        const Audio* const pSound = PlayMusicGame::CurrentSound();
-
-        if (!m_isActive || !pSound)
+        if (!m_isActive)
             return true;
-        const auto sample = GetSamplePos(*pSound);
-        auto count = m_count - nowCount;
-        if (s3d::Abs(count) < s3d::Abs(count - countPerFrame))
-            count = 0;
+        const auto samplePos = context.samplePos;
+        auto timing = m_timingSample - samplePos;
+        if (s3d::Abs(timing) < s3d::Abs(timing - OneFrameSample()))
+            timing = 0;
 
         //ストップ時にオフセットの変更
 
         //停止初期化
-        if (!m_isDraw && count <= 0) {
+        if (!m_isDraw && timing <= 0) {
             m_isDraw = true;
-            m_beginTimeSample = sample;
+            m_beginTimeSample = samplePos;
         }
         if (m_isDraw) {
-            if (static_cast<s3d::uint64>(sample) >= m_beginTimeSample + m_drawTimeSample) {
+            if (static_cast<s3d::uint64>(samplePos) >= m_beginTimeSample + m_drawTimeSample) {
                 m_isDraw = false;
                 m_isActive = false;
             }

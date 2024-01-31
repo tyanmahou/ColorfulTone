@@ -6,6 +6,11 @@ namespace ct
 {
     struct StopRange;
 
+    struct PlayContext
+    {
+        s3d::int64 samplePos;
+        BPMType bpm;
+    };
     class Object
     {
     public:
@@ -14,26 +19,27 @@ namespace ct
             RESOLUTION = 60,
         };	//間隔の調整
     protected:
-        const double m_count;		//カウント
+        const s3d::int64 m_timingSample = 0;
+        const double m_drawCountBase;
         double m_drawCount;
 
     public:
         bool m_isActive;			//存在フラグ
 
         Object() = default;
-        Object(double firstCount) :
-            m_count(firstCount),
-            m_isActive(true),
-            m_drawCount(firstCount)
+        Object(s3d::int64 timingSample, double firstCount) :
+            m_timingSample(timingSample),
+            m_drawCountBase(firstCount),
+            m_drawCount(firstCount),
+            m_isActive(true)
         {};
         virtual void init() { m_isActive = true; }
         virtual ~Object() {};
-        virtual bool update(double nowCount, double countPerFrame) = 0;
+        virtual bool update(const PlayContext& context) = 0;
 
         virtual void diffDraw(double count, double scrollRate)const = 0;
 
         void draw(double nowCount, double scrollRate)const;
-        const double& getCount()const { return m_count; }
         const double& getDrawCount()const { return m_drawCount; }
 
         //譜面停止情報の調整

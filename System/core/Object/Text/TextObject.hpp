@@ -13,15 +13,15 @@ namespace ct
         bool m_isDraw;
 
     public:
-        TextObject(double firstCount, const s3d::String& msg, const double timeSec) :
-            Object(firstCount),
+        TextObject(s3d::int64 timingSample, double firstCount, const s3d::String& msg, const double timeSec) :
+            Object(timingSample, firstCount),
             m_msg(msg),
             m_drawTimeSample(static_cast<s3d::uint64>(timeSec * 44100)),
             m_beginTimeSample(0),
             m_isDraw(false)
         {};
         virtual ~TextObject() = default;
-        virtual bool update(double nowCount, double countPerFrame)override;
+        virtual bool update(const PlayContext& context)override;
         virtual void diffDraw(double count, double scrollRate)const override;
         void init()override;
     };

@@ -3,8 +3,9 @@
 
 namespace ct
 {
-    double JudgeRange(double countPerFrame, Judge judge)
+    s3d::int64 JudgeRange(Judge judge)
     {
-        return Abs(countPerFrame) * static_cast<double>(judge);
+        // FPS 60想定
+        return static_cast<s3d::int64>(44100 * static_cast<double>(judge) / 60.0);
     }
 }

@@ -9,5 +9,10 @@ namespace ct
         Good = 12,
     };
 
-    double JudgeRange(double countPerFrame, Judge judge);
+    s3d::int64 JudgeRange(Judge judge);
+
+    inline consteval s3d::int64 OneFrameSample()
+    {
+        return static_cast<s3d::int64>(44100 / 60.0);
+    }
 }

@@ -25,16 +25,15 @@ namespace ct
         s3d::Color m_color;
         std::function<bool(void)> m_judge;
 
-
         void tapUpdate(Score::Judge judge);
         void tapMiss();
     protected:
 
     public:
-        Note(const NoteType type, double firstCount, double speed);
+        Note(s3d::int64 timingSample, const NoteType type, double firstCount, double speed);
         virtual ~Note() = default;
         virtual void init()override;
-        virtual bool update(double nowCount, double countPerFrame) override;
+        virtual bool update(const PlayContext& context) override;
         virtual void diffDraw(double count, double scrollRate)const override;
         const s3d::Color& getColor()const { return m_color; }
         const  NoteType getType()const { return m_type; }

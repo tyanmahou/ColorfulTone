@@ -12,7 +12,6 @@ namespace
 {
 	using namespace ct;
 	Score* g_pScore;
-	Audio* g_pSound;
 
 	static const std::unordered_map<Score::Judge, String> scoreMap
 	{
@@ -52,7 +51,6 @@ namespace ct
 	{
 		// プレイ中のスコアを参照しておく
 		g_pScore = &m_score;
-		g_pSound = &m_sound;
 	}
 
 	void PlayMusicGame::init(const NotesData& notes, const double scrollRate)
@@ -183,11 +181,6 @@ namespace ct
 		if (playSe && judge != Score::Miss) {
 			SoundManager::PlayInGameSe(scoreMap.at(judge));
 		}
-	}
-
-	const Audio* const PlayMusicGame::CurrentSound()
-	{
-		return g_pSound;
 	}
 	void PlayMusicGame::drawBG(const double drawCount)const
 	{

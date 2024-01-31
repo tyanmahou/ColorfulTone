@@ -18,10 +18,10 @@ namespace ct
         void miss();
 
     public:
-        LongNote(int type, double firstCount, double speed, std::shared_ptr<Note>& parent);
+        LongNote(s3d::int64 timingSample, const NoteType type, double firstCount, double speed, std::shared_ptr<Note>& parent);
         virtual ~LongNote() = default;
         virtual void init() override;
-        virtual bool update(double nowCount, double countPerFrame)override;
+        virtual bool update(const PlayContext& context)override;
         virtual void diffDraw(double count, double scrollRate)const override;
         const double& getSpeed()const { return m_scrollSpeed; }
         const  NoteType getType()const { return m_type; }
