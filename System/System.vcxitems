@@ -27,6 +27,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\FontName.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Game\Game.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Game\GameConfig.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)commons\Migration\MigrationSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Migration\MigrationUtil.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Secret\Secret.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.hpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Audio\SoundManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Game\Game.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Game\GameConfig.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)commons\Migration\MigrationSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Migration\MigrationUtil.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.cpp" />
@@ -226,6 +228,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Portrait\PortraitStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\Random\RandomNote.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)migrations\20200706_MoveUserDataPath.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Fade\Fade.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\CourseSelect\CourseSelectScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\CourseSelect\CourseSelectSceneView.cpp" />

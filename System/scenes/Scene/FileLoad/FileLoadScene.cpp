@@ -7,7 +7,7 @@
 
 #include <core/Data/Genre/CostumFolder.hpp>
 #include <core/Data/TapSE/TapSE.hpp>
-//#include "CompatibilityUtil.hpp"
+#include <commons/Migration/MigrationSystem.hpp>
 #include <Siv3D.hpp>
 
 
@@ -242,9 +242,8 @@ namespace ct
 
 	Coro::Fiber<void> FileLoadScene::updateAsync()
 	{
-		// TODO
-		// スコアを移動
-		//CompatibilityUtil::MoveScoreFolder();
+		// マイグレーション処理
+		co_await Thread::Task(MigrationSystem::Up);
 
 		// ロード開始
 		co_await Thread::Task(::LoadContentsData);
