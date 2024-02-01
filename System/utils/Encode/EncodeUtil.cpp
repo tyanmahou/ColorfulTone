@@ -231,4 +231,37 @@ namespace ct
         }
         return true;
     }
+    bool EncodeUtil::ConverToUTF8(s3d::FilePathView filePath)
+    {
+        s3d::TextEncoding encode = Unicode::GetTextEncoding(filePath);
+        if (encode == s3d::TextEncoding::UTF8_WITH_BOM) {
+            // 既にUTF8
+            return false;
+        }
+        if (encode == s3d::TextEncoding::Unknown) {
+            // 不明
+            return false;
+        }
+        if (encode == s3d::TextEncoding::UTF8_NO_BOM) {
+            if (ConvertShiftJISToUTF8(filePath)) {
+                return true;
+            }
+        }
+        String text;
+        {
+            TextReader reader(filePath);
+            if (!reader) {
+                return false;
+            }
+            reader.readAll(text);
+        }
+        {
+            TextWriter writer(filePath);
+            if (!writer) {
+                return false;
+            }
+            writer.write(text);
+        }
+        return true;
+    }
 }

@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ColorfulTone", "ColorfulTon
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "System", "System\System.vcxitems", "{689157D6-CF42-413A-A0FB-A42E800A3ED3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShaderCompile", "ShaderCompile\ShaderCompile.vcxproj", "{FD21862A-5B5F-4BA8-996D-560546C40992}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DevTools", "DevTools\DevTools.vcxproj", "{465E336A-DAD0-4CC8-8C65-2A0F6FC75CAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,10 @@ Global
 		{BC87828F-65DA-4F1A-AC7D-C0D2E6B53742}.Debug|x64.Build.0 = Debug|x64
 		{BC87828F-65DA-4F1A-AC7D-C0D2E6B53742}.Release|x64.ActiveCfg = Release|x64
 		{BC87828F-65DA-4F1A-AC7D-C0D2E6B53742}.Release|x64.Build.0 = Release|x64
-		{FD21862A-5B5F-4BA8-996D-560546C40992}.Debug|x64.ActiveCfg = Debug|x64
-		{FD21862A-5B5F-4BA8-996D-560546C40992}.Debug|x64.Build.0 = Debug|x64
-		{FD21862A-5B5F-4BA8-996D-560546C40992}.Release|x64.ActiveCfg = Release|x64
-		{FD21862A-5B5F-4BA8-996D-560546C40992}.Release|x64.Build.0 = Release|x64
+		{465E336A-DAD0-4CC8-8C65-2A0F6FC75CAB}.Debug|x64.ActiveCfg = Debug|x64
+		{465E336A-DAD0-4CC8-8C65-2A0F6FC75CAB}.Debug|x64.Build.0 = Debug|x64
+		{465E336A-DAD0-4CC8-8C65-2A0F6FC75CAB}.Release|x64.ActiveCfg = Release|x64
+		{465E336A-DAD0-4CC8-8C65-2A0F6FC75CAB}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -31,6 +31,7 @@ Global
 		SolutionGuid = {ED4C16F3-35E4-46A3-ABEB-614AD105263F}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		System\System.vcxitems*{465e336a-dad0-4cc8-8c65-2a0f6fc75cab}*SharedItemsImports = 4
 		System\System.vcxitems*{689157d6-cf42-413a-a0fb-a42e800a3ed3}*SharedItemsImports = 9
 		System\System.vcxitems*{bc87828f-65da-4f1a-ac7d-c0d2e6b53742}*SharedItemsImports = 4
 	EndGlobalSection
