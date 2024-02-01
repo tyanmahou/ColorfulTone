@@ -4,6 +4,7 @@
 
 namespace ct
 {
+    using Migration::MigrationHundler;
     bool MigrationSystem::Up()
     {
         constexpr FilePathView path = U"UserData/System/.migration";
@@ -23,10 +24,13 @@ namespace ct
         }
         int64 currentVersion = versions.isEmpty() ? 0 : versions.back();
 
-        s3d::Array<int64> updateVersions = Migration::MigrationHundler::UpdateVersions(currentVersion);
+        s3d::Array<int64> updateVersions = MigrationHundler::UpdateVersions(currentVersion);
         if (updateVersions.empty()) {
             // 更新無し
             return false;
+        }
+        for (auto version : updateVersions) {
+            MigrationHundler::Get(version)->up();
         }
         versions.append(std::move(updateVersions));
         {

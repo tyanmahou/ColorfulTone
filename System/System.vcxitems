@@ -229,6 +229,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Portrait\PortraitStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\Random\RandomNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)migrations\20200706_MoveUserDataPath.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)migrations\20240126_FixEncodeToUTF8.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)migrations\20240202_RenameMusicsPackage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Fade\Fade.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\CourseSelect\CourseSelectScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\CourseSelect\CourseSelectSceneView.cpp" />
