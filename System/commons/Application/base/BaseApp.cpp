@@ -1,4 +1,4 @@
-#include <commons/Application/base/BaseApp.hpp>
+﻿#include <commons/Application/base/BaseApp.hpp>
 #include <commons/Application/AppRunner.hpp>
 #include <Siv3D.hpp>
 
@@ -11,5 +11,17 @@ namespace ct
     {
         AppRunner runner;
         return runner.run(this);
+    }
+    void BaseApp::preUpdate()
+    {
+        if (KeyF4.down()) {
+            m_windowCtrl.changeWindowSizeNext();
+        }
+        if (KeyF7.down()) {
+            m_showFps ^= true;
+        }
+        if (m_showFps) {
+            PutText(U"{}"_fmt(Profiler::FPS()), Arg::topLeft = Vec2{ 0, 0 });
+        }
     }
 }

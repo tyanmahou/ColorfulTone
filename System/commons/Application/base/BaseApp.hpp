@@ -11,6 +11,8 @@ namespace ct
 
 		bool run();
 	protected:
+		void preUpdate();
+	protected:
 		WindowCtrl m_windowCtrl;
 		bool m_showFps = false;
 	};

@@ -18,15 +18,7 @@ namespace ct
     }
     bool MainApp::onUpdate()
     {
-        if (KeyF4.down()) {
-            m_windowCtrl.changeWindowSizeNext();
-        }
-        if (KeyF7.down()) {
-            m_showFps ^= true;
-        }
-        if (m_showFps) {
-            PutText(U"{}"_fmt(Profiler::FPS()), Arg::topLeft = Vec2{ 0, 0 });
-        }
+        this->preUpdate();
 
         return Game::Update();
     }
