@@ -10,8 +10,8 @@ namespace
     {
         // NOTE: +1は旧Siv3Dとの互換性でする
         const InputDeviceType device = static_cast<InputDeviceType>(ini.getOr<int>(U"Key." + str + U"_Device", 0) + 1);
-        uint8 code = ini.getOr<uint8>(U"Key." + str + U"_Code", -1);
-        if (code == -1) {
+        uint8 code = ini.getOr<uint8>(U"Key." + str + U"_Code", 255);
+        if (code == 255) {
             code = defaultCode;
         }
         const uint8 userIndex = ini.getOr<uint8>(U"Key." + str + U"_User", 0);

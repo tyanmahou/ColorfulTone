@@ -1,5 +1,6 @@
 ﻿#include "NotesViewerApp.hpp"
 #include <commons/Constants.hpp>
+#include <commons/Game/Game.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -13,13 +14,16 @@ namespace ct
 	}
 	void NotesViewerApp::onStartup()
 	{
+		Game::Config().init();
+		m_preview.init();
 	}
 	bool NotesViewerApp::onUpdate()
 	{
 		this->preUpdate();
-		return true;
+		return m_preview.updateAndDraw();
 	}
 	void NotesViewerApp::onShutdown()
 	{
+		Game::Config().save();
 	}
 }

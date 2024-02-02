@@ -199,7 +199,7 @@ namespace ct
 		TextureAsset(U"mainbg_front").draw();
 	}
 
-	void PlayMusicGame::draw() const
+	void PlayMusicGame::draw(bool preview) const
 	{
 
 		const double drawCount = m_notesData.calDrawCount(m_nowCount);
@@ -231,9 +231,9 @@ namespace ct
 				m_notesData.draw(drawCount, m_scrollRate);
 			});
 
-		this->uiDraw();
+		this->uiDraw(preview);
 
-		if (g_startTimer.ms() <= 3000) {
+		if (!preview && g_startTimer.ms() <= 3000) {
 			StartAnime::Draw((g_startTimer.ms() - 1000) / 2000.0);
 		}
 	}
@@ -248,6 +248,9 @@ namespace ct
 		PlayStyle::Instance()->drawJudgeLine();
 
 		m_notesData.previewDraw(drawCount, m_scrollRate);
+
+		if (AutoPlayManager::IsAutoPlay())
+			PutText(U"AutoPlay", { Scene::Center().x, 60 });
 
 		PutText(Format(U"length:", m_notesData.getMusic()->getLengthSec()), Arg::topLeft = Vec2{ 20, Scene::Height() - 120});
 		PutText(Format(U"total:", m_totalNotes), Arg::topLeft = Vec2{ 20, Scene::Height() - 140 });
@@ -265,7 +268,7 @@ namespace ct
 		return m_isFinish && (m_FCAPAnime.isEnd() || !m_FCAPAnime.isStart());
 	}
 
-	void PlayMusicGame::uiDraw() const
+	void PlayMusicGame::uiDraw(bool preview) const
 	{
 
 		//UI***************************************************************
@@ -305,10 +308,11 @@ namespace ct
 				m_FCAPAnime.draw();
 			}
 		}
-		PutText(m_title, { Scene::Center().x, 20 });
+		const double headerOffset = preview ? 20 : 0;
+		PutText(m_title, { Scene::Center().x, 20 + headerOffset });
 
 		if (AutoPlayManager::IsAutoPlay())
-			PutText(U"AutoPlay", { Scene::Center().x, 40 });
+			PutText(U"AutoPlay", { Scene::Center().x, 40 + headerOffset });
 
 		const auto levelName = m_notesData.getLevelWithStar() + U" - " + m_notesData.getLevelName();
 		PutText(levelName, Vec2{ Scene::Center().x, Scene::Height() - 20 });

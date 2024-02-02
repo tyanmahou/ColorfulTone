@@ -66,11 +66,11 @@ namespace ct
         const s3d::String& getSoundNameID()const { return m_soundNameID; }
         const int getIndex()const { return m_index; }
 
-        const NotesData& operator [](s3d::uint32 level) const
+        const NotesData& operator [](size_t level) const
         {
             return m_notesDatas[level];
         }
-        NotesData& operator [](s3d::uint32 level)
+        NotesData& operator [](size_t level)
         {
             return m_notesDatas[level];
         }

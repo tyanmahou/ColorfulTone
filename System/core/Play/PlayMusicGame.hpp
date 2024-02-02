@@ -40,7 +40,7 @@ namespace ct
 
 		std::shared_ptr<IPlayBG> m_playBG;
 		AudioSpectrum m_spectrum;
-		void uiDraw()const;
+		void uiDraw(bool preview)const;
 	public:
 		PlayMusicGame();
 
@@ -55,7 +55,7 @@ namespace ct
 
 		void drawBG(const double drawCount)const;
 
-		void draw()const;
+		void draw(bool preview = false)const;
 
 		void previewDraw(const double count)const;
 
