@@ -55,8 +55,8 @@ namespace ct
                 if (KeyF3.down()) {
                     this->playOrStop(true);
                 }
-                if (m_isPlay && KeyEscape.down()) {
-                    this->playOrStop(true);
+                if (KeyEscape.down()) {
+                    this->stop();
                 }
 
 
@@ -151,8 +151,8 @@ namespace ct
                 pos.x += 2;
             }
             {
-                const auto dtext = m_font(m_isPlay ? U"\U000F0666 停止" : U"\U000F040C 再生");
-                const double width = Math::Ceil(dtext.region().w) + 20;
+                const auto dtext = m_font(m_isPlay ? U"\U000F00BC" : U"\U000F040D");
+                const double width = Math::Ceil(dtext.region(20).w) + 15;
                 RectF region{ pos, {width, height} };
                 if (region.mouseOver()) {
                     region.draw(highlightColor);
@@ -160,6 +160,21 @@ namespace ct
                 }
                 if (region.leftClicked()) {
                     this->playOrStop();
+                }
+                dtext.drawAt(20, region.center(), m_isPlay ? Palette::Red : Palette::Lightgreen);
+                pos.x += region.w;
+                pos.x += 2;
+            }
+            {
+                const auto dtext = m_font(U"\U000F04DB");
+                const double width = Math::Ceil(dtext.region().w) + 15;
+                RectF region{ pos, {width, height} };
+                if (region.mouseOver()) {
+                    region.draw(highlightColor);
+                    Cursor::RequestStyle(CursorStyle::Hand);
+                }
+                if (region.leftClicked()) {
+                    this->stop();
                 }
                 dtext.drawAt(region.center(), textColor);
                 pos.x += region.w;
@@ -197,6 +212,9 @@ namespace ct
                 dtext.drawAt(region.center(), m_isPlay ? textColorEnabled : textColor);
                 pos.x += region.w;
                 pos.x += 2;
+            }
+            {
+                
             }
         }
         bool slider(
@@ -293,6 +311,15 @@ namespace ct
 
             m_isPlay ^= true;
             m_musicGame.notesInit();
+        }
+        void stop()
+        {
+            if (!m_musicData) {
+                return;
+            }
+            m_musicGame.getSound().stop();
+            m_musicGame.getSound().seekSamples(0);
+            m_isPlay = false;
         }
         bool onLoadProject(const Optional<FilePath>& path)
         {

@@ -349,7 +349,7 @@ namespace ct
                 } else if (head == U"#TEXT") {
                     double count = nowCount + NotesData::RESOLUTION * nowMeasure * csv.getOr<double>(i, 3, 0) / csv.getOr<double>(i, 4, 1);
                     const double drawSec = csv.getOr<double>(i, 2, 2);
-                    const String msg = csv.getOr<String>(i, 1, U"");
+                    const String msg = (csv[i].size() >= 2) ? csv[i][1] : U"";
 
                     const double judgeOffset = GetJudgeOffset(count, stopInfos);
                     const double fixedCount = count + judgeOffset;
