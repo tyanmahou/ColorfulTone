@@ -1,8 +1,4 @@
-#pragma once
-#define _CRT_SECURE_NO_WARNINGS -1
-#define VIEWER_MODE
+﻿# pragma once
+//# define NO_S3D_USING
 # include <Siv3D.hpp>
-# include <HamFramework.hpp>
-#include"Game.h"
-
-
+# include <Useful.hpp>

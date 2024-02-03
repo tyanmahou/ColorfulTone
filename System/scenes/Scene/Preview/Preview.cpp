@@ -1,0 +1,464 @@
+﻿#include <scenes/Scene/Preview/Preview.hpp>
+#include <scenes/Scene/Preview/GUI/Pulldown.hpp>
+#include <core/Play/PlayMusicGame.hpp>
+#include <core/Play/HighSpeed/HighSpeedDemo.hpp>
+#include <Useful.hpp>
+#include <Siv3D.hpp>
+#include <Siv3D/Windows/Windows.hpp>
+
+namespace ct
+{
+    class Preview::Impl
+    {
+    public:
+        Impl():
+            m_font(FontMethod::MSDF, 16, Typeface::CJK_Regular_JP),
+            m_notesListPulldown(m_font, 210, {0,0})
+        {
+            if (Font::IsAvailable(Typeface::Icon_Awesome_Solid)) {
+                m_iconFonts.emplace_back(FontMethod::MSDF, 16, Typeface::Icon_Awesome_Solid);
+            }
+            if (Font::IsAvailable(Typeface::Icon_MaterialDesign)) {
+                m_iconFonts.emplace_back(FontMethod::MSDF, 16, Typeface::Icon_MaterialDesign);
+            }
+            for (const auto& iconFont : m_iconFonts) {
+                m_font.addFallback(iconFont);
+            }
+        }
+        void init()
+        {
+            m_scrollRate = Game::Config().m_scrollRate;
+        }
+        bool updateAndDraw()
+        {
+            this->update();
+            this->draw();
+            if (m_isShowGUI) {
+                this->drawGUI();
+            }
+            return true;
+        }
+    private:
+        void update()
+        {
+            Array<s3d::FileChange> changes;
+            if (m_watcher.retrieveChanges(changes)) {
+                if (m_isPlay) {
+                    this->playOrStop();
+                }
+                this->reload();
+            }
+            if (KeyF11.down()) {
+                m_isShowGUI ^= 1;
+            }
+            //プレイモード
+            if (KeyF1.down()) {
+                SoundManager::PlaySe(U"desisionSmall");
+                AutoPlayManager::ChangePlayMode();
+            }
+            if (KeyF5.down()) {
+                if (!m_isPlay) {
+                    this->onLoadProject(m_dirPath);
+                }
+            }
+            if (m_musicData) {
+                if (KeyF2.down()) {
+                    this->playOrStop();
+                }
+                if (KeyF3.down()) {
+                    this->playOrStop(true);
+                }
+                if (KeyEscape.down()) {
+                    this->stop();
+                }
+
+
+                if (!KeyControl.pressed() && KeyRight.pressed()) {
+                    auto& s = m_musicGame.getSound();
+                    int64 pos = static_cast<int64>(s.posSample() + 5000 * Scene::DeltaTime() * 60);
+                    if (pos >= static_cast<int64>(s.samples())) {
+                        pos = static_cast<int64>(s.samples());
+                    }
+                    s.seekSamples(static_cast<size_t>(pos));
+                } else if (!KeyControl.pressed() && KeyLeft.pressed()) {
+                    auto& s = m_musicGame.getSound();
+                    int64 pos = static_cast<int64>(s.posSample() - 5000 * Scene::DeltaTime() * 60);
+                    if (pos <= 0)
+                        pos = 0;
+                    s.seekSamples(static_cast<size_t>(pos));
+                }
+                m_highSpeed.update(m_scrollRate);
+                m_musicGame.setScrollRate(m_scrollRate);
+                if (m_isPlay) {
+                    m_musicGame.update();
+
+                    if (m_musicGame.isFinish()) {
+                        this->playOrStop(true);
+                    }
+                } else {
+                    m_musicGame.synchroCount(m_count);
+                }
+            }
+        }
+        void draw() const
+        {
+            PutText(U"F11:GUIの表示/非表示", Arg::center = Vec2{ 100, Scene::Height() - 20 });
+            if (!m_musicData) {
+                double x = 5;
+                const double topY = 70;
+                const double d = 22;
+                PutText(U"F1:AutoPlay", Arg::topLeft = Vec2{x, topY });
+                PutText(U"F2:現在の位置から再生/停止", Arg::topLeft = Vec2{ x, topY + d});
+                PutText(U"F3:曲の初めから再生/停止", Arg::topLeft = Vec2{x,  topY + d * 2 });
+                PutText(U"F5:更新", Arg::topLeft = Vec2{ x,  topY + d * 3 });
+                PutText(U"Ctrl:ハイスピの変更", Arg::topLeft = Vec2{x,  topY + d * 4 });
+                return;
+            }
+
+            if (m_isPlay) {
+                m_musicGame.draw(true);
+            } else {
+                m_musicGame.previewDraw(m_count);
+            }
+            if (m_isPlay) {
+                SharedDraw::HighSpeedPlay(
+                    m_highSpeed,
+                    m_musicGame.getNotesData(),
+                    m_scrollRate
+                );
+            } else {
+                SharedDraw::HighSpeed(
+                    m_highSpeed,
+                    *m_musicData,
+                    m_scrollRate
+                );
+            }
+        }
+        void drawGUI()
+        {
+            constexpr double detailFontHeight = 15;
+            const double height = m_font.height() + 2 * 2;
+            constexpr ColorF backColor = ColorF(0.2, 0.7);
+            constexpr ColorF highlightColor = ColorF(0.9, 0.2);
+            constexpr ColorF textColor = Palette::White;
+            constexpr ColorF textColorEnabled = Palette::Gray;
+            RectF({ 0, 0, Scene::Width(), height }).drawShadow({ 1, 1 }, 5, 0).draw(backColor);
+            Vec2 pos{ 5, 0 };
+            {
+                const auto dtext = m_font(U"\U000F0770");
+                const double width = Math::Ceil(dtext.region(20).w) + 15;
+                RectF region{ pos, {width, height} };
+                if (!m_isPlay && region.mouseOver()) {
+                    region.draw(highlightColor);
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(U"楽曲フォルダを開く").draw(detailFontHeight, Vec2{0, height});
+                    Cursor::RequestStyle(CursorStyle::Hand);
+                }
+                if (!m_isPlay && region.leftClicked()) {
+                    this->openProject();
+                }
+                dtext.drawAt(20, region.center(), m_isPlay ? textColorEnabled: textColor);
+                pos.x += region.w;
+            }
+            {
+                const auto dtext = m_font(U"\U000F1781");
+                const double width = Math::Ceil(dtext.region(20).w) + 15;
+                RectF region{ pos, {width, height} };
+                if (m_dirPath && region.mouseOver()) {
+                    region.draw(highlightColor);
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(U"楽曲フォルダをエクスプローラーで開く").draw(detailFontHeight, Vec2{ 0, height });
+                    Cursor::RequestStyle(CursorStyle::Hand);
+                }
+                if (m_dirPath && region.leftClicked()) {
+                    this->openExplorer();
+                }
+                dtext.drawAt(20, region.center(), m_dirPath ? textColor : textColorEnabled);
+                pos.x += region.w;
+                pos.x += 2;
+            }
+            {
+                m_notesListPulldown.setPos(pos);
+                if (!m_isPlay) {
+                    if (m_notesListPulldown.update()) {
+                        this->onChangeLevel();
+                    }
+                }
+                auto region = m_notesListPulldown.draw(m_isPlay ? textColorEnabled : textColor, backColor, highlightColor);
+                pos.x += region.w;
+                pos.x += 4;
+            }
+            {
+                Line(pos + Vec2{ 0, 1 }, pos + Vec2{ 0, height - 1 }).draw(highlightColor);
+                pos.x += 2;
+            }
+            {
+                const auto dtext = m_font(m_isPlay ? U"\U000F00BC" : U"\U000F040D");
+                const double width = Math::Ceil(dtext.region(20).w) + 15;
+                RectF region{ pos, {width, height} };
+                if (region.mouseOver()) {
+                    region.draw(highlightColor);
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(m_isPlay ? U"一時停止 (F2)" : U"再生 (F2)").draw(detailFontHeight, Vec2{0, height});
+                    Cursor::RequestStyle(CursorStyle::Hand);
+                }
+                if (region.leftClicked()) {
+                    this->playOrStop();
+                }
+                dtext.drawAt(20, region.center(), m_isPlay ? Palette::Red : Palette::Lightgreen);
+                pos.x += region.w;
+            }
+            {
+                const auto dtext = m_font(U"\U000F04DB");
+                const double width = Math::Ceil(dtext.region(20).w) + 15;
+                RectF region{ pos, {width, height} };
+                if (region.mouseOver()) {
+                    region.draw(highlightColor);
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(U"停止 (Esc)").draw(detailFontHeight, Vec2{ 0, height });
+                    Cursor::RequestStyle(CursorStyle::Hand);
+                }
+                if (region.leftClicked()) {
+                    this->stop();
+                }
+                dtext.drawAt(20,region.center(), textColor);
+                dtext.drawAt(20,region.center(), textColor);
+                pos.x += region.w;
+            }
+            {
+                Line(pos + Vec2{ 0, 1 }, pos + Vec2{ 0, height - 1 }).draw(highlightColor);
+                pos.x += 2;
+            }
+            {
+                double d = 0;
+                if (m_musicData) {
+                    d = static_cast<double>(m_musicGame.getSound().posSample()) / m_musicGame.getSound().samples();
+                }
+                if (slider(d, pos, 353, height, m_musicData.has_value(), highlightColor)) {
+                    m_musicGame.getSound().seekSamples(static_cast<size_t>(d * m_musicGame.getSound().samples()));
+                }
+                pos.x += 353;
+            }
+            {
+                Line(pos + Vec2{ 0, 1 }, pos + Vec2{ 0, height - 1 }).draw(highlightColor);
+                pos.x += 2;
+            }
+            {
+                const auto dtext = m_font(U"\U000F0450");
+                const double width = Math::Ceil(dtext.region(20).w) + 15;
+                RectF region{ pos, {width, height} };
+                if (!m_isPlay && region.mouseOver()) {
+                    region.draw(highlightColor);
+                    Cursor::RequestStyle(CursorStyle::Hand);
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(U"更新とフォルダを再読み込み (F5)").draw(detailFontHeight, Vec2{ 0, height });
+                }
+                if (!m_isPlay && region.leftClicked()) {
+                    this->reload();
+                }
+                dtext.drawAt(20, region.center(), m_isPlay ? textColorEnabled : textColor);
+                pos.x += region.w;
+                pos.x += 2;
+            }
+            {
+                
+            }
+        }
+        bool slider(
+            double& value,
+            const Vec2& lt,
+            const double sliderWidth,
+            double height,
+            const bool enabled,
+            const ColorF& backColor
+        )
+        {
+            const double width = sliderWidth;
+            const RectF region{ lt, width, height };
+            Vec2 center = region.center();
+            const double sliderRegionX0 = (region.x + 8);
+            const double sliderRegionX1 = (region.x + region.w - 8);
+            const double sliderRegionW = (sliderRegionX1 - sliderRegionX0);
+
+            const double actualSliderRegionX0 = (sliderRegionX0 + 5);
+            const double actualSliderRegionX1 = (sliderRegionX1 - 5);
+            const double actualSliderRegionW = (actualSliderRegionX1 - actualSliderRegionX0);
+
+            const RectF sliderRect{ Arg::leftCenter(sliderRegionX0, center.y), sliderRegionW, 6 };
+            const s3d::RoundRect baseRoundRect = sliderRect.rounded(2);
+            const double previousValue = value;
+            value = Saturate(value);
+
+            const double fill = value;
+            const RectF fillRect{ sliderRect.pos, sliderRect.w * fill, sliderRect.h };
+            const s3d::RoundRect fillRoundRect = fillRect.rounded(2.0);
+
+            const RectF smallRect{ Arg::center(actualSliderRegionX0 + actualSliderRegionW * fill, center.y), 10, 20 };
+            const s3d::RoundRect smallRoundRect = smallRect.rounded(2);
+            const bool mouseOver = (enabled && smallRect.mouseOver());
+
+            if (enabled) {
+                baseRoundRect.draw(backColor);
+                fillRoundRect.draw({ 0.35, 0.7, 1.0 });
+                smallRoundRect
+                    .draw(mouseOver ? ColorF{ 0.9, 0.95, 1.0 } : ColorF{1.0})
+                    .drawFrame(1, ColorF{ 0.33 });
+            } else {
+                baseRoundRect.draw(backColor);
+                fillRoundRect.draw({ 0.75, 0.85, 1.0 });
+                smallRoundRect
+                    .draw(Palette::Gray)
+                    .drawFrame(1, ColorF{ 0.67 });
+            }
+
+            const RectF sliderRectExtended = sliderRect.stretched(4, 12);
+            if (enabled && Cursor::OnClientRect() && (sliderRectExtended.mouseOver() || smallRect.mouseOver())) {
+                Cursor::RequestStyle(CursorStyle::Hand);
+            }
+
+            if (enabled && Cursor::OnClientRect() && sliderRectExtended.leftPressed()) {
+                const double pos = (Cursor::PosF().x - actualSliderRegionX0);
+                const double posN = Math::Saturate(pos / actualSliderRegionW);
+                value = posN;
+            }
+
+            return (value != previousValue);
+        }
+        bool openProject()
+        {
+            auto path = Dialog::SelectFolder(U"Music");
+            if (path) {
+                return this->onLoadProject(path);
+            } else {
+                return false;
+            }
+        }
+        bool openExplorer()
+        {
+            if (m_dirPath) {
+                ::ShellExecute(NULL, L"explore", m_dirPath->toWstr().c_str(), NULL, NULL, SW_SHOWNORMAL);
+                return true;
+            } else {
+                return false;
+            }
+        }
+        bool reload()
+        {
+            return this->onLoadProject(m_dirPath);
+        }
+        void playOrStop(bool reset = false)
+        {
+            if (!m_musicData) {
+                return;
+            }
+
+            if (!m_isPlay) {
+                if (reset) {
+                    m_musicGame.getSound().seekSamples(0);
+                }
+                m_musicGame.getSound().play();
+            } else {
+                if (reset) {
+                    m_musicGame.getSound().stop();
+                } else {
+                    m_musicGame.getSound().pause();
+                }
+            }
+
+            m_isPlay ^= true;
+            m_musicGame.notesInit();
+        }
+        void stop()
+        {
+            if (!m_musicData) {
+                return;
+            }
+            m_musicGame.getSound().stop();
+            m_musicGame.getSound().seekSamples(0);
+            m_isPlay = false;
+        }
+        bool onLoadProject(const Optional<FilePath>& path)
+        {
+            if (!path) {
+                return false;
+            }
+            const auto pos = m_musicGame.getSound().posSample();
+            const auto genre = FileSystem::BaseName(FileSystem::ParentPath(*path));
+
+            auto assets = FileSystem::DirectoryContents(*path);
+            //iniファイルがあるか検索
+            for (const auto& elm : assets) {
+                if (FileSystem::Extension(elm) == U"ini") {
+                    SoundManager::PlaySe(U"desisionSmall");
+
+                    m_musicData.emplace(genre, *path, elm);
+
+                    Array<String> noteLevelNames;
+                    for (auto& notes : m_musicData->getNotesData()) {
+                        noteLevelNames.push_back(notes.getLevelName());
+                    }
+                    if (noteLevelNames.isEmpty()) {
+                        m_musicData = none;
+                        return false;
+                    }
+                    m_notesListPulldown.setItems(noteLevelNames);
+                    m_musicGame.init((*m_musicData)[m_notesListPulldown.getIndex()], m_scrollRate);
+                    break;
+                }
+            }
+            if (m_dirPath == path) {
+                // 同じパスなら位置を補正
+                m_musicGame.getSound().seekSamples(s3d::Clamp<size_t>(static_cast<size_t>(pos), 0, m_musicGame.getSound().samples()));
+            } else {
+                m_watcher = s3d::DirectoryWatcher(*path);
+            }
+            m_dirPath = path;
+            return true;
+        }
+        bool onChangeLevel()
+        {
+            if (!m_musicData) {
+                return false;
+            }
+            SoundManager::PlaySe(U"desisionSmall");
+            const auto pos = m_musicGame.getSound().posSample();
+            m_musicGame.init((*m_musicData)[m_notesListPulldown.getIndex()], m_scrollRate);
+            m_musicGame.getSound().seekSamples(s3d::Clamp<size_t>(static_cast<size_t>(pos), 0, m_musicGame.getSound().samples()));
+            return true;
+        }
+    private:
+        Font m_font;
+        Array<Font> m_iconFonts;
+
+        Pulldown m_notesListPulldown;
+
+        Optional<FilePath> m_dirPath;
+
+
+        PlayMusicGame m_musicGame;
+        Optional<MusicData> m_musicData;
+
+        HighSpeedDemo m_highSpeed;
+        double m_scrollRate = 1.0;
+        bool m_isPlay = false;
+        double m_count = 0;
+        bool m_isShowGUI = true;
+
+        s3d::DirectoryWatcher m_watcher;
+    };
+    Preview::Preview():
+        m_pImpl(std::make_unique<Impl>())
+    {
+    }
+    Preview::~Preview()
+    {
+    }
+    void Preview::init()
+    {
+        m_pImpl->init();
+    }
+    bool Preview::updateAndDraw()
+    {
+        return m_pImpl->updateAndDraw();
+    }
+}

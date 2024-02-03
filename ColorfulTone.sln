@@ -1,45 +1,45 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotesViewer", "NotesViewer\NotesViewer.vcxproj", "{06238E83-0D04-4C5C-BEB8-E8D6F6F1FD3B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ColorfulTone", "ColorfulTone\ColorfulTone.vcxproj", "{BC87828F-65DA-4F1A-AC7D-C0D2E6B53742}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "System", "System\System.vcxitems", "{45D41ACC-2C3C-43D2-BC10-02AA73FFC7C7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "System", "System\System.vcxitems", "{689157D6-CF42-413A-A0FB-A42E800A3ED3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ColorfulTone", "ColorfulTone\ColorfulTone.vcxproj", "{9F5A5474-73E0-4FF4-B48D-EB59009B9D4A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DevTools", "DevTools\DevTools.vcxproj", "{465E336A-DAD0-4CC8-8C65-2A0F6FC75CAB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotesViewer", "NotesViewer\NotesViewer.vcxproj", "{CE6EBAF9-5016-4669-802D-C880CE844926}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		System\System.vcxitems*{06238e83-0d04-4c5c-beb8-e8d6f6f1fd3b}*SharedItemsImports = 4
-		System\System.vcxitems*{45d41acc-2c3c-43d2-bc10-02aa73ffc7c7}*SharedItemsImports = 9
-		System\System.vcxitems*{9f5a5474-73e0-4ff4-b48d-eb59009b9d4a}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{06238E83-0D04-4C5C-BEB8-E8D6F6F1FD3B}.Debug|x64.ActiveCfg = Debug|x64
-		{06238E83-0D04-4C5C-BEB8-E8D6F6F1FD3B}.Debug|x64.Build.0 = Debug|x64
-		{06238E83-0D04-4C5C-BEB8-E8D6F6F1FD3B}.Debug|x86.ActiveCfg = Debug|Win32
-		{06238E83-0D04-4C5C-BEB8-E8D6F6F1FD3B}.Debug|x86.Build.0 = Debug|Win32
-		{06238E83-0D04-4C5C-BEB8-E8D6F6F1FD3B}.Release|x64.ActiveCfg = Release|x64
-		{06238E83-0D04-4C5C-BEB8-E8D6F6F1FD3B}.Release|x64.Build.0 = Release|x64
-		{06238E83-0D04-4C5C-BEB8-E8D6F6F1FD3B}.Release|x86.ActiveCfg = Release|Win32
-		{06238E83-0D04-4C5C-BEB8-E8D6F6F1FD3B}.Release|x86.Build.0 = Release|Win32
-		{9F5A5474-73E0-4FF4-B48D-EB59009B9D4A}.Debug|x64.ActiveCfg = Debug|x64
-		{9F5A5474-73E0-4FF4-B48D-EB59009B9D4A}.Debug|x64.Build.0 = Debug|x64
-		{9F5A5474-73E0-4FF4-B48D-EB59009B9D4A}.Debug|x86.ActiveCfg = Debug|Win32
-		{9F5A5474-73E0-4FF4-B48D-EB59009B9D4A}.Debug|x86.Build.0 = Debug|Win32
-		{9F5A5474-73E0-4FF4-B48D-EB59009B9D4A}.Release|x64.ActiveCfg = Release|x64
-		{9F5A5474-73E0-4FF4-B48D-EB59009B9D4A}.Release|x64.Build.0 = Release|x64
-		{9F5A5474-73E0-4FF4-B48D-EB59009B9D4A}.Release|x86.ActiveCfg = Release|Win32
-		{9F5A5474-73E0-4FF4-B48D-EB59009B9D4A}.Release|x86.Build.0 = Release|Win32
+		{BC87828F-65DA-4F1A-AC7D-C0D2E6B53742}.Debug|x64.ActiveCfg = Debug|x64
+		{BC87828F-65DA-4F1A-AC7D-C0D2E6B53742}.Debug|x64.Build.0 = Debug|x64
+		{BC87828F-65DA-4F1A-AC7D-C0D2E6B53742}.Release|x64.ActiveCfg = Release|x64
+		{BC87828F-65DA-4F1A-AC7D-C0D2E6B53742}.Release|x64.Build.0 = Release|x64
+		{465E336A-DAD0-4CC8-8C65-2A0F6FC75CAB}.Debug|x64.ActiveCfg = Debug|x64
+		{465E336A-DAD0-4CC8-8C65-2A0F6FC75CAB}.Debug|x64.Build.0 = Debug|x64
+		{465E336A-DAD0-4CC8-8C65-2A0F6FC75CAB}.Release|x64.ActiveCfg = Release|x64
+		{465E336A-DAD0-4CC8-8C65-2A0F6FC75CAB}.Release|x64.Build.0 = Release|x64
+		{CE6EBAF9-5016-4669-802D-C880CE844926}.Debug|x64.ActiveCfg = Debug|x64
+		{CE6EBAF9-5016-4669-802D-C880CE844926}.Debug|x64.Build.0 = Debug|x64
+		{CE6EBAF9-5016-4669-802D-C880CE844926}.Release|x64.ActiveCfg = Release|x64
+		{CE6EBAF9-5016-4669-802D-C880CE844926}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED4C16F3-35E4-46A3-ABEB-614AD105263F}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		System\System.vcxitems*{465e336a-dad0-4cc8-8c65-2a0f6fc75cab}*SharedItemsImports = 4
+		System\System.vcxitems*{689157d6-cf42-413a-a0fb-a42e800a3ed3}*SharedItemsImports = 9
+		System\System.vcxitems*{bc87828f-65da-4f1a-ac7d-c0d2e6b53742}*SharedItemsImports = 4
+		System\System.vcxitems*{ce6ebaf9-5016-4669-802d-c880ce844926}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal

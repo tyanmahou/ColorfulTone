@@ -1,15 +1,23 @@
-#pragma once
+﻿#pragma once
 
-// cppからのみ使用
+#include <commons/Game/Game.hpp>
+#include <commons/Game/GameConfig.hpp>
+#include <commons/Audio/SoundManager.hpp>
+#include <commons/Constants.hpp>
+#include <commons/FontName.hpp>
 
-#include "Game.h"
-#include"GameConfig.h"
-#include "MusicData.h"
-#include "CourseData.h"
-#include "SoundManager.h"
+#include <core/Data/Genre/GenreManager.hpp>
+#include <core/Data/MusicData/MusicData.hpp>
+#include <core/Data/NotesData/NotesData.hpp>
+#include <core/Data/CourseData/CourseData.hpp>
+#include <core/Data/CourseGenre/CourseGenre.hpp>
 
-#include"PlayKey.h"
-#include"Util.h"
+#include <core/Input/PlayKey.hpp>
+#include <core/Input/AutoPlayManager.hpp>
 
-#include"Fade.h"
-#include"SceneInfo.h"
+#include <scenes/Fade/Fade.hpp>
+#include <scenes/utils/Util.hpp>
+#include <scenes/utils/Shaders.hpp>
+#include <scenes/utils/SharedLogic.hpp>
+#include <scenes/utils/SharedDraw.hpp>
+#include <scenes/utils/Font/FontKinetic.hpp>

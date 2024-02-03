@@ -1,11 +1,8 @@
+﻿#include <Siv3D.hpp> 
+#include "NotesViewerApp.hpp"
 
-# include <Siv3D.hpp>
-#include"NotesViewer.h"
 void Main()
 {
-
-	NotesViewer viewer;
-
-	viewer.mainLoop();
-
+	ct::NotesViewerApp app;
+	app.run();
 }
