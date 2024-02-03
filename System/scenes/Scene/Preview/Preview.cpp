@@ -60,14 +60,14 @@ namespace ct
                 }
 
 
-                if (KeyRight.pressed()) {
+                if (!KeyControl.pressed() && KeyRight.pressed()) {
                     auto& s = m_musicGame.getSound();
                     int64 pos = static_cast<int64>(s.posSample() + 5000 * Scene::DeltaTime() * 60);
                     if (pos >= static_cast<int64>(s.samples())) {
                         pos = static_cast<int64>(s.samples());
                     }
                     s.seekSamples(static_cast<size_t>(pos));
-                } else if (KeyLeft.pressed()) {
+                } else if (!KeyControl.pressed() && KeyLeft.pressed()) {
                     auto& s = m_musicGame.getSound();
                     int64 pos = static_cast<int64>(s.posSample() - 5000 * Scene::DeltaTime() * 60);
                     if (pos <= 0)
@@ -190,7 +190,7 @@ namespace ct
                     d = static_cast<double>(m_musicGame.getSound().posSample()) / m_musicGame.getSound().samples();
                 }
                 if (slider(d, pos, 353, height, m_musicData.has_value(), highlightColor)) {
-                    m_musicGame.getSound().seekSamples(d * m_musicGame.getSound().samples());
+                    m_musicGame.getSound().seekSamples(static_cast<size_t>(d * m_musicGame.getSound().samples()));
                 }
                 pos.x += 353;
             }
