@@ -4,6 +4,7 @@
 #include <core/Play/HighSpeed/HighSpeedDemo.hpp>
 #include <Useful.hpp>
 #include <Siv3D.hpp>
+#include <Siv3D/Windows/Windows.hpp>
 
 namespace ct
 {
@@ -12,7 +13,7 @@ namespace ct
     public:
         Impl():
             m_font(FontMethod::MSDF, 16, Typeface::CJK_Regular_JP),
-            m_notesListPulldown(m_font, 180, {0,0})
+            m_notesListPulldown(m_font, 210, {0,0})
         {
             if (Font::IsAvailable(Typeface::Icon_Awesome_Solid)) {
                 m_iconFonts.emplace_back(FontMethod::MSDF, 16, Typeface::Icon_Awesome_Solid);
@@ -119,23 +120,37 @@ namespace ct
             constexpr ColorF textColor = Palette::White;
             constexpr ColorF textColorEnabled = Palette::Gray;
             RectF({ 0, 0, Scene::Width(), height }).drawShadow({ 1, 1 }, 5, 0).draw(backColor);
-            Vec2 pos{ 0, 0 };
+            Vec2 pos{ 5, 0 };
             {
-                const auto dtext = m_font(U"\U000F0770 開く");
-                const double width = Math::Ceil(dtext.region().w) + 20;
+                const auto dtext = m_font(U"\U000F0770");
+                const double width = Math::Ceil(dtext.region(20).w) + 15;
                 RectF region{ pos, {width, height} };
                 if (!m_isPlay && region.mouseOver()) {
                     region.draw(highlightColor);
-                    if (m_dirPath) {
-                        RectF({ pos + Vec2{ 0, height}, Scene::Width(), m_font.height() * (12.0 / m_font.fontSize())}).draw(ColorF(0, 0.5));
-                        m_font(*m_dirPath).draw(12, pos + Vec2{ 0, height });
-                    }
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (12.0 / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(U"楽曲フォルダを開く").draw(12, Vec2{0, height});
                     Cursor::RequestStyle(CursorStyle::Hand);
                 }
                 if (!m_isPlay && region.leftClicked()) {
                     this->openProject();
                 }
-                dtext.drawAt(region.center(), m_isPlay ? textColorEnabled: textColor);
+                dtext.drawAt(20, region.center(), m_isPlay ? textColorEnabled: textColor);
+                pos.x += region.w;
+            }
+            {
+                const auto dtext = m_font(U"\U000F1781");
+                const double width = Math::Ceil(dtext.region(20).w) + 15;
+                RectF region{ pos, {width, height} };
+                if (m_dirPath && region.mouseOver()) {
+                    region.draw(highlightColor);
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (12.0 / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(U"楽曲フォルダをエクスプローラーで開く").draw(12, Vec2{ 0, height });
+                    Cursor::RequestStyle(CursorStyle::Hand);
+                }
+                if (m_dirPath && region.leftClicked()) {
+                    this->openExplorer();
+                }
+                dtext.drawAt(20, region.center(), m_dirPath ? textColor : textColorEnabled);
                 pos.x += region.w;
                 pos.x += 2;
             }
@@ -148,6 +163,10 @@ namespace ct
                 }
                 auto region = m_notesListPulldown.draw(m_isPlay ? textColorEnabled : textColor, backColor, highlightColor);
                 pos.x += region.w;
+                pos.x += 4;
+            }
+            {
+                Line(pos + Vec2{ 0, 1 }, pos + Vec2{ 0, height - 1 }).draw(highlightColor);
                 pos.x += 2;
             }
             {
@@ -156,6 +175,8 @@ namespace ct
                 RectF region{ pos, {width, height} };
                 if (region.mouseOver()) {
                     region.draw(highlightColor);
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (12.0 / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(m_isPlay ? U"一時停止" : U"再生").draw(12, Vec2{0, height});
                     Cursor::RequestStyle(CursorStyle::Hand);
                 }
                 if (region.leftClicked()) {
@@ -163,22 +184,23 @@ namespace ct
                 }
                 dtext.drawAt(20, region.center(), m_isPlay ? Palette::Red : Palette::Lightgreen);
                 pos.x += region.w;
-                pos.x += 2;
             }
             {
                 const auto dtext = m_font(U"\U000F04DB");
-                const double width = Math::Ceil(dtext.region().w) + 15;
+                const double width = Math::Ceil(dtext.region(20).w) + 15;
                 RectF region{ pos, {width, height} };
                 if (region.mouseOver()) {
                     region.draw(highlightColor);
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (12.0 / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(U"停止").draw(12, Vec2{ 0, height });
                     Cursor::RequestStyle(CursorStyle::Hand);
                 }
                 if (region.leftClicked()) {
                     this->stop();
                 }
-                dtext.drawAt(region.center(), textColor);
+                dtext.drawAt(20,region.center(), textColor);
+                dtext.drawAt(20,region.center(), textColor);
                 pos.x += region.w;
-                pos.x += 2;
             }
             {
                 Line(pos + Vec2{ 0, 1 }, pos + Vec2{ 0, height - 1 }).draw(highlightColor);
@@ -199,17 +221,19 @@ namespace ct
                 pos.x += 2;
             }
             {
-                const auto dtext = m_font(U"\U000F0450 更新");
-                const double width = Math::Ceil(dtext.region().w) + 20;
+                const auto dtext = m_font(U"\U000F0450");
+                const double width = Math::Ceil(dtext.region(20).w) + 15;
                 RectF region{ pos, {width, height} };
                 if (!m_isPlay && region.mouseOver()) {
                     region.draw(highlightColor);
                     Cursor::RequestStyle(CursorStyle::Hand);
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (12.0 / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(U"更新とフォルダを再読み込み").draw(12, Vec2{ 0, height });
                 }
                 if (!m_isPlay && region.leftClicked()) {
                     this->reload();
                 }
-                dtext.drawAt(region.center(), m_isPlay ? textColorEnabled : textColor);
+                dtext.drawAt(20, region.center(), m_isPlay ? textColorEnabled : textColor);
                 pos.x += region.w;
                 pos.x += 2;
             }
@@ -233,21 +257,21 @@ namespace ct
             const double sliderRegionX1 = (region.x + region.w - 8);
             const double sliderRegionW = (sliderRegionX1 - sliderRegionX0);
 
-            const double actualSliderRegionX0 = (sliderRegionX0 + 8);
-            const double actualSliderRegionX1 = (sliderRegionX1 - 8);
+            const double actualSliderRegionX0 = (sliderRegionX0 + 5);
+            const double actualSliderRegionX1 = (sliderRegionX1 - 5);
             const double actualSliderRegionW = (actualSliderRegionX1 - actualSliderRegionX0);
 
             const RectF sliderRect{ Arg::leftCenter(sliderRegionX0, center.y), sliderRegionW, 6 };
-            const RoundRect baseRoundRect = sliderRect.rounded(2);
+            const s3d::RoundRect baseRoundRect = sliderRect.rounded(2);
             const double previousValue = value;
             value = Saturate(value);
 
             const double fill = value;
             const RectF fillRect{ sliderRect.pos, sliderRect.w * fill, sliderRect.h };
-            const RoundRect fillRoundRect = fillRect.rounded(2.0);
+            const s3d::RoundRect fillRoundRect = fillRect.rounded(2.0);
 
-            const RectF smallRect{ Arg::center(actualSliderRegionX0 + actualSliderRegionW * fill, center.y), 16, 24 };
-            const RoundRect smallRoundRect = smallRect.rounded(4.2);
+            const RectF smallRect{ Arg::center(actualSliderRegionX0 + actualSliderRegionW * fill, center.y), 10, 20 };
+            const s3d::RoundRect smallRoundRect = smallRect.rounded(2);
             const bool mouseOver = (enabled && smallRect.mouseOver());
 
             if (enabled) {
@@ -282,6 +306,15 @@ namespace ct
             auto path = Dialog::SelectFolder(U"Music");
             if (path) {
                 return this->onLoadProject(path);
+            } else {
+                return false;
+            }
+        }
+        bool openExplorer()
+        {
+            if (m_dirPath) {
+                ::ShellExecute(NULL, L"explore", m_dirPath->toWstr().c_str(), NULL, NULL, SW_SHOWNORMAL);
+                return true;
             } else {
                 return false;
             }
