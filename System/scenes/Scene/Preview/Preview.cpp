@@ -33,12 +33,24 @@ namespace ct
         {
             this->update();
             this->draw();
-            this->drawGUI();
+            if (m_isShowGUI) {
+                this->drawGUI();
+            }
             return true;
         }
     private:
         void update()
         {
+            Array<s3d::FileChange> changes;
+            if (m_watcher.retrieveChanges(changes)) {
+                if (m_isPlay) {
+                    this->playOrStop();
+                }
+                this->reload();
+            }
+            if (KeyF11.down()) {
+                m_isShowGUI ^= 1;
+            }
             //プレイモード
             if (KeyF1.down()) {
                 SoundManager::PlaySe(U"desisionSmall");
@@ -90,9 +102,19 @@ namespace ct
         }
         void draw() const
         {
+            PutText(U"F11:GUIの表示/非表示", Arg::center = Vec2{ 100, Scene::Height() - 20 });
             if (!m_musicData) {
+                double x = 5;
+                const double topY = 70;
+                const double d = 22;
+                PutText(U"F1:AutoPlay", Arg::topLeft = Vec2{x, topY });
+                PutText(U"F2:現在の位置から再生/停止", Arg::topLeft = Vec2{ x, topY + d});
+                PutText(U"F3:曲の初めから再生/停止", Arg::topLeft = Vec2{x,  topY + d * 2 });
+                PutText(U"F5:更新", Arg::topLeft = Vec2{ x,  topY + d * 3 });
+                PutText(U"Ctrl:ハイスピの変更", Arg::topLeft = Vec2{x,  topY + d * 4 });
                 return;
             }
+
             if (m_isPlay) {
                 m_musicGame.draw(true);
             } else {
@@ -114,6 +136,7 @@ namespace ct
         }
         void drawGUI()
         {
+            constexpr double detailFontHeight = 15;
             const double height = m_font.height() + 2 * 2;
             constexpr ColorF backColor = ColorF(0.2, 0.7);
             constexpr ColorF highlightColor = ColorF(0.9, 0.2);
@@ -127,8 +150,8 @@ namespace ct
                 RectF region{ pos, {width, height} };
                 if (!m_isPlay && region.mouseOver()) {
                     region.draw(highlightColor);
-                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (12.0 / m_font.fontSize()) }).draw(ColorF(0, 0.5));
-                    m_font(U"楽曲フォルダを開く").draw(12, Vec2{0, height});
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(U"楽曲フォルダを開く").draw(detailFontHeight, Vec2{0, height});
                     Cursor::RequestStyle(CursorStyle::Hand);
                 }
                 if (!m_isPlay && region.leftClicked()) {
@@ -143,8 +166,8 @@ namespace ct
                 RectF region{ pos, {width, height} };
                 if (m_dirPath && region.mouseOver()) {
                     region.draw(highlightColor);
-                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (12.0 / m_font.fontSize()) }).draw(ColorF(0, 0.5));
-                    m_font(U"楽曲フォルダをエクスプローラーで開く").draw(12, Vec2{ 0, height });
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(U"楽曲フォルダをエクスプローラーで開く").draw(detailFontHeight, Vec2{ 0, height });
                     Cursor::RequestStyle(CursorStyle::Hand);
                 }
                 if (m_dirPath && region.leftClicked()) {
@@ -175,8 +198,8 @@ namespace ct
                 RectF region{ pos, {width, height} };
                 if (region.mouseOver()) {
                     region.draw(highlightColor);
-                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (12.0 / m_font.fontSize()) }).draw(ColorF(0, 0.5));
-                    m_font(m_isPlay ? U"一時停止" : U"再生").draw(12, Vec2{0, height});
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(m_isPlay ? U"一時停止 (F2)" : U"再生 (F2)").draw(detailFontHeight, Vec2{0, height});
                     Cursor::RequestStyle(CursorStyle::Hand);
                 }
                 if (region.leftClicked()) {
@@ -191,8 +214,8 @@ namespace ct
                 RectF region{ pos, {width, height} };
                 if (region.mouseOver()) {
                     region.draw(highlightColor);
-                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (12.0 / m_font.fontSize()) }).draw(ColorF(0, 0.5));
-                    m_font(U"停止").draw(12, Vec2{ 0, height });
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(U"停止 (Esc)").draw(detailFontHeight, Vec2{ 0, height });
                     Cursor::RequestStyle(CursorStyle::Hand);
                 }
                 if (region.leftClicked()) {
@@ -227,8 +250,8 @@ namespace ct
                 if (!m_isPlay && region.mouseOver()) {
                     region.draw(highlightColor);
                     Cursor::RequestStyle(CursorStyle::Hand);
-                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (12.0 / m_font.fontSize()) }).draw(ColorF(0, 0.5));
-                    m_font(U"更新とフォルダを再読み込み").draw(12, Vec2{ 0, height });
+                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                    m_font(U"更新とフォルダを再読み込み (F5)").draw(detailFontHeight, Vec2{ 0, height });
                 }
                 if (!m_isPlay && region.leftClicked()) {
                     this->reload();
@@ -386,6 +409,8 @@ namespace ct
             if (m_dirPath == path) {
                 // 同じパスなら位置を補正
                 m_musicGame.getSound().seekSamples(s3d::Clamp<size_t>(static_cast<size_t>(pos), 0, m_musicGame.getSound().samples()));
+            } else {
+                m_watcher = s3d::DirectoryWatcher(*path);
             }
             m_dirPath = path;
             return true;
@@ -417,6 +442,9 @@ namespace ct
         double m_scrollRate = 1.0;
         bool m_isPlay = false;
         double m_count = 0;
+        bool m_isShowGUI = true;
+
+        s3d::DirectoryWatcher m_watcher;
     };
     Preview::Preview():
         m_pImpl(std::make_unique<Impl>())
