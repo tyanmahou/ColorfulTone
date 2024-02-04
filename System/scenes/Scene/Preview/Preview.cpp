@@ -15,7 +15,7 @@ namespace ct
     public:
         Impl():
             m_font(FontMethod::MSDF, 16, Typeface::CJK_Regular_JP),
-            m_notesListPulldown(m_font, 210, {0,0})
+            m_notesListPulldown(m_font, 175, {0,0})
         {
             if (Font::IsAvailable(Typeface::Icon_Awesome_Solid)) {
                 m_iconFonts.emplace_back(FontMethod::MSDF, 16, Typeface::Icon_Awesome_Solid);
@@ -59,7 +59,7 @@ namespace ct
             }
             if (!m_isPlay) {
                 // プレイ中じゃなければコンフィグ画面も開ける
-                if (this->configUpdate()) {
+                if (this->configUpdate(KeyF11.down())) {
                     return;
                 }
             }
@@ -177,7 +177,7 @@ namespace ct
             // ファイルを開く
             {
                 auto region = button
-                    .setEnabled(!m_isPlay)
+                    .setEnabled(!m_config->isActive() && !m_isPlay)
                     .setMouseOver(std::bind(detailDrawer, U"楽曲フォルダを開く"))
                     .setOnClick(std::bind(&Impl::openProject, this))
                     .draw(U"\U000F0770", pos)
@@ -187,7 +187,7 @@ namespace ct
             // フォルダを開く
             {
                 auto region = button
-                    .setEnabled(!m_isPlay && m_dirPath.has_value())
+                    .setEnabled(!m_config->isActive() && !m_isPlay && m_dirPath.has_value())
                     .setMouseOver(std::bind(detailDrawer, U"楽曲フォルダをエクスプローラーで開く"))
                     .setOnClick(std::bind(&Impl::openExplorer, this))
                     .draw(U"\U000F1781", pos)
@@ -197,12 +197,12 @@ namespace ct
             // レベル選択
             {
                 m_notesListPulldown.setPos(pos);
-                if (!m_isPlay) {
+                if (!m_config->isActive() && !m_isPlay) {
                     if (m_notesListPulldown.update()) {
                         this->onChangeLevel();
                     }
                 }
-                auto region = m_notesListPulldown.draw(m_isPlay ? textColorDisabled : textColor, backColor, highlightColor);
+                auto region = m_notesListPulldown.draw((!m_config->isActive() && !m_isPlay) ? textColor : textColorDisabled, backColor, highlightColor);
                 pos.x += region.w;
                 pos.x += 4;
             }
@@ -213,7 +213,7 @@ namespace ct
             // 再生ボタン
             {
                 auto region = button
-                    .setEnabled(m_musicData.has_value())
+                    .setEnabled(!m_config->isActive() && m_musicData.has_value())
                     .setMouseOver(std::bind(detailDrawer, m_isPlay ? U"一時停止 (F2)" : U"再生 (F2)"))
                     .setOnClick(std::bind(&Impl::playOrStop, this, false))
                     .setTextColor(m_isPlay ? Palette::Red : Palette::Lightgreen, textColorDisabled)
@@ -224,7 +224,7 @@ namespace ct
             // 停止ボタン
             {
                 auto region = button
-                    .setEnabled(m_musicData.has_value())
+                    .setEnabled(!m_config->isActive() && m_musicData.has_value())
                     .setMouseOver(std::bind(detailDrawer, U"停止 (Esc)"))
                     .setOnClick(std::bind(&Impl::stop, this))
                     .setTextColor(textColor, textColorDisabled)
@@ -242,7 +242,7 @@ namespace ct
                 if (m_musicData) {
                     d = static_cast<double>(m_musicGame.getSound().posSample()) / m_musicGame.getSound().samples();
                 }
-                if (slider(d, pos, 353, height, m_musicData.has_value(), highlightColor)) {
+                if (slider(d, pos, 353, height, !m_config->isActive() && m_musicData.has_value(), highlightColor)) {
                     m_musicGame.getSound().seekSamples(static_cast<size_t>(d * m_musicGame.getSound().samples()));
                 }
                 pos.x += 353;
@@ -254,10 +254,20 @@ namespace ct
             // リロード
             {
                 auto region = button
-                    .setEnabled(!m_isPlay)
+                    .setEnabled(!m_config->isActive() && !m_isPlay)
                     .setMouseOver(std::bind(detailDrawer, U"更新とフォルダを再読み込み (F5)"))
                     .setOnClick(std::bind(&Impl::reload, this))
                     .draw(U"\U000F0450", pos)
+                    ;
+                pos.x += region.w + 2;
+            }
+            // コンフィグ画面を開く
+            {
+                auto region = button
+                    .setEnabled(!m_isPlay)
+                    .setMouseOver(std::bind(detailDrawer, U"コンフィグ画面を開く/閉じる (F11)"))
+                    .setOnClick(std::bind(&Impl::configUpdate, this, true))
+                    .draw(U"\U000F0493", pos)
                     ;
                 pos.x += region.w + 2;
             }
@@ -322,10 +332,10 @@ namespace ct
 
             return (value != previousValue);
         }
-        bool configUpdate()
+        bool configUpdate(bool isOpenClose)
         {
             if (m_config->isActive()) {
-                if (!m_config->update() || KeyF11.down()) {
+                if (isOpenClose || !m_config->update()) {
                     m_config->setActive(false);
                     m_config->reset();
                     if (m_musicData) {
@@ -335,7 +345,7 @@ namespace ct
                 }
                 return true;
             } else {
-                if (KeyF11.down()) {
+                if (isOpenClose) {
                     m_config->setActive(true);
                     SoundManager::PlaySe(U"desisionSmall");
                 }
