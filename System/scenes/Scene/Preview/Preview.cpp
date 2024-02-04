@@ -174,10 +174,12 @@ namespace ct
                 .setMouseOverBackColor(highlightColor)
                 .setTextColor(textColor, textColorDisabled)
                 ;
+            bool isNotPlaying = !m_config->isActive() && !m_isPlay;
+
             // ファイルを開く
             {
                 auto region = button
-                    .setEnabled(!m_config->isActive() && !m_isPlay)
+                    .setEnabled(isNotPlaying)
                     .setMouseOver(std::bind(detailDrawer, U"楽曲フォルダを開く"))
                     .setOnClick(std::bind(&Impl::openProject, this))
                     .draw(U"\U000F0770", pos)
@@ -187,7 +189,7 @@ namespace ct
             // フォルダを開く
             {
                 auto region = button
-                    .setEnabled(!m_config->isActive() && !m_isPlay && m_dirPath.has_value())
+                    .setEnabled(isNotPlaying && m_dirPath.has_value())
                     .setMouseOver(std::bind(detailDrawer, U"楽曲フォルダをエクスプローラーで開く"))
                     .setOnClick(std::bind(&Impl::openExplorer, this))
                     .draw(U"\U000F1781", pos)
@@ -197,12 +199,12 @@ namespace ct
             // レベル選択
             {
                 m_notesListPulldown.setPos(pos);
-                if (!m_config->isActive() && !m_isPlay) {
+                if (isNotPlaying) {
                     if (m_notesListPulldown.update()) {
                         this->onChangeLevel();
                     }
                 }
-                auto region = m_notesListPulldown.draw((!m_config->isActive() && !m_isPlay) ? textColor : textColorDisabled, backColor, highlightColor);
+                auto region = m_notesListPulldown.draw(isNotPlaying ? textColor : textColorDisabled, backColor, highlightColor);
                 pos.x += region.w;
                 pos.x += 4;
             }
@@ -254,7 +256,7 @@ namespace ct
             // リロード
             {
                 auto region = button
-                    .setEnabled(!m_config->isActive() && !m_isPlay)
+                    .setEnabled(isNotPlaying)
                     .setMouseOver(std::bind(detailDrawer, U"更新とフォルダを再読み込み (F5)"))
                     .setOnClick(std::bind(&Impl::reload, this))
                     .draw(U"\U000F0450", pos)
@@ -313,7 +315,7 @@ namespace ct
                     .drawFrame(1, ColorF{ 0.33 });
             } else {
                 baseRoundRect.draw(backColor);
-                fillRoundRect.draw({ 0.75, 0.85, 1.0 });
+                fillRoundRect.draw({ 0.35, 0.7, 1.0, 0.5 });
                 smallRoundRect
                     .draw(Palette::Gray)
                     .drawFrame(1, ColorF{ 0.67 });
