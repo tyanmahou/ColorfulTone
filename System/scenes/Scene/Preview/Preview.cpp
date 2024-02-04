@@ -4,6 +4,8 @@
 #include <core/Play/HighSpeed/HighSpeedDemo.hpp>
 #include <Useful.hpp>
 #include <Siv3D.hpp>
+#include <scenes/Scene/Config/ConfigMain.hpp>
+#include <scenes/Scene/Preview/GUI/Button.hpp>
 #include <Siv3D/Windows/Windows.hpp>
 
 namespace ct
@@ -33,6 +35,7 @@ namespace ct
         {
             this->update();
             this->draw();
+            m_config.draw();
             if (m_isShowGUI) {
                 this->drawGUI();
             }
@@ -48,8 +51,24 @@ namespace ct
                 }
                 this->reload();
             }
-            if (KeyF11.down()) {
+            if (KeyF9.down()) {
                 m_isShowGUI ^= 1;
+            }
+            if (!m_isPlay) {
+                // プレイ中じゃなければコンフィグ画面も開ける
+                if (m_config.isActive()) {
+                    if (!m_config.update() || KeyF11.down()) {
+                        m_config.setActive(false);
+                        m_config.reset();
+                        SoundManager::PlaySe(U"cancel");
+                    }
+                    return;
+                } else {
+                    if (KeyF11.down()) {
+                        m_config.setActive(true);
+                        SoundManager::PlaySe(U"desisionSmall");
+                    }
+                }
             }
             //プレイモード
             if (KeyF1.down()) {
@@ -71,7 +90,6 @@ namespace ct
                 if (KeyEscape.down()) {
                     this->stop();
                 }
-
 
                 if (!KeyControl.pressed() && KeyRight.pressed()) {
                     auto& s = m_musicGame.getSound();
@@ -102,16 +120,22 @@ namespace ct
         }
         void draw() const
         {
-            PutText(U"F11:GUIの表示/非表示", Arg::center = Vec2{ 100, Scene::Height() - 20 });
+            PutText(U"F9:GUIの表示/非表示", Arg::center = Vec2{ 100, Scene::Height() - 20 });
             if (!m_musicData) {
                 double x = 5;
                 const double topY = 70;
                 const double d = 22;
-                PutText(U"F1:AutoPlay", Arg::topLeft = Vec2{x, topY });
-                PutText(U"F2:現在の位置から再生/停止", Arg::topLeft = Vec2{ x, topY + d});
-                PutText(U"F3:曲の初めから再生/停止", Arg::topLeft = Vec2{x,  topY + d * 2 });
-                PutText(U"F5:更新", Arg::topLeft = Vec2{ x,  topY + d * 3 });
-                PutText(U"Ctrl:ハイスピの変更", Arg::topLeft = Vec2{x,  topY + d * 4 });
+                constexpr std::array<StringView, 6> commands{
+                    U"F1:AutoPlay",
+                    U"F2:現在の位置から再生/停止",
+                    U"F3:曲の初めから再生/停止",
+                    U"F5:更新",
+                    U"F11:コンフィグ画面",
+                    U"Ctrl:ハイスピの変更"
+                };
+                for (const auto& [index, str] : Indexed(commands)) {
+                    PutText(String(str), Arg::topLeft = Vec2{x, topY + d * index});
+                }
                 return;
             }
 
@@ -136,47 +160,46 @@ namespace ct
         }
         void drawGUI()
         {
-            constexpr double detailFontHeight = 15;
             const double height = m_font.height() + 2 * 2;
             constexpr ColorF backColor = ColorF(0.2, 0.7);
             constexpr ColorF highlightColor = ColorF(0.9, 0.2);
             constexpr ColorF textColor = Palette::White;
-            constexpr ColorF textColorEnabled = Palette::Gray;
+            constexpr ColorF textColorDisabled = Palette::Gray;
             RectF({ 0, 0, Scene::Width(), height }).drawShadow({ 1, 1 }, 5, 0).draw(backColor);
             Vec2 pos{ 5, 0 };
+
+            auto detailDrawer = [&](StringView str) {
+                constexpr double detailFontHeight = 15;
+                RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
+                m_font(str).draw(detailFontHeight, Vec2{ 0, height });
+            };
+            GUI::Button button(m_font);
+            button
+                .setFontSize(20)
+                .setMouseOverBackColor(highlightColor)
+                .setTextColor(textColor, textColorDisabled)
+                ;
+            // ファイルを開く
             {
-                const auto dtext = m_font(U"\U000F0770");
-                const double width = Math::Ceil(dtext.region(20).w) + 15;
-                RectF region{ pos, {width, height} };
-                if (!m_isPlay && region.mouseOver()) {
-                    region.draw(highlightColor);
-                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
-                    m_font(U"楽曲フォルダを開く").draw(detailFontHeight, Vec2{0, height});
-                    Cursor::RequestStyle(CursorStyle::Hand);
-                }
-                if (!m_isPlay && region.leftClicked()) {
-                    this->openProject();
-                }
-                dtext.drawAt(20, region.center(), m_isPlay ? textColorEnabled: textColor);
+                auto region = button
+                    .setEnabled(!m_isPlay)
+                    .setMouseOver(std::bind(detailDrawer, U"楽曲フォルダを開く"))
+                    .setOnClick(std::bind(&Impl::openProject, this))
+                    .draw(U"\U000F0770", pos)
+                    ;
                 pos.x += region.w;
             }
+            // フォルダを開く
             {
-                const auto dtext = m_font(U"\U000F1781");
-                const double width = Math::Ceil(dtext.region(20).w) + 15;
-                RectF region{ pos, {width, height} };
-                if (m_dirPath && region.mouseOver()) {
-                    region.draw(highlightColor);
-                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
-                    m_font(U"楽曲フォルダをエクスプローラーで開く").draw(detailFontHeight, Vec2{ 0, height });
-                    Cursor::RequestStyle(CursorStyle::Hand);
-                }
-                if (m_dirPath && region.leftClicked()) {
-                    this->openExplorer();
-                }
-                dtext.drawAt(20, region.center(), m_dirPath ? textColor : textColorEnabled);
-                pos.x += region.w;
-                pos.x += 2;
+                auto region = button
+                    .setEnabled(!m_isPlay && m_dirPath.has_value())
+                    .setMouseOver(std::bind(detailDrawer, U"楽曲フォルダをエクスプローラーで開く"))
+                    .setOnClick(std::bind(&Impl::openExplorer, this))
+                    .draw(U"\U000F1781", pos)
+                    ;
+                pos.x += region.w + 2;
             }
+            // レベル選択
             {
                 m_notesListPulldown.setPos(pos);
                 if (!m_isPlay) {
@@ -184,7 +207,7 @@ namespace ct
                         this->onChangeLevel();
                     }
                 }
-                auto region = m_notesListPulldown.draw(m_isPlay ? textColorEnabled : textColor, backColor, highlightColor);
+                auto region = m_notesListPulldown.draw(m_isPlay ? textColorDisabled : textColor, backColor, highlightColor);
                 pos.x += region.w;
                 pos.x += 4;
             }
@@ -192,43 +215,33 @@ namespace ct
                 Line(pos + Vec2{ 0, 1 }, pos + Vec2{ 0, height - 1 }).draw(highlightColor);
                 pos.x += 2;
             }
+            // 再生ボタン
             {
-                const auto dtext = m_font(m_isPlay ? U"\U000F00BC" : U"\U000F040D");
-                const double width = Math::Ceil(dtext.region(20).w) + 15;
-                RectF region{ pos, {width, height} };
-                if (region.mouseOver()) {
-                    region.draw(highlightColor);
-                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
-                    m_font(m_isPlay ? U"一時停止 (F2)" : U"再生 (F2)").draw(detailFontHeight, Vec2{0, height});
-                    Cursor::RequestStyle(CursorStyle::Hand);
-                }
-                if (region.leftClicked()) {
-                    this->playOrStop();
-                }
-                dtext.drawAt(20, region.center(), m_isPlay ? Palette::Red : Palette::Lightgreen);
+                auto region = button
+                    .setEnabled(m_musicData.has_value())
+                    .setMouseOver(std::bind(detailDrawer, m_isPlay ? U"一時停止 (F2)" : U"再生 (F2)"))
+                    .setOnClick(std::bind(&Impl::playOrStop, this, false))
+                    .setTextColor(m_isPlay ? Palette::Red : Palette::Lightgreen, textColorDisabled)
+                    .draw(m_isPlay ? U"\U000F00BC" : U"\U000F040D", pos)
+                    ;
                 pos.x += region.w;
             }
+            // 停止ボタン
             {
-                const auto dtext = m_font(U"\U000F04DB");
-                const double width = Math::Ceil(dtext.region(20).w) + 15;
-                RectF region{ pos, {width, height} };
-                if (region.mouseOver()) {
-                    region.draw(highlightColor);
-                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
-                    m_font(U"停止 (Esc)").draw(detailFontHeight, Vec2{ 0, height });
-                    Cursor::RequestStyle(CursorStyle::Hand);
-                }
-                if (region.leftClicked()) {
-                    this->stop();
-                }
-                dtext.drawAt(20,region.center(), textColor);
-                dtext.drawAt(20,region.center(), textColor);
+                auto region = button
+                    .setEnabled(m_musicData.has_value())
+                    .setMouseOver(std::bind(detailDrawer, U"停止 (Esc)"))
+                    .setOnClick(std::bind(&Impl::stop, this))
+                    .setTextColor(textColor, textColorDisabled)
+                    .draw(U"\U000F04DB", pos)
+                    ;
                 pos.x += region.w;
             }
             {
                 Line(pos + Vec2{ 0, 1 }, pos + Vec2{ 0, height - 1 }).draw(highlightColor);
                 pos.x += 2;
             }
+            // スライダー
             {
                 double d = 0;
                 if (m_musicData) {
@@ -243,25 +256,15 @@ namespace ct
                 Line(pos + Vec2{ 0, 1 }, pos + Vec2{ 0, height - 1 }).draw(highlightColor);
                 pos.x += 2;
             }
+            // リロード
             {
-                const auto dtext = m_font(U"\U000F0450");
-                const double width = Math::Ceil(dtext.region(20).w) + 15;
-                RectF region{ pos, {width, height} };
-                if (!m_isPlay && region.mouseOver()) {
-                    region.draw(highlightColor);
-                    Cursor::RequestStyle(CursorStyle::Hand);
-                    RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
-                    m_font(U"更新とフォルダを再読み込み (F5)").draw(detailFontHeight, Vec2{ 0, height });
-                }
-                if (!m_isPlay && region.leftClicked()) {
-                    this->reload();
-                }
-                dtext.drawAt(20, region.center(), m_isPlay ? textColorEnabled : textColor);
-                pos.x += region.w;
-                pos.x += 2;
-            }
-            {
-                
+                auto region = button
+                    .setEnabled(!m_isPlay)
+                    .setMouseOver(std::bind(detailDrawer, U"更新とフォルダを再読み込み (F5)"))
+                    .setOnClick(std::bind(&Impl::reload, this))
+                    .draw(U"\U000F0450", pos)
+                    ;
+                pos.x += region.w + 2;
             }
         }
         bool slider(
@@ -443,6 +446,8 @@ namespace ct
         bool m_isPlay = false;
         double m_count = 0;
         bool m_isShowGUI = true;
+
+        ConfigMain m_config;
 
         s3d::DirectoryWatcher m_watcher;
     };
