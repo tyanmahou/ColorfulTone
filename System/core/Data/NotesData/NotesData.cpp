@@ -83,7 +83,7 @@ namespace ct
             }
         }
 
-        auto& currentTempo = m_tempoInfos.at(m_currentBarIndex).m_bar;
+        const SoundBar& currentTempo = m_tempoInfos.at(m_currentBarIndex).m_bar;
         const auto b = currentTempo(sound);
 
         nowCount = NotesData::RESOLUTION * b.bar + NotesData::RESOLUTION * (b.f);
@@ -91,14 +91,13 @@ namespace ct
 
     void NotesData::update(Audio& sound, double& nowCount, [[maybe_unused]]Score& score)
     {
-
         this->synchroCount(sound, nowCount);
 
         const int64 samplePos = GetSamplePos(sound);
         if (samplePos < 3)
             return;
-
-        PlayContext context{ samplePos, m_tempoInfos.at(m_currentBarIndex).m_bar.getBPM()};
+        const int64 ajudstSample = 735 * Game::Config().m_timingAdjust;
+        PlayContext context{ samplePos + ajudstSample, m_tempoInfos.at(m_currentBarIndex).m_bar.getBPM()};
         for (auto&& elm : m_objects) {
             if (!elm->update(context)) {
                 break;

@@ -30,12 +30,15 @@ namespace ct
         void init()
         {
             m_scrollRate = Game::Config().m_scrollRate;
+
+            m_config = std::make_unique<ConfigMain>();
+            m_config->setActive(false);
         }
         bool updateAndDraw()
         {
             this->update();
             this->draw();
-            m_config.draw();
+            m_config->draw();
             if (m_isShowGUI) {
                 this->drawGUI();
             }
@@ -56,18 +59,8 @@ namespace ct
             }
             if (!m_isPlay) {
                 // プレイ中じゃなければコンフィグ画面も開ける
-                if (m_config.isActive()) {
-                    if (!m_config.update() || KeyF11.down()) {
-                        m_config.setActive(false);
-                        m_config.reset();
-                        SoundManager::PlaySe(U"cancel");
-                    }
+                if (this->configUpdate()) {
                     return;
-                } else {
-                    if (KeyF11.down()) {
-                        m_config.setActive(true);
-                        SoundManager::PlaySe(U"desisionSmall");
-                    }
                 }
             }
             //プレイモード
@@ -122,19 +115,21 @@ namespace ct
         {
             PutText(U"F9:GUIの表示/非表示", Arg::center = Vec2{ 100, Scene::Height() - 20 });
             if (!m_musicData) {
-                double x = 5;
-                const double topY = 70;
-                const double d = 22;
-                constexpr std::array<StringView, 6> commands{
-                    U"F1:AutoPlay",
-                    U"F2:現在の位置から再生/停止",
-                    U"F3:曲の初めから再生/停止",
-                    U"F5:更新",
-                    U"F11:コンフィグ画面",
-                    U"Ctrl:ハイスピの変更"
-                };
-                for (const auto& [index, str] : Indexed(commands)) {
-                    PutText(String(str), Arg::topLeft = Vec2{x, topY + d * index});
+                if (!m_config->isActive()) {
+                    double x = 5;
+                    const double topY = 70;
+                    const double d = 22;
+                    constexpr std::array<StringView, 6> commands{
+                        U"F1:AutoPlay",
+                        U"F2:現在の位置から再生/停止",
+                        U"F3:曲の初めから再生/停止",
+                        U"F5:更新",
+                        U"F11:コンフィグ画面",
+                        U"Ctrl:ハイスピの変更"
+                    };
+                    for (const auto& [index, str] : Indexed(commands)) {
+                        PutText(String(str), Arg::topLeft = Vec2{ x, topY + d * index });
+                    }
                 }
                 return;
             }
@@ -327,6 +322,26 @@ namespace ct
 
             return (value != previousValue);
         }
+        bool configUpdate()
+        {
+            if (m_config->isActive()) {
+                if (!m_config->update() || KeyF11.down()) {
+                    m_config->setActive(false);
+                    m_config->reset();
+                    if (m_musicData) {
+                        m_musicGame.reflesh();
+                    }
+                    SoundManager::PlaySe(U"cancel");
+                }
+                return true;
+            } else {
+                if (KeyF11.down()) {
+                    m_config->setActive(true);
+                    SoundManager::PlaySe(U"desisionSmall");
+                }
+            }
+            return false;
+        }
         bool openProject()
         {
             auto path = Dialog::SelectFolder(U"Music");
@@ -424,7 +439,7 @@ namespace ct
             }
             SoundManager::PlaySe(U"desisionSmall");
             const auto pos = m_musicGame.getSound().posSample();
-            m_musicGame.init((*m_musicData)[m_notesListPulldown.getIndex()], m_scrollRate);
+            m_musicGame.reflesh((*m_musicData)[m_notesListPulldown.getIndex()]);
             m_musicGame.getSound().seekSamples(s3d::Clamp<size_t>(static_cast<size_t>(pos), 0, m_musicGame.getSound().samples()));
             return true;
         }
@@ -446,7 +461,7 @@ namespace ct
         double m_count = 0;
         bool m_isShowGUI = true;
 
-        ConfigMain m_config;
+        std::unique_ptr<ConfigMain> m_config;
 
         s3d::DirectoryWatcher m_watcher;
     };

@@ -54,9 +54,9 @@ namespace ct
 
 			return BarCount{ currentBar,f };
 		}
-		BarCount operator()(const s3d::Audio& sound)const
+		BarCount operator()(const s3d::Audio& sound, s3d::int64 ajust = 0)const
 		{
-			return (*this)(GetSamplePos(sound));
+			return (*this)(GetSamplePos(sound) + ajust);
 		}
 		const s3d::int64 getOffset()const { return m_offsetSample; }
 		const BPMType& getBPM()const { return m_bpm; }

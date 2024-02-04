@@ -47,6 +47,9 @@ namespace ct
 		void init(const NotesData& notes, const double scrollRate);
 		void finally();
 
+		void reflesh();
+		void reflesh(const NotesData& notes);
+
 		void synchroCount(double& count)
 		{
 			m_notesData.synchroCount(m_sound, count);
