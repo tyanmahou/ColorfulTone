@@ -6,7 +6,7 @@
 #include <Siv3D.hpp>
 #include <scenes/Scene/Config/ConfigMain.hpp>
 #include <scenes/Scene/Preview/GUI/Button.hpp>
-#include <Siv3D/Windows/Windows.hpp>
+#include <utils/Windows/WindowsUtil.hpp>
 
 namespace ct
 {
@@ -339,8 +339,7 @@ namespace ct
         bool openExplorer()
         {
             if (m_dirPath) {
-                ::ShellExecute(NULL, L"explore", m_dirPath->toWstr().c_str(), NULL, NULL, SW_SHOWNORMAL);
-                return true;
+                return WindowsUtil::OpenExplore(*m_dirPath);
             } else {
                 return false;
             }
