@@ -6,6 +6,7 @@
 #include <Siv3D.hpp>
 #include <scenes/Scene/Config/ConfigMain.hpp>
 #include <scenes/Scene/Preview/GUI/Button.hpp>
+#include <scenes/Scene/Preview/GUI/Slider.hpp>
 #include <utils/Windows/WindowsUtil.hpp>
 
 namespace ct
@@ -245,10 +246,17 @@ namespace ct
                 if (m_musicData) {
                     d = static_cast<double>(m_musicGame.getSound().posSample()) / m_musicGame.getSound().samples();
                 }
-                if (slider(d, pos, 353, height, !m_config->isActive() && m_musicData.has_value(), highlightColor)) {
-                    m_musicGame.getSound().seekSamples(static_cast<size_t>(d * m_musicGame.getSound().samples()));
-                }
-                pos.x += 353;
+                auto onChange = [&](double v) {
+                    m_musicGame.getSound().seekSamples(static_cast<size_t>(v * m_musicGame.getSound().samples()));
+                 };
+                auto region = GUI::Slider{ d }
+                    .setEnabled(!m_config->isActive() && m_musicData.has_value())
+                    .setWidth(353)
+                    .setHeight(height)
+                    .setBaseColor(highlightColor)
+                    .setOnChangeValue(std::move(onChange))
+                    .draw(pos);
+                pos.x += region.x;
             }
             {
                 Line(pos + Vec2{ 0, 1 }, pos + Vec2{ 0, height - 1 }).draw(highlightColor);
@@ -274,66 +282,6 @@ namespace ct
                     ;
                 pos.x += region.w + 2;
             }
-        }
-        bool slider(
-            double& value,
-            const Vec2& lt,
-            const double sliderWidth,
-            double height,
-            const bool enabled,
-            const ColorF& backColor
-        )
-        {
-            const double width = sliderWidth;
-            const RectF region{ lt, width, height };
-            Vec2 center = region.center();
-            const double sliderRegionX0 = (region.x + 8);
-            const double sliderRegionX1 = (region.x + region.w - 8);
-            const double sliderRegionW = (sliderRegionX1 - sliderRegionX0);
-
-            const double actualSliderRegionX0 = (sliderRegionX0 + 5);
-            const double actualSliderRegionX1 = (sliderRegionX1 - 5);
-            const double actualSliderRegionW = (actualSliderRegionX1 - actualSliderRegionX0);
-
-            const RectF sliderRect{ Arg::leftCenter(sliderRegionX0, center.y), sliderRegionW, 6 };
-            const s3d::RoundRect baseRoundRect = sliderRect.rounded(2);
-            const double previousValue = value;
-            value = Saturate(value);
-
-            const double fill = value;
-            const RectF fillRect{ sliderRect.pos, sliderRect.w * fill, sliderRect.h };
-            const s3d::RoundRect fillRoundRect = fillRect.rounded(2.0);
-
-            const RectF smallRect{ Arg::center(actualSliderRegionX0 + actualSliderRegionW * fill, center.y), 10, 20 };
-            const s3d::RoundRect smallRoundRect = smallRect.rounded(2);
-            const bool mouseOver = (enabled && smallRect.mouseOver());
-
-            if (enabled) {
-                baseRoundRect.draw(backColor);
-                fillRoundRect.draw({ 0.35, 0.7, 1.0 });
-                smallRoundRect
-                    .draw(mouseOver ? ColorF{ 0.9, 0.95, 1.0 } : ColorF{1.0})
-                    .drawFrame(1, ColorF{ 0.33 });
-            } else {
-                baseRoundRect.draw(backColor);
-                fillRoundRect.draw({ 0.35, 0.7, 1.0, 0.5 });
-                smallRoundRect
-                    .draw(Palette::Gray)
-                    .drawFrame(1, ColorF{ 0.67 });
-            }
-
-            const RectF sliderRectExtended = sliderRect.stretched(4, 12);
-            if (enabled && Cursor::OnClientRect() && (sliderRectExtended.mouseOver() || smallRect.mouseOver())) {
-                Cursor::RequestStyle(CursorStyle::Hand);
-            }
-
-            if (enabled && Cursor::OnClientRect() && sliderRectExtended.leftPressed()) {
-                const double pos = (Cursor::PosF().x - actualSliderRegionX0);
-                const double posN = Math::Saturate(pos / actualSliderRegionW);
-                value = posN;
-            }
-
-            return (value != previousValue);
         }
         bool configUpdate(bool isOpenClose)
         {

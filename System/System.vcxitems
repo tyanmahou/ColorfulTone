@@ -121,6 +121,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\MusicSelect\MusicSelectSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Preview\GUI\Button.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Preview\GUI\Pulldown.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Preview\GUI\Slider.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Preview\Preview.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Result\ResultScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Result\ResultSceneView.hpp" />
@@ -253,6 +254,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\MusicSelect\MusicSelectScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\MusicSelect\MusicSelectSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Preview\GUI\Button.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Preview\GUI\Slider.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Preview\Preview.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Result\ResultScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Result\ResultSceneView.cpp" />
