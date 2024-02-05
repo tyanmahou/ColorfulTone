@@ -60,9 +60,8 @@ namespace ct
 
 		void draw(bool preview = false)const;
 
+		void playModeDraw()const;
 		void previewDraw(const double count)const;
-
-		void drawCurrentBPM()const;
 
 		bool isFinish()const;
 
@@ -98,5 +97,11 @@ namespace ct
 
 		void setCourseMode(const Score& score);
 		static void ScoreUpdate(Score::Judge judge, NoteType type, bool playSe = true);
+	private:
+		void drawCurrentBPM()const;
+		void drawAutoPlay(bool preview) const;
+		void drawRandomMode() const;
+		void drawMusicTitle(bool preview) const;
+		void drawNotesLevel() const;
     };
 }

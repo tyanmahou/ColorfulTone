@@ -131,11 +131,12 @@ namespace ct
                         PutText(String(str), Arg::topLeft = Vec2{ x, topY + d * index });
                     }
                 }
+                m_musicGame.playModeDraw();
                 return;
             }
 
             if (m_isPlay) {
-                m_musicGame.draw(true);
+                m_musicGame.draw(m_isShowGUI);
             } else {
                 m_musicGame.previewDraw(m_count);
             }

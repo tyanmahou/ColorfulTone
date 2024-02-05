@@ -7,7 +7,6 @@
 #include <core/Play/PlayStyle/PlayStyle.hpp>
 #include <core/Play/Random/RandomNote.hpp>
 #include <Siv3D.hpp>
-#include "PlayMusicGame.hpp"
 
 namespace
 {
@@ -248,6 +247,12 @@ namespace ct
         }
     }
 
+    void PlayMusicGame::playModeDraw() const
+    {
+        this->drawAutoPlay(true);
+        this->drawRandomMode();
+    }
+
     void PlayMusicGame::previewDraw(const double count) const
     {
         const double drawCount = m_notesData.calDrawCount(count);
@@ -259,11 +264,13 @@ namespace ct
 
         m_notesData.previewDraw(drawCount, m_scrollRate);
 
-        if (AutoPlayManager::IsAutoPlay())
-            PutText(U"AutoPlay", { Scene::Center().x, 60 });
-
         PutText(Format(U"length:", m_notesData.getMusic()->getLengthSec()), Arg::topLeft = Vec2{ 20, Scene::Height() - 120 });
         PutText(Format(U"total:", m_totalNotes), Arg::topLeft = Vec2{ 20, Scene::Height() - 140 });
+
+        this->drawMusicTitle(true);
+        this->drawAutoPlay(true);
+        this->drawNotesLevel();
+        this->drawRandomMode();
     }
 
     void PlayMusicGame::drawCurrentBPM() const
@@ -273,6 +280,60 @@ namespace ct
         PutText(tmp, { 20, Scene::Height() - 100 });
     }
 
+    void PlayMusicGame::drawAutoPlay(bool preview) const
+    {
+        const double headerOffset = preview ? 40 : 0;
+
+        if (AutoPlayManager::IsAutoPlay()) {
+            PutText(U"AutoPlay", { Scene::Center().x, 40 + headerOffset });
+        }
+    }
+
+    void PlayMusicGame::drawRandomMode() const
+    {
+        if (Game::Config().m_random != RandomNoteType::None) {
+            String text;
+            switch (Game::Config().m_random) {
+            case RandomNoteType::Mirror:
+                text = U"MIRROR";
+                break;
+            case RandomNoteType::Rotate120:
+                text = U"ROTATE120";
+                break;
+            case RandomNoteType::Rotatee120Mirror:
+                text = U"ROTATE120 MIRROR";
+                break;
+            case RandomNoteType::Rotate240:
+                text = U"ROTATE240";
+                break;
+            case RandomNoteType::Rotate240Mirror:
+                text = U"ROTATE240 MIRROR";
+                break;
+            case RandomNoteType::Random:
+                text = U"RANDOM";
+                break;
+            case RandomNoteType::SRandom:
+                text = U"PURE RANDOM";
+                break;
+            default:
+                break;
+            }
+            PutText(text, Vec2{ 700, Scene::Height() - 20 });
+        }
+    }
+
+    void PlayMusicGame::drawMusicTitle(bool preview) const
+    {
+        const double headerOffset = preview ? 40 : 0;
+        PutText(m_title, { Scene::Center().x, 20 + headerOffset });
+    }
+
+    void PlayMusicGame::drawNotesLevel() const
+    {
+        const auto levelName = m_notesData.getLevelWithStar() + U" - " + m_notesData.getLevelName();
+        PutText(levelName, Vec2{ Scene::Center().x, Scene::Height() - 20 });
+    }
+
     bool PlayMusicGame::isFinish() const
     {
         return m_isFinish && (m_FCAPAnime.isEnd() || !m_FCAPAnime.isStart());
@@ -280,7 +341,6 @@ namespace ct
 
     void PlayMusicGame::uiDraw(bool preview) const
     {
-
         //UI***************************************************************
 
         const IndicateRate rateType = Game::Config().m_rateType;
@@ -318,43 +378,9 @@ namespace ct
                 m_FCAPAnime.draw();
             }
         }
-        const double headerOffset = preview ? 20 : 0;
-        PutText(m_title, { Scene::Center().x, 20 + headerOffset });
-
-        if (AutoPlayManager::IsAutoPlay())
-            PutText(U"AutoPlay", { Scene::Center().x, 40 + headerOffset });
-
-        const auto levelName = m_notesData.getLevelWithStar() + U" - " + m_notesData.getLevelName();
-        PutText(levelName, Vec2{ Scene::Center().x, Scene::Height() - 20 });
-
-        if (Game::Config().m_random != RandomNoteType::None) {
-            String text;
-            switch (Game::Config().m_random) {
-            case RandomNoteType::Mirror:
-                text = U"MIRROR";
-                break;
-            case RandomNoteType::Rotate120:
-                text = U"ROTATE120";
-                break;
-            case RandomNoteType::Rotatee120Mirror:
-                text = U"ROTATE120 MIRROR";
-                break;
-            case RandomNoteType::Rotate240:
-                text = U"ROTATE240";
-                break;
-            case RandomNoteType::Rotate240Mirror:
-                text = U"ROTATE240 MIRROR";
-                break;
-            case RandomNoteType::Random:
-                text = U"RANDOM";
-                break;
-            case RandomNoteType::SRandom:
-                text = U"PURE RANDOM";
-                break;
-            default:
-                break;
-            }
-            PutText(text, Vec2{ 700, Scene::Height() - 20 });
-        }
+        this->drawMusicTitle(preview);
+        this->drawAutoPlay(preview);
+        this->drawNotesLevel();
+        this->drawRandomMode();
     }
 }
