@@ -439,7 +439,7 @@ namespace ct
                 // 同じパスなら位置を補正
                 m_musicGame.getSound().seekSamples(s3d::Clamp<size_t>(static_cast<size_t>(pos), 0, m_musicGame.getSound().samples()));
             } else {
-                m_watcher = s3d::DirectoryWatcher(*path);
+                m_watcher = s3d::DirectoryWatcher(FilePathView(*path));
             }
             m_dirPath = path;
             return true;
