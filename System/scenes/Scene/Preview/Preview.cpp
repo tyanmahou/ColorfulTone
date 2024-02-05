@@ -15,8 +15,7 @@ namespace ct
     {
     public:
         Impl():
-            m_font(FontMethod::MSDF, 16, Typeface::CJK_Regular_JP),
-            m_notesListPulldown(m_font, 175, {0,0})
+            m_font(FontMethod::MSDF, 16, Typeface::CJK_Regular_JP)
         {
             if (Font::IsAvailable(Typeface::Icon_Awesome_Solid)) {
                 m_iconFonts.emplace_back(FontMethod::MSDF, 16, Typeface::Icon_Awesome_Solid);
@@ -200,13 +199,15 @@ namespace ct
             }
             // レベル選択
             {
-                m_notesListPulldown.setPos(pos);
-                if (isNotPlaying) {
-                    if (m_notesListPulldown.update()) {
-                        this->onChangeLevel();
-                    }
-                }
-                auto region = m_notesListPulldown.draw(isNotPlaying ? textColor : textColorDisabled, backColor, highlightColor);
+                auto region = GUI::Pulldown{ m_selectNotesIndex, m_isNotesListOpen }
+                    .setEnabled(isNotPlaying)
+                    .setFont(m_font)
+                    .setMaxItemWidth(175)
+                    .setTextColor(textColor, textColorDisabled)
+                    .setListBackColor(backColor)
+                    .setListMouseOverColor(highlightColor)
+                    .setOnChange(std::bind_front(&Impl::onChangeLevel, this))
+                    .draw(m_notesList, pos);
                 pos.x += region.w;
                 pos.x += 4;
             }
@@ -256,7 +257,7 @@ namespace ct
                     .setBaseColor(highlightColor)
                     .setOnChangeValue(std::move(onChange))
                     .draw(pos);
-                pos.x += region.x;
+                pos.x += region.w;
             }
             {
                 Line(pos + Vec2{ 0, 1 }, pos + Vec2{ 0, height - 1 }).draw(highlightColor);
@@ -379,8 +380,13 @@ namespace ct
                         m_musicData = none;
                         return false;
                     }
-                    m_notesListPulldown.setItems(noteLevelNames);
-                    m_musicGame.init((*m_musicData)[m_notesListPulldown.getIndex()], m_scrollRate);
+                    m_notesList = std::move(noteLevelNames);
+                    if (m_notesList.isEmpty()) {
+                        m_selectNotesIndex = 0;
+                    } else {
+                        m_selectNotesIndex %= m_notesList.size();
+                    }
+                    m_musicGame.init((*m_musicData)[m_selectNotesIndex], m_scrollRate);
                     break;
                 }
             }
@@ -393,14 +399,14 @@ namespace ct
             m_dirPath = path;
             return true;
         }
-        bool onChangeLevel()
+        bool onChangeLevel(size_t index)
         {
             if (!m_musicData) {
                 return false;
             }
             SoundManager::PlaySe(U"desisionSmall");
             const auto pos = m_musicGame.getSound().posSample();
-            m_musicGame.reflesh((*m_musicData)[m_notesListPulldown.getIndex()]);
+            m_musicGame.reflesh((*m_musicData)[index]);
             m_musicGame.getSound().seekSamples(s3d::Clamp<size_t>(static_cast<size_t>(pos), 0, m_musicGame.getSound().samples()));
             return true;
         }
@@ -408,11 +414,7 @@ namespace ct
         Font m_font;
         Array<Font> m_iconFonts;
 
-        Pulldown m_notesListPulldown;
-
         Optional<FilePath> m_dirPath;
-
-
         PlayMusicGame m_musicGame;
         Optional<MusicData> m_musicData;
 
@@ -421,6 +423,10 @@ namespace ct
         bool m_isPlay = false;
         double m_count = 0;
         bool m_isShowGUI = true;
+
+        size_t m_selectNotesIndex = 0;
+        Array<String> m_notesList;
+        bool m_isNotesListOpen = false;
 
         std::unique_ptr<ConfigMain> m_config;
 
