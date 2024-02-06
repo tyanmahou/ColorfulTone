@@ -1,4 +1,5 @@
 ﻿#include <scenes/utils/SharedDraw/LoadingProgress.hpp>
+#include <scenes/utils/SharedDraw/LoadingCircle.hpp>
 #include <commons/FontName.hpp>
 #include <Siv3D.hpp>
 
@@ -30,32 +31,13 @@ namespace ct::SharedDraw
     }
     void LoadingProgress::draw(double progress) const
     {
-        const Vec2 center = Scene::Center();
-        constexpr Duration periodSec = 2s;
-        const double rotateRate = s3d::Periodic::Sawtooth0_1(periodSec * 0.75);
-        const double offsetAngle = rotateRate * Math::TwoPi;
-
-        const double rate0_2 = s3d::Periodic::Sawtooth0_1(periodSec) * 2.0;
-        double startAngle = offsetAngle;
-        if (rate0_2 <= 1) {
-            startAngle += Math::Lerp(0, Math::TwoPi, rate0_2);
-        } else {
-            startAngle += Math::TwoPi;
-        }
-        double endAngle = offsetAngle;
-        if (rate0_2 <= 1) {
-            endAngle += Math::Lerp(0, Math::HalfPi, rate0_2);
-        } else {
-            endAngle += Math::Lerp(Math::HalfPi, Math::TwoPi, rate0_2 - 1);
-        }
-        const double angle = -(startAngle - endAngle);
-
+        const Vec2 center = Scene::CenterF();
         if (m_isCompleted) {
             const double size = static_cast<double>(Min(m_stopwatch.ms(), 350));
             Line(center + Vec2{ size, 20 }, center + Vec2{ -size,20 }).draw(ColorF(0, 0.5));
-            Circle(center, 200 + m_stopwatch.ms()).drawFrame(0, 1.2, ColorF(0, 0.5));
+            Circle(center, 200 + m_stopwatch.ms()).drawFrame(0, 3, ColorF(0, 0.5));
         } else {
-            Circle(center, 200).drawArc(startAngle, angle, 0, 3, ColorF(0, 0.5));
+            LoadingCircle::DrawMain(center, 200);
         }
         const double index = m_stopwatch.ms() / (m_isCompleted ? 50 : 160.0);
         //現在の文

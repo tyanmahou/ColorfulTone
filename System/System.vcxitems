@@ -136,6 +136,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\ScopedResetTransRT.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\JacketInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\LoadingCircle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\LoadingProgress.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\MemoInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\Select.hpp" />
@@ -269,6 +270,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\DrawBGLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SceneInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\JacketInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\LoadingCircle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\LoadingProgress.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\MemoInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedLogic.cpp" />
