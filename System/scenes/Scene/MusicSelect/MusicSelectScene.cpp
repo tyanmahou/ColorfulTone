@@ -54,7 +54,7 @@ namespace
     }
 
     // 楽曲リストソート
-    void RefineMusics(Array<MusicData>& musics)
+    void RefineMusics(Array<MusicDataRef>& musics)
     {
         musics.remove_if([&](const MusicData& m) {
             return !GenreManager::GetRefiner(g_selectInfo.genre)(m);
@@ -62,15 +62,19 @@ namespace
     }
 
     // 楽曲リストソート
-    void SortMusics(Array<MusicData>& musics)
+    void SortMusics(Array<MusicDataRef>& musics)
     {
         musics.stable_sort_by(SortFunc(g_selectInfo.sortMode));
     }
 
     // 楽曲リスト初期化
-    void InitMusics(Array<MusicData>& musics)
+    void InitMusics(Array<MusicDataRef>& musics)
     {
-        musics = Game::Musics();
+        musics.clear();
+        musics.reserve(Game::Musics().size());
+        for (MusicData& m : Game::Musics()) {
+            musics.emplace_back(m);
+        }
         ::RefineMusics(musics);
         ::SortMusics(musics);
 
@@ -93,12 +97,12 @@ namespace
         }
         return g_selectInfo.music;
     }
-    size_t GetTargetSize(Action action, const Array<MusicData>& musics)
+    size_t GetTargetSize(Action action, const Array<MusicDataRef>& musics)
     {
         switch (action) {
         case Action::GenreSelect: return GenreManager::Size();
         case Action::MusicSelect: return musics.size();
-        case Action::LevelSelect: return musics[g_selectInfo.music].getNotesData().size();
+        case Action::LevelSelect: return musics[g_selectInfo.music].get().getNotesData().size();
         default:
             break;
         }
@@ -219,12 +223,12 @@ namespace ct
             }
             //ソート
             if (KeyF2.down()) {
-                uint32 index = m_musics[g_selectInfo.music].getIndex();
+                uint32 index = m_musics[g_selectInfo.music].get().getIndex();
                 g_selectInfo.sortMode = ::NextMode(g_selectInfo.sortMode);
                 ::SortMusics(m_musics);
 
                 for (uint32 i = 0; i < m_musics.size(); ++i) {
-                    if (index == static_cast<uint32>(m_musics[i].getIndex())) {
+                    if (index == static_cast<uint32>(m_musics[i].get().getIndex())) {
                         g_selectInfo.music = i;
                         break;
                     }
@@ -245,7 +249,7 @@ namespace ct
             // お気に入り
             if (m_musics.size() && m_action == Action::MusicSelect || m_action == Action::LevelSelect) {
                 if (KeyF10.down()) {
-                    auto& selectMusic = m_musics[g_selectInfo.music];
+                    MusicData& selectMusic = m_musics[g_selectInfo.music];
                     bool isFavorite = !selectMusic.isFavorite();
                     selectMusic.setFavorite(isFavorite);
 
@@ -276,10 +280,10 @@ namespace ct
         }
         const NotesData& getSelectNotes()const
         {
-            return m_musics[g_selectInfo.music][g_selectInfo.level];
+            return m_musics[g_selectInfo.music].get()[g_selectInfo.level];
         }
 
-        const Array<MusicData>& getMusics()const
+        const Array<MusicDataRef>& getMusics()const
         {
             return m_musics;
         }
@@ -320,7 +324,7 @@ namespace ct
         s3d::int32 m_moveSelect = 0;
         s3d::int32 m_prevSelect = -1;
 
-        Array<MusicData> m_musics;
+        Array<MusicDataRef> m_musics;
         Audition m_audition;
         HighSpeedDemo m_highSpeedDemo;
         bool m_isSelectedNotes = false;
@@ -409,7 +413,7 @@ namespace ct
         return g_selectInfo;
     }
 
-    const Array<MusicData>& MusicSelectScene::getMusics() const
+    const Array<MusicDataRef>& MusicSelectScene::getMusics() const
     {
         return m_pModel->getMusics();
     }

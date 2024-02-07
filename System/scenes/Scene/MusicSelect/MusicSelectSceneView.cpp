@@ -186,7 +186,7 @@ namespace ct
 			const auto& musics = m_pScene->getMusics();
 
 			const MusicData* pMusic = musics.size()
-				? &musics[select.music] : nullptr;
+				? &musics[select.music].get() : nullptr;
 
 			const Array<NotesData>* pNotes = pMusic
 				? &pMusic->getNotesData() : nullptr;
@@ -225,7 +225,7 @@ namespace ct
 							[](const GenreData& g)->decltype(auto) {return g.getName(); }
 						);
 			} else if (action == Action::MusicSelect) {
-				SharedDraw::Select<MusicData>()
+				SharedDraw::Select<MusicDataRef>()
 					.setOffset(offset)
 					.setDrawble([](const MusicData& m, Vec2 pos) {
 					m.getTexture().resized(50, 50).drawAt(pos + Vec2{ 37, 30 });

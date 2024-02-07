@@ -10,6 +10,8 @@ namespace ct
 	class HighSpeedDemo;
 	class ConfigMain;
 
+	using MusicDataRef = std::reference_wrapper<MusicData>;
+
 	class MusicSelectScene : public ISceneBase
 	{
 	public:
@@ -57,7 +59,7 @@ namespace ct
 		//get current select info
 		static SelectMusicsInfo GetSelectInfo();
 
-		const s3d::Array<MusicData>& getMusics()const;
+		const s3d::Array<MusicDataRef>& getMusics()const;
 
 		Action getAction()const;
 
