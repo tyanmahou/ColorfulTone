@@ -2,6 +2,7 @@
 #include <core/Data/Loader/FavoriteLoader.hpp>
 #include <utils/Audio/Loop.hpp>
 #include <Siv3D.hpp>
+#include "MusicData.hpp"
 
 namespace ct
 {
@@ -60,6 +61,43 @@ namespace ct
 		}
 		// お気に入り
 		m_isFavorite = FavoriteLoader::Load(this->getFavoriteFilePath()).isFavorite;
+	}
+
+	MusicData::MusicData(MusicData&& other) noexcept
+	{
+		*this = std::move(other);
+	}
+
+	MusicData& MusicData::operator=(MusicData&& other) noexcept
+	{
+		m_musicName = std::move(other.m_musicName);
+		m_artistName = std::move(other.m_artistName);
+		m_authority = std::move(other.m_authority);
+		m_genreName = std::move(other.m_genreName);
+		m_texture = std::move(other.m_texture);
+
+		m_minbpm = other.m_minbpm;
+		m_maxbpm = other.m_maxbpm;
+
+		m_minBar = other.m_minBar;
+		m_maxBar = other.m_maxBar;
+
+		m_loop = other.m_loop;
+
+		m_notesDatas = std::move(other.m_notesDatas);
+
+		m_fileName = std::move(other.m_fileName);
+
+		m_soundNameID = std::move(other.m_soundNameID);
+		m_lastUpdateAt = other.m_lastUpdateAt;
+		m_isFavorite = other.m_isFavorite;
+		m_index = other.m_index;
+
+		// MusicDataのインスタンスを差し替え
+		for (auto& n : m_notesDatas) {
+			n.setMusicPtr(this);
+		}
+		return *this;
 	}
 
 	const String MusicData::getArtistAndAuthority() const

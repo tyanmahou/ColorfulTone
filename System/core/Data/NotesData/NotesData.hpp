@@ -48,7 +48,10 @@ namespace ct
             const s3d::String& filePath,
             s3d::uint32 index
         );
-
+        void setMusicPtr(const MusicData* const pMusic)
+        {
+            m_pMusic = pMusic;
+        }
         void init();
         void synchroCount(const s3d::Audio& sound, double& nowCount);	//カウントと同期
 

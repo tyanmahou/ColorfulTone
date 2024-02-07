@@ -39,7 +39,10 @@ namespace ct
         MusicData() = default;
         MusicData(const s3d::String& genreName, const s3d::String& dirPath, const s3d::String& iniPath);
 
-        //MusicData(const MusicData&) = delete;
+        MusicData(const MusicData&) = delete;
+        MusicData(MusicData&& other) noexcept;
+        MusicData& operator =(const MusicData&) = delete;
+        MusicData& operator =(MusicData&& other) noexcept;
 
         const s3d::Texture& getTexture()const { return m_texture; }
 
