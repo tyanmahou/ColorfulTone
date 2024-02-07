@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <scenes/utils/SharedDraw/DrawBGLight.hpp>
 #include <scenes/utils/SharedDraw/LoadingProgress.hpp>
+#include <scenes/utils/SharedDraw/LoadingCircle.hpp>
 #include <scenes/utils/SharedDraw/JacketInfo.hpp>
 #include <scenes/utils/SharedDraw/MemoInfo.hpp>
 #include <scenes/utils/SharedDraw/Select.hpp>

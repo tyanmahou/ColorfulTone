@@ -92,7 +92,7 @@ namespace ct
 		stop();
 
 		m_loadTask.push_back({});
-		m_loadTask.back().reset(std::bind(&Audition::playAsync, this, m_requestId, musicData));
+		m_loadTask.back().reset(std::bind(&Audition::playAsync, this, m_requestId, std::ref(musicData)));
 		return true;
 	}
 

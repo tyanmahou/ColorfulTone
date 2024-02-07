@@ -8,6 +8,8 @@
 #include <scenes/Scene/Preview/GUI/Button.hpp>
 #include <scenes/Scene/Preview/GUI/Slider.hpp>
 #include <utils/Windows/WindowsUtil.hpp>
+#include <utils/Coro/Fiber/FiberHolder.hpp>
+#include <utils/Thread/Task.hpp>
 
 namespace ct
 {
@@ -42,11 +44,18 @@ namespace ct
             if (m_isShowGUI) {
                 this->drawGUI();
             }
+            if (!m_loader.isDone())
+            {
+                drawLoading();
+            }
             return true;
         }
     private:
         void update()
         {
+            if (m_loader.resume()) {
+                return;
+            }
             Array<s3d::FileChange> changes;
             if (m_watcher.retrieveChanges(changes)) {
                 if (m_isPlay) {
@@ -70,7 +79,7 @@ namespace ct
             }
             if (KeyF5.down()) {
                 if (!m_isPlay) {
-                    this->onLoadProject(m_dirPath);
+                    this->reload();
                 }
             }
             if (m_musicData) {
@@ -114,7 +123,7 @@ namespace ct
         void draw() const
         {
             PutText(U"F9:GUIの表示/非表示", Arg::center = Vec2{ 100, Scene::Height() - 20 });
-            if (!m_musicData) {
+            if (!m_loader.isDone() || !m_musicData) {
                 if (!m_config->isActive()) {
                     double x = 5;
                     const double topY = 70;
@@ -156,6 +165,7 @@ namespace ct
         }
         void drawGUI()
         {
+            const bool enabled = m_loader.isDone();
             const double height = m_font.height() + 2 * 2;
             constexpr ColorF backColor = ColorF(0.2, 0.7);
             constexpr ColorF highlightColor = ColorF(0.9, 0.2);
@@ -180,7 +190,7 @@ namespace ct
             // ファイルを開く
             {
                 auto region = button
-                    .setEnabled(isNotPlaying)
+                    .setEnabled(enabled && isNotPlaying)
                     .setMouseOver(std::bind(detailDrawer, U"楽曲フォルダを開く"))
                     .setOnClick(std::bind(&Impl::openProject, this))
                     .draw(U"\U000F0770", pos)
@@ -190,7 +200,7 @@ namespace ct
             // フォルダを開く
             {
                 auto region = button
-                    .setEnabled(isNotPlaying && m_dirPath.has_value())
+                    .setEnabled(enabled && isNotPlaying && m_dirPath.has_value())
                     .setMouseOver(std::bind(detailDrawer, U"楽曲フォルダをエクスプローラーで開く"))
                     .setOnClick(std::bind(&Impl::openExplorer, this))
                     .draw(U"\U000F1781", pos)
@@ -200,7 +210,7 @@ namespace ct
             // レベル選択
             {
                 auto region = GUI::Pulldown{ m_selectNotesIndex, m_isNotesListOpen }
-                    .setEnabled(isNotPlaying)
+                    .setEnabled(enabled && isNotPlaying)
                     .setFont(m_font)
                     .setMaxItemWidth(175)
                     .setTextColor(textColor, textColorDisabled)
@@ -218,7 +228,7 @@ namespace ct
             // 再生ボタン
             {
                 auto region = button
-                    .setEnabled(!m_config->isActive() && m_musicData.has_value())
+                    .setEnabled(enabled && !m_config->isActive() && m_musicData.has_value())
                     .setMouseOver(std::bind(detailDrawer, m_isPlay ? U"一時停止 (F2)" : U"再生 (F2)"))
                     .setOnClick(std::bind(&Impl::playOrStop, this, false))
                     .setTextColor(m_isPlay ? Palette::Red : Palette::Lightgreen, textColorDisabled)
@@ -229,7 +239,7 @@ namespace ct
             // 停止ボタン
             {
                 auto region = button
-                    .setEnabled(!m_config->isActive() && m_musicData.has_value())
+                    .setEnabled(enabled && !m_config->isActive() && m_musicData.has_value())
                     .setMouseOver(std::bind(detailDrawer, U"停止 (Esc)"))
                     .setOnClick(std::bind(&Impl::stop, this))
                     .setTextColor(textColor, textColorDisabled)
@@ -251,7 +261,7 @@ namespace ct
                     m_musicGame.getSound().seekSamples(static_cast<size_t>(v * m_musicGame.getSound().samples()));
                  };
                 auto region = GUI::Slider{ d }
-                    .setEnabled(!m_config->isActive() && m_musicData.has_value())
+                    .setEnabled(enabled && !m_config->isActive() && m_musicData.has_value())
                     .setWidth(353)
                     .setHeight(height)
                     .setBaseColor(highlightColor)
@@ -266,7 +276,7 @@ namespace ct
             // リロード
             {
                 auto region = button
-                    .setEnabled(isNotPlaying)
+                    .setEnabled(enabled && isNotPlaying)
                     .setMouseOver(std::bind(detailDrawer, U"更新とフォルダを再読み込み (F5)"))
                     .setOnClick(std::bind(&Impl::reload, this))
                     .draw(U"\U000F0450", pos)
@@ -276,13 +286,18 @@ namespace ct
             // コンフィグ画面を開く
             {
                 auto region = button
-                    .setEnabled(!m_isPlay)
+                    .setEnabled(enabled && !m_isPlay)
                     .setMouseOver(std::bind(detailDrawer, U"コンフィグ画面を開く/閉じる (F11)"))
                     .setOnClick(std::bind(&Impl::configUpdate, this, true))
                     .draw(U"\U000F0493", pos)
                     ;
                 pos.x += region.w + 2;
             }
+        }
+        void drawLoading()
+        {
+            Scene::Rect().draw(ColorF(0, 0.5));
+            SharedDraw::LoadingCircle::DrawMain(ColorF(1, 0.9));
         }
         bool configUpdate(bool isOpenClose)
         {
@@ -308,7 +323,8 @@ namespace ct
         {
             auto path = Dialog::SelectFolder(U"Music");
             if (path) {
-                return this->onLoadProject(path);
+                m_loader.reset(std::bind(&Impl::onLoadProjectAsync, this, path));
+                return true;
             } else {
                 return false;
             }
@@ -323,7 +339,8 @@ namespace ct
         }
         bool reload()
         {
-            return this->onLoadProject(m_dirPath);
+            m_loader.reset(std::bind(&Impl::onLoadProjectAsync, this, m_dirPath));
+            return true;
         }
         void playOrStop(bool reset = false)
         {
@@ -399,6 +416,11 @@ namespace ct
             m_dirPath = path;
             return true;
         }
+
+        Coro::Fiber<void> onLoadProjectAsync(const Optional<FilePath>& path)
+        {
+            co_await Thread::Task{ [path, this] {return this->onLoadProject(path); } };
+        }
         bool onChangeLevel(size_t index)
         {
             if (!m_musicData) {
@@ -431,6 +453,8 @@ namespace ct
         std::unique_ptr<ConfigMain> m_config;
 
         s3d::DirectoryWatcher m_watcher;
+
+        Coro::FiberHolder<void> m_loader;
     };
     Preview::Preview():
         m_pImpl(std::make_unique<Impl>())
