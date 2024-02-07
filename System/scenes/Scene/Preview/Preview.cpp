@@ -390,16 +390,15 @@ namespace ct
                 if (FileSystem::Extension(elm) == U"ini") {
                     SoundManager::PlaySe(U"desisionSmall");
 
-                    m_musicData.emplace(genre, *path, elm);
-
+                    MusicData musicData(genre, *path, elm);
                     Array<String> noteLevelNames;
-                    for (auto& notes : m_musicData->getNotesData()) {
+                    for (auto& notes : musicData.getNotesData()) {
                         noteLevelNames.push_back(notes.getLevelName());
                     }
                     if (noteLevelNames.isEmpty()) {
-                        m_musicData = none;
                         return false;
                     }
+                    m_musicData.emplace(std::move(musicData));
                     m_notesList = std::move(noteLevelNames);
                     if (m_notesList.isEmpty()) {
                         m_selectNotesIndex = 0;

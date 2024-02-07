@@ -42,7 +42,6 @@ namespace ct
         MusicData(const MusicData&) = delete;
         MusicData(MusicData&& other) noexcept;
         MusicData& operator =(const MusicData&) = delete;
-        MusicData& operator =(MusicData&& other) noexcept;
 
         const s3d::Texture& getTexture()const { return m_texture; }
 
@@ -88,5 +87,7 @@ namespace ct
         s3d::String getFavoriteFilePath()const;
 
         void saveFavorite(bool isFavorite);
+    private:
+        MusicData& operator =(MusicData&& other) noexcept;
     };
 }
