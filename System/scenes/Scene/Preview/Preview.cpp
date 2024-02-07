@@ -17,6 +17,7 @@ namespace ct
     {
     public:
         Impl():
+            m_tex(s3d::Scene::Size()),
             m_font(FontMethod::MSDF, 16, Typeface::CJK_Regular_JP)
         {
             if (Font::IsAvailable(Typeface::Icon_Awesome_Solid)) {
@@ -39,14 +40,14 @@ namespace ct
         bool updateAndDraw()
         {
             this->update();
-            this->draw();
-            m_config->draw();
-            if (m_isShowGUI) {
-                this->drawGUI();
-            }
-            if (!m_loader.isDone())
-            {
+            if (m_loading) {
                 drawLoading();
+            } else {
+                this->draw();
+                m_config->draw();
+                if (m_isShowGUI) {
+                    this->drawGUI();
+                }
             }
             return true;
         }
@@ -123,7 +124,7 @@ namespace ct
         void draw() const
         {
             PutText(U"F9:GUIの表示/非表示", Arg::center = Vec2{ 100, Scene::Height() - 20 });
-            if (!m_loader.isDone() || !m_musicData) {
+            if (!m_musicData) {
                 if (!m_config->isActive()) {
                     double x = 5;
                     const double topY = 70;
@@ -296,6 +297,7 @@ namespace ct
         }
         void drawLoading()
         {
+            m_tex.draw();
             Scene::Rect().draw(ColorF(0, 0.5));
             SharedDraw::LoadingCircle::DrawMain(ColorF(1, 0.9));
         }
@@ -340,6 +342,7 @@ namespace ct
         bool reload()
         {
             m_loader.reset(std::bind(&Impl::onLoadProjectAsync, this, m_dirPath));
+            m_loader.resume();
             return true;
         }
         void playOrStop(bool reset = false)
@@ -419,7 +422,13 @@ namespace ct
 
         Coro::Fiber<void> onLoadProjectAsync(const Optional<FilePath>& path)
         {
+            m_tex.fill(ColorF(1, 1));
+            s3d::ScreenCapture::RequestCurrentFrame();
+            co_yield{};
+            m_loading = true;
+            s3d::ScreenCapture::GetFrame(m_tex);
             co_await Thread::Task{ [path, this] {return this->onLoadProject(path); } };
+            m_loading = false;
         }
         bool onChangeLevel(size_t index)
         {
@@ -433,6 +442,7 @@ namespace ct
             return true;
         }
     private:
+        DynamicTexture m_tex;
         Font m_font;
         Array<Font> m_iconFonts;
 
@@ -455,6 +465,7 @@ namespace ct
         s3d::DirectoryWatcher m_watcher;
 
         Coro::FiberHolder<void> m_loader;
+        bool m_loading = false;
     };
     Preview::Preview():
         m_pImpl(std::make_unique<Impl>())
