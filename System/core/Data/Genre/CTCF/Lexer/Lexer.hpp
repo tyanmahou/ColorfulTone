@@ -11,9 +11,9 @@ namespace ct::ctcf
 	{
 	public:
 		Lexer(const FilePath& ctfolder);
-
+		Lexer(const s3d::Arg::code_<s3d::String>& script);
 		bool load(const FilePath& ctfolder);
-
+		bool load(const s3d::Arg::code_<s3d::String>& script);
 		const Array<Token>& getTokens()const
 		{
 			return m_tokens;

@@ -8,6 +8,7 @@
 namespace ct
 {
     class MusicData;
+    class NotesData;
 
     class CTCFReader
     {
@@ -16,6 +17,7 @@ namespace ct
     public:
         CTCFReader() = default;
         CTCFReader(const s3d::FilePath& ctfolder);
+        CTCFReader(const s3d::Arg::code_<s3d::String>& script);
 
         operator bool()const;
 
@@ -32,5 +34,6 @@ namespace ct
         }
 
         bool expression(const MusicData& music)const;
+        bool expression(const NotesData& notes)const;
     };
 }

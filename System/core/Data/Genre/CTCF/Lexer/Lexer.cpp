@@ -6,6 +6,10 @@ namespace ct::ctcf
     {
         this->load(ctfolder);
     }
+	Lexer::Lexer(const s3d::Arg::code_<s3d::String>& script)
+	{
+		this->load(script);
+	}
     bool Lexer::load(const FilePath& ctfolder)
 	{
 		TextReader reader(ctfolder);
@@ -27,6 +31,23 @@ namespace ct::ctcf
 			this->parseLine(line);
 		}
 
+		return true;
+	}
+	bool Lexer::load(const s3d::Arg::code_<s3d::String>& script)
+	{
+		for (const String& line : script->split(U'\n')) {
+			if (line[0] == U'#') // オプション
+			{
+				this->pushOptions(line);
+				continue;
+			} else if (line[0] == U'%') // %はコメント
+			{
+				continue;
+			}
+
+			// パース
+			this->parseLine(line);
+		}
 		return true;
 	}
 	Optional<String> Lexer::getOption(const String& option) const

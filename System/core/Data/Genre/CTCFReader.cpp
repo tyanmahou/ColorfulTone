@@ -17,7 +17,12 @@ namespace ct
             m_lexer(ctfolder),
             m_parser(m_lexer.getTokens())
         {}
+        Impl(const s3d::Arg::code_<s3d::String>& script) :
+            m_lexer(script),
+            m_parser(m_lexer.getTokens())
+        {
 
+        }
         s3d::Optional<s3d::String> getOption(const String& option)const
         {
             return m_lexer.getOption(option);
@@ -28,7 +33,7 @@ namespace ct
         }
         bool expression(const MusicData& music)
         {
-            auto eval = this->getOption(U"EVAL").value_or(U"Any");
+            auto eval = this->getOption(U"EVAL").value_or(U"ANY");
             if (eval == U"ALL") {
                 if (music.getNotesData().empty()) {
                     return false;
@@ -58,6 +63,11 @@ namespace ct
         m_pImpl(std::make_shared<Impl>(ctfolder))
     {}
 
+    CTCFReader::CTCFReader(const s3d::Arg::code_<s3d::String>&script):
+        m_pImpl(std::make_shared<Impl>(script))
+    {
+    }
+
     CTCFReader::operator bool() const
     {
         return m_pImpl->operator bool();
@@ -71,5 +81,9 @@ namespace ct
     bool CTCFReader::expression(const MusicData& music) const
     {
         return m_pImpl->expression(music);
+    }
+    bool CTCFReader::expression(const NotesData& notes) const
+    {
+        return  m_pImpl->expression(notes);
     }
 }
