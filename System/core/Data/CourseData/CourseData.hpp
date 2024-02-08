@@ -3,6 +3,7 @@
 #include <Siv3D/String.hpp>
 #include <Siv3D/Array.hpp>
 #include <Siv3D/Color.hpp>
+#include <core/Data/CourseData/CourceEntry.hpp>
 
 namespace ct
 {
@@ -22,23 +23,17 @@ namespace ct
 
 	class CourseData
 	{
-	public:
-		//楽曲IDと譜面IDのセット
-		using Data = std::pair<unsigned, unsigned>;
 	private:
-		s3d::Array<Data> m_notesID;
+		s3d::Array<CourceEntry> m_entries;
+
 		s3d::String m_title;	//コースタイトル
 		s3d::String m_genre;	//ジャンル名
 		size_t m_index;	//ID
-		size_t m_actualSize; // 実際の譜面数
 		CourseScore m_score;
 
 		s3d::String m_fileName;
 
 		bool m_canPlay = true;
-
-		void serchNotes(const s3d::String& notePath);
-
 	public:
 		static size_t Index;
 		CourseData(const s3d::String& path)
@@ -56,9 +51,9 @@ namespace ct
 			return m_canPlay;
 		}
 
-		const s3d::Array<Data>& getNotesIDs()const
+		const s3d::Array<CourceEntry>& getEntries()const
 		{
-			return m_notesID;
+			return m_entries;
 		}
 
 		const s3d::String& getTitle()const

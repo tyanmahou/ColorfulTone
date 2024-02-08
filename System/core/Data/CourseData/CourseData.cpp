@@ -8,33 +8,6 @@ namespace ct
 {
     size_t CourseData::Index = 0;
 
-    void CourseData::serchNotes(const String& notePath)
-    {
-        auto& musics = Game::Musics();
-
-        const String fileName = FileSystem::BaseName(notePath);
-        const String dirPath = notePath.removed(FileSystem::FileName(notePath));
-
-        unsigned musicIndex = 0;
-        unsigned notesIndex = 0;
-
-        for (auto&& m : musics) {
-            const String mName = m.getGenreName() + U"/" + m.getFileName() + U"/";
-            if (mName == dirPath) {
-                for (auto&& notes : m.getNotesData()) {
-                    if (notes.getFileName() == fileName) {
-                        m_notesID.emplace_back(musicIndex, notesIndex);
-                        return;
-                    }
-                    ++notesIndex;
-                }
-            }
-            ++musicIndex;
-        }
-
-        m_canPlay = false;
-
-    }
     bool CourseData::load(const String& path)
     {
         INI ini(path);
@@ -52,19 +25,22 @@ namespace ct
         //譜面データのインデックス検索
         //譜面データ
         for (size_t i = 0; true; ++i) {
+            // デフォルト
             String notePath = ini.get<String>(Format(U"Course.COURSE", i));
-            if (notePath.isEmpty())
-                break;
-            else {
-                m_actualSize = i + 1;
-                this->serchNotes(notePath);
+            if (!notePath.isEmpty()) {
+                m_entries.push_back(CourceEntry::CreateDefault(notePath));
+                continue;
             }
-
+            // ランダム
+            String randomCond = ini.get<String>(Format(U"Course.RANDOM", i));
+            if (!randomCond.isEmpty()) {
+                m_entries.push_back(CourceEntry::CreateRandom(randomCond));
+                continue;
+            }
+            break;
         }
 
-        if (m_notesID.size() == 0)
-            m_canPlay = false;
-
+        m_canPlay = m_entries.all([](const CourceEntry& entry) {return entry.canPlay(); });
         return true;
     }
 

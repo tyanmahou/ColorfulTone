@@ -33,6 +33,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Anime\StartAnime\StartAnime.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\CourseData\CourceEntry.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\CourseData\CourseData.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\CourseGenre\CourseGenre.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\DownloadContent.hpp" />
@@ -192,6 +193,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\StartAnime\StartAnime.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\CourseData\CourceEntry.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\CourseData\CourseData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\DownloadContent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\Downloader.cpp" />

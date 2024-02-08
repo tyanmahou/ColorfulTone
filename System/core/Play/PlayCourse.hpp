@@ -35,7 +35,7 @@ namespace  ct
         void updateScoreAndState(float addRate, float life)const;
         const CourseData& getCourse() const;
         const NotesData& getCurrentNotes() const;
-
+        const s3d::Array<MusicNotesIndex>& getEntries() const;
         size_t getTrackIndex()const;
         size_t getTrackOrder()const;
         State getState()const;

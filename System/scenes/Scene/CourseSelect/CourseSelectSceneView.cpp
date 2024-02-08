@@ -18,38 +18,47 @@ namespace
 				.drawFrame(0, 1, Color(224, 209, 173));
 		}
 	}
-	void DrawMusicInfo(int y, int musicID, int notesID)
+	void DrawMusicInfo(double y, Texture texture, const s3d::ColorF& jucketColor, const s3d::String& title, const s3d::String& detail)
 	{
-		const FontAsset font16b(FontName::SelectMusic);
-		const FontAsset font12(FontName::Bpm);
+		if (texture) {
+			const Vec2 jacketPos{ 70, y + 60 };
+			constexpr Vec2 jacketSize{ 100.0,100.0 };
+			RectF(jacketPos - jacketSize / 2.0, jacketSize).draw(jucketColor);
+			texture
+				.resized(jacketSize)
+				.rotated(Math::ToRadians(-7.0))
+				.drawAt(jacketPos);
+		}
 
-		const auto& musics = Game::Musics();
-		const auto& music = musics[musicID];
-		const auto& notes = musics[musicID][notesID];
-
-		const Vec2 jacketPos{ 70, y + 60 };
-		constexpr Vec2 jacketSize{ 100.0,100.0 };
-		RectF(jacketPos - jacketSize / 2.0, jacketSize).draw(notes.getColor());
-
-		music
-			.getTexture()
-			.resized(jacketSize)
-			.rotated(Math::ToRadians(-7.0))
-			.drawAt(jacketPos);
-
-		ContractionDrawbleString(
-			font16b(musics[musicID].getMusicName()), 
-			{ 130 ,y + 15 }, 
-			270,
-			Palette::Black, 
-			false
-		);
-		ContractionDrawbleString(
-			font12(notes.getLevelNameAndLevel()), 
-			{ 130 ,y + 45 },
-			270,
-			Palette::Black, 
-			false
+		if (title) {
+			const FontAsset font16b(FontName::SelectMusic);
+			ContractionDrawbleString(
+				font16b(title),
+				{ 130 ,y + 15 },
+				270,
+				Palette::Black,
+				false
+			);
+		}
+		if (detail) {
+			const FontAsset font12(FontName::Bpm);
+			ContractionDrawbleString(
+				font12(detail),
+				{ 130 ,y + 45 },
+				270,
+				Palette::Black,
+				false
+			);
+		}
+	}
+	void DrawMusicInfo(int y, const CourceEntry& entry)
+	{
+		DrawMusicInfo(
+			y,
+			entry.getJucketTexture(),
+			entry.getJucketColor(),
+			entry.getJucketTitle(),
+			entry.getJucketDetail()
 		);
 	}
 
@@ -60,9 +69,9 @@ namespace
 			return;
 		}
 		int i = 0;
-		for (auto& notes : pCourse->getNotesIDs())
+		for (const auto& entry : pCourse->getEntries())
 		{
-			::DrawMusicInfo(i * 115 + 90, notes.first, notes.second);
+			::DrawMusicInfo(i * 115 + 90, entry);
 			++i;
 		}
 	}
