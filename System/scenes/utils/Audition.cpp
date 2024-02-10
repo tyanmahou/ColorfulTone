@@ -58,7 +58,7 @@ namespace {
 namespace ct
 {
 	Audition::Audition() :
-		m_nowPlayMusicIndex(-1)
+		m_nowPlayMusicIndex(static_cast<size_t>(-1))
 	{}
 
 
@@ -81,7 +81,7 @@ namespace ct
 
 	bool Audition::request(const MusicData& musicData)
 	{
-		const int64 id = static_cast<int64>(musicData.getIndex());
+		const size_t id = musicData.getIndex();
 
 		if (id == m_nowPlayMusicIndex) {
 			// 同じidだった場合は何もしない
