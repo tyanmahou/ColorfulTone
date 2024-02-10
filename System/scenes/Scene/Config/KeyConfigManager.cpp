@@ -56,7 +56,7 @@ namespace ct
 
     class PlayKeyConfig :public KeyConfigManager::Impl
     {
-        enum class Select :unsigned int
+        enum class Select : uint32
         {
             Red1, Red2, Red3,
             Blue1, Blue2, Blue3,

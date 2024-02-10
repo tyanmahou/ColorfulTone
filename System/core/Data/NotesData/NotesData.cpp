@@ -77,7 +77,7 @@ namespace ct
     {
         m_currentBarIndex = 0;
         const auto sample = GetSamplePos(sound);
-        for (unsigned int i = 0; i < m_tempoInfos.size(); ++i) {
+        for (size_t i = 0; i < m_tempoInfos.size(); ++i) {
             if (sample >= m_tempoInfos.at(i).m_changeSample) {
                 m_currentBarIndex = i;
             }
@@ -192,7 +192,7 @@ namespace ct
             const double preBPMSample = (count - changeCount) * samplePerBar / static_cast<double>(NotesData::RESOLUTION);
             return changeSample + static_cast<int64>(preBPMSample);
         };
-        for (unsigned int i = 0; i < rows; i++) {
+        for (size_t i = 0; i < rows; i++) {
             head = csv.get<String>(i, 0);
 
             if (head.isEmpty())			//空行はスルー

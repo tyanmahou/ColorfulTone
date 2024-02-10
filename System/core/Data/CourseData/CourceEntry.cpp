@@ -90,13 +90,19 @@ namespace ct
         ret.m_canPlay = FindhNotes(ctcf);
         return ret;
     }
-    MusicNotesIndex CourceEntry::choiceIndex() const
+    CourceSelectedNotes CourceEntry::choice() const
     {
         if (m_kind == CourceEntryKind::Default) {
-            return std::get<CourceEntryDefault>(m_data).index;
+            return {
+                .index = std::get<CourceEntryDefault>(m_data).index,
+                .isSecret = false,
+            };
         }
 
-        return ::ChoiceIndex(std::get<CourceEntryRandom>(m_data).condition);
+        return {
+            .index = ::ChoiceIndex(std::get<CourceEntryRandom>(m_data).condition),
+            .isSecret = true,
+        };
     }
     s3d::Texture CourceEntry::getJucketTexture() const
     {

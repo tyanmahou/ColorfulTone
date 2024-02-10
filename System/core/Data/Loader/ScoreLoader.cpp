@@ -14,8 +14,8 @@ namespace ct
 		}
 
 		reader.read<bool>(ret.isClear);
-		unsigned int ui_spResult;
-		reader.read<unsigned int>(ui_spResult);
+		uint32 ui_spResult;
+		reader.read<uint32>(ui_spResult);
 		ret.specialResult = static_cast<SpecialResult>(ui_spResult);
 		reader.read<float>(ret.clearRate);
 
@@ -31,7 +31,7 @@ namespace ct
 		}
 
 		writer.write(newScore.isClear);
-		writer.write(static_cast<unsigned int>(newScore.specialResult));
+		writer.write(static_cast<uint32>(newScore.specialResult));
 		writer.write(newScore.clearRate);
 	}
 

@@ -81,7 +81,7 @@ namespace ct
 	}
 	void Config::setDefault(const String& text)
 	{
-		unsigned i = 0;
+		size_t i = 0;
 		for (auto&& a : m_actions) {
 			if (text == a.first) {
 				m_default = i;

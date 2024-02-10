@@ -7,7 +7,7 @@ namespace ct
     class TitleScene :public ISceneBase
     {
     public:
-        enum class Mode :unsigned int
+        enum class Mode : s3d::uint32
         {
             GameStart,
             Course,

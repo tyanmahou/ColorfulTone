@@ -62,16 +62,16 @@ namespace ct
 
             // track
             const auto& musics = Game::Musics();
-            SharedDraw::Select<MusicNotesIndex>()
+            SharedDraw::Select<CourceSelectedNotes>()
                 .setLoop(false)
                 .setOffset(-30.0)
-                .setDrawble([&](const MusicNotesIndex& d, Vec2 pos) {
-                    musics[d.first].getTexture().resized(50, 50).drawAt(pos + Vec2{ 37, 30 });
+                .setDrawble([&](const CourceSelectedNotes& d, Vec2 pos) {
+                    musics[d.musicIndex()].getTexture().resized(50, 50).drawAt(pos + Vec2{ 37, 30 });
                 })
                 .draw(
-                    playing.getEntries(),
+                    playing.getSelectedNotes(),
                     static_cast<uint32>(playing.getTrackIndex()),
-                    [&](const MusicNotesIndex& d)->decltype(auto) {return musics[d.first].getMusicName(); }
+                    [&](const CourceSelectedNotes& d)->decltype(auto) {return musics[d.musicIndex()].getMusicName(); }
                  );
 
             // 譜面情報

@@ -25,7 +25,7 @@ namespace ct
 		size_t m_rankAAACount = 0;
 		size_t m_apCount = 0;
 
-		Array<MusicNotesIndex> m_entryIndexes;
+		Array<CourceSelectedNotes> m_selectedNotes;
 	public:
 		const CourseData& currentCourse()const
 		{
@@ -38,7 +38,7 @@ namespace ct
 			m_score.life = 100.0;
 			m_rankAAACount = 0;
 			m_apCount = 0;
-			m_entryIndexes.clear();
+			m_selectedNotes.clear();
 		}
 		void init(const CourseData& course)
 		{
@@ -47,7 +47,7 @@ namespace ct
 			m_state = State::Playing;
 			this->clear();
 			for (const auto& entry : course.getEntries()) {
-				m_entryIndexes.push_back(entry.choiceIndex());
+				m_selectedNotes.push_back(entry.choice());
 			}
 		}
 		void exit()
@@ -70,7 +70,7 @@ namespace ct
 		}
 		bool isLastNotes()const
 		{
-			return m_currentNotesIndex + 1 >= m_entryIndexes.size();
+			return m_currentNotesIndex + 1 >= m_selectedNotes.size();
 		}
 		void updateScoreAndState(float addRate, float life)
 		{
@@ -104,16 +104,16 @@ namespace ct
 		}
 		const NotesData& getCurrentNotes()const
 		{
-			const auto& ids = m_entryIndexes[m_currentNotesIndex];
+			const auto& ids = m_selectedNotes[m_currentNotesIndex].index;
 			return Game::Musics()[ids.first][ids.second];
 		}
 		const CourseScore& getScore()const
 		{
 			return m_score;
 		}
-		const s3d::Array<MusicNotesIndex>& getEntries() const
+		const s3d::Array<CourceSelectedNotes>& getSelectedNotes() const
 		{
-			return m_entryIndexes;
+			return m_selectedNotes;
 		}
 	};
 
@@ -166,9 +166,9 @@ namespace ct
 		return m_pImpl->getCurrentNotes();
 	}
 
-	const s3d::Array<MusicNotesIndex>& PlayCourse::getEntries() const
+	const s3d::Array<CourceSelectedNotes>& PlayCourse::getSelectedNotes() const
 	{
-		return m_pImpl->getEntries();
+		return m_pImpl->getSelectedNotes();
 	}
 
 	bool PlayCourse::isStart() const

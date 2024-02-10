@@ -35,6 +35,15 @@ namespace ct
 		/// シークレットか
 		/// </summary>
 		bool isSecret;
+
+		size_t musicIndex() const
+		{
+			return index.first;
+		}
+		size_t notesIndex() const
+		{
+			return index.second;
+		}
 	};
 
 	struct CourceEntryDefault
@@ -62,7 +71,7 @@ namespace ct
 			return m_canPlay;
 		}
 
-		MusicNotesIndex choiceIndex() const;
+		CourceSelectedNotes choice() const;
 
 		s3d::Texture getJucketTexture() const;
 		s3d::ColorF getJucketColor() const;
