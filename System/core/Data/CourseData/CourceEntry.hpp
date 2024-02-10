@@ -20,6 +20,22 @@ namespace ct
 		Random,
 	};
 	using MusicNotesIndex = std::pair<size_t, size_t>;
+	
+	/// <summary>
+	/// 選ばれた譜面
+	/// </summary>
+	struct CourceSelectedNotes
+	{
+		/// <summary>
+		/// インデックス
+		/// </summary>
+		MusicNotesIndex index;
+
+		/// <summary>
+		/// シークレットか
+		/// </summary>
+		bool isSecret;
+	};
 
 	struct CourceEntryDefault
 	{

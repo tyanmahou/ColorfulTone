@@ -1,7 +1,6 @@
 ﻿#include <core/Data/CourseData/CourceEntry.hpp>
 #include <Useful.hpp>
 #include <Siv3D.hpp>
-#include "CourceEntry.hpp"
 
 namespace
 {
