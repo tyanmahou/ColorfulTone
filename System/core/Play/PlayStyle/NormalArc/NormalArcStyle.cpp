@@ -120,12 +120,12 @@ namespace ct
         Circle(400, 300, 40).drawFrame(2, 2, judgeLineColor);
     }
 
-    void NormalArcStyle::drawComboAndRate(int combo, float rate)
+    void NormalArcStyle::drawComboAndRate(s3d::int32 combo, float rate)
     {
         const FontAsset font(FontName::Combo);
 
         if (combo) {
-            const int x = 115;
+            const s3d::int32 x = 115;
             TextureAsset(U"combo").draw(x + 121, 299, Palette::White);
             TextureAsset(U"combo").draw(x + 120, 298, Palette::Black);
 
@@ -137,7 +137,7 @@ namespace ct
         font(U"{:.2f}%"_fmt(rate)).draw(500, 300, Palette::Black);
     }
 
-    void NormalArcStyle::drawTapEffect(int type)
+    void NormalArcStyle::drawTapEffect(s3d::int32 type)
     {
         if (type == 9) {
             m_effetcs[0].add<TapEffect>(0, 9);
@@ -164,7 +164,7 @@ namespace ct
         }
     }
 
-    void NormalArcStyle::drawJudgeEffect(const String& str, int type)
+    void NormalArcStyle::drawJudgeEffect(const String& str, s3d::int32 type)
     {
         if (type == 9) {
             m_effetcs[0].add<JudgeEffect>(str, GetPos(3 * Pi / 2, 2400, 1.0f, 1.0));
@@ -221,7 +221,7 @@ namespace ct
             }
             return;
         } else if (type == 18) {
-            Color c1 = HSV(static_cast<int>(count / 20) % 360, 0.5, 1);
+            Color c1 = HSV(static_cast<s3d::int32>(count / 20) % 360, 0.5, 1);
 
             auto arcAngle = TwoPi / 3.0 * Min(1.0 - (r - 40) / (400 / playScale), 1.0);
             {
@@ -321,7 +321,7 @@ namespace ct
             return;
 
         {
-            Color c1 = HSV(static_cast<int>(drawCount / 20) % 360, 0.5, 1);
+            Color c1 = HSV(static_cast<s3d::int32>(drawCount / 20) % 360, 0.5, 1);
 
             auto playScale = Game::Config().m_playScale;
             auto arcAngle = TwoPi / 3.0 * Min(1.0 - (r - 40) / (400 / playScale), 1.0);
@@ -360,8 +360,8 @@ namespace ct
             return;
 
         {
-            Color c1 = HSV(static_cast<int>(count / 10) % 360, 0.5, 1);
-            Color c2 = HSV((static_cast<int>(count / 10) + 72) % 360, 0.5, 1);
+            Color c1 = HSV(static_cast<s3d::int32>(count / 10) % 360, 0.5, 1);
+            Color c2 = HSV((static_cast<s3d::int32>(count / 10) + 72) % 360, 0.5, 1);
 
             const Color(&color)[2] = { c1,c2 };
             ::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 3, color, true);

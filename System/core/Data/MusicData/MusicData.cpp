@@ -2,11 +2,10 @@
 #include <core/Data/Loader/FavoriteLoader.hpp>
 #include <utils/Audio/Loop.hpp>
 #include <Siv3D.hpp>
-#include "MusicData.hpp"
 
 namespace ct
 {
-	int MusicData::Index;
+	size_t MusicData::Index;
 	MusicData::MusicData(const String& genreName, const String& dirPath, const String& iniPath)
 	{
 		m_index = Index;

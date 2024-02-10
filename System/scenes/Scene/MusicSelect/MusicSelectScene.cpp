@@ -114,7 +114,7 @@ namespace
     {
         const uint64 timer = Time::GetMillisec();
 
-        int timerMod = timer % 6000;
+        s3d::int32 timerMod = timer % 6000;
         if (timerMod <= 2000) {
             return U"Enter:決定　BackSpace:絞り込み,戻る　F2:ソート　Esc:タイトルに戻る";
         }
@@ -223,12 +223,12 @@ namespace ct
             }
             //ソート
             if (KeyF2.down()) {
-                uint32 index = m_musics[g_selectInfo.music].get().getIndex();
+                size_t index = m_musics[g_selectInfo.music].get().getIndex();
                 g_selectInfo.sortMode = ::NextMode(g_selectInfo.sortMode);
                 ::SortMusics(m_musics);
 
                 for (uint32 i = 0; i < m_musics.size(); ++i) {
-                    if (index == static_cast<uint32>(m_musics[i].get().getIndex())) {
+                    if (index == m_musics[i].get().getIndex()) {
                         g_selectInfo.music = i;
                         break;
                     }
@@ -237,7 +237,7 @@ namespace ct
             }
             // 再度indexの調整
             {
-                auto& target2 = ::GetSelectTarget(m_action);
+                uint32& target2 = ::GetSelectTarget(m_action);
                 size_t size2 = ::GetTargetSize(m_action, m_musics);
                 target2 = size2 ? target2 % size2 : 0;
             }
@@ -253,8 +253,8 @@ namespace ct
                     bool isFavorite = !selectMusic.isFavorite();
                     selectMusic.setFavorite(isFavorite);
 
-                    auto index = selectMusic.getIndex();
-                    auto& sourceMusic = Game::Musics()[index];
+                    size_t index = selectMusic.getIndex();
+                    MusicData& sourceMusic = Game::Musics()[index];
                     sourceMusic.saveFavorite(isFavorite);
                     SoundManager::PlaySe(U"desisionSmall");
                 }

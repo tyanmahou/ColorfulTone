@@ -131,7 +131,7 @@ namespace
                 return ::Compare(music->getGenreName(), value, op);
             }
             if (kind == IdentifierValueKind::Level) {
-                int level = Parse<int>(value);
+                int32 level = Parse<int32>(value);
                 return ::Compare(m_notes.getLevel(), level, op);
             }
             if (kind == IdentifierValueKind::LevelName) {

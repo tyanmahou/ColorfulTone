@@ -38,7 +38,7 @@ namespace ct
 		float clearRate;
 		auto& judges = score.m_judgeCount;
 		clearRate = ResultRank::CalcBaseRate(judges, totalNotes);
-		int tmpRate = static_cast<int>(clearRate * 10000);
+		int32 tmpRate = static_cast<int32>(clearRate * 10000);
 		clearRate = tmpRate / 100.0f;
 		return clearRate;
 	}
@@ -51,7 +51,7 @@ namespace ct
 			clearRate = 1.0f - (judges[Score::Great] * 0.3f + judges[Score::Good] * 0.5f + judges[Score::Miss] * 1) / static_cast<float>(totalNotes);
 		else
 			clearRate = 1.0f;
-		int tmpRate = static_cast<int>(clearRate * 10000);
+		int32 tmpRate = static_cast<int32>(clearRate * 10000);
 		clearRate = tmpRate / 100.0f;
 		return clearRate;
 	}

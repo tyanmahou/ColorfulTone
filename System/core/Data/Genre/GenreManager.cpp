@@ -2,7 +2,7 @@
 
 namespace ct
 {
-	bool GenreManager::add(const GenreType type, const s3d::String& name, const RefinerType& refiner, int lv)
+	bool GenreManager::add(const GenreType type, const s3d::String& name, const RefinerType& refiner, s3d::int32 lv)
 	{
 		for (auto&& elm : m_refiners) {
 			if (name == elm.m_name)

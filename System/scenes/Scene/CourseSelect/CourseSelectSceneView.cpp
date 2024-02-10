@@ -51,7 +51,7 @@ namespace
 			);
 		}
 	}
-	void DrawMusicInfo(int y, const CourceEntry& entry)
+	void DrawMusicInfo(s3d::int32 y, const CourceEntry& entry)
 	{
 		DrawMusicInfo(
 			y,
@@ -68,7 +68,7 @@ namespace
 		{
 			return;
 		}
-		int i = 0;
+		s3d::int32 i = 0;
 		for (const auto& entry : pCourse->getEntries())
 		{
 			::DrawMusicInfo(i * 115 + 90, entry);
@@ -137,7 +137,7 @@ namespace ct
 				::DrawCourseMusics(pCourse);
 			}
 
-			const int moveSelect = m_pScene->getMoveSelect();
+			const s3d::int32 moveSelect = m_pScene->getMoveSelect();
 			static EasingAB<double> easingAnime(0.0, -30.0, Easing::Linear, 100);
 			if (moveSelect) {
 				easingAnime.reset();

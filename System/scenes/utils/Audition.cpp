@@ -81,13 +81,13 @@ namespace ct
 
 	bool Audition::request(const MusicData& musicData)
 	{
-		const int32 id = musicData.getIndex();
+		const int64 id = static_cast<int64>(musicData.getIndex());
 
 		if (id == m_nowPlayMusicIndex) {
 			// 同じidだった場合は何もしない
 			return false;
 		}
-		m_nowPlayMusicIndex = musicData.getIndex();
+		m_nowPlayMusicIndex = id;
 
 		stop();
 

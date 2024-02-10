@@ -29,7 +29,7 @@ namespace ct
 
 		const Array<DownloadContent>& getContents()const;
 
-		int getMoveSelect()const;
+		s3d::int32 getMoveSelect()const;
 		bool isListLoading()const;
 		bool isDownloading()const;
 		double getProgress()const;

@@ -34,7 +34,7 @@ namespace ct
 		//演奏開始と終了
 		bool m_isStart;
 		bool m_isFinish;
-		s3d::EasingAB<int> m_barXEasing;
+		s3d::EasingAB<s3d::int32> m_barXEasing;
 
 		double m_nowCount;			//現在のカウント
 

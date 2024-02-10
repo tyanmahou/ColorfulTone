@@ -218,11 +218,11 @@ namespace ct
         this->drawBG(drawCount);
 
         {
-            int beat = NotesData::RESOLUTION / 4;
-            double f = Abs(static_cast<double>(static_cast<int>(m_nowCount) % beat))
+            s3d::int32 beat = NotesData::RESOLUTION / 4;
+            double f = Abs(static_cast<double>(static_cast<s3d::int32>(m_nowCount) % beat))
                 / static_cast<double>(beat);
 
-            constexpr int w = 80;
+            constexpr s3d::int32 w = 80;
             ColorF c1 = ColorF(0, 0, 0, 0.6 * (1 - f));
             ColorF c2 = m_notesData.getColor();
             c2.setA(0);
@@ -353,7 +353,7 @@ namespace ct
         PlayStyle::Instance()->drawComboAndRate(m_score.m_currentCombo, rate);
 
         //曲の現在地
-        const int barY = 50;
+        const s3d::int32 barY = 50;
         {
             TextureAsset(U"streamPosBase").draw(725 - m_barXEasing.easeInOut(), barY);
             float barScale = GetSamplePos(m_sound) / static_cast<float>(m_finishSample);

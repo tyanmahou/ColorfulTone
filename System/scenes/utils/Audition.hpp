@@ -19,7 +19,7 @@ namespace ct
 	private:
 		Coro::Fiber<void> playAsync(s3d::uint64 requestId, const MusicData& musicData);
 	private:
-		s3d::int32 m_nowPlayMusicIndex;
+		s3d::int64 m_nowPlayMusicIndex;
 		Audio m_audio;
 		s3d::Array<Coro::FiberHolder<void>> m_loadTask;
 		s3d::uint64 m_requestId = 0;

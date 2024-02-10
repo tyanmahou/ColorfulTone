@@ -22,12 +22,12 @@ namespace ct
 	{
 	private:
 		GenreType m_genreType;	//ソート用
-		int m_lv;			//レベル用
+		s3d::int32 m_lv;			//レベル用
 	public:
 		s3d::String m_name;
 		RefinerType m_refiner;
 
-		GenreData(const GenreType type, const s3d::String& name, const RefinerType& refiner, int lv = 0) :
+		GenreData(const GenreType type, const s3d::String& name, const RefinerType& refiner, s3d::int32 lv = 0) :
 			m_genreType(type),
 			m_name(name),
 			m_refiner(refiner),

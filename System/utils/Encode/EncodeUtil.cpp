@@ -112,9 +112,9 @@ namespace
                 }
             }
         }
-        int sjis = 0;
-        int euc = 0;
-        int utf8 = 0;
+        s3d::int32 sjis = 0;
+        s3d::int32 euc = 0;
+        s3d::int32 utf8 = 0;
         for (size_t i = 0; i < len - 1; i++) {
             b1 = bytes[i];
             b2 = bytes[i + 1];
@@ -193,12 +193,12 @@ namespace
     // Shift-JISからUTF-8への変換関数
     std::string ConvertShiftJISToUTF8(const std::string& sjisStr) {
         // Shift-JISからUTF-16に変換
-        int utf16Size = ::MultiByteToWideChar(CP_ACP, 0, sjisStr.c_str(), -1, NULL, 0);
+        s3d::int32 utf16Size = ::MultiByteToWideChar(CP_ACP, 0, sjisStr.c_str(), -1, NULL, 0);
         std::wstring utf16Str(utf16Size, L'\0');
         ::MultiByteToWideChar(CP_ACP, 0, sjisStr.c_str(), -1, &utf16Str[0], utf16Size);
 
         // UTF-16からUTF-8に変換
-        int utf8Size = ::WideCharToMultiByte(CP_UTF8, 0, utf16Str.c_str(), -1, NULL, 0, NULL, NULL);
+        s3d::int32 utf8Size = ::WideCharToMultiByte(CP_UTF8, 0, utf16Str.c_str(), -1, NULL, 0, NULL, NULL);
         std::string utf8Str(utf8Size, '\0');
         WideCharToMultiByte(CP_UTF8, 0, utf16Str.c_str(), -1, &utf8Str[0], utf8Size, NULL, NULL);
 

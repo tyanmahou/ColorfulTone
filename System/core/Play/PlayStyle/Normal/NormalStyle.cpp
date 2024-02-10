@@ -159,12 +159,12 @@ namespace ct
 		Circle(400, 300, 40).drawFrame(2, 2, judgeLineColor);
 	}
 
-	void NormalStyle::drawComboAndRate(int combo, float rate)
+	void NormalStyle::drawComboAndRate(s3d::int32 combo, float rate)
 	{
 		const FontAsset font(FontName::Combo);
 
 		if (combo) {
-			const int x = 115;
+			const s3d::int32 x = 115;
 			TextureAsset(U"combo").draw(x + 121, 299, Palette::White);
 			TextureAsset(U"combo").draw(x + 120, 298, Palette::Black);
 
@@ -176,7 +176,7 @@ namespace ct
 		font(U"{:.2f}%"_fmt(rate)).draw(500, 300, Palette::Black);
 	}
 
-	void NormalStyle::drawTapEffect(int type)
+	void NormalStyle::drawTapEffect(s3d::int32 type)
 	{
 		if (type == 9) {
 			 m_effetcs[0].add<TapEffect>(0, 9);
@@ -203,7 +203,7 @@ namespace ct
 		}
 	}
 
-	void NormalStyle::drawJudgeEffect(const String& str, int type)
+	void NormalStyle::drawJudgeEffect(const String& str, s3d::int32 type)
 	{
 		if (type == 9) {
 			 m_effetcs[0].add<JudgeEffect>(str, GetPos(3 * Pi / 2, 2400, 1.0f, 1.0));
@@ -349,8 +349,8 @@ namespace ct
 			return;
 
 		{
-			Color c1 = HSV(static_cast<int>(count / 10) % 360, 0.5, 1);
-			Color c2 = HSV((static_cast<int>(count / 10) + 72) % 360, 0.5, 1);
+			Color c1 = HSV(static_cast<s3d::int32>(count / 10) % 360, 0.5, 1);
+			Color c2 = HSV((static_cast<s3d::int32>(count / 10) + 72) % 360, 0.5, 1);
 
 			const TextureAsset texture(U"comet_rainbow_tail");
 			const Color(&color)[2] = { c1,c2 };

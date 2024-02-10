@@ -113,7 +113,7 @@ namespace ct
 	{
 		return m_groups.cend();
 	}
-	void EasingSequence::regist(const s3d::String& key, const EasingGroup::Timer& easing, int group)
+	void EasingSequence::regist(const s3d::String& key, const EasingGroup::Timer& easing, s3d::int32 group)
 	{
 		if (m_groups.find(group) == m_groups.end()) {
 			// インスタンスの生成

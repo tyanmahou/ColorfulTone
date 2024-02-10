@@ -92,7 +92,7 @@ namespace ct
         //オートプレイ----------------------
         if (AutoPlayManager::IsAutoPlay()) {
             if (m_lastSamplePos == samplePos || samplePos > m_lastSamplePos + samplePerBar / (m_interval * 2)) {
-                static int tap = 0;
+                static s3d::int32 tap = 0;
                 ++tap %= 3;
                 AutoPlayManager::Input(tap + 1);
                 EffectUpdate(tap == 0, tap == 1, tap == 2);

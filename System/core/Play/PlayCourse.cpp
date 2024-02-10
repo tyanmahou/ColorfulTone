@@ -77,7 +77,7 @@ namespace ct
 			m_score.life = life;
 
 			m_score.totalRate += addRate;
-			int tmpRate = static_cast<int>(m_score.totalRate * 100.0f);
+			s3d::int32 tmpRate = static_cast<s3d::int32>(m_score.totalRate * 100.0f);
 			m_score.totalRate = tmpRate / 100.0f;
 
 			if (addRate >= 100.0f) {

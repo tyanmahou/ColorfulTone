@@ -43,7 +43,7 @@ namespace ct
         const MusicData* const pMusic,
         const String& dirPath,
         const String& filePath,
-        uint32 index
+        size_t index
     ) : m_bpm(120),
         m_offsetSample(0),
         m_lv(0),
@@ -145,7 +145,7 @@ namespace ct
     {
         auto rows = csv.rows();				//行数
         String head;						//1列目のデータを文字列で
-        int bar = 0;						//現在入力中の小節
+        int32 bar = 0;						//現在入力中の小節
         std::queue<double> noteSpeed;		//ノーツのスピード変化を覚えておく
         std::queue<double> barSpeed;		//小節線のスピード変化を覚えておく
         std::queue<double> measures;		//拍子記憶用
@@ -211,9 +211,9 @@ namespace ct
                 double bs = noteSpeed.empty() ? scrollBaseSpeed : noteSpeed.front();
                 barSpeed.push(bs);
 
-                for (int j = 0; j < col; ++j) //この小節のノーツ読み込み
+                for (size_t j = 0; j < col; ++j) //この小節のノーツ読み込み
                 {
-                    int type = csv.get<int>(i, j);
+                    int32 type = csv.get<int32>(i, j);
 
                     if (!type) {
                         if (!noteSpeed.empty())
@@ -273,7 +273,7 @@ namespace ct
                 if (head == U"#NOTE") {
                     m_notesArtistName = csv.getOr<String>(i, 1, U"None");
                 } else if (head == U"#LEVEL") {
-                    m_lv = csv.getOr<int>(i, 1, 0);
+                    m_lv = csv.getOr<int32>(i, 1, 0);
                     m_lvName = csv.getOr<String>(i, 2, U"None");
 
                     auto starKind = csv.getOpt<String>(i, 3);
@@ -294,7 +294,7 @@ namespace ct
                     m_bpm = csv.getOr<BPMType>(i, 1, 120);
                     bpmHistory.back().bpm = nowBPM = m_bpm;
                 } else if (head == U"#OFFSET") {
-                    m_offsetSample = csv.getOr<int>(i, 1, 0);
+                    m_offsetSample = csv.getOr<int64>(i, 1, 0);
                     totalSample += m_offsetSample;
                     bpmHistory.back().changeSample = totalSample;
                 } else if (head == U"#SCROLL") {
@@ -370,7 +370,7 @@ namespace ct
 
         double nowBarCount = 0;
 
-        for (int i = 0; i < bar; ++i) {
+        for (int32 i = 0; i < bar; ++i) {
             double judgeOffset = GetJudgeOffset(nowBarCount, stopInfos);
             //		nowBarCount += judgeOffset;
             m_objects.emplace_back(std::make_shared<Bar>(nowBarCount + judgeOffset, barSpeed.front()));
@@ -393,7 +393,7 @@ namespace ct
         //同期クラス作成等の初期化
         init();
 
-        int lv = m_lv;
+        int32 lv = m_lv;
         auto starLv = m_starLv;
         if (m_starLv != StarLv::None) {
             GenreManager::Add(GenreType::StarLv, Format(U"LEVEL:", ToStr(starLv)), [starLv](const MusicData& music)->bool {

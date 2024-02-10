@@ -9,7 +9,7 @@ namespace
     void InitKey(const INI& ini, const String& str, Input& key, const uint8 defaultCode = 0)
     {
         // NOTE: +1は旧Siv3Dとの互換性でする
-        const InputDeviceType device = static_cast<InputDeviceType>(ini.getOr<int>(U"Key." + str + U"_Device", 0) + 1);
+        const InputDeviceType device = static_cast<InputDeviceType>(ini.getOr<int32>(U"Key." + str + U"_Device", 0) + 1);
         uint8 code = ini.getOr<uint8>(U"Key." + str + U"_Code", 255);
         if (code == 255) {
             code = defaultCode;
@@ -21,7 +21,7 @@ namespace
     void SaveKey(INI& ini, const String& str, Input& key)
     {
         // NOTE: -1は旧Siv3Dとの互換性でする
-        ini.write(U"Key", str + U"_Device", static_cast<int>(key.deviceType())-1);
+        ini.write(U"Key", str + U"_Device", static_cast<int32>(key.deviceType())-1);
         ini.write(U"Key", str + U"_Code", key.code());
         ini.write(U"Key", str + U"_User", key.playerIndex());
     }

@@ -66,7 +66,7 @@ namespace ct
 		GameData* m_data;
 		Action m_action = Action::GenreSelect;
 		Action m_prevAction = Action::GenreSelect;
-		int m_moveSelect = 0;
+		s3d::int32 m_moveSelect = 0;
 		Array<CourseData> m_courses;
 
 		bool m_isSelectedCourse;

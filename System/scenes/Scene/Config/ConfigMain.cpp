@@ -19,7 +19,7 @@ namespace ct
         }
         class TapSEConfig :public IConfigHierchy
         {
-            enum Mode :int
+            enum Mode :s3d::int32
             {
                 All,
                 Perfect,

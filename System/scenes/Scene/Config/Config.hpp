@@ -46,7 +46,7 @@ namespace ct
 	protected:
 		s3d::Array<Config> m_configs;
 
-		int m_select = 0;
+		s3d::int32 m_select = 0;
 	public:
 
 		virtual bool update();

@@ -28,16 +28,16 @@ namespace ct
             m_style->drawFrame(red, blue, yellow, drawCallback);
         }
 
-        void drawComboAndRate(int combo, float rate)const
+        void drawComboAndRate(s3d::int32 combo, float rate)const
         {
             m_style->drawComboAndRate(combo, rate);
         }
 
-        void drawTapEffect(int type)const
+        void drawTapEffect(s3d::int32 type)const
         {
             m_style->drawTapEffect(type);
         }
-        void drawJudgeEffect(const s3d::String& str, int type)const
+        void drawJudgeEffect(const s3d::String& str, s3d::int32 type)const
         {
             m_style->drawJudgeEffect(str, type);
         }

@@ -55,7 +55,7 @@ namespace ct
 			const DownloadContent* pContent = contents.size()
 				? &contents[select.content] : nullptr;
 
-			const int moveSelect = m_pScene->getMoveSelect();
+			const s3d::int32 moveSelect = m_pScene->getMoveSelect();
 			static EasingAB<double> easingAnime(0.0, -30.0, Easing::Linear, 100);
 			if (moveSelect) {
 				easingAnime.reset();

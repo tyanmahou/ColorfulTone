@@ -20,14 +20,14 @@ namespace ct
         virtual void drawFrame([[maybe_unused]] bool red, [[maybe_unused]] bool blue, [[maybe_unused]] bool yellow, std::function<void()> [[maybe_unused]] drawCallback) const
         {
         }
-        virtual void drawComboAndRate([[maybe_unused]] int combo, [[maybe_unused]] float rate)
+        virtual void drawComboAndRate([[maybe_unused]] s3d::int32 combo, [[maybe_unused]] float rate)
         {
         };
 
-        virtual void drawTapEffect([[maybe_unused]] int type)
+        virtual void drawTapEffect([[maybe_unused]] s3d::int32 type)
         {
         };
-        virtual void drawJudgeEffect([[maybe_unused]] const s3d::String& str, [[maybe_unused]] int type)
+        virtual void drawJudgeEffect([[maybe_unused]] const s3d::String& str, [[maybe_unused]] s3d::int32 type)
         {
         };
 

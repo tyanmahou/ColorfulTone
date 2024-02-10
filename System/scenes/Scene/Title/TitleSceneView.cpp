@@ -60,7 +60,7 @@ namespace ct
             static constexpr size_t modeCount = sizeof(name) / sizeof(StringView);
             constexpr double x = 400;
             constexpr double y = 350;
-            constexpr int off = 40;
+            constexpr s3d::int32 off = 40;
 
             TextureAsset(U"modeBack").drawAt(x, y + 40 * 2, ColorF(0.8, 1, 1, 0.9 + 0.1 * Sin(timer / 30.0)));
 
@@ -72,7 +72,7 @@ namespace ct
                     const size_t index = (static_cast<size_t>(mode) + i + (modeCount - 2)) % modeCount;
                     const auto size = font(name[index]).region().size;
 
-                    int diff = s3d::Abs(static_cast<int>(2 - i));
+                    s3d::int32 diff = s3d::Abs(static_cast<int>(2 - i));
                     const ColorF color(0, i == 2 ? 1 : 0.5 - 0.1 * diff);
                     Vec2 pos{ x - size.x / 2.0, y + off * i - size.y / 2.0 };
                     auto outline = TextStyle::Outline(0.3, color);

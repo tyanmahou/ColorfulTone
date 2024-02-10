@@ -24,7 +24,7 @@ namespace ct::SharedDraw
             return;
         }
         // now loadingのインターバル時間
-        constexpr int nowLoadingInterval = 4;
+        constexpr s3d::int32 nowLoadingInterval = 4;
         if (m_stopwatch.s() > nowLoadingInterval) {
             m_stopwatch.restart();
         }

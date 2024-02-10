@@ -11,7 +11,7 @@ namespace ct
     public:
         using ABLoop = s3d::Vec2;
 
-        static int Index;
+        static size_t Index;
     private:
 
         s3d::String m_musicName;				//曲名
@@ -33,7 +33,7 @@ namespace ct
         s3d::String m_soundNameID;	//アセットへのアクセス
         s3d::DateTime m_lastUpdateAt;//更新日時
         bool m_isFavorite = false; // お気に入り
-        int m_index;
+        size_t m_index;
 
     public:
         MusicData() = default;
@@ -68,7 +68,7 @@ namespace ct
         const s3d::Array<NotesData>& getNotesData()const { return m_notesDatas; }
 
         const s3d::String& getSoundNameID()const { return m_soundNameID; }
-        const int getIndex()const { return m_index; }
+        const size_t getIndex()const { return m_index; }
 
         const NotesData& operator [](size_t level) const
         {

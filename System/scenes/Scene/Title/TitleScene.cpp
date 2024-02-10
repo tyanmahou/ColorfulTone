@@ -43,12 +43,12 @@ namespace ct
 
     TitleScene::Mode operator ++(TitleScene::Mode& mode)
     {
-        mode = (mode == TitleScene::Mode::Exit) ? TitleScene::Mode::GameStart : TitleScene::Mode(static_cast<int>(mode) + 1);
+        mode = (mode == TitleScene::Mode::Exit) ? TitleScene::Mode::GameStart : TitleScene::Mode(static_cast<s3d::int32>(mode) + 1);
         return mode;
     }
     TitleScene::Mode operator --(TitleScene::Mode& mode)
     {
-        mode = (mode == TitleScene::Mode::GameStart) ? TitleScene::Mode::Exit : TitleScene::Mode(static_cast<int>(mode) - 1);
+        mode = (mode == TitleScene::Mode::GameStart) ? TitleScene::Mode::Exit : TitleScene::Mode(static_cast<s3d::int32>(mode) - 1);
         return mode;
     }
     //--------------------------------------------------------------------------------
@@ -60,7 +60,7 @@ namespace ct
         using ChangeSceneParam = struct
         {
             String name;
-            int timeMillisec;
+            s3d::int32 timeMillisec;
             bool crossFade;
         };
         static const std::unordered_map<Mode, ChangeSceneParam> sceneParams{
@@ -103,7 +103,7 @@ namespace ct
     void TitleScene::update()
     {
         bool playSe = false;
-        if (int move = SharedLogic::MoveSelectV(playSe); move != 0) {
+        if (s3d::int32 move = SharedLogic::MoveSelectV(playSe); move != 0) {
             if (playSe) {
                 SoundManager::PlaySe(U"select");
             }

@@ -48,7 +48,7 @@ namespace ct
         }
         void input(NoteType type)
         {
-            const int fc = type >= 11 && type <= 17 ? 1 : 7;
+            const s3d::int32 fc = type >= 11 && type <= 17 ? 1 : 7;
 
             switch (type) {
             case 1:

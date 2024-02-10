@@ -74,7 +74,7 @@ namespace
 			return;
 		}
 		const auto& notes = *pNotes;
-		constexpr int w = 30;
+		constexpr s3d::int32 w = 30;
 		auto toStringMap = drawMode == AllNotesInfo::Level ?
 			::NotesToLevel :
 			::NotesToRank;
@@ -202,7 +202,7 @@ namespace ct
 			// ジャケ絵描画
 			::DrawJacket(action, pGenre, pMusic, select.level);
 
-			const int moveSelect = m_pScene->getMoveSelect();
+			const s3d::int32 moveSelect = m_pScene->getMoveSelect();
 
 			static EasingAB<double> easingAnime(0.0, -30.0, Easing::Linear, 100);
 			if (moveSelect) {

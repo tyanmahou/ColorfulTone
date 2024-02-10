@@ -24,8 +24,8 @@ namespace ct::ctcf
 		}
 	}
 
-	inline constexpr Precedence operator - (Precedence p, int i)
+	inline constexpr Precedence operator - (Precedence p, s3d::int32 i)
 	{
-		return static_cast<Precedence>(static_cast<int>(p) - i);
+		return static_cast<Precedence>(static_cast<s3d::int32>(p) - i);
 	}
 }

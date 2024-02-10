@@ -91,7 +91,7 @@ void PortraitStyle::drawJudgeLine() const
     Line({ 400 - g_width / 2,Y }, { 400 + g_width / 2,Y }).draw(15, judgeLineColor);
 }
 
-void PortraitStyle::drawComboAndRate(int combo, float rate)
+void PortraitStyle::drawComboAndRate(s3d::int32 combo, float rate)
 {
     const FontAsset font(FontName::Combo);
 
@@ -110,9 +110,9 @@ void PortraitStyle::drawComboAndRate(int combo, float rate)
     }
 }
 
-void PortraitStyle::drawTapEffect(int type)
+void PortraitStyle::drawTapEffect(s3d::int32 type)
 {
-    auto getWidth = [](int type) {
+    auto getWidth = [](s3d::int32 type) {
         switch (type % 10) {
         case 1:
         case 2:
@@ -140,7 +140,7 @@ void PortraitStyle::drawTapEffect(int type)
     }
 }
 
-void PortraitStyle::drawJudgeEffect(const String& str, int type)
+void PortraitStyle::drawJudgeEffect(const String& str, s3d::int32 type)
 {
     m_effetcs[0].add<JudgeEffect>(str, Vec2{ GetX(type),400 });
 }
@@ -348,8 +348,8 @@ void PortraitStyle::draw(const RepeatEnd& note, double count, double scrollRate)
         return;
 
 
-    Color c1 = HSV(static_cast<int>(count / 20) % 360, 0.5, 1);
-    Color c2 = HSV((static_cast<int>(count / 20) + 72) % 360, 0.5, 1);
+    Color c1 = HSV(static_cast<s3d::int32>(count / 20) % 360, 0.5, 1);
+    Color c2 = HSV((static_cast<s3d::int32>(count / 20) + 72) % 360, 0.5, 1);
 
     DrawLong(400, pY, 140, y - pY, c1, c2);
 

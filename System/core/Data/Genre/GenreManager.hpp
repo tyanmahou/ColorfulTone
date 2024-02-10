@@ -8,7 +8,7 @@ namespace ct
     private:
         Array<GenreData> m_refiners;
 
-        bool add(const GenreType type, const s3d::String& name, const RefinerType& refiner, int lv);
+        bool add(const GenreType type, const s3d::String& name, const RefinerType& refiner, s3d::int32 lv);
         void clear();
         void sort();
 
@@ -18,7 +18,7 @@ namespace ct
             return instance;
         }
     public:
-        static bool Add(const GenreType type, const s3d::String& name, const RefinerType& refiner, int lv = 0)
+        static bool Add(const GenreType type, const s3d::String& name, const RefinerType& refiner, s3d::int32 lv = 0)
         {
             return Instance().add(type, name, refiner, lv);
         }

@@ -21,7 +21,7 @@ namespace ct
 
 		Array<DownloadContent> m_contents;
 		Downloader m_downloader;
-		int m_moveSelect = 0;
+		s3d::int32 m_moveSelect = 0;
 
 		bool m_hasNewContent = false;
 
@@ -86,7 +86,7 @@ namespace ct
 		{
 			return m_contents;
 		}
-		int getMoveSelect()const
+		s3d::int32 getMoveSelect()const
 		{
 			return m_moveSelect;
 		}
@@ -160,7 +160,7 @@ namespace ct
 		return m_pModel->getContents();
 	}
 
-	int DownloadScene::getMoveSelect() const
+	s3d::int32 DownloadScene::getMoveSelect() const
 	{
 		return m_pModel->getMoveSelect();
 	}

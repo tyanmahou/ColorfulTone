@@ -9,10 +9,10 @@ namespace ct
 
 		void drawFrame(bool red, bool blue, bool yellow, std::function<void()> drawCallback) const override;
 		void drawJudgeLine()const override;
-		void drawComboAndRate(int combo, float rate);
+		void drawComboAndRate(s3d::int32 combo, float rate);
 
-		void drawTapEffect(int type);
-		void drawJudgeEffect(const s3d::String& str, int type);
+		void drawTapEffect(s3d::int32 type);
+		void drawJudgeEffect(const s3d::String& str, s3d::int32 type);
 
 		void draw(const Bar& note, double count, double scrollRate)const override;
 

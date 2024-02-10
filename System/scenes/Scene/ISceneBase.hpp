@@ -28,7 +28,7 @@ namespace ct
         using MyApp::Scene::Scene;
     protected:
         virtual void finally() {};
-        void changeScene(const s3d::String& state, int transitionTimeMillisec = 1000, s3d::CrossFade crossFade = s3d::CrossFade::Yes)
+        void changeScene(const s3d::String& state, s3d::int32 transitionTimeMillisec = 1000, s3d::CrossFade crossFade = s3d::CrossFade::Yes)
         {
             GameData& data = this->getData();
             data.m_fromScene = std::move(data.m_toScene);

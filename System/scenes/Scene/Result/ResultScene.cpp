@@ -10,8 +10,8 @@ namespace
 	// スコアの更新　newRecordのばあいtrue
 	bool UpdateScore(const ScoreModel& score, const NotesData& notes)
 	{
-		const uint32 musicIndex = notes.getMusic()->getIndex();
-		const uint32 notesIndex = notes.getIndex();
+		const size_t musicIndex = notes.getMusic()->getIndex();
+		const size_t notesIndex = notes.getIndex();
 		NotesData& srcNotes = Game::Musics()[musicIndex][notesIndex];
 
 		ScoreModel srcScore = srcNotes.getScore();
@@ -190,10 +190,10 @@ namespace ct
 			}
 		}
 		if (KeyF10.down()) {
-			auto& selectMusic = *getData().m_nowNotes.getMusic();
+			const MusicData& selectMusic = *getData().m_nowNotes.getMusic();
 			bool isFavorite = !selectMusic.isFavorite();
-			auto index = selectMusic.getIndex();
-			auto& sourceMusic = Game::Musics()[index];
+			size_t index = selectMusic.getIndex();
+			MusicData& sourceMusic = Game::Musics()[index];
 			sourceMusic.saveFavorite(isFavorite);
 			SoundManager::PlaySe(U"desisionSmall");
 		}

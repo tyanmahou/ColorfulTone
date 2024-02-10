@@ -32,7 +32,7 @@ namespace ct
             m_pKeyConfig->changeMode<Type>();
         }
     public:
-        Impl(int fontSize = 25) :
+        Impl(s3d::int32 fontSize = 25) :
             m_timer(0),
             m_font(fontSize)
         {
@@ -250,7 +250,7 @@ namespace ct
             const auto getColor = [=](Select s) {
                 if (m_select == s) {
                     if (m_config.isSetting())
-                        return Color(255, 0, 0, 128 * (static_cast<int>(m_timer / 10.0) % 2));
+                        return Color(255, 0, 0, 128 * (static_cast<s3d::int32>(m_timer / 10.0) % 2));
                     else
                         return Palette::Red;
                 }
@@ -260,19 +260,19 @@ namespace ct
 
             auto& c = Game::Config();
             {
-                constexpr int y = 155;
+                constexpr s3d::int32 y = 155;
                 m_font(GetKeyName(c.m_red1)).drawAt(170, y, getColor(Select::Red1));
                 m_font(GetKeyName(c.m_red2)).drawAt(170, y + 60, getColor(Select::Red2));
                 m_font(GetKeyName(c.m_red3)).drawAt(170, y + 120, getColor(Select::Red3));
             }
             {
-                constexpr int y = 180;
+                constexpr s3d::int32 y = 180;
                 m_font(GetKeyName(c.m_blue1)).drawAt(400, 600 - y, getColor(Select::Blue1));
                 m_font(GetKeyName(c.m_blue2)).drawAt(400, 600 - y + 60, getColor(Select::Blue2));
                 m_font(GetKeyName(c.m_blue3)).drawAt(400, 600 - y + 120, getColor(Select::Blue3));
             }
             {
-                constexpr int y = 155;
+                constexpr s3d::int32 y = 155;
                 m_font(GetKeyName(c.m_yellow1)).drawAt(800 - 170, y, getColor(Select::Yellow1));
                 m_font(GetKeyName(c.m_yellow2)).drawAt(800 - 170, y + 60, getColor(Select::Yellow2));
                 m_font(GetKeyName(c.m_yellow3)).drawAt(800 - 170, y + 120, getColor(Select::Yellow3));
@@ -391,7 +391,7 @@ namespace ct
             const auto getColor = [=](Select s) {
                 if (m_select == s) {
                     if (m_config.isSetting())
-                        return Color(255, 0, 0, 128 * (static_cast<int>(m_timer / 10.0) % 2));
+                        return Color(255, 0, 0, 128 * (static_cast<s3d::int32>(m_timer / 10.0) % 2));
                     else
                         return Palette::Red;
                 }
@@ -412,7 +412,7 @@ namespace ct
                     { U"戻る(大)", U"Escape", GetKeyName(c.m_bigBack), getColor(Select::BigBack) },
 
                 };
-                int i = 0;
+                s3d::int32 i = 0;
                 for (auto&& elm : list) {
                     m_font(std::get<0>(elm)).drawAt(100, 125 + i * 50);
                     m_font(std::get<1>(elm)).drawAt(200, 125 + i * 50);

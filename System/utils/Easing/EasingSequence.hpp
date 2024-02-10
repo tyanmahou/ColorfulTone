@@ -56,7 +56,7 @@ namespace ct
 		const_iterator cbegin() const;
 		const_iterator cend()const;
 
-		void regist(const s3d::String& key, const EasingGroup::Timer& easing, int group = 0);
+		void regist(const s3d::String& key, const EasingGroup::Timer& easing, s3d::int32 group = 0);
 		const EasingGroup& operator [](s3d::int32 group) const;
 		const EasingGroup::Timer& operator [](const s3d::String& key) const;
 	private:

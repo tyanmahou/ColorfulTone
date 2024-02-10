@@ -25,7 +25,7 @@ namespace ct
                                                         
         double m_maxBarCount;						    //小節数
         s3d::uint32 m_totalNotes;						//ノーツ数の合計
-        s3d::int32 m_offsetSample;						//オフセットサンプル数
+        s3d::int64 m_offsetSample;						//オフセットサンプル数
         s3d::Array<std::shared_ptr<Object>> m_objects;	//譜面データ
         s3d::Array<StopRange> m_stopRanges;				//ストップのデータ
         s3d::Array<TempoInfo> m_tempoInfos;				//テンポ配列
@@ -38,7 +38,7 @@ namespace ct
         s3d::Color m_color;								//色
         StarLv m_starLv = StarLv::None;                 // ★レベル
         const MusicData* m_pMusic;					    //曲情報
-        s3d::uint32 m_index;							//ID
+        size_t m_index;							        //ID
     public:
         NotesData() = default;
 
@@ -46,7 +46,7 @@ namespace ct
             const MusicData* const pMusic,
             const s3d::String& dirPath,
             const s3d::String& filePath,
-            s3d::uint32 index
+            size_t index
         );
         void setMusicPtr(const MusicData* const pMusic)
         {
@@ -102,7 +102,7 @@ namespace ct
         {
             return m_pMusic;
         }
-        s3d::uint32 getIndex()const
+        size_t getIndex()const
         {
             return m_index;
         }

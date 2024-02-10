@@ -7,7 +7,7 @@ namespace ct
         double m_maxRadius;
         double m_speed;
         double m_deflection;
-        int m_h;
+        s3d::int32 m_h;
         Vec2 m_pos;
 
         BGLight() :

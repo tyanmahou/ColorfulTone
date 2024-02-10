@@ -3,7 +3,7 @@
 
 namespace
 {
-    Image CreateGrad(int sizeX, int sizeY)
+    Image CreateGrad(s3d::int32 sizeX, s3d::int32 sizeY)
     {
         Image image(sizeX, sizeY);
         const Vec2 center = Vec2(image.width(), image.height()) / 2;
@@ -12,8 +12,8 @@ namespace
 
         Color col;
 
-        for (int y = 0; y < image.height(); ++y) {
-            for (int x = 0; x < image.width(); ++x) {
+        for (s3d::int32 y = 0; y < image.height(); ++y) {
+            for (s3d::int32 x = 0; x < image.width(); ++x) {
                 const Vec2 pos(x, y);
 
                 const double length = (center - pos).length();
@@ -32,7 +32,7 @@ namespace
         return 2 * Math::Pi * Log(freq) / Log(2.0) + 2.42;
     }
 
-    float bufferAverage(const float buffer[], int index, int sample)
+    float bufferAverage(const float buffer[], s3d::int32 index, s3d::int32 sample)
     {
         index = index > sample / 2 ? index - sample / 2 : index;
         float sum = 0;
@@ -56,10 +56,10 @@ namespace ct
             return;
         }
 
-        const auto base = bufferAverage(fft.buffer.data(), static_cast<int>(m_baseHz / 5.38), 10);
+        const auto base = bufferAverage(fft.buffer.data(), static_cast<s3d::int32>(m_baseHz / 5.38), 10);
 
         ScopedRenderStates2D scoped(BlendState::Additive);
-        constexpr int devide = 2;
+        constexpr s3d::int32 devide = 2;
         for (auto i : step(360 / devide)) {
             const double di = i * devide;
 

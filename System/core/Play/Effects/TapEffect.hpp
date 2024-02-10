@@ -14,7 +14,7 @@ namespace ct
 		//エフェクトの中心
 		const double m_angle;
 		//オフセット
-		const int m_type;
+		const s3d::int32 m_type;
 		Flipbook m_sImage;
 	};
 
