@@ -177,6 +177,7 @@ namespace ct
 		ISceneBase(init),
 		m_view(this)
 	{
+		g_loadingRate = 0;
 		getData().m_scrollRate = Game::Config().m_scrollRate;
 
 		m_asyncUpdater.reset(std::bind(&FileLoadScene::updateAsync, this));

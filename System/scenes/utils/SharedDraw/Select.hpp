@@ -42,10 +42,10 @@ namespace ct::SharedDraw
 		}
 		void draw(
 			const s3d::Array<T>& ar,
-			s3d::uint32 select,
+			size_t select,
 			std::function<const s3d::String& (const T&)> strCallBack
 		)const {
-			const s3d::uint32 size = static_cast<s3d::uint32>(ar.size());
+			const size_t size = ar.size();
 			if (size == 0) {
 				return;
 			}
