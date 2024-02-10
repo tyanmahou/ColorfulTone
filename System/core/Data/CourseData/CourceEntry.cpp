@@ -106,23 +106,25 @@ namespace ct
     }
     s3d::Texture CourceEntry::getJucketTexture() const
     {
+        if (!m_canPlay) {
+            return s3d::TextureAsset(U"genre_missing");
+        }
         if (m_kind == CourceEntryKind::Default) {
             const auto& data = std::get<CourceEntryDefault>(m_data);
-            if (m_canPlay) {
-                return Game::Musics()[data.index.first].getTexture();
-            }
+            return Game::Musics()[data.index.first].getTexture();
         }
-        return s3d::Texture();
+        return s3d::TextureAsset(U"genre_random");
     }
     s3d::ColorF CourceEntry::getJucketColor() const
     {
+        if (!m_canPlay) {
+            return Palette::Black;
+        }
         if (m_kind == CourceEntryKind::Default) {
             const auto& data = std::get<CourceEntryDefault>(m_data);
-            if (m_canPlay) {
-                return Game::Musics()[data.index.first][data.index.second].getColor();
-            }
+            return Game::Musics()[data.index.first][data.index.second].getColor();
         }
-        return Palette::Gray;
+        return Palette::Magenta;
     }
     String CourceEntry::getJucketTitle() const
     {

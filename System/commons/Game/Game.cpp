@@ -61,6 +61,8 @@ namespace
 		TextureAsset::Register(U"genre_file", U"Resource/Img/MusicSelect/icon/file.png");
 		TextureAsset::Register(U"genre_all", U"Resource/Img/MusicSelect/icon/red.png");
 		TextureAsset::Register(U"genre_favorite", U"Resource/Img/MusicSelect/icon/favorite.png");
+		TextureAsset::Register(U"genre_random", U"Resource/Img/MusicSelect/icon/random.png");
+		TextureAsset::Register(U"genre_missing", U"Resource/Img/MusicSelect/icon/missing.png");
 
 		// dl_file
 		TextureAsset::Register(U"dl_file", U"Resource/Img/MusicSelect/icon/dl_file.png");
