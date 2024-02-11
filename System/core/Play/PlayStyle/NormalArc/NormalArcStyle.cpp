@@ -11,7 +11,7 @@
 #include <Siv3D.hpp>
 
 #include <core/Play/PlayMusicGame.hpp>
-
+#include <core/Play/ColorFx/ColorFx.hpp>
 namespace
 {
     using namespace ct;
@@ -137,8 +137,9 @@ namespace ct
         font(U"{:.2f}%"_fmt(rate)).draw(500, 300, Palette::Black);
     }
 
-    void NormalArcStyle::drawTapEffect(s3d::int32 type)
+    void NormalArcStyle::drawTapEffect(NoteType type, NoteType baseType)
     {
+        ColorFx::Request(baseType);
         if (type == 9) {
             m_effetcs[0].add<TapEffect>(0, 9);
             m_effetcs[1].add<TapEffect2_2>(GetPos(0, 0, 0, 0));
@@ -164,7 +165,7 @@ namespace ct
         }
     }
 
-    void NormalArcStyle::drawJudgeEffect(const String& str, s3d::int32 type)
+    void NormalArcStyle::drawJudgeEffect(const String& str, NoteType type)
     {
         if (type == 9) {
             m_effetcs[0].add<JudgeEffect>(str, GetPos(3 * Pi / 2, 2400, 1.0f, 1.0));

@@ -6,6 +6,7 @@
 #include <core/Play/PlayBG/PlayBGFactory.hpp>
 #include <core/Play/PlayStyle/PlayStyle.hpp>
 #include <core/Play/Random/RandomNote.hpp>
+#include <core/Play/ColorFx/ColorFx.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -20,14 +21,13 @@ namespace
         { Score::Perfect,U"PERFECT" },
         { Score::Miss, U"MISS" },
     };
-
-    void HandleAddJudgeEffect(Score::Judge judge, NoteType type)
+    void HandleAddJudgeEffect(Score::Judge judge, NoteType type, NoteType baseType)
     {
         const String judgeName = scoreMap.at(judge);
 
         PlayStyle::Instance()->drawJudgeEffect(judgeName, type);
         if (judge != Score::Miss) {
-            PlayStyle::Instance()->drawTapEffect(type);
+            PlayStyle::Instance()->drawTapEffect(type, baseType);
         }
     }
 
@@ -178,14 +178,14 @@ namespace ct
     }
 
 
-    void PlayMusicGame::ScoreUpdate(Score::Judge judge, NoteType type, bool playSe)
+    void PlayMusicGame::ScoreUpdate(Score::Judge judge, NoteType type, NoteType baseType, bool playSe)
     {
         if (!g_pScore) {
             Print << U"Warning: Missing Score";
         }
 
         g_pScore->add(judge);
-        ::HandleAddJudgeEffect(judge, type);
+        ::HandleAddJudgeEffect(judge, type, baseType);
 
         if (playSe && judge != Score::Miss) {
             SoundManager::PlayInGameSe(scoreMap.at(judge));
@@ -193,7 +193,27 @@ namespace ct
     }
     void PlayMusicGame::drawBG(const double drawCount)const
     {
-        m_playBG->apply(drawCount);
+        static RenderTexture rt(s3d::Scene::Size());
+        static PixelShader ps(HLSL(U"Shaders/blend.hlsl"));
+        struct CB
+        {
+            Float4 color;
+            int32 blendMode;
+        };
+        static ConstantBuffer<CB> cb{};
+        cb->blendMode = 0;
+        {
+            ScopedRenderTarget2D srt(rt);
+            rt.clear(ColorF(1, 1));
+            m_playBG->apply(drawCount);
+        }
+        Scene::Rect().draw(ColorF(1,0,0, 1));
+        {
+            cb->color = ColorFx::GetColor().toFloat4();
+            Graphics2D::SetConstantBuffer(ShaderStage::Pixel, 2, cb);
+            ScopedCustomShader2D s(ps);
+            rt.draw();
+        }
 
         const double brightness = static_cast<double>(Game::Config().m_bgBrightness) / 10.0;
         if (brightness < 1) {

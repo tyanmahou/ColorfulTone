@@ -11,7 +11,7 @@
 #include <Siv3D.hpp>
 
 #include <core/Play/PlayMusicGame.hpp>
-
+#include <core/Play/ColorFx/ColorFx.hpp>
 namespace
 {
     using namespace ct;
@@ -110,9 +110,10 @@ void PortraitStyle::drawComboAndRate(s3d::int32 combo, float rate)
     }
 }
 
-void PortraitStyle::drawTapEffect(s3d::int32 type)
+void PortraitStyle::drawTapEffect(NoteType type, NoteType baseType)
 {
-    auto getWidth = [](s3d::int32 type) {
+    ColorFx::Request(baseType);
+    auto getWidth = [](NoteType type) {
         switch (type % 10) {
         case 1:
         case 2:
@@ -140,7 +141,7 @@ void PortraitStyle::drawTapEffect(s3d::int32 type)
     }
 }
 
-void PortraitStyle::drawJudgeEffect(const String& str, s3d::int32 type)
+void PortraitStyle::drawJudgeEffect(const String& str, NoteType type)
 {
     m_effetcs[0].add<JudgeEffect>(str, Vec2{ GetX(type),400 });
 }

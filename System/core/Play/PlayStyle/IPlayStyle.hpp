@@ -1,6 +1,7 @@
 ﻿#pragma once
-#include <Siv3D/Fwd.hpp>
+#include <core/Types.hpp>
 #include <functional>
+#include <Siv3D/Fwd.hpp>
 
 namespace ct
 {
@@ -24,10 +25,10 @@ namespace ct
         {
         };
 
-        virtual void drawTapEffect([[maybe_unused]] s3d::int32 type)
+        virtual void drawTapEffect([[maybe_unused]] NoteType type, [[maybe_unused]] NoteType baseType)
         {
         };
-        virtual void drawJudgeEffect([[maybe_unused]] const s3d::String& str, [[maybe_unused]] s3d::int32 type)
+        virtual void drawJudgeEffect([[maybe_unused]] const s3d::String& str, [[maybe_unused]] NoteType type)
         {
         };
 

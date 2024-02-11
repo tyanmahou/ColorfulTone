@@ -4,6 +4,8 @@
 
 #include <core/Play/PlayStyle/PlayStyle.hpp>
 #include <core/Play/PlayMusicGame.hpp>
+#include <utils/Addon/IntervalCounter.hpp>
+#include <core/Play/ColorFx/ColorFx.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -12,11 +14,11 @@ namespace
     void EffectUpdate(bool red, bool blue, bool yellow)
     {
         if (red)
-            PlayStyle::Instance()->drawTapEffect(1);
+            PlayStyle::Instance()->drawTapEffect(1, 10);
         if (blue)
-            PlayStyle::Instance()->drawTapEffect(2);
+            PlayStyle::Instance()->drawTapEffect(2, 10);
         if (yellow)
-            PlayStyle::Instance()->drawTapEffect(3);
+            PlayStyle::Instance()->drawTapEffect(3, 10);
         SoundManager::PlayInGameSe(U"PERFECT");
     }
 }
@@ -130,6 +132,9 @@ namespace ct
                 this->perfect();
             else
                 this->miss();
+        }
+        if (IntervalCounter::IsUpdatedEvery(3)) {
+            ColorFx::Request(10);
         }
         return false;
     }

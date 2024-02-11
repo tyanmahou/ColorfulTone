@@ -96,7 +96,7 @@ namespace ct
 		}
 
 		void setCourseMode(const Score& score);
-		static void ScoreUpdate(Score::Judge judge, NoteType type, bool playSe = true);
+		static void ScoreUpdate(Score::Judge judge, NoteType type, NoteType baseType, bool playSe = true);
 	private:
 		void drawCurrentBPM()const;
 		void drawAutoPlay(bool preview) const;

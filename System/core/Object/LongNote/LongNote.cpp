@@ -109,9 +109,10 @@ namespace ct
         }
         if (IntervalCounter::IsUpdatedEvery(3)) {
             if (m_type == 17) {
-                PlayStyle::Instance()->drawTapEffect(7);
+                // ↑なんでわけてるのか忘れた
+                PlayStyle::Instance()->drawTapEffect(7, 17);
             } else {
-                PlayStyle::Instance()->drawTapEffect(m_parent->getType());
+                PlayStyle::Instance()->drawTapEffect(m_parent->getType(), m_parent->getType());
             }
         }
         //オートプレイ----------------------

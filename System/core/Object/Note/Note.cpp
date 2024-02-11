@@ -226,7 +226,7 @@ namespace ct
 				: m_isClicked[ColorIndex::Blue] ? 2
 				: 3;
 		}
-		PlayMusicGame::ScoreUpdate(judge, type);
+		PlayMusicGame::ScoreUpdate(judge, type, m_type);
 	}
 
 	//--------------------------------------------------------------------------------

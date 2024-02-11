@@ -33,11 +33,11 @@ namespace ct
             m_style->drawComboAndRate(combo, rate);
         }
 
-        void drawTapEffect(s3d::int32 type)const
+        void drawTapEffect(NoteType type, NoteType baseType)const
         {
-            m_style->drawTapEffect(type);
+            m_style->drawTapEffect(type, baseType);
         }
-        void drawJudgeEffect(const s3d::String& str, s3d::int32 type)const
+        void drawJudgeEffect(const s3d::String& str, NoteType type)const
         {
             m_style->drawJudgeEffect(str, type);
         }
