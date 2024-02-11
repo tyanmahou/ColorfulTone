@@ -226,7 +226,7 @@ namespace ct
 				: m_isClicked[ColorIndex::Blue] ? 2
 				: 3;
 		}
-		PlayMusicGame::ScoreUpdate(judge, type, m_type);
+		PlayMusicGame::ScoreUpdate(judge, type, m_type, true);
 	}
 
 	//--------------------------------------------------------------------------------
@@ -243,12 +243,12 @@ namespace ct
 			judge = Score::Perfect;
 		}
 
-		PlayMusicGame::ScoreUpdate(judge, m_type, false);
+		PlayMusicGame::ScoreUpdate(judge, m_type, m_type, false);
 		/*
 		ロングノーツの場合は、始点が押せなかった時点で終点分も同時にミスとする。
 		*/
 		if (11 <= m_type && m_type <= 17) {
-			PlayMusicGame::ScoreUpdate(judge, m_type, false);
+			PlayMusicGame::ScoreUpdate(judge, m_type, m_type, false);
 		}
 		m_isActive = false;
 	}

@@ -128,6 +128,7 @@ Resource(engine/soundfont/GMGSx.sf2.zstdcmp)
 //////////////////////////////////////////////////////
 
 // Shaders
+Resource(Shaders/blend.ps)
 Resource(Shaders/flipPage.ps)
 Resource(Shaders/mainBg.ps)
 Resource(Shaders/drawCanvas.ps)

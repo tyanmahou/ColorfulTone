@@ -193,27 +193,12 @@ namespace ct
     }
     void PlayMusicGame::drawBG(const double drawCount)const
     {
-        static RenderTexture rt(s3d::Scene::Size());
-        static PixelShader ps(HLSL(U"Shaders/blend.hlsl"));
-        struct CB
-        {
-            Float4 color;
-            int32 blendMode;
-        };
-        static ConstantBuffer<CB> cb{};
-        cb->blendMode = 0;
-        {
-            ScopedRenderTarget2D srt(rt);
-            rt.clear(ColorF(1, 1));
-            m_playBG->apply(drawCount);
-        }
-        Scene::Rect().draw(ColorF(1,0,0, 1));
-        {
-            cb->color = ColorFx::GetColor().toFloat4();
-            Graphics2D::SetConstantBuffer(ShaderStage::Pixel, 2, cb);
-            ScopedCustomShader2D s(ps);
-            rt.draw();
-        }
+        Shaders::Blend()
+            .setColor(ColorFx::GetColor())
+            .apply([&] {
+                m_playBG->apply(drawCount);
+
+            });
 
         const double brightness = static_cast<double>(Game::Config().m_bgBrightness) / 10.0;
         if (brightness < 1) {

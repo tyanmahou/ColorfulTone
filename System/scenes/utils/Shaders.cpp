@@ -1,5 +1,6 @@
 ﻿#include <scenes/utils/Shaders.hpp>
 #include <Siv3D.hpp>
+
 namespace ct
 {
     const MaskShader& Shaders::Mask(size_t useBufferIndex)
@@ -18,11 +19,16 @@ namespace ct
     {
         return Instance()->m_mainBgShader;
     }
+    const BlendShader& Shaders::Blend()
+    {
+        return Instance()->m_blendShader;
+    }
     Shaders::Shaders():
         m_maskShader(Scene::Size(), 4),
         m_flipPageShader(Scene::Size()),
         m_drawCanvasShader(),
-        m_mainBgShader()
+        m_mainBgShader(),
+        m_blendShader(Scene::Size())
     {
     }
 }

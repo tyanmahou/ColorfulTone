@@ -17,30 +17,23 @@ struct PSInput
     float2 uv		: TEXCOORD0;
 };
 
-cbuffer ShaderParam : register(b2)
+cbuffer ShaderParam : register(b1)
 {
     float4 g_color;
 }
 
-float overlay(float dest, float src)
+float softlight(float dest, float src)
 {
-    return dest < 0.5 ? 2.0 * dest * src : 1.0 - 2.0 * (1 - dest) * (1 - src);
-
+    return src < 0.5 ? 2.0 * dest * src + dest * dest * (1.0 - 2.0 * src) : 2.0 * dest * (1 - src) + sqrt(dest) * (2 * src - 1.0);
 }
-float4 overlay(float4 dest, float4 src)
+float4 softlight(float4 dest, float4 src)
 {
     float4 color;
-    color.r = overlay(dest.r, src.r);
-    color.g = overlay(dest.g, src.g);
-    color.b = overlay(dest.b, src.b);
+    color.r = softlight(dest.r, src.r);
+    color.g = softlight(dest.g, src.g);
+    color.b = softlight(dest.b, src.b);
     color.a = 1.0;
     return color;
-}
-// カラー合成
-// LCH空間のほうがそれっぽいが、コスト安なのでHSL空間でやる
-float4 color(float4 dest, float4 src)
-{
-    return overlay(dest, src);
 }
 float4 PS(PSInput input) : SV_TARGET
 {
@@ -48,10 +41,10 @@ float4 PS(PSInput input) : SV_TARGET
     float4 src = g_color;
     src.a = 1.0;
     const float4 dest = g_texture0.Sample(g_sampler0, uv);
-    const float4 ret = color(dest, src);
+    const float4 ret = softlight(dest, src);
     float2 diff = uv - float2(0.5, 0.5);
     diff.x *= 800.0 / 600.0; // aspect
     float factor = length(diff) * 0.8 / 0.5;
-    const float4 result = lerp(ret, src, 0.3);
+    const float4 result = lerp(ret, src, factor * 0.35);
     return lerp(dest, result, g_color.a * pow(factor, 3.2));
 }
