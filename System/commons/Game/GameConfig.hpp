@@ -47,7 +47,9 @@ namespace ct
 
         //背景演出
         BGType m_bgType = BGType::Default;
+        bool m_useBgEffect = true;
         bool m_isSpectrum = true;
+
         PlayStyleType m_styleType = PlayStyleType::Default;
         s3d::int8 m_bgBrightness = 10;
 

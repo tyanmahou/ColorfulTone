@@ -105,6 +105,7 @@ namespace  ct
         SoundManager::SetInGameSeVolume(m_inGameSeVolume);
         SoundManager::SetMasterVolume(m_masterVolume);
 
+        m_useBgEffect = ini.getOr<bool>(U"Config.UseBgEffect", true);
         m_isSpectrum = ini.getOr<bool>(U"Config.IsSpectrum", true);
         m_bgType = static_cast<BGType>(ini.getOr<int32>(U"Config.BGType", 0));
         m_styleType = static_cast<PlayStyleType>(ini.getOr<int32>(U"Config.StyleType", 0));
@@ -159,6 +160,7 @@ namespace  ct
         ini.write(U"Config", U"InGameSEVolume", m_inGameSeVolume);
         ini.write(U"Config", U"MasterVolume", m_masterVolume);
 
+        ini.write(U"Config", U"UseBgEffect", m_useBgEffect);
         ini.write(U"Config", U"IsSpectrum", m_isSpectrum);
 
         ini.write(U"Config", U"BGType", static_cast<int32>(m_bgType));

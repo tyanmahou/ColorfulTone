@@ -230,6 +230,19 @@ namespace ct
                 break;
             }
         }
+
+        //背景エフェクトの初期化
+        void UseBgEffect(Config& config)
+        {
+            config.setName(U"背景エフェクト");
+            config.add(U"ON", []() {Game::Config().m_useBgEffect = true; });
+            config.add(U"OFF", []() {Game::Config().m_useBgEffect = false; });
+
+            if (Game::Config().m_useBgEffect)
+                config.init(U"ON");
+            else
+                config.init(U"OFF");
+        }
         //オーディオスペクトラムの初期化
         void IsSpectrumInit(Config& config)
         {
@@ -251,6 +264,7 @@ namespace ct
                 PlayScale,
                 BGType,
                 BGBrightness,
+                BGEffect,
                 IsSpectrum,
                 Style,
                 TOTAL_CONFIG //コンフィグの数
@@ -264,6 +278,7 @@ namespace ct
                 PlayScaleInit(m_configs[PlayScale]);
                 PlayBGInit(m_configs[BGType]);
                 PlayBGBrightnessInit(m_configs[BGBrightness]);
+                UseBgEffect(m_configs[BGEffect]);
                 IsSpectrumInit(m_configs[IsSpectrum]);
                 PlayStyleInit(m_configs[Style]);
             }

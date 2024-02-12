@@ -193,12 +193,17 @@ namespace ct
     }
     void PlayMusicGame::drawBG(const double drawCount)const
     {
-        Shaders::Blend()
-            .setColor(ColorFx::GetColor())
-            .apply([&] {
-                m_playBG->apply(drawCount);
+        // 背景描画
+        if (Game::Config().m_useBgEffect) {
+            Shaders::Blend()
+                .setColor(ColorFx::GetColor())
+                .apply([&] {
+                    m_playBG->apply(drawCount);
 
-            });
+                 });
+        } else {
+            m_playBG->apply(drawCount);
+        }
 
         const double brightness = static_cast<double>(Game::Config().m_bgBrightness) / 10.0;
         if (brightness < 1) {
