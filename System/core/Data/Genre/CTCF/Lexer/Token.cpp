@@ -49,6 +49,7 @@ namespace ct::ctcf
 			{U"FC",        IdentifierValueKind::FC},
 			{U"AP",        IdentifierValueKind::AP},
 			{U"FAVORITE",  IdentifierValueKind::Favorite},
+			{U"OFFICIAL",  IdentifierValueKind::Official},
 		};
 		if (ids.find(str) != ids.end()) {
 			return ids.at(str);

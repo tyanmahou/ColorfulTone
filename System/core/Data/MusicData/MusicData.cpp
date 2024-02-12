@@ -6,7 +6,8 @@
 namespace ct
 {
 	size_t MusicData::Index;
-	MusicData::MusicData(const String& genreName, const String& dirPath, const String& iniPath)
+	MusicData::MusicData(const String& genreName, const String& dirPath, const String& iniPath, bool isOfficial):
+		m_isOfficial(isOfficial)
 	{
 		m_index = Index;
 		Index++;
@@ -90,6 +91,7 @@ namespace ct
 		m_soundNameID = std::move(other.m_soundNameID);
 		m_lastUpdateAt = other.m_lastUpdateAt;
 		m_isFavorite = other.m_isFavorite;
+		m_isOfficial = other.m_isOfficial;
 		m_index = other.m_index;
 
 		// MusicDataのインスタンスを差し替え

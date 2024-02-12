@@ -26,21 +26,19 @@ namespace ct
 	private:
 		s3d::Array<CourceEntry> m_entries;
 
-		s3d::String m_title;	//コースタイトル
-		s3d::String m_genre;	//ジャンル名
+		s3d::String m_title;	// コースタイトル
+		s3d::String m_genre;	// ジャンル名
 		size_t m_index;	//ID
 		CourseScore m_score;
 
 		s3d::String m_fileName;
+		s3d::Color m_color;		// 色
 
 		bool m_canPlay = true;
 	public:
 		static size_t Index;
-		CourseData(const s3d::String& path)
-		{
-			m_index = Index++;
-			this->load(path);
-		}
+		CourseData(const s3d::String& path);
+
 
 		bool load(const s3d::String& path);
 
@@ -89,6 +87,11 @@ namespace ct
 			m_score = score;
 		}
 
-		s3d::Color getColor() const;
+		s3d::Color getStarColor() const;
+
+		const s3d::Color& getColor() const
+		{
+			return m_color;
+		}
 	};
 }

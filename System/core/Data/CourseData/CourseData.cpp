@@ -3,11 +3,16 @@
 #include <core/Data/Loader/ScoreLoader.hpp>
 #include <commons/Game/Game.hpp>
 #include <Siv3D.hpp>
-
 namespace ct
 {
     size_t CourseData::Index = 0;
 
+    CourseData::CourseData(const s3d::String& path):
+        m_color(s3d::Palette::White)
+    {
+        m_index = Index++;
+        this->load(path);
+    }
     bool CourseData::load(const String& path)
     {
         INI ini(path);
@@ -41,6 +46,10 @@ namespace ct
         }
 
         m_canPlay = m_entries.all([](const CourceEntry& entry) {return entry.canPlay(); });
+
+        if (auto colorHex = ini.getOpt<String>(U"Data.Color")) {
+            m_color = Color(*colorHex);
+        }
         return true;
     }
 
@@ -54,7 +63,7 @@ namespace ct
         return U"UserData/CourseScore/" + m_genre + U"/" + m_fileName + U".bin";
     }
 
-    Color CourseData::getColor() const
+    Color CourseData::getStarColor() const
     {
         if (m_score.special == CourseSpecialResult::AP) {
             return Palette::Red;

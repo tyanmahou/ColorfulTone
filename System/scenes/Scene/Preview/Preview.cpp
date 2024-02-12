@@ -390,7 +390,7 @@ namespace ct
                 if (FileSystem::Extension(elm) == U"ini") {
                     SoundManager::PlaySe(U"desisionSmall");
 
-                    MusicData musicData(genre, *path, elm);
+                    MusicData musicData(genre, *path, elm, false);
                     Array<String> noteLevelNames;
                     for (auto& notes : musicData.getNotesData()) {
                         noteLevelNames.push_back(notes.getLevelName());

@@ -24,6 +24,7 @@ namespace ct::ctcf
 		AP,
 		FC,
 		Favorite,
+		Official,
 	};
 	enum class TokenType : size_t
 	{

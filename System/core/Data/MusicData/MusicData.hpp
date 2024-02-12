@@ -33,11 +33,12 @@ namespace ct
         s3d::String m_soundNameID;	//アセットへのアクセス
         s3d::DateTime m_lastUpdateAt;//更新日時
         bool m_isFavorite = false; // お気に入り
+        bool m_isOfficial = false; // 公式譜面
         size_t m_index;
 
     public:
         MusicData() = default;
-        MusicData(const s3d::String& genreName, const s3d::String& dirPath, const s3d::String& iniPath);
+        MusicData(const s3d::String& genreName, const s3d::String& dirPath, const s3d::String& iniPath, bool isOfficial);
 
         MusicData(const MusicData&) = delete;
         MusicData(MusicData&& other) noexcept;
@@ -87,6 +88,11 @@ namespace ct
         s3d::String getFavoriteFilePath()const;
 
         void saveFavorite(bool isFavorite);
+
+        bool isOfficial() const
+        {
+            return m_isOfficial;
+        }
     private:
         MusicData& operator =(MusicData&& other) noexcept;
     };

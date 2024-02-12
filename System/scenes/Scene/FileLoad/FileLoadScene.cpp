@@ -46,6 +46,8 @@ namespace
 
 			const auto musicPaths = FileSystem::DirectoryContents(gPath, Recursive::No);
 			const auto genreName = FileSystem::BaseName(gPath);
+
+			const bool isOfficial = !U"^\\d{4}_\\d{2}"_re.match(genreName).isEmpty();
 			for (const auto& path : musicPaths) {
 				//各楽曲に入っているアセットのパス取得
 				auto assets = FileSystem::DirectoryContents(path, Recursive::No);
@@ -56,7 +58,7 @@ namespace
 					}
 					if (FileSystem::Extension(elm) == U"ini") {
 						//Println(path);
-						musics.emplace_back(genreName, path, elm);
+						musics.emplace_back(genreName, path, elm, isOfficial);
 						GenreManager::Add(GenreType::Folder, genreName, [genreName](const MusicData& music)->bool {return music.getGenreName() == genreName; });
 						g_loadingRate = curIndex / static_cast<double>(musicSize);
 						break;

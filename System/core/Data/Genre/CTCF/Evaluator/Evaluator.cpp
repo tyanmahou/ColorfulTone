@@ -199,6 +199,9 @@ namespace
             if (kind == IdentifierValueKind::Favorite) {
                 return m_notes.getMusic()->isFavorite();
             }
+            if (kind == IdentifierValueKind::Official) {
+                return m_notes.getMusic()->isOfficial();
+            }
             return false;
         }
         bool evalValue(Value* node)

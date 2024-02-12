@@ -161,8 +161,11 @@ namespace ct
 					.setOffset(offset)
 					.setDrawble([](const CourseData& c, Vec2 pos) {
       					if (c.isClear()) {
-		    				FontAsset(AssetNameView(FontName::SelectMusic))(U"★").drawAt(pos + Vec2{ 37, 30 }, c.getColor());
+		    				FontAsset(AssetNameView(FontName::SelectMusic))(U"★").drawAt(pos + Vec2{ 37, 30 }, c.getStarColor());
 			    		}
+					})
+					.setColorCallBack([](const CourseData& c) {
+						return c.getColor();
 					})
 					.draw(
 						courses,
