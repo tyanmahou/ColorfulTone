@@ -79,7 +79,7 @@ namespace ct
                     playing.getSelectedNotes(),
                     playing.getTrackIndex(),
                     [&](const CourceSelectedNotes& d)->const String& {
-                        if (selectedNotesIndex <= playing.getTrackIndex()) {
+                        if (!d.isSecret || selectedNotesIndex <= playing.getTrackIndex()) {
                             return musics[d.musicIndex()].getMusicName();
                         } else {
                             return randomName;
