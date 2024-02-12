@@ -68,7 +68,7 @@ namespace ct
                 .setLoop(false)
                 .setOffset(-30.0)
                 .setDrawble([&](const CourceSelectedNotes& d, Vec2 pos) {
-                    if (selectedNotesIndex <= playing.getTrackIndex()) {
+                    if (!d.isSecret || selectedNotesIndex <= playing.getTrackIndex()) {
                         musics[d.musicIndex()].getTexture().resized(50, 50).drawAt(pos + Vec2{ 37, 30 });
                     } else {
                         TextureAsset(U"genre_random").resized(50, 50).drawAt(pos + Vec2{ 37, 30 });
