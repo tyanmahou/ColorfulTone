@@ -144,7 +144,7 @@ namespace ct
 				size_t page = m_pScene->entryPage();
 				::DrawCourseMusics(pCourse, page);
 
-				{
+				if (pCourse) {
 					size_t entrySize = pCourse->getEntrySize();
 					size_t pageSize = entrySize == 0 ? 1 : (entrySize - 1) / 4 + 1;
 					if (pageSize > 1) {
