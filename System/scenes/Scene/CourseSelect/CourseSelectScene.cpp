@@ -1,6 +1,7 @@
 ﻿#include <scenes/Scene/CourseSelect/CourseSelectScene.hpp>
 #include <Useful.hpp>
 #include <Siv3D.hpp>
+#include "CourseSelectScene.hpp"
 
 namespace
 {
@@ -70,6 +71,8 @@ namespace ct
 		Array<CourseData> m_courses;
 
 		bool m_isSelectedCourse;
+
+		Stopwatch m_stopwatch;
 	public:
 		void setData(GameData& data)
 		{
@@ -85,6 +88,9 @@ namespace ct
 		}
 		void update()
 		{
+			if (!m_stopwatch.isStarted()) {
+				m_stopwatch.start();
+			}
 			m_prevAction = m_action;
 			// 選択するターゲットの参照
 			auto& target = ::GetSelectTarget(m_action);
@@ -98,6 +104,7 @@ namespace ct
 					--target;
 				}
 				SoundManager::PlaySe(U"select");
+				m_stopwatch.reset();
 			}
 			target = size ? target % size : 0;
 
@@ -108,6 +115,7 @@ namespace ct
 
 					m_action = Action::CourseSelect;
 					SoundManager::PlaySe(U"desisionSmall");
+					m_stopwatch.reset();
 				} else if (m_action == Action::CourseSelect) {
 					if (m_courses[g_selectInfo.course].canPlay()) {
 						m_isSelectedCourse = true;
@@ -159,6 +167,18 @@ namespace ct
 		bool isSelectedCourse()
 		{
 			return m_isSelectedCourse;
+		}
+		size_t entryPage() const
+		{
+			const auto& courses = getCourses();
+			const CourseData* pCourse = courses.size()
+				? &getSelectCourse() : nullptr;
+			if (!pCourse) {
+				return 0;
+			}
+			size_t entrySize = pCourse->getEntrySize();
+			size_t pageSize = entrySize == 0 ? 1 : (entrySize - 1) / 4 + 1;
+			return (m_stopwatch.s64() / 2) % pageSize;
 		}
 	};
 
@@ -256,5 +276,9 @@ namespace ct
 	int32 CourseSelectScene::getMoveSelect() const
 	{
 		return m_pModel->getMoveSelect();
+	}
+	size_t CourseSelectScene::entryPage() const
+	{
+		return m_pModel->entryPage();
 	}
 }

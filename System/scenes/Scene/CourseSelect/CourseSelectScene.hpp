@@ -41,5 +41,7 @@ namespace ct
 		// previous , current
 		std::pair<Action, Action> getChangeAction()const;
 		s3d::int32 getMoveSelect() const;
+
+		size_t entryPage() const;
 	};
 }

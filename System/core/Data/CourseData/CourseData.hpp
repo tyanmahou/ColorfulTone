@@ -53,7 +53,10 @@ namespace ct
 		{
 			return m_entries;
 		}
-
+		size_t getEntrySize() const
+		{
+			return m_entries.size();
+		}
 		const s3d::String& getTitle()const
 		{
 			return m_title;
@@ -92,6 +95,11 @@ namespace ct
 		const s3d::Color& getColor() const
 		{
 			return m_color;
+		}
+
+		const CourceEntry& operator[](size_t index) const
+		{
+			return m_entries[index];
 		}
 	};
 }

@@ -161,6 +161,8 @@ namespace
 		TextureAsset::Register(U"apLogo", U"Resource/Img/Result/ap.png");
 		TextureAsset::Register(U"pass", U"Resource/Img/Result/pass.png");
 		TextureAsset::Register(U"noPass", U"Resource/Img/Result/noPass.png");
+
+		TextureAsset::Register(U"warn_icon", U"⚠️"_emoji);
 	}
 	void LoadSound()
 	{

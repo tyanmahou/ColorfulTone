@@ -51,8 +51,11 @@ namespace
 			);
 		}
 	}
-	void DrawMusicInfo(s3d::int32 y, const CourceEntry& entry)
+	void DrawMusicInfo(size_t index, s3d::int32 y, const CourceEntry& entry)
 	{
+		if (!entry.canPlay()) {
+			RectF(10, static_cast<double>(index * 115 + 95), 400, 110).draw(ColorF(0, 0.1));
+		}
 		DrawMusicInfo(
 			y,
 			entry.getJucketTexture(),
@@ -60,19 +63,23 @@ namespace
 			entry.getJucketTitle(),
 			entry.getJucketDetail()
 		);
+		if (!entry.canPlay()) {
+			TextureAsset(U"warn_icon")
+				.resized(30,30)
+				.draw(Vec2{10, static_cast<double>(index * 115 + 95)});
+		}
 	}
 
-	void DrawCourseMusics(const CourseData* pCourse)
+	void DrawCourseMusics(const CourseData* pCourse, size_t page)
 	{
 		if (!pCourse)
 		{
 			return;
 		}
-		s3d::int32 i = 0;
-		for (const auto& entry : pCourse->getEntries())
-		{
-			::DrawMusicInfo(i * 115 + 90, entry);
-			++i;
+		size_t entrySize = pCourse->getEntrySize();
+		for (size_t i = 0; (i < 4 && page * 4 + i < entrySize); ++i) {
+			size_t entryIndex = page * 4 + i;
+			::DrawMusicInfo(i, static_cast<int32>(i * 115 + 90), (*pCourse)[entryIndex]);
 		}
 	}
 	void DrawTitle(const CourseGenre*const genre)
@@ -134,7 +141,20 @@ namespace ct
 
 			// コース情報表示
 			if (action == Action::CourseSelect) {
-				::DrawCourseMusics(pCourse);
+				size_t page = m_pScene->entryPage();
+				::DrawCourseMusics(pCourse, page);
+
+				{
+					size_t entrySize = pCourse->getEntrySize();
+					size_t pageSize = entrySize == 0 ? 1 : (entrySize - 1) / 4 + 1;
+					if (pageSize > 1) {
+						const FontAsset font16b(FontName::SelectMusic);
+						font16b(U"{}/{}"_fmt(page + 1, pageSize)).draw(
+							Arg::bottomRight = Vec2{400, 550},
+							Palette::Black
+						);
+					}
+				}
 			}
 
 			const s3d::int32 moveSelect = m_pScene->getMoveSelect();
