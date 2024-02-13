@@ -62,24 +62,22 @@ namespace ct
 
             // track
             const auto& musics = Game::Musics();
-            size_t selectedNotesIndex = 0;
             static const String randomName = U"？？？";
             SharedDraw::Select<CourceSelectedNotes>()
                 .setLoop(false)
                 .setOffset(-30.0)
-                .setDrawble([&](const CourceSelectedNotes& d, Vec2 pos) {
-                    if (!d.isSecret || selectedNotesIndex <= playing.getTrackIndex()) {
+                .setDrawble([&](size_t index, const CourceSelectedNotes& d, Vec2 pos) {
+                    if (!d.isSecret || index <= playing.getTrackIndex()) {
                         musics[d.musicIndex()].getTexture().resized(50, 50).drawAt(pos + Vec2{ 37, 30 });
                     } else {
                         TextureAsset(U"genre_random").resized(50, 50).drawAt(pos + Vec2{ 37, 30 });
                     }
-                    ++selectedNotesIndex;
                 })
                 .draw(
                     playing.getSelectedNotes(),
                     playing.getTrackIndex(),
-                    [&](const CourceSelectedNotes& d)->const String& {
-                        if (!d.isSecret || selectedNotesIndex <= playing.getTrackIndex()) {
+                    [&](size_t index, const CourceSelectedNotes& d)->const String& {
+                        if (!d.isSecret || index <= playing.getTrackIndex()) {
                             return musics[d.musicIndex()].getMusicName();
                         } else {
                             return randomName;

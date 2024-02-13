@@ -13,17 +13,23 @@ namespace ct::SharedDraw
 	public:
 		Select() :
 			m_colorCallback([](const T&) {return s3d::Palette::White; }),
-			m_drawable([](const T&, s3d::Vec2) {})
+			m_drawable([](size_t, const T&, s3d::Vec2) {})
 		{}
 		Select& setColorCallBack(std::function<s3d::Color(const T&)> callback)
 		{
 			this->m_colorCallback = std::move(callback);
 			return *this;
 		}
-		Select& setDrawble(std::function<void(const T&, s3d::Vec2 pos)> callback)
+		Select& setDrawble(std::function<void(size_t, const T&, s3d::Vec2 pos)> callback)
 		{
 			this->m_drawable = std::move(callback);
 			return *this;
+		}
+		Select& setDrawble(std::function<void(const T&, s3d::Vec2 pos)> callback)
+		{
+			return setDrawble([f = callback](size_t, const T& elm, s3d::Vec2 pos){
+				return f(elm, pos);
+			});
 		}
 		Select& setWidth(s3d::uint32 width)
 		{
@@ -44,6 +50,16 @@ namespace ct::SharedDraw
 			const s3d::Array<T>& ar,
 			size_t select,
 			std::function<const s3d::String& (const T&)> strCallBack
+		)const
+		{
+			return draw(ar, select, [f = strCallBack](size_t, const T& elm)->const s3d::String& {
+				return f(elm);
+			});
+		}
+		void draw(
+			const s3d::Array<T>& ar,
+			size_t select,
+			std::function<const s3d::String& (size_t, const T&)> strCallBack
 		)const {
 			const size_t size = ar.size();
 			if (size == 0) {
@@ -64,13 +80,13 @@ namespace ct::SharedDraw
 
 				const auto color = m_colorCallback(ar[index]);
 				ContractionDrawbleString(
-					s3d::FontAsset(FontName::SelectMusic)(strCallBack(ar[index])),
+					s3d::FontAsset(FontName::SelectMusic)(strCallBack(index, ar[index])),
 					pos + Vec2{ 80,13 },
 					m_width,
 					color,
 					false
 				);
-				m_drawable(ar[index], pos);
+				m_drawable(index, ar[index], pos);
 			}
 			s3d::TextureAsset(U"levelMask").draw(430, 0, s3d::Palette::Black);
 		}
@@ -78,7 +94,7 @@ namespace ct::SharedDraw
 		double m_offset = 0;
 		s3d::uint32 m_width = 280;
 		std::function<s3d::Color(const T&)> m_colorCallback;
-		std::function<void(const T&, s3d::Vec2 pos)> m_drawable;
+		std::function<void(size_t, const T&, s3d::Vec2 pos)> m_drawable;
 		bool m_isLoop = true;
 	};
 }
