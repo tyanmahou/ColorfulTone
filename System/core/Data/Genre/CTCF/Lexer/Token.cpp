@@ -42,6 +42,7 @@ namespace ct::ctcf
 			{U"LEVEL",     IdentifierValueKind::Level},
 			{U"LEVELNAME", IdentifierValueKind::LevelName},
 			{U"STAR",      IdentifierValueKind::Star},
+			{U"COLOR",     IdentifierValueKind::Color},
 			{U"NOTE",      IdentifierValueKind::Note},
 			{U"TOTALNOTE", IdentifierValueKind::TotalNote},
 			{U"CLEARRATE", IdentifierValueKind::ClearRate},

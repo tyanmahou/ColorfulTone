@@ -53,6 +53,13 @@ namespace
         RETURN_COMPARE(== );
         return false;
     }
+    template<>
+    bool Compare(const Color& a, const Color& b, const String& op)
+    {
+        RETURN_COMPARE(!= );
+        RETURN_COMPARE(== );
+        return false;
+    }
 #undef RETURN_COMPARE
 }
 namespace
@@ -139,6 +146,9 @@ namespace
             }
             if (kind == IdentifierValueKind::Star) {
                 return ::Compare(ToStr(m_notes.getStarLv()), value, op);
+            }
+            if (kind == IdentifierValueKind::Color) {
+                return ::Compare(m_notes.getColor(), Color(value), op);
             }
             if (kind == IdentifierValueKind::Note) {
                 return ::Compare(m_notes.getNotesArtistName(), value, op);

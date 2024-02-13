@@ -17,6 +17,7 @@ namespace ct::ctcf
 		Level,
 		LevelName,
 		Star,
+		Color,
 		Note,
 		TotalNote,
 		ClearRate,
