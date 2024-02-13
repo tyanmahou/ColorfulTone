@@ -107,7 +107,7 @@ namespace
 		case 5:
 		case 15:return ColorF(1.0, 0.5, 0.0, 1.0);
 		case 6:
-		case 16:return s3d::Palette::Magenta;
+		case 16:return ColorF(0.5, 0, 1.0, 1.0);
 		case 9:
 			return s3d::Palette::White;
 		case 10:
