@@ -69,7 +69,7 @@ namespace ct::SharedDraw
 	}
 	void HighSpeedPlay(const HighSpeedDemo& highSpeedDemo, const NotesData& noteData, double scrollRate, bool canDemo)
 	{
-		const MusicData& music = *noteData.getMusic();
+		const MusicData music = noteData.getMusic();
 		double result = noteData.getCurrentBPM() * scrollRate;
 		String tmp = U"{}*{:.1f}={:.1f}"_fmt(static_cast<int32>(noteData.getCurrentBPM()), scrollRate, result);
 

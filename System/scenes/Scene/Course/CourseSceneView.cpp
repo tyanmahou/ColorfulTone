@@ -35,7 +35,7 @@ namespace ct
 
             const auto& playing = m_pScene->getPlay();
             const auto& notes = playing.getCurrentNotes();
-            const auto& music = *notes.getMusic();
+            const MusicData music =notes.getMusic();
 
             const auto animeTime = m_timers[U"label"].easeOut();
             // ジャケ絵描画

@@ -55,7 +55,7 @@ namespace ct
 
     void PlayMusicGame::init(const NotesData& notes, const double scrollRate)
     {
-        const MusicData& nowMusic = *notes.getMusic();
+        const MusicData nowMusic = notes.getMusic();
         m_soundNameID = nowMusic.getSoundNameID();
 
         AudioAsset::Load(m_soundNameID);
@@ -124,7 +124,7 @@ namespace ct
 
         m_totalNotes = m_notesData.getTotalNotes();
 
-        const MusicData& nowMusic = *notes.getMusic();
+        const MusicData nowMusic = notes.getMusic();
         m_title = nowMusic.getArtistName() + U" - " + nowMusic.getMusicName();
 
         this->reflesh();
@@ -274,7 +274,7 @@ namespace ct
 
         m_notesData.previewDraw(drawCount, m_scrollRate);
 
-        PutText(Format(U"length:", m_notesData.getMusic()->getLengthSec()), Arg::topLeft = Vec2{ 20, Scene::Height() - 120 });
+        PutText(Format(U"length:", m_notesData.getMusic().getLengthSec()), Arg::topLeft = Vec2{ 20, Scene::Height() - 120 });
         PutText(Format(U"total:", m_totalNotes), Arg::topLeft = Vec2{ 20, Scene::Height() - 140 });
 
         this->drawMusicTitle(true);

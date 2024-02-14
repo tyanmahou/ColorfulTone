@@ -40,7 +40,7 @@ namespace ct
 		}
 		void init()
 		{
-			m_audition.request(*nowNotes().getMusic());
+			m_audition.request(nowNotes().getMusic());
 		}
 		void update()
 		{
@@ -173,11 +173,11 @@ namespace ct
 	void CourseScene::drawFadeOut(double t) const
 	{
 		if (getData().m_toScene == SceneName::Main) {
-			const auto& pMusic = getData().m_course.getCurrentNotes().getMusic();
+			const MusicData music = getData().m_course.getCurrentNotes().getMusic();
 			this->draw();
 			FadeOut(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
 			const double size = EaseOut(Easing::Cubic, 300.0, 350.0, t);
-			pMusic->getTexture().resized(size, size).drawAt(400, 300, ColorF(1, t * t));
+			music.getTexture().resized(size, size).drawAt(400, 300, ColorF(1, t * t));
 		} else {
 			this->draw();
 		}

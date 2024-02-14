@@ -121,7 +121,7 @@ namespace
 		constexpr Vec2 jacketPos{ 170, 200 };
 		RectF(jacketPos - jacketSize / 2.0, jacketSize).draw(notes.getColor());
 
-		const MusicData& music = *notes.getMusic();
+		const MusicData music = notes.getMusic();
 		music
 			.getTexture()
 			.resized(jacketSize)

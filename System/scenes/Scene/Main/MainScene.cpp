@@ -95,7 +95,7 @@ namespace ct
 	{
 		draw();
 		FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
-		getData().m_nowNotes.getMusic()->getTexture().resized(350, 350).drawAt(400, 300, ColorF(1, 1 - t));
+		getData().m_nowNotes.getMusic().getTexture().resized(350, 350).drawAt(400, 300, ColorF(1, 1 - t));
 	}
 
 	//--------------------------------------------------------------------------------

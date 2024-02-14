@@ -10,7 +10,7 @@ namespace
 	// スコアの更新　newRecordのばあいtrue
 	bool UpdateScore(const ScoreModel& score, const NotesData& notes)
 	{
-		const size_t musicIndex = notes.getMusic()->getIndex();
+		const size_t musicIndex = notes.getMusic().getIndex();
 		const size_t notesIndex = notes.getIndex();
 		NotesData& srcNotes = Game::Musics()[musicIndex][notesIndex];
 
@@ -143,7 +143,7 @@ namespace ct
 					+ ::GetCourseStateTweetText(course.getState()) + U"/"
 					+ U"{:.2f}%達成\n#ColorfulTone"_fmt(course.getScore().totalRate);
 			}
-			const auto& music = *m_data->m_nowNotes.getMusic();
+			const MusicData music = m_data->m_nowNotes.getMusic();
 			return
 				music.getMusicName() + U"/"
 				+ m_data->m_nowNotes.getLevelName() + U"で"
@@ -190,7 +190,7 @@ namespace ct
 			}
 		}
 		if (KeyF10.down()) {
-			const MusicData& selectMusic = *getData().m_nowNotes.getMusic();
+			const MusicData selectMusic = getData().m_nowNotes.getMusic();
 			bool isFavorite = !selectMusic.isFavorite();
 			size_t index = selectMusic.getIndex();
 			MusicData& sourceMusic = Game::Musics()[index];

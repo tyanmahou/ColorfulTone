@@ -400,7 +400,7 @@ namespace ct
             const double size = EaseOut(Easing::Cubic, 300.0, 350.0, t);
             getData().m_nowNotes
                 .getMusic()
-                ->getTexture()
+                .getTexture()
                 .resized(size, size)
                 .drawAt(400, 300, ColorF(1, t * t));
         } else {

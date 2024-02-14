@@ -110,32 +110,32 @@ namespace
         {
             auto kind = lValue->kind;
             const auto& value = rValue->token.token;
-            const auto* const music = m_notes.getMusic();
+            const MusicData music = m_notes.getMusic();
             if (kind == IdentifierValueKind::Bpm) {
                 auto bpm = Parse<double>(value);
-                return ::Compare(music->getMinBPM(), bpm, op) || ::Compare(music->getMaxBPM(), bpm, op);
+                return ::Compare(music.getMinBPM(), bpm, op) || ::Compare(music.getMaxBPM(), bpm, op);
             }
             if (kind == IdentifierValueKind::MinBpm) {
-                return ::Compare(music->getMinBPM(), Parse<double>(value), op);
+                return ::Compare(music.getMinBPM(), Parse<double>(value), op);
             }
             if (kind == IdentifierValueKind::MaxBpm) {
-                return ::Compare(music->getMaxBPM(), Parse<double>(value), op);
+                return ::Compare(music.getMaxBPM(), Parse<double>(value), op);
             }
             if (kind == IdentifierValueKind::Artist) {
-                return ::Compare(music->getArtistName(), value, op);
+                return ::Compare(music.getArtistName(), value, op);
             }
             if (kind == IdentifierValueKind::Authority) {
-                const auto& authority = music->getAuthority();
+                const auto& authority = music.getAuthority();
                 if (authority.has_value() && !authority.value().isEmpty()) {
                     return ::Compare(authority.value(), value, op);
                 }
                 return false;
             }
             if (kind == IdentifierValueKind::MusicName) {
-                return ::Compare(music->getMusicName(), value, op);
+                return ::Compare(music.getMusicName(), value, op);
             }
             if (kind == IdentifierValueKind::Genre) {
-                return ::Compare(music->getGenreName(), value, op);
+                return ::Compare(music.getGenreName(), value, op);
             }
             if (kind == IdentifierValueKind::Level) {
                 int32 level = Parse<int32>(value);
@@ -207,10 +207,10 @@ namespace
                 return m_notes.getScore().specialResult >= s;
             }
             if (kind == IdentifierValueKind::Favorite) {
-                return m_notes.getMusic()->isFavorite();
+                return m_notes.getMusic().isFavorite();
             }
             if (kind == IdentifierValueKind::Official) {
-                return m_notes.getMusic()->isOfficial();
+                return m_notes.getMusic().isOfficial();
             }
             return false;
         }

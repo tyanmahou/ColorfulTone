@@ -9,7 +9,7 @@ namespace ct
     }
     void BlurBG::init(const NotesData& notes)
     {
-        TextureRegion region = notes.getMusic()->getTexture().resized(800, 800);
+        TextureRegion region = notes.getMusic().getTexture().resized(800, 800);
 
         RenderTexture irt{ 800, 800 };
         RenderTexture rt{ 800, 800 };

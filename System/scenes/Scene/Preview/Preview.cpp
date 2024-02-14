@@ -159,7 +159,7 @@ namespace ct
             } else {
                 SharedDraw::HighSpeed(
                     m_highSpeed,
-                    *m_musicData,
+                    m_musicData,
                     m_scrollRate
                 );
             }
@@ -229,7 +229,7 @@ namespace ct
             // 再生ボタン
             {
                 auto region = button
-                    .setEnabled(enabled && !m_config->isActive() && m_musicData.has_value())
+                    .setEnabled(enabled && !m_config->isActive() && m_musicData)
                     .setMouseOver(std::bind(detailDrawer, m_isPlay ? U"一時停止 (F2)" : U"再生 (F2)"))
                     .setOnClick(std::bind(&Impl::playOrStop, this, false))
                     .setTextColor(m_isPlay ? Palette::Red : Palette::Lightgreen, textColorDisabled)
@@ -240,7 +240,7 @@ namespace ct
             // 停止ボタン
             {
                 auto region = button
-                    .setEnabled(enabled && !m_config->isActive() && m_musicData.has_value())
+                    .setEnabled(enabled && !m_config->isActive() && m_musicData)
                     .setMouseOver(std::bind(detailDrawer, U"停止 (Esc)"))
                     .setOnClick(std::bind(&Impl::stop, this))
                     .setTextColor(textColor, textColorDisabled)
@@ -262,7 +262,7 @@ namespace ct
                     m_musicGame.getSound().seekSamples(static_cast<size_t>(v * m_musicGame.getSound().samples()));
                  };
                 auto region = GUI::Slider{ d }
-                    .setEnabled(enabled && !m_config->isActive() && m_musicData.has_value())
+                    .setEnabled(enabled && !m_config->isActive() && m_musicData)
                     .setWidth(353)
                     .setHeight(height)
                     .setBaseColor(highlightColor)
@@ -398,14 +398,14 @@ namespace ct
                     if (noteLevelNames.isEmpty()) {
                         return false;
                     }
-                    m_musicData.emplace(std::move(musicData));
+                    m_musicData = musicData;
                     m_notesList = std::move(noteLevelNames);
                     if (m_notesList.isEmpty()) {
                         m_selectNotesIndex = 0;
                     } else {
                         m_selectNotesIndex %= m_notesList.size();
                     }
-                    m_musicGame.init((*m_musicData)[m_selectNotesIndex], m_scrollRate);
+                    m_musicGame.init(m_musicData[m_selectNotesIndex], m_scrollRate);
                     break;
                 }
             }
@@ -436,7 +436,7 @@ namespace ct
             }
             SoundManager::PlaySe(U"desisionSmall");
             const auto pos = m_musicGame.getSound().posSample();
-            m_musicGame.reflesh((*m_musicData)[index]);
+            m_musicGame.reflesh(m_musicData[index]);
             m_musicGame.getSound().seekSamples(s3d::Clamp<size_t>(static_cast<size_t>(pos), 0, m_musicGame.getSound().samples()));
             return true;
         }
@@ -447,7 +447,7 @@ namespace ct
 
         Optional<FilePath> m_dirPath;
         PlayMusicGame m_musicGame;
-        Optional<MusicData> m_musicData;
+        MusicData m_musicData;
 
         HighSpeedDemo m_highSpeed;
         double m_scrollRate = 1.0;

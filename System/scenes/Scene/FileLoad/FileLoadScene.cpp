@@ -29,7 +29,7 @@ namespace
 
 		GenreManager::Clear();
 		const auto genrePaths = FileSystem::DirectoryContents(U"Music", Recursive::No);
-		MusicData::Index = 0;
+		MusicData::ResetIndex();
 
 		size_t musicSize = 0;
 		for (const auto& gPath : genrePaths) {

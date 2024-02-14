@@ -10,6 +10,7 @@
 namespace ct
 {
     class MusicData;
+    class MusicHandle;
 
 
     class NotesData
@@ -37,21 +38,17 @@ namespace ct
 
         s3d::Color m_color;								//色
         StarLv m_starLv = StarLv::None;                 // ★レベル
-        const MusicData* m_pMusic;					    //曲情報
+        std::weak_ptr<MusicHandle> m_pMusic;					    //曲情報
         size_t m_index;							        //ID
     public:
         NotesData() = default;
 
         NotesData(
-            const MusicData* const pMusic,
+            const std::shared_ptr<MusicHandle>& pMusic,
             const s3d::String& dirPath,
             const s3d::String& filePath,
             size_t index
         );
-        void setMusicPtr(const MusicData* const pMusic)
-        {
-            m_pMusic = pMusic;
-        }
         void init();
         void synchroCount(const s3d::Audio& sound, double& nowCount);	//カウントと同期
 
@@ -98,10 +95,8 @@ namespace ct
         }
         StarLv getStarLv() const { return m_starLv; }
 
-        const MusicData* const getMusic()const
-        {
-            return m_pMusic;
-        }
+        MusicData getMusic() const;
+
         size_t getIndex()const
         {
             return m_index;

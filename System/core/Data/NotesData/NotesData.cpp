@@ -8,6 +8,7 @@
 #include <core/Data/Loader/ScoreLoader.hpp>
 #include <queue>
 #include <Siv3D.hpp>
+#include <Useful.hpp>
 
 namespace
 {
@@ -40,7 +41,7 @@ namespace
 namespace ct
 {
     NotesData::NotesData(
-        const MusicData* const pMusic,
+        const std::shared_ptr<MusicHandle>& pMusic,
         const String& dirPath,
         const String& filePath,
         size_t index
@@ -132,11 +133,17 @@ namespace ct
         return m_lvName + U" Lv" + this->getLevelWithStar();
     }
 
+    MusicData NotesData::getMusic() const
+    {
+        return MusicData(m_pMusic.lock());
+    }
+
     String NotesData::getScorePath()const
     {
+        auto music = getMusic();
         return U"UserData/Score/"
-            + m_pMusic->getGenreName() + U"/"
-            + m_pMusic->getFileName() + U"/"
+            + music.getGenreName() + U"/"
+            + music.getFileName() + U"/"
             + this->m_fileName
             + U".bin";
     }

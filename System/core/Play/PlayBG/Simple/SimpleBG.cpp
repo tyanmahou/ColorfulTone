@@ -9,7 +9,7 @@ namespace ct
     }
     void SimpleBG::init(const NotesData& notes)
     {
-        m_texture = notes.getMusic()->getTexture().resized(800, 800);
+        m_texture = notes.getMusic().getTexture().resized(800, 800);
     }
 
     void SimpleBG::apply([[maybe_unused]] double count) const
