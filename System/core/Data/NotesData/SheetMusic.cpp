@@ -203,11 +203,11 @@ namespace ct
                     }
                 } else if (head == U"#BPM") {
                     const BPMType nextBPM = csv.getOr<BPMType>(i, 1, 120);
-                    m_tempos.back().bpm = bpmHistory.back().bpm = nextBPM;
+                    nowBPM = m_tempos.back().bpm = bpmHistory.back().bpm = nextBPM;
                 } else if (head == U"#OFFSET") {
                     m_offsetSample = csv.getOr<int64>(i, 1, 0);
                     totalSample += m_offsetSample;
-                    nowBPM = m_tempos.back().bpmOffsetSample = bpmHistory.back().changeSample = totalSample;
+                    m_tempos.back().bpmOffsetSample = bpmHistory.back().changeSample = totalSample;
                 } else if (head == U"#SCROLL") {
                     size_t col = csv.columns(i);
                     for (size_t j = 1; j < col; ++j) {
