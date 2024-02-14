@@ -73,6 +73,7 @@ namespace ct
                         TextureAsset(U"genre_random").resized(50, 50).drawAt(pos + Vec2{ 37, 30 });
                     }
                 })
+                .setColorCallBack([&](const CourceSelectedNotes& d) {return musics[d.musicIndex()][d.notesIndex()].getColor(); })
                 .draw(
                     playing.getSelectedNotes(),
                     playing.getTrackIndex(),
