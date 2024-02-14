@@ -131,11 +131,6 @@ namespace ct
 		{
 			return m_isFavorite;
 		}
-
-		void setFavorite(bool isFavorite)
-		{
-			m_isFavorite = isFavorite;
-		}
 		String getFavoriteFilePath() const
 		{
 			return U"UserData/Favorite/"
@@ -272,10 +267,6 @@ namespace ct
 	bool MusicData::isFavorite() const
 	{
 		return m_handle->isFavorite();
-	}
-	void MusicData::setFavorite(bool isFavorite)
-	{
-		return m_handle->setFavorite(isFavorite);;
 	}
 	s3d::String MusicData::getFavoriteFilePath() const
 	{

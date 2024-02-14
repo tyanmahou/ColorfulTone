@@ -127,11 +127,6 @@ namespace ct
         bool isFavorite()const;
 
         /// <summary>
-        /// お気に入り設定
-        /// </summary>
-        void setFavorite(bool isFavorite);
-
-        /// <summary>
         /// お気に入りパス
         /// </summary>
         /// <returns></returns>

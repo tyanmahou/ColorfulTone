@@ -251,11 +251,7 @@ namespace ct
                 if (KeyF10.down()) {
                     MusicData& selectMusic = m_musics[g_selectInfo.music];
                     bool isFavorite = !selectMusic.isFavorite();
-                    selectMusic.setFavorite(isFavorite);
-
-                    size_t index = selectMusic.getIndex();
-                    MusicData& sourceMusic = Game::Musics()[index];
-                    sourceMusic.saveFavorite(isFavorite);
+                    selectMusic.saveFavorite(isFavorite);
                     SoundManager::PlaySe(U"desisionSmall");
                 }
             }
