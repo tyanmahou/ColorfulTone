@@ -79,7 +79,7 @@ namespace ct
         const s3d::String& getNotesArtistName()const { return  m_notesArtistName; }
         const s3d::String& getFileName()const { return m_fileName; }
         const ScoreModel& getScore()const { return m_score; }
-        void setScore(const ScoreModel newScore)
+        void setScore(const ScoreModel& newScore)
         {
             m_score = newScore;
         }

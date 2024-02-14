@@ -79,6 +79,26 @@ namespace ct
 
         bool load(s3d::FilePathView path);
 
+        const s3d::Array<NoteEntity>& getNotes() const
+        {
+            return m_notes;
+        }
+        const s3d::Array<BarEntity>& getBars() const
+        {
+            return m_bars;
+        }
+        const s3d::Array<LyricEntity>& getLyrics() const
+        {
+            return m_lyrics;
+        }
+        const s3d::Array<StopEntity>& getStops() const
+        {
+            return m_stops;
+        }
+        const s3d::Array<TempoEntity>& getTempos() const
+        {
+            return m_tempos;
+        }
     private:
         //** メタ情報 **//
         s3d::int32 m_lv;                  // レベル
