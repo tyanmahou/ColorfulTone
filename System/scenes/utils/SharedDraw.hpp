@@ -10,6 +10,8 @@ namespace ct
 {
     class HighSpeedDemo;
     class MusicData;
+    class NotesData;
+    class PlayNotesData;
 }
 namespace ct::SharedDraw
 {
@@ -36,7 +38,7 @@ namespace ct::SharedDraw
     /// <param name="music"></param>
     /// <param name="scrollRate"></param>
     /// <param name="canDemo"></param>
-    void HighSpeedPlay(const HighSpeedDemo& highSpeedDemo, const NotesData& noteData, double scrollRate, bool canDemo = true);
+    void HighSpeedPlay(const HighSpeedDemo& highSpeedDemo, const PlayNotesData& noteData, double scrollRate, bool canDemo = true);
 
     /// <summary>
     /// 長押しバック

@@ -51,7 +51,14 @@ namespace
 }
 namespace ct
 {
-    SheetMusic::SheetMusic()
+    SheetMusic::SheetMusic():
+        m_offsetSample(0),
+        m_lv(0),
+        m_lvName(U"None"),
+        m_notesArtistName(U"None"),
+        m_totalNotes(0),
+        m_lastBarCount(0),
+        m_color(Palette::White)
     {
     }
     SheetMusic::SheetMusic(s3d::FilePathView path) :
@@ -303,8 +310,19 @@ namespace ct
             barSpeed.pop();
         }
 
-        m_maxBarCount = nowBarCount + GetJudgeOffset(nowBarCount, stopInfos) + RESOLUTION * 2;
+        m_lastBarCount = nowBarCount + GetJudgeOffset(nowBarCount, stopInfos) + RESOLUTION * 2;
 
         return true;
+    }
+    s3d::String ct::SheetMusic::getLevelWithStar() const
+    {
+        if (m_starLv != StarLv::None) {
+            return ToStr(m_starLv) + U":" + Format(m_lv);
+        }
+        return Format(m_lv);
+    }
+    s3d::String SheetMusic::getLevelNameAndLevel() const
+    {
+        return m_lvName + U" Lv" + this->getLevelWithStar();
     }
 }

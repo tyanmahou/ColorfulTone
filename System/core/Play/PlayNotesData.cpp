@@ -16,6 +16,13 @@ namespace ct
     {
 
     }
+    PlayNotesData::PlayNotesData(const NotesData& notesData):
+        m_notesData(notesData)
+    {
+        this->init(m_notesData.getSheet());
+    }
+
+
     void PlayNotesData::init(const SheetMusic& sheet)
     {
         //ノーツの記憶(ロング用)
@@ -76,7 +83,6 @@ namespace ct
                 note->addStopCount(s);
             }
         }
-
         this->reset();
     }
     void PlayNotesData::reset()
@@ -101,7 +107,7 @@ namespace ct
 
         nowCount = NotesData::RESOLUTION * b.bar + NotesData::RESOLUTION * (b.f);
     }
-    void PlayNotesData::update(const s3d::Audio& sound, double& nowCount, Score& score)
+    void PlayNotesData::update(const s3d::Audio& sound, double& nowCount, [[maybe_unused]]Score& score)
     {
         this->synchroCount(sound, nowCount);
 
@@ -139,5 +145,26 @@ namespace ct
 
         }
         return drawCount;
+    }
+
+    BPMType PlayNotesData::getCurrentBPM() const
+    {
+        return m_tempoInfos[m_currentBarIndex].m_bar.getBPM();
+    }
+    double PlayNotesData::getLastBarCount() const
+    {
+        return m_notesData.getSheet().getLastBarCount();
+    }
+    const s3d::Color& PlayNotesData::getColor() const
+    {
+        return m_notesData.getColor();
+    }
+    s3d::String PlayNotesData::getLevelNameAndLevel() const
+    {
+        return m_notesData.getLevelWithStar() + U" - " + m_notesData.getLevelName();
+    }
+    MusicData PlayNotesData::getMusic() const
+    {
+        return m_notesData.getMusic();
     }
 }

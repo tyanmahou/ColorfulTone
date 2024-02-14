@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <core/Data/NotesData/NotesData.hpp>
+#include <core/SoundBeat.hpp>
 #include <Siv3D/Texture.hpp>
 #include <Siv3D/DateTime.hpp>
 #include <Siv3D/AudioAsset.hpp>

@@ -77,6 +77,8 @@ namespace ct
         }(sound);
         AudioAsset::Release(m_soundNameID);// .release();
 
+        m_soundLengthSec = wav.lengthSample() / 44100.0;
+
         //新wavのサンプリング数
         const size_t beginOffset = 44100 * 4;
         const size_t endOffset = 44100 * 4;
@@ -107,27 +109,32 @@ namespace ct
         // ランダム初期化
         RandomNote::Init(Game::Config().m_random);
         //譜面の初期化
-        m_notesData.init();
+        m_playNotesData.reset();
 
         m_score = Score();
 
         m_playBG = PlayBGFactory::CreateBG(Game::Config().m_bgType);
         PlayStyle::Instance()->setStyle(Game::Config().m_styleType);
 
-        m_playBG->init(m_notesData);
+        m_playBG->init(m_playNotesData.getNotesData());
     }
 
     void PlayMusicGame::reflesh(const NotesData& notes)
     {
         //譜面取得
-        m_notesData = notes;
+        m_playNotesData = notes;
 
-        m_totalNotes = m_notesData.getTotalNotes();
+        m_totalNotes = notes.getTotalNotes();
 
         const MusicData nowMusic = notes.getMusic();
         m_title = nowMusic.getArtistName() + U" - " + nowMusic.getMusicName();
 
         this->reflesh();
+    }
+
+    void PlayMusicGame::synchroCount(double& count)
+    {
+        m_playNotesData.synchroCount(m_sound, count);
     }
 
     void PlayMusicGame::update()
@@ -146,7 +153,7 @@ namespace ct
             InputManager::Update();
         }
         //ノーツ処理
-        m_notesData.update(m_sound, m_nowCount, m_score);
+        m_playNotesData.update(m_sound, m_nowCount, m_score);
 
         //フルコン演出
         if (m_score.m_maxCombo >= m_totalNotes && !m_FCAPAnime.isStart()) {
@@ -159,7 +166,7 @@ namespace ct
 
         //曲の終わり
         if (!m_isFinish) {
-            if (static_cast<uint32>(sample) >= m_finishSample || m_nowCount >= m_notesData.getMaxBarCount()) {
+            if (static_cast<uint32>(sample) >= m_finishSample || m_nowCount >= m_playNotesData.getLastBarCount()) {
                 m_isFinish = true;
                 this->stopSound();
             }
@@ -167,6 +174,19 @@ namespace ct
         if ((m_isCourse || Game::Config().m_isLifeDead) && m_score.m_life <= 0) {
             m_isFinish = true;
         }
+    }
+
+    void PlayMusicGame::notesInit()
+    {
+        //譜面の初期化
+        m_playNotesData.reset();
+        m_score = Score();
+        m_isFinish = false;
+    }
+
+    const PlayNotesData& PlayMusicGame::getPlayNotesData() const
+    {
+        return m_playNotesData;
     }
 
     void PlayMusicGame::setCourseMode(const Score& score)
@@ -221,7 +241,7 @@ namespace ct
     void PlayMusicGame::draw(bool preview) const
     {
 
-        const double drawCount = m_notesData.calDrawCount(m_nowCount);
+        const double drawCount = m_playNotesData.calDrawCount(m_nowCount);
 
         /**********/
         //背景
@@ -234,7 +254,7 @@ namespace ct
 
             constexpr s3d::int32 w = 80;
             ColorF c1 = ColorF(0, 0, 0, 0.6 * (1 - f));
-            ColorF c2 = m_notesData.getColor();
+            ColorF c2 = m_playNotesData.getColor();
             c2.setA(0);
 
             Rect(0, 0, w, 600).draw({ c1,c2, c2,c1 });
@@ -247,7 +267,7 @@ namespace ct
 
         PlayStyle::Instance()->drawFrame(redInput, blueInput, yellowInput,
             [&] {
-                m_notesData.draw(drawCount, m_scrollRate);
+                m_playNotesData.draw(drawCount, m_scrollRate);
             });
 
         this->uiDraw(preview);
@@ -265,16 +285,16 @@ namespace ct
 
     void PlayMusicGame::previewDraw(const double count) const
     {
-        const double drawCount = m_notesData.calDrawCount(count);
+        const double drawCount = m_playNotesData.calDrawCount(count);
 
         //背景
         this->drawBG(drawCount);
 
         PlayStyle::Instance()->drawJudgeLine();
 
-        m_notesData.previewDraw(drawCount, m_scrollRate);
+        m_playNotesData.previewDraw(drawCount, m_scrollRate);
 
-        PutText(Format(U"length:", m_notesData.getMusic().getLengthSec()), Arg::topLeft = Vec2{ 20, Scene::Height() - 120 });
+        PutText(Format(U"length:", m_soundLengthSec), Arg::topLeft = Vec2{ 20, Scene::Height() - 120 });
         PutText(Format(U"total:", m_totalNotes), Arg::topLeft = Vec2{ 20, Scene::Height() - 140 });
 
         this->drawMusicTitle(true);
@@ -285,7 +305,7 @@ namespace ct
 
     void PlayMusicGame::drawCurrentBPM() const
     {
-        BPMType bpm = m_notesData.getCurrentBPM();
+        BPMType bpm = m_playNotesData.getCurrentBPM();
         s3d::String tmp = U"{:.2f}*{:.1f}={:.2f}"_fmt(bpm, m_scrollRate, bpm * static_cast<double>(m_scrollRate));
         PutText(tmp, { 20, Scene::Height() - 100 });
     }
@@ -340,7 +360,7 @@ namespace ct
 
     void PlayMusicGame::drawNotesLevel() const
     {
-        const auto levelName = m_notesData.getLevelWithStar() + U" - " + m_notesData.getLevelName();
+        const auto levelName = m_playNotesData.getLevelNameAndLevel();
         PutText(levelName, Vec2{ Scene::Center().x, Scene::Height() - 20 });
     }
 
@@ -357,8 +377,8 @@ namespace ct
         const auto rate = m_isCourse || Game::Config().m_isLifeDead || rateType == IndicateRate::Life ?
             ResultRank::CalcLifeRate(m_score) :
             rateType == IndicateRate::Down ?
-            ResultRank::CalcClearRateAsDownType(m_score, m_notesData.getTotalNotes()) :
-            ResultRank::CalcClearRate(m_score, m_notesData.getTotalNotes());
+            ResultRank::CalcClearRateAsDownType(m_score, m_totalNotes) :
+            ResultRank::CalcClearRate(m_score, m_totalNotes);
 
         PlayStyle::Instance()->drawComboAndRate(m_score.m_currentCombo, rate);
 

@@ -79,6 +79,26 @@ namespace ct
 
         bool load(s3d::FilePathView path);
 
+        s3d::int32 getLv() const
+        {
+            return m_lv;
+        }
+        const s3d::String& getLevelName() const
+        {
+            return m_lvName;
+        }
+        StarLv getStarLv() const
+        {
+            return m_starLv;
+        }
+        const s3d::String& getNotesArtistName() const
+        {
+            return m_notesArtistName;
+        }
+        const s3d::Color& getColor() const
+        {
+            return m_color;
+        }
         const s3d::Array<NoteEntity>& getNotes() const
         {
             return m_notes;
@@ -99,6 +119,17 @@ namespace ct
         {
             return m_tempos;
         }
+        double  getLastBarCount() const
+        {
+            return m_lastBarCount;
+        }
+        s3d::uint32 getTotalNotes() const
+        {
+            return m_totalNotes;
+        }
+        s3d::String getLevelWithStar() const;
+
+        s3d::String getLevelNameAndLevel() const;
     private:
         //** メタ情報 **//
         s3d::int32 m_lv;                  // レベル
@@ -108,7 +139,7 @@ namespace ct
 
         s3d::Color m_color;               // 譜面カラー
 
-        double m_maxBarCount;			  // 小節のカウント数
+        double m_lastBarCount;			  // 小節のカウント数
         s3d::uint32 m_totalNotes;		  // ノーツ数の合計
         //** 楽譜情報 **//
         s3d::int64 m_offsetSample;		  // オフセットサンプル数

@@ -2,6 +2,7 @@
 #include <scenes/utils/Util.hpp>
 #include <core/Play/HighSpeed/HighSpeedDemo.hpp>
 #include <core/Data/MusicData/MusicData.hpp>
+#include <core/Play/PlayNotesData.hpp>
 #include <commons/FontName.hpp>
 #include <Siv3D.hpp>
 
@@ -67,7 +68,7 @@ namespace ct::SharedDraw
 			highSpeedDemo.draw(music.getMinSoundBeat(), music.getMaxSoundBeat(), scrollRate);
 		}
 	}
-	void HighSpeedPlay(const HighSpeedDemo& highSpeedDemo, const NotesData& noteData, double scrollRate, bool canDemo)
+	void HighSpeedPlay(const HighSpeedDemo& highSpeedDemo, const PlayNotesData& noteData, double scrollRate, bool canDemo)
 	{
 		const MusicData music = noteData.getMusic();
 		double result = noteData.getCurrentBPM() * scrollRate;

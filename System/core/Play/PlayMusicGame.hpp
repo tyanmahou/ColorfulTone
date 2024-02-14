@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <core/Data/NotesData/NotesData.hpp>
+#include <core/Play/PlayNotesData.hpp>
 #include <core/Data/Score/Score.hpp>
 #include <utils/Audio/AudioSpectrum.hpp>
 #include <core/Anime/ApAnime/ApAnime.hpp>
@@ -13,34 +14,6 @@ namespace ct
 
     class PlayMusicGame
     {
-	private:
-
-		bool m_isCourse = false;
-
-		s3d::Audio m_sound;				//再生する曲
-		s3d::String m_soundNameID;
-		NotesData m_notesData;		//譜面情報
-
-		ApAnime m_FCAPAnime;	//フルコンAPアニメ
-		Score m_score;
-
-		double m_scrollRate;			//スクロールレート
-		s3d::uint32 m_totalNotes;			//トータルノーツ数
-		s3d::uint64 m_finishSample;		//終了のサンプリング位置
-
-
-		s3d::String m_title;				//アーティスト名＋曲名
-
-		//演奏開始と終了
-		bool m_isStart;
-		bool m_isFinish;
-		s3d::EasingAB<s3d::int32> m_barXEasing;
-
-		double m_nowCount;			//現在のカウント
-
-		std::shared_ptr<IPlayBG> m_playBG;
-		AudioSpectrum m_spectrum;
-		void uiDraw(bool preview)const;
 	public:
 		PlayMusicGame();
 
@@ -50,10 +23,8 @@ namespace ct
 		void reflesh();
 		void reflesh(const NotesData& notes);
 
-		void synchroCount(double& count)
-		{
-			m_notesData.synchroCount(m_sound, count);
-		}
+		void synchroCount(double& count);
+
 		void update();
 
 		void drawBG(const double drawCount)const;
@@ -82,26 +53,46 @@ namespace ct
 		{
 			m_scrollRate = rate;
 		}
-		void notesInit()
-		{
-			//譜面の初期化
-			m_notesData.init();
-			m_score = Score();
-			m_isFinish = false;
-		}
+		void notesInit();
 
-		inline const NotesData& getNotesData()const
-		{
-			return m_notesData;
-		}
+		const PlayNotesData& getPlayNotesData() const;
 
 		void setCourseMode(const Score& score);
 		static void ScoreUpdate(Score::Judge judge, NoteType type, NoteType baseType, bool playSe);
 	private:
+		void uiDraw(bool preview)const;
 		void drawCurrentBPM()const;
 		void drawAutoPlay(bool preview) const;
 		void drawRandomMode() const;
 		void drawMusicTitle(bool preview) const;
 		void drawNotesLevel() const;
+
+	private:
+		PlayNotesData m_playNotesData;
+
+		bool m_isCourse = false;
+
+		s3d::Audio m_sound;				// 再生する曲
+		s3d::String m_soundNameID;
+
+		ApAnime m_FCAPAnime;	        // フルコンAPアニメ
+		Score m_score;
+
+		double m_scrollRate;			// スクロールレート
+		s3d::uint32 m_totalNotes;		// トータルノーツ数
+		s3d::uint64 m_finishSample;		// 終了のサンプリング位置
+		double m_soundLengthSec = 0;    // 曲の長さ
+
+		s3d::String m_title;			// アーティスト名＋曲名
+
+		//演奏開始と終了
+		bool m_isStart;
+		bool m_isFinish;
+		s3d::EasingAB<s3d::int32> m_barXEasing;
+
+		double m_nowCount;			    // 現在のカウント
+
+		std::shared_ptr<IPlayBG> m_playBG;
+		AudioSpectrum m_spectrum;
     };
 }

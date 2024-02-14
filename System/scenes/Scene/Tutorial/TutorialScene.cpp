@@ -64,7 +64,7 @@ namespace ct
 
 		SharedDraw::HighSpeedPlay(
 			m_highSpeed,
-			m_musicGame.getNotesData(),
+			m_musicGame.getPlayNotesData(),
 			getData().m_scrollRate
 		);
 	}

@@ -153,7 +153,7 @@ namespace ct
             if (m_isPlay) {
                 SharedDraw::HighSpeedPlay(
                     m_highSpeed,
-                    m_musicGame.getNotesData(),
+                    m_musicGame.getPlayNotesData(),
                     m_scrollRate
                 );
             } else {
