@@ -207,7 +207,7 @@ namespace ct
                 } else if (head == U"#OFFSET") {
                     m_offsetSample = csv.getOr<int64>(i, 1, 0);
                     totalSample += m_offsetSample;
-                    m_tempos.back().bpmOffsetSample = bpmHistory.back().changeSample = totalSample;
+                    nowBPM = m_tempos.back().bpmOffsetSample = bpmHistory.back().changeSample = totalSample;
                 } else if (head == U"#SCROLL") {
                     size_t col = csv.columns(i);
                     for (size_t j = 1; j < col; ++j) {
