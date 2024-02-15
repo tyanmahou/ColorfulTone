@@ -48,7 +48,8 @@ namespace ct
     {
         // 1秒間隔のスコア 反比例
         constexpr double BaseNoteRating = 1000.0;
-        constexpr int64 NoteDiffThreshold = 44100 * 2;
+        constexpr int64 NoteDiffThresholdMin = static_cast<int64>(44100.0 * 0.05);
+        constexpr int64 NoteDiffThresholdMax = 44100 * 2;
         // 終端は除く
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
             return e.type != 8;
@@ -72,7 +73,7 @@ namespace ct
                 }
             }
 
-            int64 diff = Min(notes[index].sample - notes[index - 1].sample, NoteDiffThreshold);
+            int64 diff = Clamp(notes[index].sample - notes[index - 1].sample, NoteDiffThresholdMin, NoteDiffThresholdMax);
             if (diff == 0) {
                 // 無いはずだけどDiffがないなら
                 notesRating.push_back(BaseNoteRating * TypeFactor(notes[index]));
@@ -93,16 +94,32 @@ namespace ct
         }
         // 局所レーティング
         double localAveRating = 0;
-        if (notesRating.size() <= 16) {
+        if (notesRating.size() <= 0) {
             localAveRating = aveRating;
+        } else if (notesRating.size() <= 16) {
+            Array<double> midMemo = notesRating;
+            midMemo.sort();
+            // 中央値と平均値のミックス
+            size_t half = notesRating.size() / 2;
+            const double mid = notesRating.size() % 2 == 1 ?
+                midMemo[half] :
+                (midMemo[half] + midMemo[half - 1]) / 2.0
+                ;
+            localAveRating = aveRating * 0.1 + mid * 0.9;
         } else {
             for (size_t index = 0; index < notesRating.size() - 16; ++index) {
                 double sum = 0;
+                Array<double> midMemo;
                 for (size_t index2 = 0; index2 < 16; ++index2) {
                     sum += notesRating[index + index2];
+                    midMemo.push_back(notesRating[index + index2]);
                 }
-                if (double ave = sum / 16.0; ave > localAveRating) {
-                    localAveRating = ave;
+                midMemo.sort();
+                // 中央値と平均値のミックス
+                const double ave = sum / 16.0;
+                const double mid = (midMemo[8] + midMemo[7]) / 2.0;
+                if (double localAve = ave * 0.1 + mid * 0.9; localAve > localAveRating) {
+                    localAveRating = localAve;
                 }
             }
         }
@@ -131,7 +148,7 @@ namespace ct
         constexpr double BaseSpeedRating = 50.0;
         double speedRating = 0;
         for (double diff : speedDiff) {
-            speedRating += (diff - 1.0) * BaseSpeedRating;
+            speedRating += Min(diff - 1.0, 5.0) * BaseSpeedRating;
         }
 
         const double ratingResult = notesRatingResult + stopRating + bpmRating + speedRating;
