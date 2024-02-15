@@ -1,0 +1,690 @@
+﻿Path, Lv, Rating, Ave, LocalAve
+============================
+2016_01Summer/Alraune/easy.csv, 4, 3268, 2456, 3616
+2016_01Summer/Alraune/hard.csv, 12, 16187, 7577, 19877
+2016_01Summer/Alraune/normal.csv, 6, 5657, 4290, 6242
+2016_01Summer/Chemical Drink/easy.csv, 2, 1731, 1236, 1943
+2016_01Summer/Chemical Drink/hard.csv, 9, 10352, 5842, 12285
+2016_01Summer/Chemical Drink/normal.csv, 4, 2851, 2206, 3128
+2016_01Summer/Chip Adventures/easy.csv, 2, 1425, 1028, 1595
+2016_01Summer/Chip Adventures/hard.csv, 7, 7282, 5281, 8140
+2016_01Summer/Chip Adventures/normal.csv, 6, 5481, 4096, 6074
+2016_01Summer/DirectW PoPP/easy.csv, 10, 3857, 2835, 4295
+2016_01Summer/DirectW PoPP/hard.csv, 15, 23720, 11983, 28750
+2016_01Summer/DirectW PoPP/normal.csv, 12, 6890, 5273, 7583
+2016_01Summer/HaPiKoA/easy.csv, 3, 2168, 1680, 2377
+2016_01Summer/HaPiKoA/hard.csv, 7, 9658, 5577, 11408
+2016_01Summer/HaPiKoA/normal.csv, 4, 4240, 2878, 4824
+2016_01Summer/highway/easy.csv, 3, 1610, 1413, 1695
+2016_01Summer/highway/hard.csv, 9, 7906, 5079, 9118
+2016_01Summer/highway/normal.csv, 6, 3718, 3404, 3853
+2016_01Summer/IABAY/easy.csv, 4, 3030, 2224, 3375
+2016_01Summer/IABAY/hard.csv, 9, 8044, 5814, 9000
+2016_01Summer/IABAY/normal.csv, 8, 7938, 5459, 9000
+2016_01Summer/MADiX PANIC/easy.csv, 5, 5168, 3811, 5750
+2016_01Summer/MADiX PANIC/hard.csv, 11, 13583, 7942, 16000
+2016_01Summer/MADiX PANIC/normal.csv, 6, 5224, 3995, 5750
+2016_01Summer/Primitive Spread/Easy.csv, 2, 1042, 946, 1083
+2016_01Summer/Primitive Spread/Hard+.csv, 13, 15445, 9483, 18001
+2016_01Summer/Primitive Spread/Hard.csv, 7, 10163, 4319, 12667
+2016_01Summer/Primitive Spread/Normal.csv, 5, 4879, 3237, 5583
+2016_01Summer/SULTRY GUY/Easy.csv, 2, 2194, 1756, 2382
+2016_01Summer/SULTRY GUY/Hard+.csv, 13, 19670, 10767, 23485
+2016_01Summer/SULTRY GUY/Hard.csv, 9, 7905, 6622, 8454
+2016_01Summer/SULTRY GUY/Normal.csv, 5, 4401, 2878, 5053
+2016_01Summer/The Beginning of Autumn/easy.csv, 1, 969, 852, 1020
+2016_01Summer/The Beginning of Autumn/hard+.csv, 11, 8555, 6699, 9350
+2016_01Summer/The Beginning of Autumn/hard.csv, 7, 5225, 4129, 5695
+2016_01Summer/The Beginning of Autumn/normal.csv, 4, 2282, 1823, 2479
+2016_01Summer/The Hounds of Tindalos/Hounds.csv, 11, 9661, 6926, 10834
+2016_01Summer/The Splendid World!!!!/easy.csv, 3, 1742, 1488, 1851
+2016_01Summer/The Splendid World!!!!/hard.csv, 8, 7972, 4717, 9368
+2016_01Summer/The Splendid World!!!!/normal.csv, 6, 3587, 2999, 3840
+2016_01Summer/The tiny star/Easy.csv, 3, 2523, 1770, 2846
+2016_01Summer/The tiny star/Hard.csv, 9, 6679, 5082, 7363
+2016_01Summer/The tiny star/Normal.csv, 6, 5766, 3683, 6658
+2016_01Summer/XRT/Easy.csv, 4, 4016, 2888, 4500
+2016_01Summer/XRT/hard.csv, 11, 17230, 8212, 21094
+2016_01Summer/XRT/Normal.csv, 7, 8609, 5071, 10125
+2016_01Summer/きのこ 伸びる ドラムンきのこ/Easy.csv, 4, 3769, 2282, 4406
+2016_01Summer/きのこ 伸びる ドラムンきのこ/Hard.csv, 8, 8906, 5188, 10500
+2016_01Summer/きのこ 伸びる ドラムンきのこ/Normal.csv, 6, 7769, 3804, 9469
+2016_01Summer/ガイトウ/easy.csv, 3, 1691, 1415, 1810
+2016_01Summer/ガイトウ/hard.csv, 7, 6807, 4941, 7607
+2016_01Summer/ガイトウ/normal.csv, 4, 3186, 2700, 3394
+2016_01Summer/キラメキ★ガールズ/another.csv, 10, 8805, 6416, 9828
+2016_01Summer/キラメキ★ガールズ/easy.csv, 1, 1315, 965, 1465
+2016_01Summer/キラメキ★ガールズ/hard.csv, 7, 7630, 5108, 8710
+2016_01Summer/キラメキ★ガールズ/normal.csv, 3, 3010, 2208, 3353
+2016_01Summer/スターリー スプラッシュ クリスタル/another.csv, 13, 11840, 8356, 13333
+2016_01Summer/スターリー スプラッシュ クリスタル/easy.csv, 2, 1213, 932, 1333
+2016_01Summer/スターリー スプラッシュ クリスタル/hard.csv, 8, 12132, 5283, 15067
+2016_01Summer/スターリー スプラッシュ クリスタル/normal.csv, 4, 2695, 2079, 2958
+2016_01Summer/ソノ光、鈍サヲ強サニ変エ/Easy.csv, 1, 940, 838, 984
+2016_01Summer/ソノ光、鈍サヲ強サニ変エ/Hard.csv, 11, 10849, 8162, 12000
+2016_01Summer/ソノ光、鈍サヲ強サニ変エ/Normal.csv, 8, 6585, 5326, 7125
+2016_01Summer/ハイパーダーク/easy.csv, 3, 2188, 1571, 2452
+2016_01Summer/ハイパーダーク/hard+.csv, 10, 11278, 6618, 13275
+2016_01Summer/ハイパーダーク/hard.csv, 7, 9705, 5248, 11616
+2016_01Summer/ハイパーダーク/normal.csv, 4, 3992, 2983, 4425
+2016_01Summer/プラヌラ スキフラ/another.csv, 12, 10011, 7840, 10942
+2016_01Summer/プラヌラ スキフラ/easy.csv, 3, 1454, 1212, 1557
+2016_01Summer/プラヌラ スキフラ/hard.csv, 8, 8425, 5713, 9587
+2016_01Summer/プラヌラ スキフラ/normal.csv, 5, 3260, 2660, 3517
+2016_01Summer/夕部屋/BackSounds.csv, 5, 5513, 3554, 6353
+2016_01Summer/夕部屋/Merody.csv, 5, 4093, 3026, 4550
+2016_01Summer/宙　～ソラ～/Easy.csv, 1, 728, 671, 753
+2016_01Summer/宙　～ソラ～/Hard.csv, 4, 4848, 3000, 5640
+2016_01Summer/宙　～ソラ～/Normal.csv, 3, 1710, 1329, 1873
+2017_01Spring/Academia/easy.csv, 3, 4224, 2880, 4800
+2017_01Spring/Academia/hard+.csv, 11, 10742, 8624, 11650
+2017_01Spring/Academia/hard.csv, 7, 6829, 5382, 7450
+2017_01Spring/Academia/normal.csv, 5, 5920, 4334, 6599
+2017_01Spring/Access & Connect/easy.csv, 2, 1957, 1600, 2109
+2017_01Spring/Access & Connect/hard+.csv, 12, 9531, 7464, 10417
+2017_01Spring/Access & Connect/hard.csv, 8, 9612, 6440, 10971
+2017_01Spring/Access & Connect/normal.csv, 5, 6135, 4438, 6862
+2017_01Spring/Chip Memories/easy.csv, 3, 1922, 1595, 2062
+2017_01Spring/Chip Memories/hard+.csv, 9, 10590, 6133, 12500
+2017_01Spring/Chip Memories/hard.csv, 7, 7581, 5017, 8680
+2017_01Spring/Chip Memories/normal.csv, 6, 4573, 3211, 5156
+2017_01Spring/ClockPoPP/easy.csv, 6, 4068, 3387, 4359
+2017_01Spring/ClockPoPP/hard.csv, 15, 13932, 9690, 15750
+2017_01Spring/ClockPoPP/normal.csv, 14, 11222, 8005, 12600
+2017_01Spring/Colorful41/easy.csv, 2, 1823, 1455, 1981
+2017_01Spring/Colorful41/hard+.csv, 41, 22459, 9063, 28200
+2017_01Spring/Colorful41/hard.csv, 14, 9813, 7199, 10933
+2017_01Spring/Colorful41/normal.csv, 10, 8871, 6810, 9755
+2017_01Spring/DobSchop/easy.csv, 3, 2168, 1755, 2344
+2017_01Spring/DobSchop/hard.csv, 7, 5503, 4031, 6133
+2017_01Spring/DobSchop/hardstop.csv, 9, 7457, 5621, 8244
+2017_01Spring/DobSchop/normal.csv, 4, 4590, 3049, 5250
+2017_01Spring/End of the Crusade†/easy.csv, 3, 3548, 2360, 4057
+2017_01Spring/End of the Crusade†/hard+.csv, 9, 6667, 4883, 7431
+2017_01Spring/End of the Crusade†/hard.csv, 8, 6666, 4883, 7431
+2017_01Spring/End of the Crusade†/normal.csv, 5, 6149, 4551, 6833
+2017_01Spring/Enjoy your Teatime/easy.csv, 2, 3640, 2429, 4159
+2017_01Spring/Enjoy your Teatime/hard+.csv, 10, 8170, 6257, 8990
+2017_01Spring/Enjoy your Teatime/hard.csv, 8, 7899, 5352, 8990
+2017_01Spring/Enjoy your Teatime/normal.csv, 4, 5361, 3704, 6071
+2017_01Spring/Era/easy.csv, 3, 6921, 4039, 8156
+2017_01Spring/Era/hard.csv, 11, 13114, 8712, 15000
+2017_01Spring/Era/normal.csv, 6, 10823, 6619, 12625
+2017_01Spring/Marten Site/easy.csv, 5, 4756, 2747, 5617
+2017_01Spring/Marten Site/hard+.csv, 13, 12520, 8958, 14047
+2017_01Spring/Marten Site/hard.csv, 12, 11915, 8846, 13230
+2017_01Spring/Marten Site/normal.csv, 9, 10908, 5489, 13230
+2017_01Spring/Midnight Party/easy.csv, 4, 4672, 2712, 5512
+2017_01Spring/Midnight Party/hard.csv, 11, 10967, 7628, 12399
+2017_01Spring/Midnight Party/normal.csv, 6, 8543, 4856, 10123
+2017_01Spring/Mirror Mirage/back.csv, 14, 6711, 5620, 7179
+2017_01Spring/Mirror Mirage/hard.csv, 8, 6711, 5620, 7179
+2017_01Spring/Mirror Mirage/mirror.csv, 14, 6711, 5620, 7179
+2017_01Spring/MUTANTE/easy.csv, 5, 4429, 3193, 4958
+2017_01Spring/MUTANTE/hard.csv, 12, 16365, 9084, 19486
+2017_01Spring/MUTANTE/normal.csv, 7, 5753, 4204, 6417
+2017_01Spring/New Sky/easy.csv, 4, 4075, 3085, 4500
+2017_01Spring/New Sky/hard.csv, 11, 11690, 7466, 13500
+2017_01Spring/New Sky/normal.csv, 8, 7266, 5407, 8063
+2017_01Spring/OMG poizone/easy.csv, 5, 4551, 3184, 5138
+2017_01Spring/OMG poizone/hard.csv, 12, 16219, 10314, 18750
+2017_01Spring/OMG poizone/normal.csv, 7, 9831, 4771, 12000
+2017_01Spring/OtomeFantasia/easy.csv, 1, 1135, 879, 1244
+2017_01Spring/OtomeFantasia/hard.csv, 5, 4864, 3350, 5513
+2017_01Spring/OtomeFantasia/normal.csv, 3, 3439, 2530, 3828
+2017_01Spring/OtomeFantasia/Wonderland.csv, 10, 9165, 6731, 10208
+2017_01Spring/SAKANA/easy.csv, 3, 3086, 2348, 3402
+2017_01Spring/SAKANA/hard.csv, 9, 8858, 6059, 10058
+2017_01Spring/SAKANA/normal.csv, 5, 4773, 3830, 5177
+2017_01Spring/StarLand/easy.csv, 3, 1689, 1430, 1800
+2017_01Spring/StarLand/hoshikes.csv, 10, 9148, 6762, 10170
+2017_01Spring/StarLand/normal.csv, 5, 4796, 3388, 5400
+2017_01Spring/StarLight/easy.csv, 2, 1834, 1201, 2106
+2017_01Spring/StarLight/hoshikes.csv, 9, 7021, 5669, 7600
+2017_01Spring/StarLight/normal.csv, 5, 4204, 3225, 4623
+2017_01Spring/Teretere/easy.csv, 2, 1808, 1482, 1948
+2017_01Spring/Teretere/hard.csv, 10, 9837, 7584, 10802
+2017_01Spring/Teretere/normal.csv, 5, 6250, 4389, 7048
+2017_01Spring/WAV虎PoPP/easy.csv, 10, 18572, 7460, 23334
+2017_01Spring/WAV虎PoPP/hard.csv, 15, 27652, 18590, 31536
+2017_01Spring/WAV虎PoPP/normal.csv, 12, 22823, 13820, 26682
+2017_01Spring/WhiteDragoon/easy.csv, 4, 3632, 2853, 3966
+2017_01Spring/WhiteDragoon/hard.csv, 10, 11126, 7064, 12867
+2017_01Spring/WhiteDragoon/normal.csv, 6, 7008, 4127, 8243
+2017_01Spring/ハルノカケラ/easy.csv, 2, 2354, 1545, 2701
+2017_01Spring/ハルノカケラ/hard+.csv, 11, 10496, 7245, 11890
+2017_01Spring/ハルノカケラ/hard.csv, 8, 8958, 4991, 10657
+2017_01Spring/ハルノカケラ/normal.csv, 5, 4782, 3592, 5292
+2017_01Spring/冬将軍再到来/easy.csv, 3, 3808, 2515, 4362
+2017_01Spring/冬将軍再到来/hard.csv, 11, 18164, 9307, 21960
+2017_01Spring/冬将軍再到来/normal.csv, 5, 5787, 3925, 6585
+2017_01Spring/煉堕/easy.csv, 3, 3014, 2260, 3338
+2017_01Spring/煉堕/fallenAngel.csv, 14, 15764, 9282, 18542
+2017_01Spring/煉堕/hard.csv, 10, 11243, 7712, 12757
+2017_01Spring/煉堕/normal.csv, 6, 6297, 4896, 6898
+2017_01Spring/静動/easy.csv, 3, 3766, 1781, 4617
+2017_01Spring/静動/hard.csv, 11, 11318, 7346, 13021
+2017_01Spring/静動/normal.csv, 6, 6363, 4347, 7227
+2017_02Summer/Absolute-0-/easy.csv, 4, 3856, 2634, 4380
+2017_02Summer/Absolute-0-/hard.csv, 8, 9967, 5735, 11781
+2017_02Summer/Absolute-0-/normal.csv, 6, 6052, 3805, 7015
+2017_02Summer/Beyond the Past/easy.csv, 4, 4248, 3091, 4745
+2017_02Summer/Beyond the Past/hard.csv, 12, 14393, 10448, 16083
+2017_02Summer/Beyond the Past/normal.csv, 8, 9167, 6162, 10454
+2017_02Summer/Chip Braves/easy.csv, 3, 3363, 2128, 3892
+2017_02Summer/Chip Braves/full.csv, 9, 8857, 5856, 10143
+2017_02Summer/Chip Braves/hard.csv, 9, 8804, 5680, 10143
+2017_02Summer/Chip Braves/normal.csv, 6, 5555, 4211, 6130
+2017_02Summer/Chip Treasures/easy.csv, 2, 2758, 1373, 3351
+2017_02Summer/Chip Treasures/hard+.csv, 11, 12064, 6964, 14250
+2017_02Summer/Chip Treasures/hard.csv, 10, 9274, 5839, 10746
+2017_02Summer/Chip Treasures/normal.csv, 6, 7058, 4271, 8252
+2017_02Summer/Close My Mind/easy.csv, 1, 1082, 867, 1174
+2017_02Summer/Close My Mind/hard+.csv, 12, 15755, 9992, 18225
+2017_02Summer/Close My Mind/hard.csv, 9, 9577, 6723, 10800
+2017_02Summer/Close My Mind/normal.csv, 5, 8970, 4701, 10800
+2017_02Summer/CWBL PoPP/easy.csv, 4, 2500, 2500, 2500
+2017_02Summer/CWBL PoPP/hard.csv, 14, 2500, 2500, 2500
+2017_02Summer/CWBL PoPP/normal.csv, 12, 2500, 2500, 2500
+2017_02Summer/Don't impress!/easy.csv, 7, 6304, 4681, 7000
+2017_02Summer/Don't impress!/hard.csv, 13, 13455, 8488, 15583
+2017_02Summer/Don't impress!/normal.csv, 11, 13394, 8286, 15583
+2017_02Summer/E.F.B.E/easy.csv, 6, 12057, 6695, 14356
+2017_02Summer/E.F.B.E/hard.csv, 12, 14665, 8943, 17117
+2017_02Summer/E.F.B.E/normal.csv, 9, 13696, 7751, 16245
+2017_02Summer/Enjoy the Summer/easy.csv, 4, 3190, 2764, 3372
+2017_02Summer/Enjoy the Summer/fever.csv, 11, 20892, 8561, 26177
+2017_02Summer/Enjoy the Summer/hard.csv, 10, 11703, 6683, 13854
+2017_02Summer/Enjoy the Summer/normal.csv, 7, 7937, 4763, 9297
+2017_02Summer/Erinnerung/easy.csv, 2, 2074, 1517, 2313
+2017_02Summer/Erinnerung/hard+.csv, 9, 10691, 7461, 12075
+2017_02Summer/Erinnerung/hard.csv, 7, 7262, 5044, 8213
+2017_02Summer/Erinnerung/normal.csv, 5, 4320, 3201, 4800
+2017_02Summer/MEGALOPOLICE/easy.csv, 2, 2991, 1927, 3448
+2017_02Summer/MEGALOPOLICE/hard.csv, 11, 11805, 7850, 13500
+2017_02Summer/MEGALOPOLICE/normal.csv, 6, 7652, 4578, 8969
+2017_02Summer/One PoPP/easy.csv, 7, 7931, 4910, 9225
+2017_02Summer/One PoPP/hard.csv, 15, 19516, 13090, 22270
+2017_02Summer/One PoPP/normal.csv, 11, 11507, 6856, 13500
+2017_02Summer/StarShooting/easy.csv, 3, 3064, 2343, 3373
+2017_02Summer/StarShooting/hard.csv, 11, 8295, 6370, 9120
+2017_02Summer/StarShooting/normal.csv, 7, 5767, 4446, 6333
+2017_02Summer/SUN DA BA RUN DA/Hard(arisan).csv, 12, 11057, 8337, 12222
+2017_02Summer/SUN DA BA RUN DA/Hard(mahou).csv, 11, 9149, 7318, 9933
+2017_02Summer/SUN DA BA RUN DA/Normal.csv, 6, 6290, 4634, 7000
+2017_02Summer/Tropic/easy.csv, 2, 2297, 1250, 2745
+2017_02Summer/Tropic/hard.csv, 9, 8965, 6276, 10117
+2017_02Summer/Tropic/normal.csv, 5, 6164, 3191, 7438
+2017_02Summer/Unknown Adventure/easy.csv, 4, 4885, 3091, 5654
+2017_02Summer/Unknown Adventure/hard.csv, 10, 12310, 7046, 14567
+2017_02Summer/Unknown Adventure/normal.csv, 8, 9816, 5887, 11500
+2017_02Summer/グリード/easy.csv, 3, 3727, 2231, 4368
+2017_02Summer/グリード/hard.csv, 12, 11884, 9037, 13105
+2017_02Summer/グリード/normal.csv, 9, 7641, 6049, 8323
+2017_02Summer/サンバリアーナ サンバリアーノ/easy.csv, 2, 1964, 1358, 2224
+2017_02Summer/サンバリアーナ サンバリアーノ/hard.csv, 7, 8133, 5287, 9353
+2017_02Summer/サンバリアーナ サンバリアーノ/normal.csv, 4, 3362, 2258, 3835
+2017_02Summer/ディフィシェント トーン/easy.csv, 2, 2206, 1751, 2401
+2017_02Summer/ディフィシェント トーン/hard+.csv, 11, 12266, 8929, 13696
+2017_02Summer/ディフィシェント トーン/hard.csv, 8, 8994, 5927, 10308
+2017_02Summer/ディフィシェント トーン/normal.csv, 5, 3758, 2856, 4145
+2017_02Summer/微睡の中へ/easy.csv, 1, 956, 852, 1001
+2017_02Summer/微睡の中へ/hard.csv, 5, 3478, 2722, 3803
+2017_02Summer/微睡の中へ/normal.csv, 3, 2461, 2125, 2605
+2017_02Summer/涙の顔のち虹の橋/easy.csv, 2, 3750, 2431, 4315
+2017_02Summer/涙の顔のち虹の橋/hard.csv, 9, 10824, 6125, 12838
+2017_02Summer/涙の顔のち虹の橋/normal.csv, 5, 5259, 4020, 5790
+2017_02Summer/白薔薇/easy.csv, 2, 1480, 1243, 1581
+2017_02Summer/白薔薇/hard.csv, 7, 7851, 5478, 8869
+2017_02Summer/白薔薇/normal.csv, 4, 2610, 2220, 2778
+2017_02Summer/蕾/easy.csv, 2, 2579, 1572, 3010
+2017_02Summer/蕾/hard.csv, 8, 8292, 5287, 9580
+2017_02Summer/蕾/normal.csv, 5, 6539, 3754, 7733
+2017_02Summer/黒薔薇/easy.csv, 7, 4771, 3164, 5460
+2017_02Summer/黒薔薇/hard.csv, 12, 12932, 10119, 14138
+2017_02Summer/黒薔薇/normal.csv, 10, 9123, 7090, 9994
+2017_03Autumn/Chip Peaces/easy.csv, 2, 2191, 1663, 2417
+2017_03Autumn/Chip Peaces/hard.csv, 7, 7164, 4291, 8396
+2017_03Autumn/Chip Peaces/normal.csv, 5, 5427, 3248, 6361
+2017_03Autumn/Colorful19/easy.csv, 3, 2734, 2173, 2975
+2017_03Autumn/Colorful19/hard.csv, 9, 8341, 5243, 9669
+2017_03Autumn/Colorful19/normal.csv, 6, 5840, 3848, 6694
+2017_03Autumn/Demon's↑Carnival!!/easy.csv, 5, 5000, 3542, 5625
+2017_03Autumn/Demon's↑Carnival!!/hard.csv, 11, 12122, 9345, 13313
+2017_03Autumn/Demon's↑Carnival!!/normal.csv, 7, 9055, 5772, 10463
+2017_03Autumn/Ekit PoPP/easy.csv, 8, 11591, 8027, 13119
+2017_03Autumn/Ekit PoPP/hard.csv, 15, 20960, 15421, 23334
+2017_03Autumn/Ekit PoPP/normal.csv, 12, 14339, 11726, 15459
+2017_03Autumn/Heaven's Law/easy.csv, 6, 83062, 7829, 115305
+2017_03Autumn/Heaven's Law/hard.csv, 13, 87698, 10733, 120683
+2017_03Autumn/Heaven's Law/normal.csv, 9, 86766, 8977, 120104
+2017_03Autumn/I Can Not Speak English/easy.csv, 3, 2476, 1997, 2681
+2017_03Autumn/I Can Not Speak English/hard.csv, 9, 10727, 7522, 12100
+2017_03Autumn/I Can Not Speak English/normal.csv, 5, 6773, 3810, 8043
+2017_03Autumn/Initial Sound/easy.csv, 3, 2693, 2036, 2975
+2017_03Autumn/Initial Sound/hard+.csv, 12, 11601, 8258, 13033
+2017_03Autumn/Initial Sound/hard.csv, 8, 7531, 5270, 8500
+2017_03Autumn/Initial Sound/normal.csv, 6, 3884, 3162, 4193
+2017_03Autumn/Moon Break/easy.csv, 4, 4275, 2873, 4875
+2017_03Autumn/Moon Break/hard.csv, 12, 12208, 8026, 14000
+2017_03Autumn/Moon Break/normal.csv, 7, 8347, 5657, 9500
+2017_03Autumn/Ocharake Angels/easy.csv, 3, 3179, 2132, 3628
+2017_03Autumn/Ocharake Angels/hard.csv, 10, 10500, 6301, 12300
+2017_03Autumn/Ocharake Angels/normal.csv, 6, 5094, 3679, 5700
+2017_03Autumn/TATUTAHIME/easy.csv, 4, 4713, 3076, 5414
+2017_03Autumn/TATUTAHIME/hard.csv, 11, 15958, 8107, 19323
+2017_03Autumn/TATUTAHIME/normal.csv, 7, 7738, 5548, 8677
+2017_03Autumn/The Beginning of Autumn ARImix/easy.csv, 2, 1510, 1314, 1594
+2017_03Autumn/The Beginning of Autumn ARImix/hard.csv, 11, 10499, 7872, 11625
+2017_03Autumn/The Beginning of Autumn ARImix/normal.csv, 6, 4729, 3311, 5338
+2017_03Autumn/Trill or Treat☆.。.・°☆/easy.csv, 5, 5741, 4248, 6380
+2017_03Autumn/Trill or Treat☆.。.・°☆/hard.csv, 10, 11547, 9081, 12604
+2017_03Autumn/Trill or Treat☆.。.・°☆/normal.csv, 7, 9505, 6568, 10764
+2017_03Autumn/Ultimate's!!/easy.csv, 7, 6549, 4005, 7640
+2017_03Autumn/Ultimate's!!/hard.csv, 12, 13248, 8506, 15280
+2017_03Autumn/Ultimate's!!/normal.csv, 10, 8133, 6284, 8926
+2017_03Autumn/θ(222)/easy.csv, 6, 5592, 3707, 6400
+2017_03Autumn/θ(222)/hard.csv, 12, 13007, 9136, 14667
+2017_03Autumn/θ(222)/normal.csv, 10, 8617, 5858, 9800
+2017_03Autumn/おｒo/easy.csv, 5, 5691, 3267, 6729
+2017_03Autumn/おｒo/hard+.csv, 12, 12067, 7992, 13813
+2017_03Autumn/おｒo/hard.csv, 11, 10931, 7512, 12396
+2017_03Autumn/おｒo/normal.csv, 8, 6484, 5087, 7083
+2017_03Autumn/ぐんたい行進曲/easy.csv, 3, 3412, 2619, 3752
+2017_03Autumn/ぐんたい行進曲/hard.csv, 10, 15786, 9235, 18594
+2017_03Autumn/ぐんたい行進曲/normal.csv, 7, 12287, 6867, 14610
+2017_03Autumn/せんにゅう！/easy.csv, 6, 3988, 3026, 4400
+2017_03Autumn/せんにゅう！/hard.csv, 11, 12134, 8557, 13667
+2017_03Autumn/せんにゅう！/normal.csv, 8, 6923, 5032, 7733
+2017_03Autumn/どれれどれれ/easy.csv, 4, 3183, 2303, 3560
+2017_03Autumn/どれれどれれ/hard+.csv, 14, 14377, 8955, 16701
+2017_03Autumn/どれれどれれ/hard.csv, 9, 9777, 6289, 11273
+2017_03Autumn/どれれどれれ/normal.csv, 6, 6246, 4341, 7063
+2017_03Autumn/神曲/easy.csv, 5, 9595, 4640, 11719
+2017_03Autumn/神曲/hard+.csv, 15, 24488, 14528, 28757
+2017_03Autumn/神曲/hard.csv, 11, 20401, 9017, 25280
+2017_03Autumn/神曲/normal.csv, 8, 10972, 6705, 12800
+2017_03Autumn/魔ぜッパ！！/easy.csv, 8, 7585, 3893, 9167
+2017_03Autumn/魔ぜッパ！！/hard.csv, 15, 26448, 11861, 32699
+2017_03Autumn/魔ぜッパ！！/normal.csv, 11, 9422, 5667, 11031
+2017_03Autumn/魔ぜッパ！！/semihard.csv, 14, 14212, 8657, 16593
+2018_01Summer/Chip Dreams/easy.csv, 3, 2267, 1773, 2479
+2018_01Summer/Chip Dreams/hard+.csv, 9, 8295, 5425, 9525
+2018_01Summer/Chip Dreams/hard.csv, 7, 6932, 4993, 7763
+2018_01Summer/Chip Dreams/normal.csv, 6, 4557, 3262, 5112
+2018_01Summer/Evils/easy.csv, 4, 4411, 3248, 4909
+2018_01Summer/Evils/hard.csv, 13, 12471, 9147, 13896
+2018_01Summer/Evils/normal.csv, 9, 7947, 6190, 8700
+2018_01Summer/Fly like a butterfly/easy.csv, 2, 2071, 1609, 2270
+2018_01Summer/Fly like a butterfly/hard.csv, 11, 11368, 6276, 13550
+2018_01Summer/Fly like a butterfly/normal.csv, 7, 5343, 4029, 5906
+2018_01Summer/Magical Go Ahead!!!!!/easy.csv, 3, 5658, 3500, 6583
+2018_01Summer/Magical Go Ahead!!!!!/full.csv, 12, 12517, 8670, 14166
+2018_01Summer/Magical Go Ahead!!!!!/hard.csv, 12, 12695, 9263, 14166
+2018_01Summer/Magical Go Ahead!!!!!/normal.csv, 9, 8089, 5573, 9167
+2018_01Summer/sweet sky/easy.csv, 2, 1707, 1287, 1887
+2018_01Summer/sweet sky/hard.csv, 8, 9183, 4570, 11160
+2018_01Summer/sweet sky/normal.csv, 5, 5149, 2954, 6090
+2018_01Summer/The Rising Future!!!!/easy.csv, 6, 6743, 4612, 7656
+2018_01Summer/The Rising Future!!!!/hard.csv, 13, 15247, 9989, 17500
+2018_01Summer/The Rising Future!!!!/normal.csv, 11, 13452, 8088, 15750
+2018_01Summer/World Engine/easy.csv, 5, 3326, 2477, 3690
+2018_01Summer/World Engine/hard.csv, 11, 13473, 8002, 15817
+2018_01Summer/World Engine/normal.csv, 7, 7202, 5091, 8107
+2018_01Summer/アクアリズム/easy.csv, 3, 4638, 2952, 5360
+2018_01Summer/アクアリズム/hard.csv, 10, 10388, 7485, 11633
+2018_01Summer/アクアリズム/normal.csv, 7, 7239, 5410, 8023
+2018_01Summer/スライム君と3人の魔法使い/easy.csv, 3, 2521, 2033, 2730
+2018_01Summer/スライム君と3人の魔法使い/hard.csv, 10, 11803, 7494, 13650
+2018_01Summer/スライム君と3人の魔法使い/normal.csv, 6, 6728, 4201, 7811
+2018_01Summer/ヒカリを求めて/easy.csv, 4, 2929, 2255, 3218
+2018_01Summer/ヒカリを求めて/hard.csv, 11, 10418, 6493, 12100
+2018_01Summer/ヒカリを求めて/normal.csv, 6, 5487, 3530, 6325
+2018_01Summer/神々とカラパネ/easy.csv, 4, 3276, 2275, 3705
+2018_01Summer/神々とカラパネ/hard.csv, 11, 12327, 7185, 14531
+2018_01Summer/神々とカラパネ/normal.csv, 8, 8275, 4226, 10010
+2018_01Summer/置いテクメインテーマ/another.csv, 12, 14583, 7315, 17697
+2018_01Summer/置いテクメインテーマ/easy.csv, 4, 3643, 2810, 4000
+2018_01Summer/置いテクメインテーマ/hard.csv, 9, 8633, 6418, 9583
+2018_01Summer/置いテクメインテーマ/normal.csv, 6, 5963, 4478, 6600
+2018_01Summer/風が吹く/back.csv, 5, 3532, 2439, 4000
+2018_01Summer/風が吹く/mero.csv, 4, 3188, 2715, 3391
+2019_01Summer/34D.C/easy.csv, 6, 4568, 3561, 5000
+2019_01Summer/34D.C/hard.csv, 13, 12426, 10064, 13438
+2019_01Summer/34D.C/normal.csv, 10, 9445, 7422, 10313
+2019_01Summer/AO-ZORA Express/easy.csv, 4, 3616, 2960, 3897
+2019_01Summer/AO-ZORA Express/hard+.csv, 13, 11806, 8696, 13139
+2019_01Summer/AO-ZORA Express/hard.csv, 11, 10744, 7805, 12004
+2019_01Summer/AO-ZORA Express/normal.csv, 8, 8837, 5939, 10078
+2019_01Summer/Canvas/easy.csv, 1, 1633, 1178, 1828
+2019_01Summer/Canvas/hard+.csv, 12, 15364, 9214, 18000
+2019_01Summer/Canvas/hard.csv, 11, 11054, 7098, 12750
+2019_01Summer/Canvas/normal.csv, 7, 6402, 4278, 7313
+2019_01Summer/Chip Links/easy.csv, 4, 2857, 2250, 3117
+2019_01Summer/Chip Links/hard.csv, 9, 9583, 6009, 11115
+2019_01Summer/Chip Links/normal.csv, 6, 5663, 3968, 6389
+2019_01Summer/Code of Eden/easy.csv, 5, 4997, 3386, 5687
+2019_01Summer/Code of Eden/hard.csv, 11, 10269, 7841, 11310
+2019_01Summer/Code of Eden/normal.csv, 6, 7571, 5014, 8667
+2019_01Summer/Dances on Bool/easy.csv, 4, 3796, 2889, 4185
+2019_01Summer/Dances on Bool/hard.csv, 12, 11077, 8290, 12271
+2019_01Summer/Dances on Bool/normal.csv, 8, 8700, 5725, 9975
+2019_01Summer/De'nice Dinner/easy.csv, 3, 2467, 1762, 2768
+2019_01Summer/De'nice Dinner/hard.csv, 8, 7876, 4892, 9155
+2019_01Summer/De'nice Dinner/normal.csv, 4, 3592, 2118, 4224
+2019_01Summer/Dollar $tep/easy.csv, 3, 3482, 2590, 3864
+2019_01Summer/Dollar $tep/hard.csv, 11, 12332, 6986, 14624
+2019_01Summer/Dollar $tep/normal.csv, 7, 6682, 5215, 7311
+2019_01Summer/FancyzDreamer/bs.csv, 6, 6934, 4273, 8074
+2019_01Summer/FancyzDreamer/mero.csv, 7, 8502, 5585, 9752
+2019_01Summer/FancyzDreamer/wonder.csv, 9, 9807, 6266, 11325
+2019_01Summer/Generasion/easy.csv, 4, 3447, 2763, 3741
+2019_01Summer/Generasion/hard+.csv, 11, 12249, 8123, 14018
+2019_01Summer/Generasion/hard.csv, 10, 11536, 7523, 13256
+2019_01Summer/Generasion/normal.csv, 7, 9999, 5034, 12128
+2019_01Summer/Goat Simulation/easy.csv, 4, 3172, 2611, 3413
+2019_01Summer/Goat Simulation/hard+.csv, 13, 14004, 9388, 15982
+2019_01Summer/Goat Simulation/hard.csv, 11, 14004, 9388, 15982
+2019_01Summer/Goat Simulation/normal.csv, 7, 5809, 4617, 6319
+2019_01Summer/Light and Darkness/easy.csv, 5, 4686, 3063, 5381
+2019_01Summer/Light and Darkness/hard+.csv, 14, 25810, 13494, 31088
+2019_01Summer/Light and Darkness/hard.csv, 12, 17291, 9805, 20500
+2019_01Summer/Light and Darkness/normal.csv, 8, 7798, 5565, 8755
+2019_01Summer/MooNLight MAGIC/easy.csv, 3, 2944, 2192, 3267
+2019_01Summer/MooNLight MAGIC/hard.csv, 11, 11001, 8903, 11900
+2019_01Summer/MooNLight MAGIC/normal.csv, 8, 10577, 5704, 12666
+2019_01Summer/Ogun PoPP/easy.csv, 10, 8211, 6067, 9130
+2019_01Summer/Ogun PoPP/hard.csv, 15, 21874, 14736, 24934
+2019_01Summer/Ogun PoPP/normal.csv, 11, 8384, 6644, 9130
+2019_01Summer/Ogun PoPP/semihard.csv, 12, 19203, 11479, 22514
+2019_01Summer/Software abnormally Runs/another.csv, 15, 6233, 3745, 7298
+2019_01Summer/Software abnormally Runs/easy.csv, 11, 6233, 3745, 7298
+2019_01Summer/Software abnormally Runs/hard.csv, 15, 6233, 3745, 7298
+2019_01Summer/Software abnormally Runs/normal.csv, 14, 5777, 3503, 6752
+2019_01Summer/VIEW/easy.csv, 6, 3941, 2681, 4481
+2019_01Summer/VIEW/hard.csv, 12, 10899, 8272, 12025
+2019_01Summer/VIEW/normal.csv, 10, 8227, 5551, 9373
+2019_01Summer/きゅ～っと☆だいかくめい/easy.csv, 4, 2793, 2383, 2969
+2019_01Summer/きゅ～っと☆だいかくめい/hard.csv, 11, 10017, 7139, 11250
+2019_01Summer/きゅ～っと☆だいかくめい/normal.csv, 9, 8888, 5564, 10313
+2019_01Summer/ちごいねる和居膳/easy.csv, 7, 5409, 4018, 6005
+2019_01Summer/ちごいねる和居膳/hard.csv, 15, 18739, 12559, 21387
+2019_01Summer/ちごいねる和居膳/normal.csv, 11, 7927, 5739, 8865
+2019_01Summer/ちごいねる和居膳/semihard.csv, 14, 16752, 10587, 19394
+2019_01Summer/もうそう☆マイペース/mousou.csv, 8, 9177, 5177, 10892
+2019_01Summer/もうそう☆マイペース/real.csv, 6, 5432, 3812, 6127
+2019_01Summer/アルビノ/easy.csv, 4, 3768, 2600, 4269
+2019_01Summer/アルビノ/hard.csv, 13, 17916, 9361, 21583
+2019_01Summer/アルビノ/normal.csv, 7, 6040, 4845, 6552
+2019_01Summer/アルビノ/semihard.csv, 12, 16225, 9006, 19319
+2019_01Summer/東方遊歩記/easy.csv, 5, 3480, 2580, 3865
+2019_01Summer/東方遊歩記/hard.csv, 13, 12508, 8442, 14250
+2019_01Summer/東方遊歩記/normal.csv, 7, 6127, 4383, 6875
+2019_01Summer/硝靴物語/easy.csv, 2, 1213, 1036, 1289
+2019_01Summer/硝靴物語/hard.csv, 10, 9977, 6716, 11375
+2019_01Summer/硝靴物語/normal.csv, 7, 5642, 4562, 6104
+2019_01Summer/終焉輪廻エウリュアレー/easy.csv, 4, 5458, 3260, 6400
+2019_01Summer/終焉輪廻エウリュアレー/hard.csv, 12, 16351, 9330, 19360
+2019_01Summer/終焉輪廻エウリュアレー/normal.csv, 8, 9641, 6562, 10960
+2019_01Summer/花鳥風月/easy.csv, 5, 4905, 3298, 5593
+2019_01Summer/花鳥風月/hard.csv, 11, 11949, 8097, 13600
+2019_01Summer/花鳥風月/normal.csv, 9, 6460, 5511, 6867
+2019_01Summer/青空の旅、笛と共に/easy.csv, 2, 2996, 2115, 3374
+2019_01Summer/青空の旅、笛と共に/hard+.csv, 10, 10006, 6328, 11583
+2019_01Summer/青空の旅、笛と共に/hard.csv, 8, 9371, 6334, 10673
+2019_01Summer/青空の旅、笛と共に/normal.csv, 5, 6063, 4365, 6791
+2020_01Summer/Chip Seekers/easy.csv, 3, 3425, 2374, 3875
+2020_01Summer/Chip Seekers/hard+.csv, 12, 13565, 9245, 15416
+2020_01Summer/Chip Seekers/hard.csv, 9, 10681, 7087, 12222
+2020_01Summer/Chip Seekers/normal.csv, 6, 8584, 5083, 10085
+2020_01Summer/Enjoy your teatime ユーロチックアレンジ/easy.csv, 5, 3882, 3166, 4188
+2020_01Summer/Enjoy your teatime ユーロチックアレンジ/hard.csv, 12, 12649, 9186, 14134
+2020_01Summer/Enjoy your teatime ユーロチックアレンジ/normal.csv, 9, 7859, 5664, 8800
+2020_01Summer/Heart is life - instrumental -/easy.csv, 1, 982, 735, 1088
+2020_01Summer/Heart is life - instrumental -/hard+.csv, 10, 9360, 6839, 10440
+2020_01Summer/Heart is life - instrumental -/hard.csv, 6, 6864, 4797, 7750
+2020_01Summer/Heart is life - instrumental -/normal.csv, 3, 5150, 2679, 6210
+2020_01Summer/Hell's Order/easy.csv, 4, 5393, 3239, 6317
+2020_01Summer/Hell's Order/hard.csv, 13, 13459, 7991, 15802
+2020_01Summer/Hell's Order/normal.csv, 8, 10228, 6769, 11710
+2020_01Summer/Hey!!尻!!/easy.csv, 3, 2888, 2330, 3127
+2020_01Summer/Hey!!尻!!/hard.csv, 10, 8333, 6532, 9104
+2020_01Summer/Hey!!尻!!/normal.csv, 7, 6857, 5309, 7521
+2020_01Summer/It's show time/easy.csv, 4, 2631, 1999, 2901
+2020_01Summer/It's show time/hard.csv, 12, 14192, 8890, 16465
+2020_01Summer/It's show time/normal.csv, 9, 5702, 4558, 6193
+2020_01Summer/Iv/easy.csv, 2, 2789, 2166, 3056
+2020_01Summer/Iv/hard.csv, 11, 14260, 7672, 17083
+2020_01Summer/Iv/normal.csv, 6, 8712, 5385, 10139
+2020_01Summer/Soft Break/easy.csv, 5, 4509, 3302, 5027
+2020_01Summer/Soft Break/hard.csv, 13, 16894, 11982, 19000
+2020_01Summer/Soft Break/normal.csv, 10, 15070, 10517, 17021
+2020_01Summer/StarT-ColorfulTone-/easy.csv, 5, 4741, 3399, 5315
+2020_01Summer/StarT-ColorfulTone-/hard+.csv, 12, 9349, 7207, 10267
+2020_01Summer/StarT-ColorfulTone-/hard.csv, 11, 18603, 8011, 23143
+2020_01Summer/StarT-ColorfulTone-/normal.csv, 8, 7125, 5333, 7892
+2020_01Summer/TAITO/easy.csv, 4, 3119, 2523, 3375
+2020_01Summer/TAITO/hard.csv, 11, 10482, 7814, 11625
+2020_01Summer/TAITO/normal.csv, 8, 10128, 6633, 11625
+2020_01Summer/TatutahimePrill/easy.csv, 4, 3115, 2510, 3375
+2020_01Summer/TatutahimePrill/hard+.csv, 13, 16907, 9107, 20250
+2020_01Summer/TatutahimePrill/hard.csv, 11, 9364, 7295, 10250
+2020_01Summer/TatutahimePrill/normal.csv, 7, 7886, 5462, 8925
+2020_01Summer/Tiny Twinkle Traveler/easy.csv, 5, 4020, 2823, 4532
+2020_01Summer/Tiny Twinkle Traveler/hard.csv, 11, 12835, 7686, 15042
+2020_01Summer/Tiny Twinkle Traveler/normal.csv, 9, 10364, 6839, 11875
+2020_01Summer/あの日夏の日/easy.csv, 3, 3254, 2318, 3655
+2020_01Summer/あの日夏の日/hard.csv, 10, 10412, 7659, 11593
+2020_01Summer/あの日夏の日/normal.csv, 7, 7068, 4799, 8041
+2020_01Summer/いーすた☆えっぐす/easy.csv, 4, 3327, 2446, 3705
+2020_01Summer/いーすた☆えっぐす/hard+.csv, 14, 19885, 10129, 24066
+2020_01Summer/いーすた☆えっぐす/hard.csv, 11, 12459, 8280, 14250
+2020_01Summer/いーすた☆えっぐす/normal.csv, 7, 7401, 5459, 8233
+2020_01Summer/ファンタスティックピーポー/easy.csv, 6, 3721, 2934, 4059
+2020_01Summer/ファンタスティックピーポー/hard+.csv, 14, 17283, 11995, 19550
+2020_01Summer/ファンタスティックピーポー/hard.csv, 13, 14294, 10756, 15810
+2020_01Summer/ファンタスティックピーポー/normal.csv, 9, 7595, 5714, 8401
+2020_01Summer/ミクソリ・ディアン・スペシャリー/easy.csv, 5, 4786, 3067, 5523
+2020_01Summer/ミクソリ・ディアン・スペシャリー/hard.csv, 13, 11780, 8144, 13338
+2020_01Summer/ミクソリ・ディアン・スペシャリー/normal.csv, 8, 6776, 4140, 7906
+2020_01Summer/午後のひとときを/easy.csv, 3, 2163, 1620, 2396
+2020_01Summer/午後のひとときを/hard.csv, 8, 8195, 6052, 9114
+2020_01Summer/午後のひとときを/normal.csv, 6, 5891, 4200, 6616
+2020_01Summer/午後のひとときを/relaxation.csv, 15, 17592, 14131, 19075
+2020_01Summer/旅立ち/easy.csv, 5, 3048, 2278, 3377
+2020_01Summer/旅立ち/hard.csv, 11, 10511, 7081, 11981
+2020_01Summer/旅立ち/normal.csv, 8, 5514, 4459, 5966
+2020_01Summer/遥かなる空はどこまでも蒼く/easy.csv, 3, 3095, 2417, 3385
+2020_01Summer/遥かなる空はどこまでも蒼く/hard.csv, 8, 6857, 5429, 7469
+2020_01Summer/遥かなる空はどこまでも蒼く/normal.csv, 5, 4152, 3509, 4427
+2020_01Summer/青空の下、夢と勝利への応援曲/easy.csv, 3, 3137, 2328, 3483
+2020_01Summer/青空の下、夢と勝利への応援曲/hard.csv, 7, 10114, 5634, 12033
+2020_01Summer/青空の下、夢と勝利への応援曲/normal.csv, 5, 5109, 4222, 5489
+2021_01Winter/anonymous/easy.csv, 4, 6567, 4302, 7538
+2021_01Winter/anonymous/hard.csv, 11, 15812, 9657, 18449
+2021_01Winter/anonymous/normal.csv, 7, 9236, 7160, 10125
+2021_01Winter/BrightFutureStars/easy.csv, 4, 3177, 2716, 3375
+2021_01Winter/BrightFutureStars/hard+.csv, 12, 12013, 9070, 13275
+2021_01Winter/BrightFutureStars/hard.csv, 9, 10306, 6879, 11775
+2021_01Winter/BrightFutureStars/normal.csv, 6, 6030, 4437, 6713
+2021_01Winter/CHEER/easy.csv, 4, 3675, 2980, 3973
+2021_01Winter/CHEER/hard.csv, 9, 9950, 6915, 11250
+2021_01Winter/CHEER/normal.csv, 7, 6794, 5308, 7431
+2021_01Winter/ChipCollections/easy.csv, 3, 3040, 2199, 3400
+2021_01Winter/ChipCollections/hard+.csv, 13, 13178, 9393, 14800
+2021_01Winter/ChipCollections/hard.csv, 10, 11112, 6709, 12999
+2021_01Winter/ChipCollections/normal.csv, 7, 8292, 5049, 9681
+2021_01Winter/Colorful67/easy.csv, 7, 9172, 6043, 10514
+2021_01Winter/Colorful67/hard+.csv, 67, 31377, 13604, 38993
+2021_01Winter/Colorful67/hard.csv, 14, 19524, 12130, 22693
+2021_01Winter/Colorful67/normal.csv, 11, 16781, 10942, 19283
+2021_01Winter/CRUSH THE DEVIL (IN MY BRAIN)/easy.csv, 3, 5879, 4188, 6603
+2021_01Winter/CRUSH THE DEVIL (IN MY BRAIN)/hard.csv, 9, 10907, 6417, 12831
+2021_01Winter/CRUSH THE DEVIL (IN MY BRAIN)/normal.csv, 7, 12802, 6511, 15498
+2021_01Winter/Inishienohiroba/easy.csv, 1, 932, 784, 996
+2021_01Winter/Inishienohiroba/hard.csv, 9, 8605, 5588, 9899
+2021_01Winter/Inishienohiroba/normal.csv, 4, 3311, 2527, 3647
+2021_01Winter/Iris ~神の恵みにふれて~/easy.csv, 5, 5235, 3948, 5787
+2021_01Winter/Iris ~神の恵みにふれて~/hard+.csv, 13, 17258, 11082, 19905
+2021_01Winter/Iris ~神の恵みにふれて~/hard.csv, 11, 15135, 9271, 17648
+2021_01Winter/Iris ~神の恵みにふれて~/normal.csv, 9, 9366, 6704, 10507
+2021_01Winter/meaning integrator/easy.csv, 6, 12870, 5571, 15998
+2021_01Winter/meaning integrator/hard.csv, 13, 16334, 11575, 18373
+2021_01Winter/meaning integrator/normal.csv, 11, 13217, 9541, 14792
+2021_01Winter/Purgatorium's Chaos/easy.csv, 6, 9141, 4630, 11074
+2021_01Winter/Purgatorium's Chaos/hard.csv, 13, 15460, 9628, 17960
+2021_01Winter/Purgatorium's Chaos/normal.csv, 9, 12094, 7219, 14183
+2021_01Winter/SNS Age/easy.csv, 3, 3152, 2425, 3464
+2021_01Winter/SNS Age/hard.csv, 12, 11803, 7868, 13490
+2021_01Winter/SNS Age/normal.csv, 8, 10013, 6154, 11667
+2021_01Winter/TwinFairies/easy.csv, 3, 2581, 2063, 2803
+2021_01Winter/TwinFairies/hard+.csv, 13, 12073, 8411, 13643
+2021_01Winter/TwinFairies/hard.csv, 9, 8138, 6047, 9035
+2021_01Winter/TwinFairies/normal.csv, 6, 4998, 4012, 5420
+2021_01Winter/別に寂しくなんて、ないから。/easy.csv, 1, 1020, 738, 1142
+2021_01Winter/別に寂しくなんて、ないから。/hard.csv, 8, 7611, 5303, 8600
+2021_01Winter/別に寂しくなんて、ないから。/kamuni.csv, 8, 7073, 5301, 7833
+2021_01Winter/別に寂しくなんて、ないから。/normal.csv, 5, 4602, 3206, 5200
+2021_01Winter/青空のドラムンベース/bass.csv, 6, 6696, 4483, 7644
+2021_01Winter/青空のドラムンベース/drums.csv, 8, 10605, 6572, 12334
+2021_01Winter/青空のドラムンベース/piano.csv, 9, 11589, 8054, 13104
+2021_02Summer/1年に1度の願い/easy.csv, 4, 3362, 2439, 3758
+2021_02Summer/1年に1度の願い/hard.csv, 8, 7057, 5176, 7863
+2021_02Summer/1年に1度の願い/normal.csv, 6, 7298, 4601, 8454
+2021_02Summer/2人の夢へのランデヴー/easy.csv, 2, 4240, 2153, 5134
+2021_02Summer/2人の夢へのランデヴー/hard+.csv, 10, 9104, 6270, 10319
+2021_02Summer/2人の夢へのランデヴー/hard.csv, 7, 7039, 4545, 8108
+2021_02Summer/2人の夢へのランデヴー/normal.csv, 5, 4669, 2870, 5439
+2021_02Summer/5050Kick/easy.csv, 5, 12280, 5934, 15000
+2021_02Summer/5050Kick/hard.csv, 13, 19948, 10493, 24000
+2021_02Summer/5050Kick/kick.csv, 5050, 18089, 11817, 20777
+2021_02Summer/5050Kick/normal.csv, 11, 12839, 7798, 15000
+2021_02Summer/Chip Quests/easy.csv, 3, 6278, 3496, 7470
+2021_02Summer/Chip Quests/hard.csv, 9, 12500, 7338, 14713
+2021_02Summer/Chip Quests/normal.csv, 6, 7924, 5180, 9100
+2021_02Summer/drawn dream/easy.csv, 5, 5821, 4316, 6466
+2021_02Summer/drawn dream/hard.csv, 13, 16312, 11663, 18304
+2021_02Summer/drawn dream/normal.csv, 10, 11722, 7505, 13529
+2021_02Summer/FUTENYAN/easy.csv, 3, 4256, 3370, 4635
+2021_02Summer/FUTENYAN/hard.csv, 11, 12637, 8522, 14400
+2021_02Summer/FUTENYAN/normal.csv, 7, 9713, 6831, 10948
+2021_02Summer/G'rimoire↑/easy.csv, 6, 6226, 4448, 6988
+2021_02Summer/G'rimoire↑/hard.csv, 13, 12313, 9543, 13500
+2021_02Summer/G'rimoire↑/normal.csv, 10, 11620, 6362, 13874
+2021_02Summer/Gungni-R/easy.csv, 3, 5258, 3721, 5917
+2021_02Summer/Gungni-R/hard.csv, 12, 14182, 9526, 16177
+2021_02Summer/Gungni-R/normal.csv, 8, 12334, 7772, 14289
+2021_02Summer/Infinity/easy.csv, 4, 4465, 3002, 5092
+2021_02Summer/Infinity/hard.csv, 12, 14817, 9636, 17037
+2021_02Summer/Infinity/normal.csv, 8, 8105, 5539, 9204
+2021_02Summer/Linear Algebra 2/niten.csv, 2, 2335, 2012, 2473
+2021_02Summer/Linear Algebra 2/niten_ura.csv, 2, 2473, 1982, 2683
+2021_02Summer/PsychicsNetwork/easy.csv, 3, 3697, 2699, 4125
+2021_02Summer/PsychicsNetwork/hard.csv, 9, 8369, 5672, 9525
+2021_02Summer/PsychicsNetwork/normal.csv, 6, 6006, 4181, 6788
+2021_02Summer/SHOUT OUT LOUD!!/easy.csv, 3, 1801, 1548, 1910
+2021_02Summer/SHOUT OUT LOUD!!/hard+.csv, 14, 16281, 11979, 18125
+2021_02Summer/SHOUT OUT LOUD!!/hard.csv, 10, 13265, 8826, 15167
+2021_02Summer/SHOUT OUT LOUD!!/normal.csv, 8, 5968, 4338, 6667
+2021_02Summer/νЁЯд μσиσ/easy.csv, 4, 4865, 3325, 5525
+2021_02Summer/νЁЯд μσиσ/hard.csv, 12, 14475, 8818, 16899
+2021_02Summer/νЁЯд μσиσ/normal.csv, 8, 9174, 5706, 10660
+2021_02Summer/どんな道だって、続けていこう。/easy.csv, 4, 4519, 3325, 5031
+2021_02Summer/どんな道だって、続けていこう。/hard.csv, 9, 8104, 5745, 9115
+2021_02Summer/どんな道だって、続けていこう。/normal.csv, 7, 8450, 5199, 9844
+2021_02Summer/争いは、また繰り返す/easy.csv, 2, 4291, 2665, 4987
+2021_02Summer/争いは、また繰り返す/hard.csv, 10, 10591, 7538, 11900
+2021_02Summer/争いは、また繰り返す/normal.csv, 6, 7716, 5304, 8750
+2021_02Summer/今、はじまりのリスタート/easy.csv, 4, 4781, 3120, 5493
+2021_02Summer/今、はじまりのリスタート/hard+.csv, 11, 10244, 6520, 11840
+2021_02Summer/今、はじまりのリスタート/hard.csv, 10, 9237, 6067, 10595
+2021_02Summer/今、はじまりのリスタート/normal.csv, 7, 7111, 5038, 8000
+2022_01Autumn/Ancient Holy Site/easy.csv, 4, 3393, 2487, 3781
+2022_01Autumn/Ancient Holy Site/hard.csv, 12, 12306, 9132, 13666
+2022_01Autumn/Ancient Holy Site/normal.csv, 7, 5812, 4284, 6467
+2022_01Autumn/Celtic Nations Burned Out/easy.csv, 5, 4373, 2869, 5017
+2022_01Autumn/Celtic Nations Burned Out/hard.csv, 13, 14695, 9315, 17000
+2022_01Autumn/Celtic Nations Burned Out/normal.csv, 8, 9238, 5442, 10865
+2022_01Autumn/Chocolate Dynamite/easy.csv, 4, 2553, 1997, 2791
+2022_01Autumn/Chocolate Dynamite/hard.csv, 12, 14668, 7477, 17750
+2022_01Autumn/Chocolate Dynamite/normal.csv, 6, 5538, 3872, 6252
+2022_01Autumn/DamSkip/easy.csv, 3, 2971, 2136, 3328
+2022_01Autumn/DamSkip/hard+.csv, 12, 13193, 8578, 15171
+2022_01Autumn/DamSkip/hard.csv, 10, 11691, 7473, 13499
+2022_01Autumn/DamSkip/normal.csv, 7, 8068, 5788, 9046
+2022_01Autumn/DiversionHEAVENs/easy.csv, 4, 3673, 2618, 4125
+2022_01Autumn/DiversionHEAVENs/hard.csv, 11, 9565, 6644, 10817
+2022_01Autumn/DiversionHEAVENs/normal.csv, 7, 6466, 4656, 7241
+2022_01Autumn/HaChaCha/easy.csv, 6, 7331, 4765, 8430
+2022_01Autumn/HaChaCha/hard.csv, 13, 16298, 10306, 18867
+2022_01Autumn/HaChaCha/hard_old.csv, 13, 16280, 10243, 18867
+2022_01Autumn/HaChaCha/normal.csv, 8, 9783, 7160, 10908
+2022_01Autumn/HL PoPP/easy.csv, 10, 7849, 4261, 9386
+2022_01Autumn/HL PoPP/hard.csv, 15, 22679, 13115, 26778
+2022_01Autumn/HL PoPP/normal.csv, 13, 8875, 5495, 10323
+2022_01Autumn/Hookedon PoPP/hard.csv, 15, 26668, 15310, 31536
+2022_01Autumn/I want to see you/easy.csv, 2, 2371, 1885, 2580
+2022_01Autumn/I want to see you/hard.csv, 11, 9577, 7210, 10592
+2022_01Autumn/I want to see you/normal.csv, 5, 4551, 3024, 5205
+2022_01Autumn/KandA PoPP/easy.csv, 1, 2716, 2335, 2880
+2022_01Autumn/KandA PoPP/hard.csv, 1, 2714, 2326, 2880
+2022_01Autumn/KandA PoPP/normal.csv, 1, 2681, 2378, 2811
+2022_01Autumn/NEO THE CITY/easy.csv, 5, 6706, 4444, 7675
+2022_01Autumn/NEO THE CITY/hard.csv, 11, 13860, 8889, 15990
+2022_01Autumn/NEO THE CITY/normal.csv, 9, 8094, 6291, 8866
+2022_01Autumn/Nephthys/easy.csv, 5, 8202, 4969, 9587
+2022_01Autumn/Nephthys/hard.csv, 12, 18490, 9402, 22385
+2022_01Autumn/Nephthys/normal.csv, 8, 11245, 7160, 12996
+2022_01Autumn/NIGHTMARE/easy.csv, 3, 2988, 2376, 3250
+2022_01Autumn/NIGHTMARE/hard.csv, 9, 11254, 6401, 13333
+2022_01Autumn/NIGHTMARE/normal.csv, 6, 5642, 4461, 6148
+2022_01Autumn/ReturnHereAgain/easy.csv, 7, 3729, 2804, 4125
+2022_01Autumn/ReturnHereAgain/hard.csv, 13, 12998, 9638, 14438
+2022_01Autumn/ReturnHereAgain/normal.csv, 9, 10115, 6127, 11825
+2022_01Autumn/Venom Bullet/easy.csv, 8, 7977, 6466, 8625
+2022_01Autumn/Venom Bullet/hard.csv, 15, 21232, 12633, 24917
+2022_01Autumn/Venom Bullet/normal.csv, 11, 10364, 7154, 11740
+2022_01Autumn/だから君と謳おう/easy.csv, 2, 2447, 1804, 2722
+2022_01Autumn/だから君と謳おう/hard.csv, 8, 6876, 5427, 7497
+2022_01Autumn/だから君と謳おう/normal.csv, 6, 6242, 4579, 6955
+2022_01Autumn/ゆめのとおり/easy.csv, 2, 1736, 1221, 1956
+2022_01Autumn/ゆめのとおり/hard.csv, 7, 4923, 4037, 5303
+2022_01Autumn/ゆめのとおり/normal.csv, 4, 2794, 2182, 3057
+2022_01Autumn/エターナル サンクチュアリ/easy.csv, 4, 3510, 2650, 3878
+2022_01Autumn/エターナル サンクチュアリ/hard.csv, 13, 12526, 9194, 13954
+2022_01Autumn/エターナル サンクチュアリ/normal.csv, 7, 7102, 4615, 8167
+2022_01Autumn/トゥーカン/easy.csv, 4, 2644, 2082, 2884
+2022_01Autumn/トゥーカン/hard.csv, 9, 7091, 5412, 7810
+2022_01Autumn/トゥーカン/normal.csv, 6, 4723, 3835, 5103
+2022_01Autumn/今、君と進むべき世界/easy.csv, 4, 3679, 2746, 4079
+2022_01Autumn/今、君と進むべき世界/hard.csv, 9, 9371, 6834, 10458
+2022_01Autumn/今、君と進むべき世界/normal.csv, 7, 7889, 4808, 9209
+2022_01Autumn/願いのMelody/easy.csv, 3, 3823, 2420, 4424
+2022_01Autumn/願いのMelody/hard.csv, 10, 8345, 6504, 9134
+2022_01Autumn/願いのMelody/normal.csv, 7, 6700, 5286, 7307
+2024_01Spring/Advanced Quartet/easy.csv, 5, 3150, 2528, 3417
+2024_01Spring/Advanced Quartet/hard.csv, 12, 13562, 8075, 15914
+2024_01Spring/Advanced Quartet/normal.csv, 9, 5557, 3924, 6256
+2024_01Spring/TicoTico/easy.csv, 4, 3205, 2520, 3498
+2024_01Spring/TicoTico/hard.csv, 12, 11358, 9471, 12167
+2024_01Spring/TicoTico/normal.csv, 9, 6013, 5090, 6408
+2024_01Spring/木枯らしのエチュード/easy.csv, 4, 6539, 2778, 8150
+2024_01Spring/木枯らしのエチュード/hard.csv, 15, 35783, 21277, 42000
+2024_01Spring/木枯らしのエチュード/normal.csv, 9, 14221, 6059, 17719
+
+Lv, Median, Ave, Min, Max
+============================
+1, 1051, 1414, 728, 2716
+2, 2192, 2279, 1042, 4291
+3, 3040, 3192, 1454, 6921
+4, 3592, 3739, 2282, 6567
+5, 4830, 5196, 3048, 12280
+6, 6030, 7622, 3587, 83062
+7, 7239, 7509, 3729, 12802
+8, 8358, 8587, 5514, 12334
+9, 8858, 10520, 5557, 86766
+10, 9991, 10342, 3857, 18572
+11, 11747, 12144, 6233, 20892
+12, 13220, 13400, 2500, 22823
+13, 14149, 16715, 8875, 87698
+14, 18414, 17891, 2500, 35783

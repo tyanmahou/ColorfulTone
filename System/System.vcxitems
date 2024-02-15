@@ -31,6 +31,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Migration\MigrationUtil.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\Secret\Secret.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Analysis\Analyzer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Anime\StartAnime\StartAnime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\CourseData\CourceEntry.hpp" />
@@ -195,6 +196,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Migration\MigrationSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\Migration\MigrationUtil.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)commons\SingletonManager\SingletonManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Analysis\Analyzer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\StartAnime\StartAnime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\CourseData\CourceEntry.cpp" />

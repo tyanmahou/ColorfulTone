@@ -9,9 +9,9 @@ namespace ct
         s3d::uint64 rating;
 
         // 平均レート
-        double aveRating;
+        s3d::uint64 aveRating;
         // 局所平均レート
-        double localAveRating;
+        s3d::uint64 localAveRating;
 
         // 停止レート
         double stopRating;
@@ -28,6 +28,6 @@ namespace ct
     class Analyzer
     {
     public:
-        AnalyzeResult analyze(const SheetMusic& sheet);
+        static AnalyzeResult Analyze(const SheetMusic& sheet);
     };
 }

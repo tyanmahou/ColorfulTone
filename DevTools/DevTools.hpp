@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <utils/Coro/Fiber/Fiber.hpp>
 
 namespace ct::dev
 {
@@ -17,5 +18,12 @@ namespace ct::dev
         /// PixelShaderのコンバート
         /// </summary>
         static void ConvertPS();
+
+        /// <summary>
+        /// 解析
+        /// </summary>
+        static Coro::Fiber<void> AnalyzeAsync();
+
+        static double LoadingProgress();
     };
 }

@@ -44,11 +44,11 @@ namespace
 namespace ct
 {
 
-    AnalyzeResult Analyzer::analyze(const SheetMusic& sheet)
+    AnalyzeResult Analyzer::Analyze(const SheetMusic& sheet)
     {
         // 1秒間隔のスコア 反比例
         constexpr double BaseNoteRating = 1000.0;
-
+        constexpr int64 NoteDiffThreshold = 44100 * 2;
         const auto& notes = sheet.getNotes();
 
         Array<double> notesRating;
@@ -57,13 +57,13 @@ namespace ct
             notesRating.push_back(BaseNoteRating / 4.0 * TypeFactor(notes[0]));
         }
         for (size_t index = 1; index < notes.size(); ++index) {
-            int64 diff = notes[index].sample - notes[index - 1].sample;
+            int64 diff = Min(notes[index].sample - notes[index - 1].sample, NoteDiffThreshold);
             if (diff == 0) {
                 // 無いはずだけどDiffがないなら
                 notesRating.push_back(BaseNoteRating * TypeFactor(notes[index]));
                 continue;
             }
-            double score = BaseNoteRating / static_cast<double>(diff) * TypeFactor(notes[index]);
+            double score = BaseNoteRating / (static_cast<double>(diff) / 44100.0) * TypeFactor(notes[index]);
             notesRating.push_back(score);
         }
 
@@ -92,14 +92,14 @@ namespace ct
             }
         }
         // ノーツ レート
-        const double notesRatingResult = localAveRating * 0.6 + aveRating * 0.4;
+        const double notesRatingResult = localAveRating * 0.7 + aveRating * 0.3;
 
         const double ratingResult = notesRatingResult;
         return AnalyzeResult
         {
             .rating = static_cast<uint64>(Math::Round(ratingResult)),
-            .aveRating = aveRating,
-            .localAveRating = localAveRating,
+            .aveRating = static_cast<uint64>(Math::Round(aveRating)),
+            .localAveRating = static_cast<uint64>(Math::Round(localAveRating)),
             .stopRating = 0,
             .bpmRating = 0,
             .speedRating = 0
