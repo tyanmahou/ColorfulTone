@@ -49,14 +49,29 @@ namespace ct
         // 1秒間隔のスコア 反比例
         constexpr double BaseNoteRating = 1000.0;
         constexpr int64 NoteDiffThreshold = 44100 * 2;
-        const auto& notes = sheet.getNotes();
+        // 終端は除く
+        const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
+            return e.type != 8;
+        });
 
         Array<double> notesRating;
+        Array<double> speedDiff;
+
         notesRating.reserve(notes.size());
         if (!notes.isEmpty()) {
             notesRating.push_back(BaseNoteRating / 4.0 * TypeFactor(notes[0]));
         }
         for (size_t index = 1; index < notes.size(); ++index) {
+            if (notes[index].speed != notes[index - 1].speed) {
+                double minSpeed = Min(notes[index].speed, notes[index - 1].speed);
+                double maxSpeed = Max(notes[index].speed, notes[index - 1].speed);
+                if (minSpeed != 0.0) {
+                    speedDiff.push_back(((minSpeed * maxSpeed <= 0) ? 2 : 1) * Abs(maxSpeed / minSpeed));
+                } else {
+                    speedDiff.push_back(2);
+                }
+            }
+
             int64 diff = Min(notes[index].sample - notes[index - 1].sample, NoteDiffThreshold);
             if (diff == 0) {
                 // 無いはずだけどDiffがないなら
@@ -94,15 +109,40 @@ namespace ct
         // ノーツ レート
         const double notesRatingResult = localAveRating * 0.7 + aveRating * 0.3;
 
-        const double ratingResult = notesRatingResult;
+        // 停止レート 1個につき
+        constexpr double BaseStopRating = 100.0;
+        double stopRating = 0;
+        const auto& stops = sheet.getStops();
+        for (size_t index = 0; index < stops.size(); ++index) {
+            if (index > 0 && stops[index].count == stops[index - 1].count) {
+                // バックも一個扱い
+                continue;
+            }
+            stopRating += BaseStopRating;
+        }
+        // BPM変化
+        constexpr double BaseBpmRating = 1.0;
+        double bpmRating = 0;
+        const auto& tempos = sheet.getTempos();
+        for (size_t index = 1; index < tempos.size(); ++index) {
+            bpmRating += Abs(tempos[index].bpm - tempos[index - 1].bpm) * BaseBpmRating;
+        }
+        // 速度変化
+        constexpr double BaseSpeedRating = 50.0;
+        double speedRating = 0;
+        for (double diff : speedDiff) {
+            speedRating += (diff - 1.0) * BaseSpeedRating;
+        }
+
+        const double ratingResult = notesRatingResult + stopRating + bpmRating + speedRating;
         return AnalyzeResult
         {
             .rating = static_cast<uint64>(Math::Round(ratingResult)),
             .aveRating = static_cast<uint64>(Math::Round(aveRating)),
             .localAveRating = static_cast<uint64>(Math::Round(localAveRating)),
-            .stopRating = 0,
-            .bpmRating = 0,
-            .speedRating = 0
+            .stopRating = static_cast<uint64>(Math::Round(stopRating)),
+            .bpmRating = static_cast<uint64>(Math::Round(bpmRating)),
+            .speedRating = static_cast<uint64>(Math::Round(speedRating)),
         };
     }
 }

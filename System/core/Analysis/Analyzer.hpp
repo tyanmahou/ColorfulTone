@@ -14,13 +14,13 @@ namespace ct
         s3d::uint64 localAveRating;
 
         // 停止レート
-        double stopRating;
+        s3d::uint64 stopRating;
 
         // BPM変化レート
-        double bpmRating;
+        s3d::uint64 bpmRating;
 
         // 速度変化レート
-        double speedRating;
+        s3d::uint64 speedRating;
     };
     /// <summary>
     /// アナライザー

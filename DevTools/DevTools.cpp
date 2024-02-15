@@ -70,10 +70,10 @@ namespace ct::dev
         {
             if (auto savePath = Dialog::SaveFile({ FileFilter::Text() }, U"", U"エンコードログ保存")) {
                 TextWriter log(*savePath);
-                log.writeln(U"Path, Lv, Rating, Ave, LocalAve");
+                log.writeln(U"Path, Lv, Rating, Ave, LocalAve, Stop, Bpm, Speed");
                 log.writeln(U"============================");
                 for (const Data& d : data) {
-                    String ln = U"{}, {}, {}, {}, {}"_fmt(d.path, d.level, d.result.rating, d.result.aveRating, d.result.localAveRating);
+                    String ln = U"{}, {}, {}, {}, {}, {}, {}, {}"_fmt(d.path, d.level, d.result.rating, d.result.aveRating, d.result.localAveRating, d.result.stopRating, d.result.bpmRating, d.result.speedRating);
                     log.writeln(ln);
                 }
                 log.writeln(U"");
