@@ -21,7 +21,7 @@ namespace
         case 8:
             return 0.0;
         case 9:
-            return 0.2;
+            return 0.1;
         case 10:
             return 1.2 * note.interval / 8.0;
         case 11:
@@ -40,6 +40,35 @@ namespace
             return 0.0;
         }
     }
+
+    int32 NoteTypeBit(NoteType type)
+    {
+        switch (type) {
+        case 1:
+        case 11:
+            return 0b001;
+        case 2:
+        case 12:
+            return 0b010;
+        case 3:
+        case 13:
+            return 0b100;
+        case 4:
+        case 14:
+            return 0b110;
+        case 5:
+        case 15:
+            return 0b101;
+        case 6:
+        case 16:
+            return 0b011;
+        case 7:
+        case 17:
+            return 0b111;
+        default:
+            return 0b000;
+        }
+    }
 }
 namespace ct
 {
@@ -50,37 +79,68 @@ namespace ct
         constexpr double BaseNoteRating = 1000.0;
         constexpr int64 NoteDiffThresholdMin = static_cast<int64>(44100.0 * 0.01);
         constexpr int64 NoteDiffThresholdMax = 44100 * 2;
-        // 終端は除く
+        // ロング終点以外
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
             return e.type != 8;
         });
 
         Array<double> notesRating;
         Array<double> speedDiff;
+        int64 lastSample = 0;
+        std::array<int64, 3> lastSampleBits{ 0,0,0 };
 
         notesRating.reserve(notes.size());
-        if (!notes.isEmpty()) {
-            notesRating.push_back(BaseNoteRating / 4.0 * TypeFactor(notes[0]));
-        }
-        for (size_t index = 1; index < notes.size(); ++index) {
-            if (notes[index].speed != notes[index - 1].speed) {
-                double minSpeed = Min(notes[index].speed, notes[index - 1].speed);
-                double maxSpeed = Max(notes[index].speed, notes[index - 1].speed);
-                if (minSpeed != 0.0) {
-                    speedDiff.push_back(((minSpeed * maxSpeed <= 0) ? 2 : 1) * Abs(maxSpeed / minSpeed));
-                } else {
-                    speedDiff.push_back(2);
+        //if (!notes.isEmpty()) {
+        //    notesRating.push_back(BaseNoteRating / 4.0 * TypeFactor(notes[0]));
+        //}
+        for (size_t index = 0; index < notes.size(); ++index) {
+            //if (notes[index].speed != notes[index - 1].speed) {
+            //    double minSpeed = Min(notes[index].speed, notes[index - 1].speed);
+            //    double maxSpeed = Max(notes[index].speed, notes[index - 1].speed);
+            //    if (minSpeed != 0.0) {
+            //        speedDiff.push_back(((minSpeed * maxSpeed <= 0) ? 2 : 1) * Abs(maxSpeed / minSpeed));
+            //    } else {
+            //        speedDiff.push_back(2);
+            //    }
+            //}
+            int32 typebit = NoteTypeBit(notes[index].type);
+            int64 nearSample = 0;
+            if (typebit == 0) {
+                nearSample = lastSample;
+            } else {
+                if ((typebit & 0b001) != 0) { // 赤
+                    nearSample = Max(nearSample, lastSampleBits[0]);
+                }
+                if ((typebit & 0b010) != 0) { // 青
+                    nearSample = Max(nearSample, lastSampleBits[1]);
+                }
+                if ((typebit & 0b100) != 0) { // 黄
+                    nearSample = Max(nearSample, lastSampleBits[2]);
                 }
             }
 
-            int64 diff = Clamp(notes[index].sample - notes[index - 1].sample, NoteDiffThresholdMin, NoteDiffThresholdMax);
+            int64 diff = Clamp(notes[index].sample - nearSample, NoteDiffThresholdMin, NoteDiffThresholdMax);
             if (diff == 0) {
                 // 無いはずだけどDiffがないなら
                 notesRating.push_back(BaseNoteRating * TypeFactor(notes[index]));
-                continue;
+            } else {
+                double score = BaseNoteRating / (static_cast<double>(diff) / 44100.0) * TypeFactor(notes[index]);
+                notesRating.push_back(score);
             }
-            double score = BaseNoteRating / (static_cast<double>(diff) / 44100.0) * TypeFactor(notes[index]);
-            notesRating.push_back(score);
+            // 最終タップ更新
+            if ((typebit & 0b001) != 0) { // 赤
+                lastSampleBits[0] = notes[index].sample;
+            }
+            if ((typebit & 0b010) != 0) { // 青
+                lastSampleBits[1] = notes[index].sample;
+            }
+            if ((typebit & 0b100) != 0) { // 黄
+                lastSampleBits[2] = notes[index].sample;
+            }
+            if (notes[index].type != 9) {
+                // 白じゃなければ
+                lastSample = notes[index].sample;
+            }
         }
 
         // 平均レーティング
