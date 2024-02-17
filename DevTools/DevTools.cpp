@@ -31,15 +31,15 @@ namespace ct::dev
             }
         }
     }
-    Coro::Fiber<void> DevTools::AnalyzeAsync()
+    Coro::Fiber<void> DevTools::AnalyzeAsync(bool isOfficialOnly)
     {
         g_progress = 0;
         auto path = Dialog::SelectFolder(U"Music");
         if (!path) {
             co_return;
         }
-        auto files = FileSystem::DirectoryContents(*path).filter([](const FilePath& p) {
-            const bool isOfficial = !U".*\\d{4}_\\d{2}"_re.match(p).isEmpty();
+        auto files = FileSystem::DirectoryContents(*path).filter([&](const FilePath& p) {
+            const bool isOfficial = isOfficialOnly ? !U".*\\d{4}_\\d{2}"_re.match(p).isEmpty() : true;
             return isOfficial && FileSystem::Extension(p) == U"csv";
             });
         struct Data

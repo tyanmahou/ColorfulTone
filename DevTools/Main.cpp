@@ -8,6 +8,7 @@ void Main()
 	using namespace ct;
 	using namespace ct::dev;
 
+	bool isOfficialFilter = true;
 	Coro::FiberHolder<void> fiber;
 	while (System::Update())
 	{
@@ -24,8 +25,9 @@ void Main()
 			DevTools::ConvertPS();
 		}
 		pos.y += 50;
+		SimpleGUI::CheckBox(isOfficialFilter, U"公式フィルタ", pos + Vec2{ 200, 0 });
 		if (SimpleGUI::Button(U"譜面解析", pos)) {
-			fiber.reset(DevTools::AnalyzeAsync);
+			fiber.reset(std::bind_back(&DevTools::AnalyzeAsync, isOfficialFilter));
 		}
 		if (loading) {
 			Scene::Rect().draw(ColorF(0, 0.5));

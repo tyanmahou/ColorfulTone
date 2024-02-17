@@ -22,7 +22,7 @@ namespace ct::dev
         /// <summary>
         /// 解析
         /// </summary>
-        static Coro::Fiber<void> AnalyzeAsync();
+        static Coro::Fiber<void> AnalyzeAsync(bool isOfficialOnly);
 
         static double LoadingProgress();
     };
