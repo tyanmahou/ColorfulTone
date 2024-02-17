@@ -48,7 +48,7 @@ namespace ct
     {
         // 1秒間隔のスコア 反比例
         constexpr double BaseNoteRating = 1000.0;
-        constexpr int64 NoteDiffThresholdMin = static_cast<int64>(44100.0 * 0.05);
+        constexpr int64 NoteDiffThresholdMin = static_cast<int64>(44100.0 * 0.01);
         constexpr int64 NoteDiffThresholdMax = 44100 * 2;
         // 終端は除く
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
@@ -147,9 +147,9 @@ namespace ct
         // 速度変化
         constexpr double BaseSpeedRating = 50.0;
         double speedRating = 0;
-        for (double diff : speedDiff) {
-            speedRating += Min(diff - 1.0, 5.0) * BaseSpeedRating;
-        }
+        //for (double diff : speedDiff) {
+        //    speedRating += Min(diff - 1.0, 5.0) * BaseSpeedRating;
+        //}
 
         const double ratingResult = notesRatingResult + stopRating + bpmRating + speedRating;
         return AnalyzeResult
