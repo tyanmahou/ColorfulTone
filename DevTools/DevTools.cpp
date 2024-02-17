@@ -68,58 +68,61 @@ namespace ct::dev
 
         // 保存
         {
-            if (auto savePath = Dialog::SaveFile({ FileFilter::Text() }, U"", U"エンコードログ保存")) {
-                TextWriter log(*savePath);
-                log.writeln(U"Path, Lv, Rating, Ave, LocalAve, Stop, Bpm, Speed");
-                log.writeln(U"============================");
-                for (const Data& d : data) {
-                    String ln = U"{}, {}, {}, {}, {}, {}, {}, {}"_fmt(d.path, d.level, d.result.rating, d.result.aveRating, d.result.localAveRating, d.result.stopRating, d.result.bpmRating, d.result.speedRating);
-                    log.writeln(ln);
-                }
-                log.writeln(U"");
-                log.writeln(U"Lv, Median, Ave, Min, Max");
-                log.writeln(U"============================");
-                struct Statistics
+            if (auto savePath = Dialog::SaveFile({ FileFilter::Text() }, U"", U"解析結果保存")) {
                 {
-                    Array<int64> data;
-
-                    int64 min = std::numeric_limits<int64>::max();
-                    int64 max = 0;
-                    int64 sum = 0;
-
-                    int64 median() const
+                    TextWriter log(*savePath);
+                    log.writeln(U"Path, Lv, Rating, Ave, LocalAve, Stop, Bpm, Speed");
+                    log.writeln(U"============================");
+                    for (const Data& d : data) {
+                        String ln = U"{}, {}, {}, {}, {}, {}, {}, {}"_fmt(d.path, d.level, d.result.rating, d.result.aveRating, d.result.localAveRating, d.result.stopRating, d.result.bpmRating, d.result.speedRating);
+                        log.writeln(ln);
+                    }
+                    log.writeln(U"");
+                    log.writeln(U"Lv, Median, Ave, Min, Max");
+                    log.writeln(U"============================");
+                    struct Statistics
                     {
-                        size_t half = data.size() / 2;
-                        if (data.size() % 2 == 0) {
-                            return (data[half] + data[half - 1]) / 2;
-                        } else {
-                            return data[half];
+                        Array<int64> data;
+
+                        int64 min = std::numeric_limits<int64>::max();
+                        int64 max = 0;
+                        int64 sum = 0;
+
+                        int64 median() const
+                        {
+                            size_t half = data.size() / 2;
+                            if (data.size() % 2 == 0) {
+                                return (data[half] + data[half - 1]) / 2;
+                            } else {
+                                return data[half];
+                            }
                         }
-                    }
-                    int64 ave() const
-                    {
-                        return sum / data.size();
-                    }
-                };
-                std::map <int32, Statistics> statics;
-                for (const Data& d : data) {
-                    int32 lv = Min(d.level, 14);
-                    int64 rating = d.result.rating;
+                        int64 ave() const
+                        {
+                            return sum / data.size();
+                        }
+                    };
+                    std::map <int32, Statistics> statics;
+                    for (const Data& d : data) {
+                        int32 lv = Min(d.level, 14);
+                        int64 rating = d.result.rating;
 
-                    statics[lv].data.push_back(rating);
-                    if (statics[lv].min > rating) {
-                        statics[lv].min = rating;
+                        statics[lv].data.push_back(rating);
+                        if (statics[lv].min > rating) {
+                            statics[lv].min = rating;
+                        }
+                        if (statics[lv].max < rating) {
+                            statics[lv].max = rating;
+                        }
+                        statics[lv].sum += rating;
                     }
-                    if (statics[lv].max < rating) {
-                        statics[lv].max = rating;
+                    for (auto&& [lv, s] : statics) {
+                        s.data.sort();
+                        String ln = U"{}, {}, {}, {}, {}"_fmt(lv, s.median(), s.ave(), s.min, s.max);
+                        log.writeln(ln);
                     }
-                    statics[lv].sum += rating;
                 }
-                for (auto&& [lv, s] : statics) {
-                    s.data.sort();
-                    String ln = U"{}, {}, {}, {}, {}"_fmt(lv, s.median(), s.ave(), s.min, s.max);
-                    log.writeln(ln);
-                }
+                s3d::System::LaunchFile(*savePath);
             }
         }
         Print << U"Complete";

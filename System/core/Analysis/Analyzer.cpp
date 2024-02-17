@@ -189,21 +189,21 @@ namespace ct
         // 停止レート 1個につき
         constexpr double BaseStopRating = 100.0;
         double stopRating = 0;
-        const auto& stops = sheet.getStops();
-        for (size_t index = 0; index < stops.size(); ++index) {
-            if (index > 0 && stops[index].count == stops[index - 1].count) {
-                // バックも一個扱い
-                continue;
-            }
-            stopRating += BaseStopRating;
-        }
+        //const auto& stops = sheet.getStops();
+        //for (size_t index = 0; index < stops.size(); ++index) {
+        //    if (index > 0 && stops[index].count == stops[index - 1].count) {
+        //        // バックも一個扱い
+        //        continue;
+        //    }
+        //    stopRating += BaseStopRating;
+        //}
         // BPM変化
         constexpr double BaseBpmRating = 1.0;
         double bpmRating = 0;
-        const auto& tempos = sheet.getTempos();
-        for (size_t index = 1; index < tempos.size(); ++index) {
-            bpmRating += Abs(tempos[index].bpm - tempos[index - 1].bpm) * BaseBpmRating;
-        }
+        //const auto& tempos = sheet.getTempos();
+        //for (size_t index = 1; index < tempos.size(); ++index) {
+        //    bpmRating += Abs(tempos[index].bpm - tempos[index - 1].bpm) * BaseBpmRating;
+        //}
         // 速度変化
         constexpr double BaseSpeedRating = 50.0;
         double speedRating = 0;
