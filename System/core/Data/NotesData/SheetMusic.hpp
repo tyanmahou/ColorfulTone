@@ -132,6 +132,10 @@ namespace ct
         {
             return static_cast<double>(m_totalSample) / 44100.0;
         }
+        s3d::int64 getOffsetedTotalSample() const
+        {
+            return m_totalSample + m_tempos[0].bpmOffsetSample;
+        }
         s3d::uint32 getTotalNotes() const
         {
             return m_totalNotes;

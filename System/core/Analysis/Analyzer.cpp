@@ -91,9 +91,6 @@ namespace ct
         std::array<int64, 3> lastSampleBits{ 0,0,0 };
 
         notesRating.reserve(notes.size());
-        //if (!notes.isEmpty()) {
-        //    notesRating.push_back(BaseNoteRating / 4.0 * TypeFactor(notes[0]));
-        //}
         for (size_t index = 0; index < notes.size(); ++index) {
             //if (notes[index].speed != notes[index - 1].speed) {
             //    double minSpeed = Min(notes[index].speed, notes[index - 1].speed);
@@ -121,11 +118,13 @@ namespace ct
             }
 
             int64 diff = Clamp(notes[index].sample - nearSample, NoteDiffThresholdMin, NoteDiffThresholdMax);
-            if (diff == 0) {
+            if (diff <= 0) {
                 // 無いはずだけどDiffがないなら
                 notesRating.emplace_back(notes[index].sample, BaseNoteRating * TypeFactor(notes[index]));
             } else {
-                double score = BaseNoteRating / (static_cast<double>(diff) / 44100.0) * TypeFactor(notes[index]);
+                // 間隔係数
+                double jackFactor = Math::Log(1 / (static_cast<double>(diff) / 44100.0)) + 1.0;
+                double score = BaseNoteRating * jackFactor * TypeFactor(notes[index]);
                 notesRating.emplace_back(notes[index].sample, score);
             }
             // 最終タップ更新
@@ -150,9 +149,10 @@ namespace ct
             const auto& bars = sheet.getBars();
             size_t notesIndex = 0;
             for (size_t barIndex = 0; barIndex < bars.size(); ++barIndex) {
-                s3d::int64 nextBarSample = (barIndex + 1) < bars.size() ? bars[barIndex + 1].sample : sheet.getTotalSample();
+                s3d::int64 nextBarSample = (barIndex + 1) < bars.size() ? bars[barIndex + 1].sample : sheet.getOffsetedTotalSample();
 
                 double sum = 0;
+                // ノーツレート
                 while (notesIndex < notesRating.size() && notesRating[notesIndex].first < nextBarSample) {
                     sum += notesRating[notesIndex].second;
                     ++notesIndex;
@@ -177,7 +177,7 @@ namespace ct
         double medianRating = StatisticsUtil::Median(barRatings);
 
         // レート
-        const double ratingResult = meanRating * 0.25 + medianRating * 0.4 + maxRating * 0.35;
+        const double ratingResult = meanRating * 0.5 + medianRating * 0.4 + maxRating * 0.1;
 
         //// 停止レート 1個につき
         //constexpr double BaseStopRating = 100.0;
