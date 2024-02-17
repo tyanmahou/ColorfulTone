@@ -124,6 +124,14 @@ namespace ct
         {
             return m_lastBarCount;
         }
+        s3d::int64 getTotalSample() const
+        {
+            return m_totalSample;
+        }
+        double getTotalSec() const
+        {
+            return static_cast<double>(m_totalSample) / 44100.0;
+        }
         s3d::uint32 getTotalNotes() const
         {
             return m_totalNotes;
@@ -141,6 +149,7 @@ namespace ct
         s3d::Color m_color;               // 譜面カラー
 
         double m_lastBarCount;			  // 小節のカウント数
+        s3d::int64 m_totalSample;		  // トータルサンプル
         s3d::uint32 m_totalNotes;		  // ノーツ数の合計
         //** 楽譜情報 **//
         s3d::int64 m_offsetSample;		  // オフセットサンプル数

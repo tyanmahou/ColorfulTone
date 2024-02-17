@@ -1,4 +1,5 @@
 ﻿#include <core/Analysis/Analyzer.hpp>
+#include <utils/Math/StatisticsUtil.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -84,7 +85,7 @@ namespace ct
             return e.type != 8;
         });
 
-        Array<double> notesRating;
+        Array<std::pair<int64, double>> notesRating;
         Array<double> speedDiff;
         int64 lastSample = 0;
         std::array<int64, 3> lastSampleBits{ 0,0,0 };
@@ -122,10 +123,10 @@ namespace ct
             int64 diff = Clamp(notes[index].sample - nearSample, NoteDiffThresholdMin, NoteDiffThresholdMax);
             if (diff == 0) {
                 // 無いはずだけどDiffがないなら
-                notesRating.push_back(BaseNoteRating * TypeFactor(notes[index]));
+                notesRating.emplace_back(notes[index].sample, BaseNoteRating * TypeFactor(notes[index]));
             } else {
                 double score = BaseNoteRating / (static_cast<double>(diff) / 44100.0) * TypeFactor(notes[index]);
-                notesRating.push_back(score);
+                notesRating.emplace_back(notes[index].sample, score);
             }
             // 最終タップ更新
             if ((typebit & 0b001) != 0) { // 赤
@@ -143,52 +144,41 @@ namespace ct
             }
         }
 
-        // 平均レーティング
-        double aveRating = 0;
-        if (!notesRating.isEmpty()) {
-            double sum = 0;
-            for (double r : notesRating) {
-                sum += r;
-            }
-            aveRating = sum / notesRating.size();
-        }
-        // 局所レーティング
-        double localAveRating = 0;
-        if (notesRating.size() <= 0) {
-            localAveRating = aveRating;
-        } else if (notesRating.size() <= 16) {
-            Array<double> midMemo = notesRating;
-            midMemo.sort();
-            // 中央値と平均値のミックス
-            size_t half = notesRating.size() / 2;
-            const double mid = notesRating.size() % 2 == 1 ?
-                midMemo[half] :
-                (midMemo[half] + midMemo[half - 1]) / 2.0
-                ;
-            localAveRating = aveRating * 0.1 + mid * 0.9;
-        } else {
-            for (size_t index = 0; index < notesRating.size() - 16; ++index) {
-                double sum = 0;
-                Array<double> midMemo;
-                for (size_t index2 = 0; index2 < 16; ++index2) {
-                    sum += notesRating[index + index2];
-                    midMemo.push_back(notesRating[index + index2]);
-                }
-                midMemo.sort();
-                // 中央値と平均値のミックス
-                const double ave = sum / 16.0;
-                const double mid = (midMemo[8] + midMemo[7]) / 2.0;
-                if (double localAve = ave * 0.1 + mid * 0.9; localAve > localAveRating) {
-                    localAveRating = localAve;
-                }
-            }
-        }
-        // ノーツ レート
-        const double notesRatingResult = localAveRating * 0.7 + aveRating * 0.3;
+        // 小節事にレーティング 計算
+        Array<double> barRatings;
+        {
+            const auto& bars = sheet.getBars();
+            size_t notesIndex = 0;
+            for (size_t barIndex = 0; barIndex < bars.size(); ++barIndex) {
+                s3d::int64 nextBarSample = (barIndex + 1) < bars.size() ? bars[barIndex + 1].sample : sheet.getTotalSample();
 
-        // 停止レート 1個につき
-        constexpr double BaseStopRating = 100.0;
-        double stopRating = 0;
+                double sum = 0;
+                while (notesIndex < notesRating.size() && notesRating[notesIndex].first < nextBarSample) {
+                    sum += notesRating[notesIndex].second;
+                    ++notesIndex;
+                }
+
+                int64 sample = nextBarSample - bars[barIndex].sample;
+                if (sample <= 0) {
+                    continue;
+                }
+                double sec = static_cast<double>(sample) / 44100.0;
+                barRatings.push_back(sum / sec);
+            }
+        }
+        // 平均レート
+        double meanRating = StatisticsUtil::Mean(barRatings);
+        // 最大局所レート
+        double maxRating = StatisticsUtil::Max(barRatings);
+        // 中央局所レート
+        double medianRating = StatisticsUtil::Median(barRatings);
+
+        // レート
+        const double ratingResult = meanRating * 0.25 + medianRating * 0.4 + maxRating * 0.35;
+
+        //// 停止レート 1個につき
+        //constexpr double BaseStopRating = 100.0;
+        //double stopRating = 0;
         //const auto& stops = sheet.getStops();
         //for (size_t index = 0; index < stops.size(); ++index) {
         //    if (index > 0 && stops[index].count == stops[index - 1].count) {
@@ -197,29 +187,27 @@ namespace ct
         //    }
         //    stopRating += BaseStopRating;
         //}
-        // BPM変化
-        constexpr double BaseBpmRating = 1.0;
-        double bpmRating = 0;
+
+        //// BPM変化
+        //constexpr double BaseBpmRating = 1.0;
+        //double bpmRating = 0;
         //const auto& tempos = sheet.getTempos();
         //for (size_t index = 1; index < tempos.size(); ++index) {
         //    bpmRating += Abs(tempos[index].bpm - tempos[index - 1].bpm) * BaseBpmRating;
         //}
-        // 速度変化
-        constexpr double BaseSpeedRating = 50.0;
-        double speedRating = 0;
+
+        //// 速度変化
+        //constexpr double BaseSpeedRating = 50.0;
+        //double speedRating = 0;
         //for (double diff : speedDiff) {
         //    speedRating += Min(diff - 1.0, 5.0) * BaseSpeedRating;
         //}
-
-        const double ratingResult = notesRatingResult + stopRating + bpmRating + speedRating;
         return AnalyzeResult
         {
             .rating = static_cast<uint64>(Math::Round(ratingResult)),
-            .aveRating = static_cast<uint64>(Math::Round(aveRating)),
-            .localAveRating = static_cast<uint64>(Math::Round(localAveRating)),
-            .stopRating = static_cast<uint64>(Math::Round(stopRating)),
-            .bpmRating = static_cast<uint64>(Math::Round(bpmRating)),
-            .speedRating = static_cast<uint64>(Math::Round(speedRating)),
+            .meanRating = static_cast<uint64>(Math::Round(meanRating)),
+            .maxRating = static_cast<uint64>(Math::Round(maxRating)),
+            .medianRating = static_cast<uint64>(Math::Round(medianRating)),
         };
     }
 }

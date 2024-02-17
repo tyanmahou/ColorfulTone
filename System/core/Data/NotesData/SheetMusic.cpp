@@ -295,10 +295,10 @@ namespace ct
                 }
             }
         }
-
         m_totalNotes = totalNotes;
-        m_lastBarCount = nowCount + GetJudgeOffset(nowCount, stopInfos) + RESOLUTION * 2;
-
+        const double fixedLastCount = nowCount + GetJudgeOffset(nowCount, stopInfos);
+        m_lastBarCount = fixedLastCount + RESOLUTION * 2;
+        m_totalSample = calcTimingSample(fixedLastCount) - m_tempos[0].bpmOffsetSample;
         return true;
     }
     s3d::String ct::SheetMusic::getLevelWithStar() const

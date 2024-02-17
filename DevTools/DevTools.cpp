@@ -2,6 +2,7 @@
 #include <commons/Migration/MigrationUtil.hpp>
 #include <core/Analysis/Analyzer.hpp>
 #include <utils/Thread/Task.hpp>
+#include <utils/Math/StatisticsUtil.hpp>
 
 namespace ct::dev
 {
@@ -71,14 +72,21 @@ namespace ct::dev
             if (auto savePath = Dialog::SaveFile({ FileFilter::Text() }, U"", U"解析結果保存")) {
                 {
                     TextWriter log(*savePath);
-                    log.writeln(U"Path, Lv, Rating, Ave, LocalAve, Stop, Bpm, Speed");
+                    log.writeln(U"Path, Lv, Rating, Mean, Median, Max");
                     log.writeln(U"============================");
                     for (const Data& d : data) {
-                        String ln = U"{}, {}, {}, {}, {}, {}, {}, {}"_fmt(d.path, d.level, d.result.rating, d.result.aveRating, d.result.localAveRating, d.result.stopRating, d.result.bpmRating, d.result.speedRating);
+                        String ln = U"{}, {}, {}, {}, {}, {}, {}, {}"_fmt(
+                            d.path, 
+                            d.level,
+                            d.result.rating, 
+                            d.result.meanRating, 
+                            d.result.medianRating,
+                            d.result.maxRating
+                        );
                         log.writeln(ln);
                     }
                     log.writeln(U"");
-                    log.writeln(U"Lv, Median, Ave, Min, Max");
+                    log.writeln(U"Lv, Median, Mean, Min, Max");
                     log.writeln(U"============================");
                     struct Statistics
                     {
@@ -102,23 +110,21 @@ namespace ct::dev
                             return sum / data.size();
                         }
                     };
-                    std::map <int32, Statistics> statics;
+                    std::map <int32, Array<int64>> ratingMap;
                     for (const Data& d : data) {
                         int32 lv = Min(d.level, 14);
                         int64 rating = d.result.rating;
 
-                        statics[lv].data.push_back(rating);
-                        if (statics[lv].min > rating) {
-                            statics[lv].min = rating;
-                        }
-                        if (statics[lv].max < rating) {
-                            statics[lv].max = rating;
-                        }
-                        statics[lv].sum += rating;
+                        ratingMap[lv].push_back(rating);
                     }
-                    for (auto&& [lv, s] : statics) {
-                        s.data.sort();
-                        String ln = U"{}, {}, {}, {}, {}"_fmt(lv, s.median(), s.ave(), s.min, s.max);
+                    for (auto&& [lv, d] : ratingMap) {
+                        String ln = U"{}, {}, {}, {}, {}"_fmt(
+                            lv, 
+                            StatisticsUtil::Median(d),
+                            StatisticsUtil::Mean(d),
+                            StatisticsUtil::Min(d),
+                            StatisticsUtil::Max(d)
+                        );
                         log.writeln(ln);
                     }
                 }

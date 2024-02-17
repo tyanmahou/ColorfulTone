@@ -1,8 +1,690 @@
 ﻿Path, Lv, Rating, Ave, LocalAve, Stop, Bpm, Speed
 ============================
-test.csv, 0, 500, 500, 500, 0, 0, 0
-test2.csv, 0, 750, 750, 750, 0, 0, 0
+2016_01Summer/Alraune/easy.csv, 4, 3241, 3241, 3241, 0, 0, 0
+2016_01Summer/Alraune/hard.csv, 12, 18911, 18911, 18911, 0, 0, 0
+2016_01Summer/Alraune/normal.csv, 6, 9489, 9489, 9489, 0, 0, 0
+2016_01Summer/Chemical Drink/easy.csv, 2, 1198, 1198, 1198, 0, 0, 0
+2016_01Summer/Chemical Drink/hard.csv, 9, 15853, 15853, 15853, 0, 0, 0
+2016_01Summer/Chemical Drink/normal.csv, 4, 3577, 3577, 3577, 0, 0, 0
+2016_01Summer/Chip Adventures/easy.csv, 2, 490, 490, 490, 0, 0, 0
+2016_01Summer/Chip Adventures/hard.csv, 7, 8749, 8749, 8749, 0, 0, 0
+2016_01Summer/Chip Adventures/normal.csv, 6, 6598, 6598, 6598, 0, 0, 0
+2016_01Summer/DirectW PoPP/easy.csv, 10, 6013, 6013, 6013, 0, 0, 0
+2016_01Summer/DirectW PoPP/hard.csv, 15, 88437, 88437, 88437, 0, 0, 0
+2016_01Summer/DirectW PoPP/normal.csv, 12, 21798, 21798, 21798, 0, 0, 0
+2016_01Summer/HaPiKoA/easy.csv, 3, 1783, 1783, 1783, 0, 0, 0
+2016_01Summer/HaPiKoA/hard.csv, 7, 12621, 12621, 12621, 0, 0, 0
+2016_01Summer/HaPiKoA/normal.csv, 4, 4921, 4921, 4921, 0, 0, 0
+2016_01Summer/highway/easy.csv, 3, 1512, 1512, 1512, 0, 0, 0
+2016_01Summer/highway/hard.csv, 9, 11958, 11958, 11958, 0, 0, 0
+2016_01Summer/highway/normal.csv, 6, 7953, 7953, 7953, 0, 0, 0
+2016_01Summer/IABAY/easy.csv, 4, 2662, 2662, 2662, 0, 0, 0
+2016_01Summer/IABAY/hard.csv, 9, 13610, 13610, 13610, 0, 0, 0
+2016_01Summer/IABAY/normal.csv, 8, 11318, 11318, 11318, 0, 0, 0
+2016_01Summer/MADiX PANIC/easy.csv, 5, 7891, 7891, 7891, 0, 0, 0
+2016_01Summer/MADiX PANIC/hard.csv, 11, 21943, 21943, 21943, 0, 0, 0
+2016_01Summer/MADiX PANIC/normal.csv, 6, 8766, 8766, 8766, 0, 0, 0
+2016_01Summer/Primitive Spread/Easy.csv, 2, 592, 592, 592, 0, 0, 0
+2016_01Summer/Primitive Spread/Hard+.csv, 13, 30002, 30002, 30002, 0, 0, 0
+2016_01Summer/Primitive Spread/Hard.csv, 7, 7744, 7744, 7744, 0, 0, 0
+2016_01Summer/Primitive Spread/Normal.csv, 5, 5704, 5704, 5704, 0, 0, 0
+2016_01Summer/SULTRY GUY/Easy.csv, 2, 1396, 1396, 1396, 0, 0, 0
+2016_01Summer/SULTRY GUY/Hard+.csv, 13, 43685, 43685, 43685, 0, 0, 0
+2016_01Summer/SULTRY GUY/Hard.csv, 9, 19732, 19732, 19732, 0, 0, 0
+2016_01Summer/SULTRY GUY/Normal.csv, 5, 4272, 4272, 4272, 0, 0, 0
+2016_01Summer/The Beginning of Autumn/easy.csv, 1, 610, 610, 610, 0, 0, 0
+2016_01Summer/The Beginning of Autumn/hard+.csv, 11, 15621, 15621, 15621, 0, 0, 0
+2016_01Summer/The Beginning of Autumn/hard.csv, 7, 7783, 7783, 7783, 0, 0, 0
+2016_01Summer/The Beginning of Autumn/normal.csv, 4, 2116, 2116, 2116, 0, 0, 0
+2016_01Summer/The Hounds of Tindalos/Hounds.csv, 11, 4820, 4820, 4820, 0, 0, 0
+2016_01Summer/The Splendid World!!!!/easy.csv, 3, 1270, 1270, 1270, 0, 0, 0
+2016_01Summer/The Splendid World!!!!/hard.csv, 8, 11632, 11632, 11632, 0, 0, 0
+2016_01Summer/The Splendid World!!!!/normal.csv, 6, 5528, 5528, 5528, 0, 0, 0
+2016_01Summer/The tiny star/Easy.csv, 3, 1606, 1606, 1606, 0, 0, 0
+2016_01Summer/The tiny star/Hard.csv, 9, 10109, 10109, 10109, 0, 0, 0
+2016_01Summer/The tiny star/Normal.csv, 6, 6621, 6621, 6621, 0, 0, 0
+2016_01Summer/XRT/Easy.csv, 4, 4635, 4635, 4635, 0, 0, 0
+2016_01Summer/XRT/hard.csv, 11, 28408, 28408, 28408, 0, 0, 0
+2016_01Summer/XRT/Normal.csv, 7, 10092, 10092, 10092, 0, 0, 0
+2016_01Summer/きのこ 伸びる ドラムンきのこ/Easy.csv, 4, 3373, 3373, 3373, 0, 0, 0
+2016_01Summer/きのこ 伸びる ドラムンきのこ/Hard.csv, 8, 10589, 10589, 10589, 0, 0, 0
+2016_01Summer/きのこ 伸びる ドラムンきのこ/Normal.csv, 6, 7597, 7597, 7597, 0, 0, 0
+2016_01Summer/ガイトウ/easy.csv, 3, 1484, 1484, 1484, 0, 0, 0
+2016_01Summer/ガイトウ/hard.csv, 7, 9280, 9280, 9280, 0, 0, 0
+2016_01Summer/ガイトウ/normal.csv, 4, 4346, 4346, 4346, 0, 0, 0
+2016_01Summer/キラメキ★ガールズ/another.csv, 10, 18738, 18738, 18738, 0, 0, 0
+2016_01Summer/キラメキ★ガールズ/easy.csv, 1, 597, 597, 597, 0, 0, 0
+2016_01Summer/キラメキ★ガールズ/hard.csv, 7, 11262, 11262, 11262, 0, 0, 0
+2016_01Summer/キラメキ★ガールズ/normal.csv, 3, 2635, 2635, 2635, 0, 0, 0
+2016_01Summer/スターリー スプラッシュ クリスタル/another.csv, 13, 23860, 23860, 23860, 0, 0, 0
+2016_01Summer/スターリー スプラッシュ クリスタル/easy.csv, 2, 652, 652, 652, 0, 0, 0
+2016_01Summer/スターリー スプラッシュ クリスタル/hard.csv, 8, 9333, 9333, 9333, 0, 0, 0
+2016_01Summer/スターリー スプラッシュ クリスタル/normal.csv, 4, 2618, 2618, 2618, 0, 0, 0
+2016_01Summer/ソノ光、鈍サヲ強サニ変エ/Easy.csv, 1, 392, 392, 392, 0, 0, 0
+2016_01Summer/ソノ光、鈍サヲ強サニ変エ/Hard.csv, 11, 19382, 19382, 19382, 0, 0, 0
+2016_01Summer/ソノ光、鈍サヲ強サニ変エ/Normal.csv, 8, 12830, 12830, 12830, 0, 0, 0
+2016_01Summer/ハイパーダーク/easy.csv, 3, 827, 827, 827, 0, 0, 0
+2016_01Summer/ハイパーダーク/hard+.csv, 10, 15591, 15591, 15591, 0, 0, 0
+2016_01Summer/ハイパーダーク/hard.csv, 7, 8723, 8723, 8723, 0, 0, 0
+2016_01Summer/ハイパーダーク/normal.csv, 4, 3183, 3183, 3183, 0, 0, 0
+2016_01Summer/プラヌラ スキフラ/another.csv, 12, 21555, 21555, 21555, 0, 0, 0
+2016_01Summer/プラヌラ スキフラ/easy.csv, 3, 1082, 1082, 1082, 0, 0, 0
+2016_01Summer/プラヌラ スキフラ/hard.csv, 8, 11380, 11380, 11380, 0, 0, 0
+2016_01Summer/プラヌラ スキフラ/normal.csv, 5, 4166, 4166, 4166, 0, 0, 0
+2016_01Summer/夕部屋/BackSounds.csv, 5, 3864, 3864, 3864, 0, 0, 0
+2016_01Summer/夕部屋/Merody.csv, 5, 3963, 3963, 3963, 0, 0, 0
+2016_01Summer/宙　～ソラ～/Easy.csv, 1, 214, 214, 214, 0, 0, 0
+2016_01Summer/宙　～ソラ～/Hard.csv, 4, 3083, 3083, 3083, 0, 0, 0
+2016_01Summer/宙　～ソラ～/Normal.csv, 3, 936, 936, 936, 0, 0, 0
+2017_01Spring/Academia/easy.csv, 3, 1219, 1219, 1219, 0, 0, 0
+2017_01Spring/Academia/hard+.csv, 11, 23933, 23933, 23933, 0, 0, 0
+2017_01Spring/Academia/hard.csv, 7, 8278, 8278, 8278, 0, 0, 0
+2017_01Spring/Academia/normal.csv, 5, 4241, 4241, 4241, 0, 0, 0
+2017_01Spring/Access & Connect/easy.csv, 2, 1343, 1343, 1343, 0, 0, 0
+2017_01Spring/Access & Connect/hard+.csv, 12, 18435, 18435, 18435, 0, 0, 0
+2017_01Spring/Access & Connect/hard.csv, 8, 12012, 12012, 12012, 0, 0, 0
+2017_01Spring/Access & Connect/normal.csv, 5, 8712, 8712, 8712, 0, 0, 0
+2017_01Spring/Chip Memories/easy.csv, 3, 896, 896, 896, 0, 0, 0
+2017_01Spring/Chip Memories/hard+.csv, 9, 13069, 13069, 13069, 0, 0, 0
+2017_01Spring/Chip Memories/hard.csv, 7, 8482, 8482, 8482, 0, 0, 0
+2017_01Spring/Chip Memories/normal.csv, 6, 4300, 4300, 4300, 0, 0, 0
+2017_01Spring/ClockPoPP/easy.csv, 6, 4837, 4837, 4837, 0, 0, 0
+2017_01Spring/ClockPoPP/hard.csv, 15, 33718, 33718, 33718, 0, 0, 0
+2017_01Spring/ClockPoPP/normal.csv, 14, 22199, 22199, 22199, 0, 0, 0
+2017_01Spring/Colorful41/easy.csv, 2, 799, 799, 799, 0, 0, 0
+2017_01Spring/Colorful41/hard+.csv, 41, 25968, 25968, 25968, 0, 0, 0
+2017_01Spring/Colorful41/hard.csv, 14, 22101, 22101, 22101, 0, 0, 0
+2017_01Spring/Colorful41/normal.csv, 10, 16512, 16512, 16512, 0, 0, 0
+2017_01Spring/DobSchop/easy.csv, 3, 1376, 1376, 1376, 0, 0, 0
+2017_01Spring/DobSchop/hard.csv, 7, 7079, 7079, 7079, 0, 0, 0
+2017_01Spring/DobSchop/hardstop.csv, 9, 13742, 13742, 13742, 0, 0, 0
+2017_01Spring/DobSchop/normal.csv, 4, 3480, 3480, 3480, 0, 0, 0
+2017_01Spring/End of the Crusade†/easy.csv, 3, 1706, 1706, 1706, 0, 0, 0
+2017_01Spring/End of the Crusade†/hard+.csv, 9, 9686, 9686, 9686, 0, 0, 0
+2017_01Spring/End of the Crusade†/hard.csv, 8, 9687, 9687, 9687, 0, 0, 0
+2017_01Spring/End of the Crusade†/normal.csv, 5, 5831, 5831, 5831, 0, 0, 0
+2017_01Spring/Enjoy your Teatime/easy.csv, 2, 2788, 2788, 2788, 0, 0, 0
+2017_01Spring/Enjoy your Teatime/hard+.csv, 10, 14103, 14103, 14103, 0, 0, 0
+2017_01Spring/Enjoy your Teatime/hard.csv, 8, 8590, 8590, 8590, 0, 0, 0
+2017_01Spring/Enjoy your Teatime/normal.csv, 4, 4840, 4840, 4840, 0, 0, 0
+2017_01Spring/Era/easy.csv, 3, 4747, 4747, 4747, 0, 0, 0
+2017_01Spring/Era/hard.csv, 11, 26401, 26401, 26401, 0, 0, 0
+2017_01Spring/Era/normal.csv, 6, 8029, 8029, 8029, 0, 0, 0
+2017_01Spring/Marten Site/easy.csv, 5, 2654, 2654, 2654, 0, 0, 0
+2017_01Spring/Marten Site/hard+.csv, 13, 22805, 22805, 22805, 0, 0, 0
+2017_01Spring/Marten Site/hard.csv, 12, 21885, 21885, 21885, 0, 0, 0
+2017_01Spring/Marten Site/normal.csv, 9, 8288, 8288, 8288, 0, 0, 0
+2017_01Spring/Midnight Party/easy.csv, 4, 2511, 2511, 2511, 0, 0, 0
+2017_01Spring/Midnight Party/hard.csv, 11, 28092, 28092, 28092, 0, 0, 0
+2017_01Spring/Midnight Party/normal.csv, 6, 6505, 6505, 6505, 0, 0, 0
+2017_01Spring/Mirror Mirage/back.csv, 14, 10241, 10241, 10241, 0, 0, 0
+2017_01Spring/Mirror Mirage/hard.csv, 8, 10241, 10241, 10241, 0, 0, 0
+2017_01Spring/Mirror Mirage/mirror.csv, 14, 10241, 10241, 10241, 0, 0, 0
+2017_01Spring/MUTANTE/easy.csv, 5, 4652, 4652, 4652, 0, 0, 0
+2017_01Spring/MUTANTE/hard.csv, 12, 22024, 22024, 22024, 0, 0, 0
+2017_01Spring/MUTANTE/normal.csv, 7, 7546, 7546, 7546, 0, 0, 0
+2017_01Spring/New Sky/easy.csv, 4, 3878, 3878, 3878, 0, 0, 0
+2017_01Spring/New Sky/hard.csv, 11, 20302, 20302, 20302, 0, 0, 0
+2017_01Spring/New Sky/normal.csv, 8, 9461, 9461, 9461, 0, 0, 0
+2017_01Spring/OMG poizone/easy.csv, 5, 5565, 5565, 5565, 0, 0, 0
+2017_01Spring/OMG poizone/hard.csv, 12, 35040, 35040, 35040, 0, 0, 0
+2017_01Spring/OMG poizone/normal.csv, 7, 8349, 8349, 8349, 0, 0, 0
+2017_01Spring/OtomeFantasia/easy.csv, 1, 420, 420, 420, 0, 0, 0
+2017_01Spring/OtomeFantasia/hard.csv, 5, 3559, 3559, 3559, 0, 0, 0
+2017_01Spring/OtomeFantasia/normal.csv, 3, 1600, 1600, 1600, 0, 0, 0
+2017_01Spring/OtomeFantasia/Wonderland.csv, 10, 15587, 15587, 15587, 0, 0, 0
+2017_01Spring/SAKANA/easy.csv, 3, 2405, 2405, 2405, 0, 0, 0
+2017_01Spring/SAKANA/hard.csv, 9, 11750, 11750, 11750, 0, 0, 0
+2017_01Spring/SAKANA/normal.csv, 5, 5110, 5110, 5110, 0, 0, 0
+2017_01Spring/StarLand/easy.csv, 3, 1211, 1211, 1211, 0, 0, 0
+2017_01Spring/StarLand/hoshikes.csv, 10, 17335, 17335, 17335, 0, 0, 0
+2017_01Spring/StarLand/normal.csv, 5, 5237, 5237, 5237, 0, 0, 0
+2017_01Spring/StarLight/easy.csv, 2, 875, 875, 875, 0, 0, 0
+2017_01Spring/StarLight/hoshikes.csv, 9, 14524, 14524, 14524, 0, 0, 0
+2017_01Spring/StarLight/normal.csv, 5, 5007, 5007, 5007, 0, 0, 0
+2017_01Spring/Teretere/easy.csv, 2, 811, 811, 811, 0, 0, 0
+2017_01Spring/Teretere/hard.csv, 10, 16039, 16039, 16039, 0, 0, 0
+2017_01Spring/Teretere/normal.csv, 5, 5344, 5344, 5344, 0, 0, 0
+2017_01Spring/WAV虎PoPP/easy.csv, 10, 14207, 14207, 14207, 0, 0, 0
+2017_01Spring/WAV虎PoPP/hard.csv, 15, 53882, 53882, 53882, 0, 0, 0
+2017_01Spring/WAV虎PoPP/normal.csv, 12, 28056, 28056, 28056, 0, 0, 0
+2017_01Spring/WhiteDragoon/easy.csv, 4, 3459, 3459, 3459, 0, 0, 0
+2017_01Spring/WhiteDragoon/hard.csv, 10, 15934, 15934, 15934, 0, 0, 0
+2017_01Spring/WhiteDragoon/normal.csv, 6, 7221, 7221, 7221, 0, 0, 0
+2017_01Spring/ハルノカケラ/easy.csv, 2, 719, 719, 719, 0, 0, 0
+2017_01Spring/ハルノカケラ/hard+.csv, 11, 18438, 18438, 18438, 0, 0, 0
+2017_01Spring/ハルノカケラ/hard.csv, 8, 8217, 8217, 8217, 0, 0, 0
+2017_01Spring/ハルノカケラ/normal.csv, 5, 3450, 3450, 3450, 0, 0, 0
+2017_01Spring/冬将軍再到来/easy.csv, 3, 2699, 2699, 2699, 0, 0, 0
+2017_01Spring/冬将軍再到来/hard.csv, 11, 25088, 25088, 25088, 0, 0, 0
+2017_01Spring/冬将軍再到来/normal.csv, 5, 5470, 5470, 5470, 0, 0, 0
+2017_01Spring/煉堕/easy.csv, 3, 2611, 2611, 2611, 0, 0, 0
+2017_01Spring/煉堕/fallenAngel.csv, 14, 39118, 39118, 39118, 0, 0, 0
+2017_01Spring/煉堕/hard.csv, 10, 21325, 21325, 21325, 0, 0, 0
+2017_01Spring/煉堕/normal.csv, 6, 7138, 7138, 7138, 0, 0, 0
+2017_01Spring/静動/easy.csv, 3, 1317, 1317, 1317, 0, 0, 0
+2017_01Spring/静動/hard.csv, 11, 20051, 20051, 20051, 0, 0, 0
+2017_01Spring/静動/normal.csv, 6, 6118, 6118, 6118, 0, 0, 0
+2017_02Summer/Absolute-0-/easy.csv, 4, 2663, 2663, 2663, 0, 0, 0
+2017_02Summer/Absolute-0-/hard.csv, 8, 10372, 10372, 10372, 0, 0, 0
+2017_02Summer/Absolute-0-/normal.csv, 6, 4705, 4705, 4705, 0, 0, 0
+2017_02Summer/Beyond the Past/easy.csv, 4, 5719, 5719, 5719, 0, 0, 0
+2017_02Summer/Beyond the Past/hard.csv, 12, 46797, 46797, 46797, 0, 0, 0
+2017_02Summer/Beyond the Past/normal.csv, 8, 12588, 12588, 12588, 0, 0, 0
+2017_02Summer/Chip Braves/easy.csv, 3, 1664, 1664, 1664, 0, 0, 0
+2017_02Summer/Chip Braves/full.csv, 9, 13246, 13246, 13246, 0, 0, 0
+2017_02Summer/Chip Braves/hard.csv, 9, 12482, 12482, 12482, 0, 0, 0
+2017_02Summer/Chip Braves/normal.csv, 6, 7977, 7977, 7977, 0, 0, 0
+2017_02Summer/Chip Treasures/easy.csv, 2, 469, 469, 469, 0, 0, 0
+2017_02Summer/Chip Treasures/hard+.csv, 11, 12956, 12956, 12956, 0, 0, 0
+2017_02Summer/Chip Treasures/hard.csv, 10, 8845, 8845, 8845, 0, 0, 0
+2017_02Summer/Chip Treasures/normal.csv, 6, 4282, 4282, 4282, 0, 0, 0
+2017_02Summer/Close My Mind/easy.csv, 1, 366, 366, 366, 0, 0, 0
+2017_02Summer/Close My Mind/hard+.csv, 12, 34535, 34535, 34535, 0, 0, 0
+2017_02Summer/Close My Mind/hard.csv, 9, 17115, 17115, 17115, 0, 0, 0
+2017_02Summer/Close My Mind/normal.csv, 5, 8019, 8019, 8019, 0, 0, 0
+2017_02Summer/CWBL PoPP/easy.csv, 4, 2996, 2996, 2996, 0, 0, 0
+2017_02Summer/CWBL PoPP/hard.csv, 14, 2996, 2996, 2996, 0, 0, 0
+2017_02Summer/CWBL PoPP/normal.csv, 12, 2996, 2996, 2996, 0, 0, 0
+2017_02Summer/Don't impress!/easy.csv, 7, 10459, 10459, 10459, 0, 0, 0
+2017_02Summer/Don't impress!/hard.csv, 13, 29263, 29263, 29263, 0, 0, 0
+2017_02Summer/Don't impress!/normal.csv, 11, 27735, 27735, 27735, 0, 0, 0
+2017_02Summer/E.F.B.E/easy.csv, 6, 8453, 8453, 8453, 0, 0, 0
+2017_02Summer/E.F.B.E/hard.csv, 12, 28385, 28385, 28385, 0, 0, 0
+2017_02Summer/E.F.B.E/normal.csv, 9, 16518, 16518, 16518, 0, 0, 0
+2017_02Summer/Enjoy the Summer/easy.csv, 4, 4057, 4057, 4057, 0, 0, 0
+2017_02Summer/Enjoy the Summer/fever.csv, 11, 27624, 27624, 27624, 0, 0, 0
+2017_02Summer/Enjoy the Summer/hard.csv, 10, 17157, 17157, 17157, 0, 0, 0
+2017_02Summer/Enjoy the Summer/normal.csv, 7, 9929, 9929, 9929, 0, 0, 0
+2017_02Summer/Erinnerung/easy.csv, 2, 881, 881, 881, 0, 0, 0
+2017_02Summer/Erinnerung/hard+.csv, 9, 18499, 18499, 18499, 0, 0, 0
+2017_02Summer/Erinnerung/hard.csv, 7, 9422, 9422, 9422, 0, 0, 0
+2017_02Summer/Erinnerung/normal.csv, 5, 4637, 4637, 4637, 0, 0, 0
+2017_02Summer/MEGALOPOLICE/easy.csv, 2, 1018, 1018, 1018, 0, 0, 0
+2017_02Summer/MEGALOPOLICE/hard.csv, 11, 19848, 19848, 19848, 0, 0, 0
+2017_02Summer/MEGALOPOLICE/normal.csv, 6, 6010, 6010, 6010, 0, 0, 0
+2017_02Summer/One PoPP/easy.csv, 7, 8681, 8681, 8681, 0, 0, 0
+2017_02Summer/One PoPP/hard.csv, 15, 68580, 68580, 68580, 0, 0, 0
+2017_02Summer/One PoPP/normal.csv, 11, 16535, 16535, 16535, 0, 0, 0
+2017_02Summer/StarShooting/easy.csv, 3, 1788, 1788, 1788, 0, 0, 0
+2017_02Summer/StarShooting/hard.csv, 11, 16655, 16655, 16655, 0, 0, 0
+2017_02Summer/StarShooting/normal.csv, 7, 8332, 8332, 8332, 0, 0, 0
+2017_02Summer/SUN DA BA RUN DA/Hard(arisan).csv, 12, 31848, 31848, 31848, 0, 0, 0
+2017_02Summer/SUN DA BA RUN DA/Hard(mahou).csv, 11, 21089, 21089, 21089, 0, 0, 0
+2017_02Summer/SUN DA BA RUN DA/Normal.csv, 6, 8683, 8683, 8683, 0, 0, 0
+2017_02Summer/Tropic/easy.csv, 2, 733, 733, 733, 0, 0, 0
+2017_02Summer/Tropic/hard.csv, 9, 11957, 11957, 11957, 0, 0, 0
+2017_02Summer/Tropic/normal.csv, 5, 4311, 4311, 4311, 0, 0, 0
+2017_02Summer/Unknown Adventure/easy.csv, 4, 3996, 3996, 3996, 0, 0, 0
+2017_02Summer/Unknown Adventure/hard.csv, 10, 22603, 22603, 22603, 0, 0, 0
+2017_02Summer/Unknown Adventure/normal.csv, 8, 13796, 13796, 13796, 0, 0, 0
+2017_02Summer/グリード/easy.csv, 3, 1421, 1421, 1421, 0, 0, 0
+2017_02Summer/グリード/hard.csv, 12, 26088, 26088, 26088, 0, 0, 0
+2017_02Summer/グリード/normal.csv, 9, 17701, 17701, 17701, 0, 0, 0
+2017_02Summer/サンバリアーナ サンバリアーノ/easy.csv, 2, 1050, 1050, 1050, 0, 0, 0
+2017_02Summer/サンバリアーナ サンバリアーノ/hard.csv, 7, 9379, 9379, 9379, 0, 0, 0
+2017_02Summer/サンバリアーナ サンバリアーノ/normal.csv, 4, 2711, 2711, 2711, 0, 0, 0
+2017_02Summer/ディフィシェント トーン/easy.csv, 2, 1669, 1669, 1669, 0, 0, 0
+2017_02Summer/ディフィシェント トーン/hard+.csv, 11, 26971, 26971, 26971, 0, 0, 0
+2017_02Summer/ディフィシェント トーン/hard.csv, 8, 10911, 10911, 10911, 0, 0, 0
+2017_02Summer/ディフィシェント トーン/normal.csv, 5, 3737, 3737, 3737, 0, 0, 0
+2017_02Summer/微睡の中へ/easy.csv, 1, 407, 407, 407, 0, 0, 0
+2017_02Summer/微睡の中へ/hard.csv, 5, 2002, 2002, 2002, 0, 0, 0
+2017_02Summer/微睡の中へ/normal.csv, 3, 1346, 1346, 1346, 0, 0, 0
+2017_02Summer/涙の顔のち虹の橋/easy.csv, 2, 1505, 1505, 1505, 0, 0, 0
+2017_02Summer/涙の顔のち虹の橋/hard.csv, 9, 15891, 15891, 15891, 0, 0, 0
+2017_02Summer/涙の顔のち虹の橋/normal.csv, 5, 6491, 6491, 6491, 0, 0, 0
+2017_02Summer/白薔薇/easy.csv, 2, 950, 950, 950, 0, 0, 0
+2017_02Summer/白薔薇/hard.csv, 7, 8893, 8893, 8893, 0, 0, 0
+2017_02Summer/白薔薇/normal.csv, 4, 3029, 3029, 3029, 0, 0, 0
+2017_02Summer/蕾/easy.csv, 2, 1208, 1208, 1208, 0, 0, 0
+2017_02Summer/蕾/hard.csv, 8, 12004, 12004, 12004, 0, 0, 0
+2017_02Summer/蕾/normal.csv, 5, 6394, 6394, 6394, 0, 0, 0
+2017_02Summer/黒薔薇/easy.csv, 7, 5740, 5740, 5740, 0, 0, 0
+2017_02Summer/黒薔薇/hard.csv, 12, 35535, 35535, 35535, 0, 0, 0
+2017_02Summer/黒薔薇/normal.csv, 10, 19525, 19525, 19525, 0, 0, 0
+2017_03Autumn/Chip Peaces/easy.csv, 2, 1246, 1246, 1246, 0, 0, 0
+2017_03Autumn/Chip Peaces/hard.csv, 7, 6188, 6188, 6188, 0, 0, 0
+2017_03Autumn/Chip Peaces/normal.csv, 5, 3946, 3946, 3946, 0, 0, 0
+2017_03Autumn/Colorful19/easy.csv, 3, 2234, 2234, 2234, 0, 0, 0
+2017_03Autumn/Colorful19/hard.csv, 9, 13025, 13025, 13025, 0, 0, 0
+2017_03Autumn/Colorful19/normal.csv, 6, 7285, 7285, 7285, 0, 0, 0
+2017_03Autumn/Demon's↑Carnival!!/easy.csv, 5, 5866, 5866, 5866, 0, 0, 0
+2017_03Autumn/Demon's↑Carnival!!/hard.csv, 11, 27423, 27423, 27423, 0, 0, 0
+2017_03Autumn/Demon's↑Carnival!!/normal.csv, 7, 11753, 11753, 11753, 0, 0, 0
+2017_03Autumn/Ekit PoPP/easy.csv, 8, 14044, 14044, 14044, 0, 0, 0
+2017_03Autumn/Ekit PoPP/hard.csv, 15, 70492, 70492, 70492, 0, 0, 0
+2017_03Autumn/Ekit PoPP/normal.csv, 12, 41919, 41919, 41919, 0, 0, 0
+2017_03Autumn/Heaven's Law/easy.csv, 6, 5519, 5519, 5519, 0, 0, 0
+2017_03Autumn/Heaven's Law/hard.csv, 13, 34897, 34897, 34897, 0, 0, 0
+2017_03Autumn/Heaven's Law/normal.csv, 9, 17437, 17437, 17437, 0, 0, 0
+2017_03Autumn/I Can Not Speak English/easy.csv, 3, 1587, 1587, 1587, 0, 0, 0
+2017_03Autumn/I Can Not Speak English/hard.csv, 9, 13923, 13923, 13923, 0, 0, 0
+2017_03Autumn/I Can Not Speak English/normal.csv, 5, 4546, 4546, 4546, 0, 0, 0
+2017_03Autumn/Initial Sound/easy.csv, 3, 1731, 1731, 1731, 0, 0, 0
+2017_03Autumn/Initial Sound/hard+.csv, 12, 27672, 27672, 27672, 0, 0, 0
+2017_03Autumn/Initial Sound/hard.csv, 8, 9534, 9534, 9534, 0, 0, 0
+2017_03Autumn/Initial Sound/normal.csv, 6, 3911, 3911, 3911, 0, 0, 0
+2017_03Autumn/Moon Break/easy.csv, 4, 3380, 3380, 3380, 0, 0, 0
+2017_03Autumn/Moon Break/hard.csv, 12, 22703, 22703, 22703, 0, 0, 0
+2017_03Autumn/Moon Break/normal.csv, 7, 11000, 11000, 11000, 0, 0, 0
+2017_03Autumn/Ocharake Angels/easy.csv, 3, 1868, 1868, 1868, 0, 0, 0
+2017_03Autumn/Ocharake Angels/hard.csv, 10, 14320, 14320, 14320, 0, 0, 0
+2017_03Autumn/Ocharake Angels/normal.csv, 6, 4856, 4856, 4856, 0, 0, 0
+2017_03Autumn/TATUTAHIME/easy.csv, 4, 4604, 4604, 4604, 0, 0, 0
+2017_03Autumn/TATUTAHIME/hard.csv, 11, 22625, 22625, 22625, 0, 0, 0
+2017_03Autumn/TATUTAHIME/normal.csv, 7, 9046, 9046, 9046, 0, 0, 0
+2017_03Autumn/The Beginning of Autumn ARImix/easy.csv, 2, 1147, 1147, 1147, 0, 0, 0
+2017_03Autumn/The Beginning of Autumn ARImix/hard.csv, 11, 22147, 22147, 22147, 0, 0, 0
+2017_03Autumn/The Beginning of Autumn ARImix/normal.csv, 6, 5250, 5250, 5250, 0, 0, 0
+2017_03Autumn/Trill or Treat☆.。.・°☆/easy.csv, 5, 6632, 6632, 6632, 0, 0, 0
+2017_03Autumn/Trill or Treat☆.。.・°☆/hard.csv, 10, 30259, 30259, 30259, 0, 0, 0
+2017_03Autumn/Trill or Treat☆.。.・°☆/normal.csv, 7, 11303, 11303, 11303, 0, 0, 0
+2017_03Autumn/Ultimate's!!/easy.csv, 7, 7472, 7472, 7472, 0, 0, 0
+2017_03Autumn/Ultimate's!!/hard.csv, 12, 23870, 23870, 23870, 0, 0, 0
+2017_03Autumn/Ultimate's!!/normal.csv, 10, 14879, 14879, 14879, 0, 0, 0
+2017_03Autumn/θ(222)/easy.csv, 6, 3392, 3392, 3392, 0, 0, 0
+2017_03Autumn/θ(222)/hard.csv, 12, 21304, 21304, 21304, 0, 0, 0
+2017_03Autumn/θ(222)/normal.csv, 10, 11384, 11384, 11384, 0, 0, 0
+2017_03Autumn/おｒo/easy.csv, 5, 6133, 6133, 6133, 0, 0, 0
+2017_03Autumn/おｒo/hard+.csv, 12, 25688, 25688, 25688, 0, 0, 0
+2017_03Autumn/おｒo/hard.csv, 11, 23621, 23621, 23621, 0, 0, 0
+2017_03Autumn/おｒo/normal.csv, 8, 12433, 12433, 12433, 0, 0, 0
+2017_03Autumn/ぐんたい行進曲/easy.csv, 3, 2157, 2157, 2157, 0, 0, 0
+2017_03Autumn/ぐんたい行進曲/hard.csv, 10, 31865, 31865, 31865, 0, 0, 0
+2017_03Autumn/ぐんたい行進曲/normal.csv, 7, 15435, 15435, 15435, 0, 0, 0
+2017_03Autumn/せんにゅう！/easy.csv, 6, 3529, 3529, 3529, 0, 0, 0
+2017_03Autumn/せんにゅう！/hard.csv, 11, 25522, 25522, 25522, 0, 0, 0
+2017_03Autumn/せんにゅう！/normal.csv, 8, 13304, 13304, 13304, 0, 0, 0
+2017_03Autumn/どれれどれれ/easy.csv, 4, 2073, 2073, 2073, 0, 0, 0
+2017_03Autumn/どれれどれれ/hard+.csv, 14, 28547, 28547, 28547, 0, 0, 0
+2017_03Autumn/どれれどれれ/hard.csv, 9, 11593, 11593, 11593, 0, 0, 0
+2017_03Autumn/どれれどれれ/normal.csv, 6, 5602, 5602, 5602, 0, 0, 0
+2017_03Autumn/神曲/easy.csv, 5, 4893, 4893, 4893, 0, 0, 0
+2017_03Autumn/神曲/hard+.csv, 15, 62628, 62628, 62628, 0, 0, 0
+2017_03Autumn/神曲/hard.csv, 11, 26798, 26798, 26798, 0, 0, 0
+2017_03Autumn/神曲/normal.csv, 8, 16329, 16329, 16329, 0, 0, 0
+2017_03Autumn/魔ぜッパ！！/easy.csv, 8, 6827, 6827, 6827, 0, 0, 0
+2017_03Autumn/魔ぜッパ！！/hard.csv, 15, 48621, 48621, 48621, 0, 0, 0
+2017_03Autumn/魔ぜッパ！！/normal.csv, 11, 14142, 14142, 14142, 0, 0, 0
+2017_03Autumn/魔ぜッパ！！/semihard.csv, 14, 26579, 26579, 26579, 0, 0, 0
+2018_01Summer/Chip Dreams/easy.csv, 3, 1387, 1387, 1387, 0, 0, 0
+2018_01Summer/Chip Dreams/hard+.csv, 9, 11187, 11187, 11187, 0, 0, 0
+2018_01Summer/Chip Dreams/hard.csv, 7, 9394, 9394, 9394, 0, 0, 0
+2018_01Summer/Chip Dreams/normal.csv, 6, 5295, 5295, 5295, 0, 0, 0
+2018_01Summer/Evils/easy.csv, 4, 6002, 6002, 6002, 0, 0, 0
+2018_01Summer/Evils/hard.csv, 13, 26313, 26313, 26313, 0, 0, 0
+2018_01Summer/Evils/normal.csv, 9, 16027, 16027, 16027, 0, 0, 0
+2018_01Summer/Fly like a butterfly/easy.csv, 2, 541, 541, 541, 0, 0, 0
+2018_01Summer/Fly like a butterfly/hard.csv, 11, 16150, 16150, 16150, 0, 0, 0
+2018_01Summer/Fly like a butterfly/normal.csv, 7, 6867, 6867, 6867, 0, 0, 0
+2018_01Summer/Magical Go Ahead!!!!!/easy.csv, 3, 5080, 5080, 5080, 0, 0, 0
+2018_01Summer/Magical Go Ahead!!!!!/full.csv, 12, 26745, 26745, 26745, 0, 0, 0
+2018_01Summer/Magical Go Ahead!!!!!/hard.csv, 12, 31311, 31311, 31311, 0, 0, 0
+2018_01Summer/Magical Go Ahead!!!!!/normal.csv, 9, 12227, 12227, 12227, 0, 0, 0
+2018_01Summer/sweet sky/easy.csv, 2, 1002, 1002, 1002, 0, 0, 0
+2018_01Summer/sweet sky/hard.csv, 8, 6879, 6879, 6879, 0, 0, 0
+2018_01Summer/sweet sky/normal.csv, 5, 3830, 3830, 3830, 0, 0, 0
+2018_01Summer/The Rising Future!!!!/easy.csv, 6, 9811, 9811, 9811, 0, 0, 0
+2018_01Summer/The Rising Future!!!!/hard.csv, 13, 39819, 39819, 39819, 0, 0, 0
+2018_01Summer/The Rising Future!!!!/normal.csv, 11, 28483, 28483, 28483, 0, 0, 0
+2018_01Summer/World Engine/easy.csv, 5, 3244, 3244, 3244, 0, 0, 0
+2018_01Summer/World Engine/hard.csv, 11, 20905, 20905, 20905, 0, 0, 0
+2018_01Summer/World Engine/normal.csv, 7, 8645, 8645, 8645, 0, 0, 0
+2018_01Summer/アクアリズム/easy.csv, 3, 2646, 2646, 2646, 0, 0, 0
+2018_01Summer/アクアリズム/hard.csv, 10, 13957, 13957, 13957, 0, 0, 0
+2018_01Summer/アクアリズム/normal.csv, 7, 7009, 7009, 7009, 0, 0, 0
+2018_01Summer/スライム君と3人の魔法使い/easy.csv, 3, 2168, 2168, 2168, 0, 0, 0
+2018_01Summer/スライム君と3人の魔法使い/hard.csv, 10, 17606, 17606, 17606, 0, 0, 0
+2018_01Summer/スライム君と3人の魔法使い/normal.csv, 6, 6838, 6838, 6838, 0, 0, 0
+2018_01Summer/ヒカリを求めて/easy.csv, 4, 2548, 2548, 2548, 0, 0, 0
+2018_01Summer/ヒカリを求めて/hard.csv, 11, 19933, 19933, 19933, 0, 0, 0
+2018_01Summer/ヒカリを求めて/normal.csv, 6, 5482, 5482, 5482, 0, 0, 0
+2018_01Summer/神々とカラパネ/easy.csv, 4, 3588, 3588, 3588, 0, 0, 0
+2018_01Summer/神々とカラパネ/hard.csv, 11, 16252, 16252, 16252, 0, 0, 0
+2018_01Summer/神々とカラパネ/normal.csv, 8, 8590, 8590, 8590, 0, 0, 0
+2018_01Summer/置いテクメインテーマ/another.csv, 12, 22950, 22950, 22950, 0, 0, 0
+2018_01Summer/置いテクメインテーマ/easy.csv, 4, 3649, 3649, 3649, 0, 0, 0
+2018_01Summer/置いテクメインテーマ/hard.csv, 9, 17027, 17027, 17027, 0, 0, 0
+2018_01Summer/置いテクメインテーマ/normal.csv, 6, 7840, 7840, 7840, 0, 0, 0
+2018_01Summer/風が吹く/back.csv, 5, 2894, 2894, 2894, 0, 0, 0
+2018_01Summer/風が吹く/mero.csv, 4, 2113, 2113, 2113, 0, 0, 0
+2019_01Summer/34D.C/easy.csv, 6, 4170, 4170, 4170, 0, 0, 0
+2019_01Summer/34D.C/hard.csv, 13, 33470, 33470, 33470, 0, 0, 0
+2019_01Summer/34D.C/normal.csv, 10, 18290, 18290, 18290, 0, 0, 0
+2019_01Summer/AO-ZORA Express/easy.csv, 4, 3248, 3248, 3248, 0, 0, 0
+2019_01Summer/AO-ZORA Express/hard+.csv, 13, 25028, 25028, 25028, 0, 0, 0
+2019_01Summer/AO-ZORA Express/hard.csv, 11, 21961, 21961, 21961, 0, 0, 0
+2019_01Summer/AO-ZORA Express/normal.csv, 8, 13428, 13428, 13428, 0, 0, 0
+2019_01Summer/Canvas/easy.csv, 1, 518, 518, 518, 0, 0, 0
+2019_01Summer/Canvas/hard+.csv, 12, 27373, 27373, 27373, 0, 0, 0
+2019_01Summer/Canvas/hard.csv, 11, 17324, 17324, 17324, 0, 0, 0
+2019_01Summer/Canvas/normal.csv, 7, 6935, 6935, 6935, 0, 0, 0
+2019_01Summer/Chip Links/easy.csv, 4, 2350, 2350, 2350, 0, 0, 0
+2019_01Summer/Chip Links/hard.csv, 9, 12341, 12341, 12341, 0, 0, 0
+2019_01Summer/Chip Links/normal.csv, 6, 5393, 5393, 5393, 0, 0, 0
+2019_01Summer/Code of Eden/easy.csv, 5, 3782, 3782, 3782, 0, 0, 0
+2019_01Summer/Code of Eden/hard.csv, 11, 19577, 19577, 19577, 0, 0, 0
+2019_01Summer/Code of Eden/normal.csv, 6, 7212, 7212, 7212, 0, 0, 0
+2019_01Summer/Dances on Bool/easy.csv, 4, 3918, 3918, 3918, 0, 0, 0
+2019_01Summer/Dances on Bool/hard.csv, 12, 24122, 24122, 24122, 0, 0, 0
+2019_01Summer/Dances on Bool/normal.csv, 8, 13411, 13411, 13411, 0, 0, 0
+2019_01Summer/De'nice Dinner/easy.csv, 3, 2010, 2010, 2010, 0, 0, 0
+2019_01Summer/De'nice Dinner/hard.csv, 8, 9724, 9724, 9724, 0, 0, 0
+2019_01Summer/De'nice Dinner/normal.csv, 4, 2898, 2898, 2898, 0, 0, 0
+2019_01Summer/Dollar $tep/easy.csv, 3, 3211, 3211, 3211, 0, 0, 0
+2019_01Summer/Dollar $tep/hard.csv, 11, 24658, 24658, 24658, 0, 0, 0
+2019_01Summer/Dollar $tep/normal.csv, 7, 12220, 12220, 12220, 0, 0, 0
+2019_01Summer/FancyzDreamer/bs.csv, 6, 7002, 7002, 7002, 0, 0, 0
+2019_01Summer/FancyzDreamer/mero.csv, 7, 8289, 8289, 8289, 0, 0, 0
+2019_01Summer/FancyzDreamer/wonder.csv, 9, 15572, 15572, 15572, 0, 0, 0
+2019_01Summer/Generasion/easy.csv, 4, 2603, 2603, 2603, 0, 0, 0
+2019_01Summer/Generasion/hard+.csv, 11, 19127, 19127, 19127, 0, 0, 0
+2019_01Summer/Generasion/hard.csv, 10, 18554, 18554, 18554, 0, 0, 0
+2019_01Summer/Generasion/normal.csv, 7, 8631, 8631, 8631, 0, 0, 0
+2019_01Summer/Goat Simulation/easy.csv, 4, 2600, 2600, 2600, 0, 0, 0
+2019_01Summer/Goat Simulation/hard+.csv, 13, 37304, 37304, 37304, 0, 0, 0
+2019_01Summer/Goat Simulation/hard.csv, 11, 37304, 37304, 37304, 0, 0, 0
+2019_01Summer/Goat Simulation/normal.csv, 7, 7848, 7848, 7848, 0, 0, 0
+2019_01Summer/Light and Darkness/easy.csv, 5, 3753, 3753, 3753, 0, 0, 0
+2019_01Summer/Light and Darkness/hard+.csv, 14, 38202, 38202, 38202, 0, 0, 0
+2019_01Summer/Light and Darkness/hard.csv, 12, 31565, 31565, 31565, 0, 0, 0
+2019_01Summer/Light and Darkness/normal.csv, 8, 8952, 8952, 8952, 0, 0, 0
+2019_01Summer/MooNLight MAGIC/easy.csv, 3, 1628, 1628, 1628, 0, 0, 0
+2019_01Summer/MooNLight MAGIC/hard.csv, 11, 25501, 25501, 25501, 0, 0, 0
+2019_01Summer/MooNLight MAGIC/normal.csv, 8, 8881, 8881, 8881, 0, 0, 0
+2019_01Summer/Ogun PoPP/easy.csv, 10, 11452, 11452, 11452, 0, 0, 0
+2019_01Summer/Ogun PoPP/hard.csv, 15, 109315, 109315, 109315, 0, 0, 0
+2019_01Summer/Ogun PoPP/normal.csv, 11, 21213, 21213, 21213, 0, 0, 0
+2019_01Summer/Ogun PoPP/semihard.csv, 12, 61236, 61236, 61236, 0, 0, 0
+2019_01Summer/Software abnormally Runs/another.csv, 15, 5272, 5272, 5272, 0, 0, 0
+2019_01Summer/Software abnormally Runs/easy.csv, 11, 5272, 5272, 5272, 0, 0, 0
+2019_01Summer/Software abnormally Runs/hard.csv, 15, 5272, 5272, 5272, 0, 0, 0
+2019_01Summer/Software abnormally Runs/normal.csv, 14, 5841, 5841, 5841, 0, 0, 0
+2019_01Summer/VIEW/easy.csv, 6, 2314, 2314, 2314, 0, 0, 0
+2019_01Summer/VIEW/hard.csv, 12, 28475, 28475, 28475, 0, 0, 0
+2019_01Summer/VIEW/normal.csv, 10, 13080, 13080, 13080, 0, 0, 0
+2019_01Summer/きゅ～っと☆だいかくめい/easy.csv, 4, 2870, 2870, 2870, 0, 0, 0
+2019_01Summer/きゅ～っと☆だいかくめい/hard.csv, 11, 23581, 23581, 23581, 0, 0, 0
+2019_01Summer/きゅ～っと☆だいかくめい/normal.csv, 9, 15239, 15239, 15239, 0, 0, 0
+2019_01Summer/ちごいねる和居膳/easy.csv, 7, 7281, 7281, 7281, 0, 0, 0
+2019_01Summer/ちごいねる和居膳/hard.csv, 15, 49143, 49143, 49143, 0, 0, 0
+2019_01Summer/ちごいねる和居膳/normal.csv, 11, 11853, 11853, 11853, 0, 0, 0
+2019_01Summer/ちごいねる和居膳/semihard.csv, 14, 37335, 37335, 37335, 0, 0, 0
+2019_01Summer/もうそう☆マイペース/mousou.csv, 8, 9449, 9449, 9449, 0, 0, 0
+2019_01Summer/もうそう☆マイペース/real.csv, 6, 5947, 5947, 5947, 0, 0, 0
+2019_01Summer/アルビノ/easy.csv, 4, 3451, 3451, 3451, 0, 0, 0
+2019_01Summer/アルビノ/hard.csv, 13, 32380, 32380, 32380, 0, 0, 0
+2019_01Summer/アルビノ/normal.csv, 7, 11632, 11632, 11632, 0, 0, 0
+2019_01Summer/アルビノ/semihard.csv, 12, 28279, 28279, 28279, 0, 0, 0
+2019_01Summer/東方遊歩記/easy.csv, 5, 4693, 4693, 4693, 0, 0, 0
+2019_01Summer/東方遊歩記/hard.csv, 13, 22432, 22432, 22432, 0, 0, 0
+2019_01Summer/東方遊歩記/normal.csv, 7, 10436, 10436, 10436, 0, 0, 0
+2019_01Summer/硝靴物語/easy.csv, 2, 563, 563, 563, 0, 0, 0
+2019_01Summer/硝靴物語/hard.csv, 10, 13987, 13987, 13987, 0, 0, 0
+2019_01Summer/硝靴物語/normal.csv, 7, 6649, 6649, 6649, 0, 0, 0
+2019_01Summer/終焉輪廻エウリュアレー/easy.csv, 4, 4097, 4097, 4097, 0, 0, 0
+2019_01Summer/終焉輪廻エウリュアレー/hard.csv, 12, 31280, 31280, 31280, 0, 0, 0
+2019_01Summer/終焉輪廻エウリュアレー/normal.csv, 8, 13484, 13484, 13484, 0, 0, 0
+2019_01Summer/花鳥風月/easy.csv, 5, 6197, 6197, 6197, 0, 0, 0
+2019_01Summer/花鳥風月/hard.csv, 11, 23306, 23306, 23306, 0, 0, 0
+2019_01Summer/花鳥風月/normal.csv, 9, 13016, 13016, 13016, 0, 0, 0
+2019_01Summer/青空の旅、笛と共に/easy.csv, 2, 1940, 1940, 1940, 0, 0, 0
+2019_01Summer/青空の旅、笛と共に/hard+.csv, 10, 17695, 17695, 17695, 0, 0, 0
+2019_01Summer/青空の旅、笛と共に/hard.csv, 8, 14831, 14831, 14831, 0, 0, 0
+2019_01Summer/青空の旅、笛と共に/normal.csv, 5, 6308, 6308, 6308, 0, 0, 0
+2020_01Summer/Chip Seekers/easy.csv, 3, 2576, 2576, 2576, 0, 0, 0
+2020_01Summer/Chip Seekers/hard+.csv, 12, 28485, 28485, 28485, 0, 0, 0
+2020_01Summer/Chip Seekers/hard.csv, 9, 16547, 16547, 16547, 0, 0, 0
+2020_01Summer/Chip Seekers/normal.csv, 6, 9041, 9041, 9041, 0, 0, 0
+2020_01Summer/Enjoy your teatime ユーロチックアレンジ/easy.csv, 5, 4884, 4884, 4884, 0, 0, 0
+2020_01Summer/Enjoy your teatime ユーロチックアレンジ/hard.csv, 12, 31159, 31159, 31159, 0, 0, 0
+2020_01Summer/Enjoy your teatime ユーロチックアレンジ/normal.csv, 9, 11562, 11562, 11562, 0, 0, 0
+2020_01Summer/Heart is life - instrumental -/easy.csv, 1, 321, 321, 321, 0, 0, 0
+2020_01Summer/Heart is life - instrumental -/hard+.csv, 10, 18870, 18870, 18870, 0, 0, 0
+2020_01Summer/Heart is life - instrumental -/hard.csv, 6, 9354, 9354, 9354, 0, 0, 0
+2020_01Summer/Heart is life - instrumental -/normal.csv, 3, 2155, 2155, 2155, 0, 0, 0
+2020_01Summer/Hell's Order/easy.csv, 4, 2570, 2570, 2570, 0, 0, 0
+2020_01Summer/Hell's Order/hard.csv, 13, 30913, 30913, 30913, 0, 0, 0
+2020_01Summer/Hell's Order/normal.csv, 8, 14664, 14664, 14664, 0, 0, 0
+2020_01Summer/Hey!!尻!!/easy.csv, 3, 1898, 1898, 1898, 0, 0, 0
+2020_01Summer/Hey!!尻!!/hard.csv, 10, 16485, 16485, 16485, 0, 0, 0
+2020_01Summer/Hey!!尻!!/normal.csv, 7, 9000, 9000, 9000, 0, 0, 0
+2020_01Summer/It's show time/easy.csv, 4, 2131, 2131, 2131, 0, 0, 0
+2020_01Summer/It's show time/hard.csv, 12, 22501, 22501, 22501, 0, 0, 0
+2020_01Summer/It's show time/normal.csv, 9, 8547, 8547, 8547, 0, 0, 0
+2020_01Summer/Iv/easy.csv, 2, 987, 987, 987, 0, 0, 0
+2020_01Summer/Iv/hard.csv, 11, 15525, 15525, 15525, 0, 0, 0
+2020_01Summer/Iv/normal.csv, 6, 7930, 7930, 7930, 0, 0, 0
+2020_01Summer/Soft Break/easy.csv, 5, 4570, 4570, 4570, 0, 0, 0
+2020_01Summer/Soft Break/hard.csv, 13, 52308, 52308, 52308, 0, 0, 0
+2020_01Summer/Soft Break/normal.csv, 10, 27622, 27622, 27622, 0, 0, 0
+2020_01Summer/StarT-ColorfulTone-/easy.csv, 5, 4894, 4894, 4894, 0, 0, 0
+2020_01Summer/StarT-ColorfulTone-/hard+.csv, 12, 22600, 22600, 22600, 0, 0, 0
+2020_01Summer/StarT-ColorfulTone-/hard.csv, 11, 23752, 23752, 23752, 0, 0, 0
+2020_01Summer/StarT-ColorfulTone-/normal.csv, 8, 9686, 9686, 9686, 0, 0, 0
+2020_01Summer/TAITO/easy.csv, 4, 1184, 1184, 1184, 0, 0, 0
+2020_01Summer/TAITO/hard.csv, 11, 19004, 19004, 19004, 0, 0, 0
+2020_01Summer/TAITO/normal.csv, 8, 10427, 10427, 10427, 0, 0, 0
+2020_01Summer/TatutahimePrill/easy.csv, 4, 3438, 3438, 3438, 0, 0, 0
+2020_01Summer/TatutahimePrill/hard+.csv, 13, 36012, 36012, 36012, 0, 0, 0
+2020_01Summer/TatutahimePrill/hard.csv, 11, 18194, 18194, 18194, 0, 0, 0
+2020_01Summer/TatutahimePrill/normal.csv, 7, 9221, 9221, 9221, 0, 0, 0
+2020_01Summer/Tiny Twinkle Traveler/easy.csv, 5, 2974, 2974, 2974, 0, 0, 0
+2020_01Summer/Tiny Twinkle Traveler/hard.csv, 11, 18715, 18715, 18715, 0, 0, 0
+2020_01Summer/Tiny Twinkle Traveler/normal.csv, 9, 16160, 16160, 16160, 0, 0, 0
+2020_01Summer/あの日夏の日/easy.csv, 3, 2128, 2128, 2128, 0, 0, 0
+2020_01Summer/あの日夏の日/hard.csv, 10, 22963, 22963, 22963, 0, 0, 0
+2020_01Summer/あの日夏の日/normal.csv, 7, 9574, 9574, 9574, 0, 0, 0
+2020_01Summer/いーすた☆えっぐす/easy.csv, 4, 2932, 2932, 2932, 0, 0, 0
+2020_01Summer/いーすた☆えっぐす/hard+.csv, 14, 33152, 33152, 33152, 0, 0, 0
+2020_01Summer/いーすた☆えっぐす/hard.csv, 11, 19966, 19966, 19966, 0, 0, 0
+2020_01Summer/いーすた☆えっぐす/normal.csv, 7, 9689, 9689, 9689, 0, 0, 0
+2020_01Summer/ファンタスティックピーポー/easy.csv, 6, 4313, 4313, 4313, 0, 0, 0
+2020_01Summer/ファンタスティックピーポー/hard+.csv, 14, 46845, 46845, 46845, 0, 0, 0
+2020_01Summer/ファンタスティックピーポー/hard.csv, 13, 41757, 41757, 41757, 0, 0, 0
+2020_01Summer/ファンタスティックピーポー/normal.csv, 9, 14558, 14558, 14558, 0, 0, 0
+2020_01Summer/ミクソリ・ディアン・スペシャリー/easy.csv, 5, 5093, 5093, 5093, 0, 0, 0
+2020_01Summer/ミクソリ・ディアン・スペシャリー/hard.csv, 13, 20902, 20902, 20902, 0, 0, 0
+2020_01Summer/ミクソリ・ディアン・スペシャリー/normal.csv, 8, 9145, 9145, 9145, 0, 0, 0
+2020_01Summer/午後のひとときを/easy.csv, 3, 1593, 1593, 1593, 0, 0, 0
+2020_01Summer/午後のひとときを/hard.csv, 8, 18809, 18809, 18809, 0, 0, 0
+2020_01Summer/午後のひとときを/normal.csv, 6, 10211, 10211, 10211, 0, 0, 0
+2020_01Summer/午後のひとときを/relaxation.csv, 15, 80501, 80501, 80501, 0, 0, 0
+2020_01Summer/旅立ち/easy.csv, 5, 3272, 3272, 3272, 0, 0, 0
+2020_01Summer/旅立ち/hard.csv, 11, 17788, 17788, 17788, 0, 0, 0
+2020_01Summer/旅立ち/normal.csv, 8, 10377, 10377, 10377, 0, 0, 0
+2020_01Summer/遥かなる空はどこまでも蒼く/easy.csv, 3, 1865, 1865, 1865, 0, 0, 0
+2020_01Summer/遥かなる空はどこまでも蒼く/hard.csv, 8, 8027, 8027, 8027, 0, 0, 0
+2020_01Summer/遥かなる空はどこまでも蒼く/normal.csv, 5, 3753, 3753, 3753, 0, 0, 0
+2020_01Summer/青空の下、夢と勝利への応援曲/easy.csv, 3, 2096, 2096, 2096, 0, 0, 0
+2020_01Summer/青空の下、夢と勝利への応援曲/hard.csv, 7, 12805, 12805, 12805, 0, 0, 0
+2020_01Summer/青空の下、夢と勝利への応援曲/normal.csv, 5, 6956, 6956, 6956, 0, 0, 0
+2021_01Winter/anonymous/easy.csv, 4, 4625, 4625, 4625, 0, 0, 0
+2021_01Winter/anonymous/hard.csv, 11, 29601, 29601, 29601, 0, 0, 0
+2021_01Winter/anonymous/normal.csv, 7, 16311, 16311, 16311, 0, 0, 0
+2021_01Winter/BrightFutureStars/easy.csv, 4, 2945, 2945, 2945, 0, 0, 0
+2021_01Winter/BrightFutureStars/hard+.csv, 12, 27792, 27792, 27792, 0, 0, 0
+2021_01Winter/BrightFutureStars/hard.csv, 9, 16107, 16107, 16107, 0, 0, 0
+2021_01Winter/BrightFutureStars/normal.csv, 6, 6143, 6143, 6143, 0, 0, 0
+2021_01Winter/CHEER/easy.csv, 4, 3683, 3683, 3683, 0, 0, 0
+2021_01Winter/CHEER/hard.csv, 9, 20662, 20662, 20662, 0, 0, 0
+2021_01Winter/CHEER/normal.csv, 7, 14837, 14837, 14837, 0, 0, 0
+2021_01Winter/ChipCollections/easy.csv, 3, 2299, 2299, 2299, 0, 0, 0
+2021_01Winter/ChipCollections/hard+.csv, 13, 33724, 33724, 33724, 0, 0, 0
+2021_01Winter/ChipCollections/hard.csv, 10, 15462, 15462, 15462, 0, 0, 0
+2021_01Winter/ChipCollections/normal.csv, 7, 10170, 10170, 10170, 0, 0, 0
+2021_01Winter/Colorful67/easy.csv, 7, 20315, 20315, 20315, 0, 0, 0
+2021_01Winter/Colorful67/hard+.csv, 67, 72775, 72775, 72775, 0, 0, 0
+2021_01Winter/Colorful67/hard.csv, 14, 61443, 61443, 61443, 0, 0, 0
+2021_01Winter/Colorful67/normal.csv, 11, 37589, 37589, 37589, 0, 0, 0
+2021_01Winter/CRUSH THE DEVIL (IN MY BRAIN)/easy.csv, 3, 1944, 1944, 1944, 0, 0, 0
+2021_01Winter/CRUSH THE DEVIL (IN MY BRAIN)/hard.csv, 9, 15977, 15977, 15977, 0, 0, 0
+2021_01Winter/CRUSH THE DEVIL (IN MY BRAIN)/normal.csv, 7, 11732, 11732, 11732, 0, 0, 0
+2021_01Winter/Inishienohiroba/easy.csv, 1, 376, 376, 376, 0, 0, 0
+2021_01Winter/Inishienohiroba/hard.csv, 9, 10229, 10229, 10229, 0, 0, 0
+2021_01Winter/Inishienohiroba/normal.csv, 4, 2558, 2558, 2558, 0, 0, 0
+2021_01Winter/Iris ~神の恵みにふれて~/easy.csv, 5, 7246, 7246, 7246, 0, 0, 0
+2021_01Winter/Iris ~神の恵みにふれて~/hard+.csv, 13, 40927, 40927, 40927, 0, 0, 0
+2021_01Winter/Iris ~神の恵みにふれて~/hard.csv, 11, 32724, 32724, 32724, 0, 0, 0
+2021_01Winter/Iris ~神の恵みにふれて~/normal.csv, 9, 16799, 16799, 16799, 0, 0, 0
+2021_01Winter/meaning integrator/easy.csv, 6, 7857, 7857, 7857, 0, 0, 0
+2021_01Winter/meaning integrator/hard.csv, 13, 53508, 53508, 53508, 0, 0, 0
+2021_01Winter/meaning integrator/normal.csv, 11, 28382, 28382, 28382, 0, 0, 0
+2021_01Winter/Purgatorium's Chaos/easy.csv, 6, 6387, 6387, 6387, 0, 0, 0
+2021_01Winter/Purgatorium's Chaos/hard.csv, 13, 40164, 40164, 40164, 0, 0, 0
+2021_01Winter/Purgatorium's Chaos/normal.csv, 9, 17608, 17608, 17608, 0, 0, 0
+2021_01Winter/SNS Age/easy.csv, 3, 2241, 2241, 2241, 0, 0, 0
+2021_01Winter/SNS Age/hard.csv, 12, 23754, 23754, 23754, 0, 0, 0
+2021_01Winter/SNS Age/normal.csv, 8, 11763, 11763, 11763, 0, 0, 0
+2021_01Winter/TwinFairies/easy.csv, 3, 2187, 2187, 2187, 0, 0, 0
+2021_01Winter/TwinFairies/hard+.csv, 13, 34871, 34871, 34871, 0, 0, 0
+2021_01Winter/TwinFairies/hard.csv, 9, 13855, 13855, 13855, 0, 0, 0
+2021_01Winter/TwinFairies/normal.csv, 6, 5151, 5151, 5151, 0, 0, 0
+2021_01Winter/別に寂しくなんて、ないから。/easy.csv, 1, 297, 297, 297, 0, 0, 0
+2021_01Winter/別に寂しくなんて、ないから。/hard.csv, 8, 6969, 6969, 6969, 0, 0, 0
+2021_01Winter/別に寂しくなんて、ないから。/kamuni.csv, 8, 8034, 8034, 8034, 0, 0, 0
+2021_01Winter/別に寂しくなんて、ないから。/normal.csv, 5, 2849, 2849, 2849, 0, 0, 0
+2021_01Winter/青空のドラムンベース/bass.csv, 6, 8893, 8893, 8893, 0, 0, 0
+2021_01Winter/青空のドラムンベース/drums.csv, 8, 14563, 14563, 14563, 0, 0, 0
+2021_01Winter/青空のドラムンベース/piano.csv, 9, 15395, 15395, 15395, 0, 0, 0
+2021_02Summer/1年に1度の願い/easy.csv, 4, 2167, 2167, 2167, 0, 0, 0
+2021_02Summer/1年に1度の願い/hard.csv, 8, 10994, 10994, 10994, 0, 0, 0
+2021_02Summer/1年に1度の願い/normal.csv, 6, 6931, 6931, 6931, 0, 0, 0
+2021_02Summer/2人の夢へのランデヴー/easy.csv, 2, 1082, 1082, 1082, 0, 0, 0
+2021_02Summer/2人の夢へのランデヴー/hard+.csv, 10, 12455, 12455, 12455, 0, 0, 0
+2021_02Summer/2人の夢へのランデヴー/hard.csv, 7, 7325, 7325, 7325, 0, 0, 0
+2021_02Summer/2人の夢へのランデヴー/normal.csv, 5, 3310, 3310, 3310, 0, 0, 0
+2021_02Summer/5050Kick/easy.csv, 5, 10966, 10966, 10966, 0, 0, 0
+2021_02Summer/5050Kick/hard.csv, 13, 46936, 46936, 46936, 0, 0, 0
+2021_02Summer/5050Kick/kick.csv, 5050, 16929, 16929, 16929, 0, 0, 0
+2021_02Summer/5050Kick/normal.csv, 11, 26371, 26371, 26371, 0, 0, 0
+2021_02Summer/Chip Quests/easy.csv, 3, 3263, 3263, 3263, 0, 0, 0
+2021_02Summer/Chip Quests/hard.csv, 9, 13086, 13086, 13086, 0, 0, 0
+2021_02Summer/Chip Quests/normal.csv, 6, 9051, 9051, 9051, 0, 0, 0
+2021_02Summer/drawn dream/easy.csv, 5, 7553, 7553, 7553, 0, 0, 0
+2021_02Summer/drawn dream/hard.csv, 13, 46793, 46793, 46793, 0, 0, 0
+2021_02Summer/drawn dream/normal.csv, 10, 25865, 25865, 25865, 0, 0, 0
+2021_02Summer/FUTENYAN/easy.csv, 3, 3583, 3583, 3583, 0, 0, 0
+2021_02Summer/FUTENYAN/hard.csv, 11, 27051, 27051, 27051, 0, 0, 0
+2021_02Summer/FUTENYAN/normal.csv, 7, 14695, 14695, 14695, 0, 0, 0
+2021_02Summer/G'rimoire↑/easy.csv, 6, 9192, 9192, 9192, 0, 0, 0
+2021_02Summer/G'rimoire↑/hard.csv, 13, 32150, 32150, 32150, 0, 0, 0
+2021_02Summer/G'rimoire↑/normal.csv, 10, 17391, 17391, 17391, 0, 0, 0
+2021_02Summer/Gungni-R/easy.csv, 3, 1296, 1296, 1296, 0, 0, 0
+2021_02Summer/Gungni-R/hard.csv, 12, 29739, 29739, 29739, 0, 0, 0
+2021_02Summer/Gungni-R/normal.csv, 8, 8821, 8821, 8821, 0, 0, 0
+2021_02Summer/Infinity/easy.csv, 4, 3353, 3353, 3353, 0, 0, 0
+2021_02Summer/Infinity/hard.csv, 12, 36176, 36176, 36176, 0, 0, 0
+2021_02Summer/Infinity/normal.csv, 8, 13330, 13330, 13330, 0, 0, 0
+2021_02Summer/Linear Algebra 2/niten.csv, 2, 856, 856, 856, 0, 0, 0
+2021_02Summer/Linear Algebra 2/niten_ura.csv, 2, 873, 873, 873, 0, 0, 0
+2021_02Summer/PsychicsNetwork/easy.csv, 3, 3322, 3322, 3322, 0, 0, 0
+2021_02Summer/PsychicsNetwork/hard.csv, 9, 13361, 13361, 13361, 0, 0, 0
+2021_02Summer/PsychicsNetwork/normal.csv, 6, 7066, 7066, 7066, 0, 0, 0
+2021_02Summer/SHOUT OUT LOUD!!/easy.csv, 3, 1072, 1072, 1072, 0, 0, 0
+2021_02Summer/SHOUT OUT LOUD!!/hard+.csv, 14, 46448, 46448, 46448, 0, 0, 0
+2021_02Summer/SHOUT OUT LOUD!!/hard.csv, 10, 18469, 18469, 18469, 0, 0, 0
+2021_02Summer/SHOUT OUT LOUD!!/normal.csv, 8, 5864, 5864, 5864, 0, 0, 0
+2021_02Summer/νЁЯд μσиσ/easy.csv, 4, 5413, 5413, 5413, 0, 0, 0
+2021_02Summer/νЁЯд μσиσ/hard.csv, 12, 28237, 28237, 28237, 0, 0, 0
+2021_02Summer/νЁЯд μσиσ/normal.csv, 8, 16985, 16985, 16985, 0, 0, 0
+2021_02Summer/どんな道だって、続けていこう。/easy.csv, 4, 4308, 4308, 4308, 0, 0, 0
+2021_02Summer/どんな道だって、続けていこう。/hard.csv, 9, 11602, 11602, 11602, 0, 0, 0
+2021_02Summer/どんな道だって、続けていこう。/normal.csv, 7, 7967, 7967, 7967, 0, 0, 0
+2021_02Summer/争いは、また繰り返す/easy.csv, 2, 1684, 1684, 1684, 0, 0, 0
+2021_02Summer/争いは、また繰り返す/hard.csv, 10, 20133, 20133, 20133, 0, 0, 0
+2021_02Summer/争いは、また繰り返す/normal.csv, 6, 9754, 9754, 9754, 0, 0, 0
+2021_02Summer/今、はじまりのリスタート/easy.csv, 4, 3635, 3635, 3635, 0, 0, 0
+2021_02Summer/今、はじまりのリスタート/hard+.csv, 11, 16654, 16654, 16654, 0, 0, 0
+2021_02Summer/今、はじまりのリスタート/hard.csv, 10, 13144, 13144, 13144, 0, 0, 0
+2021_02Summer/今、はじまりのリスタート/normal.csv, 7, 8266, 8266, 8266, 0, 0, 0
+2022_01Autumn/Ancient Holy Site/easy.csv, 4, 4184, 4184, 4184, 0, 0, 0
+2022_01Autumn/Ancient Holy Site/hard.csv, 12, 25596, 25596, 25596, 0, 0, 0
+2022_01Autumn/Ancient Holy Site/normal.csv, 7, 9918, 9918, 9918, 0, 0, 0
+2022_01Autumn/Celtic Nations Burned Out/easy.csv, 5, 2913, 2913, 2913, 0, 0, 0
+2022_01Autumn/Celtic Nations Burned Out/hard.csv, 13, 28876, 28876, 28876, 0, 0, 0
+2022_01Autumn/Celtic Nations Burned Out/normal.csv, 8, 7843, 7843, 7843, 0, 0, 0
+2022_01Autumn/Chocolate Dynamite/easy.csv, 4, 2397, 2397, 2397, 0, 0, 0
+2022_01Autumn/Chocolate Dynamite/hard.csv, 12, 16688, 16688, 16688, 0, 0, 0
+2022_01Autumn/Chocolate Dynamite/normal.csv, 6, 7579, 7579, 7579, 0, 0, 0
+2022_01Autumn/DamSkip/easy.csv, 3, 2080, 2080, 2080, 0, 0, 0
+2022_01Autumn/DamSkip/hard+.csv, 12, 21773, 21773, 21773, 0, 0, 0
+2022_01Autumn/DamSkip/hard.csv, 10, 18717, 18717, 18717, 0, 0, 0
+2022_01Autumn/DamSkip/normal.csv, 7, 11305, 11305, 11305, 0, 0, 0
+2022_01Autumn/DiversionHEAVENs/easy.csv, 4, 2948, 2948, 2948, 0, 0, 0
+2022_01Autumn/DiversionHEAVENs/hard.csv, 11, 14885, 14885, 14885, 0, 0, 0
+2022_01Autumn/DiversionHEAVENs/normal.csv, 7, 7070, 7070, 7070, 0, 0, 0
+2022_01Autumn/HaChaCha/easy.csv, 6, 8622, 8622, 8622, 0, 0, 0
+2022_01Autumn/HaChaCha/hard.csv, 13, 39723, 39723, 39723, 0, 0, 0
+2022_01Autumn/HaChaCha/hard_old.csv, 13, 38516, 38516, 38516, 0, 0, 0
+2022_01Autumn/HaChaCha/normal.csv, 8, 19055, 19055, 19055, 0, 0, 0
+2022_01Autumn/HL PoPP/easy.csv, 10, 7642, 7642, 7642, 0, 0, 0
+2022_01Autumn/HL PoPP/hard.csv, 15, 59147, 59147, 59147, 0, 0, 0
+2022_01Autumn/HL PoPP/normal.csv, 13, 13082, 13082, 13082, 0, 0, 0
+2022_01Autumn/Hookedon PoPP/hard.csv, 15, 72122, 72122, 72122, 0, 0, 0
+2022_01Autumn/I want to see you/easy.csv, 2, 2307, 2307, 2307, 0, 0, 0
+2022_01Autumn/I want to see you/hard.csv, 11, 16119, 16119, 16119, 0, 0, 0
+2022_01Autumn/I want to see you/normal.csv, 5, 5517, 5517, 5517, 0, 0, 0
+2022_01Autumn/KandA PoPP/easy.csv, 1, 5065, 5065, 5065, 0, 0, 0
+2022_01Autumn/KandA PoPP/hard.csv, 1, 5133, 5133, 5133, 0, 0, 0
+2022_01Autumn/KandA PoPP/normal.csv, 1, 5176, 5176, 5176, 0, 0, 0
+2022_01Autumn/NEO THE CITY/easy.csv, 5, 7023, 7023, 7023, 0, 0, 0
+2022_01Autumn/NEO THE CITY/hard.csv, 11, 27445, 27445, 27445, 0, 0, 0
+2022_01Autumn/NEO THE CITY/normal.csv, 9, 13919, 13919, 13919, 0, 0, 0
+2022_01Autumn/Nephthys/easy.csv, 5, 4169, 4169, 4169, 0, 0, 0
+2022_01Autumn/Nephthys/hard.csv, 12, 25707, 25707, 25707, 0, 0, 0
+2022_01Autumn/Nephthys/normal.csv, 8, 10581, 10581, 10581, 0, 0, 0
+2022_01Autumn/NIGHTMARE/easy.csv, 3, 2150, 2150, 2150, 0, 0, 0
+2022_01Autumn/NIGHTMARE/hard.csv, 9, 17598, 17598, 17598, 0, 0, 0
+2022_01Autumn/NIGHTMARE/normal.csv, 6, 8122, 8122, 8122, 0, 0, 0
+2022_01Autumn/ReturnHereAgain/easy.csv, 7, 3860, 3860, 3860, 0, 0, 0
+2022_01Autumn/ReturnHereAgain/hard.csv, 13, 31637, 31637, 31637, 0, 0, 0
+2022_01Autumn/ReturnHereAgain/normal.csv, 9, 13741, 13741, 13741, 0, 0, 0
+2022_01Autumn/Venom Bullet/easy.csv, 8, 15323, 15323, 15323, 0, 0, 0
+2022_01Autumn/Venom Bullet/hard.csv, 15, 63332, 63332, 63332, 0, 0, 0
+2022_01Autumn/Venom Bullet/normal.csv, 11, 23112, 23112, 23112, 0, 0, 0
+2022_01Autumn/だから君と謳おう/easy.csv, 2, 910, 910, 910, 0, 0, 0
+2022_01Autumn/だから君と謳おう/hard.csv, 8, 9676, 9676, 9676, 0, 0, 0
+2022_01Autumn/だから君と謳おう/normal.csv, 6, 5133, 5133, 5133, 0, 0, 0
+2022_01Autumn/ゆめのとおり/easy.csv, 2, 864, 864, 864, 0, 0, 0
+2022_01Autumn/ゆめのとおり/hard.csv, 7, 4336, 4336, 4336, 0, 0, 0
+2022_01Autumn/ゆめのとおり/normal.csv, 4, 2117, 2117, 2117, 0, 0, 0
+2022_01Autumn/エターナル サンクチュアリ/easy.csv, 4, 4060, 4060, 4060, 0, 0, 0
+2022_01Autumn/エターナル サンクチュアリ/hard.csv, 13, 30543, 30543, 30543, 0, 0, 0
+2022_01Autumn/エターナル サンクチュアリ/normal.csv, 7, 10381, 10381, 10381, 0, 0, 0
+2022_01Autumn/トゥーカン/easy.csv, 4, 2707, 2707, 2707, 0, 0, 0
+2022_01Autumn/トゥーカン/hard.csv, 9, 9543, 9543, 9543, 0, 0, 0
+2022_01Autumn/トゥーカン/normal.csv, 6, 6190, 6190, 6190, 0, 0, 0
+2022_01Autumn/今、君と進むべき世界/easy.csv, 4, 3201, 3201, 3201, 0, 0, 0
+2022_01Autumn/今、君と進むべき世界/hard.csv, 9, 17528, 17528, 17528, 0, 0, 0
+2022_01Autumn/今、君と進むべき世界/normal.csv, 7, 9777, 9777, 9777, 0, 0, 0
+2022_01Autumn/願いのMelody/easy.csv, 3, 1944, 1944, 1944, 0, 0, 0
+2022_01Autumn/願いのMelody/hard.csv, 10, 15069, 15069, 15069, 0, 0, 0
+2022_01Autumn/願いのMelody/normal.csv, 7, 9320, 9320, 9320, 0, 0, 0
+2024_01Spring/Advanced Quartet/easy.csv, 5, 3948, 3948, 3948, 0, 0, 0
+2024_01Spring/Advanced Quartet/hard.csv, 12, 21432, 21432, 21432, 0, 0, 0
+2024_01Spring/Advanced Quartet/normal.csv, 9, 8279, 8279, 8279, 0, 0, 0
+2024_01Spring/TicoTico/easy.csv, 4, 4083, 4083, 4083, 0, 0, 0
+2024_01Spring/TicoTico/hard.csv, 12, 31949, 31949, 31949, 0, 0, 0
+2024_01Spring/TicoTico/normal.csv, 9, 12707, 12707, 12707, 0, 0, 0
+2024_01Spring/木枯らしのエチュード/easy.csv, 4, 3670, 3670, 3670, 0, 0, 0
+2024_01Spring/木枯らしのエチュード/hard.csv, 15, 174197, 174197, 174197, 0, 0, 0
+2024_01Spring/木枯らしのエチュード/normal.csv, 9, 15067, 15067, 15067, 0, 0, 0
 
 Lv, Median, Ave, Min, Max
 ============================
-0, 625, 625, 500, 750
+1, 413, 1420, 214, 5176
+2, 968, 1092, 469, 2788
+3, 1868, 2009, 827, 5080
+4, 3248, 3355, 1184, 6002
+5, 4672, 4980, 2002, 10966
+6, 6838, 6718, 2314, 10211
+7, 9046, 9503, 3860, 20315
+8, 10585, 11222, 5864, 19055
+9, 13855, 14086, 8279, 20662
+10, 16498, 17074, 6013, 31865
+11, 21578, 21765, 4820, 37589
+12, 27059, 27477, 2996, 61236
+13, 33597, 34206, 13082, 53508
+14, 42783, 46812, 2996, 174197
