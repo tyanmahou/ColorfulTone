@@ -24,7 +24,6 @@ namespace
         double changeCount;
         int64 changeSample;
     };
-
     size_t GetLastStopIndex(const double count, const Array<StopInfo>& stopInfos)
     {
         for (size_t k = 0; k < stopInfos.size(); ++k) {
@@ -75,10 +74,8 @@ namespace ct
 
         size_t rows = csv.rows();			// 行数
         String head;						// 1列目のデータを文字列で
-        int32 bar = 0;						// 現在入力中の小節
         std::queue<double> noteSpeed;		// ノーツのスピード変化を覚えておく
-        std::queue<double> barSpeed;		// 小節線のスピード変化を覚えておく
-        std::queue<double> measures;		// 拍子記憶用
+        std::Array<BarEntity> barInfos;     // 小節記憶用
         double nowMeasure = 1.0;			// 拍子の初期化
         uint32 totalNotes = 0;				// ノーツ数
         double scrollBaseSpeed = 1.0;
@@ -133,7 +130,6 @@ namespace ct
 
                 //小節線のスピード保存
                 double bs = noteSpeed.empty() ? scrollBaseSpeed : noteSpeed.front();
-                barSpeed.push(bs);
 
                 for (size_t j = 0; j < col; ++j) //この小節のノーツ読み込み
                 {
@@ -174,9 +170,17 @@ namespace ct
                         .interval = repeatInterval
                     });
                 }
-                measures.push(nowMeasure);
+                // 小節キャッシュ
+                {
+                    const double  fixedCount = nowCount + GetJudgeOffset(nowCount, stopInfos);
+                    const int64 timingSample = calcTimingSample(fixedCount);
+                    barInfos.push(BarEntity{
+                         timingSample,
+                         fixedCount,
+                         bs
+                        });
+                }
                 nowCount += RESOLUTION * nowMeasure;
-                bar++; //次の小節へ
             }
             else						
             {
@@ -296,21 +300,10 @@ namespace ct
         m_totalNotes = totalNotes;
 
         //小節線作成
-        double nowBarCount = 0;
-
-        for (int32 i = 0; i < bar; ++i) {
-            double judgeOffset = GetJudgeOffset(nowBarCount, stopInfos);
-            double fixedCount = nowBarCount + judgeOffset;
-            m_bars.push_back(BarEntity{
-                .count = fixedCount,
-                .speed = barSpeed.front(),
-                });
-            nowBarCount += RESOLUTION * measures.front();
-            measures.pop();
-            barSpeed.pop();
+        for (auto&& entity : barInfos) {
+            m_bars.push_back(entity);
         }
-
-        m_lastBarCount = nowBarCount + GetJudgeOffset(nowBarCount, stopInfos) + RESOLUTION * 2;
+        m_lastBarCount = nowCount + GetJudgeOffset(nowCount, stopInfos) + RESOLUTION * 2;
 
         return true;
     }
