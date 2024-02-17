@@ -157,7 +157,10 @@ namespace ct
                     sum += notesRating[notesIndex].second;
                     ++notesIndex;
                 }
-
+                if (sum <= 0) {
+                    // 何もないなら含めない
+                    continue;
+                }
                 int64 sample = nextBarSample - bars[barIndex].sample;
                 if (sample <= 0) {
                     continue;

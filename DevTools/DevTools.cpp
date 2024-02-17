@@ -75,7 +75,7 @@ namespace ct::dev
                     log.writeln(U"Path, Lv, Rating, Mean, Median, Max");
                     log.writeln(U"============================");
                     for (const Data& d : data) {
-                        String ln = U"{}, {}, {}, {}, {}, {}, {}, {}"_fmt(
+                        String ln = U"{}, {}, {}, {}, {}, {}"_fmt(
                             d.path, 
                             d.level,
                             d.result.rating, 
@@ -120,8 +120,8 @@ namespace ct::dev
                     for (auto&& [lv, d] : ratingMap) {
                         String ln = U"{}, {}, {}, {}, {}"_fmt(
                             lv, 
-                            StatisticsUtil::Median(d),
-                            StatisticsUtil::Mean(d),
+                            StatisticsUtil::Median<int64, int64>(d),
+                            StatisticsUtil::Mean<int64, int64>(d),
                             StatisticsUtil::Min(d),
                             StatisticsUtil::Max(d)
                         );
