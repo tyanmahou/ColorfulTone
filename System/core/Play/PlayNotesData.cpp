@@ -65,7 +65,7 @@ namespace ct
         }
         // 小節線追加
         for (const BarEntity& b : sheet.getBars()) {
-            const auto& [count, speed] = b;
+            const auto& [_, count, speed] = b;
             m_objects.emplace_back(std::make_shared<Bar>(count, speed));
         }
         // 停止追加

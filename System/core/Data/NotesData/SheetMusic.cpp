@@ -75,7 +75,6 @@ namespace ct
         size_t rows = csv.rows();			// 行数
         String head;						// 1列目のデータを文字列で
         std::queue<double> noteSpeed;		// ノーツのスピード変化を覚えておく
-        std::Array<BarEntity> barInfos;     // 小節記憶用
         double nowMeasure = 1.0;			// 拍子の初期化
         uint32 totalNotes = 0;				// ノーツ数
         double scrollBaseSpeed = 1.0;
@@ -170,11 +169,11 @@ namespace ct
                         .interval = repeatInterval
                     });
                 }
-                // 小節キャッシュ
+                // 小節
                 {
                     const double  fixedCount = nowCount + GetJudgeOffset(nowCount, stopInfos);
                     const int64 timingSample = calcTimingSample(fixedCount);
-                    barInfos.push(BarEntity{
+                    m_bars.push_back(BarEntity{
                          timingSample,
                          fixedCount,
                          bs
@@ -298,11 +297,6 @@ namespace ct
         }
 
         m_totalNotes = totalNotes;
-
-        //小節線作成
-        for (auto&& entity : barInfos) {
-            m_bars.push_back(entity);
-        }
         m_lastBarCount = nowCount + GetJudgeOffset(nowCount, stopInfos) + RESOLUTION * 2;
 
         return true;
