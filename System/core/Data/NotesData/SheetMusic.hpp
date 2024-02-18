@@ -61,6 +61,7 @@ namespace ct
     /// </summary>
     struct StopEntity
     {
+        s3d::int64 sample;
         double count;
         double rangeCount;
     };

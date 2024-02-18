@@ -156,17 +156,6 @@ namespace ct
         //for (double diff : speedDiff) {
         //    speedRating += Min(diff - 1.0, 5.0) * BaseSpeedRating;
         //}
-        //// 停止レート 1個につき
-        //constexpr double BaseStopRating = 100.0;
-        //double stopRating = 0;
-        //const auto& stops = sheet.getStops();
-        //for (size_t index = 0; index < stops.size(); ++index) {
-        //    if (index > 0 && stops[index].count == stops[index - 1].count) {
-        //        // バックも一個扱い
-        //        continue;
-        //    }
-        //    stopRating += BaseStopRating;
-        //}
 
         // BPM変化 1につき
         constexpr double BaseBpmRating = 25.0;
@@ -184,7 +173,22 @@ namespace ct
                 bpmRatings.emplace_back(tempos[index].sample, rating);
             }
         }
-                
+
+        // 停止レート 1個につき
+        constexpr double BaseStopRating = 1000.0;
+        Array<std::pair<int64, double>> stopRatings;
+        {
+            const auto& stops = sheet.getStops();
+            for (size_t index = 0; index < stops.size(); ++index) {
+                if (index > 0 && stops[index].count == stops[index - 1].count) {
+                    // バックも一個扱い
+                    continue;
+                }
+                double rating = BaseStopRating;
+                stopRatings.emplace_back(stops[index].sample, rating);
+            }
+        }
+
         // 2秒毎にレーティング 計算
         Array<double> barRatings;
         {
@@ -192,6 +196,7 @@ namespace ct
             int64 endSample = sheet.getOffsetedTotalSample();
             size_t notesIndex = 0;
             size_t bpmIndex = 0;
+            size_t stopIndex = 0;
             for (int64 nextSample = startSample; nextSample <= endSample; nextSample += (44100 * 2)) {
                 double noteSum = 0;
                 // ノーツレート
@@ -209,7 +214,13 @@ namespace ct
                     bpmSum += bpmRatings[bpmIndex].second;
                     ++bpmIndex;
                 }
-                double barRate = noteSum + bpmSum;
+                // 譜面停止レート
+                double stopSum = 0;
+                while (stopIndex < stopRatings.size() && stopRatings[stopIndex].first < nextSample) {
+                    stopSum += stopRatings[stopIndex].second;
+                    ++stopIndex;
+                }
+                double barRate = noteSum + bpmSum + stopSum;
                 barRatings.push_back(barRate);
             }
         }

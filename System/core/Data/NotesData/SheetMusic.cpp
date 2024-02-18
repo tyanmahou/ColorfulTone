@@ -247,9 +247,14 @@ namespace ct
                 } else if (head == U"#STOP") {
                     double count = nowCount + RESOLUTION * nowMeasure * csv.getOr<double>(i, 3, 0) / csv.getOr<double>(i, 4, 1);
                     double judgeOffset = GetJudgeOffset(count, stopInfos);
+
+                    const double fixedCount = count + judgeOffset;
+                    const int64 timingSample = calcTimingSample(fixedCount);
+
                     double range = RESOLUTION * nowMeasure * csv.getOr<double>(i, 1, 0) / csv.getOr<double>(i, 2, 1);
                     m_stops.push_back(StopEntity{
-                        .count = count + judgeOffset,
+                        .sample = timingSample,
+                        .count = fixedCount,
                         .rangeCount = range
                         });
                 } else if (head == U"#DIRECTSTOP") {
@@ -259,8 +264,12 @@ namespace ct
                     stopInfos.emplace_back(count, stopInfos[stopInfos.size() - 1].m_totalOffset + range);
 
                     double judgeOffset = GetJudgeOffset(count, stopInfos);
+                    const double fixedCount = count + judgeOffset;
+                    const int64 timingSample = calcTimingSample(fixedCount);
+
                     m_stops.push_back(StopEntity{
-                        .count = count + judgeOffset,
+                        .sample = timingSample,
+                        .count = fixedCount,
                         .rangeCount = range
                         });
                 } else if (head == U"#MEASURE") {
