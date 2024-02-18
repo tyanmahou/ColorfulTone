@@ -80,8 +80,8 @@ namespace ct
         constexpr int64 JackThresholdMax = 22050; // bpm120での1拍
         auto calcJackFactor = [](int64 diff) {
             int64 clampDiff = Clamp<int64>(diff, JackThresholdMin, JackThresholdMax);
-            double r = Math::InvLerp(JackThresholdMin, JackThresholdMax, clampDiff);
-            return 2.5 * s3d::Pow(-(r - 1), LogBase(0.75, 0.4)) + 1;
+            double r = Math::InvLerp(JackThresholdMin, JackThresholdMax, static_cast<double>(clampDiff));
+            return 2.5 * s3d::Pow(-(r - 1), LogBase(0.4, 0.75)) + 1;
         };
         auto supJackFactor = [&](int64 diff) {
             return (3.0 * calcJackFactor(diff) + 2.0) / 5.0;
@@ -182,8 +182,6 @@ namespace ct
         {
             int64 startSample = sheet.getTempos()[0].bpmOffsetSample;
             int64 endSample = sheet.getOffsetedTotalSample();
-            Print << startSample;
-            Print << endSample;
             size_t notesIndex = 0;
             size_t bpmIndex = 0;
             for (int64 nextSample = startSample; nextSample <= endSample; nextSample += (44100 * 2)) {
