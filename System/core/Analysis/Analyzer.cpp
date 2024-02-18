@@ -150,7 +150,12 @@ namespace ct
                 }
             }
         }
-
+        //// 速度変化
+        //constexpr double BaseSpeedRating = 50.0;
+        //double speedRating = 0;
+        //for (double diff : speedDiff) {
+        //    speedRating += Min(diff - 1.0, 5.0) * BaseSpeedRating;
+        //}
         //// 停止レート 1個につき
         //constexpr double BaseStopRating = 100.0;
         //double stopRating = 0;
@@ -164,15 +169,18 @@ namespace ct
         //}
 
         // BPM変化 1につき
-        constexpr double BaseBpmRating = 100.0;
-        constexpr double BpmDiffThresholdMax = 150.0;
+        constexpr double BaseBpmRating = 25.0;
+        constexpr double BpmRatingFactorMax = 200.0;
         Array<std::pair<int64, double>> bpmRatings;
         {
             const auto& tempos = sheet.getTempos();
             for (size_t index = 1; index < tempos.size(); ++index) {
-                BPMType bpmDiff = Min<BPMType>(Abs(tempos[index].bpm - tempos[index - 1].bpm), BpmDiffThresholdMax);
-
-                double rating = BaseBpmRating * logJackFactor(tempos[index].sample - tempos[index - 1].sample) * bpmDiff;
+                BPMType bpmDiff = Abs(tempos[index].bpm - tempos[index - 1].bpm);
+                if (bpmDiff <= 0) {
+                    continue;
+                }
+                double bpmFactor = Min<BPMType>(100.0 * Pow(bpmDiff / 100.0, LogBase(0.75, 0.45)), BpmRatingFactorMax);
+                double rating = BaseBpmRating * bpmFactor;
                 bpmRatings.emplace_back(tempos[index].sample, rating);
             }
         }
@@ -197,10 +205,10 @@ namespace ct
                 }
                 // BPM変化レート
                 double bpmSum = 0;
-                //while (bpmIndex < bpmRatings.size() && bpmRatings[bpmIndex].first < nextSample) {
-                //    bpmSum += bpmRatings[bpmIndex].second;
-                //    ++bpmIndex;
-                //}
+                while (bpmIndex < bpmRatings.size() && bpmRatings[bpmIndex].first < nextSample) {
+                    bpmSum += bpmRatings[bpmIndex].second;
+                    ++bpmIndex;
+                }
                 double barRate = noteSum + bpmSum;
                 barRatings.push_back(barRate);
             }
@@ -215,13 +223,6 @@ namespace ct
         // レート
         const double ratingResult = meanRating * 0.5 + medianRating * 0.4 + maxRating * 0.1;
 
-
-        //// 速度変化
-        //constexpr double BaseSpeedRating = 50.0;
-        //double speedRating = 0;
-        //for (double diff : speedDiff) {
-        //    speedRating += Min(diff - 1.0, 5.0) * BaseSpeedRating;
-        //}
         return AnalyzeResult
         {
             .rating = static_cast<uint64>(Math::Round(ratingResult)),
