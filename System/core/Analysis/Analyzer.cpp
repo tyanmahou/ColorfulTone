@@ -81,7 +81,7 @@ namespace ct
         auto calcJackFactor = [](int64 diff) {
             int64 clampDiff = Clamp<int64>(diff, JackThresholdMin, JackThresholdMax);
             double r = Math::InvLerp(JackThresholdMin, JackThresholdMax, static_cast<double>(clampDiff));
-            return 2.5 * s3d::Pow(-(r - 1), LogBase(0.4, 0.75)) + 1;
+            return 1.0 * s3d::Pow(-(r - 1), LogBase(0.25, 0.75)) + 1;
         };
         auto supJackFactor = [&](int64 diff) {
             return (3.0 * calcJackFactor(diff) + 2.0) / 5.0;
