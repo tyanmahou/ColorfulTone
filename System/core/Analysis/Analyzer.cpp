@@ -12,13 +12,11 @@ namespace
         case 1:
         case 2:
         case 3:
-            return 1.0;
         case 4:
         case 5:
         case 6:
-            return 2.0;
         case 7:
-            return 3.0;
+            return 1.0;
         case 8:
             return 0.0;
         case 9:
@@ -28,15 +26,13 @@ namespace
         case 11:
         case 12:
         case 13:
-            return 1.2;
         case 14:
         case 15:
         case 16:
-            return 2.4;
         case 17:
-            return 3.6;
+            return 1.2;
         case 18:
-            return 0.9;
+            return 0.8;
         default:
             return 0.0;
         }
@@ -70,114 +66,90 @@ namespace
             return 0b000;
         }
     }
+    double LogBase(double a, double b)
+    {
+        return s3d::Math::Log(a) / s3d::Math::Log(b);
+    }
 }
 namespace ct
 {
 
     AnalyzeResult Analyzer::Analyze(const SheetMusic& sheet)
     {
-        // 1秒間隔のスコア 反比例
+        constexpr int64 JackThresholdMin = 0;
+        constexpr int64 JackThresholdMax = 22050; // bpm120での1拍
+        auto calcJackFactor = [](int64 diff) {
+            int64 clampDiff = Clamp<int64>(diff, JackThresholdMin, JackThresholdMax);
+            double r = Math::InvLerp(JackThresholdMin, JackThresholdMax, clampDiff);
+            return 2.5 * s3d::Pow(-(r - 1), LogBase(0.75, 0.4)) + 1;
+        };
+        auto supJackFactor = [&](int64 diff) {
+            return (3.0 * calcJackFactor(diff) + 2.0) / 5.0;
+            };
+        auto logJackFactor = [&](int64 diff) {
+            return Math::Log(calcJackFactor(diff)) + 1.0;
+         };
+        // ノーツ1つにつき
         constexpr double BaseNoteRating = 1000.0;
-        constexpr int64 NoteDiffThresholdMin = static_cast<int64>(44100.0 * 0.01);
-        constexpr int64 NoteDiffThresholdMax = 44100 * 2;
         // ロング終点以外
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
             return e.type != 8;
         });
 
-        Array<std::pair<int64, double>> notesRating;
+        Array<std::pair<int64, double>> notesRatings;
+        notesRatings.reserve(notes.size());
         Array<double> speedDiff;
-        int64 lastSample = 0;
-        std::array<int64, 3> lastSampleBits{ 0,0,0 };
+        {
+            int64 lastSample = 0;
+            std::array<int64, 3> lastSampleBits{ 0,0,0 };
 
-        notesRating.reserve(notes.size());
-        for (size_t index = 0; index < notes.size(); ++index) {
-            //if (notes[index].speed != notes[index - 1].speed) {
-            //    double minSpeed = Min(notes[index].speed, notes[index - 1].speed);
-            //    double maxSpeed = Max(notes[index].speed, notes[index - 1].speed);
-            //    if (minSpeed != 0.0) {
-            //        speedDiff.push_back(((minSpeed * maxSpeed <= 0) ? 2 : 1) * Abs(maxSpeed / minSpeed));
-            //    } else {
-            //        speedDiff.push_back(2);
-            //    }
-            //}
-            int32 typebit = NoteTypeBit(notes[index].type);
-            int64 nearSample = 0;
-            if (typebit == 0) {
-                nearSample = lastSample;
-            } else {
+            for (size_t index = 0; index < notes.size(); ++index) {
+                //if (notes[index].speed != notes[index - 1].speed) {
+                //    double minSpeed = Min(notes[index].speed, notes[index - 1].speed);
+                //    double maxSpeed = Max(notes[index].speed, notes[index - 1].speed);
+                //    if (minSpeed != 0.0) {
+                //        speedDiff.push_back(((minSpeed * maxSpeed <= 0) ? 2 : 1) * Abs(maxSpeed / minSpeed));
+                //    } else {
+                //        speedDiff.push_back(2);
+                //    }
+                //}
+                int32 typebit = NoteTypeBit(notes[index].type);
+                Array<int64> nearSample{};
+                if (typebit == 0) {
+                    nearSample << lastSample;
+                } else {
+                    if ((typebit & 0b001) != 0) { // 赤
+                        nearSample << lastSampleBits[0];
+                    }
+                    if ((typebit & 0b010) != 0) { // 青
+                        nearSample << lastSampleBits[1];
+                    }
+                    if ((typebit & 0b100) != 0) { // 黄
+                        nearSample << lastSampleBits[2];
+                    }
+                }
+                double rating = 0;
+                for (auto near : nearSample) {
+                    rating += BaseNoteRating * calcJackFactor(notes[index].sample - near) * TypeFactor(notes[index]);
+                }
+                notesRatings.emplace_back(notes[index].sample, rating);
+
+                // 最終タップ更新
                 if ((typebit & 0b001) != 0) { // 赤
-                    nearSample = Max(nearSample, lastSampleBits[0]);
+                    lastSampleBits[0] = notes[index].sample;
                 }
                 if ((typebit & 0b010) != 0) { // 青
-                    nearSample = Max(nearSample, lastSampleBits[1]);
+                    lastSampleBits[1] = notes[index].sample;
                 }
                 if ((typebit & 0b100) != 0) { // 黄
-                    nearSample = Max(nearSample, lastSampleBits[2]);
+                    lastSampleBits[2] = notes[index].sample;
                 }
-            }
-
-            int64 diff = Clamp(notes[index].sample - nearSample, NoteDiffThresholdMin, NoteDiffThresholdMax);
-            if (diff <= 0) {
-                // 無いはずだけどDiffがないなら
-                notesRating.emplace_back(notes[index].sample, BaseNoteRating * TypeFactor(notes[index]));
-            } else {
-                // 間隔係数
-                double jackFactor = Math::Log(1 / (static_cast<double>(diff) / 44100.0)) + 1.0;
-                double score = BaseNoteRating * jackFactor * TypeFactor(notes[index]);
-                notesRating.emplace_back(notes[index].sample, score);
-            }
-            // 最終タップ更新
-            if ((typebit & 0b001) != 0) { // 赤
-                lastSampleBits[0] = notes[index].sample;
-            }
-            if ((typebit & 0b010) != 0) { // 青
-                lastSampleBits[1] = notes[index].sample;
-            }
-            if ((typebit & 0b100) != 0) { // 黄
-                lastSampleBits[2] = notes[index].sample;
-            }
-            if (notes[index].type != 9) {
-                // 白じゃなければ
-                lastSample = notes[index].sample;
+                if (notes[index].type != 9) {
+                    // 白じゃなければ
+                    lastSample = notes[index].sample;
+                }
             }
         }
-
-        // 小節事にレーティング 計算
-        Array<double> barRatings;
-        {
-            const auto& bars = sheet.getBars();
-            size_t notesIndex = 0;
-            for (size_t barIndex = 0; barIndex < bars.size(); ++barIndex) {
-                s3d::int64 nextBarSample = (barIndex + 1) < bars.size() ? bars[barIndex + 1].sample : sheet.getOffsetedTotalSample();
-
-                double sum = 0;
-                // ノーツレート
-                while (notesIndex < notesRating.size() && notesRating[notesIndex].first < nextBarSample) {
-                    sum += notesRating[notesIndex].second;
-                    ++notesIndex;
-                }
-                if (sum <= 0) {
-                    // 何もないなら含めない
-                    continue;
-                }
-                int64 sample = nextBarSample - bars[barIndex].sample;
-                if (sample <= 0) {
-                    continue;
-                }
-                double sec = static_cast<double>(sample) / 44100.0;
-                barRatings.push_back(sum / sec);
-            }
-        }
-        // 平均レート
-        double meanRating = StatisticsUtil::Mean(barRatings);
-        // 最大局所レート
-        double maxRating = StatisticsUtil::Max(barRatings);
-        // 中央局所レート
-        double medianRating = StatisticsUtil::Median(barRatings);
-
-        // レート
-        const double ratingResult = meanRating * 0.5 + medianRating * 0.4 + maxRating * 0.1;
 
         //// 停止レート 1個につき
         //constexpr double BaseStopRating = 100.0;
@@ -191,13 +163,60 @@ namespace ct
         //    stopRating += BaseStopRating;
         //}
 
-        //// BPM変化
-        //constexpr double BaseBpmRating = 1.0;
-        //double bpmRating = 0;
-        //const auto& tempos = sheet.getTempos();
-        //for (size_t index = 1; index < tempos.size(); ++index) {
-        //    bpmRating += Abs(tempos[index].bpm - tempos[index - 1].bpm) * BaseBpmRating;
-        //}
+        // BPM変化 1につき
+        constexpr double BaseBpmRating = 100.0;
+        constexpr double BpmDiffThresholdMax = 150.0;
+        Array<std::pair<int64, double>> bpmRatings;
+        {
+            const auto& tempos = sheet.getTempos();
+            for (size_t index = 1; index < tempos.size(); ++index) {
+                BPMType bpmDiff = Min<BPMType>(Abs(tempos[index].bpm - tempos[index - 1].bpm), BpmDiffThresholdMax);
+
+                double rating = BaseBpmRating * logJackFactor(tempos[index].sample - tempos[index - 1].sample) * bpmDiff;
+                bpmRatings.emplace_back(tempos[index].sample, rating);
+            }
+        }
+                
+        // 2秒毎にレーティング 計算
+        Array<double> barRatings;
+        {
+            int64 startSample = sheet.getTempos()[0].bpmOffsetSample;
+            int64 endSample = sheet.getOffsetedTotalSample();
+            Print << startSample;
+            Print << endSample;
+            size_t notesIndex = 0;
+            size_t bpmIndex = 0;
+            for (int64 nextSample = startSample; nextSample <= endSample; nextSample += (44100 * 2)) {
+                double noteSum = 0;
+                // ノーツレート
+                while (notesIndex < notesRatings.size() && notesRatings[notesIndex].first < nextSample) {
+                    noteSum += notesRatings[notesIndex].second;
+                    ++notesIndex;
+                }
+                if (noteSum <= 0) {
+                    // 何もないなら含めない
+                    continue;
+                }
+                // BPM変化レート
+                double bpmSum = 0;
+                //while (bpmIndex < bpmRatings.size() && bpmRatings[bpmIndex].first < nextSample) {
+                //    bpmSum += bpmRatings[bpmIndex].second;
+                //    ++bpmIndex;
+                //}
+                double barRate = noteSum + bpmSum;
+                barRatings.push_back(barRate);
+            }
+        }
+        // 平均レート
+        double meanRating = StatisticsUtil::Mean(barRatings);
+        // 最大局所レート
+        double maxRating = StatisticsUtil::Max(barRatings);
+        // 中央局所レート
+        double medianRating = StatisticsUtil::Median(barRatings);
+
+        // レート
+        const double ratingResult = meanRating * 0.5 + medianRating * 0.4 + maxRating * 0.1;
+
 
         //// 速度変化
         //constexpr double BaseSpeedRating = 50.0;
