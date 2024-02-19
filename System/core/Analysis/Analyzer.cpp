@@ -168,7 +168,7 @@ namespace ct
                 if (bpmDiff <= 0) {
                     continue;
                 }
-                double bpmFactor = Min<BPMType>(100.0 * Pow(bpmDiff / 100.0, LogBase(0.75, 0.45)), BpmRatingFactorMax);
+                double bpmFactor = Min<BPMType>(100.0 * Pow(bpmDiff / 100.0, LogBase(0.75, 0.6)), BpmRatingFactorMax);
                 double rating = BaseBpmRating * bpmFactor;
                 bpmRatings.emplace_back(tempos[index].sample, rating);
             }
