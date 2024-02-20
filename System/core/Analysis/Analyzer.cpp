@@ -161,6 +161,7 @@ namespace ct
         constexpr double BaseBpmRating = 25.0;
         constexpr double BpmRatingFactorMax = 200.0;
         Array<std::pair<int64, double>> bpmRatings;
+        bpmRatings.reserve(sheet.getTempos().size());
         {
             size_t notesIndex = 0;
             const auto& tempos = sheet.getTempos();
@@ -193,6 +194,7 @@ namespace ct
         // 停止レート 1個につき
         constexpr double BaseStopRating = 1000.0;
         Array<std::pair<int64, double>> stopRatings;
+        stopRatings.reserve(sheet.getStops().size());
         {
             const auto& stops = sheet.getStops();
 
