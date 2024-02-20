@@ -162,8 +162,23 @@ namespace ct
         constexpr double BpmRatingFactorMax = 200.0;
         Array<std::pair<int64, double>> bpmRatings;
         {
+            size_t notesIndex = 0;
             const auto& tempos = sheet.getTempos();
             for (size_t index = 1; index < tempos.size(); ++index) {
+                // 影響範囲開始のノーツまで進める
+                for (; notesIndex < notes.size(); ++notesIndex) {
+                    if (notes[notesIndex].sample > tempos[index].sample) {
+                        break;
+                    }
+                }
+                if (notesIndex == notes.size()) {
+                    // この停止より後ろにノーツはない
+                    break;
+                }
+                if (notes[notesIndex].sample > tempos[index].sample + (44100 + 2)) {
+                    // 2秒より離れているならレート換算なし
+                    continue;
+                }
                 BPMType bpmDiff = Abs(tempos[index].bpm - tempos[index - 1].bpm);
                 if (bpmDiff <= 0) {
                     continue;
@@ -179,13 +194,42 @@ namespace ct
         Array<std::pair<int64, double>> stopRatings;
         {
             const auto& stops = sheet.getStops();
+
+            Array<std::pair<int64, int64>> stopTemps;
             for (size_t index = 0; index < stops.size(); ++index) {
+                int64 endSample = sheet.calcTimingSample(stops[index].count + stops[index].rangeCount);
                 if (index > 0 && stops[index].count == stops[index - 1].count) {
                     // バックも一個扱い
+                    if (endSample > stopTemps.back().second) {
+                        // 影響範囲更新
+                        stopTemps.back().second = endSample;
+                    }
                     continue;
                 }
+                stopTemps.emplace_back(stops[index].sample, endSample);
+            }
+            size_t notesIndex = 0;
+            for (size_t index = 0; index < stopTemps.size(); ++index) {
+                int64 beginSample = stopTemps[index].first;
+                int64 endSample = stopTemps[index].second;
+
+                // 影響範囲開始のノーツまで進める
+                for (; notesIndex < notes.size(); ++notesIndex) {
+                    if (notes[notesIndex].sample > beginSample) {
+                        break;
+                    }
+                }
+                if (notesIndex == notes.size()) {
+                    // この停止より後ろにノーツはない
+                    break;
+                }
+                if (notes[notesIndex].sample > endSample + (44100 + 2)) {
+                    // 2秒より離れているならレート換算なし
+                    continue;
+                }
+
                 double rating = BaseStopRating;
-                stopRatings.emplace_back(stops[index].sample, rating);
+                stopRatings.emplace_back(beginSample, rating);
             }
         }
 
@@ -208,31 +252,20 @@ namespace ct
                     // 何もないなら含めない
                     continue;
                 }
-                bool isEnd = false;
-                double gimmickCheckSample = nextSample;
-                if (notesIndex >= notesRatings.size()) {
-                    // 最後のノーツより前だけチェック
-                    gimmickCheckSample = notesRatings.back().first;
-                    isEnd = true;
-                }
                 // BPM変化レート
                 double bpmSum = 0;
-                while (bpmIndex < bpmRatings.size() && bpmRatings[bpmIndex].first < gimmickCheckSample) {
+                while (bpmIndex < bpmRatings.size() && bpmRatings[bpmIndex].first < nextSample) {
                     bpmSum += bpmRatings[bpmIndex].second;
                     ++bpmIndex;
                 }
                 // 譜面停止レート
                 double stopSum = 0;
-                while (stopIndex < stopRatings.size() && stopRatings[stopIndex].first < gimmickCheckSample) {
+                while (stopIndex < stopRatings.size() && stopRatings[stopIndex].first < nextSample) {
                     stopSum += stopRatings[stopIndex].second;
                     ++stopIndex;
                 }
                 double barRate = noteSum + bpmSum + stopSum;
                 barRatings.push_back(barRate);
-
-                if (isEnd) {
-                    break;
-                }
             }
         }
         // 平均レート
