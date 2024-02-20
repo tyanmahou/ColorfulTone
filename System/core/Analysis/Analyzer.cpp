@@ -175,12 +175,13 @@ namespace ct
                     // この停止より後ろにノーツはない
                     break;
                 }
-                if (notes[notesIndex].sample > tempos[index].sample + (44100 + 2)) {
-                    // 2秒より離れているならレート換算なし
-                    continue;
-                }
                 BPMType bpmDiff = Abs(tempos[index].bpm - tempos[index - 1].bpm);
                 if (bpmDiff <= 0) {
+                    continue;
+                }
+                if (notes[notesIndex].sample > tempos[index].sample + (44100 * 2)) {
+                    // 2秒より離れているならレート換算ほぼなし
+                    bpmRatings.emplace_back(tempos[index].sample, Min<BPMType>(bpmDiff, BpmRatingFactorMax));
                     continue;
                 }
                 double bpmFactor = Min<BPMType>(100.0 * Pow(bpmDiff / 100.0, LogBase(0.75, 0.6)), BpmRatingFactorMax);
@@ -223,8 +224,9 @@ namespace ct
                     // この停止より後ろにノーツはない
                     break;
                 }
-                if (notes[notesIndex].sample > endSample + (44100 + 2)) {
-                    // 2秒より離れているならレート換算なし
+                if (notes[notesIndex].sample > endSample + (44100 * 2)) {
+                    // 2秒より離れているならレート換算ほぼなし
+                    stopRatings.emplace_back(beginSample, 10);
                     continue;
                 }
 
