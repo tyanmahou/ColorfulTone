@@ -1,5 +1,6 @@
 ﻿#include <core/Data/NotesData/SheetMusic.hpp>
 #include <Siv3D.hpp>
+#include "SheetMusic.hpp"
 
 namespace
 {
@@ -17,12 +18,6 @@ namespace
             m_firstCount(firstCount),
             m_totalOffset(totalOffset)
         {}
-    };
-    struct BpmHistory
-    {
-        BPMType bpm;
-        double changeCount;
-        int64 changeSample;
     };
     size_t GetLastStopIndex(const double count, const Array<StopInfo>& stopInfos)
     {
@@ -87,31 +82,13 @@ namespace ct
         //bpm変更用
         double lastBPMChangeCount = 0;
         int64 totalSample = static_cast<s3d::int64>(44100) * 4;
-        Array<::BpmHistory> bpmHistory;
-        bpmHistory.push_back({ nowBPM, lastBPMChangeCount, totalSample });
         m_tempos.push_back(TempoEntity{
-            .sample = 0,
-            .count = 0,
+            .sample = totalSample,
+            .count = lastBPMChangeCount,
             .bpm = nowBPM,
             .bpmOffsetSample = totalSample
             });
         double nowCount = 0;
-        const auto calcTimingSample = [&](double count)->int64 {
-            size_t historyIndex = 0;
-            for (size_t i = bpmHistory.size() - 1; i >= 0; --i) {
-                if (count >= bpmHistory[i].changeCount) {
-                    historyIndex = i;
-                    break;
-                }
-            }
-            const BPMType bpm = bpmHistory[historyIndex].bpm;
-            const double changeCount = bpmHistory[historyIndex].changeCount;
-            const int64 changeSample = bpmHistory[historyIndex].changeSample;
-
-            const double samplePerBar = 4 * 44100 * 60 / bpm;
-            const double preBPMSample = (count - changeCount) * samplePerBar / static_cast<double>(SheetMusic::RESOLUTION);
-            return changeSample + static_cast<int64>(preBPMSample);
-            };
         for (size_t i = 0; i < rows; i++) {
             head = csv.get<String>(i, 0);
 
@@ -206,11 +183,11 @@ namespace ct
                     }
                 } else if (head == U"#BPM") {
                     const BPMType nextBPM = csv.getOr<BPMType>(i, 1, 120);
-                    nowBPM = m_tempos.back().bpm = bpmHistory.back().bpm = nextBPM;
+                    nowBPM = m_tempos.back().bpm = nextBPM;
                 } else if (head == U"#OFFSET") {
                     m_offsetSample = csv.getOr<int64>(i, 1, 0);
                     totalSample += m_offsetSample;
-                    m_tempos.back().bpmOffsetSample = bpmHistory.back().changeSample = totalSample;
+                    m_tempos.back().bpmOffsetSample = m_tempos.back().sample = totalSample;
                 } else if (head == U"#SCROLL") {
                     size_t col = csv.columns(i);
                     for (size_t j = 1; j < col; ++j) {
@@ -242,8 +219,6 @@ namespace ct
                     }
                     nowBPM = bpm;
                     lastBPMChangeCount = count;
-
-                    bpmHistory.push_back({ nowBPM, lastBPMChangeCount, totalSample });
                 } else if (head == U"#STOP") {
                     double count = nowCount + RESOLUTION * nowMeasure * csv.getOr<double>(i, 3, 0) / csv.getOr<double>(i, 4, 1);
                     double judgeOffset = GetJudgeOffset(count, stopInfos);
@@ -321,4 +296,21 @@ namespace ct
     {
         return m_lvName + U" Lv" + this->getLevelWithStar();
     }
+    s3d::int64 ct::SheetMusic::calcTimingSample(double count) const
+    {
+        size_t historyIndex = 0;
+        for (size_t i = m_tempos.size() - 1; i >= 0; --i) {
+            if (count >= m_tempos[i].count) {
+                historyIndex = i;
+                break;
+            }
+        }
+        const BPMType bpm = m_tempos[historyIndex].bpm;
+        const double changeCount = m_tempos[historyIndex].count;
+        const int64 changeSample = m_tempos[historyIndex].sample;
+
+        const double samplePerBar = 4 * 44100 * 60 / bpm;
+        const double preBPMSample = (count - changeCount) * samplePerBar / static_cast<double>(SheetMusic::RESOLUTION);
+        return changeSample + static_cast<int64>(preBPMSample);
+    };
 }

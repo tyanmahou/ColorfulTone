@@ -144,6 +144,8 @@ namespace ct
         s3d::String getLevelWithStar() const;
 
         s3d::String getLevelNameAndLevel() const;
+
+        s3d::int64 calcTimingSample(double count) const;
     private:
         //** メタ情報 **//
         s3d::int32 m_lv;                  // レベル
