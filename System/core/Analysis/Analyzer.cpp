@@ -191,7 +191,7 @@ namespace ct
 
         // 2秒毎にレーティング 計算
         Array<double> barRatings;
-        {
+        if (!notesRatings.isEmpty()) {
             int64 startSample = sheet.getTempos()[0].bpmOffsetSample;
             int64 endSample = sheet.getOffsetedTotalSample();
             size_t notesIndex = 0;
@@ -208,20 +208,31 @@ namespace ct
                     // 何もないなら含めない
                     continue;
                 }
+                bool isEnd = false;
+                double gimmickCheckSample = nextSample;
+                if (notesIndex >= notesRatings.size()) {
+                    // 最後のノーツより前だけチェック
+                    gimmickCheckSample = notesRatings.back().first;
+                    isEnd = true;
+                }
                 // BPM変化レート
                 double bpmSum = 0;
-                while (bpmIndex < bpmRatings.size() && bpmRatings[bpmIndex].first < nextSample) {
+                while (bpmIndex < bpmRatings.size() && bpmRatings[bpmIndex].first < gimmickCheckSample) {
                     bpmSum += bpmRatings[bpmIndex].second;
                     ++bpmIndex;
                 }
                 // 譜面停止レート
                 double stopSum = 0;
-                while (stopIndex < stopRatings.size() && stopRatings[stopIndex].first < nextSample) {
+                while (stopIndex < stopRatings.size() && stopRatings[stopIndex].first < gimmickCheckSample) {
                     stopSum += stopRatings[stopIndex].second;
                     ++stopIndex;
                 }
                 double barRate = noteSum + bpmSum + stopSum;
                 barRatings.push_back(barRate);
+
+                if (isEnd) {
+                    break;
+                }
             }
         }
         // 平均レート
