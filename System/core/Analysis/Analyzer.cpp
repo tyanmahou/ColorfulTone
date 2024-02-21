@@ -89,10 +89,9 @@ namespace ct
             };
 
         // 速度補正
-        constexpr double BaseSpeedRating = 1000.0;
         auto calcSpeedRatingFactor = [](double ratio) {
-            ratio = Min(ratio, 10.0);
-            return s3d::Pow(Math::InvLerp(1, 10.0, ratio), LogBase(0.5, 0.18));
+            ratio = Min(ratio, 3.0);
+            return 1.0 + Math::InvLerp(1, 3.0, ratio);
         };
 
         // ロング終点以外
@@ -119,8 +118,7 @@ namespace ct
             }
         }
         // 基準速度
-        double speedBase = StatisticsUtil::MeanInIQRBounds(speeds);
-
+        double speedBase = StatisticsUtil::GeometricMeanInIQRBounds(speeds);
         Array<std::pair<int64, double>> notesRatings;
         notesRatings.reserve(notes.size());
         {
@@ -162,7 +160,7 @@ namespace ct
                         // 逆走はムズイ
                         speedRatio *= 1.5;
                     }
-                    rating += BaseSpeedRating * calcSpeedRatingFactor(speedRatio);
+                    rating *= calcSpeedRatingFactor(speedRatio);
                 }
                 if (index > 0 && (notes[index].type == 9 && notes[index - 1].type == 9) && (index + 1 >= notes.size() || notes[index + 1].type == 9)) {
                     // 連続する白ノーツは特殊的に弱くする

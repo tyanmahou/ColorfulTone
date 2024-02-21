@@ -24,6 +24,18 @@ namespace ct
             return static_cast<U>(s3d::Statistics::Mean(ar.begin(), ar.end()));
         }
         template<class T, class U = double>
+        static U GeometricMean(const s3d::Array<T>& ar)
+        {
+            if (ar.isEmpty()) {
+                return 1.0;
+            }
+            T logSum = 0;
+            for (const T& v : ar) {
+                logSum += s3d::Log(v);
+            }
+            return static_cast<U>(s3d::Exp(logSum / ar.size()));
+        }
+        template<class T, class U = double>
         static U Median(const s3d::Array<T>& ar)
         {
             return static_cast<U>(s3d::Statistics::Median(ar.begin(), ar.end()).value_or(0));
@@ -64,6 +76,15 @@ namespace ct
                 return v < lower || upper < v;
             });
             return Mean<U>(inIQRBounds);
+        }
+        template<class T, class U = double>
+        static U GeometricMeanInIQRBounds(const s3d::Array<T>& ar, double tukey = 1.5)
+        {
+            auto [lower, upper] = IQRBounds(ar, tukey);
+            auto inIQRBounds = ar.removed_if([&](const T& v) {
+                return v < lower || upper < v;
+                });
+            return GeometricMean<U>(inIQRBounds);
         }
     };
 }
