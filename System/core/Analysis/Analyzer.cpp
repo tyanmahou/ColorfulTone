@@ -92,7 +92,7 @@ namespace ct
         constexpr double BaseSpeedRating = 1000.0;
         auto calcSpeedRatingFactor = [](double ratio) {
             ratio = Min(ratio, 10.0);
-            return s3d::Pow(Math::InvLerp(1, 10.0, ratio), LogBase(0.5, 0.135));
+            return s3d::Pow(Math::InvLerp(1, 10.0, ratio), LogBase(0.5, 0.18));
         };
 
         // ロング終点以外
