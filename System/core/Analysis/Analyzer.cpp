@@ -76,51 +76,58 @@ namespace ct
 
     AnalyzeResult Analyzer::Analyze(const SheetMusic& sheet)
     {
+        // ノーツ1つにつき
+        constexpr double BaseNoteRating = 1000.0;
+
+        // 縦連補正
         constexpr int64 JackThresholdMin = 0;
         constexpr int64 JackThresholdMax = 22050; // bpm120での1拍
         auto calcJackFactor = [](int64 diff) {
             int64 clampDiff = Clamp<int64>(diff, JackThresholdMin, JackThresholdMax);
             double r = Math::InvLerp(JackThresholdMin, JackThresholdMax, static_cast<double>(clampDiff));
             return 1.0 * s3d::Pow(-(r - 1), LogBase(0.25, 0.75)) + 1;
-        };
-        auto supJackFactor = [&](int64 diff) {
-            return (3.0 * calcJackFactor(diff) + 2.0) / 5.0;
             };
-        auto logJackFactor = [&](int64 diff) {
-            return Math::Log(calcJackFactor(diff)) + 1.0;
-         };
-        // ノーツ1つにつき
-        constexpr double BaseNoteRating = 1000.0;
-        constexpr double BaseSpeedRating = 100.0;
+
+        // 速度補正
+        constexpr double BaseSpeedRating = 1000.0;
+        auto calcSpeedRatingFactor = [](double ratio) {
+            ratio = Min(ratio, 10.0);
+            return s3d::Pow(Math::InvLerp(1, 10.0, ratio), LogBase(0.5, 0.18));
+        };
+
         // ロング終点以外
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
             return e.type != 8;
         });
 
+        const auto& tempos = sheet.getTempos();
+
+        // 速度基準の計算
+        Array<double> speeds;
+        speeds.reserve(notes.size());
+        {
+            size_t notesIndex = 0;
+
+            for (size_t tempoIndex = 0; tempoIndex < tempos.size(); ++tempoIndex) {
+                int64 nextSample = tempoIndex + 1 < tempos.size() ? tempos[tempoIndex + 1].sample : sheet.getOffsetedTotalSample();
+
+                while (notesIndex < notes.size() && notes[notesIndex].sample < nextSample) {
+                    // BPM考慮した
+                    speeds.push_back(tempos[tempoIndex].bpm * Abs(notes[notesIndex].speed));
+                    ++notesIndex;
+                }
+            }
+        }
+        // 基準速度
+        double speedBase = StatisticsUtil::MeanInIQRBounds(speeds);
+
         Array<std::pair<int64, double>> notesRatings;
         notesRatings.reserve(notes.size());
-        Array<std::pair<int64, double>> speedDiff;
-        speedDiff.reserve(notes.size());
         {
             int64 lastSample = 0;
             std::array<int64, 3> lastSampleBits{ 0,0,0 };
 
             for (size_t index = 0; index < notes.size(); ++index) {
-                // 速度差分チェック
-                if (index > 0 && notes[index].speed != notes[index - 1].speed) {
-                    double minSpeed = Min(notes[index].speed, notes[index - 1].speed);
-                    double maxSpeed = Max(notes[index].speed, notes[index - 1].speed);
-
-                    double ratingFactor = 1.0;
-                    if (minSpeed != 0.0) {
-                        ratingFactor = Min(10.0, ((minSpeed * maxSpeed <= 0) ? 2 : 1) * Abs(maxSpeed / minSpeed));
-                    } else {
-                        ratingFactor = 2.0;
-                    }
-                    double ratingSpeed = ratingFactor * 
-                    speedDiff.emplace_back(notes[index].speed);
-                }
-
                 int32 typebit = NoteTypeBit(notes[index].type);
                 Array<int64> nearSample{};
                 if (typebit == 0) {
@@ -140,6 +147,25 @@ namespace ct
                 for (auto near : nearSample) {
                     rating += BaseNoteRating * calcJackFactor(notes[index].sample - near) * TypeFactor(notes[index]);
                 }
+
+                // 速度倍率補正
+                {
+                    double lowSpeed = Min(speeds[index], speedBase);
+                    double highSpeed = Max(speeds[index], speedBase);
+                    double speedRatio = 0;
+                    if (lowSpeed == 0) {
+                        speedRatio = 2;
+                    } else {
+                        speedRatio = highSpeed / lowSpeed;
+                    }
+                    if (notes[index].speed < 0) {
+                        // 逆走はムズイ
+                        speedRatio *= 1.5;
+                    }
+                    rating += BaseSpeedRating * calcSpeedRatingFactor(speedRatio);
+                }
+
+
                 notesRatings.emplace_back(notes[index].sample, rating);
 
                 // 最終タップ更新
@@ -158,12 +184,6 @@ namespace ct
                 }
             }
         }
-        //// 速度変化
-        //constexpr double BaseSpeedRating = 50.0;
-        //double speedRating = 0;
-        //for (double diff : speedDiff) {
-        //    speedRating += Min(diff - 1.0, 5.0) * BaseSpeedRating;
-        //}
 
         // BPM変化 1につき
         constexpr double BaseBpmRating = 25.0;
@@ -172,7 +192,6 @@ namespace ct
         bpmRatings.reserve(sheet.getTempos().size());
         {
             size_t notesIndex = 0;
-            const auto& tempos = sheet.getTempos();
             for (size_t index = 1; index < tempos.size(); ++index) {
                 // 影響範囲開始のノーツまで進める
                 for (; notesIndex < notes.size(); ++notesIndex) {
@@ -251,7 +270,6 @@ namespace ct
             int64 startSample = sheet.getTempos()[0].bpmOffsetSample;
             int64 endSample = sheet.getOffsetedTotalSample();
             size_t notesIndex = 0;
-            size_t speedIndex = 0;
             size_t bpmIndex = 0;
             size_t stopIndex = 0;
             for (int64 nextSample = startSample; nextSample <= endSample; nextSample += (44100 * 2)) {
@@ -260,12 +278,6 @@ namespace ct
                 while (notesIndex < notesRatings.size() && notesRatings[notesIndex].first < nextSample) {
                     noteSum += notesRatings[notesIndex].second;
                     ++notesIndex;
-                }
-                // スピードレート
-                double speedSum = 0;
-                while (speedIndex < speedDiff.size() && speedDiff[speedIndex].first < nextSample) {
-                    speedSum += speedDiff[speedIndex].second;
-                    ++speedIndex;
                 }
                 // BPM変化レート
                 double bpmSum = 0;
