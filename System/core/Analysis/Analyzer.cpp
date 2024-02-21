@@ -164,7 +164,10 @@ namespace ct
                     }
                     rating += BaseSpeedRating * calcSpeedRatingFactor(speedRatio);
                 }
-
+                if (index > 0 && notes[index].type == 9 && notes[index - 1].type == 9) {
+                    // 連続する白ノーツは特殊的に弱くする
+                    rating /= 100.0;
+                }
 
                 notesRatings.emplace_back(notes[index].sample, rating);
 
