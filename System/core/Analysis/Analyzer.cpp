@@ -91,6 +91,7 @@ namespace ct
          };
         // ノーツ1つにつき
         constexpr double BaseNoteRating = 1000.0;
+        constexpr double BaseSpeedRating = 100.0;
         // ロング終点以外
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
             return e.type != 8;
@@ -98,21 +99,28 @@ namespace ct
 
         Array<std::pair<int64, double>> notesRatings;
         notesRatings.reserve(notes.size());
-        Array<double> speedDiff;
+        Array<std::pair<int64, double>> speedDiff;
+        speedDiff.reserve(notes.size());
         {
             int64 lastSample = 0;
             std::array<int64, 3> lastSampleBits{ 0,0,0 };
 
             for (size_t index = 0; index < notes.size(); ++index) {
-                //if (notes[index].speed != notes[index - 1].speed) {
-                //    double minSpeed = Min(notes[index].speed, notes[index - 1].speed);
-                //    double maxSpeed = Max(notes[index].speed, notes[index - 1].speed);
-                //    if (minSpeed != 0.0) {
-                //        speedDiff.push_back(((minSpeed * maxSpeed <= 0) ? 2 : 1) * Abs(maxSpeed / minSpeed));
-                //    } else {
-                //        speedDiff.push_back(2);
-                //    }
-                //}
+                // 速度差分チェック
+                if (index > 0 && notes[index].speed != notes[index - 1].speed) {
+                    double minSpeed = Min(notes[index].speed, notes[index - 1].speed);
+                    double maxSpeed = Max(notes[index].speed, notes[index - 1].speed);
+
+                    double ratingFactor = 1.0;
+                    if (minSpeed != 0.0) {
+                        ratingFactor = Min(10.0, ((minSpeed * maxSpeed <= 0) ? 2 : 1) * Abs(maxSpeed / minSpeed));
+                    } else {
+                        ratingFactor = 2.0;
+                    }
+                    double ratingSpeed = ratingFactor * 
+                    speedDiff.emplace_back(notes[index].speed);
+                }
+
                 int32 typebit = NoteTypeBit(notes[index].type);
                 Array<int64> nearSample{};
                 if (typebit == 0) {
@@ -243,6 +251,7 @@ namespace ct
             int64 startSample = sheet.getTempos()[0].bpmOffsetSample;
             int64 endSample = sheet.getOffsetedTotalSample();
             size_t notesIndex = 0;
+            size_t speedIndex = 0;
             size_t bpmIndex = 0;
             size_t stopIndex = 0;
             for (int64 nextSample = startSample; nextSample <= endSample; nextSample += (44100 * 2)) {
@@ -252,9 +261,11 @@ namespace ct
                     noteSum += notesRatings[notesIndex].second;
                     ++notesIndex;
                 }
-                if (noteSum <= 0) {
-                    // 何もないなら含めない
-                    continue;
+                // スピードレート
+                double speedSum = 0;
+                while (speedIndex < speedDiff.size() && speedDiff[speedIndex].first < nextSample) {
+                    speedSum += speedDiff[speedIndex].second;
+                    ++speedIndex;
                 }
                 // BPM変化レート
                 double bpmSum = 0;
