@@ -310,7 +310,7 @@ namespace ct
         Array<double> barRatings;
         if (!notesRatings.isEmpty()) {
             int64 startSample = sheet.getTempos()[0].bpmOffsetSample;
-            int64 endSample = sheet.getOffsetedTotalSample();
+            int64 endSample = sheet.getOffsetedTotalSample() + (44100 * 2);
             size_t notesIndex = 0;
             size_t bpmIndex = 0;
             size_t stopIndex = 0;
