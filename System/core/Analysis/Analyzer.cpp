@@ -22,7 +22,7 @@ namespace
         case 9:
             return 0.1;
         case 10:
-            return 1.2 * note.interval / 8.0;
+            return 1.0 * note.interval / 8.0;
         case 11:
         case 12:
         case 13:
@@ -32,7 +32,7 @@ namespace
         case 17:
             return 1.2;
         case 18:
-            return 0.8;
+            return 0.7;
         default:
             return 0.0;
         }
@@ -76,6 +76,7 @@ namespace ct
 
     AnalyzeResult Analyzer::Analyze(const SheetMusic& sheet)
     {
+        constexpr double BackFactor = 1.5;
         // ノーツ1つにつき
         constexpr double BaseNoteRating = 1000.0;
 
@@ -157,15 +158,16 @@ namespace ct
                     } else {
                         speedRatio = highSpeed / lowSpeed;
                     }
-                    if (notes[index].speed < 0) {
-                        // 逆走はムズイ
-                        speedRatio *= 1.5;
-                    }
+
                     rating *= calcSpeedRatingFactor(speedRatio);
+
+                    // 逆走むずい
+                    double backFactor = (notes[index].speed < 0) ? BackFactor : 1.0;
+                    rating *= backFactor;
                 }
                 if (index > 0 && (notes[index].type == 9 && notes[index - 1].type == 9) && (index + 1 >= notes.size() || notes[index + 1].type == 9)) {
                     // 連続する白ノーツは特殊的に弱くする
-                    rating /= 100.0;
+                    rating /= 10.0;
                 }
 
                 notesRatings.emplace_back(notes[index].sample, rating);
@@ -222,8 +224,7 @@ namespace ct
 
         // 停止レート 1個につき
         constexpr double BaseStopRating = 1000.0;
-        constexpr double OverlapStopRating = 500.0;
-
+        constexpr double OverlapStopRating = 200.0;
         Array<std::pair<int64, double>> stopRatings;
         stopRatings.reserve(sheet.getStops().size());
         {
@@ -270,11 +271,19 @@ namespace ct
                 }
 
                 // 停止に被るノーツは難しい
+                int64 midSample = (beginSample + endSample) / 2;
                 for (size_t i = notesIndex; i < notes.size(); ++i) {
                     if (notes[i].sample > endSample) {
                         break;
                     }
-                    notesRatings[i].second += OverlapStopRating * (isBack ? 1.2 : 1.0);
+                    double overlapFactor = 1.0;
+                    if (isBack) {
+                        if (notes[i].sample >= midSample) {
+                            overlapFactor = BackFactor;
+                        }
+                    }
+                    notesRatings[i].second *= overlapFactor;
+                    notesRatings[i].second += OverlapStopRating;
                 }
                 // 定数
                 double rating = BaseStopRating;
