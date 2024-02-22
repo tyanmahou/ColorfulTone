@@ -350,10 +350,10 @@ namespace ct
 
         // レート
         const double ratingResult = meanRating * 0.2
-                                  + medianRating * 0.2
-                                  + percentile80Rating * 0.2
-                                  + percentile97Rating * 0.3
-                                  + maxRating * 0.1;
+                                  + medianRating * 0.17
+                                  + percentile80Rating * 0.22
+                                  + percentile97Rating * 0.33
+                                  + maxRating * 0.08;
 
         return AnalyzeResult
         {
