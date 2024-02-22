@@ -2,6 +2,7 @@
 #include <scenes/Scene/Preview/GUI/Pulldown.hpp>
 #include <core/Play/PlayMusicGame.hpp>
 #include <core/Play/HighSpeed/HighSpeedDemo.hpp>
+#include <core/Analysis/Analyzer.hpp>
 #include <Useful.hpp>
 #include <Siv3D.hpp>
 #include <scenes/Scene/Config/ConfigMain.hpp>
@@ -62,7 +63,13 @@ namespace ct
                 if (m_isPlay) {
                     this->playOrStop();
                 }
-                this->reload();
+                if (changes.size() == 1 && m_musicData && 
+                    FileSystem::RelativePath(m_musicData[m_selectNotesIndex].getFilePath()) == FileSystem::RelativePath(changes[0].path)
+                    ) {
+                    this->reloadNote(false);
+                } else {
+                    this->reload(false);
+                }
             }
             if (KeyF9.down()) {
                 m_isShowGUI ^= 1;
@@ -279,7 +286,7 @@ namespace ct
                 auto region = button
                     .setEnabled(enabled && isNotPlaying)
                     .setMouseOver(std::bind(detailDrawer, U"更新とフォルダを再読み込み (F5)"))
-                    .setOnClick(std::bind(&Impl::reload, this))
+                    .setOnClick(std::bind(&Impl::reload, this, true))
                     .draw(U"\U000F0450", pos)
                     ;
                 pos.x += region.w + 2;
@@ -340,10 +347,21 @@ namespace ct
                 return false;
             }
         }
-        bool reload()
+        bool reload(bool playSe = true)
         {
-            SoundManager::PlaySe(U"desisionSmall");
+            if (playSe) {
+                SoundManager::PlaySe(U"desisionSmall");
+            }
             m_loader.reset(std::bind(&Impl::onLoadProjectAsync, this, m_dirPath));
+            m_loader.resume();
+            return true;
+        }
+        bool reloadNote(bool playSe = true)
+        {
+            if (playSe) {
+                SoundManager::PlaySe(U"desisionSmall");
+            }
+            m_loader.reset(std::bind(&Impl::onReloadNotesAsync, this));
             m_loader.resume();
             return true;
         }
@@ -407,6 +425,7 @@ namespace ct
                         m_selectNotesIndex %= m_notesList.size();
                     }
                     m_musicGame.init(m_musicData[m_selectNotesIndex], m_scrollRate);
+                    m_analyzeResult = Analyzer::Analyze(m_musicData[m_selectNotesIndex].getSheet());
                     break;
                 }
             }
@@ -430,6 +449,19 @@ namespace ct
             co_await Thread::Task{ [path, this] {return this->onLoadProject(path); } };
             m_loading = false;
         }
+        void onReloadNotes()
+        {
+            if (!m_musicData) {
+                return;
+            }
+            m_musicData[m_selectNotesIndex].reload();
+            m_notesList[m_selectNotesIndex] = m_musicData[m_selectNotesIndex].getLevelName();
+            m_analyzeResult = Analyzer::Analyze(m_musicData[m_selectNotesIndex].getSheet());
+        }
+        Coro::Fiber<void>  onReloadNotesAsync()
+        {
+            co_await Thread::Task{ [this] {return this->onReloadNotes(); } };
+        }
         bool onChangeLevel(size_t index)
         {
             if (!m_musicData) {
@@ -439,6 +471,7 @@ namespace ct
             const auto pos = m_musicGame.getSound().posSample();
             m_musicGame.reflesh(m_musicData[index]);
             m_musicGame.getSound().seekSamples(s3d::Clamp<size_t>(static_cast<size_t>(pos), 0, m_musicGame.getSound().samples()));
+            m_analyzeResult = Analyzer::Analyze(m_musicData[index].getSheet());
             return true;
         }
     private:
@@ -466,6 +499,8 @@ namespace ct
 
         Coro::FiberHolder<void> m_loader;
         bool m_loading = false;
+
+        AnalyzeResult m_analyzeResult;
     };
     Preview::Preview():
         m_pImpl(std::make_unique<Impl>())

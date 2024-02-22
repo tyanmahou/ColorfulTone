@@ -69,6 +69,12 @@ namespace ct
         const s3d::String& getFileName()const;
 
         /// <summary>
+        /// ファイルパス
+        /// </summary>
+        /// <returns></returns>
+        const s3d::FilePath& getFilePath() const;
+
+        /// <summary>
         /// ノーツ数取得
         /// </summary>
         s3d::uint32 getTotalNotes() const;
@@ -88,6 +94,8 @@ namespace ct
         void saveScore(const ScoreModel& score) const;
 
         MusicData getMusic() const;
+
+        void reload();
     private:
         std::shared_ptr<Handle> m_handle;
     };

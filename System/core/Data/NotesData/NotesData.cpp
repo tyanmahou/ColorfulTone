@@ -27,6 +27,7 @@ namespace ct
             m_score = ScoreLoader::Load(this->getScorePath());
 
             FilePath path = dirPath + filePath;
+            m_filePath = path;
             if (!m_sheet.load(path)) {
                 return false;
             }
@@ -49,7 +50,7 @@ namespace ct
             return m_sheet;
         }
         const s3d::String& getFileName()const { return m_fileName; }
-
+        const s3d::FilePath& getFilePath() const { return m_filePath; }
         const ScoreModel& getScore()const { return m_score; }
         void setScore(const ScoreModel& newScore)
         {
@@ -65,6 +66,7 @@ namespace ct
         {
             return m_index;
         }
+
         s3d::String getScorePath() const
         {
             MusicData music = getMusic();
@@ -79,9 +81,15 @@ namespace ct
         {
             ScoreLoader::Save(this->getScorePath(), score);
         }
+        void reload()
+        {
+            m_sheet = SheetMusic();
+            m_sheet.load(m_filePath);
+        }
     private:
         SheetMusic m_sheet;                  // 楽譜データ
         s3d::String m_fileName;				 // 譜面ファイルの名前(拡張子を含まない)
+        s3d::FilePath m_filePath;            // ファイルパス
         ScoreModel m_score;					 // スコア
         std::weak_ptr<MusicHandle> m_pMusic; // 曲情報
         size_t m_index;					     // ID
@@ -137,6 +145,11 @@ namespace ct
         return m_handle->getFileName();
     }
 
+    const s3d::FilePath& NotesData::getFilePath() const
+    {
+        return m_handle->getFilePath();
+    }
+
     s3d::uint32 NotesData::getTotalNotes() const
     {
         return getSheet().getTotalNotes();
@@ -166,5 +179,9 @@ namespace ct
     MusicData NotesData::getMusic() const
     {
         return m_handle->getMusic();
+    }
+    void NotesData::reload()
+    {
+        m_handle->reload();
     }
 }
