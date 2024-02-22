@@ -89,9 +89,10 @@ namespace ct
             };
 
         // 速度補正
+        constexpr double SpeedRatioMax = 4.0;
         auto calcSpeedRatingFactor = [](double ratio) {
-            ratio = Min(ratio, 3.0);
-            return 1.0 + Math::InvLerp(1, 3.0, ratio);
+            ratio = Min(ratio, SpeedRatioMax);
+            return 1.0 + EaseInOutQuad(Math::InvLerp(1, SpeedRatioMax, ratio));
         };
 
         // ロング終点以外
@@ -304,7 +305,7 @@ namespace ct
         double medianRating = StatisticsUtil::Median(barRatings);
 
         // レート
-        const double ratingResult = meanRating * 0.5 + medianRating * 0.4 + maxRating * 0.1;
+        const double ratingResult = meanRating * 0.4 + medianRating * 0.4 + maxRating * 0.2;
 
         return AnalyzeResult
         {
