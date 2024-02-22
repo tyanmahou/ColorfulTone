@@ -90,12 +90,15 @@ namespace ct
             };
 
         // 速度補正
-        constexpr double SpeedRatioMax = 4.0;
+        constexpr double SpeedRatioMax = 3.0;
         auto calcSpeedRatingFactor = [](double ratio) {
             ratio = Min(ratio, SpeedRatioMax);
-            return 1.0 + EaseInOutQuad(Math::InvLerp(1, SpeedRatioMax, ratio));
+            return 1.0 + 0.75 * EaseInOutSine(Math::InvLerp(1, SpeedRatioMax, ratio));
         };
-
+        auto calcSpeedDiffRatingFactor = [](double ratio) {
+            ratio = Min(ratio, 2.0);
+            return Math::InvLerp(1, 2.0, ratio);
+            };
         // ロング終点以外
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
             return e.type != 8;
@@ -114,7 +117,7 @@ namespace ct
 
                 while (notesIndex < notes.size() && notes[notesIndex].sample < nextSample) {
                     // BPM考慮した
-                    speeds.push_back(tempos[tempoIndex].bpm * Abs(notes[notesIndex].speed));
+                    speeds.push_back(Abs(tempos[tempoIndex].bpm * notes[notesIndex].speed));
                     ++notesIndex;
                 }
             }
@@ -164,6 +167,18 @@ namespace ct
                     // 逆走むずい
                     double backFactor = (notes[index].speed < 0) ? BackFactor : 1.0;
                     rating *= backFactor;
+                }
+                // 前後速度差補正
+                if (index > 0 && notes[index].sample <= notes[index - 1].sample + (44100 * 2)) {
+                    double lowSpeed = Min(Abs(notes[index].speed), Abs(notes[index - 1].speed));
+                    double highSpeed = Max(Abs(notes[index].speed), Abs(notes[index - 1].speed));
+                    double speedRatio = 0;
+                    if (lowSpeed == 0) {
+                        speedRatio = 2;
+                    } else {
+                        speedRatio = highSpeed / lowSpeed;
+                    }
+                    rating += 1000 * calcSpeedDiffRatingFactor(speedRatio);
                 }
                 if (index > 0 && (notes[index].type == 9 && notes[index - 1].type == 9) && (index + 1 >= notes.size() || notes[index + 1].type == 9)) {
                     // 連続する白ノーツは特殊的に弱くする

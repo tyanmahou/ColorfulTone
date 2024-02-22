@@ -77,14 +77,33 @@ namespace ct
             });
             return Mean<U>(inIQRBounds);
         }
+        template<class T>
+        static s3d::Array<T> FilterdInIQRBounds(const s3d::Array<T>& ar, double tukey = 1.5)
+        {
+            auto [lower, upper] = IQRBounds(ar, tukey);
+            return ar.removed_if([&](const T& v) {
+                return v < lower || upper < v;
+                });
+        }
         template<class T, class U = double>
         static U GeometricMeanInIQRBounds(const s3d::Array<T>& ar, double tukey = 1.5)
         {
-            auto [lower, upper] = IQRBounds(ar, tukey);
-            auto inIQRBounds = ar.removed_if([&](const T& v) {
-                return v < lower || upper < v;
+            return GeometricMean<U>(FilterdInIQRBounds(ar, tukey));
+        }
+        template<class T, class U = double>
+        static U GeometricStdDev(const s3d::Array<T>& ar)
+        {
+            if (ar.isEmpty()) {
+                return U{};
+            }
+            auto logAr = ar.map([](const T& v) {
+                return s3d::Log(v);
                 });
-            return GeometricMean<U>(inIQRBounds);
+            auto logStdDev = s3d::Statistics::PopulationStandardDeviation(logAr.begin(), logAr.end());
+            if (!logStdDev) {
+                return U{};
+            }
+            return static_cast<U>(s3d::Exp(*logStdDev));
         }
     };
 }
