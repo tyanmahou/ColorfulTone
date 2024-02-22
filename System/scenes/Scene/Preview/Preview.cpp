@@ -325,6 +325,7 @@ namespace ct
         {
             auto path = Dialog::SelectFolder(U"Music");
             if (path) {
+                SoundManager::PlaySe(U"desisionSmall");
                 m_loader.reset(std::bind(&Impl::onLoadProjectAsync, this, path));
                 return true;
             } else {
@@ -341,6 +342,7 @@ namespace ct
         }
         bool reload()
         {
+            SoundManager::PlaySe(U"desisionSmall");
             m_loader.reset(std::bind(&Impl::onLoadProjectAsync, this, m_dirPath));
             m_loader.resume();
             return true;
@@ -388,7 +390,6 @@ namespace ct
             //iniファイルがあるか検索
             for (const auto& elm : assets) {
                 if (FileSystem::Extension(elm) == U"ini") {
-                    SoundManager::PlaySe(U"desisionSmall");
 
                     MusicData musicData(genre, *path, elm, false);
                     Array<String> noteLevelNames;
