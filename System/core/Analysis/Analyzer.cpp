@@ -334,7 +334,9 @@ namespace ct
                     ++stopIndex;
                 }
                 double barRate = noteSum + bpmSum + stopSum;
-                barRatings.push_back(barRate);
+                if (barRate > 0) {
+                    barRatings.push_back(barRate);
+                }
             }
         }
         // 平均レート
