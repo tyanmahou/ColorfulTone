@@ -321,9 +321,9 @@ namespace ct
             pos.y += 20;
             PutText(U" - Max：{}"_fmt(m_analyzeResult.maxRating), Arg::topLeft = pos);
             pos.y += 30;
-            PutText(U"[Total]:{}"_fmt(sheet.getTotalNotes()), Arg::topLeft = pos);
+            PutText(U"[Total]：{}"_fmt(sheet.getTotalNotes()), Arg::topLeft = pos);
             pos.y += 20;
-            PutText(U"[Length]:{:.2f}s"_fmt(m_musicGame.getSoundLengthSec()), Arg::topLeft = pos);
+            PutText(U"[Length]：{:.2f}s"_fmt(m_musicGame.getSoundLengthSec()), Arg::topLeft = pos);
         }
         void drawLoading()
         {
