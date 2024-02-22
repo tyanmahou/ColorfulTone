@@ -58,6 +58,11 @@ namespace ct
 		const PlayNotesData& getPlayNotesData() const;
 
 		void setCourseMode(const Score& score);
+
+		double getSoundLengthSec() const
+		{
+			return m_soundLengthSec;
+		}
 		static void ScoreUpdate(Score::Judge judge, NoteType type, NoteType baseType, bool playSe);
 	private:
 		void uiDraw(bool preview)const;

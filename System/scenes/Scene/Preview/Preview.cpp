@@ -156,6 +156,7 @@ namespace ct
                 m_musicGame.draw(m_isShowGUI);
             } else {
                 m_musicGame.previewDraw(m_count);
+                this->drawAnalizeResult();
             }
             if (m_isPlay) {
                 SharedDraw::HighSpeedPlay(
@@ -301,6 +302,28 @@ namespace ct
                     ;
                 pos.x += region.w + 2;
             }
+        }
+        // 解析描画
+        void drawAnalizeResult() const
+        {
+            const auto& sheet = m_musicData[m_selectNotesIndex].getSheet();
+            Vec2 pos = Vec2{ 20, 320 };
+            RectF(pos- Vec2{10, 10}, 200, 200).draw(ColorF(0, 0.2));
+            PutText(U"[Rating]：{}"_fmt(m_analyzeResult.rating), Arg::topLeft = pos);
+            pos.y += 20;
+            PutText(U" - Mean：{}"_fmt(m_analyzeResult.meanRating), Arg::topLeft = pos);
+            pos.y += 20;
+            PutText(U" - Median：{}"_fmt(m_analyzeResult.medianRating), Arg::topLeft = pos);
+            pos.y += 20;
+            PutText(U" - 80%Tile：{}"_fmt(m_analyzeResult.percentile80Rating), Arg::topLeft = pos);
+            pos.y += 20;
+            PutText(U" - 97%Tile：{}"_fmt(m_analyzeResult.percentile97Rating), Arg::topLeft = pos);
+            pos.y += 20;
+            PutText(U" - Max：{}"_fmt(m_analyzeResult.maxRating), Arg::topLeft = pos);
+            pos.y += 30;
+            PutText(U"[Total]:{}"_fmt(sheet.getTotalNotes()), Arg::topLeft = pos);
+            pos.y += 20;
+            PutText(U"[Length]:{:.2f}s"_fmt(m_musicGame.getSoundLengthSec()), Arg::topLeft = pos);
         }
         void drawLoading()
         {
@@ -457,6 +480,10 @@ namespace ct
             m_musicData[m_selectNotesIndex].reload();
             m_notesList[m_selectNotesIndex] = m_musicData[m_selectNotesIndex].getLevelName();
             m_analyzeResult = Analyzer::Analyze(m_musicData[m_selectNotesIndex].getSheet());
+
+            const auto pos = m_musicGame.getSound().posSample();
+            m_musicGame.reflesh(m_musicData[m_selectNotesIndex]);
+            m_musicGame.getSound().seekSamples(s3d::Clamp<size_t>(static_cast<size_t>(pos), 0, m_musicGame.getSound().samples()));
         }
         Coro::Fiber<void>  onReloadNotesAsync()
         {

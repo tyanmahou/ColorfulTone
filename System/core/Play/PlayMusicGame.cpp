@@ -294,9 +294,6 @@ namespace ct
 
         m_playNotesData.previewDraw(drawCount, m_scrollRate);
 
-        PutText(Format(U"length:", m_soundLengthSec), Arg::topLeft = Vec2{ 20, Scene::Height() - 120 });
-        PutText(Format(U"total:", m_totalNotes), Arg::topLeft = Vec2{ 20, Scene::Height() - 140 });
-
         this->drawMusicTitle(true);
         this->drawAutoPlay(true);
         this->drawNotesLevel();
