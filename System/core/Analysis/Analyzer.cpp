@@ -93,7 +93,7 @@ namespace ct
         constexpr double SpeedRatioMax = 3.0;
         auto calcSpeedRatingFactor = [](double ratio) {
             ratio = Min(ratio, SpeedRatioMax);
-            return 1.0 + 0.75 * EaseInOutSine(Math::InvLerp(1, SpeedRatioMax, ratio));
+            return 1.0 + 0.6 * EaseInOutSine(Math::InvLerp(1, SpeedRatioMax, ratio));
         };
         auto calcSpeedDiffRatingFactor = [](double ratio) {
             ratio = Min(ratio, 2.0);
@@ -178,7 +178,7 @@ namespace ct
                     } else {
                         speedRatio = highSpeed / lowSpeed;
                     }
-                    rating += 1000 * calcSpeedDiffRatingFactor(speedRatio);
+                    rating += 800 * calcSpeedDiffRatingFactor(speedRatio);
                 }
                 if (index > 0 && (notes[index].type == 9 && notes[index - 1].type == 9) && (index + 1 >= notes.size() || notes[index + 1].type == 9)) {
                     // 連続する白ノーツは特殊的に弱くする
@@ -341,18 +341,28 @@ namespace ct
         double meanRating = StatisticsUtil::Mean(barRatings);
         // 最大局所レート
         double maxRating = StatisticsUtil::Max(barRatings);
-        // 中央局所レート
+        // 80パーセンタイル (クリア)
+        double percentile80Rating = StatisticsUtil::Percentile(barRatings, 80.0);
+        // 97パーセンタイル (AAA)
+        double percentile97Rating = StatisticsUtil::Percentile(barRatings, 97.0);
+        // 中央局所レート (AP)
         double medianRating = StatisticsUtil::Median(barRatings);
 
         // レート
-        const double ratingResult = meanRating * 0.4 + medianRating * 0.4 + maxRating * 0.2;
+        const double ratingResult = meanRating * 0.2
+                                  + medianRating * 0.2
+                                  + percentile80Rating * 0.2
+                                  + percentile97Rating * 0.3
+                                  + maxRating * 0.1;
 
         return AnalyzeResult
         {
             .rating = static_cast<uint64>(Math::Round(ratingResult)),
             .meanRating = static_cast<uint64>(Math::Round(meanRating)),
-            .maxRating = static_cast<uint64>(Math::Round(maxRating)),
             .medianRating = static_cast<uint64>(Math::Round(medianRating)),
+            .percentile80Rating = static_cast<uint64>(Math::Round(percentile80Rating)),
+            .percentile97Rating = static_cast<uint64>(Math::Round(percentile97Rating)),
+            .maxRating = static_cast<uint64>(Math::Round(maxRating)),
         };
     }
 }

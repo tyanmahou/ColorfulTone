@@ -72,15 +72,17 @@ namespace ct::dev
             if (auto savePath = Dialog::SaveFile({ FileFilter::Text() }, U"", U"解析結果保存")) {
                 {
                     TextWriter log(*savePath);
-                    log.writeln(U"Path, Lv, Rating, Mean, Median, Max");
+                    log.writeln(U"Path, Lv, Rating, Mean, Median, 80%Tile, 97%Tile, Max");
                     log.writeln(U"============================");
                     for (const Data& d : data) {
-                        String ln = U"{}, {}, {}, {}, {}, {}"_fmt(
+                        String ln = U"{}, {}, {}, {}, {}, {}, {}, {}"_fmt(
                             d.path, 
                             d.level,
                             d.result.rating, 
                             d.result.meanRating, 
                             d.result.medianRating,
+                            d.result.percentile80Rating,
+                            d.result.percentile97Rating,
                             d.result.maxRating
                         );
                         log.writeln(ln);

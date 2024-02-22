@@ -10,10 +10,14 @@ namespace ct
 
         // 平均レート
         s3d::uint64 meanRating;
-        // 局所最大レート
-        s3d::uint64 maxRating;
         // 局所中央レート
         s3d::uint64 medianRating;
+        // 80パーセンタイルレート
+        s3d::uint64 percentile80Rating;
+        // 97パーセンタイルレート
+        s3d::uint64 percentile97Rating;
+        // 局所最大レート
+        s3d::uint64 maxRating;
     };
     /// <summary>
     /// アナライザー

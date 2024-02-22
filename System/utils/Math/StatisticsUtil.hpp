@@ -105,5 +105,28 @@ namespace ct
             }
             return static_cast<U>(s3d::Exp(*logStdDev));
         }
+
+        template<class T, class U = double>
+        static U Percentile(const s3d::Array<T>& ar, double percent)
+        {
+            if (ar.isEmpty()) {
+                return U{};
+            }
+            const auto sorted = ar.sorted();
+            const size_t n = sorted.size();
+
+            // インデックスを計算
+            double index = (percent / 100.0) * (n - 1);
+
+            // インデックスの整数部分と小数部分を取得
+            size_t lowerIndex = static_cast<size_t>(index);
+            double fraction = index - lowerIndex;
+            // パーセンタイルを計算
+            if (lowerIndex >= n - 1) {
+                return sorted.back();
+            } else {
+                return sorted[lowerIndex] + fraction * (sorted[lowerIndex + 1] - sorted[lowerIndex]);
+            }
+        }
     };
 }
