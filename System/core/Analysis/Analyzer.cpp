@@ -222,28 +222,36 @@ namespace ct
 
         // 停止レート 1個につき
         constexpr double BaseStopRating = 1000.0;
+        constexpr double OverlapStopRating = 500.0;
+
         Array<std::pair<int64, double>> stopRatings;
         stopRatings.reserve(sheet.getStops().size());
         {
             const auto& stops = sheet.getStops();
 
-            Array<std::pair<int64, int64>> stopTemps;
+            struct StopTemp
+            {
+                int64 beginSample;
+                int64 endSample;
+                bool isBack = false;
+            };
+            Array<StopTemp> stopTemps;
             for (size_t index = 0; index < stops.size(); ++index) {
                 int64 endSample = sheet.calcTimingSample(stops[index].count + stops[index].rangeCount);
                 if (index > 0 && stops[index].count == stops[index - 1].count) {
                     // バックも一個扱い
-                    if (endSample > stopTemps.back().second) {
+                    if (endSample > stopTemps.back().endSample) {
                         // 影響範囲更新
-                        stopTemps.back().second = endSample;
+                        stopTemps.back().endSample = endSample;
                     }
+                    stopTemps.back().isBack = true;
                     continue;
                 }
-                stopTemps.emplace_back(stops[index].sample, endSample);
+                stopTemps.emplace_back(stops[index].sample, endSample, false);
             }
             size_t notesIndex = 0;
             for (size_t index = 0; index < stopTemps.size(); ++index) {
-                int64 beginSample = stopTemps[index].first;
-                int64 endSample = stopTemps[index].second;
+                auto [beginSample, endSample, isBack] = stopTemps[index];
 
                 // 影響範囲開始のノーツまで進める
                 for (; notesIndex < notes.size(); ++notesIndex) {
@@ -261,6 +269,14 @@ namespace ct
                     continue;
                 }
 
+                // 停止に被るノーツは難しい
+                for (size_t i = notesIndex; i < notes.size(); ++i) {
+                    if (notes[i].sample > endSample) {
+                        break;
+                    }
+                    notesRatings[i].second += OverlapStopRating * (isBack ? 1.2 : 1.0);
+                }
+                // 定数
                 double rating = BaseStopRating;
                 stopRatings.emplace_back(beginSample, rating);
             }
