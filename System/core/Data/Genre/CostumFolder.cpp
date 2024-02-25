@@ -10,8 +10,9 @@ namespace
 }
 namespace ct
 {
-	void LoadCustomFolder(const std::stop_token& stopToken)
+	s3d::Array<GenreData> LoadCustomFolder(const std::stop_token& stopToken)
 	{
+		s3d::Array<GenreData> results;
 		g_readerCache.clear();
 
 		const auto ctcfFiles = FileSystem::DirectoryContents(U"CustomFolder", Recursive::No);
@@ -19,7 +20,7 @@ namespace ct
 		//ここからデータ読み込み
 		for (const auto& path : ctcfFiles) {
 			if (stopToken.stop_requested()) {
-				return;
+				return results;
 			}
 			if (FileSystem::Extension(path) == U"ctfolder") {
 				CTCFReader ctfolder(path);
@@ -27,11 +28,10 @@ namespace ct
 					continue;
 				}
 				//タイトル
-				String title = ctfolder.getTitle().value_or(U"CustomFolder");
-				int32 order = ctfolder.getOrder();
 				g_readerCache[path] = ctfolder;
-				GenreManager::Add(GenreType::Custom, title, [path](const MusicData& music)->bool {return g_readerCache[path].expression(music); }, order);
+				results.push_back(GenreData::CreateCustom(ctfolder));
 			}
 		}
+		return results;
 	}
 }

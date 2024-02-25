@@ -2,15 +2,9 @@
 
 namespace ct
 {
-	bool GenreManager::add(const GenreType type, const s3d::String& name, const RefinerType& refiner, s3d::int32 lv)
+	bool GenreManager::add(const GenreData& genre)
 	{
-		for (auto&& elm : m_refiners) {
-			if (name == elm.m_name)
-				return false;
-		}
-
-		m_refiners.emplace_back(type, name, refiner, lv);
-
+		m_refiners.emplace_back(genre);
 		return true;
 	}
 
@@ -22,6 +16,13 @@ namespace ct
 	void GenreManager::sort()
 	{
 		std::sort(m_refiners.begin(), m_refiners.end());
+	}
+	void GenreManager::reflesh(const s3d::Array<GenreData>& newData)
+	{
+		for (const GenreData& g : newData) {
+			add(g);
+		}
+		sort();
 	}
 }
 

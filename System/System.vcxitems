@@ -210,6 +210,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCF\Evaluator\Evaluator.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCF\Lexer\Lexer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCF\Lexer\Token.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\GenreData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\GenreManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Loader\FavoriteLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Loader\ScoreLoader.cpp" />

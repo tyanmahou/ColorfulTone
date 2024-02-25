@@ -6,25 +6,21 @@ namespace ct
     class GenreManager final
     {
     private:
-        Array<GenreData> m_refiners;
+        s3d::Array<GenreData> m_refiners;
 
-        bool add(const GenreType type, const s3d::String& name, const RefinerType& refiner, s3d::int32 lv);
+        bool add(const GenreData& genre);
         void clear();
         void sort();
-
+        void reflesh(const s3d::Array<GenreData>& newData);
         static GenreManager& Instance()
         {
             static GenreManager instance;
             return instance;
         }
     public:
-        static bool Add(const GenreType type, const s3d::String& name, const RefinerType& refiner, s3d::int32 lv = 0)
+        static void Reflesh(const s3d::Array<GenreData>& newData)
         {
-            return Instance().add(type, name, refiner, lv);
-        }
-        static void Sort()
-        {
-            Instance().sort();
+            Instance().reflesh(newData);
         }
         static void Clear()
         {
@@ -34,13 +30,13 @@ namespace ct
         {
             return Instance().m_refiners.size();
         }
-        static const Array<GenreData>& GetGenreDates()
+        static const s3d::Array<GenreData>& GetGenreDates()
         {
             return Instance().m_refiners;
         }
         static RefinerType GetRefiner(size_t index)
         {
-            return Instance().m_refiners[index].m_refiner;
+            return Instance().m_refiners[index].getRefiner();
         }
     };
 }

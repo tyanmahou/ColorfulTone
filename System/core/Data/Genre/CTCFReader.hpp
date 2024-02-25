@@ -12,8 +12,6 @@ namespace ct
 
     class CTCFReader
     {
-        class Impl;
-        std::shared_ptr<Impl> m_pImpl;
     public:
         CTCFReader() = default;
         CTCFReader(const s3d::FilePath& ctfolder);
@@ -35,5 +33,8 @@ namespace ct
 
         bool expression(const MusicData& music)const;
         bool expression(const NotesData& notes)const;
+    private:
+        class Impl;
+        std::shared_ptr<Impl> m_pImpl;
     };
 }

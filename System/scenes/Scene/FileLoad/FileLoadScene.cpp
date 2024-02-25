@@ -23,6 +23,11 @@ namespace
 	bool LoadMusicData(const std::stop_token& stopToken)
 	{
 		g_loadingRate = 0;
+		// ジャンル予約用
+		s3d::HashSet<int32> lvSet;
+		s3d::HashSet<StarLv> starLvSet;
+		s3d::HashSet<String> folderSet;
+
 		Array<MusicData>& musics = Game::Musics();
 		SivAssetUtil::UnregisterByTag<AudioAsset>(U"MusicData");
 		musics.clear();
@@ -64,16 +69,12 @@ namespace
 							if (!notes.isValid()) {
 								continue;
 							}
-							int32 lv = notes.getLevel();
 							StarLv starLv = notes.getStarLv();
 							if (starLv != StarLv::None) {
-								GenreManager::Add(GenreType::StarLv, Format(U"LEVEL:", ToStr(starLv)), [starLv](const MusicData& music)->bool {
-									return music.getNotesData().any([starLv](const NotesData& notes) {return notes.getStarLv() == starLv; });
-									});
+								starLvSet.insert(starLv);
 							} else {
-								GenreManager::Add(GenreType::Lv, Format(U"LEVEL:", lv), [lv](const MusicData& music)->bool {
-									return music.getNotesData().any([lv](const NotesData& notes) {return notes.getLevel() == lv; });
-									}, lv);
+								int32 lv = notes.getLevel();
+								lvSet.insert(lv);
 							}
 						}
 
@@ -87,16 +88,30 @@ namespace
 
 			if (foundMusic) {
 				// ジャンル登録
-				GenreManager::Add(GenreType::Folder, genreName, [genreName](const MusicData& music)->bool {return music.getGenreName() == genreName; });
+				folderSet.insert(genreName);
 			}
 		}
 
-		//カスタムフォルダ読み込み
-		::LoadCustomFolder(stopToken);
+		// ジャンル
+		{
+			Array<GenreData> genreRserves;
+			for (int32 lv : lvSet) {
+				genreRserves << GenreData::CreateLv(lv);
+			}
+			for (StarLv starLv : starLvSet) {
+				genreRserves << GenreData::CreateStarLv(starLv);
+			}
+			for (const s3d::String& folder : folderSet) {
+				genreRserves << GenreData::CreateFolder(folder);
+			}
+			//カスタムフォルダ読み込み
+			genreRserves.append(::LoadCustomFolder(stopToken));
 
-		GenreManager::Add(GenreType::All, U"ALL", []([[maybe_unused]] const MusicData& music)->bool {return true; });
-		GenreManager::Add(GenreType::Favorite, U"お気に入り", [](const MusicData& music)->bool {return  music.isFavorite(); });
-		GenreManager::Sort();
+			genreRserves << GenreData::CreateAll();
+			genreRserves << GenreData::CreateFavorite();
+
+			GenreManager::Reflesh(genreRserves);
+		}
 		return true;
 	}
 	//コースデータ読み込み
