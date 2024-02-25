@@ -29,4 +29,17 @@ namespace ct
 			return U"";
 		}
 	}
+	inline StarLv ParseStarLv(s3d::StringView str)
+	{
+		if (str == U"★") {
+			return StarLv::One;
+		}
+		if (str == U"★★") {
+			return StarLv::Two;
+		}
+		if (str == U"★★★") {
+			return StarLv::Three;
+		}
+		return StarLv::None;
+	}
 }
