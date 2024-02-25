@@ -169,16 +169,14 @@ namespace ct
 
                     auto starKind = csv.getOpt<String>(i, 3);
                     if (starKind) {
-                        if (*starKind == U"★") {
-                            m_starLv = StarLv::One;
-                        } else if (*starKind == U"★★") {
-                            m_starLv = StarLv::Two;
-                        }
+                        m_starLv = ParseStarLv(*starKind);
                     } else {
                         if (m_lv == 14) {
                             m_starLv = StarLv::One;
-                        } else if (m_lv >= 15) {
+                        } else if (m_lv == 15) {
                             m_starLv = StarLv::Two;
+                        } else if (m_lv >= 16) {
+                            m_starLv = StarLv::Three;
                         }
                     }
                 } else if (head == U"#BPM") {

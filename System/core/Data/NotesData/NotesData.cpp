@@ -3,7 +3,6 @@
 #include <core/Data/Loader/ScoreLoader.hpp>
 #include <Siv3D.hpp>
 #include <Useful.hpp>
-#include "NotesData.hpp"
 
 namespace ct
 {

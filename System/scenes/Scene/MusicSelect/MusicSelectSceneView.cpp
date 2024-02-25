@@ -242,14 +242,18 @@ namespace ct
 					    return n.getColor();
 					})
 					.setDrawble([](const NotesData& n, Vec2 pos) {
-					    if (n.getStarLv() != StarLv::None) {
+						if (auto starLv = n.getStarLv(); starLv != StarLv::None) {
 					    	// ★レベル
-					    	if (n.getStarLv() == StarLv::One) {
+					    	if (starLv == StarLv::One) {
 								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(pos + Vec2{ 37, 30 });
-					    	} else if (n.getStarLv() == StarLv::Two) {
+					    	} else if (starLv == StarLv::Two) {
 								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(pos + Vec2{ 28, 28 });
-								FontAsset(AssetNameView(FontName::StarLv2))(U"★").drawAt(pos + Vec2{52, 38});
-					    	}
+								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(30, pos + Vec2{52, 38});
+					    	} else if (starLv == StarLv::Three) {
+								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(40, pos + Vec2{ 37, 27 });
+								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(27, pos + Vec2{ 37 + 20, 37 });
+								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(27, pos + Vec2{ 37 - 20, 37 });
+							}
 					    
 					    	constexpr Vec2 size(65, 20); // 65, 50
 					    	const RectF bar(pos + Vec2{ 37, 45 } - size / 2, size);

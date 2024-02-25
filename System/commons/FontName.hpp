@@ -13,7 +13,6 @@ namespace ct::FontName
     inline constexpr s3d::AssetNameView ResultClearRate = U"s-b-20";
 
     inline constexpr s3d::AssetNameView StarLv = U"r-30";
-    inline constexpr s3d::AssetNameView StarLv2 = U"r-20";
 
     inline constexpr s3d::AssetNameView Bpm = U"r-12";
     inline constexpr s3d::AssetNameView ConfigSelect = U"r-13";
