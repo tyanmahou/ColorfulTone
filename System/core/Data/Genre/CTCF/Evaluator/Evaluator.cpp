@@ -60,6 +60,13 @@ namespace
         RETURN_COMPARE(== );
         return false;
     }
+    template<>
+    bool Compare(const StarLv& a, const StarLv& b, const String& op)
+    {
+        int32 ia = static_cast<int32>(a);
+        int32 ib = static_cast<int32>(b);
+        return Compare(ia, ib, op);
+    }
 #undef RETURN_COMPARE
 }
 namespace
@@ -145,7 +152,7 @@ namespace
                 return ::Compare(m_notes.getLevelName(), value, op);
             }
             if (kind == IdentifierValueKind::Star) {
-                return ::Compare(ToStr(m_notes.getStarLv()), value, op);
+                return ::Compare(m_notes.getStarLv(), ParseStarLv(value), op);
             }
             if (kind == IdentifierValueKind::Color) {
                 return ::Compare(m_notes.getColor(), Color(value), op);
