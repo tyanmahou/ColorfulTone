@@ -43,7 +43,7 @@ namespace
 		size_t curIndex = 0;
 		//ここから楽曲データ読み込み
 		for (const auto& gPath : genrePaths) {
-
+			bool foundMusic = false;
 			const auto musicPaths = FileSystem::DirectoryContents(gPath, Recursive::No);
 			const auto genreName = FileSystem::BaseName(gPath);
 
@@ -58,13 +58,36 @@ namespace
 					}
 					if (FileSystem::Extension(elm) == U"ini") {
 						//Println(path);
-						musics.emplace_back(genreName, path, elm, isOfficial);
-						GenreManager::Add(GenreType::Folder, genreName, [genreName](const MusicData& music)->bool {return music.getGenreName() == genreName; });
+						MusicData& music = musics.emplace_back(genreName, path, elm, isOfficial);
+
+						for (const NotesData& notes : music.getNotesData()) {
+							if (!notes.isValid()) {
+								continue;
+							}
+							int32 lv = notes.getLevel();
+							StarLv starLv = notes.getStarLv();
+							if (starLv != StarLv::None) {
+								GenreManager::Add(GenreType::StarLv, Format(U"LEVEL:", ToStr(starLv)), [starLv](const MusicData& music)->bool {
+									return music.getNotesData().any([starLv](const NotesData& notes) {return notes.getStarLv() == starLv; });
+									});
+							} else {
+								GenreManager::Add(GenreType::Lv, Format(U"LEVEL:", lv), [lv](const MusicData& music)->bool {
+									return music.getNotesData().any([lv](const NotesData& notes) {return notes.getLevel() == lv; });
+									}, lv);
+							}
+						}
+
 						g_loadingRate = curIndex / static_cast<double>(musicSize);
+						foundMusic = true;
 						break;
 					}
 				}
 				++curIndex;
+			}
+
+			if (foundMusic) {
+				// ジャンル登録
+				GenreManager::Add(GenreType::Folder, genreName, [genreName](const MusicData& music)->bool {return music.getGenreName() == genreName; });
 			}
 		}
 

@@ -27,22 +27,9 @@ namespace ct
 
             FilePath path = dirPath + filePath;
             m_filePath = path;
-            if (!m_sheet.load(path)) {
-                return false;
-            }
 
-            int32 lv = m_sheet.getLv();
-            StarLv starLv = m_sheet.getStarLv();
-            if (starLv != StarLv::None) {
-                GenreManager::Add(GenreType::StarLv, Format(U"LEVEL:", ToStr(starLv)), [starLv](const MusicData& music)->bool {
-                    return music.getNotesData().any([starLv](const NotesData& notes) {return notes.getStarLv() == starLv; });
-                    });
-            } else {
-                GenreManager::Add(GenreType::Lv, Format(U"LEVEL:", lv), [lv](const MusicData& music)->bool {
-                    return music.getNotesData().any([lv](const NotesData& notes) {return notes.getLevel() == lv; });
-                    }, lv);
-            }
-            return true;
+            m_isValid = m_sheet.load(path);
+            return m_isValid;
         }
         const SheetMusic& getSheet() const
         {
@@ -85,7 +72,12 @@ namespace ct
             m_sheet = SheetMusic();
             m_sheet.load(m_filePath);
         }
+        bool isValid() const
+        {
+            return m_isValid;
+        }
     private:
+        bool m_isValid = false;
         SheetMusic m_sheet;                  // 楽譜データ
         s3d::String m_fileName;				 // 譜面ファイルの名前(拡張子を含まない)
         s3d::FilePath m_filePath;            // ファイルパス
@@ -182,5 +174,9 @@ namespace ct
     void NotesData::reload()
     {
         m_handle->reload();
+    }
+    bool NotesData::isValid() const
+    {
+        return m_handle && m_handle->isValid();
     }
 }

@@ -96,6 +96,8 @@ namespace ct
         MusicData getMusic() const;
 
         void reload();
+
+        bool isValid() const;
     private:
         std::shared_ptr<Handle> m_handle;
     };
