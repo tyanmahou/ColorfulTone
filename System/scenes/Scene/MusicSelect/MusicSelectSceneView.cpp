@@ -258,9 +258,11 @@ namespace ct
 					    	constexpr Vec2 size(65, 20); // 65, 50
 					    	const RectF bar(pos + Vec2{ 37, 45 } - size / 2, size);
 					    	bar.draw(ColorF(0, 0.5));
-					    
-					    	auto&& lv = FontAsset(FontName::Info)(n.getLevel());
-					    	lv.draw(bar.br() - lv.region().size - Vec2{1, 0});
+							ContractionDrawbleStringBR(
+								FontAsset(FontName::Info)(n.getLevel()),
+								bar.br() - Vec2{ 1, 0 },
+								bar.w
+							);
 					    } else {
 					    	// 通常レベル
 					    	ContractionDrawbleStringOutline(
