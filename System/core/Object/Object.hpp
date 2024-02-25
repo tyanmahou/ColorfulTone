@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <Siv3D/Fwd.hpp>
 #include <core/Types.hpp>
+#include <core/Judge/Judge.hpp>
 
 namespace ct
 {
@@ -46,5 +47,18 @@ namespace ct
         void addStopCount(const StopRange& stopRange);
 
         static bool CanDraw(const s3d::Vec2& pos);
+
+        s3d::int64 getTimingSample() const
+        {
+            return m_timingSample;
+        }
+        s3d::int64 getTimingSampleOffset(s3d::int64 sample) const;
+        bool isInJudgeRange(s3d::int64 sample, Judge judge) const;
+    };
+
+    struct ObjectSorter
+    {
+        s3d::int64 sample;
+        bool operator()(const std::shared_ptr<Object>& a, const std::shared_ptr<Object>& b) const;
     };
 }

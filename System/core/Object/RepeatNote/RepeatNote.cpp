@@ -6,6 +6,7 @@
 #include <core/Play/PlayMusicGame.hpp>
 #include <utils/Addon/IntervalCounter.hpp>
 #include <core/Play/ColorFx/ColorFx.hpp>
+#include <core/Input/InputManager.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -41,7 +42,12 @@ namespace ct
         if (timing > JudgeRange(Judge::Good))
             return true;
 
-        bool judge = PlayKey::Red().down() || PlayKey::Blue().down() || PlayKey::Yellow().down();
+        bool judge = false;
+        if (timing <= JudgeRange(Judge::Perfect)) {
+            judge = PlayKey::Red().down() || PlayKey::Blue().down() || PlayKey::Yellow().down();
+        } else {
+            judge = InputManager::IsRedClicked() || InputManager::IsBlueClicked() || InputManager::IsYellowClicked();
+        }
 
         if ((judge || timing <= 0) && m_isStart == false) {
             m_isStart = true;
@@ -51,9 +57,7 @@ namespace ct
     void RepeatNote::diffDraw(double count, double scrollRate) const
     {
         PlayStyle::Instance()->draw(*this, count, scrollRate);
-
     }
-
     //---------------------------------------------------------------------
     s3d::int64 RepeatEnd::notesTapSample = 0;
 

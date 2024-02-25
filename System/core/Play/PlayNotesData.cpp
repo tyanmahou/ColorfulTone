@@ -115,8 +115,12 @@ namespace ct
         if (samplePos < 3)
             return;
         const int64 ajudstSample = 735 * Game::Config().m_timingAdjust;
-        PlayContext context{ samplePos + ajudstSample, m_tempoInfos.at(m_currentBarIndex).m_bar.getBPM() };
-        for (auto&& elm : m_objects) {
+        const int64 fixedSample = samplePos + ajudstSample;
+        PlayContext context{ fixedSample , m_tempoInfos.at(m_currentBarIndex).m_bar.getBPM() };
+
+        // ノーツを優先度でソート
+        auto soretdObjs = m_objects.stable_sort_by(ObjectSorter{fixedSample});
+        for (auto&& elm : soretdObjs) {
             if (!elm->update(context)) {
                 break;
             }
