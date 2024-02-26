@@ -37,10 +37,11 @@ namespace ct
     }
     ObjectOrder ObjectOrder::Calc(const Bar* obj, [[maybe_unused]]s3d::int64 sample)
     {
+        // 何もしないので一番優先度低くする
         return {
-            .isActive = obj->isActive(),
+            .isActive = false,
+            .judge = 4,
             .objType = std::numeric_limits<int64>::max(),
-            .judge = 0,
             .kind = 0,
             .timming = 0
         };
@@ -51,8 +52,8 @@ namespace ct
         int64 judgeOrder = JudgeOrder(diff);
         return {
             .isActive = obj->isActive(),
-            .objType = 0,
             .judge = judgeOrder,
+            .objType = 0,
             // Perfectの白は優先度低い
             .kind = judgeOrder == 0 && obj->getType() == 9 ? 1 : 0,
             .timming = diff
@@ -64,20 +65,22 @@ namespace ct
         int64 judgeOrder = JudgeOrder(diff);
         return {
             .isActive = obj->isActive(),
-            .objType = 0,
             .judge = judgeOrder,
+            .objType = 0,
             .kind = 0,
             .timming = diff
         };
     }
     ObjectOrder ObjectOrder::Calc(const TextObject* obj, s3d::int64 sample)
     {
+        int64 diff = obj->getTimingSampleOffset(sample);
+        int64 judgeOrder = JudgeOrder(diff);
         return {
             .isActive = obj->isActive(),
+            .judge = judgeOrder,
             .objType = std::numeric_limits<int64>::min(),
-            .judge = 0,
             .kind = 0,
-            .timming = obj->getTimingSampleOffset(sample)
+            .timming = diff
         };
     }
 
@@ -90,10 +93,10 @@ namespace ct
                 return std::strong_ordering::greater;
             }
         }
-        if (auto comp = objType <=> other.objType; comp != 0) {
+        if (auto comp = judge <=> other.judge; comp != 0) {
             return comp;
         }
-        if (auto comp = judge <=> other.judge; comp != 0) {
+        if (auto comp = objType <=> other.objType; comp != 0) {
             return comp;
         }
         if (auto comp = kind <=> other.kind; comp != 0) {

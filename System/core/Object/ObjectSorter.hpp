@@ -12,8 +12,8 @@ namespace ct
     struct ObjectOrder
     {
         bool isActive = false;
-        s3d::int64 objType = 0;
         s3d::int64 judge = 0;
+        s3d::int64 objType = 0;
         s3d::int64 kind = 0;
         s3d::int64 timming = 0;
 
