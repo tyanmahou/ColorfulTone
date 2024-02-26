@@ -31,5 +31,10 @@ namespace ct
         {
             return m_parent;
         }
+        ObjectOrder getOrder(s3d::int64 sample) const override
+        {
+            return ObjectOrder::Calc(this, sample);
+        }
+
     };
 }

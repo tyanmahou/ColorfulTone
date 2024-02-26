@@ -119,7 +119,7 @@ namespace ct
         PlayContext context{ fixedSample , m_tempoInfos.at(m_currentBarIndex).m_bar.getBPM() };
 
         // ノーツを優先度でソート
-        auto soretdObjs = m_objects.stable_sort_by(ObjectSorter{fixedSample});
+        auto soretdObjs = m_objects.stable_sorted_by(ObjectSorter{ fixedSample });
         for (auto&& elm : soretdObjs) {
             if (!elm->update(context)) {
                 break;

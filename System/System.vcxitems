@@ -69,6 +69,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\Score.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\SpecialResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\TapSE\TapSE.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Object\ObjectSorter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\ColorFx\ColorFx.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\Effects\JudgeEffect.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\Effects\TapEffect.hpp" />
@@ -220,6 +221,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\ResultRank.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\Score.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\TapSE\TapSE.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Object\ObjectSorter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\ColorFx\ColorFx.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\Effects\JudgeEffect.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\Effects\TapEffect.cpp" />

@@ -14,6 +14,10 @@ namespace ct
         {
             return m_speed;
         }
+        ObjectOrder getOrder(s3d::int64 sample) const override
+        {
+            return ObjectOrder::Calc(this, sample);
+        }
     private:
         const double m_speed;
     };

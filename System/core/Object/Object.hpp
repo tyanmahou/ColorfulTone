@@ -2,6 +2,7 @@
 #include <Siv3D/Fwd.hpp>
 #include <core/Types.hpp>
 #include <core/Judge/Judge.hpp>
+#include <core/Object/ObjectSorter.hpp>
 
 namespace ct
 {
@@ -12,6 +13,7 @@ namespace ct
         s3d::int64 samplePos;
         BPMType bpm;
     };
+
     class Object
     {
     public:
@@ -24,8 +26,8 @@ namespace ct
         const double m_drawCountBase;
         double m_drawCount;
 
-    public:
         bool m_isActive;			//存在フラグ
+    public:
 
         Object() = default;
         Object(s3d::int64 timingSample, double firstCount) :
@@ -46,6 +48,14 @@ namespace ct
         //譜面停止情報の調整
         void addStopCount(const StopRange& stopRange);
 
+        void setActive(bool isActive)
+        {
+            m_isActive = isActive;
+        }
+        bool isActive() const
+        {
+            return m_isActive;
+        }
         static bool CanDraw(const s3d::Vec2& pos);
 
         s3d::int64 getTimingSample() const
@@ -54,11 +64,7 @@ namespace ct
         }
         s3d::int64 getTimingSampleOffset(s3d::int64 sample) const;
         bool isInJudgeRange(s3d::int64 sample, Judge judge) const;
-    };
 
-    struct ObjectSorter
-    {
-        s3d::int64 sample;
-        bool operator()(const std::shared_ptr<Object>& a, const std::shared_ptr<Object>& b) const;
+        virtual ObjectOrder getOrder(s3d::int64 sample) const = 0;
     };
 }

@@ -23,14 +23,14 @@ namespace ct
     {
         PlayMusicGame::ScoreUpdate(Score::Perfect, m_parent->getType(), m_parent->getType(), false);
         m_isActive = false;
-        m_parent->m_isActive = false;
+        m_parent->setActive(false);
     }
 
     void LongNote::miss()
     {
         PlayMusicGame::ScoreUpdate(Score::Miss, m_parent->getType(), m_parent->getType(), false);
         m_isActive = false;
-        m_parent->m_isActive = false;
+        m_parent->setActive(false);
     }
 
     void LongNote::init()
@@ -93,7 +93,7 @@ namespace ct
 
     bool LongNote::update(const PlayContext& context)
     {
-        m_isActive = m_parent->m_isActive;//親のノーツの存在と同期
+        m_isActive = m_parent->isActive();//親のノーツの存在と同期
 
         if (!m_isActive || !m_parent->isFirstTap())
             return true;

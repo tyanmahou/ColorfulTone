@@ -25,6 +25,11 @@ namespace ct
         {
             return m_isStart;
         }
+
+        ObjectOrder getOrder(s3d::int64 sample) const override
+        {
+            return ObjectOrder::Calc(this, sample);
+        }
     };
 
     //連打の終点
@@ -42,5 +47,10 @@ namespace ct
         void init()override;
         bool update(const PlayContext& context)override;
         void diffDraw(double count, double scrollRate)const override;
+
+        ObjectOrder getOrder(s3d::int64 sample) const override
+        {
+            return ObjectOrder::Calc(this, sample);
+        }
     };
 }

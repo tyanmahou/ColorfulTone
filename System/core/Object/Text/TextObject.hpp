@@ -24,5 +24,10 @@ namespace ct
         virtual bool update(const PlayContext& context)override;
         virtual void diffDraw(double count, double scrollRate)const override;
         void init()override;
+
+        ObjectOrder getOrder(s3d::int64 sample) const override
+        {
+            return ObjectOrder::Calc(this, sample);
+        }
     };
 }

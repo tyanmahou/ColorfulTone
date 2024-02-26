@@ -39,5 +39,10 @@ namespace ct
         const  NoteType getType()const { return m_type; }
         const double& getSpeed()const { return m_scrollSpeed; }
         virtual bool isFirstTap()const;
+
+        ObjectOrder getOrder(s3d::int64 sample) const override
+        {
+            return ObjectOrder::Calc(this, sample);
+        }
     };
 }
