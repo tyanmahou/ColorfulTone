@@ -14,6 +14,25 @@ namespace ct
         Down = 1,
         Life = 2,
     };
+
+    /// <summary>
+    /// 判定アルゴリズム種類
+    /// </summary>
+    enum class JudgeAlgorithmKind
+    {
+        /// <summary>
+        /// 先のノーツ優先
+        /// </summary>
+        Earliest,
+
+        /// <summary>
+        /// 最も近いノーツ優先
+        /// </summary>
+        Nearest,
+
+        Default = Earliest,
+    };
+
     //コンフィグ設定変数
     class GameConfig
     {
@@ -55,5 +74,8 @@ namespace ct
 
         // ランダム
         RandomNoteType m_random = RandomNoteType::None;
+
+        // 判定アルゴリズム
+        JudgeAlgorithmKind m_judgeAlgoKind = JudgeAlgorithmKind::Default;
     };
 }

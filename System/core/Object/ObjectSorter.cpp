@@ -2,6 +2,8 @@
 #include <core/Object/Bar/Bar.hpp>
 #include <core/Object/Text/TextObject.hpp>
 #include <core/Object/RepeatNote/RepeatNote.hpp>
+#include <commons/Game/Game.hpp>
+#include <commons/Game/GameConfig.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -50,6 +52,10 @@ namespace ct
     {
         int64 diff = obj->getTimingSampleOffset(sample);
         int64 judgeOrder = JudgeOrder(diff);
+        if (Game::Config().m_judgeAlgoKind == JudgeAlgorithmKind::Nearest) {
+            diff = Abs(diff);
+            judgeOrder = Abs(judgeOrder);
+        }
         return {
             .isActive = obj->isActive(),
             .judge = judgeOrder,

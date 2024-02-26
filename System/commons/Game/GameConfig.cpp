@@ -114,6 +114,8 @@ namespace  ct
         m_bgBrightness = ini.getOr<int8>(U"Config.BGBrightness", 10);
 
         m_random = static_cast<RandomNoteType>(ini.getOr<int32>(U"Config.Random", 0));
+
+        m_judgeAlgoKind = static_cast<JudgeAlgorithmKind>(ini.getOr<int32>(U"Config.JudgeAlgorithm", static_cast<int32>(JudgeAlgorithmKind::Default)));
     }
 
     void GameConfig::save()
@@ -167,6 +169,7 @@ namespace  ct
         ini.write(U"Config", U"StyleType", static_cast<int32>(m_styleType));
         ini.write(U"Config", U"BGBrightness", m_bgBrightness);
         ini.write(U"Config", U"Random", static_cast<int32>(m_random));
+        ini.write(U"Config", U"JudgeAlgorithm", static_cast<int32>(m_judgeAlgoKind));
 
         ini.save(U"config.ini");
     }

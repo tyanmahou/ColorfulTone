@@ -322,6 +322,16 @@ namespace ct
             config.setDefault(U"0");
             config.init(Format(Game::Config().m_timingAdjust));
         }
+
+        // 判定アルゴリズム
+        void JudgeAlgoInit(Config& config)
+        {
+            config.setName(U"判定アルゴリズム設定");
+            config.add(U"先のノーツ優先", []() {Game::Config().m_judgeAlgoKind = JudgeAlgorithmKind::Earliest; });
+            config.add(U"PERFECTに近いノーツ優先", []() {Game::Config().m_judgeAlgoKind = JudgeAlgorithmKind::Nearest; });
+
+            config.init(static_cast<size_t>(Game::Config().m_judgeAlgoKind));
+        }
         class PlayConfig :public IConfigHierchy
         {
             enum Mode
@@ -330,6 +340,7 @@ namespace ct
                 Random,
                 LifeDead,
                 TimingAdjust,
+                JudgeAlgo,
                 TOTAL_CONFIG //コンフィグの数
             };
         public:
@@ -343,6 +354,7 @@ namespace ct
                 RandomInit(m_configs[Random]);
                 LifeDeadInit(m_configs[LifeDead]);
                 TimingAdjustInit(m_configs[TimingAdjust]);
+                JudgeAlgoInit(m_configs[JudgeAlgo]);
             }
         };
 
