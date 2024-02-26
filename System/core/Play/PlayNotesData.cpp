@@ -1,6 +1,5 @@
 ﻿#include <core/Play/PlayNotesData.hpp>
-#include <core/Data/NotesData/NotesData.hpp>
-#include <core/Data/NotesData/SheetMusic.hpp>
+#include <Useful.hpp>
 
 #include <core/Object/Note/Note.hpp>
 #include <core/Object/Bar/Bar.hpp>
