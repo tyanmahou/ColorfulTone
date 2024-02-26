@@ -291,20 +291,20 @@ namespace ct
         {
             config.setName(U"ランダム配置設定");
             config.add(U"なし", []() {Game::Config().m_random = RandomNoteType::None; });
-            config.add(U"MIRROR", []() {Game::Config().m_random = RandomNoteType::Mirror; });
-            config.add(U"ROTATE120", []() {Game::Config().m_random = RandomNoteType::Rotate120; });
-            config.add(U"ROTATE120 MIRROR", []() {Game::Config().m_random = RandomNoteType::Rotatee120Mirror; });
-            config.add(U"ROTATE240", []() {Game::Config().m_random = RandomNoteType::Rotate240; });
-            config.add(U"ROTATE240 MIRROR", []() {Game::Config().m_random = RandomNoteType::Rotate240Mirror; });
-            config.add(U"RANDOM", []() {Game::Config().m_random = RandomNoteType::Random; });
-            config.add(U"PURE RANDOM", []() {Game::Config().m_random = RandomNoteType::SRandom; });
+            config.add(U"MIRROR", []() {Game::Config().m_random = RandomNoteType::Mirror; }, U"赤と黄の配置を反転します");
+            config.add(U"ROTATE120", []() {Game::Config().m_random = RandomNoteType::Rotate120; }, U"赤を黄, 青を赤, 黄を青に変更します");
+            config.add(U"ROTATE120 MIRROR", []() {Game::Config().m_random = RandomNoteType::Rotatee120Mirror; }, U"青と黄の配置を反転します");
+            config.add(U"ROTATE240", []() {Game::Config().m_random = RandomNoteType::Rotate240; }, U"赤を青, 青を黄, 黄を赤に変更します");
+            config.add(U"ROTATE240 MIRROR", []() {Game::Config().m_random = RandomNoteType::Rotate240Mirror; }, U"赤と青の配置を反転します");
+            config.add(U"RANDOM", []() {Game::Config().m_random = RandomNoteType::Random; }, U"各色の配置をランダムに変更します");
+            config.add(U"PURE RANDOM", []() {Game::Config().m_random = RandomNoteType::SRandom; }, U"ノーツごとに配置をランダムに変更します");
 
             config.init(static_cast<size_t>(Game::Config().m_random));
         }
         void LifeDeadInit(Config& config)
         {
             config.setName(U"ライフ制モード");
-            config.add(U"ON", []() {Game::Config().m_isLifeDead = true; });
+            config.add(U"ON", []() {Game::Config().m_isLifeDead = true; }, U"FREE PLAY中もライフが0になると強制終了となります");
             config.add(U"OFF", []() {Game::Config().m_isLifeDead = false; });
 
             if (Game::Config().m_isLifeDead)
@@ -327,8 +327,8 @@ namespace ct
         void JudgeAlgoInit(Config& config)
         {
             config.setName(U"判定アルゴリズム設定");
-            config.add(U"先のノーツ優先", []() {Game::Config().m_judgeAlgoKind = JudgeAlgorithmKind::Earliest; });
-            config.add(U"PERFECTに近いノーツ優先", []() {Game::Config().m_judgeAlgoKind = JudgeAlgorithmKind::Nearest; });
+            config.add(U"Earliest", []() {Game::Config().m_judgeAlgoKind = JudgeAlgorithmKind::Earliest; }, U"先にきたノーツを優先して判定します");
+            config.add(U"Nearest", []() {Game::Config().m_judgeAlgoKind = JudgeAlgorithmKind::Nearest; }, U"PERFECTに近いノーツを優先して判定します");
 
             config.init(static_cast<size_t>(Game::Config().m_judgeAlgoKind));
         }
@@ -434,6 +434,9 @@ namespace ct
                     Transformer2D t2d(Mat3x2::Translate(0, m_keyConfigEasing.easeInOut()));
 
                     m_keyConfig.draw();
+                }
+                {
+                    RectF(0, 530, 800, 30).draw(ColorF(0, 0.8 * (1 - m_keyConfigEasing.progress0_1())));
                 }
             }
         };

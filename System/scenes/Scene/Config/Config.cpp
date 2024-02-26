@@ -23,35 +23,35 @@ namespace ct
 					SoundManager::PlaySe(U"select");
 				}
 
-				m_actions.at(0).second();
+				m_actions.at(0).callback();
 			}
 			return;
 		}
 		if (m_select > 0 && PlayKey::Left().down()) {
 			SoundManager::PlaySe(U"select");
 			m_select--;
-			m_actions.at(m_select).second();
+			m_actions.at(m_select).callback();
 		}
 
 		if (m_select < m_actions.size() - 1 && PlayKey::Right().down()) {
 			SoundManager::PlaySe(U"select");
 			m_select++;
-			m_actions.at(m_select).second();
+			m_actions.at(m_select).callback();
 		}
 	}
 
-	bool Config::add(const String& text, std::function<void()> func)
+	bool Config::add(const String& text, std::function<void()> func, const String& detail)
 	{
-		m_actions.emplace_back(text, func);
+		m_actions.emplace_back(text, func, detail);
 
 		return true;
 	}
-	void Config::applyOnEnterd(std::function<void()> func)
+	void Config::applyOnEnterd(std::function<void()> func, const String& detail)
 	{
 		m_actions.clear();
 		m_select = 0;
 		m_default = 0;
-		m_actions.emplace_back(U"Func", func);
+		m_actions.emplace_back(U"Func", func, detail);
 		m_hasOnEnterd = true;
 	}
 	void Config::setNeedEnterdSe(bool needEnterdSe)
@@ -61,7 +61,7 @@ namespace ct
 	bool Config::init(const String& text)
 	{
 		for (const auto& [i, a] : Indexed(m_actions)) {
-			if (text == a.first) {
+			if (text == a.name) {
 				m_select = i;
 				return true;
 			}
@@ -83,15 +83,17 @@ namespace ct
 	{
 		size_t i = 0;
 		for (auto&& a : m_actions) {
-			if (text == a.first) {
+			if (text == a.name) {
 				m_default = i;
 				return;
 			}
 			++i;
 		}
 	}
-	void Config::draw(double y, double alpha)const
+	void Config::draw(double y, bool isSelect)const
 	{
+		const double alpha = isSelect ? 1 : 0.5;
+
 		RectF(150, y - 50, 500, 90).draw({ ColorF(1,0.6,0.2, alpha),ColorF(0.2, alpha),ColorF(0, alpha),ColorF(0, alpha) });
 		FontAsset(FontName::ConfigTitle)(m_name).draw(160, y - 40, ColorF(1, alpha));
 
@@ -107,7 +109,16 @@ namespace ct
 		if (m_select < m_actions.size() - 1)
 			FontAsset(FontName::ConfigSelect)(U"→").drawAt(500 + 130, y);
 
-		FontAsset(FontName::ConfigSelect)(m_actions.at(m_select).first).drawAt(500, y);
+		FontAsset(FontName::ConfigSelect)(m_actions.at(m_select).name).drawAt(500, y);
+	}
+
+	void Config::drawDetail() const
+	{
+		const String& detail = m_actions.at(m_select).detail;
+		if (detail) {
+			Transformer2D t2d(Mat3x2::Identity(), s3d::Transformer2D::Target::SetLocal);
+			FontAsset(FontName::Info)(detail).draw(Arg::topRight = Vec2{ 780, 530 });
+		}
 	}
 
 	bool IConfigHierchy::update()
@@ -140,8 +151,11 @@ namespace ct
 			offset = 110.0 * Max<s3d::int32>(0, static_cast<s3d::int32>(size) - 4);
 		}
 		for (size_t i = 0; i < size; ++i) {
-			const double alpha = static_cast<s3d::int32>(i) == m_select ? 1 : 0.5;
-			m_configs.at(i).draw(150 + 110 * i - offset, alpha);
+			m_configs[i].draw(150 + 110 * i - offset, static_cast<s3d::int32>(i) == m_select);
+		}
+		// 詳細
+		if (m_select < size) {
+			m_configs[m_select].drawDetail();
 		}
 	}
 

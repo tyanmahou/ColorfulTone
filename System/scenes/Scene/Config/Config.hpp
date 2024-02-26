@@ -7,6 +7,14 @@ namespace ct
 	class Config
 	{
 	public:
+		struct Action
+		{
+			s3d::String name;
+			std::function<void()> callback;
+
+			s3d::String detail;
+		};
+	public:
 		Config();
 		Config(const String& name);
 
@@ -21,21 +29,23 @@ namespace ct
 
 		void update();
 
-		bool add(const String& text, std::function<void()> func);
-		void applyOnEnterd(std::function<void()> func);
+		bool add(const String& text, std::function<void()> func, const String& detail = U"");
+		void applyOnEnterd(std::function<void()> func, const String& detail = U"");
 		void setNeedEnterdSe(bool needEnterdSe);
 		bool init(const String& text);
 		bool init(size_t index);
 
 		void setDefault(const String& text);
-		void draw(double y, double alpha = 1.0)const;
+		void draw(double y, bool isSelect)const;
+
+		void drawDetail() const;
 	private:
 		size_t m_select = 0;
 		size_t m_default = 0;
 		bool m_hasOnEnterd = false;
 		bool m_needEnterdSe = true;
 		String m_name;
-		Array<std::pair<String, std::function<void()>>> m_actions;
+		Array<Action> m_actions;
 	};
 
 	class ConfigManager;
