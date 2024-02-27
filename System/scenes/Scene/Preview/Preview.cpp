@@ -461,16 +461,20 @@ namespace ct
             m_dirPath = path;
             return true;
         }
-
-        Coro::Fiber<void> onLoadProjectAsync(const Optional<FilePath>& path)
+        template<class T>
+        Coro::Fiber<void> loadingProcess(T&& func)
         {
             m_tex.fill(ColorF(1, 1));
             s3d::ScreenCapture::RequestCurrentFrame();
             co_yield{};
             m_loading = true;
             s3d::ScreenCapture::GetFrame(m_tex);
-            co_await Thread::Task{ [path, this] {return this->onLoadProject(path); } };
+            co_await Thread::Task{ func };
             m_loading = false;
+        }
+        Coro::Fiber<void> onLoadProjectAsync(const Optional<FilePath>& path)
+        {
+            co_await loadingProcess([path, this] {return this->onLoadProject(path); });
         }
         void onReloadNotes()
         {
@@ -487,7 +491,7 @@ namespace ct
         }
         Coro::Fiber<void>  onReloadNotesAsync()
         {
-            co_await Thread::Task{ [this] {return this->onReloadNotes(); } };
+            co_await loadingProcess([this] {return this->onReloadNotes(); });
         }
         bool onChangeLevel(size_t index)
         {
