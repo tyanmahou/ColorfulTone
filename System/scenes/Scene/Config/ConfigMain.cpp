@@ -436,7 +436,7 @@ namespace ct
                     m_keyConfig.draw();
                 }
                 {
-                    RectF(0, 530, 800, 30).draw(ColorF(0, 0.8 * (1 - m_keyConfigEasing.progress0_1())));
+                    RectF(0, 530, 800, 70).draw(ColorF(0, 0.8 * (1 - m_keyConfigEasing.progress0_1())));
                 }
             }
         };
