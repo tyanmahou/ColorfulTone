@@ -244,12 +244,21 @@ namespace ct
 					.setDrawble([](const NotesData& n, Vec2 pos) {
 						if (auto starLv = n.getStarLv(); starLv != StarLv::None) {
 					    	// ★レベル
-					    	if (starLv == StarLv::One) {
+					    	if (starLv == StarLv::OneWhite) {
+								FontAsset(AssetNameView(FontName::StarLv))(U"☆").drawAt(pos + Vec2{ 37, 30 });
+					    	} else if (starLv == StarLv::One) {
 								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(pos + Vec2{ 37, 30 });
-					    	} else if (starLv == StarLv::Two) {
+							} else if (starLv == StarLv::TwoWhite) {
+								FontAsset(AssetNameView(FontName::StarLv))(U"☆").drawAt(pos + Vec2{ 28, 28 });
+								FontAsset(AssetNameView(FontName::StarLv))(U"☆").drawAt(30, pos + Vec2{ 52, 38 });
+							} else if (starLv == StarLv::Two) {
 								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(pos + Vec2{ 28, 28 });
 								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(30, pos + Vec2{52, 38});
-					    	} else if (starLv == StarLv::Three) {
+					    	} else if (starLv == StarLv::ThreeWhite) {
+								FontAsset(AssetNameView(FontName::StarLv))(U"☆").drawAt(40, pos + Vec2{ 37, 27 });
+								FontAsset(AssetNameView(FontName::StarLv))(U"☆").drawAt(27, pos + Vec2{ 37 + 20, 37 });
+								FontAsset(AssetNameView(FontName::StarLv))(U"☆").drawAt(27, pos + Vec2{ 37 - 20, 37 });
+							} else if (starLv == StarLv::Three) {
 								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(40, pos + Vec2{ 37, 27 });
 								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(27, pos + Vec2{ 37 + 20, 37 });
 								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(27, pos + Vec2{ 37 - 20, 37 });
