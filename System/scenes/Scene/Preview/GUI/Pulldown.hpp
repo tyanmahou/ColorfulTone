@@ -48,7 +48,7 @@ namespace ct::GUI
 			m_onChangeCallback = std::move(callback);
 			return *this;
 		}
-		s3d::RectF draw(const s3d::Array<s3d::String>& items, const s3d::Vec2& pos) const;
+		s3d::RectF draw(const s3d::Array<std::pair<s3d::String, s3d::ColorF>>& items, const s3d::Vec2& pos) const;
 	private:
 		size_t& m_index;
 		bool& m_isOpen;

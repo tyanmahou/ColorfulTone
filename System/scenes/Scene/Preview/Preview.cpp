@@ -433,9 +433,9 @@ namespace ct
                 if (FileSystem::Extension(elm) == U"ini") {
 
                     MusicData musicData(genre, *path, elm, false);
-                    Array<String> noteLevelNames;
+                    Array<std::pair<s3d::String, s3d::ColorF>> noteLevelNames;
                     for (auto& notes : musicData.getNotesData()) {
-                        noteLevelNames.push_back(notes.getLevelName());
+                        noteLevelNames.emplace_back(notes.getLevelName(), notes.getColor());
                     }
                     if (noteLevelNames.isEmpty()) {
                         return false;
@@ -482,7 +482,8 @@ namespace ct
                 return;
             }
             m_musicData[m_selectNotesIndex].reload();
-            m_notesList[m_selectNotesIndex] = m_musicData[m_selectNotesIndex].getLevelName();
+            m_notesList[m_selectNotesIndex].first = m_musicData[m_selectNotesIndex].getLevelName();
+            m_notesList[m_selectNotesIndex].second = m_musicData[m_selectNotesIndex].getColor();
             m_analyzeResult = Analyzer::Analyze(m_musicData[m_selectNotesIndex].getSheet());
 
             const auto pos = m_musicGame.getSound().posSample();
@@ -521,7 +522,7 @@ namespace ct
         bool m_isShowGUI = true;
 
         size_t m_selectNotesIndex = 0;
-        Array<String> m_notesList;
+        Array<std::pair<s3d::String, s3d::ColorF>> m_notesList;
         bool m_isNotesListOpen = false;
 
         std::unique_ptr<ConfigMain> m_config;

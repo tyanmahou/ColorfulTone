@@ -8,7 +8,7 @@ namespace ct::GUI
         m_isOpen(isOpen)
     {
     }
-    s3d::RectF Pulldown::draw(const s3d::Array<s3d::String>& items, const s3d::Vec2& pos) const
+    s3d::RectF Pulldown::draw(const s3d::Array<std::pair<s3d::String, s3d::ColorF>>& items, const s3d::Vec2& pos) const
     {
 		static constexpr Size Padding{ 8, 2 };
 		static constexpr int32 DownButtonSize = 16;
@@ -71,7 +71,7 @@ namespace ct::GUI
 
 		region.drawFrame(1, 0, m_isOpen ? Palette::Orange : Palette::Gray);
 
-		m_font(items[m_index]).draw((region.pos + Padding), textColor);
+		m_font(items[m_index].first).draw((region.pos + Padding), textColor * items[m_index].second);
 
 		Triangle{ (region.rightX() - DownButtonSize / 2.0 - Padding.x), (region.y + region.h / 2.0),
 			(DownButtonSize * 0.5), 180_deg }.draw(textColor);
@@ -93,7 +93,7 @@ namespace ct::GUI
 				rect.draw(m_listMouseOverColor);
 			}
 
-			m_font(item).draw((itemPos + Padding), textColor);
+			m_font(item.first).draw((itemPos + Padding), textColor * item.second);
 
 			itemPos.y += region.h;
 		}
