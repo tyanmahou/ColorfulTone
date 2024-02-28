@@ -11,6 +11,7 @@
 #include <utils/Windows/WindowsUtil.hpp>
 #include <utils/Coro/Fiber/FiberHolder.hpp>
 #include <utils/Thread/Task.hpp>
+#include <utils/Notify/Notify.hpp>
 
 namespace ct
 {
@@ -41,12 +42,14 @@ namespace ct
         bool updateAndDraw()
         {
             this->update();
+            m_notify.update(Scene::DeltaTime());
             if (m_loading) {
                 drawLoading();
             } else {
                 this->draw();
                 m_config->draw();
                 if (m_isShowGUI) {
+                    m_notify.draw();
                     this->drawGUI();
                 }
             }
@@ -356,7 +359,7 @@ namespace ct
             auto path = Dialog::SelectFolder(U"Music");
             if (path) {
                 SoundManager::PlaySe(U"desisionSmall");
-                m_loader.reset(std::bind(&Impl::onLoadProjectAsync, this, path));
+                m_loader.reset(std::bind(&Impl::onLoadProjectAsync, this, path, false));
                 return true;
             } else {
                 return false;
@@ -375,7 +378,7 @@ namespace ct
             if (playSe) {
                 SoundManager::PlaySe(U"desisionSmall");
             }
-            m_loader.reset(std::bind(&Impl::onLoadProjectAsync, this, m_dirPath));
+            m_loader.reset(std::bind(&Impl::onLoadProjectAsync, this, m_dirPath, true));
             m_loader.resume();
             return true;
         }
@@ -462,24 +465,32 @@ namespace ct
             return true;
         }
         template<class T>
-        Coro::Fiber<void> loadingProcess(T&& func)
+        Coro::Fiber<bool> loadingProcess(T&& func)
         {
             m_tex.fill(ColorF(1, 1));
             s3d::ScreenCapture::RequestCurrentFrame();
             co_yield{};
             m_loading = true;
             s3d::ScreenCapture::GetFrame(m_tex);
-            co_await Thread::Task{ func };
+            bool isSuccess = co_await Thread::Task{ func };
             m_loading = false;
+
+            co_return isSuccess;
         }
-        Coro::Fiber<void> onLoadProjectAsync(const Optional<FilePath>& path)
+        Coro::Fiber<void> onLoadProjectAsync(const Optional<FilePath>& path, bool isReload)
         {
-            co_await loadingProcess([path, this] {return this->onLoadProject(path); });
+            bool isSuccess = co_await loadingProcess([path, this] {return this->onLoadProject(path); });
+
+            if (isSuccess) {
+                FilePath baseDir = s3d::FileSystem::ParentPath(*m_dirPath, 2);
+                FilePath infoPath = s3d::FileSystem::RelativePath(*m_dirPath, baseDir);
+                m_notify.show(isReload ? U"RELOAD" : U"LOAD", infoPath);
+            }
         }
-        void onReloadNotes()
+        bool onReloadNotes()
         {
             if (!m_musicData) {
-                return;
+                return false;
             }
             m_musicData[m_selectNotesIndex].reload();
             m_notesList[m_selectNotesIndex].first = m_musicData[m_selectNotesIndex].getLevelName();
@@ -489,10 +500,17 @@ namespace ct
             const auto pos = m_musicGame.getSound().posSample();
             m_musicGame.reflesh(m_musicData[m_selectNotesIndex]);
             m_musicGame.getSound().seekSamples(s3d::Clamp<size_t>(static_cast<size_t>(pos), 0, m_musicGame.getSound().samples()));
+
+            return true;
         }
         Coro::Fiber<void>  onReloadNotesAsync()
         {
-            co_await loadingProcess([this] {return this->onReloadNotes(); });
+            bool isSuccess = co_await loadingProcess([this] {return this->onReloadNotes(); });
+            if (isSuccess) {
+                FilePath baseDir = s3d::FileSystem::ParentPath(*m_dirPath, 2);
+                FilePath infoPath = s3d::FileSystem::RelativePath(m_musicData[m_selectNotesIndex].getFilePath(), baseDir);
+                m_notify.show(U"LIVE RELOAD", infoPath);
+            }
         }
         bool onChangeLevel(size_t index)
         {
@@ -533,6 +551,8 @@ namespace ct
         bool m_loading = false;
 
         AnalyzeResult m_analyzeResult;
+
+        Notify m_notify;
     };
     Preview::Preview():
         m_pImpl(std::make_unique<Impl>())

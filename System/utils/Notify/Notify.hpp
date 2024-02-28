@@ -9,6 +9,7 @@ namespace ct
         struct Entry
         {
             s3d::String message;
+            s3d::String detail;
 
             double time;
 
@@ -16,7 +17,7 @@ namespace ct
             double velocity = 0.0;
         };
     public:
-        void show(s3d::StringView message);
+        void show(s3d::StringView message, s3d::StringView detail = U"");
         void update(double dt);
 
         void draw() const;

@@ -173,6 +173,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Input\InputUtl.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Math\StatisticsUtil.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Migration\Migration.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Notify\Notify.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Shader\Blend\BlendShader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Shader\DrawCanvas\DrawCanvasShader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Shader\FlipPage\FlipPageShader.hpp" />
@@ -303,6 +304,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Http\RestRequestor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Input\InputUtl.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Migration\Migration.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Notify\Notify.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Shader\Blend\BlendShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Shader\DrawCanvas\DrawCanvasShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Shader\FlipPage\FlipPageShader.cpp" />

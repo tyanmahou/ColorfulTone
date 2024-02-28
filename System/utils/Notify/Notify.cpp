@@ -3,15 +3,16 @@
 
 namespace ct
 {
-    constexpr double lifeTime = 5.0;
+    constexpr double lifeTime = 3.0;
 
-    void Notify::show(s3d::StringView message)
+    void Notify::show(s3d::StringView message, s3d::StringView detail)
     {
         const double currentIndex = (m_entries.empty() ? 0.0 : m_entries.back().currentIndex + 1.0);
         const double velocity = (m_entries.empty() ? 0.0 : m_entries.back().velocity);
 
         m_entries << Entry{
             .message = String{ message },
+            .detail = String{ detail },
             .time = 0.0,
             .currentIndex = currentIndex,
             .velocity = velocity
@@ -22,7 +23,7 @@ namespace ct
         for (auto&& e : m_entries) {
             e.time += dt;
         }
-        m_entries.removed_if([](const Entry& entry) {
+        m_entries.remove_if([](const Entry& entry) {
             return entry.time > lifeTime;
             });
         for (auto&& [index, e] : s3d::IndexedRef(m_entries)) {
@@ -53,28 +54,24 @@ namespace ct
             xScale = EaseOutExpo(xScale);
 
             constexpr ColorF BackgroundColor{ 0.0, 0.8 };
-            constexpr ColorF FrameColor{ 0.75 };
             constexpr ColorF TextColor{ 1.0 };
             constexpr ColorF SuccessColor{ 0.0, 0.78, 0.33 };
-            constexpr double Width = 300;
+            constexpr double Width = 350;
 
             ColorF backgroundColor = BackgroundColor;
             backgroundColor.a *= alpha;
 
-            ColorF frameColor =FrameColor;
-            frameColor.a *= alpha;
-
             ColorF textColor = TextColor;
             textColor.a *= alpha;
 
-            const RectF rect{ 10, (100 + e.currentIndex * 32), (Width * xScale), 31 };
-            rect.rounded(3).draw(backgroundColor).drawFrame(1, 0, frameColor);
+            const RectF rect{ 0, (50 + e.currentIndex * 52), (Width * xScale), 51 };
+            rect.draw(backgroundColor);
 
             ColorF color = SuccessColor;
             color.a *= alpha;
-            font(U"\U000F0029").draw(18, Arg::leftCenter = rect.leftCenter().movedBy(8, -1), color);
-
-            font(e.message).draw(18, Arg::leftCenter = rect.leftCenter().movedBy(32, -1), textColor);
+            font(U"\U000F0E1E").draw(26, Arg::leftCenter = rect.leftCenter().movedBy(8, -1), color);
+            font(e.message).draw(18, rect.pos + Vec2{40, 2}, color);
+            font(e.detail).draw(12, rect.pos + Vec2{ 40, 26 }, textColor);
         }
     }
 }
