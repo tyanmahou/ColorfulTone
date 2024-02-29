@@ -133,6 +133,9 @@ namespace ct
         {
             return static_cast<double>(m_totalSample) / 44100.0;
         }
+        // ノーツの存在時間
+        double getTotalNotesSec() const;
+
         s3d::int64 getOffsetedTotalSample() const
         {
             return m_totalSample + m_tempos[0].bpmOffsetSample;

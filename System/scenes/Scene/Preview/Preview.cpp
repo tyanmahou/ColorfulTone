@@ -311,7 +311,7 @@ namespace ct
         {
             const auto& sheet = m_musicData[m_selectNotesIndex].getSheet();
             Vec2 pos = Vec2{ 20, 320 };
-            RectF(pos- Vec2{10, 10}, 200, 200).draw(ColorF(0, 0.2));
+            RectF(pos- Vec2{10, 10}, 250, 200).draw(ColorF(0, 0.2));
             PutText(U"[Rating]：{}"_fmt(m_analyzeResult.rating), Arg::topLeft = pos);
             pos.y += 20;
             PutText(U" - Mean：{}"_fmt(m_analyzeResult.meanRating), Arg::topLeft = pos);
@@ -326,7 +326,7 @@ namespace ct
             pos.y += 30;
             PutText(U"[Total]：{}"_fmt(sheet.getTotalNotes()), Arg::topLeft = pos);
             pos.y += 20;
-            PutText(U"[Length]：{:.2f}s"_fmt(m_musicGame.getSoundLengthSec()), Arg::topLeft = pos);
+            PutText(U"[Length]：{:.2f}s/{:.2f}s"_fmt(sheet.getTotalNotesSec(), m_musicGame.getSoundLengthSec()), Arg::topLeft = pos);
         }
         void drawLoading()
         {

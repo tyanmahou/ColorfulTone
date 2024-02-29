@@ -1,6 +1,5 @@
 ﻿#include <core/Data/NotesData/SheetMusic.hpp>
 #include <Siv3D.hpp>
-#include "SheetMusic.hpp"
 
 namespace
 {
@@ -282,6 +281,13 @@ namespace ct
         m_lastBarCount = fixedLastCount + RESOLUTION * 2;
         m_totalSample = calcTimingSample(fixedLastCount) - m_tempos[0].bpmOffsetSample;
         return true;
+    }
+    double SheetMusic::getTotalNotesSec() const
+    {
+        if (m_notes.isEmpty()) {
+            return 0;
+        }
+        return static_cast<double>(m_notes.back().sample - m_notes.front().sample) / 44100.0;
     }
     s3d::String ct::SheetMusic::getLevelWithStar() const
     {
