@@ -94,7 +94,7 @@ namespace ct
         auto calcSpeedRatingFactor = [](double ratio) {
             ratio = Min(ratio, SpeedRatioMax);
             return 1.0 + 0.6 * EaseInOutSine(Math::InvLerp(1, SpeedRatioMax, ratio));
-        };
+            };
         auto calcSpeedDiffRatingFactor = [](double ratio) {
             ratio = Min(ratio, SpeedRatioMax);
             return SpeedRatioMax * Math::InvLerp(1, SpeedRatioMax, ratio);
@@ -102,7 +102,7 @@ namespace ct
         // ロング終点以外
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
             return e.type != 8;
-        });
+            });
 
         const auto& tempos = sheet.getTempos();
 
@@ -151,34 +151,44 @@ namespace ct
                     rating += BaseNoteRating * calcJackFactor(notes[index].sample - near) * TypeFactor(notes[index]);
                 }
 
-                // 速度倍率補正
-                {
-                    double lowSpeed = Min(speeds[index], speedBase);
-                    double highSpeed = Max(speeds[index], speedBase);
-                    double speedRatio = 0;
-                    if (lowSpeed == 0) {
-                        speedRatio = 2;
-                    } else {
-                        speedRatio = highSpeed / lowSpeed;
-                    }
+                if (speeds[index] >= 10000) {
+                    // ありえんほどデカい場合は見えないノーツなので別扱い
+                    rating *= 4.0;
+                } else {
 
-                    rating *= calcSpeedRatingFactor(speedRatio);
+                    // 速度倍率補正
+                    {
+                        double lowSpeed = Min(speeds[index], speedBase);
+                        double highSpeed = Max(speeds[index], speedBase);
+                        double speedRatio = 0;
+                        if (lowSpeed == 0) {
+                            speedRatio = 2;
+                        } else {
+                            speedRatio = highSpeed / lowSpeed;
+                        }
 
-                    // 逆走むずい
-                    double backFactor = (notes[index].speed < 0) ? BackFactor : 1.0;
-                    rating *= backFactor;
-                }
-                // 前後速度差補正
-                if (index > 0 && notes[index].sample <= notes[index - 1].sample + (44100 * 2)) {
-                    double lowSpeed = Min(Abs(notes[index].speed), Abs(notes[index - 1].speed));
-                    double highSpeed = Max(Abs(notes[index].speed), Abs(notes[index - 1].speed));
-                    double speedRatio = 0;
-                    if (lowSpeed == 0) {
-                        speedRatio = 2;
-                    } else {
-                        speedRatio = highSpeed / lowSpeed;
+                        rating *= calcSpeedRatingFactor(speedRatio);
+
+                        // 逆走むずい
+                        double backFactor = (notes[index].speed < 0) ? BackFactor : 1.0;
+                        rating *= backFactor;
                     }
-                    rating += 1500 * calcSpeedDiffRatingFactor(speedRatio);
+                    // 前後速度差補正
+                    if (index > 0 && notes[index].sample <= notes[index - 1].sample + (44100 * 2)) {
+                        if (speeds[index - 1] >= 10000) {
+                            // 見えてないノーツなので影響なし
+                        } else {
+                            double lowSpeed = Min(Abs(notes[index].speed), Abs(notes[index - 1].speed));
+                            double highSpeed = Max(Abs(notes[index].speed), Abs(notes[index - 1].speed));
+                            double speedRatio = 0;
+                            if (lowSpeed == 0) {
+                                speedRatio = 2;
+                            } else {
+                                speedRatio = highSpeed / lowSpeed;
+                            }
+                            rating += 1500 * calcSpeedDiffRatingFactor(speedRatio);
+                        }
+                    }
                 }
                 if (index > 0 && (notes[index].type == 9 && notes[index - 1].type == 9) && (index + 1 >= notes.size() || notes[index + 1].type == 9)) {
                     // 連続する白ノーツは特殊的に弱くする
@@ -352,10 +362,10 @@ namespace ct
 
         // レート
         const double ratingMix = meanRating * 0.2
-                                  + medianRating * 0.17
-                                  + percentile80Rating * 0.22
-                                  + percentile97Rating * 0.33
-                                  + maxRating * 0.08;
+            + medianRating * 0.17
+            + percentile80Rating * 0.22
+            + percentile97Rating * 0.33
+            + maxRating * 0.08;
 
         // ノーツ数重み補正
         const double ratingPerNote = ratingMix / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 1));
