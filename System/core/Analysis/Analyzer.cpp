@@ -96,8 +96,8 @@ namespace ct
             return 1.0 + 0.6 * EaseInOutSine(Math::InvLerp(1, SpeedRatioMax, ratio));
         };
         auto calcSpeedDiffRatingFactor = [](double ratio) {
-            ratio = Min(ratio, 2.0);
-            return Math::InvLerp(1, 2.0, ratio);
+            ratio = Min(ratio, SpeedRatioMax);
+            return SpeedRatioMax * Math::InvLerp(1, SpeedRatioMax, ratio);
             };
         // ロング終点以外
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
@@ -178,7 +178,7 @@ namespace ct
                     } else {
                         speedRatio = highSpeed / lowSpeed;
                     }
-                    rating += 800 * calcSpeedDiffRatingFactor(speedRatio);
+                    rating += 1500 * calcSpeedDiffRatingFactor(speedRatio);
                 }
                 if (index > 0 && (notes[index].type == 9 && notes[index - 1].type == 9) && (index + 1 >= notes.size() || notes[index + 1].type == 9)) {
                     // 連続する白ノーツは特殊的に弱くする
@@ -351,12 +351,17 @@ namespace ct
         double medianRating = StatisticsUtil::Median(barRatings);
 
         // レート
-        const double ratingResult = meanRating * 0.2
+        const double ratingMix = meanRating * 0.2
                                   + medianRating * 0.17
                                   + percentile80Rating * 0.22
                                   + percentile97Rating * 0.33
                                   + maxRating * 0.08;
 
+        // ノーツ数重み補正
+        const double ratingPerNote = ratingMix / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 1));
+        const double noteWeight = ratingPerNote * ratingPerNote / 2.0;
+
+        const double ratingResult = ratingMix + noteWeight;
         return AnalyzeResult
         {
             .rating = static_cast<uint64>(Math::Round(ratingResult)),
@@ -365,6 +370,7 @@ namespace ct
             .percentile80Rating = static_cast<uint64>(Math::Round(percentile80Rating)),
             .percentile97Rating = static_cast<uint64>(Math::Round(percentile97Rating)),
             .maxRating = static_cast<uint64>(Math::Round(maxRating)),
+            .noteWeightRating = static_cast<uint64>(Math::Round(noteWeight)),
         };
     }
 }

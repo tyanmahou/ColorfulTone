@@ -48,6 +48,8 @@ namespace ct::dev
             FilePath path;
             int32 level;
             StarLv star;
+            size_t noteCount;
+            double noteSec;
             AnalyzeResult result;
         };
         Array<Data> data;
@@ -72,6 +74,8 @@ namespace ct::dev
                                     FileSystem::RelativePath(noteFullPath, *path),
                                     sheet.getLv(),
                                     sheet.getStarLv(),
+                                    sheet.getTotalNotes(),
+                                    sheet.getTotalNotesSec(),
                                     Analyzer::Analyze(sheet)
                                     });
                             }
@@ -90,25 +94,27 @@ namespace ct::dev
             if (auto savePath = Dialog::SaveFile({ FileFilter::Text() }, U"", U"解析結果保存")) {
                 {
                     TextWriter log(*savePath);
-                    log.writeln(U"Path, Lv, Star, Rating, Mean, Median, 80%Tile, 97%Tile, Max");
-                    log.writeln(U"============================");
+                    log.writeln(U"Path, Lv, Star, Count, Time, Rating, Mean, Median, 80%Tile, 97%Tile, Max, NoteWeight");
                     for (const Data& d : data) {
-                        String ln = U"{}, {}, {}, {}, {}, {}, {}, {}, {}"_fmt(
+                        String ln = U"{}, {}, {}, {}, {:.2f}, {}, {}, {}, {}, {}, {}, {}"_fmt(
                             d.path, 
                             d.level,
                             ToStr(d.star),
+                            d.noteCount,
+                            d.noteSec,
                             d.result.rating, 
                             d.result.meanRating, 
                             d.result.medianRating,
                             d.result.percentile80Rating,
                             d.result.percentile97Rating,
-                            d.result.maxRating
+                            d.result.maxRating,
+                            d.result.noteWeightRating
                         );
                         log.writeln(ln);
                     }
                     log.writeln(U"");
-                    log.writeln(U"Lv, Median, Mean, Min, Max");
                     log.writeln(U"============================");
+                    log.writeln(U"Lv, Median, Mean, Min, Max");
                     struct Statistics
                     {
                         Array<int64> data;
