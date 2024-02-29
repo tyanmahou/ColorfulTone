@@ -37,7 +37,7 @@ namespace ct
         // Perfect
         return 0;
     }
-    ObjectOrder ObjectOrder::Calc(const Bar* obj, [[maybe_unused]]s3d::int64 sample)
+    ObjectOrder ObjectOrder::Calc([[maybe_unused]] const Bar* obj, [[maybe_unused]]s3d::int64 sample)
     {
         // 何もしないので一番優先度低くする
         return {

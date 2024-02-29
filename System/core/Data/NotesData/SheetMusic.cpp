@@ -289,7 +289,7 @@ namespace ct
         }
         return static_cast<double>(m_notes.back().sample - m_notes.front().sample) / 44100.0;
     }
-    s3d::String ct::SheetMusic::getLevelWithStar() const
+    s3d::String SheetMusic::getLevelWithStar() const
     {
         if (m_starLv != StarLv::None) {
             return ToStr(m_starLv) + U":" + Format(m_lv);
