@@ -97,7 +97,7 @@ namespace ct
             };
         auto calcSpeedDiffRatingFactor = [](double ratio) {
             ratio = Min(ratio, SpeedRatioMax);
-            return SpeedRatioMax * Math::InvLerp(1, SpeedRatioMax, ratio);
+            return Math::InvLerp(1, SpeedRatioMax, ratio);
             };
         // ロング終点以外
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
@@ -186,7 +186,7 @@ namespace ct
                             } else {
                                 speedRatio = highSpeed / lowSpeed;
                             }
-                            rating += 1500 * calcSpeedDiffRatingFactor(speedRatio);
+                            rating += 4500 * calcSpeedDiffRatingFactor(speedRatio);
                         }
                     }
                 }
