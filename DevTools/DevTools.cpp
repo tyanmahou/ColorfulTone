@@ -39,29 +39,47 @@ namespace ct::dev
         if (!path) {
             co_return;
         }
-        auto files = FileSystem::DirectoryContents(*path).filter([&](const FilePath& p) {
+        auto iniFiles = FileSystem::DirectoryContents(*path).filter([&](const FilePath& p) {
             const bool isOfficial = isOfficialOnly ? !U".*\\d{4}_\\d{2}"_re.match(p).isEmpty() : true;
-            return isOfficial && FileSystem::Extension(p) == U"csv";
+            return isOfficial && FileSystem::Extension(p) == U"ini";
             });
         struct Data
         {
             FilePath path;
             int32 level;
+            StarLv star;
             AnalyzeResult result;
         };
         Array<Data> data;
         auto task = [&] {
             size_t done = 0;
-            for (const FilePath& filePath : files) {
-                SheetMusic sheet(filePath);
+            for (const FilePath& iniPath : iniFiles) {
+                INI ini(iniPath);
+                if (ini) {
+                    FilePath dirPath = FileSystem::ParentPath(iniPath);
+                    //譜面データ
+                    for (uint32 i = 0; true; ++i) {
+                        String notePath = ini.get<String>(Format(U"Level.NOTES", i));
+                        if (notePath.isEmpty())
+                            break;
+                        else {
+                            FilePath noteFullPath = dirPath + notePath;
+                            if (FileSystem::Exists(noteFullPath)) {
 
-                data.push_back({
-                    FileSystem::RelativePath(filePath, *path),
-                    sheet.getLv(),
-                    Analyzer::Analyze(sheet)
-                    });
+                                SheetMusic sheet(noteFullPath);
+
+                                data.push_back({
+                                    FileSystem::RelativePath(noteFullPath, *path),
+                                    sheet.getLv(),
+                                    sheet.getStarLv(),
+                                    Analyzer::Analyze(sheet)
+                                    });
+                            }
+                        }
+                    }
+                }
                 ++done;
-                g_progress = static_cast<double>(done) / static_cast<double>(files.size());
+                g_progress = static_cast<double>(done) / static_cast<double>(iniFiles.size());
             }
             g_progress = 1.0;
             };
@@ -72,12 +90,13 @@ namespace ct::dev
             if (auto savePath = Dialog::SaveFile({ FileFilter::Text() }, U"", U"解析結果保存")) {
                 {
                     TextWriter log(*savePath);
-                    log.writeln(U"Path, Lv, Rating, Mean, Median, 80%Tile, 97%Tile, Max");
+                    log.writeln(U"Path, Lv, Star, Rating, Mean, Median, 80%Tile, 97%Tile, Max");
                     log.writeln(U"============================");
                     for (const Data& d : data) {
-                        String ln = U"{}, {}, {}, {}, {}, {}, {}, {}"_fmt(
+                        String ln = U"{}, {}, {}, {}, {}, {}, {}, {}, {}"_fmt(
                             d.path, 
                             d.level,
+                            ToStr(d.star),
                             d.result.rating, 
                             d.result.meanRating, 
                             d.result.medianRating,
@@ -112,16 +131,19 @@ namespace ct::dev
                             return sum / data.size();
                         }
                     };
-                    std::map <int32, Array<int64>> ratingMap;
+                    std::map<int32, Array<int64>> ratingMap;
                     for (const Data& d : data) {
-                        int32 lv = Min(d.level, 14);
+                        int32 lv = d.level;
+                        if (d.star > StarLv::None) {
+                            lv = 13 + static_cast<int32>(d.star);
+                        }
                         int64 rating = d.result.rating;
 
                         ratingMap[lv].push_back(rating);
                     }
                     for (auto&& [lv, d] : ratingMap) {
                         String ln = U"{}, {}, {}, {}, {}"_fmt(
-                            lv, 
+                            lv < 14 ? Format(lv) : ToStr(static_cast<StarLv>(lv - 13)),
                             StatisticsUtil::Median<int64, int64>(d),
                             StatisticsUtil::Mean<int64, int64>(d),
                             StatisticsUtil::Min(d),
