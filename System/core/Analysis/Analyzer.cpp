@@ -216,7 +216,7 @@ namespace ct
 
         // BPM変化 1につき
         constexpr double BaseBpmRating = 25.0;
-        constexpr double BpmRatingFactorMax = 200.0;
+        constexpr double BpmRatingFactorMax = 160.0;
         Array<std::pair<int64, double>> bpmRatings;
         bpmRatings.reserve(sheet.getTempos().size());
         {
