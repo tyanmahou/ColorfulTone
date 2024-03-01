@@ -186,7 +186,7 @@ namespace ct
                             } else {
                                 speedRatio = highSpeed / lowSpeed;
                             }
-                            rating += 4500 * calcSpeedDiffRatingFactor(speedRatio);
+                            rating += 3800 * calcSpeedDiffRatingFactor(speedRatio);
                         }
                     }
                 }
