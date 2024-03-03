@@ -2,17 +2,17 @@
 #include "DevTools.hpp"
 #include <utils/Coro/Fiber/FiberHolder.hpp>
 #include <scenes/utils/SharedDraw/LoadingCircle.hpp>
+#include <utils/Notify/Notify.hpp>
 
-void Main()
+using namespace ct;
+using namespace ct::dev;
+
+class DevMain
 {
-	using namespace ct;
-	using namespace ct::dev;
-
-	bool isOfficialFilter = true;
-	Coro::FiberHolder<void> fiber;
-	while (System::Update())
+public:
+	void update()
 	{
-		bool loading = fiber.resume();
+		bool loading = m_fiber.resume();
 		if (loading) {
 			MouseL.clearInput();
 		}
@@ -25,13 +25,38 @@ void Main()
 			DevTools::ConvertPS();
 		}
 		pos.y += 50;
-		SimpleGUI::CheckBox(isOfficialFilter, U"公式フィルタ", pos + Vec2{ 200, 0 });
+		SimpleGUI::CheckBox(m_isOfficialFilter, U"公式フィルタ", pos + Vec2{ 200, 0 });
 		if (SimpleGUI::Button(U"譜面解析", pos)) {
-			fiber.reset(std::bind_back(&DevTools::AnalyzeAsync, isOfficialFilter));
+			m_fiber.reset(std::bind_back(&DevMain::onAnalyze, this));
 		}
 		if (loading) {
 			Scene::Rect().draw(ColorF(0, 0.5));
 			SharedDraw::LoadingCircle::DrawMain(ColorF(1, 0.9));
 		}
+		m_notify.update(Scene::DeltaTime());
+		m_notify.draw();
+	}
+
+	Coro::Fiber<void> onAnalyze()
+	{
+		bool result = co_await DevTools::AnalyzeAsync(m_isOfficialFilter);
+		if (result) {
+			m_notify.show(U"COMPLETED");
+		} else {
+			m_notify.error(U"FAILED");
+		}
+	}
+private:
+	bool m_isOfficialFilter = true;
+	Coro::FiberHolder<void> m_fiber;
+	Notify m_notify;
+};
+void Main()
+{
+	DevMain devMain;
+
+	while (System::Update())
+	{
+		devMain.update();
 	}
 }

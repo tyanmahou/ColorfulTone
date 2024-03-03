@@ -6,7 +6,6 @@
 
 namespace ct::dev
 {
-    double g_progress = 0;
     void DevTools::FixFileEncode()
     {
         Array<FilePath> updatedPaths = MigrationUtil::FixFileEncodeToUTF8();
@@ -32,12 +31,11 @@ namespace ct::dev
             }
         }
     }
-    Coro::Fiber<void> DevTools::AnalyzeAsync(bool isOfficialOnly)
+    Coro::Fiber<bool> DevTools::AnalyzeAsync(bool isOfficialOnly)
     {
-        g_progress = 0;
         auto path = Dialog::SelectFolder(U"Music");
         if (!path) {
-            co_return;
+            co_return false;
         }
         auto iniFiles = FileSystem::DirectoryContents(*path).filter([&](const FilePath& p) {
             const bool isOfficial = isOfficialOnly ? !U".*\\d{4}_\\d{2}"_re.match(p).isEmpty() : true;
@@ -83,9 +81,7 @@ namespace ct::dev
                     }
                 }
                 ++done;
-                g_progress = static_cast<double>(done) / static_cast<double>(iniFiles.size());
             }
-            g_progress = 1.0;
             };
         co_await Thread::Task{ std::move(task) };
 
@@ -94,6 +90,9 @@ namespace ct::dev
             if (auto savePath = Dialog::SaveFile({ FileFilter::Text() }, U"", U"解析結果保存")) {
                 {
                     TextWriter log(*savePath);
+                    if (!log) {
+                        co_return false;
+                    }
                     log.writeln(U"Path, Lv, Star, Count, Time, Rating, Mean, Median, 80%Tile, 97%Tile, Max, NoteWeight");
                     for (const Data& d : data) {
                         String ln = U"{}, {}, {}, {}, {:.2f}, {}, {}, {}, {}, {}, {}, {}"_fmt(
@@ -161,10 +160,6 @@ namespace ct::dev
                 s3d::System::LaunchFile(*savePath);
             }
         }
-        Print << U"Complete";
-    }
-    double DevTools::LoadingProgress()
-    {
-        return g_progress;
+        co_return true;
     }
 }

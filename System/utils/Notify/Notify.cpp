@@ -15,7 +15,22 @@ namespace ct
             .detail = String{ detail },
             .time = 0.0,
             .currentIndex = currentIndex,
-            .velocity = velocity
+            .velocity = velocity,
+            .isError = false,
+        };
+    }
+    void Notify::error(s3d::StringView message, s3d::StringView detail)
+    {
+        const double currentIndex = (m_entries.empty() ? 0.0 : m_entries.back().currentIndex + 1.0);
+        const double velocity = (m_entries.empty() ? 0.0 : m_entries.back().velocity);
+
+        m_entries << Entry{
+            .message = String{ message },
+            .detail = String{ detail },
+            .time = 0.0,
+            .currentIndex = currentIndex,
+            .velocity = velocity,
+            .isError = true,
         };
     }
     void Notify::update(double dt)
@@ -56,6 +71,7 @@ namespace ct
             constexpr ColorF BackgroundColor{ 0.0, 0.8 };
             constexpr ColorF TextColor{ 1.0 };
             constexpr ColorF SuccessColor{ 0.0, 0.78, 0.33 };
+            constexpr ColorF FailureColor{ 1.00, 0.32, 0.32 };
             constexpr double Width = 350;
 
             ColorF backgroundColor = BackgroundColor;
@@ -67,7 +83,7 @@ namespace ct
             const RectF rect{ 0, (50 + e.currentIndex * 52), (Width * xScale), 51 };
             rect.draw(backgroundColor);
 
-            ColorF color = SuccessColor;
+            ColorF color = e.isError ? FailureColor : SuccessColor;
             color.a *= alpha;
             font(U"\U000F0E1E").draw(26, Arg::leftCenter = rect.leftCenter().movedBy(8, -1), color);
             font(e.message).draw(18, rect.pos + Vec2{40, 2}, color);

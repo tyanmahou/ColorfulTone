@@ -15,9 +15,12 @@ namespace ct
 
             double currentIndex = 0.0;
             double velocity = 0.0;
+
+            bool isError = false;
         };
     public:
         void show(s3d::StringView message, s3d::StringView detail = U"");
+        void error(s3d::StringView message, s3d::StringView detail = U"");
         void update(double dt);
 
         void draw() const;
