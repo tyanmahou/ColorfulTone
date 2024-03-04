@@ -18,11 +18,19 @@ public:
 		}
 		Vec2 pos{ 0,0 };
 		if (SimpleGUI::Button(U"UTF-8エンコード修正", pos)) {
-			DevTools::FixFileEncode();
+			if (DevTools::FixFileEncode()) {
+				m_notify.show(U"COMPLETED");
+			} else {
+				m_notify.error(U"FAILED");
+			}
 		}
 		pos.y += 50;
 		if (SimpleGUI::Button(U"PSコンバート", pos)) {
-			DevTools::ConvertPS();
+			if (DevTools::ConvertPS()) {
+				m_notify.show(U"COMPLETED");
+			} else {
+				m_notify.error(U"FAILED");
+			}
 		}
 		pos.y += 50;
 		SimpleGUI::CheckBox(m_isOfficialFilter, U"公式フィルタ", pos + Vec2{ 200, 0 });

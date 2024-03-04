@@ -12,12 +12,12 @@ namespace ct::dev
         /// <summary>
         /// ファイルエンコードの修正
         /// </summary>
-        static void FixFileEncode();
+        static bool FixFileEncode();
 
         /// <summary>
         /// PixelShaderのコンバート
         /// </summary>
-        static void ConvertPS();
+        static bool ConvertPS();
 
         /// <summary>
         /// 解析
