@@ -198,7 +198,7 @@ namespace ct
         }
 
         // BPM変化 1につき
-        constexpr double BaseBpmRating = 25.0;
+        constexpr double BaseBpmRating = 20.0;
         constexpr double BpmRatingFactorMax = 200.0;
         Array<std::pair<int64, double>> bpmRatings;
         bpmRatings.reserve(sheet.getTempos().size());
@@ -224,7 +224,7 @@ namespace ct
                     bpmRatings.emplace_back(tempos[index].sample, Min<BPMType>(bpmDiff, BpmRatingFactorMax));
                     continue;
                 }
-                double bpmFactor = Min<BPMType>(100.0 * Pow(bpmDiff / 100.0, LogBase(0.75, 0.6)), BpmRatingFactorMax);
+                double bpmFactor = Min<BPMType>(bpmDiff, BpmRatingFactorMax);
                 double rating = BaseBpmRating * bpmFactor;
                 bpmRatings.emplace_back(tempos[index].sample, rating);
             }
