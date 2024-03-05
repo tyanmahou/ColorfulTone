@@ -87,16 +87,16 @@ namespace ct
         auto calcJackFactor = [](int64 diff) {
             int64 clampDiff = Clamp<int64>(diff, JackThresholdMin, JackThresholdMax);
             double r = Math::InvLerp(JackThresholdMin, JackThresholdMax, static_cast<double>(clampDiff));
-            constexpr double f = 2.0;
-            constexpr double e = 2.0;
+            constexpr double f = 1.2;
+            constexpr double e = 1.2;
             return (1 + f) / Pow(r * (Pow(1 + f, e) - 1) + 1, 1 / e);
             };
 
         // 速度補正
-        constexpr double SpeedRatioMax = 3.0;
+        constexpr double SpeedRatioMax = 5.0;
         auto calcSpeedRatingFactor = [](double ratio) {
             ratio = Min(ratio, SpeedRatioMax);
-            return 1.0 + 0.4 * EaseInOutSine(ErpUtil::InvEerp(1, SpeedRatioMax, ratio));
+            return 1.0 + 0.45 * EaseInOutSine(ErpUtil::InvEerp(1, SpeedRatioMax, ratio));
             };
         // ロング終点以外
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
@@ -198,8 +198,8 @@ namespace ct
         }
 
         // BPM変化 1につき
-        constexpr double BaseBpmRating = 20.0;
-        constexpr double BpmRatingFactorMax = 200.0;
+        constexpr double BaseBpmRating = 15.0;
+        constexpr double BpmRatingFactorMax = 300.0;
         Array<std::pair<int64, double>> bpmRatings;
         bpmRatings.reserve(sheet.getTempos().size());
         {
@@ -224,7 +224,7 @@ namespace ct
                     bpmRatings.emplace_back(tempos[index].sample, Min<BPMType>(bpmDiff, BpmRatingFactorMax));
                     continue;
                 }
-                double bpmFactor = Min<BPMType>(bpmDiff, BpmRatingFactorMax);
+                double bpmFactor = Min<BPMType>(100.0 * Pow(bpmDiff / 100.0, LogBase(0.75, 0.6)), BpmRatingFactorMax);
                 double rating = BaseBpmRating * bpmFactor;
                 bpmRatings.emplace_back(tempos[index].sample, rating);
             }
@@ -327,7 +327,7 @@ namespace ct
                     stopSum += stopRatings[stopIndex].second;
                     ++stopIndex;
                 }
-                double barRate = noteSum + bpmSum;// + stopSum;
+                double barRate = noteSum + bpmSum + stopSum;
                 if (barRate > 0) {
                     barRatings.push_back(barRate);
                 }
