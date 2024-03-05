@@ -143,19 +143,58 @@ namespace ct
         }
 
         template<class T, class U = double>
-        static U GeometricAbsDev(const s3d::Array<T>& ar, double pivot = 0.0)
+        static U GeometricAbsDev(const s3d::Array<T>& ar, double pivot = 1.0)
         {
             if (ar.isEmpty()) {
                 return 1.0;
             }
             double n = static_cast<double>(ar.size());
             double logDevAbsSum = 0;
+            double logPivot = s3d::Log(s3d::Abs(pivot));
             for (T v : ar) {
-                double logDev = s3d::Log(s3d::Abs(static_cast<double>(v))) - pivot;
+                double logDev = s3d::Log(s3d::Abs(static_cast<double>(v))) - logPivot;
                 logDevAbsSum += s3d::Abs(logDev);
             }
             double logPivotDev = logDevAbsSum / n;
             return std::exp(logPivotDev);
         }
+
+        template<class T, class U = double>
+        static U MultiModeGeometricMean(const s3d::Array<T>& ar)
+        {
+            if (ar.isEmpty()) {
+                return 1.0;
+            }
+            s3d::Array<T> multiMode = MultiMode<T>(ar);
+            return GeometricMean<T, U>(multiMode);
+        }
+
+        template<class T>
+        static s3d::Array<T> MultiMode(const s3d::Array<T>& ar)
+        {
+            s3d::HashTable<T, size_t> frequency;
+
+            // 各要素の出現回数を数える
+            for (const T& v : ar) {
+                frequency[v]++;
+            }
+
+            // 最頻値の出現回数を見つける
+            size_t maxFrequency = 0;
+            for (const auto& pair : frequency) {
+                maxFrequency = s3d::Max(maxFrequency, pair.second);
+            }
+
+            // 最頻値を見つける
+            s3d::Array<T> modes;
+            for (const auto& pair : frequency) {
+                if (pair.second == maxFrequency) {
+                    modes.push_back(pair.first);
+                }
+            }
+
+            return modes;
+        }
+
     };
 }
