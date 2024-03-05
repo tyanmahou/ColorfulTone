@@ -153,7 +153,7 @@ namespace ct
 
                 if (speeds[index] >= 10000) {
                     // ありえんほどデカい場合は見えないノーツなので別扱い
-                    rating *= 4.0;
+                    rating += 3000;
                 } else {
 
                     // 速度倍率補正
@@ -311,12 +311,10 @@ namespace ct
             for (int64 nextSample = startSample; nextSample <= endSample; nextSample += (44100 * 2)) {
                 double noteSum = 0;
                 // ノーツレート
-                size_t startNoteIndex = notesIndex;
                 while (notesIndex < notesRatings.size() && notesRatings[notesIndex].first < nextSample) {
                     noteSum += notesRatings[notesIndex].second;
                     ++notesIndex;
                 }
-                size_t endNoteIndex = notesIndex;
 
                 // BPM変化レート
                 double bpmSum = 0;
