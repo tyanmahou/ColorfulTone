@@ -195,6 +195,39 @@ namespace ct
 
             return modes;
         }
+        template<class T>
+        static size_t KindNum(const s3d::Array<T>& ar)
+        {
+            s3d::HashSet<T> set;
+            for (const T& v : ar) {
+                set.insert(v);
+            }
+            return set.size();
+        }
+        template<class T, class U = double>
+        static U KindComplexity(const s3d::Array<T>& ar, double base = 0.1)
+        {
+            size_t n = ar.size();
+            if (n <= 1) {
+                return 0;
+            }
+            size_t changeCount = 0;
+            s3d::int32 sign = 0;
+            for (size_t index = 1; index < n; ++index) {
+                if (ar[index] != ar[index - 1]) {
+                    if (sign == 0) {
+                        ++changeCount;
+                    } else if (sign > 0 && ar[index] < ar[index - 1]) {
+                        ++changeCount;
+                    } else if (sign < 0 && ar[index] > ar[index - 1]) {
+                        ++changeCount;
+                    }
 
+                    sign = (ar[index] > ar[index - 1]) ? 1 : -1;
+                }
+            }
+            size_t k = KindNum(ar);
+            return s3d::Pow(1.0 + base, changeCount * k / static_cast<double>(n - 1)) - 1.0;
+        }
     };
 }
