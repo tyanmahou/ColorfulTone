@@ -171,6 +171,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Fps\Fps.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Http\RestRequestor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Input\InputUtl.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Math\ErpUtil.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Math\StatisticsUtil.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Migration\Migration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Notify\Notify.hpp" />

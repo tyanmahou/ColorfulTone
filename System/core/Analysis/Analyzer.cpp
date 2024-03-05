@@ -1,4 +1,5 @@
 ﻿#include <core/Analysis/Analyzer.hpp>
+#include <utils/Math/ErpUtil.hpp>
 #include <utils/Math/StatisticsUtil.hpp>
 #include <Siv3D.hpp>
 
@@ -86,7 +87,7 @@ namespace ct
         auto calcJackFactor = [](int64 diff) {
             int64 clampDiff = Clamp<int64>(diff, JackThresholdMin, JackThresholdMax);
             double r = Math::InvLerp(JackThresholdMin, JackThresholdMax, static_cast<double>(clampDiff));
-            constexpr double f = 1.0;
+            constexpr double f = 2.0;
             constexpr double e = 2.0;
             return (1 + f) / Pow(r * (Pow(1 + f, e) - 1) + 1, 1 / e);
             };
@@ -95,7 +96,7 @@ namespace ct
         constexpr double SpeedRatioMax = 3.0;
         auto calcSpeedRatingFactor = [](double ratio) {
             ratio = Min(ratio, SpeedRatioMax);
-            return 1.0 + 0.2 * EaseInOutSine(Math::InvLerp(1, SpeedRatioMax, ratio));
+            return 1.0 + 0.4 * EaseInOutSine(ErpUtil::InvEerp(1, SpeedRatioMax, ratio));
             };
         // ロング終点以外
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
@@ -326,7 +327,7 @@ namespace ct
                     stopSum += stopRatings[stopIndex].second;
                     ++stopIndex;
                 }
-                double barRate = noteSum;// +bpmSum + stopSum;
+                double barRate = noteSum + bpmSum;// + stopSum;
                 if (barRate > 0) {
                     barRatings.push_back(barRate);
                 }
