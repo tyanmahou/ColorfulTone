@@ -86,14 +86,16 @@ namespace ct
         auto calcJackFactor = [](int64 diff) {
             int64 clampDiff = Clamp<int64>(diff, JackThresholdMin, JackThresholdMax);
             double r = Math::InvLerp(JackThresholdMin, JackThresholdMax, static_cast<double>(clampDiff));
-            return 1.5 * s3d::Pow(-(r - 1), LogBase(0.5, (1 - 0.125))) + 1;
+            constexpr double f = 2.0;
+            constexpr double e = 2.3;
+            return (1 + f) / Pow(r * (Pow(1 + f, e) - 1) + 1, 1 / e);
             };
 
         // 速度補正
         constexpr double SpeedRatioMax = 3.0;
         auto calcSpeedRatingFactor = [](double ratio) {
             ratio = Min(ratio, SpeedRatioMax);
-            return 1.0 + 0.6 * EaseInOutSine(Math::InvLerp(1, SpeedRatioMax, ratio));
+            return 1.0 + 0.33 * EaseInOutSine(Math::InvLerp(1, SpeedRatioMax, ratio));
             };
         auto calcSpeedDiffRatingFactor = [](double ratio) {
             ratio = Min(ratio, SpeedRatioMax);
