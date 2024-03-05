@@ -153,7 +153,7 @@ namespace ct
 
                 if (speeds[index] >= 10000) {
                     // ありえんほどデカい場合は見えないノーツなので別扱い
-                    rating += 3000;
+                    rating += 2500;
                 } else {
 
                     // 速度倍率補正
@@ -365,17 +365,21 @@ namespace ct
                     continue;
                 }
                 if (notes[index].sample < notes[index - 1].sample + (44100 * 2)) {
-                    targetSpeed.push_back(notes[index].speed);
+                    targetSpeed.push_back(notes[index - 1].speed);
                 }
             }
             Array<double> speedDiff;
             for (size_t index = 1; index < targetSpeed.size(); ++index) {
                 double ratio = targetSpeed[index] / targetSpeed[index - 1];
-                speedDiff << Sign(ratio) * Clamp(Abs(ratio), 1 / 5.0, 5.0);
+                speedDiff << ratio;
             }
             double speedDev = StatisticsUtil::GeometricAbsDev(speedDiff);
-            double rate = 1.75 * Saturate(s3d::Log(speedDev) / s3d::Log(1.5)); // Pow(1 - Pow(1 - Saturate(s3d::Log(speedDev) / s3d::Log(5.0)), 10.0), 20.0);
-            speedRating = (ratingMix * Math::Lerp(1, 1.75, Math::InvLerp(0, 1.75, rate))) - ratingMix;
+            if (speedDev > 1.1) {
+                Console << U"[{}]{}"_fmt(sheet.getPath(), speedDev);
+            }
+            constexpr double RateFactor = 1.75;
+            double rate = RateFactor * Saturate(s3d::Log(speedDev) / s3d::Log(1.5));
+            speedRating = (ratingMix * Math::Lerp(1, RateFactor, Math::InvLerp(0, RateFactor, rate))) - ratingMix;
         }
         const double otherRating = ratingMix + speedRating;
 
