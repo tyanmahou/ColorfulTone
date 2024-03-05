@@ -35,6 +35,19 @@ namespace ct
             }
             return static_cast<U>(s3d::Exp(logSum / ar.size()));
         }
+
+        template<class T, class U = double>
+        static U StdDev(const s3d::Array<T>& ar)
+        {
+            if (ar.isEmpty()) {
+                return 0.0;
+            }
+            auto stdDev = s3d::Statistics::PopulationStandardDeviation(ar.begin(), ar.end());
+            if (!stdDev) {
+                return 0.0;
+            }
+            return *stdDev;
+        }
         template<class T, class U = double>
         static U Median(const s3d::Array<T>& ar)
         {
@@ -127,6 +140,22 @@ namespace ct
             } else {
                 return sorted[lowerIndex] + fraction * (sorted[lowerIndex + 1] - sorted[lowerIndex]);
             }
+        }
+
+        template<class T, class U = double>
+        static U GeometricAbsDev(const s3d::Array<T>& ar, double pivot = 0.0)
+        {
+            if (ar.isEmpty()) {
+                return 1.0;
+            }
+            double n = static_cast<double>(ar.size());
+            double logDevAbsSum = 0;
+            for (T v : ar) {
+                double logDev = s3d::Log(s3d::Abs(static_cast<double>(v))) - pivot;
+                logDevAbsSum += s3d::Abs(logDev);
+            }
+            double logPivotDev = logDevAbsSum / n;
+            return std::exp(logPivotDev);
         }
     };
 }

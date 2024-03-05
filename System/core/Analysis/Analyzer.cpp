@@ -318,36 +318,6 @@ namespace ct
                 }
                 size_t endNoteIndex = notesIndex;
 
-                double speedRating = 0;
-                {
-                    Array<double> targetSpeed;
-                    size_t fixedStartIndex = startNoteIndex;
-                    if (startNoteIndex > 0) {
-                        if (notes[startNoteIndex].sample < notes[startNoteIndex - 1].sample + (44100 * 2)) {
-                            fixedStartIndex = startNoteIndex - 1;
-                        }
-                    }
-                    for (size_t index = fixedStartIndex; index < endNoteIndex; ++index) {
-                        if (speeds[index] >= 10000 || speeds[index] <= 0) {
-                            continue;
-                        }
-                        if (notes[index].type == 9) {
-                            // 白は無視
-                            continue;
-                        }
-                        targetSpeed.push_back(notes[index].speed);
-                    }
-                    Array<double> speedDiff;
-                    for (size_t index = 1; index < targetSpeed.size(); ++index) {
-                        double ratio = targetSpeed[index] / targetSpeed[index - 1];
-                        speedDiff << Sign(ratio) * Clamp(Abs(ratio), 1 / SpeedRatioMax, SpeedRatioMax);
-                    }
-                    double speedStdDev = StatisticsUtil::GeometricStdDev(speedDiff);
-
-                    double rate = Pow(1 - Pow(1 - Saturate(s3d::Log(speedStdDev) / s3d::Log(5.0)), 10.0), 20.0);
-                    speedRating = 20000 * rate;
-                }
-
                 // BPM変化レート
                 double bpmSum = 0;
                 while (bpmIndex < bpmRatings.size() && bpmRatings[bpmIndex].first < nextSample) {
@@ -360,7 +330,7 @@ namespace ct
                     stopSum += stopRatings[stopIndex].second;
                     ++stopIndex;
                 }
-                double barRate = noteSum + bpmSum + stopSum + speedRating;
+                double barRate = noteSum + bpmSum + stopSum;
                 if (barRate > 0) {
                     barRatings.push_back(barRate);
                 }
@@ -384,11 +354,38 @@ namespace ct
             + percentile97Rating * 0.33
             + maxRating * 0.08;
 
+        // バラつき補正
+        double speedRating = 0;
+        {
+            Array<double> targetSpeed;
+            for (size_t index = 1; index < notes.size(); ++index) {
+                if (speeds[index] >= 10000 || speeds[index] <= 0) {
+                    continue;
+                }
+                if (notes[index].type == 9) {
+                    // 白は無視
+                    continue;
+                }
+                if (notes[index].sample < notes[index - 1].sample + (44100 * 2)) {
+                    targetSpeed.push_back(notes[index].speed);
+                }
+            }
+            Array<double> speedDiff;
+            for (size_t index = 1; index < targetSpeed.size(); ++index) {
+                double ratio = targetSpeed[index] / targetSpeed[index - 1];
+                speedDiff << Sign(ratio) * Clamp(Abs(ratio), 1 / 5.0, 5.0);
+            }
+            double speedDev = StatisticsUtil::GeometricAbsDev(speedDiff);
+            double rate = 1.75 * Saturate(s3d::Log(speedDev) / s3d::Log(1.5)); // Pow(1 - Pow(1 - Saturate(s3d::Log(speedDev) / s3d::Log(5.0)), 10.0), 20.0);
+            speedRating = (ratingMix * Math::Lerp(1, 1.75, Math::InvLerp(0, 1.75, rate))) - ratingMix;
+        }
+        const double otherRating = ratingMix + speedRating;
+
         // ノーツ数重み補正
-        const double ratingPerNote = ratingMix / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 1));
+        const double ratingPerNote = otherRating / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 1));
         const double noteWeight = ratingPerNote * ratingPerNote / 2.0;
 
-        const double ratingResult = ratingMix + noteWeight;
+        const double ratingResult = otherRating + noteWeight;
         return AnalyzeResult
         {
             .rating = static_cast<uint64>(Math::Round(ratingResult)),

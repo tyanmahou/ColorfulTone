@@ -65,6 +65,7 @@ namespace ct
         if (!csv) {
             return false;
         }
+        m_path = s3d::FilePath{ path };
 
         size_t rows = csv.rows();			// 行数
         String head;						// 1列目のデータを文字列で

@@ -149,6 +149,11 @@ namespace ct
         s3d::String getLevelNameAndLevel() const;
 
         s3d::int64 calcTimingSample(double count) const;
+
+        const s3d::FilePath& getPath() const
+        {
+            return m_path;
+        }
     private:
         //** メタ情報 **//
         s3d::int32 m_lv;                  // レベル
@@ -168,5 +173,7 @@ namespace ct
         s3d::Array<LyricEntity> m_lyrics; // 歌詞情報
         s3d::Array<StopEntity> m_stops;	  // ストップのデータ
         s3d::Array<TempoEntity> m_tempos; // テンポ配列
+
+        s3d::FilePath m_path;
     };
 }
