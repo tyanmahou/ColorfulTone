@@ -374,9 +374,6 @@ namespace ct
                 speedDiff << ratio;
             }
             double speedDev = StatisticsUtil::GeometricAbsDev(speedDiff);
-            if (speedDev > 1.1) {
-                Console << U"[{}]{}"_fmt(sheet.getPath(), speedDev);
-            }
             constexpr double RateFactor = 1.75;
             double rate = RateFactor * Saturate(s3d::Log(speedDev) / s3d::Log(1.5));
             speedRating = (ratingMix * Math::Lerp(1, RateFactor, Math::InvLerp(0, RateFactor, rate))) - ratingMix;
