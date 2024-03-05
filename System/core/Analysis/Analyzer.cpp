@@ -86,7 +86,7 @@ namespace ct
         auto calcJackFactor = [](int64 diff) {
             int64 clampDiff = Clamp<int64>(diff, JackThresholdMin, JackThresholdMax);
             double r = Math::InvLerp(JackThresholdMin, JackThresholdMax, static_cast<double>(clampDiff));
-            return 1.0 * s3d::Pow(-(r - 1), LogBase(0.25, 0.75)) + 1;
+            return 1.5 * s3d::Pow(-(r - 1), LogBase(0.5, (1 - 0.125))) + 1;
             };
 
         // 速度補正
@@ -173,22 +173,6 @@ namespace ct
                         double backFactor = (notes[index].speed < 0) ? BackFactor : 1.0;
                         rating *= backFactor;
                     }
-                    // 前後速度差補正
-                    if (index > 0 && notes[index].sample <= notes[index - 1].sample + (44100 * 2)) {
-                        if (speeds[index - 1] >= 10000) {
-                            // 見えてないノーツなので影響なし
-                        } else {
-                            double lowSpeed = Min(Abs(notes[index].speed), Abs(notes[index - 1].speed));
-                            double highSpeed = Max(Abs(notes[index].speed), Abs(notes[index - 1].speed));
-                            double speedRatio = 0;
-                            if (lowSpeed == 0) {
-                                speedRatio = 2;
-                            } else {
-                                speedRatio = highSpeed / lowSpeed;
-                            }
-                            rating += 3800 * calcSpeedDiffRatingFactor(speedRatio);
-                        }
-                    }
                 }
                 if (index > 0 && (notes[index].type == 9 && notes[index - 1].type == 9) && (index + 1 >= notes.size() || notes[index + 1].type == 9)) {
                     // 連続する白ノーツは特殊的に弱くする
@@ -216,7 +200,7 @@ namespace ct
 
         // BPM変化 1につき
         constexpr double BaseBpmRating = 25.0;
-        constexpr double BpmRatingFactorMax = 160.0;
+        constexpr double BpmRatingFactorMax = 200.0;
         Array<std::pair<int64, double>> bpmRatings;
         bpmRatings.reserve(sheet.getTempos().size());
         {
@@ -327,10 +311,43 @@ namespace ct
             for (int64 nextSample = startSample; nextSample <= endSample; nextSample += (44100 * 2)) {
                 double noteSum = 0;
                 // ノーツレート
+                size_t startNoteIndex = notesIndex;
                 while (notesIndex < notesRatings.size() && notesRatings[notesIndex].first < nextSample) {
                     noteSum += notesRatings[notesIndex].second;
                     ++notesIndex;
                 }
+                size_t endNoteIndex = notesIndex;
+
+                double speedRating = 0;
+                {
+                    Array<double> targetSpeed;
+                    size_t fixedStartIndex = startNoteIndex;
+                    if (startNoteIndex > 0) {
+                        if (notes[startNoteIndex].sample < notes[startNoteIndex - 1].sample + (44100 * 2)) {
+                            fixedStartIndex = startNoteIndex - 1;
+                        }
+                    }
+                    for (size_t index = fixedStartIndex; index < endNoteIndex; ++index) {
+                        if (speeds[index] >= 10000 || speeds[index] <= 0) {
+                            continue;
+                        }
+                        if (notes[index].type == 9) {
+                            // 白は無視
+                            continue;
+                        }
+                        targetSpeed.push_back(notes[index].speed);
+                    }
+                    Array<double> speedDiff;
+                    for (size_t index = 1; index < targetSpeed.size(); ++index) {
+                        double ratio = targetSpeed[index] / targetSpeed[index - 1];
+                        speedDiff << Sign(ratio) * Clamp(Abs(ratio), 1 / SpeedRatioMax, SpeedRatioMax);
+                    }
+                    double speedStdDev = StatisticsUtil::GeometricStdDev(speedDiff);
+
+                    double rate = Pow(1 - Pow(1 - Saturate(s3d::Log(speedStdDev) / s3d::Log(5.0)), 10.0), 20.0);
+                    speedRating = 20000 * rate;
+                }
+
                 // BPM変化レート
                 double bpmSum = 0;
                 while (bpmIndex < bpmRatings.size() && bpmRatings[bpmIndex].first < nextSample) {
@@ -343,7 +360,7 @@ namespace ct
                     stopSum += stopRatings[stopIndex].second;
                     ++stopIndex;
                 }
-                double barRate = noteSum + bpmSum + stopSum;
+                double barRate = noteSum + bpmSum + stopSum + speedRating;
                 if (barRate > 0) {
                     barRatings.push_back(barRate);
                 }

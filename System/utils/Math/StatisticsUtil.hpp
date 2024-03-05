@@ -94,14 +94,14 @@ namespace ct
         static U GeometricStdDev(const s3d::Array<T>& ar)
         {
             if (ar.isEmpty()) {
-                return U{};
+                return 1.0;
             }
             auto logAr = ar.map([](const T& v) {
                 return s3d::Log(v);
                 });
             auto logStdDev = s3d::Statistics::PopulationStandardDeviation(logAr.begin(), logAr.end());
             if (!logStdDev) {
-                return U{};
+                return 1.0;
             }
             return static_cast<U>(s3d::Exp(*logStdDev));
         }
