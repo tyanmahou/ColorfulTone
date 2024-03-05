@@ -87,7 +87,7 @@ namespace ct
             int64 clampDiff = Clamp<int64>(diff, JackThresholdMin, JackThresholdMax);
             double r = Math::InvLerp(JackThresholdMin, JackThresholdMax, static_cast<double>(clampDiff));
             constexpr double f = 1.0;
-            constexpr double e = 2.2;
+            constexpr double e = 2.0;
             return (1 + f) / Pow(r * (Pow(1 + f, e) - 1) + 1, 1 / e);
             };
 
@@ -95,7 +95,7 @@ namespace ct
         constexpr double SpeedRatioMax = 3.0;
         auto calcSpeedRatingFactor = [](double ratio) {
             ratio = Min(ratio, SpeedRatioMax);
-            return 1.0 + 0 * EaseInOutSine(Math::InvLerp(1, SpeedRatioMax, ratio));
+            return 1.0 + 0.2 * EaseInOutSine(Math::InvLerp(1, SpeedRatioMax, ratio));
             };
         // ロング終点以外
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
