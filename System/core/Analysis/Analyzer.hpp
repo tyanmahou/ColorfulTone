@@ -20,6 +20,9 @@ namespace ct
         s3d::uint64 maxRating;
         // ノーツ重み補正値
         s3d::uint64 noteWeightRating;
+
+        // スクロール速度分散
+        double speedDev;
     };
     /// <summary>
     /// アナライザー

@@ -199,7 +199,7 @@ namespace ct
 
         // BPM変化 1につき
         constexpr double BaseBpmRating = 20.0;
-        constexpr double BpmRatingFactorMax = 300.0;
+        constexpr double BpmRatingFactorMax = 200.0;
         Array<std::pair<int64, double>> bpmRatings;
         bpmRatings.reserve(sheet.getTempos().size());
         {
@@ -223,7 +223,7 @@ namespace ct
                 double rate = Min(bpmDiff / 700.0, 1.0);
                 rate = Pow(rate, 1.25);
                 rate = 1 - Pow(1 - rate, 5.0);
-                const double bpmFactor = BpmRatingFactorMax * rate;
+                const double bpmFactor = Min(BpmRatingFactorMax, 300 * rate);
 
                 if (notes[notesIndex].sample > tempos[index].sample + (44100 * 2)) {
                     // 2秒より離れているならレート換算ほぼなし
@@ -358,8 +358,9 @@ namespace ct
 
         // バラつき補正
         double speedRating = 0;
+        double speedDev = 1;
         {
-            Array<double> targetSpeed;
+            Array<std::pair<int64, double>> targetSpeed;
             for (size_t index = 0; index < notes.size(); ++index) {
                 if (speeds[index] >= 10000 || speeds[index] <= 0) {
                     continue;
@@ -368,27 +369,25 @@ namespace ct
                     // 白は無視
                     continue;
                 }
-                if (index == 0 || notes[index].sample < notes[index - 1].sample + (44100 * 2)) {
-                    targetSpeed.push_back(Abs(notes[index].speed));
-                } else {
-                    targetSpeed.push_back(targetSpeed.back());
-                }
+                targetSpeed.emplace_back(notes[index].sample, Abs(notes[index].speed));
             }
             Array<double> speedDiff;
             for (size_t index = 1; index < targetSpeed.size(); ++index) {
-                double ratio = Clamp(targetSpeed[index] / targetSpeed[index - 1], 1 / SpeedRatioMax, SpeedRatioMax);
-                speedDiff << ratio;
+                if (targetSpeed[index].first < targetSpeed[index - 1].first + 22050) {
+                    double ratio = Clamp(targetSpeed[index].second / targetSpeed[index - 1].second, 1 / SpeedRatioMax, SpeedRatioMax);
+                    speedDiff << ratio;
+                }
             }
-            double speedDev = StatisticsUtil::GeometricAbsDev(speedDiff);
-            speedRating = ratingMix * (speedDev - 1.0);
+            speedDev = StatisticsUtil::GeometricAbsDev(speedDiff, 1.0);
+            speedRating = (ratingMix * 0.7 + 9000) * (speedDev - 1.0);
         }
         const double otherRating = ratingMix + speedRating;
 
         // ノーツ数重み補正
         const double ratingPerNote = otherRating / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 1));
-        const double noteWeight = Pow(ratingPerNote / 8.0, 4.51) / 8.0;
+        const double noteWeight = Pow(ratingPerNote, 2.8) / 63.0;
 
-        const double ratingResult = otherRating;// +noteWeight;
+        const double ratingResult = otherRating + noteWeight;
         return AnalyzeResult
         {
             .rating = static_cast<uint64>(Math::Round(ratingResult)),
@@ -398,6 +397,7 @@ namespace ct
             .percentile97Rating = static_cast<uint64>(Math::Round(percentile97Rating)),
             .maxRating = static_cast<uint64>(Math::Round(maxRating)),
             .noteWeightRating = static_cast<uint64>(Math::Round(noteWeight)),
+            .speedDev = speedDev,
         };
     }
 }

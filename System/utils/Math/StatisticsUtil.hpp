@@ -143,6 +143,20 @@ namespace ct
         }
 
         template<class T, class U = double>
+        static U AbsDev(const s3d::Array<T>& ar, double pivot = 0.0)
+        {
+            if (ar.isEmpty()) {
+                return 0.0;
+            }
+            double n = static_cast<double>(ar.size());
+            double devAbsSum = 0;
+            for (T v : ar) {
+                double dev = static_cast<double>(v) - pivot;
+                devAbsSum += s3d::Abs(dev);
+            }
+            return devAbsSum / n;
+        }
+        template<class T, class U = double>
         static U GeometricAbsDev(const s3d::Array<T>& ar, double pivot = 1.0)
         {
             if (ar.isEmpty()) {
