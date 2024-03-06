@@ -355,7 +355,7 @@ namespace ct
         double speedRating = 0;
         {
             Array<double> targetSpeed;
-            for (size_t index = 1; index < notes.size(); ++index) {
+            for (size_t index = 0; index < notes.size(); ++index) {
                 if (speeds[index] >= 10000 || speeds[index] <= 0) {
                     continue;
                 }
@@ -363,27 +363,27 @@ namespace ct
                     // 白は無視
                     continue;
                 }
-                if (notes[index].sample < notes[index - 1].sample + (44100 * 2)) {
-                    targetSpeed.push_back(notes[index - 1].speed);
+                if (index == 0 || notes[index].sample < notes[index - 1].sample + (44100 * 2)) {
+                    targetSpeed.push_back(Abs(notes[index].speed));
+                } else {
+                    targetSpeed.push_back(targetSpeed.back());
                 }
             }
             Array<double> speedDiff;
             for (size_t index = 1; index < targetSpeed.size(); ++index) {
-                double ratio = targetSpeed[index] / targetSpeed[index - 1];
+                double ratio = Clamp(targetSpeed[index] / targetSpeed[index - 1], 1 / SpeedRatioMax, SpeedRatioMax);
                 speedDiff << ratio;
             }
             double speedDev = StatisticsUtil::GeometricAbsDev(speedDiff);
-            constexpr double RateFactor = 1.75;
-            double rate = RateFactor * Saturate(s3d::Log(speedDev) / s3d::Log(1.5));
-            speedRating = (ratingMix * Math::Lerp(1, RateFactor, Math::InvLerp(0, RateFactor, rate))) - ratingMix;
+            speedRating = ratingMix * (speedDev - 1.0);
         }
         const double otherRating = ratingMix + speedRating;
 
         // ノーツ数重み補正
         const double ratingPerNote = otherRating / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 1));
-        const double noteWeight = ratingPerNote * ratingPerNote / 2.0;
+        const double noteWeight = Pow(ratingPerNote / 8.0, 4.51) / 8.0;
 
-        const double ratingResult = ratingMix; // otherRating + noteWeight;
+        const double ratingResult = otherRating;// +noteWeight;
         return AnalyzeResult
         {
             .rating = static_cast<uint64>(Math::Round(ratingResult)),

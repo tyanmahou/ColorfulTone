@@ -211,16 +211,18 @@ namespace ct
             if (n <= 1) {
                 return 0;
             }
-            size_t changeCount = 0;
+            double changeCount = 0;
             s3d::int32 sign = 0;
             for (size_t index = 1; index < n; ++index) {
                 if (ar[index] != ar[index - 1]) {
                     if (sign == 0) {
-                        ++changeCount;
+                        changeCount += 1;
                     } else if (sign > 0 && ar[index] < ar[index - 1]) {
-                        ++changeCount;
+                        changeCount += 1;
                     } else if (sign < 0 && ar[index] > ar[index - 1]) {
-                        ++changeCount;
+                        changeCount += 1;
+                    } else {
+                        changeCount += 0.1;
                     }
 
                     sign = (ar[index] > ar[index - 1]) ? 1 : -1;
