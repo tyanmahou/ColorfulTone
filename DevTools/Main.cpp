@@ -33,7 +33,8 @@ public:
 			}
 		}
 		pos.y += 50;
-		SimpleGUI::CheckBox(m_isOfficialFilter, U"公式フィルタ", pos + Vec2{ 200, 0 });
+		SimpleGUI::CheckBox(m_isOfficialFilter, U"公式フィルタ", pos + Vec2{ 130, 0 });
+		SimpleGUI::CheckBox(m_isBuildLevelPredictionModel, U"モデルビルド", pos + Vec2{ 310, 0 });
 		if (SimpleGUI::Button(U"譜面解析", pos)) {
 			m_fiber.reset(std::bind_back(&DevMain::onAnalyze, this));
 		}
@@ -47,15 +48,16 @@ public:
 
 	Coro::Fiber<void> onAnalyze()
 	{
-		bool result = co_await DevTools::AnalyzeAsync(m_isOfficialFilter);
-		if (result) {
-			m_notify.show(U"COMPLETED");
-		} else {
-			m_notify.error(U"FAILED");
+		auto result = co_await DevTools::AnalyzeAsync(m_isOfficialFilter, m_isBuildLevelPredictionModel);
+		if (result.isCompleted()) {
+			m_notify.show(U"COMPLETED", result.message);
+		} else if(result.isFailed()) {
+			m_notify.error(U"FAILED", result.message);
 		}
 	}
 private:
 	bool m_isOfficialFilter = true;
+	bool m_isBuildLevelPredictionModel = false;
 	Coro::FiberHolder<void> m_fiber;
 	Notify m_notify;
 };

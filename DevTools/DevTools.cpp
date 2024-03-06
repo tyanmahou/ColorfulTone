@@ -35,11 +35,11 @@ namespace ct::dev
         }
         return isSuccess;
     }
-    Coro::Fiber<bool> DevTools::AnalyzeAsync(bool isOfficialOnly)
+    Coro::Fiber<ProcessResult> DevTools::AnalyzeAsync(bool isOfficialOnly, bool isBuildModel)
     {
         auto path = Dialog::SelectFolder(U"Music");
         if (!path) {
-            co_return false;
+            co_return {.status = ProcessResult::Status::Canceled};
         }
         auto iniFiles = FileSystem::DirectoryContents(*path).filter([&](const FilePath& p) {
             const bool isOfficial = isOfficialOnly ? !U".*\\d{4}_\\d{2}"_re.match(p).isEmpty() : true;
@@ -95,7 +95,10 @@ namespace ct::dev
                 {
                     TextWriter log(*savePath);
                     if (!log) {
-                        co_return false;
+                        co_return{ 
+                            .status = ProcessResult::Status::Failed,
+                            .message = U"解析結果の保存に失敗しました"
+                        };
                     }
                     log.writeln(U"No, Path, Lv, Star, Count, Time, Rating, Mean, Median, 80%Tile, 97%Tile, Max, NoteWeight, SpeedDev");
                     size_t no = 1;
@@ -168,6 +171,29 @@ namespace ct::dev
                 s3d::System::LaunchFile(*savePath);
             }
         }
-        co_return true;
+        if (isBuildModel) {
+            if (auto savePath = Dialog::SaveFile({ FileFilter::CSV() }, U"", U"モデル保存")) {
+                CSV model;
+                for (const Data& d : data) {
+                    int32 lv = d.level;
+                    if (d.star > StarLv::None) {
+                        lv = 13 + static_cast<int32>(d.star);
+                    }
+                    int64 rating = d.result.rating;
+
+                    model.writeRow(rating, lv);
+                }
+                if (!model.save(*savePath)) {
+                    co_return{
+                        .status = ProcessResult::Status::Failed,
+                        .message = U"モデルの保存に失敗しました"
+                    };
+                }
+            }
+        }
+        co_return {
+            .status = ProcessResult::Status::Completed,
+            .message = U"譜面解析が完了しました"
+        };
     }
 }

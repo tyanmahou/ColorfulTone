@@ -3,6 +3,30 @@
 
 namespace ct::dev
 {
+    struct ProcessResult
+    {
+        enum class Status
+        {
+            Completed,
+            Failed,
+            Canceled,
+        };
+        Status status;
+        s3d::String message;
+
+        bool isCompleted() const
+        {
+            return status == Status::Completed;
+        }
+        bool isFailed() const
+        {
+            return status == Status::Failed;
+        }
+        bool isCanceled() const
+        {
+            return status == Status::Canceled;
+        }
+    };
     /// <summary>
     /// 開発ツール
     /// </summary>
@@ -22,6 +46,6 @@ namespace ct::dev
         /// <summary>
         /// 解析
         /// </summary>
-        static Coro::Fiber<bool> AnalyzeAsync(bool isOfficialOnly);
+        static Coro::Fiber<ProcessResult> AnalyzeAsync(bool isOfficialOnly, bool isBuildModel = false);
     };
 }
