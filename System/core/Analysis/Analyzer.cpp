@@ -219,12 +219,17 @@ namespace ct
                 if (bpmDiff <= 0) {
                     continue;
                 }
+
+                double rate = Min(bpmDiff / 700.0, 700.0);
+                rate = Pow(rate, 1.25);
+                rate = 1 - Pow(1 - rate, 5.0);
+                const double bpmFactor = BpmRatingFactorMax * rate;
+
                 if (notes[notesIndex].sample > tempos[index].sample + (44100 * 2)) {
                     // 2秒より離れているならレート換算ほぼなし
-                    bpmRatings.emplace_back(tempos[index].sample, Min<BPMType>(bpmDiff, BpmRatingFactorMax));
+                    bpmRatings.emplace_back(tempos[index].sample, bpmFactor);
                     continue;
                 }
-                double bpmFactor = Min<BPMType>(100.0 * Pow(bpmDiff / 100.0, LogBase(0.75, 0.6)), BpmRatingFactorMax);
                 double rating = BaseBpmRating * bpmFactor;
                 bpmRatings.emplace_back(tempos[index].sample, rating);
             }
