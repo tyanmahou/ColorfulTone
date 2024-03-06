@@ -97,9 +97,11 @@ namespace ct::dev
                     if (!log) {
                         co_return false;
                     }
-                    log.writeln(U"Path, Lv, Star, Count, Time, Rating, Mean, Median, 80%Tile, 97%Tile, Max, NoteWeight, SpeedDev");
+                    log.writeln(U"No, Path, Lv, Star, Count, Time, Rating, Mean, Median, 80%Tile, 97%Tile, Max, NoteWeight, SpeedDev");
+                    size_t no = 1;
                     for (const Data& d : data) {
-                        String ln = U"{}, {}, {}, {}, {:.2f}, {}, {}, {}, {}, {}, {}, {}, {}"_fmt(
+                        String ln = U"{}, {}, {}, {}, {}, {:.2f}, {}, {}, {}, {}, {}, {}, {}, {}"_fmt(
+                            no,
                             d.path, 
                             d.level,
                             ToStr(d.star),
@@ -115,6 +117,7 @@ namespace ct::dev
                             d.result.speedDev
                         );
                         log.writeln(ln);
+                        ++no;
                     }
                     log.writeln(U"");
                     log.writeln(U"============================");

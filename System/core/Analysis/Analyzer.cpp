@@ -77,7 +77,8 @@ namespace ct
 
     AnalyzeResult Analyzer::Analyze(const SheetMusic& sheet)
     {
-        constexpr double BackFactor = 1.5;
+        constexpr double BackFactor = 2.0;
+
         // ノーツ1つにつき
         constexpr double BaseNoteRating = 1000.0;
 
@@ -292,7 +293,7 @@ namespace ct
                     double overlapFactor = 1.0;
                     if (isBack) {
                         if (notes[i].sample >= midSample) {
-                            overlapFactor = BackFactor;
+                            overlapFactor = notes[i].speed > 0 ? BackFactor : (1 / BackFactor);
                         }
                     }
                     notesRatings[i].second *= overlapFactor;
