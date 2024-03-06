@@ -96,7 +96,7 @@ namespace ct
         constexpr double SpeedRatioMax = 5.0;
         auto calcSpeedRatingFactor = [](double ratio) {
             ratio = Min(ratio, SpeedRatioMax);
-            return 1.0 + 0.45 * EaseInOutSine(ErpUtil::InvEerp(1, SpeedRatioMax, ratio));
+            return 1.0 + 0.4 * EaseInOutSine(ErpUtil::InvEerp(1, SpeedRatioMax, ratio));
             };
         // ロング終点以外
         const auto notes = sheet.getNotes().filter([](const NoteEntity& e) {
@@ -198,7 +198,7 @@ namespace ct
         }
 
         // BPM変化 1につき
-        constexpr double BaseBpmRating = 15.0;
+        constexpr double BaseBpmRating = 20.0;
         constexpr double BpmRatingFactorMax = 300.0;
         Array<std::pair<int64, double>> bpmRatings;
         bpmRatings.reserve(sheet.getTempos().size());
@@ -220,7 +220,7 @@ namespace ct
                     continue;
                 }
 
-                double rate = Min(bpmDiff / 700.0, 700.0);
+                double rate = Min(bpmDiff / 700.0, 1.0);
                 rate = Pow(rate, 1.25);
                 rate = 1 - Pow(1 - rate, 5.0);
                 const double bpmFactor = BpmRatingFactorMax * rate;
