@@ -57,7 +57,11 @@ namespace
 		TextureAsset::Register(U"genre_level3", U"Resource/Img/MusicSelect/icon/level3.png");
 		TextureAsset::Register(U"genre_level4", U"Resource/Img/MusicSelect/icon/level4.png");
 		TextureAsset::Register(U"genre_level5", U"Resource/Img/MusicSelect/icon/level5.png");
-		TextureAsset::Register(U"genre_level_star", U"Resource/Img/MusicSelect/icon/level_star.png");
+		TextureAsset::Register(U"genre_level_star1", U"Resource/Img/MusicSelect/icon/level_star1.png");
+		TextureAsset::Register(U"genre_level_star2", U"Resource/Img/MusicSelect/icon/level_star2.png");
+		TextureAsset::Register(U"genre_level_star3", U"Resource/Img/MusicSelect/icon/level_star3.png");
+		TextureAsset::Register(U"genre_level_star4", U"Resource/Img/MusicSelect/icon/level_star4.png");
+		TextureAsset::Register(U"genre_level_star5", U"Resource/Img/MusicSelect/icon/level_star5.png");
 		TextureAsset::Register(U"genre_file", U"Resource/Img/MusicSelect/icon/file.png");
 		TextureAsset::Register(U"genre_all", U"Resource/Img/MusicSelect/icon/red.png");
 		TextureAsset::Register(U"genre_favorite", U"Resource/Img/MusicSelect/icon/favorite.png");

@@ -34,7 +34,17 @@ namespace ct
 					return s3d::TextureAsset(U"genre_level1");
 				}
 			case GenreType::StarLv:
-				return s3d::TextureAsset(U"genre_level_star");
+				if (m_order >= 5) {
+					return s3d::TextureAsset(U"genre_level_star5");
+				} else if (m_order >= 4) {
+					return s3d::TextureAsset(U"genre_level_star4");
+				} else if (m_order >= 3) {
+					return s3d::TextureAsset(U"genre_level_star3");
+				} else if (m_order >= 2) {
+					return s3d::TextureAsset(U"genre_level_star2");
+				} else {
+					return s3d::TextureAsset(U"genre_level_star1");
+				}
 			case GenreType::Favorite:
 				return s3d::TextureAsset(U"genre_favorite");
 			default:
