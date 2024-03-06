@@ -9,12 +9,12 @@ namespace ct
 	enum class StarLv
 	{
 		None,
-		OneWhite,   // ☆　　譜面
-		One,        // ★　　譜面
-		TwoWhite,   // ☆☆　譜面
-		Two,        // ★★　譜面
-		ThreeWhite, // ☆☆☆譜面
-		Three,      // ★★★譜面
+		WhiteOne,   // ☆　　譜面
+		WhiteTwo,   // ☆☆　譜面
+		WhiteThree, // ☆☆☆譜面
+		BlackOne,   // ★　　譜面
+		BlackTwo,   // ★★　譜面
+		BlackThree, // ★★★譜面
 	};
 
 	inline s3d::String ToStr(StarLv kind)
@@ -22,17 +22,17 @@ namespace ct
 		switch (kind) {
 		case StarLv::None:
 			return U"";
-		case StarLv::OneWhite:
+		case StarLv::WhiteOne:
 			return U"☆";
-		case StarLv::One:
-			return U"★";
-		case StarLv::TwoWhite:
+		case StarLv::WhiteTwo:
 			return U"☆☆";
-		case StarLv::Two:
-			return U"★★";
-		case StarLv::ThreeWhite:
+		case StarLv::WhiteThree:
 			return U"☆☆☆";
-		case StarLv::Three:
+		case StarLv::BlackOne:
+			return U"★";
+		case StarLv::BlackTwo:
+			return U"★★";
+		case StarLv::BlackThree:
 			return U"★★★";
 		default:
 			return U"";
@@ -41,23 +41,62 @@ namespace ct
 	inline StarLv ParseStarLv(s3d::StringView str)
 	{
 		if (str == U"☆") {
-			return StarLv::OneWhite;
-		}
-		if (str == U"★") {
-			return StarLv::One;
+			return StarLv::WhiteOne;
 		}
 		if (str == U"☆☆") {
-			return StarLv::TwoWhite;
-		}
-		if (str == U"★★") {
-			return StarLv::Two;
+			return StarLv::WhiteTwo;
 		}
 		if (str == U"☆☆☆") {
-			return StarLv::ThreeWhite;
+			return StarLv::WhiteThree;
+		}
+		if (str == U"★") {
+			return StarLv::BlackOne;
+		}
+		if (str == U"★★") {
+			return StarLv::BlackTwo;
 		}
 		if (str == U"★★★") {
-			return StarLv::Three;
+			return StarLv::BlackThree;
 		}
 		return StarLv::None;
+	}
+
+	inline bool IsWhiteStar(StarLv kind)
+	{
+		switch (kind) {
+		case StarLv::WhiteOne:
+		case StarLv::WhiteTwo:
+		case StarLv::WhiteThree:
+			return true;
+		default:
+			return false;
+		}
+	}
+	inline bool IsBlackStar(StarLv kind)
+	{
+		switch (kind) {
+		case StarLv::BlackOne:
+		case StarLv::BlackTwo:
+		case StarLv::BlackThree:
+			return true;
+		default:
+			return false;
+		}
+	}
+	inline s3d::int32 StarCount(StarLv kind)
+	{
+		switch (kind) {
+		case StarLv::WhiteOne:
+		case StarLv::BlackOne:
+			return 1;
+		case StarLv::WhiteTwo:
+		case StarLv::BlackTwo:
+			return 2;
+		case StarLv::WhiteThree:
+		case StarLv::BlackThree:
+			return 3;
+		default:
+			return 0;
+		}
 	}
 }

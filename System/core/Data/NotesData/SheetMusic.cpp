@@ -172,11 +172,11 @@ namespace ct
                         m_starLv = ParseStarLv(*starKind);
                     } else {
                         if (m_lv == 14) {
-                            m_starLv = StarLv::One;
+                            m_starLv = StarLv::WhiteThree;
                         } else if (m_lv == 15) {
-                            m_starLv = StarLv::Two;
+                            m_starLv = StarLv::BlackTwo;
                         } else if (m_lv >= 16) {
-                            m_starLv = StarLv::Three;
+                            m_starLv = StarLv::BlackThree;
                         }
                     }
                 } else if (head == U"#BPM") {

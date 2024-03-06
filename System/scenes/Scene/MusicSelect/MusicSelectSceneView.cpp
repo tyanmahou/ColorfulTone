@@ -244,24 +244,17 @@ namespace ct
 					.setDrawble([](const NotesData& n, Vec2 pos) {
 						if (auto starLv = n.getStarLv(); starLv != StarLv::None) {
 					    	// ★レベル
-					    	if (starLv == StarLv::OneWhite) {
-								FontAsset(AssetNameView(FontName::StarLv))(U"☆").drawAt(pos + Vec2{ 37, 30 });
-					    	} else if (starLv == StarLv::One) {
-								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(pos + Vec2{ 37, 30 });
-							} else if (starLv == StarLv::TwoWhite) {
-								FontAsset(AssetNameView(FontName::StarLv))(U"☆").drawAt(pos + Vec2{ 28, 28 });
-								FontAsset(AssetNameView(FontName::StarLv))(U"☆").drawAt(30, pos + Vec2{ 52, 38 });
-							} else if (starLv == StarLv::Two) {
-								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(pos + Vec2{ 28, 28 });
-								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(30, pos + Vec2{52, 38});
-					    	} else if (starLv == StarLv::ThreeWhite) {
-								FontAsset(AssetNameView(FontName::StarLv))(U"☆").drawAt(40, pos + Vec2{ 37, 27 });
-								FontAsset(AssetNameView(FontName::StarLv))(U"☆").drawAt(27, pos + Vec2{ 37 + 20, 37 });
-								FontAsset(AssetNameView(FontName::StarLv))(U"☆").drawAt(27, pos + Vec2{ 37 - 20, 37 });
-							} else if (starLv == StarLv::Three) {
-								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(40, pos + Vec2{ 37, 27 });
-								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(27, pos + Vec2{ 37 + 20, 37 });
-								FontAsset(AssetNameView(FontName::StarLv))(U"★").drawAt(27, pos + Vec2{ 37 - 20, 37 });
+							StringView starStr = IsBlackStar(starLv) ? U"★" : U"☆";
+							int32 starCount = StarCount(starLv);
+							if (starCount == 1) {
+								FontAsset(AssetNameView(FontName::StarLv))(starStr).drawAt(pos + Vec2{ 37, 30 });
+							} else if (starCount == 2) {
+								FontAsset(AssetNameView(FontName::StarLv))(starStr).drawAt(pos + Vec2{ 28, 28 });
+								FontAsset(AssetNameView(FontName::StarLv))(starStr).drawAt(30, pos + Vec2{ 52, 38 });
+							} else if (starCount == 3) {
+								FontAsset(AssetNameView(FontName::StarLv))(starStr).drawAt(40, pos + Vec2{ 37, 27 });
+								FontAsset(AssetNameView(FontName::StarLv))(starStr).drawAt(27, pos + Vec2{ 37 + 20, 37 });
+								FontAsset(AssetNameView(FontName::StarLv))(starStr).drawAt(27, pos + Vec2{ 37 - 20, 37 });
 							}
 					    
 					    	constexpr Vec2 size(65, 20); // 65, 50
