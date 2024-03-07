@@ -29,7 +29,7 @@ namespace ct
     private:
         LvPredictor() = default;
 
-        bool setup(FilePathView path);
+        bool setup(s3d::FilePathView path);
 
         bool isValid() const
         {
