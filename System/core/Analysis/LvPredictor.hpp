@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <utils/Singleton/Singleton.hpp>
-#include <utils/Math/LinearRegression.hpp>
 #include <Siv3D/String.hpp>
+#include <Siv3D/Array.hpp>
 
 namespace ct
 {
@@ -39,6 +39,6 @@ namespace ct
         s3d::int32 predict(s3d::uint64 rating) const;
     private:
         bool m_isValid = false;
-        LinearRegression m_linearRegression;
+        s3d::Array<std::pair<s3d::int32, s3d::uint64>> m_thresholdMap;
     };
 }

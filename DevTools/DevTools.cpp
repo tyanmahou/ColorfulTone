@@ -154,21 +154,21 @@ namespace ct::dev
                             return sum / data.size();
                         }
                     };
-                    std::map<int32, Array<int64>> ratingMap;
+                    std::map<int32, Array<uint64>> ratingMap;
                     for (const Data& d : data) {
                         int32 lv = d.level;
                         if (d.star > StarLv::None) {
                             lv = 13 + static_cast<int32>(d.star);
                         }
-                        int64 rating = d.result.rating;
+                        uint64 rating = d.result.rating;
 
                         ratingMap[lv].push_back(rating);
                     }
                     for (auto&& [lv, d] : ratingMap) {
                         String ln = U"{}, {}, {}, {}, {}"_fmt(
                             lv < 14 ? Format(lv) : ToStr(static_cast<StarLv>(lv - 13)),
-                            StatisticsUtil::Median<int64, int64>(d),
-                            StatisticsUtil::Mean<int64, int64>(d),
+                            StatisticsUtil::Median<uint64, uint64>(d),
+                            StatisticsUtil::Mean<uint64, uint64>(d),
                             StatisticsUtil::Min(d),
                             StatisticsUtil::Max(d)
                         );

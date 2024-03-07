@@ -1,6 +1,7 @@
 ﻿#include <core/Analysis/LvPredictor.hpp>
 #include <commons/Secret/Secret.hpp>
 #include <core/Data/NotesData/StarLv.hpp>
+#include <utils/Math/StatisticsUtil.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -34,22 +35,43 @@ namespace ct
             return false;
         }
         Array<std::pair<double, double>> data;
+
+        std::map<int32, Array<uint64>> ratingMap;
         size_t rows = csv.rows();
         for (size_t i = 0; i < rows; ++i) {
-            data.emplace_back(
-                csv.getOpt<double>(i, 0).value_or(0),
-                csv.getOpt<double>(i, 1).value_or(0)
-            );
+            auto rating = csv.getOpt<uint64>(i, 0);
+            auto lv = csv.getOpt<int32>(i, 1);
+            if (!lv || !rating) {
+                continue;
+            }
+            ratingMap[*lv] << *rating;
         }
-        if (data.isEmpty()) {
+        s3d::Array<std::pair<s3d::int32, s3d::uint64>> meanMap;
+        for (auto&& [lv, d] : ratingMap) {
+            uint64 mean = StatisticsUtil::Mean<uint64, uint64>(d);
+            meanMap.emplace_back(lv, mean);
+        }
+        if (meanMap.isEmpty()) {
             return false;
         }
-        m_linearRegression.fit(data);
+        size_t n = meanMap.size();
+        for (size_t index = 0; index < n; ++index) {
+            s3d::uint64 prevMean = index > 0 ? meanMap[index - 1].second : 0;
+            s3d::uint64 mean = meanMap[index].second;
+            s3d::uint64 begin = index > 0 ? (prevMean + mean) / 2 : 0;
+
+            m_thresholdMap.emplace_back(meanMap[index].first, begin);
+        }
         m_isValid = true;
+        return true;
     }
     s3d::int32 LvPredictor::predict(s3d::uint64 rating) const
     {
-        double flv = m_linearRegression.predict(static_cast<double>(rating));
-        return Clamp(static_cast<int32>(s3d::Round(flv)), 0, maxLv);
+        for (auto [lv, threshold] : m_thresholdMap | std::ranges::views::reverse) {
+            if (rating >= threshold) {
+                return lv;
+            }
+        }
+        return 0;
     }
 }
