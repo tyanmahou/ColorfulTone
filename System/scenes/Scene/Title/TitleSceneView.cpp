@@ -14,6 +14,7 @@ namespace
         {
             auto render = ct::ScopedResetTransRT(tex);
             tex.clear(Palette::White);
+            s3d::ScopedRenderStates2D  scoped(SamplerState::RepeatLinear);
             TextureAsset(U"titleBgs").uv(timer / 15000.0, 0.0, 0.75, 1.0 / 3.0).draw(0, 0);
             TextureAsset(U"titleBgs").uv(timer / 6000.0, 1.0 / 3.0, 0.75, 1.0 / 3.0).draw(0, 0);
             TextureAsset(U"titleBgs").uv(timer / 2000.0, 2.0 / 3.0, 0.75, 1.0 / 3.0).draw(0, 0);
