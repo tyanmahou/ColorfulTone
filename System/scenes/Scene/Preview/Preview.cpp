@@ -3,6 +3,7 @@
 #include <core/Play/PlayMusicGame.hpp>
 #include <core/Play/HighSpeed/HighSpeedDemo.hpp>
 #include <core/Analysis/Analyzer.hpp>
+#include <core/Analysis/LvPredictor.hpp>
 #include <Useful.hpp>
 #include <Siv3D.hpp>
 #include <scenes/Scene/Config/ConfigMain.hpp>
@@ -38,6 +39,9 @@ namespace ct
 
             m_config = std::make_unique<ConfigMain>();
             m_config->setActive(false);
+
+            // レベル予想セットアップ
+            LvPredictor::SetupIfNeed();
         }
         bool updateAndDraw()
         {
@@ -159,7 +163,6 @@ namespace ct
                 m_musicGame.draw(m_isShowGUI);
             } else {
                 m_musicGame.previewDraw(m_count);
-                this->drawAnalizeResult();
             }
             if (m_isPlay) {
                 SharedDraw::HighSpeedPlay(
@@ -305,28 +308,52 @@ namespace ct
                     ;
                 pos.x += region.w + 2;
             }
+            // 解析
+            if (m_musicData && !m_isPlay) {
+                RectF(0, 530 - 30, 30, 30)
+                    .draw(backColor);
+                button
+                    .setEnabled(true)
+                    .setMouseOver(nullptr)
+                    .setOnClick([this]{
+                    m_isDrawAnalyze = !m_isDrawAnalyze;
+                    })
+                    .draw(U"\U000F07CC", Vec2{0, 530 - 30 }, Vec2{30, 30});
+
+                if (m_isDrawAnalyze) {
+                    this->drawAnalizeResult();
+                }
+            }
         }
         // 解析描画
         void drawAnalizeResult() const
         {
+            constexpr ColorF backColor = ColorF(0.2, 0.7);
+            constexpr double fontSize = 15;
             const auto& sheet = m_musicData[m_selectNotesIndex].getSheet();
-            Vec2 pos = Vec2{ 20, 320 };
-            RectF(pos- Vec2{10, 10}, 250, 200).draw(ColorF(0, 0.2));
-            PutText(U"[Rating]：{}"_fmt(m_analyzeResult.rating), Arg::topLeft = pos);
+            Vec2 pos = Vec2{ 30, 330 };
+            RectF(pos, 200, 200)
+                .draw(backColor);
+            pos.x += 10;
+            pos.y += 5;
+            auto& font = SimpleGUI::GetFont();
+            font(U"[Prediction Lv]：{}"_fmt(m_predictionLevel == 0 ? U"?" : Format(m_predictionLevel))).draw(fontSize, pos);
+            pos.y += 25;
+            font(U"[Rating]：{}"_fmt(m_analyzeResult.rating)).draw(fontSize, pos);
             pos.y += 20;
-            PutText(U" - Mean：{}"_fmt(m_analyzeResult.meanRating), Arg::topLeft = pos);
+            font(U" - Mean：{}"_fmt(m_analyzeResult.meanRating)).draw(fontSize, pos);
             pos.y += 20;
-            PutText(U" - Median：{}"_fmt(m_analyzeResult.medianRating), Arg::topLeft = pos);
+            font(U" - Median：{}"_fmt(m_analyzeResult.medianRating)).draw(fontSize, pos);
             pos.y += 20;
-            PutText(U" - 80%Tile：{}"_fmt(m_analyzeResult.percentile80Rating), Arg::topLeft = pos);
+            font(U" - 80%Tile：{}"_fmt(m_analyzeResult.percentile80Rating)).draw(fontSize, pos);
             pos.y += 20;
-            PutText(U" - 97%Tile：{}"_fmt(m_analyzeResult.percentile97Rating), Arg::topLeft = pos);
+            font(U" - 97%Tile：{}"_fmt(m_analyzeResult.percentile97Rating)).draw(fontSize, pos);
             pos.y += 20;
-            PutText(U" - Max：{}"_fmt(m_analyzeResult.maxRating), Arg::topLeft = pos);
-            pos.y += 30;
-            PutText(U"[Total]：{}"_fmt(sheet.getTotalNotes()), Arg::topLeft = pos);
+            font(U" - Max：{}"_fmt(m_analyzeResult.maxRating)).draw(fontSize, pos);
+            pos.y += 25;
+            font(U"[Total]：{}"_fmt(sheet.getTotalNotes())).draw(fontSize, pos);
             pos.y += 20;
-            PutText(U"[Length]：{:.2f}s/{:.2f}s"_fmt(sheet.getTotalNotesSec(), m_musicGame.getSoundLengthSec()), Arg::topLeft = pos);
+            font(U"[Length]：{:.2f}s/{:.2f}s"_fmt(sheet.getTotalNotesSec(), m_musicGame.getSoundLengthSec())).draw(fontSize, pos);
         }
         void drawLoading()
         {
@@ -452,6 +479,7 @@ namespace ct
                     }
                     m_musicGame.init(m_musicData[m_selectNotesIndex], m_scrollRate);
                     m_analyzeResult = Analyzer::Analyze(m_musicData[m_selectNotesIndex].getSheet());
+                    m_predictionLevel = LvPredictor::Predict(m_analyzeResult.rating);
                     break;
                 }
             }
@@ -496,6 +524,7 @@ namespace ct
             m_notesList[m_selectNotesIndex].first = m_musicData[m_selectNotesIndex].getLevelName();
             m_notesList[m_selectNotesIndex].second = m_musicData[m_selectNotesIndex].getColor();
             m_analyzeResult = Analyzer::Analyze(m_musicData[m_selectNotesIndex].getSheet());
+            m_predictionLevel = LvPredictor::Predict(m_analyzeResult.rating);
 
             const auto pos = m_musicGame.getSound().posSample();
             m_musicGame.reflesh(m_musicData[m_selectNotesIndex]);
@@ -550,8 +579,9 @@ namespace ct
         Coro::FiberHolder<void> m_loader;
         bool m_loading = false;
 
+        bool m_isDrawAnalyze = true;
         AnalyzeResult m_analyzeResult;
-
+        int32 m_predictionLevel = 0;
         Notify m_notify;
     };
     Preview::Preview():

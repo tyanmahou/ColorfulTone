@@ -43,7 +43,7 @@ namespace ct::GUI
             m_mouseOverCallback = std::move(callback);
             return *this;
         }
-        s3d::RectF draw(s3d::StringView text, const s3d::Vec2& pos) const;
+        s3d::RectF draw(s3d::StringView text, const s3d::Vec2& pos, const s3d::Optional<s3d::Vec2>& size = s3d::unspecified) const;
     private:
         const s3d::Font& m_font;
         bool m_enabled = true;
