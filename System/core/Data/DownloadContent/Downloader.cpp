@@ -1,7 +1,7 @@
 ﻿#include <core/Data/DownloadContent/Downloader.hpp>
 #include <core/Data/DownloadContent/DownloadContent.hpp>
 #include <core/Data/DownloadContent/DownloadHistory.hpp>
-#include <commons/Secret/Secret_Product.hpp>
+#include <commons/Secret/Secret.hpp>
 #include <utils/Coro/Fiber/FiberHolder.hpp>
 #include <utils/Coro/AsyncGenerator/AsyncGenerator.hpp>
 #include <utils/Thread/Task.hpp>

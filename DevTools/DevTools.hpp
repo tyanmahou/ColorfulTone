@@ -7,11 +7,12 @@ namespace ct::dev
     {
         enum class Status
         {
+            None,
             Completed,
             Failed,
             Canceled,
         };
-        Status status;
+        Status status{};
         s3d::String message;
 
         bool isCompleted() const
@@ -27,6 +28,7 @@ namespace ct::dev
             return status == Status::Canceled;
         }
     };
+
     /// <summary>
     /// 開発ツール
     /// </summary>

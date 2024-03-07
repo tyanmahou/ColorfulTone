@@ -14,6 +14,7 @@ namespace ct
         static inline const s3d::String HOMEPAGE_URL = U"HOMEPAGE_URL";
         static inline const s3d::String API_ENDPOINT = U"API_ENDPOINT";
         static inline const s3d::String DOWNLOAD_URL = U"DOWNLOAD_URL";
+        static inline const s3d::String RESOURCE_URL = U"RESOURCE_URL";
     };
 }
 #endif

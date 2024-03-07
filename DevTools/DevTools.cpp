@@ -1,6 +1,7 @@
 ﻿#include "DevTools.hpp"
 #include <commons/Migration/MigrationUtil.hpp>
 #include <core/Analysis/Analyzer.hpp>
+#include <core/Analysis/LvPredictor.hpp>
 #include <utils/Thread/Task.hpp>
 #include <utils/Math/StatisticsUtil.hpp>
 
@@ -37,6 +38,8 @@ namespace ct::dev
     }
     Coro::Fiber<ProcessResult> DevTools::AnalyzeAsync(bool isOfficialOnly, bool isBuildModel)
     {
+        LvPredictor::SetupIfNeed();
+
         auto path = Dialog::SelectFolder(U"Music");
         if (!path) {
             co_return {.status = ProcessResult::Status::Canceled};
@@ -53,6 +56,7 @@ namespace ct::dev
             size_t noteCount;
             double noteSec;
             AnalyzeResult result;
+            int32 pLevel;
         };
         Array<Data> data;
         auto task = [&] {
@@ -71,14 +75,16 @@ namespace ct::dev
                             if (FileSystem::Exists(noteFullPath)) {
 
                                 SheetMusic sheet(noteFullPath);
-
+                                auto analyzeResult = Analyzer::Analyze(sheet);
+                                
                                 data.push_back({
                                     FileSystem::RelativePath(noteFullPath, *path),
                                     sheet.getLv(),
                                     sheet.getStarLv(),
                                     sheet.getTotalNotes(),
                                     sheet.getTotalNotesSec(),
-                                    Analyzer::Analyze(sheet)
+                                    analyzeResult,
+                                    LvPredictor::Predict(analyzeResult.rating)
                                     });
                             }
                         }
@@ -100,10 +106,10 @@ namespace ct::dev
                             .message = U"解析結果の保存に失敗しました"
                         };
                     }
-                    log.writeln(U"No, Path, Lv, Star, Count, Time, Rating, Mean, Median, 80%Tile, 97%Tile, Max, NoteWeight, SpeedDev");
+                    log.writeln(U"No, Path, Lv, Star, Count, Time, Rating, Mean, Median, 80%Tile, 97%Tile, Max, NoteWeight, SpeedDev, pLv");
                     size_t no = 1;
                     for (const Data& d : data) {
-                        String ln = U"{}, {}, {}, {}, {}, {:.2f}, {}, {}, {}, {}, {}, {}, {}, {}"_fmt(
+                        String ln = U"{}, {}, {}, {}, {}, {:.2f}, {}, {}, {}, {}, {}, {}, {}, {}, {}"_fmt(
                             no,
                             d.path, 
                             d.level,
@@ -117,7 +123,8 @@ namespace ct::dev
                             d.result.percentile97Rating,
                             d.result.maxRating,
                             d.result.noteWeightRating,
-                            d.result.speedDev
+                            d.result.speedDev,
+                            d.pLevel
                         );
                         log.writeln(ln);
                         ++no;
@@ -177,7 +184,19 @@ namespace ct::dev
                 for (const Data& d : data) {
                     int32 lv = d.level;
                     if (d.star > StarLv::None) {
-                        lv = 13 + static_cast<int32>(d.star);
+                        // ★レベルを補正
+                        if (lv > 16) {
+                            if (d.star == StarLv::WhiteThree) {
+                                lv = 14;
+                            } else if (d.star == StarLv::BlackOne || d.star == StarLv::BlackTwo) {
+                                lv = 15;
+                            } else if (d.star == StarLv::BlackThree) {
+                                lv = 16;
+                            }
+                        }
+                        if (lv > 16) {
+                            continue;
+                        }
                     }
                     int64 rating = d.result.rating;
 

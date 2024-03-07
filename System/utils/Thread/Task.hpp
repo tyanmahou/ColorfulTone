@@ -11,7 +11,7 @@ namespace ct::Thread
     {
     public:
         Task() = default;
-        Task(Task&& task):
+        Task(Task&& task) noexcept:
             m_stopSource(std::move(task.m_stopSource)),
             m_future(std::move(task.m_future))
         {}
