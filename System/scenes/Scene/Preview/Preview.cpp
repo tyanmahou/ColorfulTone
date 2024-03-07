@@ -551,6 +551,7 @@ namespace ct
             m_musicGame.reflesh(m_musicData[index]);
             m_musicGame.getSound().seekSamples(s3d::Clamp<size_t>(static_cast<size_t>(pos), 0, m_musicGame.getSound().samples()));
             m_analyzeResult = Analyzer::Analyze(m_musicData[index].getSheet());
+            m_predictionLevel = LvPredictor::Predict(m_analyzeResult.rating);
             return true;
         }
     private:
