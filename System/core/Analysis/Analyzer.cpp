@@ -216,15 +216,18 @@ namespace ct
                     // この停止より後ろにノーツはない
                     break;
                 }
-                BPMType bpmDiff = Abs(tempos[index].bpm - tempos[index - 1].bpm);
-                if (bpmDiff <= 0) {
+                BPMType bpmDiff = tempos[index].bpm > tempos[index - 1].bpm 
+                    ? tempos[index].bpm / tempos[index - 1].bpm
+                    : tempos[index - 1].bpm / tempos[index].bpm
+                    ;
+                if (bpmDiff <= 1) {
                     continue;
                 }
 
-                double rate = Min(bpmDiff / 700.0, 1.0);
+                double rate = Min(bpmDiff / 7, 1.0);
                 rate = Pow(rate, 1.25);
                 rate = 1 - Pow(1 - rate, 5.0);
-                const double bpmFactor = Min(BpmRatingFactorMax, 300 * rate);
+                const double bpmFactor = Min(BpmRatingFactorMax, 200 * rate);
 
                 if (notes[notesIndex].sample > tempos[index].sample + (44100 * 2)) {
                     // 2秒より離れているならレート換算ほぼなし
