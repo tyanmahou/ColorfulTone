@@ -140,7 +140,7 @@ namespace ct
         {
             return m_totalSample + m_tempos[0].bpmOffsetSample;
         }
-        s3d::uint32 getTotalNotes() const
+        size_t getTotalNotes() const
         {
             return m_totalNotes;
         }
@@ -165,7 +165,7 @@ namespace ct
 
         double m_lastBarCount;			  // 小節のカウント数
         s3d::int64 m_totalSample;		  // トータルサンプル
-        s3d::uint32 m_totalNotes;		  // ノーツ数の合計
+        size_t m_totalNotes;		      // ノーツ数の合計
         //** 楽譜情報 **//
         s3d::int64 m_offsetSample;		  // オフセットサンプル数
         s3d::Array<NoteEntity> m_notes;   // 音符情報

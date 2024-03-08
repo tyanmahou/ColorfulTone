@@ -38,6 +38,11 @@ namespace ct
         s3d::String getLevelNameAndLevel() const;
 
         MusicData getMusic() const;
+
+        size_t getTotalNotes() const
+        {
+            return m_totalNotes;
+        }
     private:
         void init(const SheetMusic& sheet, bool isPractice);
     private:
@@ -47,5 +52,6 @@ namespace ct
         s3d::Array<StopRange> m_stopRanges;				//ストップのデータ
         s3d::Array<TempoInfo> m_tempoInfos;				//テンポ配列
         size_t m_currentBarIndex = 0;			        //現在のテンポ
+        size_t m_totalNotes = 0;
     };
 }

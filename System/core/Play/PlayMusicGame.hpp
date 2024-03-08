@@ -84,7 +84,7 @@ namespace ct
 		Score m_score;
 
 		double m_scrollRate;			// スクロールレート
-		s3d::uint32 m_totalNotes;		// トータルノーツ数
+		size_t m_totalNotes;		    // トータルノーツ数
 		s3d::uint64 m_finishSample;		// 終了のサンプリング位置
 		double m_soundLengthSec = 0;    // 曲の長さ
 

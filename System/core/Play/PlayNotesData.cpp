@@ -40,10 +40,6 @@ namespace ct
         for (const NoteEntity& n : sheet.getNotes()) {
             auto [sample, count, type, speed, interval] = n;
             if (isPractice) {
-                if (type == 9) {
-                    // ダメージノーツを無視
-                    continue;
-                }
                 BarCount b = soundBar(sample);
                 count = NotesData::RESOLUTION * b.bar + NotesData::RESOLUTION * (b.f);
                 speed = 1.0;
@@ -115,6 +111,7 @@ namespace ct
                 note->addStopCount(s);
             }
         }
+        m_totalNotes = sheet.getTotalNotes();
         this->reset();
     }
 

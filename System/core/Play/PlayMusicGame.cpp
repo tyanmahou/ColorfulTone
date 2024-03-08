@@ -124,7 +124,7 @@ namespace ct
         //譜面取得
         m_playNotesData = PlayNotesData{ notes , PracticeManager::IsPractice()};
 
-        m_totalNotes = notes.getTotalNotes();
+        m_totalNotes = m_playNotesData.getTotalNotes();
 
         const MusicData nowMusic = notes.getMusic();
         m_title = nowMusic.getArtistName() + U" - " + nowMusic.getMusicName();
