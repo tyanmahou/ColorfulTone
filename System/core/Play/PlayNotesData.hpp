@@ -13,7 +13,7 @@ namespace ct
     {
     public:
         PlayNotesData();
-        PlayNotesData(const NotesData& notesData);
+        PlayNotesData(const NotesData& notesData, bool isPractice);
 
         const NotesData& getNotesData()const
         {
@@ -39,7 +39,7 @@ namespace ct
 
         MusicData getMusic() const;
     private:
-        void init(const SheetMusic& sheet);
+        void init(const SheetMusic& sheet, bool isPractice);
     private:
         NotesData m_notesData;
 

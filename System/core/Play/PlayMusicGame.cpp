@@ -122,7 +122,7 @@ namespace ct
     void PlayMusicGame::reflesh(const NotesData& notes)
     {
         //譜面取得
-        m_playNotesData = notes;
+        m_playNotesData = PlayNotesData{ notes , PracticeManager::IsPractice()};
 
         m_totalNotes = notes.getTotalNotes();
 

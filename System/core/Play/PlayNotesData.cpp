@@ -15,22 +15,39 @@ namespace ct
     {
 
     }
-    PlayNotesData::PlayNotesData(const NotesData& notesData):
+    PlayNotesData::PlayNotesData(const NotesData& notesData, bool isPractice) :
         m_notesData(notesData)
     {
-        this->init(m_notesData.getSheet());
+        this->init(m_notesData.getSheet(), isPractice);
     }
 
 
-    void PlayNotesData::init(const SheetMusic& sheet)
+    void PlayNotesData::init(const SheetMusic& sheet, bool isPractice)
     {
+        SoundBar soundBar;
+        if (isPractice) {
+            BPMType minBPM = m_notesData.getMusic().getMinBPM();
+            BPMType maxBPM = m_notesData.getMusic().getMaxBPM();
+            BPMType baseBPM = s3d::Sqrt(minBPM * maxBPM);
+
+            soundBar = SoundBar(sheet.getTempos()[0].bpmOffsetSample, baseBPM);
+        }
         //ノーツの記憶(ロング用)
         std::shared_ptr<Note> parentNote = std::make_shared<Note>(0, 0, 0, 0);
 
         m_objects.reserve(sheet.getNotes().size() + sheet.getLyrics().size() + sheet.getBars().size());
         // 音符追加
         for (const NoteEntity& n : sheet.getNotes()) {
-            const auto& [sample, count, type, speed, interval] = n;
+            auto [sample, count, type, speed, interval] = n;
+            if (isPractice) {
+                if (type == 9) {
+                    // ダメージノーツを無視
+                    continue;
+                }
+                BarCount b = soundBar(sample);
+                count = NotesData::RESOLUTION * b.bar + NotesData::RESOLUTION * (b.f);
+                speed = 1.0;
+            }
 
             //ノーツ生成
             std::shared_ptr<Note> note;
@@ -57,33 +74,50 @@ namespace ct
                 m_objects.emplace_back(note);
             }
         }
-        // テキスト追加
-        for (const LyricEntity& l : sheet.getLyrics()) {
-            const auto& [sample, count, message, timeSec] = l;
-            m_objects.emplace_back(std::make_shared<TextObject>(sample, count, message, timeSec));
+        if (!isPractice) {
+            // テキスト追加
+            for (const LyricEntity& l : sheet.getLyrics()) {
+                const auto& [sample, count, message, timeSec] = l;
+                m_objects.emplace_back(std::make_shared<TextObject>(sample, count, message, timeSec));
+            }
         }
         // 小節線追加
-        for (const BarEntity& b : sheet.getBars()) {
-            const auto& [_, count, speed] = b;
+        for (const BarEntity& bar : sheet.getBars()) {
+            auto [sample, count, speed] = bar;
+
+            if (isPractice) {
+                BarCount b = soundBar(sample);
+                count = NotesData::RESOLUTION * b.bar + NotesData::RESOLUTION * (b.f);
+                speed = 1.0;
+            }
+
             m_objects.emplace_back(std::make_shared<Bar>(count, speed));
         }
-        // 停止追加
-        for (const StopEntity& b : sheet.getStops()) {
-            m_stopRanges.emplace_back(b.count, b.rangeCount);
+        if (!isPractice) {
+            // 停止追加
+            for (const StopEntity& b : sheet.getStops()) {
+                m_stopRanges.emplace_back(b.count, b.rangeCount);
+            }
         }
         // テンポ情報追加
-        for (const TempoEntity& t : sheet.getTempos()) {
-            m_tempoInfos.emplace_back(t.sample, t.bpmOffsetSample, t.bpm);
+        if (!isPractice) {
+            for (const TempoEntity& t : sheet.getTempos()) {
+                m_tempoInfos.emplace_back(t.sample, t.bpmOffsetSample, t.bpm);
+            }
+        } else {
+            // 1つだけ
+            m_tempoInfos.emplace_back(0, soundBar.getOffset(), soundBar.getBPM());
         }
 
         // 譜面停止時間差分の適用
-        for (auto&& note : m_objects) {
-            for (auto&& s : m_stopRanges) {
+        for (auto&& s : m_stopRanges) {
+            for (auto&& note : m_objects) {
                 note->addStopCount(s);
             }
         }
         this->reset();
     }
+
     void PlayNotesData::reset()
     {
         RepeatEnd::notesTapSample = 0;
@@ -106,7 +140,7 @@ namespace ct
 
         nowCount = NotesData::RESOLUTION * b.bar + NotesData::RESOLUTION * (b.f);
     }
-    void PlayNotesData::update(const s3d::Audio& sound, double& nowCount, [[maybe_unused]]Score& score)
+    void PlayNotesData::update(const s3d::Audio& sound, double& nowCount, [[maybe_unused]] Score& score)
     {
         this->synchroCount(sound, nowCount);
 
