@@ -103,20 +103,26 @@ namespace ct
 			return;
 		}
 
-		if (m_select > 0)
+		if (m_select > 0) {
 			FontAsset(FontName::ConfigSelect)(U"←").drawAt(500 - 130, y);
+		}
 
-		if (m_select < m_actions.size() - 1)
+		if (m_select + 1 < m_actions.size()) {
 			FontAsset(FontName::ConfigSelect)(U"→").drawAt(500 + 130, y);
+		}
 
-		FontAsset(FontName::ConfigSelect)(m_actions.at(m_select).name).drawAt(500, y);
+		if (m_select < m_actions.size()) {
+			FontAsset(FontName::ConfigSelect)(m_actions.at(m_select).name).drawAt(500, y);
+		}
 	}
 
 	void Config::drawDetail() const
 	{
+		if (m_select >= m_actions.size()) {
+			return;
+		}
 		const String& detail = m_actions.at(m_select).detail;
 		if (detail) {
-			Transformer2D t2d(Mat3x2::Identity(), s3d::Transformer2D::Target::SetLocal);
 			FontAsset(FontName::Info)(detail).draw(Arg::topRight = Vec2{ 780, 530 });
 		}
 	}
@@ -155,6 +161,8 @@ namespace ct
 		}
 		// 詳細
 		if (m_select < size) {
+			Transformer2D t2d(Mat3x2::Identity(), s3d::Transformer2D::Target::SetLocal);
+			RectF(0, 530, 800, 70).draw(ColorF(0, this->detailAlpha()));
 			m_configs[m_select].drawDetail();
 		}
 	}

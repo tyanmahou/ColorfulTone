@@ -10,7 +10,7 @@ namespace ct
 
         bool update();
         void draw()const;
-
+        void drawWithBack(const s3d::ColorF& color = s3d::ColorF(0, 0.8))const;
         void setActive(bool isActive)
         {
             m_isActive = isActive;

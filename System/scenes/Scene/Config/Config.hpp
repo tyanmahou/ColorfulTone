@@ -67,6 +67,11 @@ namespace ct
 		}
 		template<class T>
 		void changePush();
+
+		virtual double detailAlpha() const
+		{
+			return 0.8;
+		}
 	};
 	class ConfigManager
 	{

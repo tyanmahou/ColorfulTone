@@ -1,6 +1,7 @@
 ﻿#include <scenes/Scene/Config/ConfigMain.hpp>
 #include <Useful.hpp>
 #include <scenes/Scene/Config/KeyConfigManager.hpp>
+#include "ConfigMain.hpp"
 
 namespace ct
 {
@@ -14,8 +15,8 @@ namespace ct
                     Game::Config().m_tapSE = se;
                     se.apply();
                     });
-                config.init(Game::Config().m_tapSE.getName());
             }
+            config.init(Game::Config().m_tapSE.getName());
         }
         class TapSEConfig :public IConfigHierchy
         {
@@ -435,9 +436,10 @@ namespace ct
 
                     m_keyConfig.draw();
                 }
-                {
-                    RectF(0, 530, 800, 70).draw(ColorF(0, 0.8 * (1 - m_keyConfigEasing.progress0_1())));
-                }
+            }
+            double detailAlpha() const override
+            {
+                return 0.8 * (1 - m_keyConfigEasing.progress0_1());
             }
         };
     }
@@ -459,6 +461,15 @@ namespace ct
         if (!m_isActive) {
             return;
         }
+        m_config.draw();
+    }
+
+    void ConfigMain::drawWithBack(const s3d::ColorF& color) const
+    {
+        if (!m_isActive) {
+            return;
+        }
+        Scene::Rect().draw(color);
         m_config.draw();
     }
 

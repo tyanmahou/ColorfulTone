@@ -16,6 +16,11 @@
 
 namespace ct
 {
+    constexpr ColorF backColor = ColorF(0.2, 0.7);
+    constexpr ColorF highlightColor = ColorF(0.9, 0.2);
+    constexpr ColorF textColor = Palette::White;
+    constexpr ColorF textColorDisabled = Palette::Gray;
+
     class Preview::Impl
     {
     public:
@@ -51,7 +56,10 @@ namespace ct
                 drawLoading();
             } else {
                 this->draw();
-                m_config->draw();
+                if (m_isShowGUI) {
+                    this->drawGUIBack();
+                }
+                m_config->drawWithBack();
                 if (m_isShowGUI) {
                     m_notify.draw();
                     this->drawGUI();
@@ -178,14 +186,35 @@ namespace ct
                 );
             }
         }
+        void drawGUIBack()
+        {
+            GUI::Button button(m_font);
+            button
+                .setFontSize(20)
+                .setMouseOverBackColor(highlightColor)
+                .setTextColor(textColor, textColorDisabled)
+                ;
+            // 解析
+            if (m_musicData && !m_isPlay) {
+                RectF(0, 530 - 30, 30, 30)
+                    .draw(backColor);
+                button
+                    .setEnabled(true)
+                    .setMouseOver(nullptr)
+                    .setOnClick([this] {
+                    m_isDrawAnalyze = !m_isDrawAnalyze;
+                        })
+                    .draw(U"\U000F07CC", Vec2{ 0, 530 - 30 }, Vec2{ 30, 30 });
+
+                        if (m_isDrawAnalyze) {
+                            this->drawAnalizeResult();
+                        }
+            }
+        }
         void drawGUI()
         {
             const bool enabled = m_loader.isDone();
             const double height = m_font.height() + 2 * 2;
-            constexpr ColorF backColor = ColorF(0.2, 0.7);
-            constexpr ColorF highlightColor = ColorF(0.9, 0.2);
-            constexpr ColorF textColor = Palette::White;
-            constexpr ColorF textColorDisabled = Palette::Gray;
             RectF({ 0, 0, Scene::Width(), height }).drawShadow({ 1, 1 }, 5, 0).draw(backColor);
             Vec2 pos{ 5, 0 };
 
@@ -308,27 +337,10 @@ namespace ct
                     ;
                 pos.x += region.w + 2;
             }
-            // 解析
-            if (m_musicData && !m_isPlay) {
-                RectF(0, 530 - 30, 30, 30)
-                    .draw(backColor);
-                button
-                    .setEnabled(true)
-                    .setMouseOver(nullptr)
-                    .setOnClick([this]{
-                    m_isDrawAnalyze = !m_isDrawAnalyze;
-                    })
-                    .draw(U"\U000F07CC", Vec2{0, 530 - 30 }, Vec2{30, 30});
-
-                if (m_isDrawAnalyze) {
-                    this->drawAnalizeResult();
-                }
-            }
         }
         // 解析描画
         void drawAnalizeResult() const
         {
-            constexpr ColorF backColor = ColorF(0.2, 0.7);
             constexpr double fontSize = 15;
             const auto& sheet = m_musicData[m_selectNotesIndex].getSheet();
             Vec2 pos = Vec2{ 30, 330 };

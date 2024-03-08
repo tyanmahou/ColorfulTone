@@ -109,10 +109,7 @@ namespace ct
                 !m_pScene->getConfig().isActive()
             );
             // コンフィグ
-            if (m_pScene->getConfig().isActive()) {
-                Scene::Rect().draw(ColorF(0, 0.8));
-                m_pScene->getConfig().draw();
-            }
+            m_pScene->getConfig().drawWithBack();
         }
     };
 
