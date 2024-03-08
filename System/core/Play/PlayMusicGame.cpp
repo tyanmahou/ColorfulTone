@@ -311,9 +311,7 @@ namespace ct
     {
         const double headerOffset = preview ? 40 : 0;
 
-        if (AutoPlayManager::IsAutoPlay()) {
-            PutText(U"AutoPlay", { Scene::Center().x, 40 + headerOffset });
-        }
+        SharedDraw::DrawPlayContextHeader({ Scene::Center().x, 40 + headerOffset });
     }
 
     void PlayMusicGame::drawRandomMode() const

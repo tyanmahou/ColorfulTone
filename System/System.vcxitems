@@ -103,6 +103,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyleType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Portrait\PortraitStyle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\Practice\PracticeManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\Random\RandomNote.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\Random\RandomNoteType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\SoundBeat.hpp" />
@@ -253,6 +254,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Normal\NormalStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Portrait\PortraitStyle.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\Practice\PracticeManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\Random\RandomNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)migrations\20200706_MoveUserDataPath.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)migrations\20240126_FixEncodeToUTF8.cpp" />

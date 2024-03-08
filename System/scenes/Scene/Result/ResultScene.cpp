@@ -111,7 +111,7 @@ namespace ct
 			m_score = ResultRank::CalcScore(m_data->m_resultScore, notes.getTotalNotes());
 
 			// autoのばあいセーブしない
-			if (AutoPlayManager::IsAutoPlay()) {
+			if (AutoPlayManager::IsAutoPlay() || PracticeManager::IsPractice()) {
 				return;
 			}
 			m_isNewRecord = ::UpdateScore(m_score, notes);
@@ -206,9 +206,7 @@ namespace ct
 
 		SceneInfo::Draw(U"T:リザルトをツイート　F10:お気に入り　Enter:戻る");
 
-		if (AutoPlayManager::IsAutoPlay()) {
-			PutText(U"AutoPlay", Arg::center = Vec2{Scene::CenterF().x, 40});
-		}
+		SharedDraw::DrawPlayContextHeader();
 	}
 
 	void ResultScene::drawFadeIn(double t) const

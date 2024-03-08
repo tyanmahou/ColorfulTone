@@ -122,7 +122,7 @@ namespace
             return U"F10:お気に入り　F11:コンフィグ";
         }
 
-        return U"Shift:表示モード切替　F1:オート　Ctrl+↑↓:ハイスピード変更";
+        return U"Shift:表示モード切替　F1:オート　F12:練習モード　Ctrl+↑↓:ハイスピード変更";
     }
 }
 namespace ct
@@ -213,6 +213,10 @@ namespace ct
             //プレイモード
             if (KeyF1.down()) {
                 AutoPlayManager::ChangePlayMode();
+                SoundManager::PlaySe(U"desisionSmall");
+            }
+            if (KeyF12.down()) {
+                PracticeManager::ChangePlayMode();
                 SoundManager::PlaySe(U"desisionSmall");
             }
             //情報切り替え
@@ -373,9 +377,7 @@ namespace ct
         // シーン情報
         SceneInfo::Draw(::GetSceneInfoMsg());
 
-        if (AutoPlayManager::IsAutoPlay()) {
-            PutText(U"AutoPlay", Arg::center = Vec2{ Scene::Center().x, 40 });
-        }
+        SharedDraw::DrawPlayContextHeader();
     }
 
     void MusicSelectScene::drawFadeIn(double t) const

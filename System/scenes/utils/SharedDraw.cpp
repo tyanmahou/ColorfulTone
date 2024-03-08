@@ -1,8 +1,10 @@
 ﻿#include <scenes/utils/SharedDraw.hpp>
 #include <scenes/utils/Util.hpp>
-#include <core/Play/HighSpeed/HighSpeedDemo.hpp>
+#include <core/Input/AutoPlayManager.hpp>
 #include <core/Data/MusicData/MusicData.hpp>
+#include <core/Play/HighSpeed/HighSpeedDemo.hpp>
 #include <core/Play/PlayNotesData.hpp>
+#include <core/Play/Practice/PracticeManager.hpp>
 #include <commons/FontName.hpp>
 #include <Siv3D.hpp>
 
@@ -110,5 +112,15 @@ namespace ct::SharedDraw
 		const double backAlpha = 0.3 + Min(input.pressedDuration().count(), 0.7);
 		ColorF color{ 0, backAlpha };
 		FontAsset(FontName::Regular20)(text).drawAt(400, 400, color);
+	}
+	void DrawPlayContextHeader(const s3d::Vec2& pos)
+	{
+		if (AutoPlayManager::IsAutoPlay() && PracticeManager::IsPractice()) {
+			PutText(U"AutoPlay / Practice", Arg::center = pos);
+		} else if (AutoPlayManager::IsAutoPlay()) {
+			PutText(U"AutoPlay", Arg::center = pos);
+		} else if (PracticeManager::IsPractice()) {
+			PutText(U"Practice", Arg::center = pos);
+		}
 	}
 }

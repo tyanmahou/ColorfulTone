@@ -46,4 +46,10 @@ namespace ct::SharedDraw
     /// <param name="input"></param>
     /// <param name="text"></param>
     void LongPressBack(const s3d::InputGroup& input, const s3d::String& text);
+
+    /// <summary>
+    /// ヘッダー描画
+    /// </summary>
+    /// <param name="pos"></param>
+    void DrawPlayContextHeader(const s3d::Vec2& pos = Vec2{ s3d::Scene::CenterF().x, 40 });
 }

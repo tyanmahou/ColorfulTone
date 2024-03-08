@@ -1,7 +1,6 @@
 ﻿#include <scenes/Scene/CourseSelect/CourseSelectScene.hpp>
 #include <Useful.hpp>
 #include <Siv3D.hpp>
-#include "CourseSelectScene.hpp"
 
 namespace
 {
@@ -225,8 +224,9 @@ namespace ct
 			// ライフ引継ぎがあるためスコアを初期化しておく
 			getData().m_resultScore = Score();
 
-			//絶対Autoは解除する
+			// 絶対Autoは解除する
 			AutoPlayManager::SetAutoPlay(false);
+			PracticeManager::SetPracticeMode(false);
 		} else {
 			getData().m_course.exit();
 		}
