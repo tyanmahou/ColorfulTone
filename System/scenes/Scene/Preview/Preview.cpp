@@ -24,7 +24,7 @@ namespace ct
     class Preview::Impl
     {
     public:
-        Impl():
+        Impl() :
             m_tex(s3d::Scene::Size()),
             m_font(FontMethod::MSDF, 16, Typeface::CJK_Regular_JP)
         {
@@ -78,7 +78,7 @@ namespace ct
                 if (m_isPlay) {
                     this->playOrStop();
                 }
-                if (changes.size() == 1 && m_musicData && 
+                if (changes.size() == 1 && m_musicData &&
                     FileSystem::RelativePath(m_musicData[m_selectNotesIndex].getFilePath()) == FileSystem::RelativePath(changes[0].path)
                     ) {
                     this->reloadNote(false);
@@ -199,16 +199,14 @@ namespace ct
                 RectF(0, 530 - 30, 30, 30)
                     .draw(backColor);
                 button
-                    .setEnabled(true)
+                    .setEnabled(!m_config->isActive())
                     .setMouseOver(nullptr)
-                    .setOnClick([this] {
-                    m_isDrawAnalyze = !m_isDrawAnalyze;
-                        })
+                    .setOnClick([this] { m_isDrawAnalyze = !m_isDrawAnalyze; })
                     .draw(U"\U000F07CC", Vec2{ 0, 530 - 30 }, Vec2{ 30, 30 });
 
-                        if (m_isDrawAnalyze) {
-                            this->drawAnalizeResult();
-                        }
+                if (m_isDrawAnalyze) {
+                    this->drawAnalizeResult();
+                }
             }
         }
         void drawGUI()
@@ -222,7 +220,7 @@ namespace ct
                 constexpr double detailFontHeight = 15;
                 RectF({ Vec2{ 0, height}, Scene::Width(), m_font.height() * (detailFontHeight / m_font.fontSize()) }).draw(ColorF(0, 0.5));
                 m_font(str).draw(detailFontHeight, Vec2{ 0, height });
-            };
+                };
             GUI::Button button(m_font);
             button
                 .setFontSize(20)
@@ -303,7 +301,7 @@ namespace ct
                 }
                 auto onChange = [&](double v) {
                     m_musicGame.getSound().seekSamples(static_cast<size_t>(v * m_musicGame.getSound().samples()));
-                 };
+                    };
                 auto region = GUI::Slider{ d }
                     .setEnabled(enabled && !m_config->isActive() && m_musicData)
                     .setWidth(353)
@@ -522,7 +520,7 @@ namespace ct
             bool isSuccess = co_await loadingProcess([path, this] {return this->onLoadProject(path); });
 
             if (isSuccess) {
-                FilePath baseDir = s3d::FileSystem::ParentPath(*m_dirPath, 2);
+                FilePath baseDir = s3d::FileSystem::ParentPath(*m_dirPath, 1);
                 FilePath infoPath = s3d::FileSystem::RelativePath(*m_dirPath, baseDir);
                 m_notify.show(isReload ? U"RELOAD" : U"LOAD", infoPath);
             }
@@ -548,7 +546,7 @@ namespace ct
         {
             bool isSuccess = co_await loadingProcess([this] {return this->onReloadNotes(); });
             if (isSuccess) {
-                FilePath baseDir = s3d::FileSystem::ParentPath(*m_dirPath, 2);
+                FilePath baseDir = s3d::FileSystem::ParentPath(*m_dirPath, 1);
                 FilePath infoPath = s3d::FileSystem::RelativePath(m_musicData[m_selectNotesIndex].getFilePath(), baseDir);
                 m_notify.show(U"LIVE RELOAD", infoPath);
             }
@@ -597,7 +595,7 @@ namespace ct
         int32 m_predictionLevel = 0;
         Notify m_notify;
     };
-    Preview::Preview():
+    Preview::Preview() :
         m_pImpl(std::make_unique<Impl>())
     {
     }
