@@ -309,11 +309,12 @@ namespace ct
             for (int64 nextSample = startSample; nextSample <= endSample; nextSample += (44100 * 2)) {
                 double noteSum = 0;
                 // ノーツレート
+                size_t s = notesIndex;
                 while (notesIndex < notesRatings.size() && notesRatings[notesIndex].first < nextSample) {
                     noteSum += notesRatings[notesIndex].second;
                     ++notesIndex;
                 }
-
+                size_t e = notesIndex;
                 // BPM変化レート
                 double bpmSum = 0;
                 while (bpmIndex < bpmRatings.size() && bpmRatings[bpmIndex].first < nextSample) {
@@ -327,6 +328,34 @@ namespace ct
                     ++stopIndex;
                 }
                 double barRate = noteSum + bpmSum + stopSum;
+
+                // バラつき補正
+                double speedRating = 0;
+                double speedDev = 1;
+                {
+                    size_t s2 = s > 0 ? s - 1 : s;
+                    Array<std::pair<int64, double>> targetSpeed;
+                    for (size_t index = s2; index < e; ++index) {
+                        if (speeds[index] >= 10000 || speeds[index] <= 0) {
+                            continue;
+                        }
+                        if (notes[index].type == 9) {
+                            // 白は無視
+                            continue;
+                        }
+                        targetSpeed.emplace_back(notes[index].sample, Abs(notes[index].speed));
+                    }
+                    Array<double> speedDiff;
+                    for (size_t index = 1; index < targetSpeed.size(); ++index) {
+                        if (targetSpeed[index].first < targetSpeed[index - 1].first + 22050) {
+                            double ratio = Clamp(targetSpeed[index].second / targetSpeed[index - 1].second, 1 / SpeedRatioMax, SpeedRatioMax);
+                            speedDiff << ratio;
+                        }
+                    }
+                    speedDev = StatisticsUtil::GeometricAbsDev(speedDiff, 1.0);
+                    speedRating = (barRate * 0.7 + 2500) * (speedDev - 1.0);
+                }
+                barRate += speedRating;
                 if (barRate > 0) {
                     barRatings.push_back(barRate);
                 }
@@ -350,39 +379,12 @@ namespace ct
             + percentile97Rating * 0.33
             + maxRating * 0.08;
 
-        // バラつき補正
-        double speedRating = 0;
-        double speedDev = 1;
-        {
-            Array<std::pair<int64, double>> targetSpeed;
-            for (size_t index = 0; index < notes.size(); ++index) {
-                if (speeds[index] >= 10000 || speeds[index] <= 0) {
-                    continue;
-                }
-                if (notes[index].type == 9) {
-                    // 白は無視
-                    continue;
-                }
-                targetSpeed.emplace_back(notes[index].sample, Abs(notes[index].speed));
-            }
-            Array<double> speedDiff;
-            for (size_t index = 1; index < targetSpeed.size(); ++index) {
-                if (targetSpeed[index].first < targetSpeed[index - 1].first + 22050) {
-                    double ratio = Clamp(targetSpeed[index].second / targetSpeed[index - 1].second, 1 / SpeedRatioMax, SpeedRatioMax);
-                    speedDiff << ratio;
-                }
-            }
-            speedDev = StatisticsUtil::GeometricAbsDev(speedDiff, 1.0);
-            speedRating = (ratingMix * 0.7 + 9000) * (speedDev - 1.0);
-        }
-        const double otherRating = ratingMix + speedRating;
-
         // ノーツ数重み補正
-        const double ratingPerNote = otherRating / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 50));
-        const double noteWeightCap = Min(2000 * Sqrt(static_cast<double>(sheet.getTotalNotes())), otherRating);
+        const double ratingPerNote = ratingMix / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 50));
+        const double noteWeightCap = Min(2000 * Sqrt(static_cast<double>(sheet.getTotalNotes())), ratingMix);
         const double noteWeight = Min(Pow(ratingPerNote, 2.8) / 63.0, noteWeightCap);
 
-        const double ratingResult = otherRating + noteWeight;
+        const double ratingResult = ratingMix + noteWeight;
         return AnalyzeResult
         {
             .rating = static_cast<uint64>(Math::Round(ratingResult)),
@@ -392,7 +394,7 @@ namespace ct
             .percentile97Rating = static_cast<uint64>(Math::Round(percentile97Rating)),
             .maxRating = static_cast<uint64>(Math::Round(maxRating)),
             .noteWeightRating = static_cast<uint64>(Math::Round(noteWeight)),
-            .speedDev = speedDev,
+            .speedDev = 0,
         };
     }
 }
