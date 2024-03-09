@@ -394,7 +394,6 @@ namespace ct
             .percentile97Rating = static_cast<uint64>(Math::Round(percentile97Rating)),
             .maxRating = static_cast<uint64>(Math::Round(maxRating)),
             .noteWeightRating = static_cast<uint64>(Math::Round(noteWeight)),
-            .speedDev = 0,
         };
     }
 }

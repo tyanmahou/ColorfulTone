@@ -109,7 +109,7 @@ namespace ct::dev
                     log.writeln(U"No, Path, Lv, Star, Count, Time, Rating, Mean, Median, 80%Tile, 97%Tile, Max, NoteWeight, SpeedDev, pLv");
                     size_t no = 1;
                     for (const Data& d : data) {
-                        String ln = U"{}, {}, {}, {}, {}, {:.2f}, {}, {}, {}, {}, {}, {}, {}, {}, {}"_fmt(
+                        String ln = U"{}, {}, {}, {}, {}, {:.2f}, {}, {}, {}, {}, {}, {}, {}, {}"_fmt(
                             no,
                             d.path, 
                             d.level,
@@ -123,7 +123,6 @@ namespace ct::dev
                             d.result.percentile97Rating,
                             d.result.maxRating,
                             d.result.noteWeightRating,
-                            d.result.speedDev,
                             d.pLevel
                         );
                         log.writeln(ln);
