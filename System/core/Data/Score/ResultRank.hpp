@@ -18,12 +18,12 @@ namespace ct
 		};
 	public:
 		static s3d::String GetRankTextureName(float clearRate);
-		static float CalcBaseRate(const std::array<uint32, Score::TERM>& judges, s3d::uint32 total);
-		static float CalcClearRate(const Score& score, s3d::uint32 totalNotes);
-		static float CalcClearRateAsDownType(const Score& score, s3d::uint32 totalNotes);
+		static float CalcBaseRate(const std::array<size_t, Score::TERM>& judges, size_t total);
+		static float CalcClearRate(const Score& score, size_t totalNotes);
+		static float CalcClearRateAsDownType(const Score& score, size_t totalNotes);
 		static float CalcLifeRate(const Score& score);
 
-		static ScoreModel CalcScore(const Score& score, s3d::uint32 totalNotes);
+		static ScoreModel CalcScore(const Score& score, size_t totalNotes);
 
 		static float ToRate(Rank rank);
 		static float ToRate(const s3d::String& rank);

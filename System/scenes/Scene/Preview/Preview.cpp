@@ -98,7 +98,7 @@ namespace ct
             //プレイモード
             if (KeyF1.down()) {
                 SoundManager::PlaySe(U"desisionSmall");
-                AutoPlayManager::ChangePlayMode();
+                PlayContext::ChangeAutoPlay(); 
             }
             if (KeyF5.down()) {
                 if (!m_isPlay) {

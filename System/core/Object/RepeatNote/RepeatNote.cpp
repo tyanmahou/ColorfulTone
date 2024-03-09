@@ -31,12 +31,12 @@ namespace ct
         m_isStart = false;
         Note::init();
     }
-    bool RepeatNote::update(const PlayContext& context)
+    bool RepeatNote::update(const PlaybackState& state)
     {
         if (!m_isActive)
             return true;
 
-        const auto timing = m_timingSample - context.samplePos;
+        const auto timing = m_timingSample - state.samplePos;
 
         //判定範囲まで到達してなければタップ処理を行わない
         if (timing > JudgeRange(Judge::Good))
@@ -78,16 +78,16 @@ namespace ct
         };
     }
 
-    bool RepeatEnd::update(const PlayContext& context)
+    bool RepeatEnd::update(const PlaybackState& state)
     {
         if (!m_isActive || !m_parent->isFirstTap())
             return true;
 
-        const auto samplePos = context.samplePos;
+        const auto samplePos = state.samplePos;
         const auto timing = m_timingSample - samplePos;
 
         // 1小節のSample
-        const double timePerBar = 60.0 * 4.0 / context.bpm;
+        const double timePerBar = 60.0 * 4.0 / state.bpm;
         const s3d::int64 samplePerBar = static_cast<s3d::int64>(timePerBar * 44100);
 
         //初期化
@@ -96,7 +96,7 @@ namespace ct
             m_lastSamplePos = samplePos;
         }
         //オートプレイ----------------------
-        if (AutoPlayManager::IsAutoPlay()) {
+        if (PlayContext::IsAutoPlay()) {
             if (m_lastSamplePos == samplePos || samplePos > m_lastSamplePos + samplePerBar / (m_interval * 2)) {
                 static s3d::int32 tap = 0;
                 ++tap %= 3;

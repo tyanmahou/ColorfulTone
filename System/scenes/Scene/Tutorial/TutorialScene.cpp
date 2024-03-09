@@ -14,8 +14,7 @@ namespace ct
 
 		m_musicGame.init(m_music[0], getData().m_scrollRate);
 
-		AutoPlayManager::SetAutoPlay(false);
-		PracticeManager::SetPracticeMode(false);
+		PlayContext::Revert();
 	}
 
 	//--------------------------------------------------------------------------------

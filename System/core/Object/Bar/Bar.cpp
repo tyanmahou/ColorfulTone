@@ -3,7 +3,7 @@
 
 namespace ct
 {
-    bool Bar::update([[maybe_unused]] const PlayContext& context)
+    bool Bar::update([[maybe_unused]] const PlaybackState& state)
     {
         return true;
     }

@@ -256,18 +256,18 @@ namespace ct
 	//関数：update
 	//--------------------------------------------------------------------------------
 
-	bool Note::update(const PlayContext& context)
+	bool Note::update(const PlaybackState& state)
 	{
 		if (!m_isActive)
 			return true;
 
 		//ロング用 始点が押されてたらそのままつぎののーつの判定に
 		if (isFirstTap()) {
-			if (AutoPlayManager::IsAutoPlay())
+			if (PlayContext::IsAutoPlay())
 				AutoPlayManager::Input(m_type);
 			return true;
 		}
-		const auto timing = m_timingSample - context.samplePos;
+		const auto timing = m_timingSample - state.samplePos;
 
 		//ミス
 		if (timing < -JudgeRange(Judge::Good) || (m_type == 9 && timing <= 0)) {
@@ -280,7 +280,7 @@ namespace ct
 			return true;
 
 		//オートプレイ---------------------------------
-		if (AutoPlayManager::IsAutoPlay()) {
+		if (PlayContext::IsAutoPlay()) {
 			if (timing <= OneFrameSample() && m_type != 9) {
 				NoteType type = m_type;
 				if (type == 18) {
@@ -314,7 +314,7 @@ namespace ct
 			} else if (aTiming <= JudgeRange(Judge::Good)) {
 				this->tapUpdate(Score::Good);
 			}
-			RepeatEnd::notesTapSample = context.samplePos;
+			RepeatEnd::notesTapSample = state.samplePos;
 
 			return InputManager::IsAnyClicked();
 		}

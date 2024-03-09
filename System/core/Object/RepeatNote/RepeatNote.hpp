@@ -18,7 +18,7 @@ namespace ct
 
         void init()override;
 
-        bool update(const PlayContext& context)override;
+        bool update(const PlaybackState& state)override;
         void diffDraw(double count, double scrollRate)const override;
 
         bool isFirstTap()const override
@@ -45,7 +45,7 @@ namespace ct
 
         RepeatEnd(s3d::int64 timingSample, double firstCount, double speed, std::shared_ptr<Note>& parent, double interval = 8.0);
         void init()override;
-        bool update(const PlayContext& context)override;
+        bool update(const PlaybackState& state)override;
         void diffDraw(double count, double scrollRate)const override;
 
         ObjectOrder getOrder(s3d::int64 sample) const override

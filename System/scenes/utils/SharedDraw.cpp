@@ -4,7 +4,7 @@
 #include <core/Data/MusicData/MusicData.hpp>
 #include <core/Play/HighSpeed/HighSpeedDemo.hpp>
 #include <core/Play/PlayNotesData.hpp>
-#include <core/Play/Practice/PracticeManager.hpp>
+#include <core/Play/Context/PlayContext.hpp>
 #include <commons/FontName.hpp>
 #include <Siv3D.hpp>
 
@@ -115,11 +115,11 @@ namespace ct::SharedDraw
 	}
 	void DrawPlayContextHeader(const s3d::Vec2& pos)
 	{
-		if (AutoPlayManager::IsAutoPlay() && PracticeManager::IsPractice()) {
+		if (PlayContext::IsAutoPlay() && PlayContext::IsPracticePlay()) {
 			PutText(U"AutoPlay / Practice", Arg::center = pos);
-		} else if (AutoPlayManager::IsAutoPlay()) {
+		} else if (PlayContext::IsAutoPlay()) {
 			PutText(U"AutoPlay", Arg::center = pos);
-		} else if (PracticeManager::IsPractice()) {
+		} else if (PlayContext::IsPracticePlay()) {
 			PutText(U"Practice", Arg::center = pos);
 		}
 	}

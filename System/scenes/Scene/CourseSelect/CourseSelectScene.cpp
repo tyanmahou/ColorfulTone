@@ -225,8 +225,7 @@ namespace ct
 			getData().m_resultScore = Score();
 
 			// 絶対Autoは解除する
-			AutoPlayManager::SetAutoPlay(false);
-			PracticeManager::SetPracticeMode(false);
+			PlayContext::Revert();
 		} else {
 			getData().m_course.exit();
 		}

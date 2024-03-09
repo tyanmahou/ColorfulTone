@@ -77,7 +77,7 @@ namespace ct
         /// <summary>
         /// ノーツ数取得
         /// </summary>
-        s3d::uint32 getTotalNotes() const;
+        size_t getTotalNotes() const;
 
         /// <summary>
         /// 譜面カラー

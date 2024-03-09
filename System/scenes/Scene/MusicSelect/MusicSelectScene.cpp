@@ -212,11 +212,11 @@ namespace ct
             }
             //プレイモード
             if (KeyF1.down()) {
-                AutoPlayManager::ChangePlayMode();
+                PlayContext::ChangeAutoPlay();
                 SoundManager::PlaySe(U"desisionSmall");
             }
             if (KeyF12.down()) {
-                PracticeManager::ChangePlayMode();
+                PlayContext::ChangePracticePlay();
                 SoundManager::PlaySe(U"desisionSmall");
             }
             //情報切り替え

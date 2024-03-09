@@ -141,7 +141,7 @@ namespace ct
         return m_handle->getFilePath();
     }
 
-    s3d::uint32 NotesData::getTotalNotes() const
+    size_t NotesData::getTotalNotes() const
     {
         return getSheet().getTotalNotes();
     }

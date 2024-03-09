@@ -9,10 +9,6 @@ namespace ct
     {
         friend class DynamicSingleton<AutoPlayManager>;
     public:
-
-        static void ChangePlayMode();
-        static void SetAutoPlay(bool isAuto);
-        static bool IsAutoPlay();
         static bool IsRedPressed();
         static bool IsBluePressed();
         static bool IsYellowPressed();

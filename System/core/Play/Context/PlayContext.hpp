@@ -20,6 +20,10 @@ namespace ct
         static void SetPracticePlay(bool isPractice);
         static bool IsPracticePlay();
 
+        // リバート
+        static void Revert();
+
+        static bool CanNotUpdateScore();
     private:
         bool m_isAutoPlay = false;
         bool m_isPractice = false;

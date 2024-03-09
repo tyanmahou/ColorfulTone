@@ -7,11 +7,11 @@
 
 namespace ct
 {
-    bool TextObject::update(const PlayContext& context)
+    bool TextObject::update(const PlaybackState& state)
     {
         if (!m_isActive)
             return true;
-        const auto samplePos = context.samplePos;
+        const auto samplePos = state.samplePos;
         auto timing = m_timingSample - samplePos;
         if (s3d::Abs(timing) < s3d::Abs(timing - OneFrameSample()))
             timing = 0;

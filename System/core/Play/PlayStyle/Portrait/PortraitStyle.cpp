@@ -91,7 +91,7 @@ void PortraitStyle::drawJudgeLine() const
     Line({ 400 - g_width / 2,Y }, { 400 + g_width / 2,Y }).draw(15, judgeLineColor);
 }
 
-void PortraitStyle::drawComboAndRate(s3d::int32 combo, float rate)
+void PortraitStyle::drawComboAndRate(size_t combo, float rate)
 {
     const FontAsset font(FontName::Combo);
 

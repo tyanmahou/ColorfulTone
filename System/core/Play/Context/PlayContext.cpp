@@ -26,4 +26,13 @@ namespace ct
     {
         return Instance()->m_isPractice;
     }
+    void PlayContext::Revert()
+    {
+        SetAutoPlay(false);
+        SetPracticePlay(false);
+    }
+    bool PlayContext::CanNotUpdateScore()
+    {
+        return IsAutoPlay() || IsPracticePlay();
+    }
 }

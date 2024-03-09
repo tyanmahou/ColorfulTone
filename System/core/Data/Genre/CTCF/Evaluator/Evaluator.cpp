@@ -161,7 +161,7 @@ namespace
                 return ::Compare(m_notes.getNotesArtistName(), value, op);
             }
             if (kind == IdentifierValueKind::TotalNote) {
-                uint32 total = Parse<uint32>(value);
+                size_t total = Parse<size_t>(value);
                 return ::Compare(m_notes.getTotalNotes(), total, op);
             }
             if (kind == IdentifierValueKind::ClearRate) {

@@ -28,7 +28,7 @@ namespace ct
             m_style->drawFrame(red, blue, yellow, drawCallback);
         }
 
-        void drawComboAndRate(s3d::int32 combo, float rate)const
+        void drawComboAndRate(size_t combo, float rate)const
         {
             m_style->drawComboAndRate(combo, rate);
         }

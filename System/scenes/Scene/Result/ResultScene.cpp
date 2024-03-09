@@ -111,7 +111,7 @@ namespace ct
 			m_score = ResultRank::CalcScore(m_data->m_resultScore, notes.getTotalNotes());
 
 			// autoのばあいセーブしない
-			if (AutoPlayManager::IsAutoPlay() || PracticeManager::IsPractice()) {
+			if (PlayContext::CanNotUpdateScore()) {
 				return;
 			}
 			m_isNewRecord = ::UpdateScore(m_score, notes);

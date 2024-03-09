@@ -160,7 +160,7 @@ namespace ct
 		Circle(400, 300, 40).drawFrame(2, 2, judgeLineColor);
 	}
 
-	void NormalStyle::drawComboAndRate(s3d::int32 combo, float rate)
+	void NormalStyle::drawComboAndRate(size_t combo, float rate)
 	{
 		const FontAsset font(FontName::Combo);
 

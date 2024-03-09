@@ -19,7 +19,7 @@ namespace
 		return { 90, 370, 370, 120 };
 	}
 	using Judges = Array<std::pair<RectF, Color>>;
-	void CreateJudgeGrapgh(Judges& judges, const Score& result, uint32 total)
+	void CreateJudgeGrapgh(Judges& judges, const Score& result, size_t total)
 	{
 		constexpr auto graphRect = ::GraphRect();
 
@@ -33,18 +33,18 @@ namespace
 
 		for (uint8 row = 0; row < divide; ++row)
 		{
-			std::array<uint32, Score::TERM> rowJudges{ 0 };
-			uint32 start = total * row / divide;
-			uint32 end = total * (row + 1) / divide;
+			std::array<size_t, Score::TERM> rowJudges{ 0 };
+			size_t start = total * row / divide;
+			size_t end = total * (row + 1) / divide;
 
-			for (uint32 index = start; index < end || index == start; ++index)
+			for (size_t index = start; index < end || index == start; ++index)
 			{
 				if (index >= history.size()) {
 					break;
 				}
 				++rowJudges[history[index]];
 			}
-			const uint32 rowTotal = end > start ? end - start : 1;
+			const size_t rowTotal = end > start ? end - start : 1;
 			const auto rate = ResultRank::CalcBaseRate(rowJudges, rowTotal);
 			double height = graphRect.h * static_cast<double>(rate);
 			const Vec2 pos{ graphRect.x + graphRect.w*row / divide,graphRect.y + graphRect.h - height };
@@ -69,7 +69,7 @@ namespace
 			judges.push_back(std::make_pair(RectF{ pos, size }, color));
 		}
 	}
-	void CreateLifeGraph(LineString& lifes, const Score& result, uint32 total)
+	void CreateLifeGraph(LineString& lifes, const Score& result, size_t total)
 	{
 		constexpr auto graphRect = ::GraphRect();
 
@@ -140,7 +140,7 @@ namespace
 			.drawSub(music.getArtistAndAuthority())
 			.drawDetail(notes.getLevelNameAndLevel());
 	}
-	void DrawCount(const Vec2& pos, const String& name, uint32 count)
+	void DrawCount(const Vec2& pos, const String& name, size_t count)
 	{
 		constexpr Vec2 basePos{ 530, 275 };
 		const FontAsset font8os(FontName::LodingLabel);
@@ -149,9 +149,9 @@ namespace
 	}
 	void DrawCount(const Vec2& pos, const String& name, double count)
 	{
-		DrawCount(pos, name, static_cast<uint32>(count));
+		DrawCount(pos, name, static_cast<size_t>(count));
 	}
-	void DrawResult(const Score& result, const uint32 total, double t)
+	void DrawResult(const Score& result, const size_t total, double t)
 	{
 		// コンボと判定
 		constexpr Vec2 basePos{ 530, 285 };

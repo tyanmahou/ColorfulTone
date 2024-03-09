@@ -18,9 +18,7 @@ namespace ct
 
         std::array<FrameCount, 3> m_isPressed;
     public:
-        bool m_autoPlay;
         Impl() :
-            m_autoPlay(false),
             m_isPressed{ 0,0,0 }
         {}
 
@@ -84,22 +82,6 @@ namespace ct
     AutoPlayManager::AutoPlayManager() :
         m_pImpl(std::make_unique<Impl>())
     {}
-
-    void AutoPlayManager::ChangePlayMode()
-    {
-        bool& isAuto = Instance()->m_pImpl->m_autoPlay;
-        isAuto = !isAuto;
-    }
-
-    void AutoPlayManager::SetAutoPlay(bool isAuto)
-    {
-        Instance()->m_pImpl->m_autoPlay = isAuto;
-    }
-
-    bool AutoPlayManager::IsAutoPlay()
-    {
-        return Instance()->m_pImpl->m_autoPlay;
-    }
 
     bool AutoPlayManager::IsRedPressed()
     {

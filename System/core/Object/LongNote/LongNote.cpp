@@ -91,14 +91,14 @@ namespace ct
         };
     }
 
-    bool LongNote::update(const PlayContext& context)
+    bool LongNote::update(const PlaybackState& state)
     {
         m_isActive = m_parent->isActive();//親のノーツの存在と同期
 
         if (!m_isActive || !m_parent->isFirstTap())
             return true;
 
-        const auto timing = m_timingSample - context.samplePos;
+        const auto timing = m_timingSample - state.samplePos;
 
 
         if (timing <= 0)//ロングの終点
@@ -116,7 +116,7 @@ namespace ct
             }
         }
         //オートプレイ----------------------
-        if (AutoPlayManager::IsAutoPlay()) {
+        if (PlayContext::IsAutoPlay()) {
             return true;
         }
         //----------------------------------

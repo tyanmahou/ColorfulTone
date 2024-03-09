@@ -21,7 +21,7 @@ namespace ct
         LongNote(s3d::int64 timingSample, const NoteType type, double firstCount, double speed, std::shared_ptr<Note>& parent);
         virtual ~LongNote() = default;
         virtual void init() override;
-        virtual bool update(const PlayContext& context)override;
+        virtual bool update(const PlaybackState& state)override;
         virtual void diffDraw(double count, double scrollRate)const override;
         const double& getSpeed()const { return m_scrollSpeed; }
         const  NoteType getType()const { return m_type; }

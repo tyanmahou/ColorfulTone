@@ -17,9 +17,9 @@ namespace ct
 
             TERM,
         };
-        s3d::uint32	m_currentCombo;
-        s3d::uint32 m_maxCombo;
-        std::array<s3d::uint32, Judge::TERM> m_judgeCount{ 0 };
+        size_t	m_currentCombo;
+        size_t m_maxCombo;
+        std::array<size_t, Judge::TERM> m_judgeCount{ 0 };
         s3d::Array<Judge> m_judgeHistory;
         // ライフ(桁落ちの対策のため整数型)
         s3d::int32 m_initLife;

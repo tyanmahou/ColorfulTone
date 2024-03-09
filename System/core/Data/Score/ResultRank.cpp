@@ -25,7 +25,7 @@ namespace ct
 		return U"F";
 	}
 
-	float ResultRank::CalcBaseRate(const std::array<uint32, Score::TERM>& judges, uint32 total)
+	float ResultRank::CalcBaseRate(const std::array<size_t, Score::TERM>& judges, size_t total)
 	{
 		if (total == 0) {
 			return 1.0f;
@@ -33,7 +33,7 @@ namespace ct
 		return (judges[Score::Perfect] + judges[Score::Great] * 0.7f + judges[Score::Good] * 0.5f) / static_cast<float>(total);
 	}
 
-	float ResultRank::CalcClearRate(const Score& score, s3d::uint32 totalNotes)
+	float ResultRank::CalcClearRate(const Score& score, size_t totalNotes)
 	{
 		float clearRate;
 		auto& judges = score.m_judgeCount;
@@ -43,7 +43,7 @@ namespace ct
 		return clearRate;
 	}
 
-	float ResultRank::CalcClearRateAsDownType(const Score& score, s3d::uint32 totalNotes)
+	float ResultRank::CalcClearRateAsDownType(const Score& score, size_t totalNotes)
 	{
 		float clearRate;
 		auto& judges = score.m_judgeCount;
@@ -62,7 +62,7 @@ namespace ct
 		return static_cast<float>(score.m_life) / 100.0f;
 	}
 
-	ScoreModel ResultRank::CalcScore(const Score& score, s3d::uint32 totalNotes)
+	ScoreModel ResultRank::CalcScore(const Score& score, size_t totalNotes)
 	{
 		ScoreModel ret;
 		const auto& judges = score.m_judgeCount;

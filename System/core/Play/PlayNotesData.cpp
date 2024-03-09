@@ -146,12 +146,12 @@ namespace ct
             return;
         const int64 ajudstSample = 735 * Game::Config().m_timingAdjust;
         const int64 fixedSample = samplePos + ajudstSample;
-        PlayContext context{ fixedSample , m_tempoInfos.at(m_currentBarIndex).m_bar.getBPM() };
+        PlaybackState state{ fixedSample , m_tempoInfos.at(m_currentBarIndex).m_bar.getBPM() };
 
         // ノーツを優先度でソート
         auto soretdObjs = m_objects.stable_sorted_by(ObjectSorter{ fixedSample });
         for (auto&& elm : soretdObjs) {
-            if (!elm->update(context)) {
+            if (!elm->update(state)) {
                 break;
             }
         }

@@ -21,7 +21,7 @@ namespace ct
         virtual void drawFrame([[maybe_unused]] bool red, [[maybe_unused]] bool blue, [[maybe_unused]] bool yellow, std::function<void()> [[maybe_unused]] drawCallback) const
         {
         }
-        virtual void drawComboAndRate([[maybe_unused]] s3d::int32 combo, [[maybe_unused]] float rate)
+        virtual void drawComboAndRate([[maybe_unused]] size_t combo, [[maybe_unused]] float rate)
         {
         };
 

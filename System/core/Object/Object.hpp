@@ -8,7 +8,10 @@ namespace ct
 {
     struct StopRange;
 
-    struct PlayContext
+    /// <summary>
+    /// 再生状態
+    /// </summary>
+    struct PlaybackState
     {
         s3d::int64 samplePos;
         BPMType bpm;
@@ -38,7 +41,7 @@ namespace ct
         {};
         virtual void init() { m_isActive = true; }
         virtual ~Object() {};
-        virtual bool update(const PlayContext& context) = 0;
+        virtual bool update(const PlaybackState& state) = 0;
 
         virtual void diffDraw(double count, double scrollRate)const = 0;
 

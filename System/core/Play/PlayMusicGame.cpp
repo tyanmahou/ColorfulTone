@@ -33,7 +33,7 @@ namespace
 
     bool isInput(bool autoPlay, bool userPlay)
     {
-        return AutoPlayManager::IsAutoPlay() ? autoPlay : userPlay;
+        return PlayContext::IsAutoPlay() ? autoPlay : userPlay;
     }
 
     Stopwatch g_startTimer;
@@ -122,7 +122,7 @@ namespace ct
     void PlayMusicGame::reflesh(const NotesData& notes)
     {
         //譜面取得
-        m_playNotesData = PlayNotesData{ notes , PracticeManager::IsPractice()};
+        m_playNotesData = PlayNotesData{ notes , PlayContext::IsPracticePlay()};
 
         m_totalNotes = m_playNotesData.getTotalNotes();
 
@@ -147,7 +147,7 @@ namespace ct
             return;
         }
         //オートプレイのキー入力更新
-        if (AutoPlayManager::IsAutoPlay()) {
+        if (PlayContext::IsAutoPlay()) {
             AutoPlayManager::Update();
         } else {
             InputManager::Update();

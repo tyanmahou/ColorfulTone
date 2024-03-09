@@ -14,7 +14,7 @@
 
 #include <core/Input/PlayKey.hpp>
 #include <core/Input/AutoPlayManager.hpp>
-#include <core/Play/Practice/PracticeManager.hpp>
+#include <core/Play/Context/PlayContext.hpp>
 
 #include <scenes/Fade/Fade.hpp>
 #include <scenes/utils/Util.hpp>

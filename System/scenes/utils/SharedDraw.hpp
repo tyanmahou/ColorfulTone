@@ -51,5 +51,5 @@ namespace ct::SharedDraw
     /// ヘッダー描画
     /// </summary>
     /// <param name="pos"></param>
-    void DrawPlayContextHeader(const s3d::Vec2& pos = Vec2{ s3d::Scene::CenterF().x, 40 });
+    void DrawPlayContextHeader(const s3d::Vec2& pos = s3d::Vec2{ s3d::Scene::CenterF().x, 40 });
 }
