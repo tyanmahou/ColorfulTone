@@ -378,7 +378,7 @@ namespace ct
         const double otherRating = ratingMix + speedRating;
 
         // ノーツ数重み補正
-        const double ratingPerNote = otherRating / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 1));
+        const double ratingPerNote = otherRating / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 50));
         const double noteWeight = Pow(ratingPerNote, 2.8) / 63.0;
 
         const double ratingResult = otherRating + noteWeight;
