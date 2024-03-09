@@ -353,7 +353,7 @@ namespace ct
                         }
                     }
                     speedDev = StatisticsUtil::GeometricAbsDev(speedDiff, 1.0);
-                    speedRating = (barRate * 0.7 + 2500) * (speedDev - 1.0);
+                    speedRating = (barRate * 0.65 + 3000) * (speedDev - 1.0);
                 }
                 barRate += speedRating;
                 if (barRate > 0) {
