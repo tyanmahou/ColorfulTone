@@ -38,11 +38,12 @@ namespace ct
         m_objects.reserve(sheet.getNotes().size() + sheet.getLyrics().size() + sheet.getBars().size());
         // 音符追加
         for (const NoteEntity& n : sheet.getNotes()) {
-            auto [sample, count, type, speed, interval] = n;
+            auto [sample, count, type, speed, noteBpm, interval] = n;
             if (isPractice) {
                 BarCount b = soundBar(sample);
                 count = NotesData::RESOLUTION * b.bar + NotesData::RESOLUTION * (b.f);
                 speed = 1.0;
+                interval *= (noteBpm / soundBar.getBPM());
             }
 
             //ノーツ生成

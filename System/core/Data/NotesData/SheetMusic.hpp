@@ -19,6 +19,7 @@ namespace ct
         NoteType type;
         double speed;
 
+        BPMType bpm;
         double interval;
     };
 
@@ -149,6 +150,7 @@ namespace ct
         s3d::String getLevelNameAndLevel() const;
 
         s3d::int64 calcTimingSample(double count) const;
+        s3d::int64 calcTimingSample(double count, BPMType& outBpm) const;
 
         const s3d::FilePath& getPath() const
         {

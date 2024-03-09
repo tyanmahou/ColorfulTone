@@ -109,18 +109,8 @@ namespace ct
         // 速度基準の計算
         Array<double> speeds;
         speeds.reserve(notes.size());
-        {
-            size_t notesIndex = 0;
-
-            for (size_t tempoIndex = 0; tempoIndex < tempos.size(); ++tempoIndex) {
-                int64 nextSample = tempoIndex + 1 < tempos.size() ? tempos[tempoIndex + 1].sample : sheet.getOffsetedTotalSample();
-
-                while (notesIndex < notes.size() && notes[notesIndex].sample < nextSample) {
-                    // BPM考慮した
-                    speeds.push_back(Abs(tempos[tempoIndex].bpm * notes[notesIndex].speed));
-                    ++notesIndex;
-                }
-            }
+        for (const NoteEntity& note : notes){
+            speeds.push_back(Abs(note.bpm * note.speed));
         }
         // 基準速度
         double speedBase = StatisticsUtil::GeometricMeanInIQRBounds(speeds);

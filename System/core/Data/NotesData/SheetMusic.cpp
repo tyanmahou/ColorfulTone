@@ -126,7 +126,8 @@ namespace ct
 
                     double judgeOffset = GetJudgeOffset(count, stopInfos);
                     const double fixedCount = count + judgeOffset;
-                    const int64 timingSample = calcTimingSample(fixedCount);
+                    BPMType noteBpm;
+                    const int64 timingSample = calcTimingSample(fixedCount, noteBpm);
 
                     //ノーツのスピード
                     double spd;
@@ -143,6 +144,7 @@ namespace ct
                         .count = fixedCount,
                         .type = type,
                         .speed = spd,
+                        .bpm = noteBpm,
                         .interval = repeatInterval
                     });
                 }
@@ -301,7 +303,7 @@ namespace ct
     {
         return m_lvName + U" Lv" + this->getLevelWithStar();
     }
-    s3d::int64 ct::SheetMusic::calcTimingSample(double count) const
+    s3d::int64 SheetMusic::calcTimingSample(double count, BPMType& outBpm) const
     {
         size_t historyIndex = 0;
         for (size_t i = m_tempos.size() - 1; i >= 0; --i) {
@@ -311,11 +313,18 @@ namespace ct
             }
         }
         const BPMType bpm = m_tempos[historyIndex].bpm;
+        outBpm = bpm;
+
         const double changeCount = m_tempos[historyIndex].count;
         const int64 changeSample = m_tempos[historyIndex].sample;
 
         const double samplePerBar = 4 * 44100 * 60 / bpm;
         const double preBPMSample = (count - changeCount) * samplePerBar / static_cast<double>(SheetMusic::RESOLUTION);
         return changeSample + static_cast<int64>(preBPMSample);
+    }
+    s3d::int64 SheetMusic::calcTimingSample(double count) const
+    {
+        [[maybe_unused]] BPMType bpm;
+        return calcTimingSample(count, bpm);
     };
 }
