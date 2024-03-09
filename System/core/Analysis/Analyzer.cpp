@@ -379,7 +379,8 @@ namespace ct
 
         // ノーツ数重み補正
         const double ratingPerNote = otherRating / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 50));
-        const double noteWeight = Pow(ratingPerNote, 2.8) / 63.0;
+        const double noteWeightCap = Min(2000 * Sqrt(static_cast<double>(sheet.getTotalNotes())), otherRating);
+        const double noteWeight = Min(Pow(ratingPerNote, 2.8) / 63.0, noteWeightCap);
 
         const double ratingResult = otherRating + noteWeight;
         return AnalyzeResult
