@@ -47,6 +47,8 @@ namespace ct
 				}
 			case GenreType::Favorite:
 				return s3d::TextureAsset(U"genre_favorite");
+			case GenreType::Custom:
+				return s3d::TextureAsset(U"genre_custom_folder");
 			default:
 				break;
 			}
