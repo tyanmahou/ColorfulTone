@@ -298,6 +298,7 @@ namespace ct
             config.add(U"ROTATE240", []() {Game::Config().m_random = RandomNoteType::Rotate240; }, U"赤を青, 青を黄, 黄を赤に変更します");
             config.add(U"ROTATE240 MIRROR", []() {Game::Config().m_random = RandomNoteType::Rotate240Mirror; }, U"赤と青の配置を反転します");
             config.add(U"RANDOM", []() {Game::Config().m_random = RandomNoteType::Random; }, U"各色の配置をランダムに変更します");
+            config.add(U"BAR RANDOM", []() {Game::Config().m_random = RandomNoteType::BarRandom; }, U"1小節ごとに配置をランダムに変更します");
             config.add(U"PURE RANDOM", []() {Game::Config().m_random = RandomNoteType::SRandom; }, U"ノーツごとに配置をランダムに変更します");
 
             config.init(static_cast<size_t>(Game::Config().m_random));

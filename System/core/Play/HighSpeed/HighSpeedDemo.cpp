@@ -85,7 +85,7 @@ namespace ct
 		}
 		for (size_t i = 0; i < barCount; ++i) {
 			auto count = NotesData::RESOLUTION * i;
-			m_objects.emplace_back(std::make_shared<Bar>(static_cast<double>(count), 1));
+			m_objects.emplace_back(std::make_shared<Bar>(0, static_cast<double>(count), 1));
 		}
 	}
 

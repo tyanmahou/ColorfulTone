@@ -15,11 +15,15 @@ namespace ct
         static void Init(RandomNoteType randomType);
         static NoteType Cast(NoteType type);
         static void ResetIgnore();
+        static void ChangeRandomLine();
+
     private:
         void init(RandomNoteType randomType);
         NoteType cast(NoteType type);
         NoteType cast(NoteType type, RandomNoteType randomType);
         void resetIgnore();
+
+        void changeRandomLine();
     private:
         RandomNoteType m_type = RandomNoteType::None;
         RandomNoteType m_randomLane = RandomNoteType::None;

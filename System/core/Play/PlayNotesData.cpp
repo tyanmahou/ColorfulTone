@@ -6,7 +6,7 @@
 #include <core/Object/Text/TextObject.hpp>
 #include <core/Object/LongNote/LongNote.hpp>
 #include <core/Object/RepeatNote/RepeatNote.hpp>
-
+#include <core/Play/Random/RandomNote.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -88,7 +88,7 @@ namespace ct
                 speed = 1.0;
             }
 
-            m_objects.emplace_back(std::make_shared<Bar>(count, speed));
+            m_objects.emplace_back(std::make_shared<Bar>(sample, count, speed));
         }
         if (!isPractice) {
             // 停止追加
@@ -119,8 +119,30 @@ namespace ct
     void PlayNotesData::reset()
     {
         RepeatEnd::notesTapSample = 0;
-        for (auto&& elm : m_objects) {
-            elm->init();
+        if (Game::Config().m_random == RandomNoteType::BarRandom) {
+            // 小節の検知用にソート
+            auto sorted = m_objects.stable_sorted_by([](const std::shared_ptr<Object>& a, const std::shared_ptr<Object>& b) {
+                if (a->getFirstCount() == b->getFirstCount()) {
+                    auto barA = std::dynamic_pointer_cast<Bar>(a);
+                    auto barB = std::dynamic_pointer_cast<Bar>(b);
+                    
+                    int32 kindA = (barA != nullptr) ? 0 : 1;
+                    int32 kindB = (barB != nullptr) ? 0 : 1;
+
+                    return kindA < kindB;
+                }
+                return a->getFirstCount() < b->getFirstCount();
+            });
+            for (auto&& elm : sorted) {
+                if (std::dynamic_pointer_cast<Bar>(elm)) {
+                    RandomNote::ChangeRandomLine();
+                }
+                elm->init();
+            }
+        } else {
+            for (auto&& elm : m_objects) {
+                elm->init();
+            }
         }
     }
     void PlayNotesData::synchroCount(const s3d::Audio& sound, double& nowCount)

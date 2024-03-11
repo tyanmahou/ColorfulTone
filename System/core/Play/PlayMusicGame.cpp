@@ -337,6 +337,9 @@ namespace ct
             case RandomNoteType::Random:
                 text = U"RANDOM";
                 break;
+            case RandomNoteType::BarRandom:
+                text = U"BAR RANDOM";
+                break;
             case RandomNoteType::SRandom:
                 text = U"PURE RANDOM";
                 break;

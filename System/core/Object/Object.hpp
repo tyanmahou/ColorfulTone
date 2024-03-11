@@ -47,6 +47,10 @@ namespace ct
 
         void draw(double nowCount, double scrollRate)const;
         const double& getDrawCount()const { return m_drawCount; }
+        double getFirstCount() const
+        {
+            return m_drawCountBase;
+        }
 
         //譜面停止情報の調整
         void addStopCount(const StopRange& stopRange);

@@ -11,6 +11,7 @@ namespace ct
         YRB,
         BRY,
         Random,
+        BarRandom,
         SRandom,
 
         None = RBY,

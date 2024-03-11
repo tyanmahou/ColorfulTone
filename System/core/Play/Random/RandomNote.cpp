@@ -15,10 +15,14 @@ namespace ct
     {
         Instance()->resetIgnore();
     }
+    void RandomNote::ChangeRandomLine()
+    {
+        Instance()->changeRandomLine();
+    }
     void RandomNote::init(RandomNoteType randomType)
     {
         m_type = randomType;
-        if (randomType == RandomNoteType::Random) {
+        if (randomType == RandomNoteType::Random || randomType == RandomNoteType::BarRandom) {
             m_randomLane = static_cast<RandomNoteType>(s3d::Random(0, 5));
         }
         m_ignoreTypeBit = 0;
@@ -119,6 +123,29 @@ namespace ct
             // ランダム
             return cast(type, m_randomLane);
         }
+        if (randomType == RandomNoteType::BarRandom) {
+            // 小節ランダム
+            NoteType casted = cast(type, m_randomLane);
+
+            if (casted == 11) {
+                m_ignoreTypeBit |= 0b001;
+            } else if (casted == 12) {
+                m_ignoreTypeBit |= 0b010;
+            } else if (casted == 13) {
+                m_ignoreTypeBit |= 0b100;
+            } else if (casted == 14) {
+                m_ignoreTypeBit |= 0b110;
+            } else if (casted == 15) {
+                m_ignoreTypeBit |= 0b101;
+            } else if (casted == 16) {
+                m_ignoreTypeBit |= 0b011;
+            } else if (casted == 17) {
+                m_ignoreTypeBit |= 0b111;
+            } else if (casted == 8) {
+                m_ignoreTypeBit = 0;
+            }
+            return casted;
+        }
         if (randomType == RandomNoteType::SRandom) {
             // Sランダム
             if (type == 1 || type == 2 || type == 3) {
@@ -172,6 +199,8 @@ namespace ct
                     m_ignoreTypeBit |= 0b011;
                 } 
                 return choiced;
+            } else if (type == 17) {
+                m_ignoreTypeBit |= 0b111;
             } else if (type == 8) {
                 m_ignoreTypeBit = 0;
             }
@@ -182,5 +211,33 @@ namespace ct
     void RandomNote::resetIgnore()
     {
         m_ignoreTypeBit = 0;
+    }
+    void RandomNote::changeRandomLine()
+    {
+        Array<RandomNoteType> candidate;
+        if (m_ignoreTypeBit == 0b001) {
+            candidate.push_back(RandomNoteType::RBY);
+            candidate.push_back(RandomNoteType::RYB);
+        } else if (m_ignoreTypeBit == 0b010) {
+            candidate.push_back(RandomNoteType::RBY);
+            candidate.push_back(RandomNoteType::YBR);
+        } else if (m_ignoreTypeBit == 0b100) {
+            candidate.push_back(RandomNoteType::RBY);
+            candidate.push_back(RandomNoteType::BRY);
+        } else if (m_ignoreTypeBit == 0b110) {
+            candidate.push_back(RandomNoteType::RBY);
+            candidate.push_back(RandomNoteType::BRY);
+        } else if (m_ignoreTypeBit == 0b101) {
+            candidate.push_back(RandomNoteType::RBY);
+            candidate.push_back(RandomNoteType::YBR);
+        } else if (m_ignoreTypeBit == 0b011) {
+            candidate.push_back(RandomNoteType::RBY);
+            candidate.push_back(RandomNoteType::RYB);
+        } else {
+            // 全対象
+            m_randomLane = static_cast<RandomNoteType>(s3d::Random(0, 5));
+            return;
+        }
+        m_randomLane = candidate.choice();
     }
 }
