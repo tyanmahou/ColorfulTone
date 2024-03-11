@@ -34,9 +34,9 @@ namespace ct
         {
             return Instance().m_refiners;
         }
-        static RefinerType GetRefiner(size_t index)
+        static const GenreFilter& GetFilter(size_t index)
         {
-            return Instance().m_refiners[index].getRefiner();
+            return Instance().m_refiners[index].getFilter();
         }
     };
 }

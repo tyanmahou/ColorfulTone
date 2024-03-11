@@ -1,5 +1,6 @@
 ﻿#include <core/Data/Genre/GenreData.hpp>
 #include <core/Data/Genre/CTCFReader.hpp>
+#include <core/Data/MusicData/MusicData.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -7,10 +8,10 @@ namespace ct
 	class GenreHandle
 	{
 	public:
-		GenreHandle(const GenreType type, const s3d::String& name, RefinerType&& refiner, s3d::int32 order = 0) :
+		GenreHandle(const GenreType type, const s3d::String& name, GenreFilter&& filter, s3d::int32 order = 0) :
 			m_genreType(type),
 			m_name(name),
-			m_refiner(std::move(refiner)),
+			m_filter(std::move(filter)),
 			m_order(order)
 		{}
 
@@ -68,13 +69,13 @@ namespace ct
 			}
 			return m_name < right.m_name;
 		}
-		const RefinerType& getRefiner() const
+		const GenreFilter& getFilter() const
 		{
-			return m_refiner;
+			return m_filter;
 		}
 	private:
 		s3d::String m_name;
-		RefinerType m_refiner;
+		GenreFilter m_filter;
 		GenreType m_genreType;  // ソート用
 		s3d::int32 m_order;     // レベル用
 	};
@@ -84,7 +85,7 @@ namespace ct
 		return std::make_shared<GenreHandle>(
 			GenreType::All, 
 			U"ALL", 
-			[]([[maybe_unused]] const MusicData& music)->bool {return true; }
+			GenreFilter([]([[maybe_unused]] const MusicData& music)->bool {return true; })
 		);
 	}
 
@@ -92,7 +93,7 @@ namespace ct
 	{
 		return std::make_shared<GenreHandle>(
 			GenreType::Favorite, U"お気に入り",
-			[](const MusicData& music)->bool {return  music.isFavorite(); }
+			GenreFilter([](const MusicData& music)->bool {return music.isFavorite(); })
 		);
 	}
 
@@ -101,7 +102,7 @@ namespace ct
 		return std::make_shared<GenreHandle>(
 			GenreType::Folder, 
 			folderName, 
-			[folderName](const MusicData& music)->bool {return music.getGenreName() == folderName; }
+			GenreFilter([folderName](const MusicData& music)->bool {return music.getGenreName() == folderName; })
 		);
 	}
 
@@ -110,9 +111,7 @@ namespace ct
 		return std::make_shared<GenreHandle>(
 			GenreType::Lv, 
 			Format(U"LEVEL:", lv), 
-			[lv](const MusicData& music)->bool {
-			return music.getNotesData().any([lv](const NotesData& notes) {return notes.getLevel() == lv; });
-			}, 
+			GenreFilter([lv](const NotesData& notes) {return notes.getLevel() == lv; }, GenreFilterEvalMode::Any),
 			lv
 		);
 	}
@@ -122,9 +121,7 @@ namespace ct
 		return std::make_shared<GenreHandle>(
 			GenreType::StarLv, 
 			Format(U"LEVEL:", ToStr(starLv)),
-			[starLv](const MusicData& music)->bool {
-				    return music.getNotesData().any([starLv](const NotesData& notes) {return notes.getStarLv() == starLv; });
-			    },
+			GenreFilter([starLv](const NotesData& notes) {return notes.getStarLv() == starLv; }, GenreFilterEvalMode::Any),
 			static_cast<int32>(starLv)
 		);
 	}
@@ -135,7 +132,7 @@ namespace ct
 		return std::make_shared<GenreHandle>(
 			GenreType::Custom, 
 			title,
-			[ctcf](const MusicData& music)->bool {return ctcf.expression(music); },
+			GenreFilter([ctcf](const NotesData& notes)->bool {return ctcf.expression(notes); }, ctcf.getEvalMode()),
 			ctcf.getOrder()
 		);
 	}
@@ -152,9 +149,9 @@ namespace ct
 	{
 		return m_handle->getName();
 	}
-	const RefinerType& GenreData::getRefiner() const
+	const GenreFilter& GenreData::getFilter() const
 	{
-		return m_handle->getRefiner();
+		return m_handle->getFilter();
 	}
 	bool GenreData::operator<(const GenreData& right) const
 	{

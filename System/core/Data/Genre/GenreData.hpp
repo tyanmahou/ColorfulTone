@@ -1,13 +1,12 @@
 ﻿#pragma once
-#include <core/Data/MusicData/MusicData.hpp>
+#include <core/Data/Genre/GenreFilter.hpp>
+#include <core/Data/NotesData/StarLv.hpp>
 #include <Siv3D/TextureAsset.hpp>
 #include <functional>
 
 namespace ct
 {
 	class CTCFReader;
-
-	using RefinerType = std::function<bool(const MusicData&)>;
 
 	enum class GenreType
 	{
@@ -52,7 +51,7 @@ namespace ct
 		/// <summary>
 		/// フィルタ条件
 		/// </summary>
-		const RefinerType& getRefiner() const;
+		const GenreFilter& getFilter() const;
 
 		bool operator < (const GenreData& right) const;
 	private:

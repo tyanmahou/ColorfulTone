@@ -58,6 +58,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCF\Lexer\Token.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCF\Parser\Parser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCF\Parser\Precedence.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Genre\GenreFilter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Genre\GenreData.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Genre\GenreManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Loader\FavoriteLoader.hpp" />
@@ -217,6 +218,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCF\Evaluator\Evaluator.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCF\Lexer\Lexer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCF\Lexer\Token.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\GenreFilter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\GenreData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\GenreManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Loader\FavoriteLoader.cpp" />

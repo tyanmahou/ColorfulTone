@@ -27,14 +27,18 @@ namespace ct
         {
             return m_lexer.getOption(option);
         }
+        GenreFilterEvalMode getEvalMode() const
+        {
+            auto eval = this->getOption(U"EVAL").value_or(U"ANY");
+            return eval == U"ALL" ? GenreFilterEvalMode::All : GenreFilterEvalMode::Any;
+        }
         bool expression(const NotesData& notes)
         {
             return ctcf::Evaluator(notes).eval(m_parser.root().get());
         }
         bool expression(const MusicData& music)
         {
-            auto eval = this->getOption(U"EVAL").value_or(U"ANY");
-            if (eval == U"ALL") {
+            if (getEvalMode() == GenreFilterEvalMode::All) {
                 if (music.getNotesData().empty()) {
                     return false;
                 }
@@ -76,6 +80,11 @@ namespace ct
     s3d::Optional<s3d::String> CTCFReader::getOption(const s3d::String& option) const
     {
         return m_pImpl->getOption(option);
+    }
+
+    GenreFilterEvalMode CTCFReader::getEvalMode() const
+    {
+        return m_pImpl->getEvalMode();
     }
 
     bool CTCFReader::expression(const MusicData& music) const

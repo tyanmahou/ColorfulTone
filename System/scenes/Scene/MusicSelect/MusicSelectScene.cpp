@@ -57,7 +57,7 @@ namespace
     void RefineMusics(Array<MusicData>& musics)
     {
         musics.remove_if([&](const MusicData& m) {
-            return !GenreManager::GetRefiner(g_selectInfo.genre)(m);
+            return !GenreManager::GetFilter(g_selectInfo.genre)(m);
         });
     }
 
@@ -109,6 +109,36 @@ namespace
         return 0;
     }
 
+    // 有効なノーツインデックスを選択
+    void SelectValidNoteIndex(uint32& target, const MusicData& music)
+    {
+        const auto& notes = music.getNotesData();
+        if (notes.isEmpty()) {
+            return;
+        }
+        const auto& filter = GenreManager::GetFilter(g_selectInfo.genre);
+
+        Array<size_t> validIndexes;
+        validIndexes.reserve(notes.size());
+        for (size_t index = 0; index < notes.size(); ++index) {
+            if (filter(notes[index])) {
+                validIndexes << index;
+            }
+        }
+        if (validIndexes.includes(target)) {
+            return;
+        }
+        if (validIndexes.isEmpty()) {
+            return;
+        }
+        for (size_t index : validIndexes | std::ranges::views::reverse) {
+            if (target > index) {
+                target = static_cast<uint32>(index);
+                return;
+            }
+        }
+        target = static_cast<uint32>(validIndexes[0]);
+    }
     // シーン情報のメッセージを取得
     String GetSceneInfoMsg()
     {
@@ -196,6 +226,8 @@ namespace ct
                 } else if (m_action == Action::MusicSelect) {
                     m_action = Action::LevelSelect;
                     SoundManager::PlaySe(U"desisionSmall");
+                    // 対象譜面に合わせる
+                    SelectValidNoteIndex(g_selectInfo.level, m_musics[g_selectInfo.music]);
                 } else if (m_action == Action::LevelSelect) {
                     m_isSelectedNotes = true;
                 }

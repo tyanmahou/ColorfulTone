@@ -23,6 +23,9 @@ namespace {
 	};
 	Audio CreateAuditionSound(const std::stop_token& stopToken, AssetNameView id, const MusicData::ABLoop& loop)
 	{
+		if (stopToken.stop_requested()) {
+			return {};
+		}
 		AudioAsset asset(id);
 		Wave wav = [&stopToken](const Audio& sound)->Wave {
 			Array<WaveSample> wavSamples;
