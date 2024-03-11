@@ -15,6 +15,10 @@ namespace ct
 		//
 		//#endif
 	}
+	inline s3d::uint64 GetSamplePosU(const s3d::Audio& sound)
+	{
+		return static_cast<s3d::uint64>(GetSamplePos(sound));
+	}
 	struct BarCount
 	{
 		s3d::int64 bar;

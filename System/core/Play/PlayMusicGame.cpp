@@ -162,11 +162,11 @@ namespace ct
         if (m_FCAPAnime.isStart())
             m_FCAPAnime.update();
 
-        const int64 sample = GetSamplePos(m_sound);
+        const uint64 sample = GetSamplePosU(m_sound);
 
         //曲の終わり
         if (!m_isFinish) {
-            if (static_cast<uint32>(sample) >= m_finishSample || m_nowCount >= m_playNotesData.getLastBarCount()) {
+            if (sample >= Min(m_finishSample, m_playNotesData.getLastSample())) {
                 m_isFinish = true;
                 this->stopSound();
             }

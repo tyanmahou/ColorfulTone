@@ -186,9 +186,9 @@ namespace ct
     {
         return m_tempoInfos[m_currentBarIndex].m_bar.getBPM();
     }
-    double PlayNotesData::getLastBarCount() const
+    s3d::uint64 PlayNotesData::getLastSample() const
     {
-        return m_notesData.getSheet().getLastBarCount();
+        return m_notesData.getSheet().getOffsetedTotalSample();
     }
     const s3d::Color& PlayNotesData::getColor() const
     {

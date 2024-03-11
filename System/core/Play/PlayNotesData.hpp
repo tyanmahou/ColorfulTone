@@ -31,7 +31,7 @@ namespace ct
         double calDrawCount(const double currentCount)const;
         BPMType getCurrentBPM() const;
 
-        double getLastBarCount() const;
+        s3d::uint64 getLastSample() const;
 
         const s3d::Color& getColor() const;
 
