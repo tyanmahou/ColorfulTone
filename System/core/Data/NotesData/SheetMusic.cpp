@@ -307,7 +307,7 @@ namespace ct
     {
         size_t historyIndex = 0;
         for (size_t i = m_tempos.size() - 1; i >= 0; --i) {
-            if (count >= m_tempos[i].count) {
+            if (count > m_tempos[i].count) {
                 historyIndex = i;
                 break;
             }
