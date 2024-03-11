@@ -306,9 +306,9 @@ namespace ct
     s3d::int64 SheetMusic::calcTimingSample(double count, BPMType& outBpm) const
     {
         size_t historyIndex = 0;
-        for (size_t i = m_tempos.size() - 1; i >= 0; --i) {
-            if (count > m_tempos[i].count) {
-                historyIndex = i;
+        for (auto&& [index, tempo] : m_tempos | std::views::enumerate | std::views::reverse) {
+            if (count > tempo.count) {
+                historyIndex = index;
                 break;
             }
         }
