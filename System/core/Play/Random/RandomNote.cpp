@@ -212,27 +212,101 @@ namespace ct
     {
         m_ignoreTypeBit = 0;
     }
+    int32 ToRandomTypeNo(RandomNoteType type)
+    {
+        switch (type) {
+        case RandomNoteType::RBY:
+            return 321;
+        case RandomNoteType::YBR:
+            return 123;
+        case RandomNoteType::BYR:
+            return 132;
+        case RandomNoteType::RYB:
+            return 231;
+        case RandomNoteType::YRB:
+            return 213;
+        case RandomNoteType::BRY:
+            return 312;
+        default:
+            return 0;
+        }
+    }
+
+    NoteType LaneType(RandomNoteType type, int32 lane)
+    {
+        if (lane == 1) {
+            return ToRandomTypeNo(type) % 10;
+        }
+        if (lane == 2) {
+            return (ToRandomTypeNo(type) / 10)% 10;
+        }
+        if (lane == 3) {
+            return (ToRandomTypeNo(type) / 100) % 10;
+        }
+        return 0;
+    }
     void RandomNote::changeRandomLine()
     {
         Array<RandomNoteType> candidate;
+        auto randomTypeFor = [](auto f) {
+            for (int32 i = 0; i < 6; ++i) {
+                f(static_cast<RandomNoteType>(i));
+            }
+        };
         if (m_ignoreTypeBit == 0b001) {
-            candidate.push_back(RandomNoteType::RBY);
-            candidate.push_back(RandomNoteType::RYB);
+            NoteType laneType = LaneType(m_randomLane, 1);
+            randomTypeFor([&](RandomNoteType other) {
+                if (laneType == LaneType(other, 1)) {
+                    candidate.push_back(other);
+                }
+            });
         } else if (m_ignoreTypeBit == 0b010) {
-            candidate.push_back(RandomNoteType::RBY);
-            candidate.push_back(RandomNoteType::YBR);
+            NoteType laneType = LaneType(m_randomLane, 2);
+            randomTypeFor([&](RandomNoteType other) {
+                if (laneType == LaneType(other, 2)) {
+                    candidate.push_back(other);
+                }
+            });
         } else if (m_ignoreTypeBit == 0b100) {
-            candidate.push_back(RandomNoteType::RBY);
-            candidate.push_back(RandomNoteType::BRY);
+            NoteType laneType = LaneType(m_randomLane, 3);
+            randomTypeFor([&](RandomNoteType other) {
+                if (laneType == LaneType(other, 3)) {
+                    candidate.push_back(other);
+                }
+            });
         } else if (m_ignoreTypeBit == 0b110) {
-            candidate.push_back(RandomNoteType::RBY);
-            candidate.push_back(RandomNoteType::BRY);
+            NoteType laneType2 = LaneType(m_randomLane, 2);
+            NoteType laneType3 = LaneType(m_randomLane, 3);
+            randomTypeFor([&](RandomNoteType other) {
+                NoteType other2 = LaneType(other, 2);
+                NoteType other3 = LaneType(other, 3);
+                if (laneType2 == other2 && laneType3 == other3
+                    || laneType2 == other3 && laneType3 == other2) {
+                    candidate.push_back(other);
+                }
+            });
         } else if (m_ignoreTypeBit == 0b101) {
-            candidate.push_back(RandomNoteType::RBY);
-            candidate.push_back(RandomNoteType::YBR);
+            NoteType laneType1 = LaneType(m_randomLane, 1);
+            NoteType laneType3 = LaneType(m_randomLane, 3);
+            randomTypeFor([&](RandomNoteType other) {
+                NoteType other1 = LaneType(other, 1);
+                NoteType other3 = LaneType(other, 3);
+                if (laneType1 == other1 && laneType3 == other3
+                    || laneType1 == other3 && laneType3 == other1) {
+                    candidate.push_back(other);
+                }
+            });
         } else if (m_ignoreTypeBit == 0b011) {
-            candidate.push_back(RandomNoteType::RBY);
-            candidate.push_back(RandomNoteType::RYB);
+            NoteType laneType1 = LaneType(m_randomLane, 1);
+            NoteType laneType2 = LaneType(m_randomLane, 2);
+            randomTypeFor([&](RandomNoteType other) {
+                NoteType other1 = LaneType(other, 1);
+                NoteType other2 = LaneType(other, 2);
+                if (laneType1 == other1 && laneType2 == other2
+                    || laneType1 == other2 && laneType2 == other1) {
+                    candidate.push_back(other);
+                }
+            });
         } else {
             // 全対象
             m_randomLane = static_cast<RandomNoteType>(s3d::Random(0, 5));
