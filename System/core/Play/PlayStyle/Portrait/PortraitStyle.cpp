@@ -141,9 +141,9 @@ void PortraitStyle::drawTapEffect(NoteType type, NoteType baseType)
     }
 }
 
-void PortraitStyle::drawJudgeEffect(const String& str, NoteType type)
+void PortraitStyle::drawJudgeEffect(Score::Judge judge, NoteType type, s3d::int64 diff)
 {
-    m_effetcs[0].add<JudgeEffect>(str, Vec2{ GetX(type),400 });
+    m_effetcs[0].add<JudgeEffect>(judge, diff, Vec2{ GetX(type),400 });
 }
 
 void PortraitStyle::draw(const Bar& note, double count, double scrollRate) const

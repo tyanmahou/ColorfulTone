@@ -8,7 +8,7 @@ namespace ct
 {
     struct Score
     {
-        enum  Judge
+        enum Judge
         {
             Perfect,
             Great,
@@ -31,6 +31,8 @@ namespace ct
         Score();
         void add(Judge judge, s3d::int64 diff);
     };
+
+    s3d::StringView JudgeStr(Score::Judge judge);
 
     struct ScoreModel
     {

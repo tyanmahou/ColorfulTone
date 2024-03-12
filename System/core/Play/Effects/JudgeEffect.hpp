@@ -7,12 +7,14 @@ namespace ct
 {
 	struct JudgeEffect : s3d::IEffect
 	{
-		JudgeEffect(const s3d::String& name, const s3d::Vec2& from);
+		JudgeEffect(Score::Judge judge, s3d::int64 diff, const s3d::Vec2& from);
+		JudgeEffect(s3d::StringView name, const s3d::Vec2& from, const s3d::ColorF& color = s3d::Palette::Black);
 
 		bool update(double t) override;
 	private:
 
 		const s3d::Vec2 m_from;
-		const s3d::String m_name;
+		const s3d::StringView m_name;
+		s3d::ColorF m_color;
 	};
 }

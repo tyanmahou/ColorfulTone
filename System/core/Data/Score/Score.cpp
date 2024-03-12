@@ -1,7 +1,6 @@
 ﻿#include <core/Data/Score/Score.hpp>
 #include <commons/Constants.hpp>
-#include<Siv3D/Math.hpp>
-#include<unordered_map>
+#include <Siv3D.hpp>
 
 namespace
 {
@@ -26,6 +25,14 @@ namespace
 			life = 0;
 		}
 	}
+
+	static const s3d::HashTable<Score::Judge, String> scoreMap
+	{
+		{ Score::Good,U"GOOD" },
+		{ Score::Great,U"GREAT" },
+		{ Score::Perfect,U"PERFECT" },
+		{ Score::Miss, U"MISS" },
+	};
 }
 
 namespace ct
@@ -62,5 +69,9 @@ namespace ct
 				++m_lateCount;
 			}
 		}
+	}
+	s3d::StringView JudgeStr(Score::Judge judge)
+	{
+		return scoreMap.at(judge);
 	}
 }

@@ -14,18 +14,9 @@ namespace
     using namespace ct;
     Score* g_pScore;
 
-    static const std::unordered_map<Score::Judge, String> scoreMap
+    void HandleAddJudgeEffect(Score::Judge judge, int64 diff, NoteType type, NoteType baseType)
     {
-        { Score::Good,U"GOOD" },
-        { Score::Great,U"GREAT" },
-        { Score::Perfect,U"PERFECT" },
-        { Score::Miss, U"MISS" },
-    };
-    void HandleAddJudgeEffect(Score::Judge judge, NoteType type, NoteType baseType)
-    {
-        const String judgeName = scoreMap.at(judge);
-
-        PlayStyle::Instance()->drawJudgeEffect(judgeName, type);
+        PlayStyle::Instance()->drawJudgeEffect(judge, type, diff);
         if (judge != Score::Miss) {
             PlayStyle::Instance()->drawTapEffect(type, baseType);
         }
@@ -205,10 +196,10 @@ namespace ct
         }
 
         g_pScore->add(judge, diff);
-        ::HandleAddJudgeEffect(judge, type, baseType);
+        ::HandleAddJudgeEffect(judge, diff, type, baseType);
 
         if (playSe && judge != Score::Miss) {
-            SoundManager::PlayInGameSe(scoreMap.at(judge));
+            SoundManager::PlayInGameSe(JudgeStr(judge));
         }
     }
     void PlayMusicGame::drawBG(const double drawCount)const

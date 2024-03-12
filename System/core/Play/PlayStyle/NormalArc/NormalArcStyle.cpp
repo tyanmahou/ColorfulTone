@@ -165,14 +165,14 @@ namespace ct
         }
     }
 
-    void NormalArcStyle::drawJudgeEffect(const String& str, NoteType type)
+    void NormalArcStyle::drawJudgeEffect(Score::Judge judge, NoteType type, s3d::int64 diff)
     {
         if (type == 9) {
-            m_effetcs[0].add<JudgeEffect>(str, GetPos(3 * Pi / 2, 2400, 1.0f, 1.0));
+            m_effetcs[0].add<JudgeEffect>(judge, diff, GetPos(3 * Pi / 2, 2400, 1.0f, 1.0));
         } else if (type == 7 || type == 17 || type == 10) {
-            m_effetcs[0].add<JudgeEffect>(str, GetPos(3 * Pi / 2, 2400, 1.0f, 1.0));
+            m_effetcs[0].add<JudgeEffect>(judge, diff, GetPos(3 * Pi / 2, 2400, 1.0f, 1.0));
         } else {
-            m_effetcs[0].add<JudgeEffect>(str, GetPos(GetAngle(type), 2400, 1.0f, 1.0));
+            m_effetcs[0].add<JudgeEffect>(judge, diff, GetPos(GetAngle(type), 2400, 1.0f, 1.0));
         }
 
     }

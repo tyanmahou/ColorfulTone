@@ -37,9 +37,9 @@ namespace ct
         {
             m_style->drawTapEffect(type, baseType);
         }
-        void drawJudgeEffect(const s3d::String& str, NoteType type)const
+        void drawJudgeEffect(Score::Judge judge, NoteType type, s3d::int64 diff)const
         {
-            m_style->drawJudgeEffect(str, type);
+            m_style->drawJudgeEffect(judge, type, diff);
         }
     private:
         PlayStyle();

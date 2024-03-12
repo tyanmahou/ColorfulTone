@@ -11,7 +11,7 @@ namespace ct
 		void drawComboAndRate(size_t combo, float rate);
 
 		void drawTapEffect(NoteType type, NoteType baseType);
-		void drawJudgeEffect(const s3d::String& str, NoteType type);
+		void drawJudgeEffect(Score::Judge judge, NoteType type, s3d::int64 diff);
 
 		void draw(const Bar& note, double count, double scrollRate)const override;
 
