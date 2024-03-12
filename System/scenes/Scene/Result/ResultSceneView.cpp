@@ -9,6 +9,9 @@ namespace
 {
 	using namespace ct;
 	namespace ResultMarker {
+		constexpr Color Fast{ 255, 50, 50 , 128 };
+		constexpr Color Late{ 50, 50, 255 , 128 };
+
 		constexpr Color Perfect{ 70, 255, 200 , 128 };
 		constexpr Color Great{ 140, 255, 140 , 128 };
 		constexpr Color Good{ 255, 255, 125 , 128 };
@@ -140,36 +143,47 @@ namespace
 			.drawSub(music.getArtistAndAuthority())
 			.drawDetail(notes.getLevelNameAndLevel());
 	}
-	void DrawCount(const Vec2& pos, const String& name, size_t count)
+	void DrawCount(s3d::AssetNameView fontName, const Vec2& pos, const String& name, const Vec2& offset, size_t count)
 	{
-		constexpr Vec2 basePos{ 530, 275 };
-		const FontAsset font8os(FontName::LodingLabel);
-		FontKinetic::DeleteSpace(font8os, name, { pos.x, pos.y }, Palette::Black);
-		FontKinetic::DeleteSpace(font8os, Pad(count, { 6,L' ' }), { pos.x + 120, pos.y }, Palette::Black);
+		const FontAsset font(fontName);
+		FontKinetic::DeleteSpace(font, name, { pos.x, pos.y }, Palette::Black);
+		FontKinetic::DeleteSpace(font, Pad(count, { 4, L' ' }), pos + offset, Palette::Black);
 	}
-	void DrawCount(const Vec2& pos, const String& name, double count)
+	void DrawCountF(s3d::AssetNameView fontName, const Vec2& pos, const String& name, const Vec2& offset, double count)
 	{
-		DrawCount(pos, name, static_cast<size_t>(count));
+		DrawCount(fontName, pos, name, offset, static_cast<size_t>(count));
+	}
+	void DrawCountF(const Vec2& pos, const String& name, double count, double offsetX = 0)
+	{
+		DrawCountF(FontName::ResultNoteCount, pos - Vec2{ offsetX, 0}, name, Vec2{150 + offsetX, 0}, count);
 	}
 	void DrawResult(const Score& result, const size_t total, double t)
 	{
 		// コンボと判定
-		constexpr Vec2 basePos{ 530, 285 };
-		::DrawCount(basePos, U"MAX COMBO", result.m_maxCombo * t);
+		constexpr Vec2 basePos{ 530, 270 };
+		::DrawCountF(basePos, U"MAX COMBO", result.m_maxCombo * t, 10);
 
+		// Fast/Late
+		{
+			RectF(basePos + Vec2{ -10 -5, 40 + 7 }, { 55, 7 }).draw(ResultMarker::Fast);
+			RectF(basePos + Vec2{ 120 - 5, 40 + 7 }, { 55, 7 }).draw(ResultMarker::Late);
+			Line({ basePos + Vec2{ 110, 37 } }, { basePos + Vec2{ 105, 57 } }).draw(Palette::Black);
+			::DrawCountF(FontName::ResultFastLateCount, basePos + Vec2{ -10, 40 }, U"FAST", { 60, -1 }, result.m_fastCount * t);
+			::DrawCountF(FontName::ResultFastLateCount, basePos + Vec2{ 120, 40 }, U"LATE", { 60, -1 }, result.m_lateCount * t);
+		}
 		Line({ 45,335 }, { 755,335 }).draw(Palette::Black);
 
 		const auto& judgeCount = result.m_judgeCount;
-		constexpr double offset = 75;
+		constexpr double offset = 90;
 		RectF(basePos + Vec2{ -10,offset + 10 }, { 120,10 }).draw(ResultMarker::Perfect);
 		RectF(basePos + Vec2{ -10,offset + 30 + 10 }, { 120,10 }).draw(ResultMarker::Great);
 		RectF(basePos + Vec2{ -10,offset + 60 + 10 }, { 120,10 }).draw(ResultMarker::Good);
 		RectF(basePos + Vec2{ -10,offset + 90 + 10 }, { 120,10 }).draw(ResultMarker::Miss);
-		::DrawCount(basePos + Vec2{ 0, offset }, U"PERFECT", judgeCount[Score::Perfect] * t);
-		::DrawCount(basePos + Vec2{ 0, offset + 30 }, U"GREAT", judgeCount[Score::Great] * t);
-		::DrawCount(basePos + Vec2{ 0, offset + 60 }, U"GOOD", judgeCount[Score::Good] * t);
-		::DrawCount(basePos + Vec2{ 0, offset + 90 }, U"MISS", judgeCount[Score::Miss] * t);
-		::DrawCount(basePos + Vec2{ 0, offset + 120 }, U"TOTAL", total * t);
+		::DrawCountF(basePos + Vec2{ 0, offset }, U"PERFECT", judgeCount[Score::Perfect] * t);
+		::DrawCountF(basePos + Vec2{ 0, offset + 30 }, U"GREAT", judgeCount[Score::Great] * t);
+		::DrawCountF(basePos + Vec2{ 0, offset + 60 }, U"GOOD", judgeCount[Score::Good] * t);
+		::DrawCountF(basePos + Vec2{ 0, offset + 90 }, U"MISS", judgeCount[Score::Miss] * t);
+		::DrawCountF(basePos + Vec2{ 0, offset + 120 }, U"TOTAL", total * t);
 	}
 
 	void DrawScore(const ScoreModel& score, bool isNewRecord, double t, double t2)
@@ -178,12 +192,12 @@ namespace
 
 		// レート
 		String clearRateTxt = U"{:.2f}%"_fmt(score.clearRate * t).lpadded(7, U' ');
-		FontKinetic::DeleteSpace(font20bs, clearRateTxt, Vec2{ 485, 215 }, Palette::Black);
+		FontKinetic::DeleteSpace(font20bs, clearRateTxt, Vec2{ 485, 200 }, Palette::Black);
 
 		const Color alpha = ColorF(1.0, t2);
 		if (isNewRecord)
 		{
-			TextureAsset(U"newRecord").drawAt(680 - (1.0 - t2) * 10, 235, alpha);
+			TextureAsset(U"newRecord").drawAt(680 - (1.0 - t2) * 10, 225, alpha);
 		}
 		TextureAsset(ResultRank::GetRankTextureName(score.clearRate))
 			.scaled(0.4)

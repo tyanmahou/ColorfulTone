@@ -25,8 +25,8 @@ namespace ct
         s3d::Color m_color;
         std::function<bool(void)> m_judge;
 
-        void tapUpdate(Score::Judge judge);
-        void tapMiss();
+        void tapUpdate(Score::Judge judge, s3d::int64 diff);
+        void tapMiss(s3d::int64 diff);
     protected:
 
     public:

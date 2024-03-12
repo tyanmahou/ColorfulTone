@@ -63,7 +63,7 @@ namespace ct
 		{
 			return m_soundLengthSec;
 		}
-		static void ScoreUpdate(Score::Judge judge, NoteType type, NoteType baseType, bool playSe);
+		static void ScoreUpdate(Score::Judge judge, s3d::int64 diff, NoteType type, NoteType baseType, bool playSe);
 	private:
 		void uiDraw(bool preview)const;
 		void drawCurrentBPM()const;

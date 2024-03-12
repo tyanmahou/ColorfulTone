@@ -122,9 +122,9 @@ namespace ct
         if (timing <= 0)//ロングの終点
         {
             if (m_isTap)
-                this->perfect();
+                this->perfect(timing);
             else
-                this->miss();
+                this->miss(timing);
 
             return false;
         }
@@ -133,9 +133,9 @@ namespace ct
             int64 aTiming = s3d::Abs(timing);
             //パーフェクト範囲内での話はセーフ
             if (aTiming <= JudgeRange(Judge::Perfect) && m_isTap)
-                this->perfect();
+                this->perfect(timing);
             else
-                this->miss();
+                this->miss(timing);
         }
         if (IntervalCounter::IsUpdatedEvery(3)) {
             ColorFx::Request(10);

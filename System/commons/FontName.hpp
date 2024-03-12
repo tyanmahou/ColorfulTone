@@ -23,4 +23,8 @@ namespace ct::FontName
     inline constexpr s3d::AssetNameView StickyLabel = U"r-12";
 
     inline constexpr s3d::AssetNameView LodingLabel = U"s-b-15";
+
+
+    inline constexpr s3d::AssetNameView ResultNoteCount = U"s-b-15";
+    inline constexpr s3d::AssetNameView ResultFastLateCount = U"s-b-12";
 }

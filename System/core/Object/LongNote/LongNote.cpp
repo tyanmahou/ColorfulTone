@@ -19,16 +19,16 @@ namespace ct
     }
 
     //
-    void LongNote::perfect()
+    void LongNote::perfect(s3d::int64 diff)
     {
-        PlayMusicGame::ScoreUpdate(Score::Perfect, m_parent->getType(), m_parent->getType(), false);
+        PlayMusicGame::ScoreUpdate(Score::Perfect, diff, m_parent->getType(), m_parent->getType(), false);
         m_isActive = false;
         m_parent->setActive(false);
     }
 
-    void LongNote::miss()
+    void LongNote::miss(s3d::int64 diff)
     {
-        PlayMusicGame::ScoreUpdate(Score::Miss, m_parent->getType(), m_parent->getType(), false);
+        PlayMusicGame::ScoreUpdate(Score::Miss, diff, m_parent->getType(), m_parent->getType(), false);
         m_isActive = false;
         m_parent->setActive(false);
     }
@@ -103,7 +103,7 @@ namespace ct
 
         if (timing <= 0)//ロングの終点
         {
-            this->perfect();
+            this->perfect(timing);
 
             return true;
         }
@@ -127,9 +127,9 @@ namespace ct
                 int64 aTiming = s3d::Abs(timing);
                 //パーフェクト範囲内での話はセーフ
                 if (aTiming <= JudgeRange(Judge::Great))
-                    this->perfect();
+                    this->perfect(timing);
                 else
-                    this->miss();
+                    this->miss(timing);
             }
         }
         return true;

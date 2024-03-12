@@ -198,13 +198,13 @@ namespace ct
     }
 
 
-    void PlayMusicGame::ScoreUpdate(Score::Judge judge, NoteType type, NoteType baseType, bool playSe)
+    void PlayMusicGame::ScoreUpdate(Score::Judge judge, s3d::int64 diff, NoteType type, NoteType baseType, bool playSe)
     {
         if (!g_pScore) {
             Print << U"Warning: Missing Score";
         }
 
-        g_pScore->add(judge);
+        g_pScore->add(judge, diff);
         ::HandleAddJudgeEffect(judge, type, baseType);
 
         if (playSe && judge != Score::Miss) {

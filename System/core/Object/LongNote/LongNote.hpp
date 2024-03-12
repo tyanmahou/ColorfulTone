@@ -14,8 +14,8 @@ namespace ct
         std::shared_ptr<Note> m_parent;
         std::function<bool(void)> m_judge;
         const double m_scrollSpeed;
-        void perfect();
-        void miss();
+        void perfect(s3d::int64 diff);
+        void miss(s3d::int64 diff);
 
     public:
         LongNote(s3d::int64 timingSample, const NoteType type, double firstCount, double speed, std::shared_ptr<Note>& parent);

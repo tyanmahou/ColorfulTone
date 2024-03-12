@@ -204,7 +204,7 @@ namespace ct
 	//--------------------------------------------------------------------------------
 	//概要：タップ成功時の処理
 	//--------------------------------------------------------------------------------
-	void Note::tapUpdate(Score::Judge judge)
+	void Note::tapUpdate(Score::Judge judge, s3d::int64 diff)
 	{
 		// 白の場合ミス
 		if (m_type == 9) {
@@ -226,7 +226,7 @@ namespace ct
 				: m_isClicked[ColorIndex::Blue] ? 2
 				: 3;
 		}
-		PlayMusicGame::ScoreUpdate(judge, type, m_type, true);
+		PlayMusicGame::ScoreUpdate(judge, diff, type, m_type, true);
 	}
 
 	//--------------------------------------------------------------------------------
@@ -235,7 +235,7 @@ namespace ct
 	//概要：タップミス時の処理
 	//--------------------------------------------------------------------------------
 
-	void Note::tapMiss()
+	void Note::tapMiss(s3d::int64 diff)
 	{
 		Score::Judge judge = Score::Miss;
 		// 白の場合はパフェ
@@ -243,12 +243,12 @@ namespace ct
 			judge = Score::Perfect;
 		}
 
-		PlayMusicGame::ScoreUpdate(judge, m_type, m_type, false);
+		PlayMusicGame::ScoreUpdate(judge, diff, m_type, m_type, false);
 		/*
 		ロングノーツの場合は、始点が押せなかった時点で終点分も同時にミスとする。
 		*/
 		if (11 <= m_type && m_type <= 17) {
-			PlayMusicGame::ScoreUpdate(judge, m_type, m_type, false);
+			PlayMusicGame::ScoreUpdate(judge, diff, m_type, m_type, false);
 		}
 		m_isActive = false;
 	}
@@ -271,7 +271,7 @@ namespace ct
 
 		//ミス
 		if (timing < -JudgeRange(Judge::Good) || (m_type == 9 && timing <= 0)) {
-			this->tapMiss();
+			this->tapMiss(timing);
 			return true;
 		}
 
@@ -293,7 +293,7 @@ namespace ct
 					m_isClicked[ColorIndex::Blue] = true;
 					m_isClicked[ColorIndex::Yellow] = true;
 				}
-				this->tapUpdate(Score::Perfect);
+				this->tapUpdate(Score::Perfect, timing);
 
 				AutoPlayManager::Input(type);
 				return false;
@@ -308,11 +308,11 @@ namespace ct
 		if (m_judge()) {
 			int64 aTiming = s3d::Abs(timing);
 			if (aTiming <= JudgeRange(Judge::Perfect)) {
-				this->tapUpdate(Score::Perfect);
+				this->tapUpdate(Score::Perfect, timing);
 			} else if (aTiming <= JudgeRange(Judge::Great)) {
-				this->tapUpdate(Score::Great);
+				this->tapUpdate(Score::Great, timing);
 			} else if (aTiming <= JudgeRange(Judge::Good)) {
-				this->tapUpdate(Score::Good);
+				this->tapUpdate(Score::Good, timing);
 			}
 			RepeatEnd::notesTapSample = state.samplePos;
 

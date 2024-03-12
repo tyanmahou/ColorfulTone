@@ -39,7 +39,7 @@ namespace ct
 	{
 		m_lifeHistory.push_back(m_initLife);
 	}
-	void Score::add(Judge judge)
+	void Score::add(Judge judge, s3d::int64 diff)
 	{
 		// ジャッジ数加算
 		m_judgeCount[judge]++;
@@ -54,5 +54,13 @@ namespace ct
 		// ライフ更新
 		::CalcLife(m_life, m_initLife, judge);
 		m_lifeHistory.push_back(m_life);
+
+		if (judge == Score::Great || judge == Score::Good) {
+			if (diff > 0) {
+				++m_fastCount;
+			} else if (diff < 0) {
+				++m_lateCount;
+			}
+		}
 	}
 }
