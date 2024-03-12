@@ -3,6 +3,7 @@
 #include <utils/Asset/SivAssetUtil.hpp>
 #include <utils/Thread/Task.hpp>
 #include <Siv3D.hpp>
+#include "Audition.hpp"
 
 namespace {
 	using namespace ct;
@@ -67,9 +68,7 @@ namespace ct
 
 	Audition::~Audition()
 	{
-		m_loadTask.clear();
-		SivAssetUtil::ReleaseByTag<AudioAsset>(U"MusicData");
-		m_audio.release();
+		this->clear();
 	}
 
 	void Audition::update()
@@ -103,6 +102,18 @@ namespace ct
 	{
 		++m_requestId;
 		m_audio.stop(1s);
+	}
+	void Audition::clear()
+	{
+		++m_requestId;
+		m_audio.stop(1s);
+
+		try {
+			m_loadTask.clear();
+			SivAssetUtil::ReleaseByTag<AudioAsset>(U"MusicData");
+		} catch (...) {
+
+		}
 	}
 	Coro::Fiber<void> Audition::playAsync(s3d::uint64 requestId, const MusicData& musicData)
 	{

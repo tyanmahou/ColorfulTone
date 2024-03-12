@@ -16,6 +16,8 @@ namespace ct
 		void update();
 		bool request(const MusicData& musicData);
 		void stop();
+
+		void clear();
 	private:
 		Coro::Fiber<void> playAsync(s3d::uint64 requestId, const MusicData& musicData);
 	private:

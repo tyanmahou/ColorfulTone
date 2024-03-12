@@ -298,7 +298,7 @@ namespace ct
         }
         void finally()
         {
-            m_audition.stop();
+            m_audition.clear();
         }
 
         bool onChangeSelectMusic()

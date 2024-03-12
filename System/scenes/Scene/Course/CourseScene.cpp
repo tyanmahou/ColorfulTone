@@ -90,7 +90,7 @@ namespace ct
 		}
 		void finally()
 		{
-			m_audition.stop();
+			m_audition.clear();
 		}
 
 		const HighSpeedDemo& getHighSpeedDemo()const
