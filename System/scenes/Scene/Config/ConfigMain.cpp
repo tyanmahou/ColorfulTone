@@ -290,7 +290,7 @@ namespace ct
         // ランダム
         void RandomInit(Config& config)
         {
-            config.setName(U"ランダム配置設定");
+            config.setName(U"配置設定");
             config.add(U"なし", []() {Game::Config().m_random = RandomNoteType::None; });
             config.add(U"MIRROR", []() {Game::Config().m_random = RandomNoteType::Mirror; }, U"赤と黄の配置を反転します");
             config.add(U"ROTATE120", []() {Game::Config().m_random = RandomNoteType::Rotate120; }, U"赤を黄, 青を赤, 黄を青に変更します");
@@ -319,12 +319,20 @@ namespace ct
         {
             config.setName(U"タイミング調整");
             for (int32 adjust : step_to(-10, 10)) {
-                config.add(Format(adjust), [=]() {Game::Config().m_timingAdjust = static_cast<int8>(adjust); });
+                config.add(Format(adjust), [=]() {Game::Config().m_timingAdjust = static_cast<int8>(adjust); }, U"判定のタイミングを調整します。(ノーツがラインと重なるタイミングは変りません。)");
             }
             config.setDefault(U"0");
             config.init(Format(Game::Config().m_timingAdjust));
         }
-
+        void OffsetAdjustInit(Config& config)
+        {
+            config.setName(U"オフセット調整");
+            for (int32 adjust : step_to(-10, 10)) {
+                config.add(Format(adjust), [=]() {Game::Config().m_offsetAdjust = static_cast<int8>(adjust); }, U"ノーツがラインと重なるタイミングを調整します。(判定のタイミングは変りません。)");
+            }
+            config.setDefault(U"0");
+            config.init(Format(Game::Config().m_offsetAdjust));
+        }
         // 判定アルゴリズム
         void JudgeAlgoInit(Config& config)
         {
@@ -342,6 +350,7 @@ namespace ct
                 Random,
                 LifeDead,
                 TimingAdjust,
+                OffsetAdjust,
                 JudgeAlgo,
                 TOTAL_CONFIG //コンフィグの数
             };
@@ -356,6 +365,7 @@ namespace ct
                 RandomInit(m_configs[Random]);
                 LifeDeadInit(m_configs[LifeDead]);
                 TimingAdjustInit(m_configs[TimingAdjust]);
+                OffsetAdjustInit(m_configs[OffsetAdjust]);
                 JudgeAlgoInit(m_configs[JudgeAlgo]);
             }
         };

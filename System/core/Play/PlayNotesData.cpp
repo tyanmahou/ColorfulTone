@@ -11,6 +11,14 @@
 
 namespace ct
 {
+    int64 TimingAdjust()
+    {
+        return OneFrameSample() * Game::Config().m_timingAdjust;
+    }
+    int64 OffsetAdjust()
+    {
+        return OneFrameSample() * Game::Config().m_offsetAdjust;
+    }
     PlayNotesData::PlayNotesData()
     {
 
@@ -148,7 +156,8 @@ namespace ct
     void PlayNotesData::synchroCount(const s3d::Audio& sound, double& nowCount)
     {
         m_currentBarIndex = 0;
-        const auto sample = GetSamplePos(sound);
+        const int64 offset = OffsetAdjust();
+        const auto sample = GetSamplePos(sound) + offset;
         for (size_t i = 0; i < m_tempoInfos.size(); ++i) {
             if (sample >= m_tempoInfos.at(i).m_changeSample) {
                 m_currentBarIndex = i;
@@ -156,7 +165,7 @@ namespace ct
         }
 
         const SoundBar& currentTempo = m_tempoInfos.at(m_currentBarIndex).m_bar;
-        const auto b = currentTempo(sound);
+        const auto b = currentTempo(sound, offset);
 
         nowCount = NotesData::RESOLUTION * b.bar + NotesData::RESOLUTION * (b.f);
     }
@@ -167,7 +176,7 @@ namespace ct
         const int64 samplePos = GetSamplePos(sound);
         if (samplePos < 3)
             return;
-        const int64 ajudstSample = 735 * Game::Config().m_timingAdjust;
+        const int64 ajudstSample = TimingAdjust();
         const int64 fixedSample = samplePos + ajudstSample;
         PlaybackState state{ fixedSample , m_tempoInfos.at(m_currentBarIndex).m_bar.getBPM() };
 

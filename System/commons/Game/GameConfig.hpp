@@ -56,6 +56,7 @@ namespace ct
         double m_playScale = 1.0;
         // タイミング調整
         s3d::int8 m_timingAdjust = 0;
+        s3d::int8 m_offsetAdjust = 0;
         bool m_isLifeDead = false;
 
         //タップ音
