@@ -27,8 +27,8 @@ namespace ct::SharedDraw
 
 	const JacketInfo& JacketInfo::drawLabel()const
 	{
-		Rect(0, 0, 800, 30).draw(Color(0, 0, 0, 100));
-		Rect(0, 530, 800, 30).draw(Color(0, 0, 0, 100));
+		Rect(0, 0, 800, 30).draw(Color(0, 0, 0, 150));
+		Rect(0, 530, 800, 30).draw(Color(0, 0, 0, 150));
 		return *this;
 	}
 

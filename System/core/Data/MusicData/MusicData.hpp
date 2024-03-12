@@ -83,12 +83,6 @@ namespace ct
         const s3d::String getArtistAndAuthority() const;
 
         /// <summary>
-        /// BPM取得
-        /// </summary>
-        /// <returns></returns>
-        s3d::int32 getBPM() const;
-
-        /// <summary>
         /// 最小BPMのビート
         /// </summary>
         SoundBar getMinSoundBeat()const;

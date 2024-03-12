@@ -86,26 +86,6 @@ namespace ct
 			return ret;
 		}
 
-		s3d::int32 getBPM() const
-		{
-			if (m_maxbpm == -1) {
-				return static_cast<s3d::int32>(m_minbpm);
-			}
-			constexpr double timeMillisec = 1000;
-			static Stopwatch stopwatch{ StartImmediately::Yes };
-			static bool swapped = false;
-			const double elapsed = Min<double>(stopwatch.ms(), timeMillisec) / timeMillisec;
-
-			if (stopwatch.ms() >= 4000) {
-				stopwatch.restart();
-				swapped = !swapped;
-			}
-			if (swapped) {
-				return static_cast<s3d::int32>(EaseInOut(Easing::Linear, m_maxbpm, m_minbpm, elapsed));
-			}
-			return static_cast<s3d::int32>(EaseInOut(Easing::Linear, m_minbpm, m_maxbpm, elapsed));
-		}
-
 		SoundBar getMinSoundBeat()const { return SoundBar(0, m_minbpm); }
 		SoundBar getMaxSoundBeat()const { if (m_maxbpm == -1)return SoundBar(0, m_minbpm); return SoundBar(0, m_maxbpm);}
 		BPMType getMinBPM()const { return m_minbpm; };
@@ -113,7 +93,10 @@ namespace ct
 
 		const s3d::String getFormattedBpm()const
 		{
-			return U"BPM" + Pad(this->getBPM(), { 5,U' ' });
+			if (this->getMinBPM() == this->getMaxBPM()) {
+				return U"BPM{:>5}"_fmt(static_cast<int32>(this->getMinBPM()));
+			}
+			return U"BPM{:>5}-{}"_fmt(static_cast<int32>(this->getMinBPM()), static_cast<int32>(this->getMaxBPM()));
 		}
 
 		s3d::Array<NotesData>& getNotesData() { return m_notesDatas; }
@@ -227,10 +210,6 @@ namespace ct
 	const s3d::String MusicData::getArtistAndAuthority() const
 	{
 		return m_handle->getArtistAndAuthority();
-	}
-	s3d::int32 MusicData::getBPM() const
-	{
-		return m_handle->getBPM();
 	}
 	SoundBar MusicData::getMinSoundBeat() const
 	{

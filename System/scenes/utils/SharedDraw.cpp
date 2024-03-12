@@ -42,10 +42,17 @@ namespace ct::SharedDraw
     }
 	void HighSpeed(const HighSpeedDemo& highSpeedDemo, const MusicData& music, double scrollRate, bool canDemo)
 	{
-		double result = music.getBPM() * scrollRate;
-		String tmp = U"{}*{:.1f}={:.1f}"_fmt(music.getBPM(),  scrollRate, result);
-
+		String tmp;
+		if (music.getMaxBPM() == music.getMinBPM()) {
+			double result = music.getMinBPM() * scrollRate;
+			tmp = U"{:.0f}*{:.1f}={:.1f}"_fmt(music.getMinBPM(), scrollRate, result);
+		} else {
+			double resultMin = music.getMinBPM() * scrollRate;
+			double resultMax = music.getMaxBPM() * scrollRate;
+			tmp = U"{:.0f}-{:.0f}*{:.1f}={:.1f}-{:.1f}"_fmt(music.getMinBPM(), music.getMaxBPM(), scrollRate, resultMin, resultMax);
+		}
 		const Vec2 topLeft{ 10, 533 };
+		FontAsset(FontName::Bpm)(tmp).draw(topLeft + Vec2{ 1,1 }, Palette::Black);
 		Vec2 penPos{ topLeft };
 		for (const auto& [i, glyph] : s3d::Indexed(FontAsset(FontName::Bpm).getGlyphs(tmp))) {
 			static size_t fBpm = 0;
@@ -92,7 +99,7 @@ namespace ct::SharedDraw
 			ColorF colorBack = Palette::Black;
 			if (KeyControl.pressed() && i > fBpm && i < eBpm) {
 				color = Palette::Red;
-				colorBack = Palette::White;
+				colorBack = Palette::Black;
 			}
 			Vec2 drawPos = penPos + glyph.getOffset();
 			glyph.texture.draw(Math::Round(drawPos) + Vec2{ 1, 1 }, colorBack);
