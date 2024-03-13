@@ -105,15 +105,14 @@ namespace ct
 	}
 	void Audition::clear()
 	{
-		this->stop();
-
 		// タイミングが悪いと例外とぶ？
 		try {
+			this->stop();
 			m_loadTask.clear();
+			SivAssetUtil::ReleaseByTag<AudioAsset>(U"MusicData");
 		} catch (...) {
 
 		}
-		SivAssetUtil::ReleaseByTag<AudioAsset>(U"MusicData");
 	}
 	Coro::Fiber<void> Audition::playAsync(s3d::uint64 requestId, const MusicData& musicData)
 	{

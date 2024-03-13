@@ -21,7 +21,9 @@ namespace ct
 		void resetStyle(PlayStyleType style);
 		void drawDemoNotes(const s3d::Rect& rect, const SoundBar& bar, double scrollRate, size_t index) const;
 	private:
-		s3d::Array<std::shared_ptr<Object>> m_objects;
+		std::shared_ptr<Object> m_bar;
+		std::shared_ptr<Object> m_note;
+
 		s3d::EasingAB<s3d::int32> m_offset;
 		const s3d::Rect m_bgRect;
 

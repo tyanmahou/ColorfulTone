@@ -73,7 +73,6 @@ namespace ct
 		}
 
 		m_style = style;
-		m_objects.clear();
 		const NoteType noteType = [style] {
 			switch (style) {
 			case PlayStyleType::Normal:
@@ -86,30 +85,8 @@ namespace ct
 				return 5;
 			}
 		}();
-		const double barCount = [style] {
-			switch (style) {
-			case PlayStyleType::Normal:
-				return 17;
-			case PlayStyleType::NormalArc:
-				return 18;
-			case PlayStyleType::Portrait:
-				return 22;
-			case PlayStyleType::Homography:
-				return 50;
-			default:
-				return 17;
-			}
-		}();
-		for (size_t i = 0; i < barCount; ++i) {
-			for (size_t j = 0; j < 2; ++j) {
-				auto count = NotesData::RESOLUTION * i + NotesData::RESOLUTION * j / 2;
-				m_objects.emplace_back(std::make_shared<Note>(0,noteType, static_cast<double>(count), 1));
-			}
-		}
-		for (size_t i = 0; i < barCount; ++i) {
-			auto count = NotesData::RESOLUTION * i;
-			m_objects.emplace_back(std::make_shared<Bar>(0, static_cast<double>(count), 1));
-		}
+		m_bar = std::make_shared<Bar>(0, 0, 1);
+		m_note = std::make_shared<Note>(0, noteType, 0, 1);
 	}
 
 	void HighSpeedDemo::drawDemoNotes(const s3d::Rect& rect, const SoundBar& bar, double  scrollRate, size_t index)const
@@ -150,9 +127,32 @@ namespace ct
 			const double f = static_cast<double>(samples % samplePerBar) / samplePerBar;
 			const auto nowCount = static_cast<double>(NotesData::RESOLUTION) * f;
 
-			for (const std::shared_ptr<Object>& obj : m_objects | std::ranges::views::reverse) {
-				if (obj->getDrawCount() - nowCount >= 0)
-					obj->draw(nowCount, scrollRate);
+			int32 barNum = [style = m_style] {
+				switch (style) {
+				case PlayStyleType::Normal:
+					return 18;
+				case PlayStyleType::NormalArc:
+					return 18;
+				case PlayStyleType::Portrait:
+					return 22;
+				case PlayStyleType::Homography:
+					return 50;
+				default:
+					return 17;
+				}
+			}();
+			barNum = static_cast<int32>(Ceil(barNum / Game::Config().m_playScale));
+			for (int32 i = barNum; i >=0; --i) {
+				double count = nowCount - static_cast<double>(NotesData::RESOLUTION * i);
+				if (count < 0) {
+					m_bar->draw(count, scrollRate);
+				}
+			}
+			for (int32 i = barNum; i >= 0; --i) {
+				double count = nowCount - static_cast<double>(NotesData::RESOLUTION * i);
+				if (count < 0) {
+					m_note->draw(count, scrollRate);
+				}
 			}
 		}
 		m_renderTexture[index - 1].draw();
