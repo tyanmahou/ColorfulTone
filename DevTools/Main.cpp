@@ -32,6 +32,13 @@ public:
 				m_notify.error(U"FAILED");
 			}
 		}
+		if (SimpleGUI::Button(U"VSコンバート", pos + Vec2{200, 0})) {
+			if (DevTools::ConvertVS()) {
+				m_notify.show(U"COMPLETED");
+			} else {
+				m_notify.error(U"FAILED");
+			}
+		}
 		pos.y += 50;
 		SimpleGUI::CheckBox(m_isOfficialFilter, U"公式フィルタ", pos + Vec2{ 130, 0 });
 		SimpleGUI::CheckBox(m_isBuildLevelPredictionModel, U"モデルビルド", pos + Vec2{ 310, 0 });

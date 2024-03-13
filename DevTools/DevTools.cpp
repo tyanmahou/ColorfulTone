@@ -36,6 +36,20 @@ namespace ct::dev
         }
         return isSuccess;
     }
+    bool DevTools::ConvertVS()
+    {
+        bool isSuccess = true;
+        Array<FilePath> paths = Dialog::OpenFiles({ FileFilter{  U"HLSL", { U"hlsl" }} }, FileSystem::CurrentDirectory(), U"コンパイルファイルVS");
+        for (const FilePath& path : paths) {
+            FilePath outPath = path.replaced(U"hlsl", U"vs");
+            if (Platform::Windows::CompileHLSLToFile(path, outPath, ShaderStage::Vertex, U"VS")) {
+                isSuccess &= true;
+            } else {
+                isSuccess &= false;
+            }
+        }
+        return isSuccess;
+    }
     Coro::Fiber<ProcessResult> DevTools::AnalyzeAsync(bool isOfficialOnly, bool isBuildModel)
     {
         LvPredictor::SetupIfNeed();

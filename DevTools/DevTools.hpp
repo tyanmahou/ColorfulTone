@@ -46,6 +46,11 @@ namespace ct::dev
         static bool ConvertPS();
 
         /// <summary>
+        /// VertexShaderのコンバート
+        /// </summary>
+        static bool ConvertVS();
+
+        /// <summary>
         /// 解析
         /// </summary>
         static Coro::Fiber<ProcessResult> AnalyzeAsync(bool isOfficialOnly, bool isBuildModel = false);
