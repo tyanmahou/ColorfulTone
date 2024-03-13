@@ -19,12 +19,13 @@ namespace ct
 		void draw(const SoundBar& min, const SoundBar& max, double scrollRate)const;
 	private:
 		void resetStyle(PlayStyleType style);
-		void drawDemoNotes(const SoundBar& bar, double scrollRate, size_t index) const;
+		void drawDemoNotes(const s3d::Rect& rect, const SoundBar& bar, double scrollRate, size_t index) const;
 	private:
 		s3d::Array<std::shared_ptr<Object>> m_objects;
 		s3d::EasingAB<s3d::int32> m_offset;
 		const s3d::Rect m_bgRect;
 
 		PlayStyleType m_style;
+		s3d::RenderTexture m_renderTexture[2];
 	};
 }

@@ -10,8 +10,9 @@
 namespace ct
 {
 	HighSpeedDemo::HighSpeedDemo() :
-		m_offset(-300, 0, Easing::Quad, 400),
-		m_bgRect(400 - 45, 0, 90, 500)
+		m_offset(0, 1, Easing::Quad, 400),
+		m_bgRect(400 - 45, 0, 90, 500),
+		m_renderTexture{ s3d::RenderTexture(s3d::Scene::Size()), s3d::RenderTexture(s3d::Scene::Size()) }
 	{
 		m_style = Game::Config().m_styleType;
 		this->resetStyle(m_style);
@@ -73,10 +74,32 @@ namespace ct
 
 		m_style = style;
 		m_objects.clear();
-		NoteType noteType = style == PlayStyleType::Portrait ? 2 : 5;
-		const double barCount = style == PlayStyleType::Default ? 17
-			 : style == PlayStyleType::Portrait ? 22
-			: 18;
+		const NoteType noteType = [style] {
+			switch (style) {
+			case PlayStyleType::Normal:
+			case PlayStyleType::NormalArc:
+				return 5;
+			case PlayStyleType::Portrait:
+			case PlayStyleType::Homography:
+				return 2;
+			default:
+				return 5;
+			}
+		}();
+		const double barCount = [style] {
+			switch (style) {
+			case PlayStyleType::Normal:
+				return 17;
+			case PlayStyleType::NormalArc:
+				return 18;
+			case PlayStyleType::Portrait:
+				return 22;
+			case PlayStyleType::Homography:
+				return 50;
+			default:
+				return 17;
+			}
+		}();
 		for (size_t i = 0; i < barCount; ++i) {
 			for (size_t j = 0; j < 2; ++j) {
 				auto count = NotesData::RESOLUTION * i + NotesData::RESOLUTION * j / 2;
@@ -89,37 +112,72 @@ namespace ct
 		}
 	}
 
-	void HighSpeedDemo::drawDemoNotes(const SoundBar& bar, double  scrollRate, size_t index)const
+	void HighSpeedDemo::drawDemoNotes(const s3d::Rect& rect, const SoundBar& bar, double  scrollRate, size_t index)const
 	{
 		// マスク処理
-		m_bgRect.draw(ColorF(0, 0.5));
+		rect.draw(ColorF(0, 0.5));
 
 		auto scopedMask = Shaders::Mask(index).equal([&] {
-			m_bgRect.draw();
+			rect.draw();
 		});
 
-		PlayStyle::Instance()->drawJudgeLine();
+		{
+			Transformer2D t2d(Mat3x2::Identity(), Transformer2D::Target::SetLocal);
 
-		const double timePerBar = 60.0 * 4.0 / bar.getBPM();
-		const s3d::int64 samplePerBar = static_cast<s3d::int64>(timePerBar * 44100);
-		const int64 samples = static_cast<int64>(Math::Fmod(Scene::Time(), timePerBar) * 44100);
-		const double f = static_cast<double>(samples % samplePerBar) / samplePerBar;
-		const auto nowCount = static_cast<double>(NotesData::RESOLUTION) * f;
+			ScopedRenderTarget2D rt(m_renderTexture[index - 1]);
+			m_renderTexture[index - 1].clear(ColorF(0, 0));
 
-		for (const std::shared_ptr<Object>& obj : m_objects | std::ranges::views::reverse) {
-			if (obj->getDrawCount() - nowCount >= 0)
-				obj->draw(nowCount, scrollRate);
+			BlendState blend = BlendState::Default2D;
+			blend.opAlpha = BlendOp::Max;
+			blend.dstAlpha = Blend::DestAlpha;
+			blend.srcAlpha = Blend::SrcAlpha;
+			ScopedRenderStates2D renderState{ blend };
+
+			s3d::Optional<ScopedCustomShader2D> optVs = m_style == PlayStyleType::Homography ? 
+				Shaders::Gizi3D().start() :
+				s3d::Optional<ScopedCustomShader2D>(s3d::none);
+
+			Vec2 scaledCenter{ 400,300 };
+			if (m_style == PlayStyleType::Homography || m_style == PlayStyleType::Portrait) {
+				scaledCenter.y = 500;
+			}
+			Transformer2D t2dPlayScale(Mat3x2::Scale(Game::Config().m_playScale, scaledCenter));
+			PlayStyle::Instance()->drawJudgeLine();
+
+			const double timePerBar = 60.0 * 4.0 / bar.getBPM();
+			const s3d::int64 samplePerBar = static_cast<s3d::int64>(timePerBar * 44100);
+			const int64 samples = static_cast<int64>(Math::Fmod(Scene::Time(), timePerBar) * 44100);
+			const double f = static_cast<double>(samples % samplePerBar) / samplePerBar;
+			const auto nowCount = static_cast<double>(NotesData::RESOLUTION) * f;
+
+			for (const std::shared_ptr<Object>& obj : m_objects | std::ranges::views::reverse) {
+				if (obj->getDrawCount() - nowCount >= 0)
+					obj->draw(nowCount, scrollRate);
+			}
 		}
+		m_renderTexture[index - 1].draw();
 	}
 	void HighSpeedDemo::draw(const SoundBar& min, const SoundBar& max, double scrollRate)const
 	{
-		{
-			Transformer2D t2d(Mat3x2::Translate({ m_offset.easeInOut() - 350,0 }));
-			drawDemoNotes(min, scrollRate, 1);
-		}
-		{
-			Transformer2D t2d(Mat3x2::Translate({ m_offset.easeInOut() - 250,0 }));
-			drawDemoNotes(max, scrollRate, 2);
+		if (m_style == PlayStyleType::Homography) {
+			Rect bg{ 400 - 85, 0, 170, 510 };
+			{
+				Transformer2D t2d(Mat3x2::Translate({ Math::Lerp(-460, 0, m_offset.easeInOut()) - 310,0 }));
+				drawDemoNotes(bg, min, scrollRate, 1);
+			}
+			if (min.getBPM() != max.getBPM()) {
+				Transformer2D t2d(Mat3x2::Translate({ Math::Lerp(-460, 0, m_offset.easeInOut()) - 130,0 }));
+				drawDemoNotes(bg, max, scrollRate, 2);
+			}
+		} else {
+			{
+				Transformer2D t2d(Mat3x2::Translate({ Math::Lerp(-300, 0, m_offset.easeInOut()) - 350,0 }));
+				drawDemoNotes(m_bgRect, min, scrollRate, 1);
+			}
+			if (min.getBPM() != max.getBPM()) {
+				Transformer2D t2d(Mat3x2::Translate({ Math::Lerp(-300, 0, m_offset.easeInOut()) - 250,0 }));
+				drawDemoNotes(m_bgRect, max, scrollRate, 2);
+			}
 		}
 	}
 }
