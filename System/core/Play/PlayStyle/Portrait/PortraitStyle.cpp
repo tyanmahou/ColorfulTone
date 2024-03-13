@@ -12,6 +12,7 @@
 
 #include <core/Play/PlayMusicGame.hpp>
 #include <core/Play/ColorFx/ColorFx.hpp>
+
 namespace
 {
     using namespace ct;
@@ -35,12 +36,6 @@ namespace
     {
         constexpr double adjust = 1.5;
         return  500 - count / static_cast<double>(Object::RESOLUTION) * scrollRate * speed * adjust;
-    }
-    bool CanDraw(double y)
-    {
-        const double scale = Game::Config().m_playScale;
-        return !(y < 450 - 500.0 / scale || y>150.0 + 500.0 / scale);
-        //return !(y <= -50 || y > 650);
     }
 }
 
@@ -150,7 +145,7 @@ void PortraitStyle::draw(const Bar& note, double count, double scrollRate) const
 {
     double y = GetY(count, scrollRate, note.getSpeed());
 
-    if (!CanDraw(y))
+    if (!canDraw(y))
         return;
 
     if (note.getSpeed() != 0)
@@ -204,6 +199,7 @@ namespace
     }
     void Draw(double y, NoteType type)
     {
+        constexpr ColorF frameColor(0, 0.5);
         //constexpr double h = 14;
         constexpr double w = g_width / 3;
         const auto& tex = TextureAsset(GetTextureName(type));
@@ -212,47 +208,58 @@ namespace
         case 1:
         case 11:
             tex.drawAt(400 - w, y)
+                .drawFrame(0, 1.5, frameColor)
                 .drawFrame(0.5, 0.5, color);
             break;
         case 2:
         case 12:
             tex.drawAt(400, y)
+                .drawFrame(0, 1.5, frameColor)
                 .drawFrame(0.5, 0.5, color);
             break;
         case 3:
         case 13:
             tex.drawAt(400 + w, y)
+                .drawFrame(0, 1.5, frameColor)
                 .drawFrame(0.5, 0.5, color);
             break;
         case 4:
         case 14:
             tex.scaled(2, 1).drawAt(400 + w / 2, y)
+                .drawFrame(0, 1.5, frameColor)
                 .drawFrame(0.5, 0.5, color);
             break;
         case 5:
         case 15:
             tex.scaled(1.5, 1).drawAt(400 - w * 5 / 4, y)
+                .drawFrame(0, 1.5, frameColor)
                 .drawFrame(0.5, 0.5, color);
             tex.scaled(1.5, 1).drawAt(400 + w * 5 / 4, y)
+                .drawFrame(0, 1.5, frameColor)
                 .drawFrame(0.5, 0.5, color);
             break;
         case 6:
         case 16:
             tex.scaled(2.0, 1).drawAt(400 - w / 2, y)
+                .drawFrame(0, 1.5, frameColor)
                 .drawFrame(0.5, 0.5, color);
             break;
         case 7:
         case 17:
             tex.scaled(3.0, 1).drawAt(400, y)
+                .drawFrame(0, 1.5, frameColor)
+                .drawFrame(1.0, 0, Palette::White)
                 .drawFrame(0.5, 0.5, color);
             break;
         case 9:
             tex.scaled(3.0, 1).drawAt(400, y)
+                .drawFrame(0, 1.5, frameColor)
                 .drawFrame(0.5, 0.5, color);
             break;
         case 10:
         case 18:
             tex.scaled(3.0, 1).drawAt(400, y)
+                .drawFrame(0, 1.5, frameColor)
                 .drawFrame(0.5, 0.5, Palette::Black);
         default:
             break;
@@ -275,7 +282,7 @@ void PortraitStyle::draw(const Note& note, double count, double scrollRate) cons
 
     double y = GetY(count, scrollRate, note.getSpeed());
 
-    if (!CanDraw(y))
+    if (!canDraw(y))
         return;
 
     Draw(y, type);
@@ -304,7 +311,7 @@ void PortraitStyle::draw(const LongNote& note, double count, double scrollRate) 
     double pY = GetY(pCount, scrollRate, parent->getSpeed());
 
 
-    if (!CanDraw(pY) && !CanDraw(y))
+    if (!canDraw(pY) && !canDraw(y))
         return;
 
 
@@ -327,7 +334,7 @@ void PortraitStyle::draw(const RepeatNote& note, double count, double scrollRate
 
     double y = GetY(count, scrollRate, note.getSpeed());
 
-    if (!CanDraw(y))
+    if (!canDraw(y))
         return;
 
     Draw(y, 10);
@@ -345,7 +352,7 @@ void PortraitStyle::draw(const RepeatEnd& note, double count, double scrollRate)
         pCount = 0;
     auto pY = GetY(pCount, scrollRate, parent->getSpeed());
 
-    if (!CanDraw(pY) && !CanDraw(y))
+    if (!canDraw(pY) && !canDraw(y))
         return;
 
 
@@ -354,4 +361,16 @@ void PortraitStyle::draw(const RepeatEnd& note, double count, double scrollRate)
 
     DrawLong(400, pY, 140, y - pY, c1, c2);
 
+}
+
+bool PortraitStyle::canDraw(double y) const
+{
+    const double scale = Game::Config().m_playScale;
+    constexpr double topBase =- 50;
+    const double top = 500 - (500 - topBase) / scale;
+
+    constexpr double bottomBase = 650;
+    const double bottom = 500 - (500 - bottomBase) / scale;
+
+    return (top <= y && y <= bottom);
 }
