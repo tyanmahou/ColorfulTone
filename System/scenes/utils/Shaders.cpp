@@ -23,12 +23,17 @@ namespace ct
     {
         return Instance()->m_blendShader;
     }
+    const Gizi3DCamera& Shaders::Gizi3D()
+    {
+        return Instance()->m_gizi3D;
+    }
     Shaders::Shaders():
         m_maskShader(Scene::Size(), 4),
         m_flipPageShader(Scene::Size()),
         m_drawCanvasShader(),
         m_mainBgShader(),
-        m_blendShader(Scene::Size())
+        m_blendShader(Scene::Size()),
+        m_gizi3D(Scene::Size())
     {
     }
 }

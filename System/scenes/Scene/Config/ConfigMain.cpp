@@ -221,13 +221,17 @@ namespace ct
             config.add(U"縦レーン", [] {
                 Game::Config().m_styleType = PlayStyleType::Portrait;
                 });
-
+            config.add(U"奥レーン", [] {
+                Game::Config().m_styleType = PlayStyleType::Homography;
+                });
             switch (Game::Config().m_styleType) {
             case PlayStyleType::Default: config.init(U"通常モード");
                 break;
             case PlayStyleType::NormalArc: config.init(U"アークモード");
                 break;
             case PlayStyleType::Portrait: config.init(U"縦レーン");
+                break;
+            case PlayStyleType::Homography: config.init(U"奥レーン");
                 break;
             }
         }

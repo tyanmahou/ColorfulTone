@@ -3,6 +3,7 @@
 #include <core/Play/PlayStyle/Normal/NormalStyle.hpp>
 #include <core/Play/PlayStyle/Portrait/PortraitStyle.hpp>
 #include <core/Play/PlayStyle/NormalArc/NormalArcStyle.hpp>
+#include <core/Play/PlayStyle/Homography/HomographyStyle.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -20,6 +21,7 @@ namespace ct
            { PlayStyleType::Normal,  [] { return std::make_unique<NormalStyle>(); }},
            { PlayStyleType::Portrait,  [] { return std::make_unique<PortraitStyle>(); }},
            { PlayStyleType::NormalArc,  [] { return std::make_unique<NormalArcStyle>(); }},
+           { PlayStyleType::Homography,  [] { return std::make_unique<HomographyStyle>(); }},
         };
         auto it = factory.find(type);
         if (it == factory.end()) {

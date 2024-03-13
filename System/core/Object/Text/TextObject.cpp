@@ -1,8 +1,7 @@
 ﻿#include <core/Object/Text/TextObject.hpp>
 #include <core/Play/PlayMusicGame.hpp>
 #include <core/SoundBeat.hpp>
-#include <Siv3D/PutText.hpp>
-#include <Siv3D/Scene.hpp>
+#include <Siv3D.hpp>
 #include <core/Judge/Judge.hpp>
 
 namespace ct
@@ -34,6 +33,7 @@ namespace ct
     void TextObject::diffDraw([[maybe_unused]]double count, [[maybe_unused]] double scrollRate)const
     {
         if (m_isDraw) {
+            s3d::Transformer2D t2d(s3d::Mat3x2::Identity(), Transformer2D::Target::SetLocal);
             const auto win = s3d::Scene::Size();
             s3d::PutText(
                 m_msg,

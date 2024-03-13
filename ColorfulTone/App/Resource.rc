@@ -133,6 +133,7 @@ Resource(Shaders/flipPage.ps)
 Resource(Shaders/mainBg.ps)
 Resource(Shaders/drawCanvas.ps)
 Resource(Shaders/mask.ps)
+Resource(Shaders/gizi3d.vs)
 
 /* examples 
 
