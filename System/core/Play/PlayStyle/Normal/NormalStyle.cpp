@@ -110,6 +110,14 @@ namespace
 
 namespace ct
 {
+	void NormalStyle::drawPreview(std::function<void()> drawCallback) const
+	{
+		const auto& config = Game::Config();
+		Transformer2D t2d(Mat3x2::Scale(config.m_playScale, Vec2{ 400,300 }));
+		//判定円
+		this->drawJudgeLine();
+		drawCallback();
+	}
 	void NormalStyle::drawFrame(bool red, bool blue, bool yellow, std::function<void()> drawCallback) const
 	{
 		const auto& config = Game::Config();

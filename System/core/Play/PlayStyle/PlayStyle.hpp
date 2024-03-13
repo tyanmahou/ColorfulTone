@@ -17,7 +17,10 @@ namespace ct
         {
             m_style->draw(note, count, scrollRate);
         }
-
+        void drawPreview(std::function<void()> drawCallback) const
+        {
+            m_style->drawPreview(drawCallback);
+        }
         void drawJudgeLine() const
         {
             m_style->drawJudgeLine();

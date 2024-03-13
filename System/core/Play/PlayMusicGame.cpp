@@ -281,9 +281,9 @@ namespace ct
         //背景
         this->drawBG(drawCount);
 
-        PlayStyle::Instance()->drawJudgeLine();
-
-        m_playNotesData.previewDraw(drawCount, m_scrollRate);
+        PlayStyle::Instance()->drawPreview([&] {
+            m_playNotesData.previewDraw(drawCount, m_scrollRate);
+        });
 
         this->drawMusicTitle(true);
         this->drawAutoPlay(true);

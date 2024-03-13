@@ -17,8 +17,10 @@ namespace ct
     {
     public:
         virtual ~IPlayStyle() = default;
+
+        virtual void drawPreview([[maybe_unused]] std::function<void()> drawCallback) const {}
         virtual void drawJudgeLine()const {}
-        virtual void drawFrame([[maybe_unused]] bool red, [[maybe_unused]] bool blue, [[maybe_unused]] bool yellow, std::function<void()> [[maybe_unused]] drawCallback) const
+        virtual void drawFrame([[maybe_unused]] bool red, [[maybe_unused]] bool blue, [[maybe_unused]] bool yellow, [[maybe_unused]] std::function<void()> drawCallback) const
         {
         }
         virtual void drawComboAndRate([[maybe_unused]] size_t combo, [[maybe_unused]] float rate)

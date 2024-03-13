@@ -39,7 +39,20 @@ namespace
     }
 }
 
-
+void PortraitStyle::drawPreview(std::function<void()> drawCallback) const
+{
+    const auto& config = Game::Config();
+    {
+        ScopedRenderStates2D blend(BlendState::Subtractive);
+        const double w = g_width * config.m_playScale;
+        RectF(400 - w / 2, 0, w, 600).draw(ColorF(0.3, 0.6));
+    }
+    {
+        Transformer2D t2d(Mat3x2::Scale(config.m_playScale, Vec2{ 400, 500 }));
+        this->drawJudgeLine();
+        drawCallback();
+    }
+}
 void PortraitStyle::drawFrame(bool red, bool blue, bool yellow, std::function<void()> drawCallback) const
 {
     const auto& config = Game::Config();
