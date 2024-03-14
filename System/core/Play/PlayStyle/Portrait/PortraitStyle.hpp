@@ -26,6 +26,7 @@ namespace ct
 		void draw(const RepeatEnd& note, double count, double scrollRate)const override;
 
 		virtual bool canDraw(double y) const;
+		void drawComboAndRate(size_t combo, const s3d::Vec2& comboPos, float rate, const s3d::Vec2& ratePos) const;
 	protected:
 		s3d::Effect m_effetcs[2];
 	};

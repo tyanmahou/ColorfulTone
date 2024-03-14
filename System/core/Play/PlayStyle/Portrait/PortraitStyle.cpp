@@ -101,21 +101,10 @@ void PortraitStyle::drawJudgeLine() const
 
 void PortraitStyle::drawComboAndRate(size_t combo, float rate)
 {
-    const FontAsset font(FontName::Combo);
+    constexpr Vec2 comboPos{ 65, 298 };
+    constexpr Vec2 ratePos{ 550 ,300 };
 
-    if (combo) {
-        constexpr Vec2 pos{ 65, 298 };
-        TextureAsset(U"combo").draw(pos.x + 121, pos.y + 1, Palette::White);
-        TextureAsset(U"combo").draw(pos.x + 120, pos.y, Palette::Black);
-
-        String comboText = Pad(combo, { 6, L' ' });
-        FontKinetic::DeleteSpace(font, comboText, Vec2{ pos.x, pos.y + 2 }, Palette::Black, Palette::White);
-    }
-    {
-        constexpr Vec2 pos{ 550 ,300 };
-        font(U"{:.2f}%"_fmt(rate)).draw(pos.x, pos.y + 1, Palette::White);
-        font(U"{:.2f}%"_fmt(rate)).draw(pos.x, pos.y, Palette::Black);
-    }
+    this->drawComboAndRate(combo, comboPos, rate, ratePos);
 }
 
 void PortraitStyle::drawTapEffect(NoteType type, NoteType baseType)
@@ -386,4 +375,21 @@ bool PortraitStyle::canDraw(double y) const
     const double bottom = 500 - (500 - bottomBase) / scale;
 
     return (top <= y && y <= bottom);
+}
+
+void PortraitStyle::drawComboAndRate(size_t combo, const s3d::Vec2& comboPos, float rate, const s3d::Vec2& ratePos) const
+{
+    const FontAsset font(FontName::Combo);
+
+    if (combo) {
+        TextureAsset(U"combo").draw(comboPos.x + 121, comboPos.y + 1, Palette::White);
+        TextureAsset(U"combo").draw(comboPos.x + 120, comboPos.y, Palette::Black);
+
+        String comboText = Pad(combo, { 6, L' ' });
+        FontKinetic::DeleteSpace(font, comboText, Vec2{ comboPos.x, comboPos.y + 2 }, Palette::Black, Palette::White);
+    }
+    {
+        font(U"{:.2f}%"_fmt(rate)).draw(ratePos.x + 1, ratePos.y + 1, Palette::White);
+        font(U"{:.2f}%"_fmt(rate)).draw(ratePos.x, ratePos.y, Palette::Black);
+    }
 }

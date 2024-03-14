@@ -8,6 +8,7 @@ namespace ct
 	{
 		void drawPreview([[maybe_unused]] std::function<void()> drawCallback) const override;
 		void drawFrame(bool red, bool blue, bool yellow, std::function<void()> drawCallback) const override;
+		void drawComboAndRate(size_t combo, float rate) override;
 		bool canDraw(double y) const override;
 	};
 }
