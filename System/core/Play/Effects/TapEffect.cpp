@@ -3,23 +3,26 @@
 namespace ct
 {
 	using s3d::Math::Pi;
-
-	TapEffect::TapEffect(const double angle, s3d::int32 type) :
+	TapEffect::TapEffect(const s3d::Vec2& pos, const double angle, s3d::int32 type) :
+		m_pos(pos),
 		m_angle(angle + Pi),
 		m_type(type),
-		m_sImage(TextureAsset(U"tapEffct"), { 20,1 }, true) 
+		m_sImage(TextureAsset(U"tapEffct"), { 20,1 }, true)
+	{}
+	TapEffect::TapEffect(const double angle, s3d::int32 type) :
+		TapEffect({400, 300}, angle, type)
 	{}
 	bool TapEffect::update(double t)
 	{
 		if (m_type != 9) {
-			TextureAsset(Format(U"center_", m_type)).drawAt(400, 300);
+			TextureAsset(Format(U"center_", m_type)).drawAt(m_pos);
 		}
 		m_sImage.update();
-		m_sImage.rotate(m_angle).drawAt(400, 300);
+		m_sImage.rotate(m_angle).drawAt(m_pos);
 		const int32 alpha = Min(static_cast<int32>(- t * 10000.0 / 34.0 + 110), 255);
 		Color color = Palette::Blue;
 		color.setA(alpha);
-		Circle(400, 300, 40 + 70 * t).drawFrame(1, 0, color);
+		Circle(m_pos, 40 + 70 * t).drawFrame(1, 0, color);
 		return t <= 0.34;
 	}
 	TapEffect2::TapEffect2(double posX, double width) :

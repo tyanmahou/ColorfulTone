@@ -212,27 +212,22 @@ namespace ct
         {
             config.setName(U"プレイモード");
 
-            config.add(U"通常モード", [] {
-                Game::Config().m_styleType = PlayStyleType::Default;
+            static Array<std::pair<String, PlayStyleType>> list
+            {
+                {U"通常モード", PlayStyleType::Default},
+                {U"アークモード", PlayStyleType::NormalArc},
+                {U"縦レーン", PlayStyleType::Portrait},
+                {U"奥レーン", PlayStyleType::Homography},
+                {U"横レーン", PlayStyleType::Landscape},
+            };
+            for (auto&& [title, style] : list) {
+                config.add(title, [style] {
+                    Game::Config().m_styleType = style;
                 });
-            config.add(U"アークモード", [] {
-                Game::Config().m_styleType = PlayStyleType::NormalArc;
-                });
-            config.add(U"縦レーン", [] {
-                Game::Config().m_styleType = PlayStyleType::Portrait;
-                });
-            config.add(U"奥レーン", [] {
-                Game::Config().m_styleType = PlayStyleType::Homography;
-                });
-            switch (Game::Config().m_styleType) {
-            case PlayStyleType::Default: config.init(U"通常モード");
-                break;
-            case PlayStyleType::NormalArc: config.init(U"アークモード");
-                break;
-            case PlayStyleType::Portrait: config.init(U"縦レーン");
-                break;
-            case PlayStyleType::Homography: config.init(U"奥レーン");
-                break;
+
+                if (Game::Config().m_styleType == style) {
+                    config.init(title);
+                }
             }
         }
 

@@ -237,7 +237,7 @@ namespace ct
 	void NormalStyle::draw(const Note& note, double count, double scrollRate)const
 	{
 		const NoteType type = note.getType();
-		const String& textureName = GetTxetureName(type);
+		const String textureName = GetTxetureName(type);
 		const double angle = GetAngle(type);
 		const double& speed = note.getSpeed();
 

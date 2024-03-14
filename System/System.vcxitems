@@ -101,6 +101,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayMusicGame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Homography\HomographyStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\IPlayStyle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Landscape\LandscapeStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\NormalArc\NormalArcStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Normal\NormalStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.hpp" />
@@ -256,6 +257,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayMusicGame.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayNotesData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Homography\HomographyStyle.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Landscape\LandscapeStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\NormalArc\NormalArcStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Normal\NormalStyle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\PlayStyle.cpp" />

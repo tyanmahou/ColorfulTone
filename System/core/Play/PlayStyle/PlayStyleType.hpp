@@ -8,6 +8,7 @@ namespace ct
 		Portrait,
 		NormalArc,
 		Homography,
+		Landscape,
 		Default = Normal
 	};
 }

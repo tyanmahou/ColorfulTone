@@ -4,6 +4,7 @@
 #include <core/Play/PlayStyle/Portrait/PortraitStyle.hpp>
 #include <core/Play/PlayStyle/NormalArc/NormalArcStyle.hpp>
 #include <core/Play/PlayStyle/Homography/HomographyStyle.hpp>
+#include <core/Play/PlayStyle/Landscape/LandscapeStyle.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -22,6 +23,7 @@ namespace ct
            { PlayStyleType::Portrait,  [] { return std::make_unique<PortraitStyle>(); }},
            { PlayStyleType::NormalArc,  [] { return std::make_unique<NormalArcStyle>(); }},
            { PlayStyleType::Homography,  [] { return std::make_unique<HomographyStyle>(); }},
+           { PlayStyleType::Landscape,  [] { return std::make_unique<LandscapeStyle>(); }},
         };
         auto it = factory.find(type);
         if (it == factory.end()) {
