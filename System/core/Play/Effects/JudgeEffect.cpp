@@ -29,8 +29,8 @@ namespace ct
 
 		t *= (1 / 0.5);
 
-		const double alpha = 1.0 - t;
-
+		double alpha = 1.0 - t;
+		alpha = 1 - (1 - alpha) * (1 - alpha);
 		const double offset = -20 * t;
 
 		ColorF c = m_color;

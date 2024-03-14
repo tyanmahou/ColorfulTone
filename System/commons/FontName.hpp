@@ -6,7 +6,7 @@ namespace ct::FontName
     inline constexpr s3d::AssetNameView Regular20 = U"r-20";
     inline constexpr s3d::AssetNameView Regular30 = U"r-30";
 
-    inline constexpr s3d::AssetNameView Judge = U"s-r-8";
+    inline constexpr s3d::AssetNameView Judge = U"s-o-8";
     inline constexpr s3d::AssetNameView Info = U"b-10";
     inline constexpr s3d::AssetNameView Combo = U"s-r-10";
     inline constexpr s3d::AssetNameView Level = U"s-o-12";
