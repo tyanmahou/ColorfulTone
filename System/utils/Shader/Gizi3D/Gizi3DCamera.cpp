@@ -97,6 +97,11 @@ namespace ct
 			Graphics2D::SetVSConstantBuffer(1, m_cb);
 			return ScopedCustomShader2D{ m_vs };
 		}
+		[[nodiscard]] Vec2 toScreenPos(const Vec2& pos) const
+		{
+			Float3 ret = this->worldToScreenPoint({ pos.x, 0, -pos.y });
+			return { ret.x, ret.y };
+		}
 	private:
 		VertexShader m_vs;
 		ConstantBuffer<ShaderParam> m_cb;
@@ -113,5 +118,9 @@ namespace ct
 	ScopedCustomShader2D Gizi3DCamera::start() const
 	{
 		return m_pImpl->start();
+	}
+	s3d::Vec2 Gizi3DCamera::toScreenPos(const s3d::Vec2& pos) const
+	{
+		return m_pImpl->toScreenPos(pos);
 	}
 }

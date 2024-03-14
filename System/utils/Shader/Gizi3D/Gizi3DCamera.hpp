@@ -13,6 +13,8 @@ namespace ct
 		~Gizi3DCamera();
 
 		[[nodiscard]] ScopedCustomShader2D start() const;
+
+		[[nodiscard]] s3d::Vec2 toScreenPos(const s3d::Vec2& pos) const;
 	private:
 		std::unique_ptr<Impl> m_pImpl;
 	};
