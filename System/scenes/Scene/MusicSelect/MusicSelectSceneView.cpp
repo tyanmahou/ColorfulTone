@@ -311,6 +311,7 @@ namespace ct
 				SharedDraw::DrawPlayContextHeader();
 
 				SharedDraw::DrawPlayStyleIcon();
+				SharedDraw::DrawRandomNoteType();
 			}
 
 			// コンフィグ

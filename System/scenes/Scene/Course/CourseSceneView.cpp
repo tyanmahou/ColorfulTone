@@ -110,6 +110,7 @@ namespace ct
             );
             if (!m_pScene->getConfig().isActive()) {
                 SharedDraw::DrawPlayStyleIcon();
+                SharedDraw::DrawRandomNoteType();
             }
             // コンフィグ
             m_pScene->getConfig().drawWithBack();

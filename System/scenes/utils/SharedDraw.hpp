@@ -58,4 +58,7 @@ namespace ct::SharedDraw
     /// </summary>
     void DrawPlayStyleIcon();
     void DrawPlayStyleIcon(const s3d::Vec2& pos);
+
+    void DrawRandomNoteType();
+    void DrawRandomNoteType(const s3d::Vec2& pos);
 }

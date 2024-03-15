@@ -307,38 +307,7 @@ namespace ct
 
     void PlayMusicGame::drawRandomMode() const
     {
-        if (Game::Config().m_random != RandomNoteType::None) {
-            String text;
-            switch (Game::Config().m_random) {
-            case RandomNoteType::Mirror:
-                text = U"MIRROR";
-                break;
-            case RandomNoteType::Rotate120:
-                text = U"ROTATE120";
-                break;
-            case RandomNoteType::Rotatee120Mirror:
-                text = U"ROTATE120 MIRROR";
-                break;
-            case RandomNoteType::Rotate240:
-                text = U"ROTATE240";
-                break;
-            case RandomNoteType::Rotate240Mirror:
-                text = U"ROTATE240 MIRROR";
-                break;
-            case RandomNoteType::Random:
-                text = U"RANDOM";
-                break;
-            case RandomNoteType::BarRandom:
-                text = U"BAR RANDOM";
-                break;
-            case RandomNoteType::SRandom:
-                text = U"PURE RANDOM";
-                break;
-            default:
-                break;
-            }
-            PutText(text, Vec2{ 700, Scene::Height() - 20 });
-        }
+        SharedDraw::DrawRandomNoteType();
     }
 
     void PlayMusicGame::drawMusicTitle(bool preview) const

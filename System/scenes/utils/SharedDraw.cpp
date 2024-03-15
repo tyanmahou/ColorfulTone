@@ -126,10 +126,22 @@ namespace ct::SharedDraw
 			PutText(U"Practice", Arg::center = pos);
 		}
 	}
+	void DrawRandomNoteType()
+	{
+		DrawRandomNoteType(Vec2{ 800 - 10, Scene::Height() - 55 });
+	}
+	void DrawRandomNoteType(const s3d::Vec2& pos)
+	{
+		if (Game::Config().m_random != RandomNoteType::None) {
+			const FontAsset font(FontName::Bpm);
+			StringView text = ToRandomNoteTypeStr(Game::Config().m_random);
+			font(text).draw(Arg::rightCenter = pos + Vec2{1,1}, Palette::Black);
+			font(text).draw(Arg::rightCenter = pos, Palette::White);
+		}
+	}
 	void DrawPlayStyleIcon()
 	{
 		DrawPlayStyleIcon({ 5, 533 });
-//		DrawPlayStyleIcon({ 770, 6});
 	}
 	void DrawPlayStyleIcon(const s3d::Vec2& pos)
 	{

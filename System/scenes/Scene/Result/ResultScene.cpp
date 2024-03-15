@@ -205,8 +205,6 @@ namespace ct
 		m_view.draw();
 
 		SceneInfo::Draw(U"T:リザルトをツイート　F10:お気に入り　Enter:戻る");
-
-		SharedDraw::DrawPlayContextHeader();
 	}
 
 	void ResultScene::drawFadeIn(double t) const

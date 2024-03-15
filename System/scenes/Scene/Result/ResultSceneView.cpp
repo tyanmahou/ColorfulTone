@@ -306,6 +306,10 @@ namespace ct
 			);
 			// 合格印
 			::DrawCourseResult(course, m_timers);
+
+			SharedDraw::DrawPlayContextHeader();
+			SharedDraw::DrawPlayStyleIcon();
+			SharedDraw::DrawRandomNoteType();
 		}
 	};
 

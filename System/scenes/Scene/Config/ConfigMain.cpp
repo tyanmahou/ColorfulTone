@@ -224,7 +224,7 @@ namespace ct
         {
             config.setName(U"プレイモード");
 
-            static Array<std::pair<String, PlayStyleType>> list
+            static Array<std::pair<StringView, PlayStyleType>> list
             {
                 {U"通常モード", PlayStyleType::Default},
                 {U"アークモード", PlayStyleType::NormalArc},
@@ -233,13 +233,14 @@ namespace ct
                 {U"横レーン", PlayStyleType::Landscape},
             };
             for (auto&& [title, style] : list) {
+                String str{ title };
                 auto event = [style] {
                     Game::Config().m_styleType = style;
                     };
-                config.add(title, std::move(event));
+                config.add(str, std::move(event));
 
                 if (Game::Config().m_styleType == style) {
-                    config.init(title);
+                    config.init(str);
                 }
             }
             config.setExtention([&](size_t index, double y) {
@@ -290,16 +291,21 @@ namespace ct
         void RandomInit(Config& config)
         {
             config.setName(U"配置設定");
-            config.add(U"なし", []() {Game::Config().m_random = RandomNoteType::None; });
-            config.add(U"MIRROR", []() {Game::Config().m_random = RandomNoteType::Mirror; }, U"赤と黄の配置を反転します");
-            config.add(U"ROTATE120", []() {Game::Config().m_random = RandomNoteType::Rotate120; }, U"赤を黄, 青を赤, 黄を青に変更します");
-            config.add(U"ROTATE120 MIRROR", []() {Game::Config().m_random = RandomNoteType::Rotatee120Mirror; }, U"青と黄の配置を反転します");
-            config.add(U"ROTATE240", []() {Game::Config().m_random = RandomNoteType::Rotate240; }, U"赤を青, 青を黄, 黄を赤に変更します");
-            config.add(U"ROTATE240 MIRROR", []() {Game::Config().m_random = RandomNoteType::Rotate240Mirror; }, U"赤と青の配置を反転します");
-            config.add(U"RANDOM", []() {Game::Config().m_random = RandomNoteType::Random; }, U"各色の配置をランダムに変更します");
-            config.add(U"BAR RANDOM", []() {Game::Config().m_random = RandomNoteType::BarRandom; }, U"1小節ごとに配置をランダムに変更します");
-            config.add(U"PURE RANDOM", []() {Game::Config().m_random = RandomNoteType::SRandom; }, U"ノーツごとに配置をランダムに変更します");
-
+            static std::array<std::pair<RandomNoteType, StringView>, 9> list
+            {
+                std::pair{RandomNoteType::None, U""},
+                std::pair{RandomNoteType::Mirror, U"赤と黄の配置を反転します"},
+                std::pair{RandomNoteType::Rotate120, U"赤を黄, 青を赤, 黄を青に変更します"},
+                std::pair{RandomNoteType::Rotatee120Mirror, U"青と黄の配置を反転します"},
+                std::pair{RandomNoteType::Rotate240, U"赤を青, 青を黄, 黄を赤に変更します"},
+                std::pair{RandomNoteType::Rotate240Mirror, U"赤と青の配置を反転します"},
+                std::pair{RandomNoteType::Random, U"各色の配置をランダムに変更します"},
+                std::pair{RandomNoteType::BarRandom, U"1小節ごとに配置をランダムに変更します"},
+                std::pair{RandomNoteType::SRandom, U"ノーツごとに配置をランダムに変更します"}
+            };
+            for (auto [type, detail] : list) {
+                config.add({ ToRandomNoteTypeStr(type) }, [type]() {Game::Config().m_random = type; }, { detail });
+            }
             config.init(static_cast<size_t>(Game::Config().m_random));
         }
         void LifeDeadInit(Config& config)
