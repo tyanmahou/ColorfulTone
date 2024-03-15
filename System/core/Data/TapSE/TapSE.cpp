@@ -1,5 +1,6 @@
 ﻿#include <core/Data/TapSE/TapSE.hpp>
 #include <Siv3D.hpp>
+#include "TapSE.hpp"
 namespace
 {
     const FilePathView g_defaultPerfectPath = U"TapSE/デフォルト/tapP.mp3";
@@ -66,4 +67,18 @@ namespace ct
         return m_goodSE;
     }
 
+    FilePath TapSE::getRelativePerfectSE() const
+    {
+        return s3d::FileSystem::RelativePath(this->getPerfectSE());
+    }
+
+    FilePath TapSE::getRelativeGreatSE() const
+    {
+        return s3d::FileSystem::RelativePath(this->getGreatSE());
+    }
+
+    FilePath TapSE::getRelativeGoodSE() const
+    {
+        return s3d::FileSystem::RelativePath(this->getGoodSE());
+    }
 }

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <scenes/Scene/ISceneBase.hpp>
 #include <scenes/Scene/MusicSelect/MusicSelectSceneView.hpp>
+#include <scenes/Scene/MusicSelect/SelectMusicsInfo.hpp>
 #include <memory>
 #include <Siv3D/Types.hpp>
 #include <Siv3D/Array.hpp>
@@ -13,27 +14,6 @@ namespace ct
 	class MusicSelectScene : public ISceneBase
 	{
 	public:
-		enum class SortMode : s3d::uint8
-		{
-			FileName,
-			MusicName,
-			ArtistName,
-			LastUpdateAt,
-			Default = FileName
-		};
-		enum class AllNotesInfo : bool
-		{
-			Level,
-			ClearRank
-		};
-		struct SelectMusicsInfo
-		{
-			s3d::uint32 genre = 0;	// 選択中のジャンル
-			s3d::uint32 music = 0;	// 選択中の曲
-			s3d::uint32 level = 0;	// 選択中のレベル
-			SortMode sortMode = SortMode::Default; // 選択中のソート
-			AllNotesInfo notesInfo = AllNotesInfo::Level; //選択中の譜面表示情報
-		};
 		enum class Action : s3d::uint8
 		{
 			GenreSelect,

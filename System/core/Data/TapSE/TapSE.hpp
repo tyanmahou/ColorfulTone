@@ -19,8 +19,13 @@ namespace ct
         void apply()const;
 
         const s3d::String& getName()const;
+
         const s3d::FilePath& getPerfectSE()const;
         const s3d::FilePath& getGreatSE()const;
         const s3d::FilePath& getGoodSE()const;
+
+        FilePath getRelativePerfectSE() const;
+        FilePath getRelativeGreatSE() const;
+        FilePath getRelativeGoodSE() const;
     };
 }

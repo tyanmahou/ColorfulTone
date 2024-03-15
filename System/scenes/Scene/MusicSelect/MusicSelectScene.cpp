@@ -9,9 +9,8 @@ namespace
 {
     using namespace ct;
 
-    MusicSelectScene::SelectMusicsInfo g_selectInfo;
+    SelectMusicsInfo& g_selectInfo = SelectMusicsInfo::Instance();
 
-    using SortMode = MusicSelectScene::SortMode;
     using Action = MusicSelectScene::Action;
     //　ソートの切り替え用
     SortMode NextMode(SortMode mode)
@@ -86,7 +85,7 @@ namespace
         }
     }
 
-    uint32& GetSelectTarget(Action action)
+    size_t& GetSelectTarget(Action action)
     {
         switch (action) {
         case Action::GenreSelect: return g_selectInfo.genre;
@@ -110,7 +109,7 @@ namespace
     }
 
     // 有効なノーツインデックスを選択
-    void SelectValidNoteIndex(uint32& target, const MusicData& music)
+    void SelectValidNoteIndex(size_t& target, const MusicData& music)
     {
         const auto& notes = music.getNotesData();
         if (notes.isEmpty()) {
@@ -195,7 +194,7 @@ namespace ct
             m_prevAction = m_action;
             // 選択するターゲットの参照
             auto& target = ::GetSelectTarget(m_action);
-            m_prevSelect = g_selectInfo.music;
+            m_prevSelect = static_cast<int32>(g_selectInfo.music);
             size_t size = ::GetTargetSize(m_action, m_musics);
 
             // ハイスピ変更
@@ -273,7 +272,7 @@ namespace ct
             }
             // 再度indexの調整
             {
-                uint32& target2 = ::GetSelectTarget(m_action);
+                size_t& target2 = ::GetSelectTarget(m_action);
                 size_t size2 = ::GetTargetSize(m_action, m_musics);
                 target2 = size2 ? target2 % size2 : 0;
             }
@@ -386,6 +385,9 @@ namespace ct
         m_pModel->postUpdate();
 
         if (m_pModel->isSelectedNotes()) {
+            Game::Config().m_musicSelect = g_selectInfo;
+            Game::Config().m_scrollRate = getData().m_scrollRate;
+
             changeScene(SceneName::Main, 2000, CrossFade::No);
             SoundManager::PlaySe(U"desisionLarge2");
         } else if (PlayKey::BigBack().down()) {
@@ -438,7 +440,7 @@ namespace ct
         }
     }
 
-    MusicSelectScene::SelectMusicsInfo MusicSelectScene::GetSelectInfo()
+    SelectMusicsInfo MusicSelectScene::GetSelectInfo()
     {
         return g_selectInfo;
     }

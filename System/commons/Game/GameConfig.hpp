@@ -5,6 +5,7 @@
 #include <core/Play/PlayStyle/PlayStyleType.hpp>
 #include <core/Play/Random/RandomNoteType.hpp>
 #include <core/Data/TapSE/TapSE.hpp>
+#include <scenes/Scene/MusicSelect/SelectMusicsInfo.hpp>
 
 namespace ct
 {
@@ -42,7 +43,9 @@ namespace ct
         void init();
         void save();
     public:
+        SelectMusicsInfo m_musicSelect;
         double m_scrollRate;
+
         s3d::Input m_red1, m_red2, m_red3;
         s3d::Input m_blue1, m_blue2, m_blue3;
         s3d::Input m_yellow1, m_yellow2, m_yellow3;

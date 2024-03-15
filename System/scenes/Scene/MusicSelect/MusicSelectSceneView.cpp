@@ -5,16 +5,14 @@
 #include <scenes/utils/SharedDraw.hpp>
 #include <core/Data/Score/ResultRank.hpp>
 #include <core/Data/Genre/GenreManager.hpp>
+#include <core/Data/MusicData/MusicData.hpp>
 #include <scenes/Scene/Config/ConfigMain.hpp>
 #include <Siv3D.hpp>
 
 namespace
 {
 	using namespace ct;
-
-	using SortMode = MusicSelectScene::SortMode;
 	using Action = MusicSelectScene::Action;
-	using AllNotesInfo = MusicSelectScene::AllNotesInfo;
 
 	void DrawMusicInfo(const SharedDraw::JacketInfo& infoView, const Action action, const GenreData* pGenre, const MusicData* pMusic)
 	{
@@ -106,7 +104,7 @@ namespace
 		return s3d::none;
 	}
 	//ジャケット描画
-	void DrawJacket(Action action, const GenreData* pGenre, const MusicData* pMusic, uint32 level)
+	void DrawJacket(Action action, const GenreData* pGenre, const MusicData* pMusic, size_t level)
 	{
 		const Optional<Texture> pTexture = ::GetJacketTexture(action, pGenre, pMusic);
 		if (!pTexture)

@@ -76,6 +76,12 @@ namespace  ct
 
         PlayKey::Init();
 
+        m_musicSelect.genre = ini.getOr<size_t>(U"Cache.selectGenre", 0);
+        m_musicSelect.music = ini.getOr<size_t>(U"Cache.selectMusic", 0);
+        m_musicSelect.level = ini.getOr<size_t>(U"Cache.selectLevel", 0);
+        m_musicSelect.sortMode = static_cast<SortMode>(ini.getOr<s3d::uint8>(U"Cache.selectSortMode", 0));
+        SelectMusicsInfo::Instance() = m_musicSelect;
+
         m_scrollRate = ini.getOr<double>(U"Config.SpeedRate", 1.0);
 
         m_isCirleCut = ini.getOr<bool>(U"Config.CirleCut", true);
@@ -145,11 +151,16 @@ namespace  ct
 
         //タップ音の保存
         ini.write(U"Tap", U"Name", m_tapSE.getName());
-        ini.write(U"Tap", U"Perfect", m_tapSE.getPerfectSE());
-        ini.write(U"Tap", U"Great", m_tapSE.getGreatSE());
-        ini.write(U"Tap", U"Good", m_tapSE.getGoodSE());
+        ini.write(U"Tap", U"Perfect", m_tapSE.getRelativePerfectSE());
+        ini.write(U"Tap", U"Great", m_tapSE.getRelativeGreatSE());
+        ini.write(U"Tap", U"Good", m_tapSE.getRelativeGoodSE());
 
         //その他設定の保存
+        ini.write(U"Cache", U"selectGenre", m_musicSelect.genre);
+        ini.write(U"Cache", U"selectMusic", m_musicSelect.music);
+        ini.write(U"Cache", U"selectLevel", m_musicSelect.level);
+        ini.write(U"Cache", U"selectSortMode", static_cast<s3d::uint8>(m_musicSelect.sortMode));
+
         ini.write(U"Config", U"SpeedRate", m_scrollRate);
         ini.write(U"Config", U"PlayScale", m_playScale);
         ini.write(U"Config", U"TimingAdjust", m_timingAdjust);
