@@ -35,8 +35,11 @@ namespace ct
 
 		ColorF c = m_color;
 		c.setA(alpha);
-		FontAsset(FontName::Judge)(m_name).drawAt(m_from + Vec2(0, offset), c);
 
+		ColorF back(Palette::White, alpha * 0.5);
+
+		FontAsset(FontName::Judge)(m_name).drawAt(m_from + Vec2(0, offset) + Vec2{ 1,1 }, back);
+		FontAsset(FontName::Judge)(m_name).drawAt(m_from + Vec2(0, offset), c);
 		return true;
 	}
 
