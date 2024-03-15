@@ -271,7 +271,7 @@ namespace ct
             ::DrawGraph(m_graphLife, m_graphJudge, animationTime);
             if (animationTime >= 1.0) {
                 FontAsset(FontName::ResultFastLateCount)(U"{:.2f}"_fmt(ResultRank::CalcLifeRate(m_pScene->getResult())))
-                    .draw(Arg::bottomCenter = m_graphLife.back() + Vec2{ -5, -8 }, Palette::Blue);
+                    .draw(10, Arg::bottomCenter = m_graphLife.back() + Vec2{ -5, -8 }, Palette::Blue);
             }
 
             // リザルト
