@@ -76,7 +76,7 @@ namespace ct
 
             return U"note_black";
         }
-        void Draw(double x, NoteType type)
+        void Draw(double x, NoteType type, double count = 0)
         {
             const String textureName = GetTxetureName(type);
             TextureAsset texture(textureName);
@@ -107,13 +107,36 @@ namespace ct
                 break;
             case 7:
             case 17:
-            case 10:
-            case 18:
-            case 9:
                 texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
                 texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
                 texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
                 break;
+            case 9:
+                Line(Vec2{ x, g_pivot.y - g_height / 2.0 }, Vec2{ x, g_pivot.y + g_height / 2.0 })
+                    .draw(8, ColorF(0, 0.5))
+                    .draw(4, Palette::White)
+                    ;
+                texture(0, 0, 60, 30).drawAt(x, g_pivot.y - g_height / 2.0 - 15);
+                texture(0, 30, 60, 30).drawAt(x, g_pivot.y + g_height / 2.0 + 15);
+                break;
+            case 10:
+            {
+                TextureAsset(U"comet_rainbow_head").rotated(-Math::Pi / 4).drawAt(Vec2{ x, GetY(1) });
+                TextureAsset(U"comet_rainbow_tail").rotated(Math::Pi / 4).drawAt(Vec2{ x, GetY(3) });
+            }
+            break;
+            case 18:
+            {
+                Color c1 = HSV(static_cast<s3d::int32>(count / 10) % 360, 0.5, 1);
+                Color c2 = HSV((static_cast<s3d::int32>(count / 10) + 72) % 360, 0.5, 1);
+                const Color(&color)[2] = { c1,c2 };
+                Line(Vec2{ x, GetY(1) }, Vec2{ x, GetY(3) })
+                    .draw(8, ColorF(0, 0.5))
+                    .draw(4, color[0], color[1])
+                    ;
+                TextureAsset(U"comet_rainbow_head").drawAt(Vec2{x, GetY(1)});
+                TextureAsset(U"comet_rainbow_tail").drawAt(Vec2{ x, GetY(3) });
+            }break;
             default:
                 break;
             };
@@ -174,23 +197,30 @@ namespace ct
                 break;
             case 7:
             case 17:
-            case 10:
-            case 18:
             case 9:
                 DrawLongTail(x, pX, GetY(1), color);
                 DrawLongTail(x, pX, GetY(2), color);
                 DrawLongTail(x, pX, GetY(3), color);
-                if (type != 10) {
-                    texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
-                    texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
-                    texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
-                } else {
-                    const TextureAsset tail(U"comet_rainbow_tail");
-                    tail.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
-                    tail.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
-                    tail.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
-                }
+                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
+                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
+                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
                 break;
+            case 10:
+            case 18:
+            {
+                if constexpr (std::is_array_v<ColorType>) {
+                    Vec2 tl{ pX, GetY(1) };
+                    Vec2 br{ x, GetY(3) };
+                    RectF(tl, br - tl)
+                        .stretched(5)
+                        .draw(ColorF(0, 0.5))
+                        .stretched(-4)
+                        .draw({ color[0], color[1], color[1], color[0] })
+                        ;
+                }
+                TextureAsset(U"comet_rainbow_head").rotated(type == 18 ? 0 : Math::Pi / 4).drawAt(Vec2{ x, GetY(1) });
+                TextureAsset(U"comet_rainbow_tail").rotated(type == 18 ? 0 : -Math::Pi / 4).drawAt(Vec2{ x, GetY(3) });
+            }
             default:
                 break;
             };
@@ -357,7 +387,7 @@ namespace ct
             return;
         }
 
-        Draw(x, type);
+        Draw(x, type, count);
     }
     void LandscapeStyle::draw(const LongNote& note, double count, double scrollRate) const
     {
@@ -399,7 +429,7 @@ namespace ct
             return;
         }
 
-        Draw(x, 10);
+        Draw(x, 10, count);
     }
     void LandscapeStyle::draw(const RepeatEnd& note, double count, double scrollRate) const
     {
