@@ -36,8 +36,9 @@ namespace
 		TextureAsset::Register(U"modeBack", U"Resource/Img/Title/modeBack.png");
 		TextureAsset::Register(U"titleIcons", U"Resource/Img/Title/title_icons.png");
 
-		//キーコン
+		//コンフィグ
 		TextureAsset::Register(U"keyconBG2", U"Resource/Img/Config/keyconBG2.png");
+		TextureAsset::Register(U"playstyle_icon", U"Resource/Img/Config/playstyle_icon.png");
 
 		//選曲
 		TextureAsset::Register(U"sticky", U"Resource/Img/MusicSelect/sticky.png");

@@ -26,7 +26,10 @@ namespace ct
 		{
 			return m_name;
 		}
-
+		void setExtention(std::function<void(size_t select, double y)> extention)
+		{
+			m_extention = extention;
+		}
 		void update();
 
 		bool add(const String& text, std::function<void()> func, const String& detail = U"");
@@ -46,6 +49,7 @@ namespace ct
 		bool m_needEnterdSe = true;
 		String m_name;
 		Array<Action> m_actions;
+		std::function<void(size_t select, double y)> m_extention;
 	};
 
 	class ConfigManager;

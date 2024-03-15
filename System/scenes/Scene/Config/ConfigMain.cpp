@@ -233,14 +233,18 @@ namespace ct
                 {U"横レーン", PlayStyleType::Landscape},
             };
             for (auto&& [title, style] : list) {
-                config.add(title, [style] {
+                auto event = [style] {
                     Game::Config().m_styleType = style;
-                    });
+                    };
+                config.add(title, std::move(event));
 
                 if (Game::Config().m_styleType == style) {
                     config.init(title);
                 }
             }
+            config.setExtention([&](size_t index, double y) {
+                TextureAsset(U"playstyle_icon")(static_cast<int32>(list[index].second) * 50, 0, 50, 50).drawAt(500 - 85, y);
+            });
         }
 
         //プレイスケール

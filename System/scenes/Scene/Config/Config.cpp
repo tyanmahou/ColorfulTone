@@ -114,6 +114,9 @@ namespace ct
 		if (m_select < m_actions.size()) {
 			FontAsset(FontName::ConfigSelect)(m_actions.at(m_select).name).drawAt(500, y);
 		}
+		if (m_extention && m_select < m_actions.size()) {
+			m_extention(m_select, y);
+		}
 	}
 
 	void Config::drawDetail() const
