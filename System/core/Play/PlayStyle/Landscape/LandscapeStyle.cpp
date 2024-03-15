@@ -225,6 +225,53 @@ namespace ct
                 break;
             };
         }
+
+        FixedArray<double, 3> GetAngles(NoteType type)
+        {
+
+            FixedArray<double, 3> angles;
+            switch (type) {
+            case 1:
+            case 11:
+                angles.push_back(-Math::Pi / 4);
+                break;
+            case 2:
+            case 12:
+                angles.push_back(0);
+                break;
+            case 3:
+            case 13:
+                angles.push_back(Math::Pi / 4);
+                break;
+            case 4:
+            case 14:
+                angles.push_back(0);
+                angles.push_back(Math::Pi / 4);
+                break;
+            case 5:
+            case 15:
+                angles.push_back(-Math::Pi / 4);
+                angles.push_back(Math::Pi / 4);
+                break;
+            case 6:
+            case 16:
+                angles.push_back(-Math::Pi / 4);
+                angles.push_back(0);
+                break;
+            case 7:
+            case 17:
+            case 10:
+            case 18:
+            case 9:
+                angles.push_back(-Math::Pi / 4);
+                angles.push_back(0);
+                angles.push_back(Math::Pi / 4);
+                break;
+            default:
+                break;
+            };
+            return angles;
+        }
     }
     void LandscapeStyle::drawPreview(std::function<void()> drawCallback) const
     {
@@ -265,17 +312,17 @@ namespace ct
             }
             if (red) {
                 Circle({ GetX(0), g_pivot.y - 60}, 20).draw(ColorF(1, 0, 0, 0.2));
-                TextureAsset(U"center_redlight").drawAt(g_pivotCore);
+                TextureAsset(U"center_redlight").rotated(Math::HalfPi).drawAt(g_pivotCore);
             }
 
             if (blue) {
                 Circle({ GetX(0), g_pivot.y }, 20).draw(ColorF(0, 0, 1, 0.2));
-                TextureAsset(U"center_bluelight").drawAt(g_pivotCore);
+                TextureAsset(U"center_bluelight").rotated(Math::HalfPi).drawAt(g_pivotCore);
             }
 
             if (yellow) {
                 Circle({ GetX(0), g_pivot.y + 60 }, 20).draw(ColorF(1, 1, 0, 0.2));
-                TextureAsset(U"center_yellowlight").drawAt(g_pivotCore);            }
+                TextureAsset(U"center_yellowlight").rotated(Math::HalfPi).drawAt(g_pivotCore);            }
 
             TextureAsset(U"center_base").drawAt(g_pivotCore);
 
@@ -320,7 +367,7 @@ namespace ct
         if (type == 18 || type == 10) {
             effctType = 7;
         }
-        m_effetcs[0].add<TapEffect>(g_pivotCore, 0, effctType);
+        m_effetcs[0].add<TapEffect>(g_pivotCore, GetAngles(type), effctType);
 
         switch (type) {
         case 1:

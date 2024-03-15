@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <utils/Flipbook/Flipbook.hpp>
+#include <utils/FixedArray/FixedArray.hpp>
 #include <Siv3D/IEffect.hpp>
 
 namespace ct
@@ -8,13 +9,15 @@ namespace ct
 	{
 		//コンストラクタ
 		TapEffect(const s3d::Vec2& pos, const double angle, s3d::int32 type = 0);
+		TapEffect(const s3d::Vec2& pos, const FixedArray<double, 3>& angles, s3d::int32 type = 0);
 		TapEffect(const double angle, s3d::int32 type = 0);
+		TapEffect(const FixedArray<double, 3>& angles, s3d::int32 type = 0);
 
 		bool update(double t) override;
 	private:
 		s3d::Vec2 m_pos;
 		//エフェクトの中心
-		const double m_angle;
+		FixedArray<double, 3> m_angles;
 		//オフセット
 		const s3d::int32 m_type;
 		Flipbook m_sImage;

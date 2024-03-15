@@ -172,6 +172,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Coro\Generator\Generator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Easing\EasingSequence.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Encode\EncodeUtil.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\FixedArray\FixedArray.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Flipbook\Flipbook.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Fps\Fps.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Http\RestRequestor.hpp" />

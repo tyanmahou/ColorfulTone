@@ -189,23 +189,19 @@ namespace ct
 	{
 		ColorFx::Request(baseType);
 		if (type == 9) {
-			 m_effetcs[0].add<TapEffect>(0, 9);
+			 m_effetcs[0].add<TapEffect>(FixedArray<double, 3>{0, Pi}, 9);
 			 m_effetcs[1].add<TapEffect2_2>(GetPos(0, 0, 0, 0));
-			 m_effetcs[0].add<TapEffect>(Pi, 9);
 			 m_effetcs[1].add<TapEffect2_2>(GetPos(Pi, 0, 0, 0));
 		} else if (type == 7 || type == 17) {
-			 m_effetcs[0].add<TapEffect>(1 * Pi / 6, 7);
+			 m_effetcs[0].add<TapEffect>(FixedArray<double, 3>{1 * Pi / 6, 9 * Pi / 6, 5 * Pi / 6}, 7);
+
 			 m_effetcs[1].add<TapEffect2_2>(GetPos(1 * Pi / 6, 0, 0, 0));
-			 m_effetcs[0].add<TapEffect>(9 * Pi / 6, 7);
 			 m_effetcs[1].add<TapEffect2_2>(GetPos(9 * Pi / 6, 0, 0, 0));
-			 m_effetcs[0].add<TapEffect>(5 * Pi / 6, 7);
 			 m_effetcs[1].add<TapEffect2_2>(GetPos(5 * Pi / 6, 0, 0, 0));
 		} else if (type == 18 || type == 10) {
-			 m_effetcs[0].add<TapEffect>(3 * Pi / 6, 7);
+			m_effetcs[0].add<TapEffect>(FixedArray<double, 3>{3 * Pi / 6, 7 * Pi / 6, 11 * Pi / 6}, 7);
 			 m_effetcs[1].add<TapEffect2_2>(GetPos(3 * Pi / 6, 0, 0, 0));
-			 m_effetcs[0].add<TapEffect>(7 * Pi / 6, 7);
 			 m_effetcs[1].add<TapEffect2_2>(GetPos(7 * Pi / 6, 0, 0, 0));
-			 m_effetcs[0].add<TapEffect>(11 * Pi / 6, 7);
 			 m_effetcs[1].add<TapEffect2_2>(GetPos(1 * Pi / 6, 0, 0, 0));
 		} else {
 			 m_effetcs[0].add<TapEffect>(GetAngle(type), type % 10);
