@@ -72,6 +72,7 @@ namespace ct
 		void drawMusicTitle(bool preview) const;
 		void drawNotesLevel() const;
 
+		s3d::uint64 finishSample() const;
 	private:
 		PlayNotesData m_playNotesData;
 
@@ -85,7 +86,7 @@ namespace ct
 
 		double m_scrollRate;			// スクロールレート
 		size_t m_totalNotes;		    // トータルノーツ数
-		s3d::uint64 m_finishSample;		// 終了のサンプリング位置
+		s3d::uint64 m_audioEndSample;	// 終了のサンプリング位置
 		double m_soundLengthSec = 0;    // 曲の長さ
 
 		s3d::String m_title;			// アーティスト名＋曲名

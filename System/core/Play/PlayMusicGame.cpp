@@ -80,7 +80,7 @@ namespace ct
         wav.reserve(sample);
         //wavに4秒間のオフセット追加
         wav.insert(wav.begin(), beginOffset, sam);
-        m_finishSample = wav.lengthSample();
+        m_audioEndSample = wav.lengthSample();
         wav.insert(wav.end(), endOffset, sam);
         m_sound = Audio(wav);
 
@@ -157,7 +157,7 @@ namespace ct
 
         //曲の終わり
         if (!m_isFinish) {
-            if (sample >= Min(m_finishSample, m_playNotesData.getLastSample())) {
+            if (sample >= this->finishSample()) {
                 m_isFinish = true;
                 this->stopSound();
             }
@@ -353,6 +353,11 @@ namespace ct
         PutText(levelName, Vec2{ Scene::Center().x, Scene::Height() - 20 });
     }
 
+    s3d::uint64 PlayMusicGame::finishSample() const
+    {
+        return Min(m_audioEndSample, m_playNotesData.getLastSample());
+    }
+
     bool PlayMusicGame::isFinish() const
     {
         return m_isFinish && (m_FCAPAnime.isEnd() || !m_FCAPAnime.isStart());
@@ -375,13 +380,11 @@ namespace ct
         const s3d::int32 barY = 50;
         {
             TextureAsset(U"streamPosBase").draw(725 - m_barXEasing.easeInOut(), barY);
-            float barScale = GetSamplePos(m_sound) / static_cast<float>(m_finishSample);
-            if (barScale > 1.0)
-                barScale = 1.0;
+            double barScale = Saturate(GetSamplePos(m_sound) / static_cast<double>(finishSample()));
+
             const auto size = (barY + 454 - 10) - (barY + 11);
 
             Line({ 725 - m_barXEasing.easeInOut() + 13.5,barY + 11 + size * barScale }, { 725 - m_barXEasing.easeInOut() + 13.5,barY + 11 + 10 + size * barScale }).draw(3, Palette::Orange);
-
         }
         {
             TextureAsset(U"barBase").draw(m_barXEasing.easeInOut(), barY);
