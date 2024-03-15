@@ -9,6 +9,7 @@ namespace
 {
     using namespace ct;
 
+    bool g_doneFirstPlay = false;
     SelectMusicsInfo& g_selectInfo = SelectMusicsInfo::Instance();
 
     using Action = MusicSelectScene::Action;
@@ -113,6 +114,13 @@ namespace
     {
         const auto& notes = music.getNotesData();
         if (notes.isEmpty()) {
+            return;
+        }
+        if (g_selectInfo.genre == Game::Config().m_musicSelect.genre &&
+            g_selectInfo.music == Game::Config().m_musicSelect.music &&
+            g_selectInfo.level == Game::Config().m_musicSelect.level &&
+            g_doneFirstPlay
+            ) {
             return;
         }
         const auto& filter = GenreManager::GetFilter(g_selectInfo.genre);
@@ -387,6 +395,7 @@ namespace ct
         if (m_pModel->isSelectedNotes()) {
             Game::Config().m_musicSelect = g_selectInfo;
             Game::Config().m_scrollRate = getData().m_scrollRate;
+            g_doneFirstPlay = true;
 
             changeScene(SceneName::Main, 2000, CrossFade::No);
             SoundManager::PlaySe(U"desisionLarge2");

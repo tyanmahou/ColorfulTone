@@ -1,7 +1,6 @@
 ﻿#include <scenes/Scene/Config/ConfigMain.hpp>
 #include <Useful.hpp>
 #include <scenes/Scene/Config/KeyConfigManager.hpp>
-#include "ConfigMain.hpp"
 
 namespace ct
 {
