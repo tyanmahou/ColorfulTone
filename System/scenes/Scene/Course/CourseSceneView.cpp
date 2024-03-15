@@ -108,6 +108,9 @@ namespace ct
                 m_pScene->getScrollRate(),
                 !m_pScene->getConfig().isActive()
             );
+            if (!m_pScene->getConfig().isActive()) {
+                SharedDraw::DrawPlayStyleIcon();
+            }
             // コンフィグ
             m_pScene->getConfig().drawWithBack();
         }

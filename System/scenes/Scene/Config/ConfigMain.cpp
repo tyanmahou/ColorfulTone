@@ -243,7 +243,7 @@ namespace ct
                 }
             }
             config.setExtention([&](size_t index, double y) {
-                TextureAsset(U"playstyle_icon")(static_cast<int32>(list[index].second) * 50, 0, 50, 50).drawAt(500 - 85, y);
+                TextureAsset(U"playstyle_icon")(static_cast<int32>(list[index].second) * 50, 0, 50, 50).drawAt(500 - 85, y, Palette::Orange);
             });
         }
 

@@ -419,8 +419,6 @@ namespace ct
         m_view.draw();
         // シーン情報
         SceneInfo::Draw(::GetSceneInfoMsg());
-
-        SharedDraw::DrawPlayContextHeader();
     }
 
     void MusicSelectScene::drawFadeIn(double t) const

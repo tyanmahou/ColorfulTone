@@ -1,11 +1,7 @@
 ﻿#include <scenes/utils/SharedDraw.hpp>
-#include <scenes/utils/Util.hpp>
-#include <core/Input/AutoPlayManager.hpp>
-#include <core/Data/MusicData/MusicData.hpp>
+#include <Useful.hpp>
 #include <core/Play/HighSpeed/HighSpeedDemo.hpp>
 #include <core/Play/PlayNotesData.hpp>
-#include <core/Play/Context/PlayContext.hpp>
-#include <commons/FontName.hpp>
 #include <Siv3D.hpp>
 
 namespace ct::SharedDraw
@@ -51,7 +47,7 @@ namespace ct::SharedDraw
 			double resultMax = music.getMaxBPM() * scrollRate;
 			tmp = U"{:.0f}-{:.0f}*{:.1f}={:.1f}-{:.1f}"_fmt(music.getMinBPM(), music.getMaxBPM(), scrollRate, resultMin, resultMax);
 		}
-		const Vec2 topLeft{ 10, 533 };
+		const Vec2 topLeft{ 25 + 10, 533 };
 		FontAsset(FontName::Bpm)(tmp).draw(topLeft + Vec2{ 1,1 }, Palette::Black);
 		Vec2 penPos{ topLeft };
 		for (const auto& [i, glyph] : s3d::Indexed(FontAsset(FontName::Bpm).getGlyphs(tmp))) {
@@ -129,5 +125,14 @@ namespace ct::SharedDraw
 		} else if (PlayContext::IsPracticePlay()) {
 			PutText(U"Practice", Arg::center = pos);
 		}
+	}
+	void DrawPlayStyleIcon()
+	{
+		DrawPlayStyleIcon({ 5, 533 });
+//		DrawPlayStyleIcon({ 770, 6});
+	}
+	void DrawPlayStyleIcon(const s3d::Vec2& pos)
+	{
+		TextureAsset(U"playstyle_icon")(static_cast<int32>(Game::Config().m_styleType) * 50, 0, 50, 50).resized(25, 25).draw(pos, Palette::Orange);
 	}
 }

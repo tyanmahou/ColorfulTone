@@ -52,4 +52,10 @@ namespace ct::SharedDraw
     /// </summary>
     /// <param name="pos"></param>
     void DrawPlayContextHeader(const s3d::Vec2& pos = s3d::Vec2{ s3d::Scene::CenterF().x, 40 });
+
+    /// <summary>
+    /// プレイスタイルアイコン
+    /// </summary>
+    void DrawPlayStyleIcon();
+    void DrawPlayStyleIcon(const s3d::Vec2& pos);
 }
