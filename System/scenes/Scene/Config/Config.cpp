@@ -123,7 +123,7 @@ namespace ct
 		}
 		const String& detail = m_actions.at(m_select).detail;
 		if (detail) {
-			FontAsset(FontName::Info)(detail).draw(Arg::topRight = Vec2{ 780, 530 });
+			FontAsset(FontName::Info)(detail).draw(Arg::topRight = Vec2{ 780, 532 });
 		}
 	}
 

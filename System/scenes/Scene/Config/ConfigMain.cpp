@@ -135,55 +135,6 @@ namespace ct
     namespace
     {
         // 表示設定
-        //表示クリアレート
-        void ClearRateInit(Config& config)
-        {
-            config.setName(U"表示するクリアレート");
-            config.add(U"加算式", []() {Game::Config().m_rateType = IndicateRate::Up; });
-            config.add(U"減算式", []() {Game::Config().m_rateType = IndicateRate::Down; });
-            config.add(U"ライフゲージ", []() {Game::Config().m_rateType = IndicateRate::Life; });
-
-            if (Game::Config().m_rateType == IndicateRate::Up) {
-                config.init(U"加算式");
-            } else if (Game::Config().m_rateType == IndicateRate::Down) {
-                config.init(U"減算式");
-            } else if (Game::Config().m_rateType == IndicateRate::Life) {
-                config.init(U"ライフゲージ");
-            }
-        }
-        //円形切り取りの初期化
-        void CircleCutInit(Config& config)
-        {
-            config.setName(U"円形切り取り");
-            config.add(U"ON", []() {Game::Config().m_isCirleCut = true; });
-            config.add(U"OFF", []() {Game::Config().m_isCirleCut = false; });
-
-            if (Game::Config().m_isCirleCut)
-                config.init(U"ON");
-            else
-                config.init(U"OFF");
-        }
-        //プレイスケール
-        void PlayScaleInit(Config& config)
-        {
-            config.setName(U"プレイ画面の拡大率");
-            static const std::map<double, String> map
-            {
-                { 0.5,U"x0.5" },
-                { 0.6, U"x0.6" },
-                { 0.7, U"x0.7" },
-                { 0.8, U"x0.8" },
-                { 0.9, U"x0.9" },
-                { 1.0, U"x1.0" },
-                { 1.1, U"x1.1" },
-                { 1.2, U"x1.2" },
-            };
-            for (auto&& pair : map) {
-                config.add(pair.second, [&pair]() {Game::Config().m_playScale = pair.first; });
-            }
-            config.setDefault(U"x1.0");
-            config.init(map.at(Game::Config().m_playScale));
-        }
         void PlayBGInit(Config& config)
         {
             config.setName(U"背景設定");
@@ -205,29 +156,6 @@ namespace ct
             }
             config.setDefault(U"10");
             config.init(Format(Game::Config().m_bgBrightness));
-        }
-        //style
-        void PlayStyleInit(Config& config)
-        {
-            config.setName(U"プレイモード");
-
-            static Array<std::pair<String, PlayStyleType>> list
-            {
-                {U"通常モード", PlayStyleType::Default},
-                {U"アークモード", PlayStyleType::NormalArc},
-                {U"縦レーン", PlayStyleType::Portrait},
-                {U"奥レーン", PlayStyleType::Homography},
-                {U"横レーン", PlayStyleType::Landscape},
-            };
-            for (auto&& [title, style] : list) {
-                config.add(title, [style] {
-                    Game::Config().m_styleType = style;
-                });
-
-                if (Game::Config().m_styleType == style) {
-                    config.init(title);
-                }
-            }
         }
 
         //背景エフェクトの初期化
@@ -254,37 +182,106 @@ namespace ct
             else
                 config.init(U"OFF");
         }
+        //円形切り取りの初期化
+        void CircleCutInit(Config& config)
+        {
+            config.setName(U"円形切り取り");
+            config.add(U"ON", []() {Game::Config().m_isCirleCut = true; });
+            config.add(U"OFF", []() {Game::Config().m_isCirleCut = false; });
+
+            if (Game::Config().m_isCirleCut)
+                config.init(U"ON");
+            else
+                config.init(U"OFF");
+        }
         class PlayViewConfig :public IConfigHierchy
         {
             enum Mode
             {
-                ClearRate,
-                CircleCut,
-                PlayScale,
                 BGType,
                 BGBrightness,
                 BGEffect,
                 IsSpectrum,
-                Style,
+                CircleCut,
                 TOTAL_CONFIG //コンフィグの数
             };
         public:
             PlayViewConfig()
             {
                 m_configs.resize(TOTAL_CONFIG);
-                ClearRateInit(m_configs[ClearRate]);
-                CircleCutInit(m_configs[CircleCut]);
-                PlayScaleInit(m_configs[PlayScale]);
                 PlayBGInit(m_configs[BGType]);
                 PlayBGBrightnessInit(m_configs[BGBrightness]);
                 UseBgEffect(m_configs[BGEffect]);
                 IsSpectrumInit(m_configs[IsSpectrum]);
-                PlayStyleInit(m_configs[Style]);
+                CircleCutInit(m_configs[CircleCut]);
             }
         };
     }
     namespace
     {
+        //style
+        void PlayStyleInit(Config& config)
+        {
+            config.setName(U"プレイモード");
+
+            static Array<std::pair<String, PlayStyleType>> list
+            {
+                {U"通常モード", PlayStyleType::Default},
+                {U"アークモード", PlayStyleType::NormalArc},
+                {U"縦レーン", PlayStyleType::Portrait},
+                {U"奥レーン", PlayStyleType::Homography},
+                {U"横レーン", PlayStyleType::Landscape},
+            };
+            for (auto&& [title, style] : list) {
+                config.add(title, [style] {
+                    Game::Config().m_styleType = style;
+                    });
+
+                if (Game::Config().m_styleType == style) {
+                    config.init(title);
+                }
+            }
+        }
+
+        //プレイスケール
+        void PlayScaleInit(Config& config)
+        {
+            config.setName(U"プレイ画面の拡大率");
+            static const std::map<double, String> map
+            {
+                { 0.5,U"x0.5" },
+                { 0.6, U"x0.6" },
+                { 0.7, U"x0.7" },
+                { 0.8, U"x0.8" },
+                { 0.9, U"x0.9" },
+                { 1.0, U"x1.0" },
+                { 1.1, U"x1.1" },
+                { 1.2, U"x1.2" },
+            };
+            for (auto&& pair : map) {
+                config.add(pair.second, [&pair]() {Game::Config().m_playScale = pair.first; });
+            }
+            config.setDefault(U"x1.0");
+            config.init(map.at(Game::Config().m_playScale));
+        }
+
+        //表示クリアレート
+        void ClearRateInit(Config& config)
+        {
+            config.setName(U"表示するクリアレート");
+            config.add(U"加算式", []() {Game::Config().m_rateType = IndicateRate::Up; });
+            config.add(U"減算式", []() {Game::Config().m_rateType = IndicateRate::Down; });
+            config.add(U"ライフゲージ", []() {Game::Config().m_rateType = IndicateRate::Life; });
+
+            if (Game::Config().m_rateType == IndicateRate::Up) {
+                config.init(U"加算式");
+            } else if (Game::Config().m_rateType == IndicateRate::Down) {
+                config.init(U"減算式");
+            } else if (Game::Config().m_rateType == IndicateRate::Life) {
+                config.init(U"ライフゲージ");
+            }
+        }
+
         // ランダム
         void RandomInit(Config& config)
         {
@@ -304,8 +301,8 @@ namespace ct
         void LifeDeadInit(Config& config)
         {
             config.setName(U"ライフ制モード");
-            config.add(U"ON", []() {Game::Config().m_isLifeDead = true; }, U"FREE PLAY中もライフが0になると強制終了となります");
             config.add(U"OFF", []() {Game::Config().m_isLifeDead = false; });
+            config.add(U"ON", []() {Game::Config().m_isLifeDead = true; }, U"FREE PLAY中もライフが0になると強制終了となります");
 
             if (Game::Config().m_isLifeDead)
                 config.init(U"ON");
@@ -344,6 +341,9 @@ namespace ct
         {
             enum Mode
             {
+                Style,
+                PlayScale,
+                ClearRate,
                 ViewConfig,
                 Random,
                 LifeDead,
@@ -356,7 +356,10 @@ namespace ct
             PlayConfig()
             {
                 m_configs.resize(TOTAL_CONFIG);
-                m_configs[ViewConfig].setName(U"表示設定");
+                PlayStyleInit(m_configs[Style]);
+                PlayScaleInit(m_configs[PlayScale]);
+                ClearRateInit(m_configs[ClearRate]);
+                m_configs[ViewConfig].setName(U"背景詳細");
                 m_configs[ViewConfig].applyOnEnterd([this]() {
                     this->changePush<PlayViewConfig>();
                 });
