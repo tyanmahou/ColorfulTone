@@ -3,6 +3,13 @@
 
 void Main()
 {
-    ct::MainApp app;
-    app.run();
+    auto* app = new ct::MainApp();
+    app->run();
+
+    // NOTE: 謎のバグ対応を試す
+    try {
+        delete app;
+    } catch (...) {
+
+    }
 }
