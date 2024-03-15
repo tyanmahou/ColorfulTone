@@ -80,6 +80,7 @@ namespace ct
 				return 5;
 			case PlayStyleType::Portrait:
 			case PlayStyleType::Homography:
+			case PlayStyleType::Landscape:
 				return 2;
 			default:
 				return 5;
@@ -117,6 +118,8 @@ namespace ct
 			Vec2 scaledCenter{ 400,300 };
 			if (m_style == PlayStyleType::Homography || m_style == PlayStyleType::Portrait) {
 				scaledCenter.y = 500;
+			} else  if (m_style == PlayStyleType::Landscape) {
+				scaledCenter.x = scaledCenter.y = 200;
 			}
 			Transformer2D t2dPlayScale(Mat3x2::Scale(Game::Config().m_playScale, scaledCenter));
 			PlayStyle::Instance()->drawJudgeLine();
@@ -159,7 +162,18 @@ namespace ct
 	}
 	void HighSpeedDemo::draw(const SoundBar& min, const SoundBar& max, double scrollRate)const
 	{
-		if (m_style == PlayStyleType::Homography) {
+		// FIXME 条件分岐つらいからVisitor側に移せると嬉しい
+		if (m_style == PlayStyleType::Landscape) {
+			Rect bg{ 200 - 100, 200 - 30, 700, 60 };
+			{
+				Transformer2D t2d(Mat3x2::Translate({ 0, Math::Lerp(200, 0, m_offset.easeInOut()) + 295}));
+				drawDemoNotes(bg, min, scrollRate, 1);
+			}
+			if (min.getBPM() != max.getBPM()) {
+				Transformer2D t2d(Mat3x2::Translate({ 0, Math::Lerp(200, 0, m_offset.easeInOut()) + 230}));
+				drawDemoNotes(bg, max, scrollRate, 2);
+			}
+		} else if (m_style == PlayStyleType::Homography) {
 			Rect bg{ 400 - 85, 0, 170, 510 };
 			{
 				Transformer2D t2d(Mat3x2::Translate({ Math::Lerp(-460, 0, m_offset.easeInOut()) - 310,0 }));
