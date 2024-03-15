@@ -65,7 +65,7 @@ namespace
 }
 namespace ct
 {
-    CourceEntry CourceEntry::CreateDefault(const s3d::String& path)
+    CourceEntry CourceEntry::CreateDefault(const s3d::String& path, const s3d::Optional<String>& detail)
     {
         CourceEntry ret;
         ret.m_kind = CourceEntryKind::Default;
@@ -76,9 +76,10 @@ namespace ct
             .index = index.value_or(MusicNotesIndex{})
         };
         ret.m_canPlay = index.has_value();
+        ret.m_detail = detail;
         return ret;
     }
-    CourceEntry CourceEntry::CreateRandom(const s3d::String& condition)
+    CourceEntry CourceEntry::CreateRandom(const s3d::String& condition, const s3d::Optional<String>& detail)
     {
         CourceEntry ret;
         ret.m_kind = CourceEntryKind::Random;
@@ -88,6 +89,7 @@ namespace ct
             .condition = ctcf
         };
         ret.m_canPlay = FindhNotes(ctcf);
+        ret.m_detail = detail;
         return ret;
     }
     CourceSelectedNotes CourceEntry::choice() const
@@ -148,9 +150,9 @@ namespace ct
             }
         }
         if (m_canPlay) {
-            return U"？？？";
+            return m_detail.value_or(U"？？？");
         } else {
-            return U"条件にあう譜面がみつかりません";
+            return U"条件にあう譜面がみつかりません\n" + m_detail.value_or(U"");
         }
     }
 }

@@ -30,16 +30,17 @@ namespace ct
         //譜面データのインデックス検索
         //譜面データ
         for (size_t i = 0; true; ++i) {
+            Optional<String> detail = ini.getOpt<String>(Format(U"Course.DETAIL", i));
             // デフォルト
             String notePath = ini.get<String>(Format(U"Course.COURSE", i));
             if (!notePath.isEmpty()) {
-                m_entries.push_back(CourceEntry::CreateDefault(notePath));
+                m_entries.push_back(CourceEntry::CreateDefault(notePath, detail));
                 continue;
             }
             // ランダム
             String randomCond = ini.get<String>(Format(U"Course.RANDOM", i));
             if (!randomCond.isEmpty()) {
-                m_entries.push_back(CourceEntry::CreateRandom(randomCond));
+                m_entries.push_back(CourceEntry::CreateRandom(randomCond, detail));
                 continue;
             }
             break;

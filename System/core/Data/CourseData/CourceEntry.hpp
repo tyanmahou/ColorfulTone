@@ -63,8 +63,8 @@ namespace ct
 	class CourceEntry
 	{
 	public:
-		static CourceEntry CreateDefault(const s3d::String& path);
-		static CourceEntry CreateRandom(const s3d::String& condition);
+		static CourceEntry CreateDefault(const s3d::String& path, const s3d::Optional<String>& detail);
+		static CourceEntry CreateRandom(const s3d::String& condition, const s3d::Optional<String>& detail);
 	public:
 		bool canPlay()const
 		{
@@ -81,5 +81,7 @@ namespace ct
 		CourceEntryKind m_kind;
 		std::variant<CourceEntryDefault, CourceEntryRandom> m_data;
 		bool m_canPlay;
+
+		s3d::Optional<String> m_detail;
 	};
 }
