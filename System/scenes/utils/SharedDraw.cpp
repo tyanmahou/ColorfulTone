@@ -41,11 +41,11 @@ namespace ct::SharedDraw
 		String tmp;
 		if (music.getMaxBPM() == music.getMinBPM()) {
 			double result = music.getMinBPM() * scrollRate;
-			tmp = U"{:.0f}*{:.1f}={:.1f}"_fmt(music.getMinBPM(), scrollRate, result);
+			tmp = U"{}*{}={:.1f}"_fmt(static_cast<int32>(music.getMinBPM()), scrollRate, result);
 		} else {
 			double resultMin = music.getMinBPM() * scrollRate;
 			double resultMax = music.getMaxBPM() * scrollRate;
-			tmp = U"{:.0f}-{:.0f}*{:.1f}={:.1f}-{:.1f}"_fmt(music.getMinBPM(), music.getMaxBPM(), scrollRate, resultMin, resultMax);
+			tmp = U"{}-{}*{:.1f}={:.1f}-{:.1f}"_fmt(static_cast<int32>(music.getMinBPM()), static_cast<int32>(music.getMaxBPM()), scrollRate, resultMin, resultMax);
 		}
 		const Vec2 topLeft{ 25 + 10, 533 };
 		FontAsset(FontName::Bpm)(tmp).draw(topLeft + Vec2{ 1,1 }, Palette::Black);
