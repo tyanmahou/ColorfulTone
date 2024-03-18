@@ -6,7 +6,14 @@ namespace ct
 {
     BaseApp::BaseApp(const s3d::String& appName, s3d::Size windowSize, bool useScalable):
         m_windowCtrl(appName, windowSize, useScalable)
-    {}
+    {
+
+        LicenseManager::SetApplicationLicense(appName, {
+            .title = appName,
+            .copyright = U"Copyright (c) 2016-2023 Tyanmahou",
+            .text = U""
+            });
+    }
     bool BaseApp::run()
     {
         AppRunner runner;
