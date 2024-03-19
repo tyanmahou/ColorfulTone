@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <commons/Application/base/BaseApp.hpp>
 #include <commons/SingletonManager/SingletonManager.hpp>
-#include <scenes/Scene/Preview/Preview.hpp>
 
 namespace ct
 {
@@ -17,7 +16,7 @@ namespace ct
 		bool onUpdate() override;
 		void onShutdown() override;
 	private:
-		Preview m_preview;
+		std::unique_ptr<Preview> m_preview;
 		SingletonManager m_singletonManager;
 	};
 }
