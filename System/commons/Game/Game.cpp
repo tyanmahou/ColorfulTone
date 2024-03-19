@@ -182,6 +182,7 @@ namespace
 		AudioAsset::Register({U"desisionLarge",{ U"System" } }, U"Resource/Sound/SE/mekuru.mp3");
 		AudioAsset::Register({U"desisionLarge2",{ U"System" } }, U"Resource/Sound/SE/ironuri.mp3");
 		AudioAsset::Register({U"cancel",{ U"System" } }, U"Resource/Sound/SE/cancel.mp3");
+		AudioAsset::Register({ U"dead",{ U"System" } }, U"Resource/Sound/SE/dead.ogg");
 	}
 	void LoadFont()
 	{
