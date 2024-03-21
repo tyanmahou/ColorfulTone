@@ -37,8 +37,14 @@ namespace ct
 
 			m_artistName = iniReader.getOr<String>(U"Data.ARTIST", U"None");
 			m_authority = iniReader.getOpt<String>(U"Data.AUTHORITY");
-			m_minbpm = iniReader.getOr<BPMType>(U"Data.BPM", 120.0);
-			m_maxbpm = iniReader.getOr<BPMType>(U"Data.MAXBPM", -1.0);
+			if (auto bpm = iniReader.getOpt<BPMType>(U"Data.BPM")) {
+				m_minbpm = *bpm;
+			} else  if (auto minbpm = iniReader.getOpt<BPMType>(U"Data.MINBPM")) {
+				m_minbpm = *minbpm;
+			} else {
+				m_minbpm = 120.0;
+			}
+			m_maxbpm = iniReader.getOr<BPMType>(U"Data.MAXBPM", m_minbpm);
 
 			Optional<DateTime> latestDate;
 			//譜面データ
@@ -87,9 +93,9 @@ namespace ct
 		}
 
 		SoundBar getMinSoundBeat()const { return SoundBar(0, m_minbpm); }
-		SoundBar getMaxSoundBeat()const { if (m_maxbpm == -1)return SoundBar(0, m_minbpm); return SoundBar(0, m_maxbpm);}
+		SoundBar getMaxSoundBeat()const { return SoundBar(0, m_maxbpm); }
 		BPMType getMinBPM()const { return m_minbpm; };
-		BPMType getMaxBPM()const { if (m_maxbpm == -1)return m_minbpm; return m_maxbpm; };
+		BPMType getMaxBPM()const { return m_maxbpm; };
 
 		const s3d::String getFormattedBpm()const
 		{
