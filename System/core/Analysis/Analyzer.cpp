@@ -196,7 +196,7 @@ namespace ct
         }
 
         // BPM変化 1につき
-        constexpr double BaseBpmRating = 18.0;
+        constexpr double BaseBpmRating = 20.0;
         constexpr double BpmRatingFactorMax = 200.0;
         Array<std::pair<int64, double>> bpmRatings;
         bpmRatings.reserve(sheet.getTempos().size());
@@ -306,7 +306,7 @@ namespace ct
         }
 
         // 1秒毎にレーティング 計算
-        constexpr int64 samplingInterval = 44100;
+        constexpr int64 samplingInterval = 44100 * 2;
 
         Array<double> barRatings;
         if (!notesRatings.isEmpty()) {
@@ -362,7 +362,7 @@ namespace ct
                         }
                     }
                     speedDev = StatisticsUtil::GeometricAbsDev(speedDiff, 1.0);
-                    speedRating = (barRate * 0.64 + 2250) * (speedDev - 1.0);
+                    speedRating = (barRate * 0.65 + 3000) * (speedDev - 1.0);
                 }
                 barRate += speedRating;
                 if (barRate > 0) {
@@ -391,7 +391,7 @@ namespace ct
         // ノーツ数重み補正
         const double ratingPerNote = ratingMix / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 50));
         const double noteWeightCap = Min(2000 * Sqrt(static_cast<double>(sheet.getTotalNotes())), ratingMix);
-        const double noteWeight = Min(Pow(ratingPerNote, 3.8) / 1500.0, noteWeightCap);
+        const double noteWeight = Min(Pow(ratingPerNote, 2.8) / 63.0, noteWeightCap);
 
         const double ratingResult = ratingMix + noteWeight;
         return AnalyzeResult
