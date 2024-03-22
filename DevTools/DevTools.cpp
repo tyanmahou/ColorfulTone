@@ -210,7 +210,7 @@ namespace ct::dev
                                 lv = 16;
                             }
                         }
-                        if (lv > 16) {
+                        if (lv < 13 || 16 < lv) {
                             continue;
                         }
                     }

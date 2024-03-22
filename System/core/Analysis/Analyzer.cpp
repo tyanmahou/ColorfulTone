@@ -137,8 +137,15 @@ namespace ct
                     }
                 }
                 double rating = 0;
+                double maxNear = 0;
                 for (auto near : nearSample) {
-                    rating += BaseNoteRating * calcJackFactor(notes[index].sample - near) * TypeFactor(notes[index]);
+                    double nearRating = BaseNoteRating * calcJackFactor(notes[index].sample - near) * TypeFactor(notes[index]);
+                    rating += nearRating;
+                    maxNear = Max(maxNear, nearRating);
+                }
+                // 同時押しがシンプルに倍むずいわけではないので補正
+                {
+                    rating = (rating + maxNear) / 2.0;
                 }
 
                 if (speeds[index] >= 10000) {
