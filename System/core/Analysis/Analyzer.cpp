@@ -305,15 +305,17 @@ namespace ct
             }
         }
 
-        // 2秒毎にレーティング 計算
+        // 1秒毎にレーティング 計算
+        constexpr int64 samplingInterval = 44100 * 2;
+
         Array<double> barRatings;
         if (!notesRatings.isEmpty()) {
             int64 startSample = sheet.getTempos()[0].bpmOffsetSample;
-            int64 endSample = sheet.getOffsetedTotalSample() + (44100 * 2);
+            int64 endSample = sheet.getOffsetedTotalSample() + samplingInterval;
             size_t notesIndex = 0;
             size_t bpmIndex = 0;
             size_t stopIndex = 0;
-            for (int64 nextSample = startSample; nextSample <= endSample; nextSample += (44100 * 2)) {
+            for (int64 nextSample = startSample; nextSample <= endSample; nextSample += samplingInterval) {
                 double noteSum = 0;
                 // ノーツレート
                 size_t s = notesIndex;
