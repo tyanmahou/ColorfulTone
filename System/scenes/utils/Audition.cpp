@@ -3,7 +3,6 @@
 #include <utils/Asset/SivAssetUtil.hpp>
 #include <utils/Thread/Task.hpp>
 #include <Siv3D.hpp>
-#include "Audition.hpp"
 
 namespace {
 	using namespace ct;
@@ -11,16 +10,24 @@ namespace {
 	template<class T>
 	struct ScopedLoadAssetAsync
 	{
-		ScopedLoadAssetAsync(AssetNameView _id):
-			id(_id)
+		ScopedLoadAssetAsync(AssetNameView _id, s3d::HashTable<s3d::AssetName, s3d::int32>& _counter):
+			id(_id),
+			counter(_counter)
 		{
-			T::LoadAsync(id);
+			if (counter[id] == 0) {
+				T::LoadAsync(id);
+			}
+			counter[id] += 1;
 		}
 		~ScopedLoadAssetAsync()
 		{
-			T::Release(id);
+			counter[id] -= 1;
+			if (counter[id] == 0) {
+				T::Release(id);
+			}
 		}
 		AssetNameView id;
+		s3d::HashTable<s3d::AssetName, s3d::int32>& counter;
 	};
 	Audio CreateAuditionSound(const std::stop_token& stopToken, AssetNameView id, const MusicData::ABLoop& loop)
 	{
@@ -113,10 +120,8 @@ namespace ct
 	{
 		const String& id = musicData.getSoundNameID();
 		const MusicData::ABLoop& loop = musicData.getLoopRange();
-		ScopedLoadAssetAsync<AudioAsset> scopedLoad(id);
+		ScopedLoadAssetAsync<AudioAsset> scopedLoad(id, m_requestCounter);
 		while (!AudioAsset::IsReady(id)) {
-			// 他のリクエストでキャンセルされる可能性があるので毎回ロードリクエストはしておく
-			AudioAsset::LoadAsync(id);
 			co_yield{};
 		}
 		if (requestId != m_requestId) {

@@ -231,6 +231,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\MusicData\MusicData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\NotesData\NotesData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\NotesData\SheetMusic.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\NotesData\StarLv.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\ResultRank.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\Score.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\TapSE\TapSE.cpp" />

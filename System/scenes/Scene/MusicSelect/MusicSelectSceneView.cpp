@@ -242,7 +242,7 @@ namespace ct
 					.setDrawble([](const NotesData& n, Vec2 pos) {
 						if (auto starLv = n.getStarLv(); starLv != StarLv::None) {
 					    	// ★レベル
-							StringView starStr = IsBlackStar(starLv) ? U"★" : U"☆";
+							StringView starStr = ToBaseStarStr(starLv);
 							int32 starCount = StarCount(starLv);
 							if (starCount == 1) {
 								FontAsset(AssetNameView(FontName::StarLv))(starStr).drawAt(pos + Vec2{ 37, 30 });

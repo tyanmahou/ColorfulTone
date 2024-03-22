@@ -25,6 +25,7 @@ namespace ct
 		Audio m_audio;
 		s3d::Array<Coro::FiberHolder<void>> m_loadTask;
 		s3d::uint64 m_requestId = 0;
+		s3d::HashTable<s3d::AssetName, s3d::int32> m_requestCounter;
 	};
 
 }

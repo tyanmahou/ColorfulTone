@@ -3,13 +3,6 @@
 
 void Main()
 {
-    auto* app = new ct::MainApp();
+    auto app = std::make_unique<ct::MainApp>();
     app->run();
-
-    // NOTE: 謎のバグ対応を試す
-    try {
-        delete app;
-    } catch (...) {
-
-    }
 }

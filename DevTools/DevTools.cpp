@@ -200,9 +200,14 @@ namespace ct::dev
                 for (const Data& d : data) {
                     int32 lv = d.level;
                     if (d.star > StarLv::None) {
+                        if (d.star < StarLv::WhiteOne) {
+                            continue;
+                        }
                         // ★レベルを補正
                         if (lv > 16) {
-                            if (d.star == StarLv::WhiteTwo) {
+                            if (d.star == StarLv::WhiteOne) {
+                                lv = 12;
+                            } else if (d.star == StarLv::WhiteTwo) {
                                 lv = 13;
                             } else if (d.star == StarLv::WhiteThree) {
                                 lv = 14;

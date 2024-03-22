@@ -9,6 +9,9 @@ namespace ct
 	enum class StarLv
 	{
 		None,
+		AsteOne,    // ＊　　譜面
+		AsteTwo,    // ＊＊　譜面
+		AsteThree,  // ＊＊＊譜面
 		WhiteOne,   // ☆　　譜面
 		WhiteTwo,   // ☆☆　譜面
 		WhiteThree, // ☆☆☆譜面
@@ -17,86 +20,13 @@ namespace ct
 		BlackThree, // ★★★譜面
 	};
 
-	inline s3d::String ToStr(StarLv kind)
-	{
-		switch (kind) {
-		case StarLv::None:
-			return U"";
-		case StarLv::WhiteOne:
-			return U"☆";
-		case StarLv::WhiteTwo:
-			return U"☆☆";
-		case StarLv::WhiteThree:
-			return U"☆☆☆";
-		case StarLv::BlackOne:
-			return U"★";
-		case StarLv::BlackTwo:
-			return U"★★";
-		case StarLv::BlackThree:
-			return U"★★★";
-		default:
-			return U"";
-		}
-	}
-	inline StarLv ParseStarLv(s3d::StringView str)
-	{
-		if (str == U"☆") {
-			return StarLv::WhiteOne;
-		}
-		if (str == U"☆☆") {
-			return StarLv::WhiteTwo;
-		}
-		if (str == U"☆☆☆") {
-			return StarLv::WhiteThree;
-		}
-		if (str == U"★") {
-			return StarLv::BlackOne;
-		}
-		if (str == U"★★") {
-			return StarLv::BlackTwo;
-		}
-		if (str == U"★★★") {
-			return StarLv::BlackThree;
-		}
-		return StarLv::None;
-	}
+	[[nodiscard]] s3d::StringView ToStr(StarLv kind);
+	[[nodiscard]] s3d::StringView ToBaseStarStr(StarLv kind);
+	[[nodiscard]] s3d::int32 StarCount(StarLv kind);
 
-	inline bool IsWhiteStar(StarLv kind)
-	{
-		switch (kind) {
-		case StarLv::WhiteOne:
-		case StarLv::WhiteTwo:
-		case StarLv::WhiteThree:
-			return true;
-		default:
-			return false;
-		}
-	}
-	inline bool IsBlackStar(StarLv kind)
-	{
-		switch (kind) {
-		case StarLv::BlackOne:
-		case StarLv::BlackTwo:
-		case StarLv::BlackThree:
-			return true;
-		default:
-			return false;
-		}
-	}
-	inline s3d::int32 StarCount(StarLv kind)
-	{
-		switch (kind) {
-		case StarLv::WhiteOne:
-		case StarLv::BlackOne:
-			return 1;
-		case StarLv::WhiteTwo:
-		case StarLv::BlackTwo:
-			return 2;
-		case StarLv::WhiteThree:
-		case StarLv::BlackThree:
-			return 3;
-		default:
-			return 0;
-		}
-	}
+	[[nodiscard]] StarLv ParseStarLv(s3d::StringView str);
+
+	[[nodiscard]] bool IsAsteStar(StarLv kind);
+	[[nodiscard]] bool IsWhiteStar(StarLv kind);
+	[[nodiscard]] bool IsBlackStar(StarLv kind);
 }
