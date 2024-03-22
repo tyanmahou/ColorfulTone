@@ -120,12 +120,15 @@ namespace ct::dev
                             .message = U"解析結果の保存に失敗しました"
                         };
                     }
-                    log.writeln(U"No, Path, Lv, Star, Count, Time, Rating, Mean, Median, 80%Tile, 97%Tile, Max, NoteWeight, SpeedDev, pLv");
+                    log.writeln(U"No, Version, Title, File, Lv, Star, Count, Time, Rating, Mean, Median, 80%Tile, 97%Tile, Max, NoteWeight, pLv");
                     size_t no = 1;
                     for (const Data& d : data) {
-                        String ln = U"{}, {}, {}, {}, {}, {:.2f}, {}, {}, {}, {}, {}, {}, {}, {}"_fmt(
+                        auto sepPath = d.path.split(U'/');
+                        String ln = U"{}, {}, {}, {}, {}, {}, {}, {:.2f}, {}, {}, {}, {}, {}, {}, {}, {}"_fmt(
                             no,
-                            d.path, 
+                            sepPath[0],
+                            sepPath[1],
+                            s3d::FileSystem::BaseName(sepPath[2]),
                             d.level,
                             ToStr(d.star),
                             d.noteCount,
