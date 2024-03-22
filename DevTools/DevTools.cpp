@@ -202,7 +202,9 @@ namespace ct::dev
                     if (d.star > StarLv::None) {
                         // ★レベルを補正
                         if (lv > 16) {
-                            if (d.star == StarLv::WhiteThree) {
+                            if (d.star == StarLv::WhiteTwo) {
+                                lv = 13;
+                            } else if (d.star == StarLv::WhiteThree) {
                                 lv = 14;
                             } else if (d.star == StarLv::BlackOne || d.star == StarLv::BlackTwo) {
                                 lv = 15;
@@ -210,7 +212,7 @@ namespace ct::dev
                                 lv = 16;
                             }
                         }
-                        if (lv < 13 || 16 < lv) {
+                        if (lv < 10 || 16 < lv) {
                             continue;
                         }
                     }
