@@ -23,7 +23,7 @@ namespace
         case 9:
             return 0.1;
         case 10:
-            return 1.0 * note.interval / 8.0;
+            return 1.1 * note.interval / 8.0;
         case 11:
         case 12:
         case 13:
@@ -31,7 +31,7 @@ namespace
         case 15:
         case 16:
         case 17:
-            return 1.2;
+            return 1.3;
         case 18:
             return 0.7;
         default:
@@ -117,6 +117,7 @@ namespace ct
         Array<std::pair<int64, double>> notesRatings;
         notesRatings.reserve(notes.size());
         {
+            Array<std::pair<int64, double>> cache;
             int64 lastSample = 0;
             std::array<int64, 3> lastSampleBits{ 0,0,0 };
 
@@ -147,7 +148,6 @@ namespace ct
                 {
                     rating = (rating + maxNear) / 2.0;
                 }
-
                 if (speeds[index] >= 10000) {
                     // ありえんほどデカい場合は見えないノーツなので別扱い
                     rating += 2500;
@@ -176,6 +176,52 @@ namespace ct
                     rating /= 10.0;
                 }
 
+                // トリル,補正
+                if (cache.size() >= 4 && (cache.back().first & typebit) == 0) {
+                    size_t cacheSize = cache.size();
+                    int32 prevBit = cache[cacheSize - 1].first;
+                    int32 prev2Bit = cache[cacheSize - 2].first;
+                    int64 intervalDiff = notes[index].sample - cache.back().second;
+                    if (intervalDiff <= 11025 + 1) 
+                    { // bpm120の8分
+                        size_t checkCount = 0;
+                        for (checkCount = 1; checkCount <= 16; ++checkCount) {
+                            if (cacheSize <= checkCount + 1) {
+                                break;
+                            }
+                            int64 d = (cache[cacheSize - checkCount].second - cache[cacheSize - checkCount - 1].second);
+                            if (Abs(d - intervalDiff) > 11025 + 1) {
+                                break;
+                            }
+                        }
+
+                        size_t trillCount = 1;
+                        for (size_t i = 2; i <= checkCount; ++i) {
+                            int32 targetBit = i % 2 == 1 ? prevBit : typebit;
+                            if ((cache[cacheSize - i].first & targetBit) != 0) {
+                                trillCount += 1;
+                            } else {
+                                break;
+                            }
+                        }
+                        size_t axisTrillCount = 1;
+                        for (size_t i = 2; i <= checkCount; i+=2) {
+                            if ((cache[cacheSize - i].first & typebit) != 0) {
+                                axisTrillCount += 1;
+                            } else {
+                                break;
+                            }
+                        }
+                        if (trillCount >= axisTrillCount && trillCount >= 3) {
+                            double trillFactor = Math::Lerp(1.0, 0.4, Math::InvLerp(3, 16, trillCount));
+                            rating *= trillFactor;
+                        } else if (axisTrillCount >= 5) {
+                            double trillFactor = Math::Lerp(1.0, 0.6, Math::InvLerp(5, 16, axisTrillCount));
+                            rating *= trillFactor;
+                        }
+                    }
+                }
+
                 notesRatings.emplace_back(notes[index].sample, rating);
 
                 // 最終タップ更新
@@ -191,6 +237,8 @@ namespace ct
                 if (notes[index].type != 9) {
                     // 白じゃなければ
                     lastSample = notes[index].sample;
+
+                    cache.emplace_back(typebit, notes[index].sample);
                 }
             }
         }
