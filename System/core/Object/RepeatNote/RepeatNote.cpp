@@ -126,7 +126,7 @@ namespace ct
             else
                 this->miss(timing);
 
-            return false;
+            return true;
         }
         //8分間隔以内で連打しないとミス
         if (samplePos > m_lastSamplePos + samplePerBar / m_interval + JudgeRange(Judge::Perfect)) {

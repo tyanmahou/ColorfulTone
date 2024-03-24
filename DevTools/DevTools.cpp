@@ -204,20 +204,20 @@ namespace ct::dev
                             continue;
                         }
                         // ★レベルを補正
-                        if (d.star == StarLv::WhiteOne && !(lv >= 11 || lv <= 15)) {
+                        if (d.star == StarLv::WhiteOne && !(lv >= 11 || lv <= 14)) {
+                            lv = 14;
+                        } else if (d.star == StarLv::WhiteTwo && lv != 15) {
                             lv = 15;
-                        } else if (d.star == StarLv::WhiteTwo && lv != 16) {
+                        } else if (d.star == StarLv::WhiteThree && lv != 16) {
                             lv = 16;
-                        } else if (d.star == StarLv::WhiteThree && lv != 17) {
+                        } else if (d.star == StarLv::BlackOne && lv != 17) {
                             lv = 17;
-                        } else if (d.star == StarLv::BlackOne && lv != 18) {
+                        } else if (d.star == StarLv::BlackTwo && lv != 18) {
                             lv = 18;
-                        } else if (d.star == StarLv::BlackTwo && lv != 19) {
+                        } else if (d.star == StarLv::BlackThree && lv != 19) {
                             lv = 19;
-                        } else if (d.star == StarLv::BlackThree && lv != 20) {
-                            lv = 20;
                         }
-                        if (lv < 11 || 20 < lv) {
+                        if (lv < 11 || 19 < lv) {
                             continue;
                         }
                     }
