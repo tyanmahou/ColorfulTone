@@ -6,7 +6,7 @@
 
 namespace ct
 {
-    constexpr int32 maxLv = 16;
+    constexpr int32 maxLv = 20;
     bool LvPredictor::SetupIfNeed(FilePathView path)
     {
         if (Instance()->isValid()) {

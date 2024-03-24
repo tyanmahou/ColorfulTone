@@ -182,7 +182,7 @@ namespace ct::dev
                     }
                     for (auto&& [lv, d] : ratingMap) {
                         String ln = U"{}, {}, {}, {}, {}"_fmt(
-                            lv < 14 ? Format(lv) : ToStr(static_cast<StarLv>(lv - 13)),
+                            lv < 16 ? Format(lv) : ToStr(static_cast<StarLv>(lv - 15)),
                             StatisticsUtil::Median<uint64, uint64>(d),
                             StatisticsUtil::Mean<uint64, uint64>(d),
                             StatisticsUtil::Min(d),
@@ -204,20 +204,20 @@ namespace ct::dev
                             continue;
                         }
                         // ★レベルを補正
-                        if (lv > 16) {
-                            if (d.star == StarLv::WhiteOne) {
-                                lv = 12;
-                            } else if (d.star == StarLv::WhiteTwo) {
-                                lv = 13;
-                            } else if (d.star == StarLv::WhiteThree) {
-                                lv = 14;
-                            } else if (d.star == StarLv::BlackOne || d.star == StarLv::BlackTwo) {
-                                lv = 15;
-                            } else if (d.star == StarLv::BlackThree) {
-                                lv = 16;
-                            }
+                        if (d.star == StarLv::WhiteOne && !(lv >= 11 || lv <= 15)) {
+                            lv = 15;
+                        } else if (d.star == StarLv::WhiteTwo && lv != 16) {
+                            lv = 16;
+                        } else if (d.star == StarLv::WhiteThree && lv != 17) {
+                            lv = 17;
+                        } else if (d.star == StarLv::BlackOne && lv != 18) {
+                            lv = 18;
+                        } else if (d.star == StarLv::BlackTwo && lv != 19) {
+                            lv = 19;
+                        } else if (d.star == StarLv::BlackThree && lv != 20) {
+                            lv = 20;
                         }
-                        if (lv < 10 || 16 < lv) {
+                        if (lv < 11 || 20 < lv) {
                             continue;
                         }
                     }

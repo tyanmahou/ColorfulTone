@@ -35,16 +35,24 @@ namespace ct
 					return s3d::TextureAsset(U"genre_level1");
 				}
 			case GenreType::StarLv:
-				if (m_order >= 5) {
+				if (m_order >= 9) {
+					return s3d::TextureAsset(U"genre_level_star6");
+				} else if (m_order >= 8) {
 					return s3d::TextureAsset(U"genre_level_star5");
-				} else if (m_order >= 4) {
+				} else if (m_order >= 7) {
 					return s3d::TextureAsset(U"genre_level_star4");
-				} else if (m_order >= 3) {
+				} else if (m_order >= 6) {
 					return s3d::TextureAsset(U"genre_level_star3");
-				} else if (m_order >= 2) {
+				} else if (m_order >= 5) {
 					return s3d::TextureAsset(U"genre_level_star2");
-				} else {
+				} else if(m_order >= 4) {
 					return s3d::TextureAsset(U"genre_level_star1");
+				} else if (m_order >= 3) {
+					return s3d::TextureAsset(U"genre_level_aste3");
+				} else if (m_order >= 2) {
+					return s3d::TextureAsset(U"genre_level_aste2");
+				} else {
+					return s3d::TextureAsset(U"genre_level_aste1");
 				}
 			case GenreType::Favorite:
 				return s3d::TextureAsset(U"genre_favorite");
@@ -111,7 +119,7 @@ namespace ct
 		return std::make_shared<GenreHandle>(
 			GenreType::Lv, 
 			Format(U"LEVEL:", lv), 
-			GenreFilter([lv](const NotesData& notes) {return notes.getLevel() == lv; }, GenreFilterEvalMode::Any),
+			GenreFilter([lv](const NotesData& notes) {return notes.getLevel() == lv && notes.getStarLv() == StarLv::None; }, GenreFilterEvalMode::Any),
 			lv
 		);
 	}

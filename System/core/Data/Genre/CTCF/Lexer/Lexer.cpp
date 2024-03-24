@@ -103,7 +103,7 @@ namespace ct::ctcf
 				String strValue = line.substr(start, pos - start).replace(U"\\\"", U"\"");
 				m_tokens.emplace_back(strValue, TokenType::String);
 				++pos;
-			} else if (line[pos] == U'★' || line[pos] == U'☆' || line[pos] == U'＊') {
+			} else if (line[pos] == U'★' || line[pos] == U'☆' || line[pos] == U'＊' || line[pos] == U'♯') {
 				// ★
 				const size_t start = pos;
 				auto starChar = line[pos];

@@ -25,6 +25,8 @@ namespace ct
 			return U"★★";
 		case StarLv::BlackThree:
 			return U"★★★";
+		case StarLv::Other:
+			return U"♯";
 		default:
 			return U"";
 		}
@@ -57,6 +59,9 @@ namespace ct
 		}
 		if (str == U"★★★") {
 			return StarLv::BlackThree;
+		}
+		if (str == U"♯") {
+			return StarLv::Other;
 		}
 		return StarLv::None;
 	}
@@ -123,6 +128,9 @@ namespace ct
 		}
 		if (IsAsteStar(kind)) {
 			return U"＊";
+		}
+		if (kind == StarLv::Other) {
+			return U"♯";
 		}
 		return U"";
 	}
