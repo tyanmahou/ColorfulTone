@@ -439,7 +439,7 @@ namespace ct
         // ノーツ数重み補正
         const double ratingPerNote = ratingMix / static_cast<double>(Max<size_t>(sheet.getTotalNotes(), 50));
         const double noteWeightCap = Min(2000 * Sqrt(static_cast<double>(sheet.getTotalNotes())), ratingMix);
-        const double noteWeight = Min(Pow(ratingPerNote, 2.8) / 63.0, noteWeightCap);
+        const double noteWeight = Min(Pow(ratingPerNote, 2.8) / 68.0, noteWeightCap);
 
         const double ratingResult = ratingMix + noteWeight;
         return AnalyzeResult
