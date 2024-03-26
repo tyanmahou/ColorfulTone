@@ -180,7 +180,6 @@ namespace ct
                 if (cache.size() >= 4 && (cache.back().first & typebit) == 0) {
                     size_t cacheSize = cache.size();
                     int32 prevBit = cache[cacheSize - 1].first;
-                    int32 prev2Bit = cache[cacheSize - 2].first;
                     int64 intervalDiff = notes[index].sample - cache.back().second;
                     if (intervalDiff <= 11025 + 1) 
                     { // bpm120の8分
@@ -213,10 +212,10 @@ namespace ct
                             }
                         }
                         if (trillCount >= axisTrillCount && trillCount >= 3) {
-                            double trillFactor = Math::Lerp(1.0, 0.4, Math::InvLerp(3, 16, trillCount));
+                            double trillFactor = Math::Lerp(1.0, 0.4, Math::InvLerp(3, 16, static_cast<double>(trillCount)));
                             rating *= trillFactor;
                         } else if (axisTrillCount >= 5) {
-                            double trillFactor = Math::Lerp(1.0, 0.6, Math::InvLerp(5, 16, axisTrillCount));
+                            double trillFactor = Math::Lerp(1.0, 0.6, Math::InvLerp(5, 16, static_cast<double>(axisTrillCount)));
                             rating *= trillFactor;
                         }
                     }
