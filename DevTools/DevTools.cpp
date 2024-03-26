@@ -217,7 +217,7 @@ namespace ct::dev
                         } else if (d.star == StarLv::BlackThree && lv != 19) {
                             lv = 19;
                         }
-                        if (lv < 11 || 19 < lv) {
+                        if (lv < 12 || 19 < lv) {
                             continue;
                         }
                     }
