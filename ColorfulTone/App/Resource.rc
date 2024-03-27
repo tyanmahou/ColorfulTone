@@ -129,11 +129,12 @@ Resource(engine/soundfont/GMGSx.sf2.zstdcmp)
 
 // Shaders
 Resource(Shaders/blend.ps)
-Resource(Shaders/flipPage.ps)
-Resource(Shaders/mainBg.ps)
 Resource(Shaders/drawCanvas.ps)
-Resource(Shaders/mask.ps)
+Resource(Shaders/flipPage.ps)
 Resource(Shaders/gizi3d.vs)
+Resource(Shaders/grayscale.ps)
+Resource(Shaders/mainBg.ps)
+Resource(Shaders/mask.ps)
 
 /* examples 
 

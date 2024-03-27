@@ -27,6 +27,10 @@ namespace ct
     {
         return Instance()->m_gizi3D;
     }
+    const GrayscaleShader& Shaders::Grayscale()
+    {
+        return Instance()->m_grayscale;
+    }
     Shaders::Shaders():
         m_maskShader(Scene::Size(), 4),
         m_flipPageShader(Scene::Size()),

@@ -111,5 +111,7 @@ namespace ct
 		Coro::FiberHolder<> m_interruptProcess;
 
 		Sfx::Flush m_flush;
+		s3d::RenderTexture m_postProcessTex;
+		bool m_usePostProcess;
     };
 }

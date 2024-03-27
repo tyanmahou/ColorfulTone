@@ -40,7 +40,9 @@ namespace ct
         m_isStart(false),
         m_isDead(false),
         m_barXEasing(780, 730, Easing::Linear, 250),
-        m_spectrum(300)
+        m_spectrum(300),
+        m_postProcessTex(Scene::Size()),
+        m_usePostProcess(false)
     {
         // プレイ中のスコアを参照しておく
         g_pScore = &m_score;
@@ -180,6 +182,8 @@ namespace ct
         m_score = Score();
         m_isFinish = false;
         m_isDead = false;
+        m_usePostProcess = false;
+        m_interruptProcess.clear();
     }
 
     const PlayNotesData& PlayMusicGame::getPlayNotesData() const
@@ -238,40 +242,47 @@ namespace ct
 
     void PlayMusicGame::draw(bool preview) const
     {
-        const double drawCount = m_playNotesData.calDrawCount(m_nowCount);
-
-        /**********/
-        //背景
-        this->drawBG(drawCount);
-
         {
-            s3d::int32 beat = NotesData::RESOLUTION / 4;
-            double f = Abs(static_cast<double>(static_cast<s3d::int32>(m_nowCount) % beat))
-                / static_cast<double>(beat);
+            ScopedRenderTarget2D scopedRt(m_postProcessTex);
+            m_postProcessTex.clear(s3d::ColorF(0, 1));
 
-            constexpr s3d::int32 w = 80;
-            ColorF c1 = ColorF(0, 0, 0, 0.6 * (1 - f));
-            ColorF c2 = m_playNotesData.getColor();
-            c2.setA(0);
+            const double drawCount = m_playNotesData.calDrawCount(m_nowCount);
 
-            Rect(0, 0, w, 600).draw({ c1,c2, c2,c1 });
-            Rect(800, 0, -w, 600).draw({ c1,c2, c2,c1 });
+            /**********/
+            //背景
+            this->drawBG(drawCount);
+
+            {
+                s3d::int32 beat = NotesData::RESOLUTION / 4;
+                double f = Abs(static_cast<double>(static_cast<s3d::int32>(m_nowCount) % beat))
+                    / static_cast<double>(beat);
+
+                constexpr s3d::int32 w = 80;
+                ColorF c1 = ColorF(0, 0, 0, 0.6 * (1 - f));
+                ColorF c2 = m_playNotesData.getColor();
+                c2.setA(0);
+
+                Rect(0, 0, w, 600).draw({ c1,c2, c2,c1 });
+                Rect(800, 0, -w, 600).draw({ c1,c2, c2,c1 });
+            }
+            //入力アクション
+            const bool redInput = isInput(AutoPlayManager::IsRedPressed(), PlayKey::Red().pressed());
+            const bool blueInput = isInput(AutoPlayManager::IsBluePressed(), PlayKey::Blue().pressed());
+            const bool yellowInput = isInput(AutoPlayManager::IsYellowPressed(), PlayKey::Yellow().pressed());
+
+            PlayStyle::Instance()->drawFrame(redInput, blueInput, yellowInput,
+                [&] {
+                    m_playNotesData.draw(drawCount, m_scrollRate);
+                });
+        }        
+        if (m_usePostProcess) {
+            auto scoped = Shaders::Grayscale().start();
+            m_postProcessTex.draw();
+        } else {
+            m_postProcessTex.draw();
         }
-        //入力アクション
-        const bool redInput = isInput(AutoPlayManager::IsRedPressed(), PlayKey::Red().pressed());
-        const bool blueInput = isInput(AutoPlayManager::IsBluePressed(), PlayKey::Blue().pressed());
-        const bool yellowInput = isInput(AutoPlayManager::IsYellowPressed(), PlayKey::Yellow().pressed());
-
-        PlayStyle::Instance()->drawFrame(redInput, blueInput, yellowInput,
-            [&] {
-                m_playNotesData.draw(drawCount, m_scrollRate);
-            });
 
         this->uiDraw(preview);
-
-        if (!preview && g_startTimer.ms() <= 3000) {
-            StartAnime::Draw((g_startTimer.ms() - 1000) / 2000.0);
-        }
 
         m_flush.draw();
     }
@@ -345,8 +356,9 @@ namespace ct
     Coro::Fiber<> PlayMusicGame::onDeadProcess()
     {
         SoundManager::PlaySe(U"dead");
-        m_sound.pause(2s);
+        m_sound.pause(0.5s);
         m_isDead = true;
+        m_usePostProcess = true;
 
         // フラッシュ
         m_flush.start(0.5);
@@ -400,6 +412,12 @@ namespace ct
                 m_FCAPAnime.draw();
             }
         }
+
+        // スタートアニメ
+        if (!preview && g_startTimer.ms() <= 3000) {
+            StartAnime::Draw((g_startTimer.ms() - 1000) / 2000.0);
+        }
+
         this->drawMusicTitle(preview);
         this->drawAutoPlay(preview);
         this->drawNotesLevel();
