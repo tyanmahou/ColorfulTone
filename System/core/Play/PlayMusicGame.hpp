@@ -3,6 +3,7 @@
 #include <core/Play/PlayNotesData.hpp>
 #include <core/Data/Score/Score.hpp>
 #include <utils/Audio/AudioSpectrum.hpp>
+#include <utils/Sfx/Flush.hpp>
 #include <utils/Coro/Fiber/FiberHolder.hpp>
 #include <core/Anime/ApAnime/ApAnime.hpp>
 #include <Siv3D/Audio.hpp>
@@ -96,9 +97,10 @@ namespace ct
 
 		s3d::String m_title;			// アーティスト名＋曲名
 
-		//演奏開始と終了
+		// 演奏開始と終了
 		bool m_isStart;
 		bool m_isFinish;
+		bool m_isDead;
 		s3d::EasingAB<s3d::int32> m_barXEasing;
 
 		double m_nowCount;			    // 現在のカウント
@@ -107,5 +109,7 @@ namespace ct
 		AudioSpectrum m_spectrum;
 
 		Coro::FiberHolder<> m_interruptProcess;
+
+		Sfx::Flush m_flush;
     };
 }

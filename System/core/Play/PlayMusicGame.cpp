@@ -7,6 +7,7 @@
 #include <core/Play/PlayStyle/PlayStyle.hpp>
 #include <core/Play/Random/RandomNote.hpp>
 #include <core/Play/ColorFx/ColorFx.hpp>
+#include <utils/Coro/Fiber/FiberUtil.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -37,6 +38,7 @@ namespace ct
         m_totalNotes(0),
         m_isFinish(false),
         m_isStart(false),
+        m_isDead(false),
         m_barXEasing(780, 730, Easing::Linear, 250),
         m_spectrum(300)
     {
@@ -177,6 +179,7 @@ namespace ct
         m_playNotesData.reset();
         m_score = Score();
         m_isFinish = false;
+        m_isDead = false;
     }
 
     const PlayNotesData& PlayMusicGame::getPlayNotesData() const
@@ -269,6 +272,8 @@ namespace ct
         if (!preview && g_startTimer.ms() <= 3000) {
             StartAnime::Draw((g_startTimer.ms() - 1000) / 2000.0);
         }
+
+        m_flush.draw();
     }
 
     void PlayMusicGame::playModeDraw() const
@@ -340,8 +345,18 @@ namespace ct
     Coro::Fiber<> PlayMusicGame::onDeadProcess()
     {
         SoundManager::PlaySe(U"dead");
+        m_sound.pause(2s);
+        m_isDead = true;
+
+        // フラッシュ
+        m_flush.start(0.5);
+        while (m_flush.isActive()) {
+            m_flush.update(Scene::DeltaTime());
+            co_yield{};
+        }
+        co_await Coro::FiberUtil::WaitForSeconds(0.5s);
         m_isFinish = true;
-        co_return;
+        co_await Coro::FiberUtil::Stop();
     }
     bool PlayMusicGame::isFinish() const
     {

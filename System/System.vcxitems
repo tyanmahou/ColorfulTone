@@ -183,6 +183,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Math\StatisticsUtil.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Migration\Migration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Notify\Notify.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Sfx\ColorFade.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)utils\Sfx\Flush.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Shader\Blend\BlendShader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Shader\DrawCanvas\DrawCanvasShader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Shader\FlipPage\FlipPageShader.hpp" />
@@ -322,6 +324,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Input\InputUtl.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Migration\Migration.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Notify\Notify.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Sfx\ColorFade.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)utils\Sfx\Flush.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Shader\Blend\BlendShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Shader\DrawCanvas\DrawCanvasShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Shader\FlipPage\FlipPageShader.cpp" />
