@@ -307,13 +307,13 @@ void PortraitStyle::draw(const LongNote& note, double count, double scrollRate) 
     if (parent->isFirstTap())
         pCount = 0;
 
-    if (pCount > count)
+    if (count >= 0 && pCount > count)
         return;
 
     double pY = GetY(pCount, scrollRate, parent->getSpeed());
 
 
-    if (!canDraw(pY) && !canDraw(y))
+    if (count >= 0 && !canDraw(pY) && !canDraw(y))
         return;
 
 
@@ -354,7 +354,7 @@ void PortraitStyle::draw(const RepeatEnd& note, double count, double scrollRate)
         pCount = 0;
     auto pY = GetY(pCount, scrollRate, parent->getSpeed());
 
-    if (!canDraw(pY) && !canDraw(y))
+    if (count >= 0 && !canDraw(pY) && !canDraw(y))
         return;
 
 

@@ -181,7 +181,7 @@ namespace ct
             pCount = 0;
         auto pPos = ::GetPos(angle, pCount, scrollRate, parent->getSpeed());
 
-        if (!Note::CanDraw(pPos) && !Note::CanDraw(pos))
+        if (count >= 0 && !Note::CanDraw(pPos) && !Note::CanDraw(pos))
             return;
 
         if (type == 17) {
@@ -241,7 +241,7 @@ namespace ct
             pCount = 0;
         auto pPos = GetPos(angle, pCount, scrollRate, parent->getSpeed());
 
-        if (!Note::CanDraw(pPos) && !Note::CanDraw(pos))
+        if (count >= 0 && !Note::CanDraw(pPos) && !Note::CanDraw(pos))
             return;
 
         {

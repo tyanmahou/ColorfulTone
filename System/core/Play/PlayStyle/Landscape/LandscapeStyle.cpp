@@ -450,13 +450,13 @@ namespace ct
             pCount = 0;
         }
 
-        if (pCount > count) {
+        if (count >= 0 && pCount > count) {
             return;
         }
 
         double pX = GetX(pCount, scrollRate, parent->getSpeed());
 
-        if (!CanDraw(pX) && !CanDraw(x)) {
+        if (count >= 0 && !CanDraw(pX) && !CanDraw(x)) {
             return;
         }
 
@@ -489,13 +489,13 @@ namespace ct
             pCount = 0;
         }
 
-        if (pCount > count) {
+        if (count >= 0 && pCount > count) {
             return;
         }
 
         double pX = GetX(pCount, scrollRate, parent->getSpeed());
 
-        if (!CanDraw(pX) && !CanDraw(x)) {
+        if (count >=0 && !CanDraw(pX) && !CanDraw(x)) {
             return;
         }
         Color c1 = HSV(static_cast<s3d::int32>(count / 10) % 360, 0.5, 1);
