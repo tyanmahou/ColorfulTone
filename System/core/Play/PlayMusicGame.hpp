@@ -3,6 +3,7 @@
 #include <core/Play/PlayNotesData.hpp>
 #include <core/Data/Score/Score.hpp>
 #include <utils/Audio/AudioSpectrum.hpp>
+#include <utils/Coro/Fiber/FiberHolder.hpp>
 #include <core/Anime/ApAnime/ApAnime.hpp>
 #include <Siv3D/Audio.hpp>
 #include <Siv3D/Effect.hpp>
@@ -75,6 +76,8 @@ namespace ct
 		s3d::uint64 finishSample() const;
 
 		[[maybe_unused]] bool isDead() const;
+
+		Coro::Fiber<> onDeadProcess();
 	private:
 		PlayNotesData m_playNotesData;
 
@@ -102,5 +105,7 @@ namespace ct
 
 		std::shared_ptr<IPlayBG> m_playBG;
 		AudioSpectrum m_spectrum;
+
+		Coro::FiberHolder<> m_interruptProcess;
     };
 }

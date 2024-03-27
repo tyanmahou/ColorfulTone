@@ -130,6 +130,9 @@ namespace ct
 
     void PlayMusicGame::update()
     {
+        if (m_interruptProcess.resume()) {
+            return;
+        }
         if (!m_isStart) {
             SoundManager::PlayInGameMusic(m_sound);
             m_barXEasing.start();
@@ -164,8 +167,7 @@ namespace ct
         }
         // ライフゼロ
         if (this->isDead()) {
-            SoundManager::PlaySe(U"dead");
-            m_isFinish = true;
+            m_interruptProcess.reset(std::bind(&PlayMusicGame::onDeadProcess, this));
         }
     }
 
@@ -233,7 +235,6 @@ namespace ct
 
     void PlayMusicGame::draw(bool preview) const
     {
-
         const double drawCount = m_playNotesData.calDrawCount(m_nowCount);
 
         /**********/
@@ -335,6 +336,12 @@ namespace ct
         }
         // ライフ0以下
         return m_score.m_life <= 0;
+    }
+    Coro::Fiber<> PlayMusicGame::onDeadProcess()
+    {
+        SoundManager::PlaySe(U"dead");
+        m_isFinish = true;
+        co_return;
     }
     bool PlayMusicGame::isFinish() const
     {
