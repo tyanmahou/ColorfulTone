@@ -14,7 +14,7 @@ namespace ct
     {
     public:
         Impl(const s3d::Size& size):
-            m_ps(HLSL(U"Shaders/blend.ps")),
+            m_ps(HLSL(Resource(U"Shaders/blend.ps"))),
             m_rt(size)
         {
         }

@@ -2,7 +2,6 @@
 
 #include <commons/Constants.hpp>
 #include <Siv3D.hpp>
-#include "MaskShader.hpp"
 
 namespace
 {
