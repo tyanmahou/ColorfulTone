@@ -73,6 +73,8 @@ namespace ct
 		void drawNotesLevel() const;
 
 		s3d::uint64 finishSample() const;
+
+		[[maybe_unused]] bool isDead() const;
 	private:
 		PlayNotesData m_playNotesData;
 

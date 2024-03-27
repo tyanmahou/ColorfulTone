@@ -162,7 +162,9 @@ namespace ct
                 this->stopSound();
             }
         }
-        if ((m_isCourse || Game::Config().m_isLifeDead) && m_score.m_life <= 0) {
+        // ライフゼロ
+        if (this->isDead()) {
+            SoundManager::PlaySe(U"dead");
             m_isFinish = true;
         }
     }
@@ -326,7 +328,14 @@ namespace ct
     {
         return Min(m_audioEndSample, m_playNotesData.getLastSample() + 44100);
     }
-
+    bool PlayMusicGame::isDead() const
+    {
+        if (!(m_isCourse || Game::Config().m_isLifeDead)) {
+            return false;
+        }
+        // ライフ0以下
+        return m_score.m_life <= 0;
+    }
     bool PlayMusicGame::isFinish() const
     {
         return m_isFinish && (m_FCAPAnime.isEnd() || !m_FCAPAnime.isStart());
