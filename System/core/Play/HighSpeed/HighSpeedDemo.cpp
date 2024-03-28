@@ -42,8 +42,8 @@ namespace ct
 			this->resetStyle(currentStyle);
 		}
 		bool isCtrlPressed = KeyControl.pressed();
-		if (KeyControl.down()) {
-			if (!m_offset.isMoving()) {
+		if (isCtrlPressed) {
+			if (!m_offset.done()) {
 				m_offset.start();
 			}
 		}
@@ -58,7 +58,6 @@ namespace ct
 			SpeedUpdate(PlayKey::Down(), scrollRate, -1);
 			SpeedUpdate(PlayKey::Right(), scrollRate, 10);
 			SpeedUpdate(PlayKey::Left(), scrollRate, -10);
-
 		}
 		if (scrollRate < 0.1) {
 			scrollRate = 0.1;
