@@ -14,6 +14,7 @@ namespace ct
     {
     public:
         Impl() :
+            //m_ps(HLSL(U"Shaders/grayglitch.hlsl"))
             m_ps(HLSL(Resource(U"Shaders/grayglitch.ps")))
         {
         }
@@ -39,13 +40,7 @@ namespace ct
     }
     s3d::ScopedCustomShader2D GrayGlitchShader::start() const
     {
-        double t = s3d::Periodic::Sawtooth0_1(0.5s);
-        if (t <= 0.2) {
-            t = s3d::Periodic::Triangle0_1(0.2s, t);
-        } else {
-            t = 0;
-        }
-        m_pImpl->setTimer(t);
+        m_pImpl->setTimer(s3d::Scene::Time());
         return m_pImpl->start();
     }
 }
