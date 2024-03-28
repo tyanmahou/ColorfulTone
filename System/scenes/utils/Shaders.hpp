@@ -6,7 +6,7 @@
 #include <utils/Shader/MainBg/MainBgShader.hpp>
 #include <utils/Shader/Blend/BlendShader.hpp>
 #include <utils/Shader/Gizi3D/Gizi3DCamera.hpp>
-#include <utils/Shader/Grayscale/GrayscaleShader.hpp>
+#include <utils/Shader/GrayGlitch/GrayGlitchShader.hpp>
 
 namespace ct
 {
@@ -20,7 +20,7 @@ namespace ct
         static const MainBgShader& MainBg();
         static const BlendShader& Blend();
         static const Gizi3DCamera& Gizi3D();
-        static const GrayscaleShader& Grayscale();
+        static const GrayGlitchShader& GrayGlitch();
     private:
         Shaders();
         MaskShader m_maskShader;
@@ -29,6 +29,6 @@ namespace ct
         MainBgShader m_mainBgShader;
         BlendShader m_blendShader;
         Gizi3DCamera m_gizi3D;
-        GrayscaleShader m_grayscale;
+        GrayGlitchShader m_grayGlitch;
     };
 }

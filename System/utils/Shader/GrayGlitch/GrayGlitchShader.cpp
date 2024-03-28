@@ -1,4 +1,4 @@
-﻿#include <utils/Shader/Grayscale/GrayscaleShader.hpp>
+﻿#include <utils/Shader/GrayGlitch/GrayGlitchShader.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -10,11 +10,11 @@ namespace
 }
 namespace ct
 {
-    class GrayscaleShader::Impl
+    class GrayGlitchShader::Impl
     {
     public:
         Impl() :
-            m_ps(HLSL(Resource(U"Shaders/grayscale.ps")))
+            m_ps(HLSL(Resource(U"Shaders/grayglitch.ps")))
         {
         }
         void setTimer(double timer)
@@ -30,14 +30,14 @@ namespace ct
         PixelShader m_ps;
         ConstantBuffer<ShaderParam> m_cb;
     };
-    GrayscaleShader::GrayscaleShader():
+    GrayGlitchShader::GrayGlitchShader():
         m_pImpl(std::make_unique<Impl>())
     {
     }
-    GrayscaleShader::~GrayscaleShader()
+    GrayGlitchShader::~GrayGlitchShader()
     {
     }
-    s3d::ScopedCustomShader2D GrayscaleShader::start() const
+    s3d::ScopedCustomShader2D GrayGlitchShader::start() const
     {
         double t = s3d::Periodic::Sawtooth0_1(0.5s);
         if (t <= 0.2) {

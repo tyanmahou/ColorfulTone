@@ -27,9 +27,9 @@ namespace ct
     {
         return Instance()->m_gizi3D;
     }
-    const GrayscaleShader& Shaders::Grayscale()
+    const GrayGlitchShader& Shaders::GrayGlitch()
     {
-        return Instance()->m_grayscale;
+        return Instance()->m_grayGlitch;
     }
     Shaders::Shaders():
         m_maskShader(Scene::Size(), 4),

@@ -4,12 +4,12 @@
 
 namespace ct
 {
-	class GrayscaleShader
+	class GrayGlitchShader
 	{
 		class Impl;
 	public:
-		GrayscaleShader();
-		~GrayscaleShader();
+		GrayGlitchShader();
+		~GrayGlitchShader();
 
 		[[nodiscard]] s3d::ScopedCustomShader2D start() const;
 	private:

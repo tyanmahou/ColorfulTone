@@ -132,7 +132,7 @@ Resource(Shaders/blend.ps)
 Resource(Shaders/drawCanvas.ps)
 Resource(Shaders/flipPage.ps)
 Resource(Shaders/gizi3d.vs)
-Resource(Shaders/grayscale.ps)
+Resource(Shaders/grayglitch.ps)
 Resource(Shaders/mainBg.ps)
 Resource(Shaders/mask.ps)
 

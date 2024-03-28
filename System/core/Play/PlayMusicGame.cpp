@@ -266,9 +266,9 @@ namespace ct
                 Rect(800, 0, -w, 600).draw({ c1,c2, c2,c1 });
             }
             //入力アクション
-            const bool redInput = isInput(AutoPlayManager::IsRedPressed(), PlayKey::Red().pressed());
-            const bool blueInput = isInput(AutoPlayManager::IsBluePressed(), PlayKey::Blue().pressed());
-            const bool yellowInput = isInput(AutoPlayManager::IsYellowPressed(), PlayKey::Yellow().pressed());
+            const bool redInput = !m_isDead && isInput(AutoPlayManager::IsRedPressed(), PlayKey::Red().pressed());
+            const bool blueInput = !m_isDead && isInput(AutoPlayManager::IsBluePressed(), PlayKey::Blue().pressed());
+            const bool yellowInput = !m_isDead && isInput(AutoPlayManager::IsYellowPressed(), PlayKey::Yellow().pressed());
 
             PlayStyle::Instance()->drawFrame(redInput, blueInput, yellowInput,
                 [&] {
@@ -276,7 +276,7 @@ namespace ct
                 });
         }        
         if (m_usePostProcess) {
-            auto scoped = Shaders::Grayscale().start();
+            auto scoped = Shaders::GrayGlitch().start();
             m_postProcessTex.draw();
         } else {
             m_postProcessTex.draw();
