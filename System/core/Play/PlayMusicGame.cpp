@@ -138,10 +138,9 @@ namespace ct
             return;
         }
         if (!m_isStart) {
-            SoundManager::PlayInGameMusic(m_sound);
-            m_barXEasing.start();
+            m_playNotesData.update(m_sound, m_nowCount, m_score);
+            m_interruptProcess.reset(std::bind(&PlayMusicGame::onReadyProcess, this));
             m_isStart = true;
-            g_startTimer.restart();
             return;
         }
         //オートプレイのキー入力更新
@@ -198,7 +197,6 @@ namespace ct
         m_score.m_initLife = score.m_life;
         m_score.m_life = score.m_life;
     }
-
 
     void PlayMusicGame::ScoreUpdate(Score::Judge judge, s3d::int64 diff, NoteType type, NoteType baseType, bool playSe)
     {
@@ -353,6 +351,30 @@ namespace ct
         // ライフ0以下
         return m_score.m_life <= 0;
     }
+    Coro::Fiber<> PlayMusicGame::onReadyProcess()
+    {
+        co_await Coro::FiberUtil::WaitForSeconds(1.0s);
+
+        m_readyAnime.playIn();
+        while (!m_readyAnime.isEnd()) {
+            m_readyAnime.update(Scene::DeltaTime());
+            co_yield{};
+        }
+        TimeLite::Timer timer{ 0.5 };
+        while (!timer.isEnd() || KeyControl.pressed()) {
+            timer.update(Scene::DeltaTime());
+            co_yield{};
+        }
+        m_readyAnime.playOut();
+        m_barXEasing.start();
+        g_startTimer.restart();
+        while (!m_readyAnime.isEnd() || g_startTimer.ms() <= 1500) {
+            m_readyAnime.update(Scene::DeltaTime());
+            co_yield{};
+        }
+        SoundManager::PlayInGameMusic(m_sound);
+        co_return;
+    }
     Coro::Fiber<> PlayMusicGame::onDeadProcess()
     {
         SoundManager::PlaySe(U"dead");
@@ -412,10 +434,13 @@ namespace ct
                 m_FCAPAnime.draw();
             }
         }
-
+        // Readyアニメ
+        if (m_readyAnime.isPlaying()) {
+            m_readyAnime.draw();
+        }
         // スタートアニメ
-        if (!preview && g_startTimer.ms() <= 3000) {
-            StartAnime::Draw((g_startTimer.ms() - 1000) / 2000.0);
+        if (!preview && g_startTimer.ms() <= 1500) {
+            StartAnime::Draw(g_startTimer.ms() / 1500.0);
         }
 
         this->drawMusicTitle(preview);

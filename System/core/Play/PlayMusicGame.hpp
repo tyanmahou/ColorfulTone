@@ -6,6 +6,7 @@
 #include <utils/Sfx/Flush.hpp>
 #include <utils/Coro/Fiber/FiberHolder.hpp>
 #include <core/Anime/ApAnime/ApAnime.hpp>
+#include <core/Anime/ReadyAnime/ReadyAnime.hpp>
 #include <Siv3D/Audio.hpp>
 #include <Siv3D/Effect.hpp>
 #include <Siv3D/EasingAB.hpp>
@@ -78,6 +79,7 @@ namespace ct
 
 		[[maybe_unused]] bool isDead() const;
 
+		Coro::Fiber<> onReadyProcess();
 		Coro::Fiber<> onDeadProcess();
 	private:
 		PlayNotesData m_playNotesData;
@@ -109,6 +111,8 @@ namespace ct
 		AudioSpectrum m_spectrum;
 
 		Coro::FiberHolder<> m_interruptProcess;
+
+		ReadyAnime m_readyAnime;
 
 		Sfx::Flush m_flush;
 		s3d::RenderTexture m_postProcessTex;

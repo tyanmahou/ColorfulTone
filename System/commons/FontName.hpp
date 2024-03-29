@@ -27,4 +27,6 @@ namespace ct::FontName
 
     inline constexpr s3d::AssetNameView ResultNoteCount = U"s-b-15";
     inline constexpr s3d::AssetNameView ResultFastLateCount = U"s-b-12";
+
+    inline constexpr s3d::AssetNameView MainReady = U"s-b-40";
 }

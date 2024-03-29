@@ -30,17 +30,17 @@ namespace
 		// ロード
 		TextureAsset::Register(U"canvasBg", U"Resource/Img/Load/bg.png");
 
-		//タイトル
+		// タイトル
 		TextureAsset::Register(U"titleBgs", U"Resource/Img/Title/title_bgs.png");
 		TextureAsset::Register(U"logo", U"Resource/Img/Title/logo.png");
 		TextureAsset::Register(U"modeBack", U"Resource/Img/Title/modeBack.png");
 		TextureAsset::Register(U"titleIcons", U"Resource/Img/Title/title_icons.png");
 
-		//コンフィグ
+		// コンフィグ
 		TextureAsset::Register(U"keyconBG2", U"Resource/Img/Config/keyconBG2.png");
 		TextureAsset::Register(U"playstyle_icon", U"Resource/Img/Config/playstyle_icon.png");
 
-		//選曲
+		// 選曲
 		TextureAsset::Register(U"sticky", U"Resource/Img/MusicSelect/sticky.png");
 		TextureAsset::Register(U"sticky_red", U"Resource/Img/MusicSelect/sticky_red.png");
 		TextureAsset::Register(U"line", U"Resource/Img/MusicSelect/line.png");
@@ -52,7 +52,7 @@ namespace
 		TextureAsset::Register(U"levelbg", U"Resource/Img/MusicSelect/select.png");
 		TextureAsset::Register(U"levelMask", U"Resource/Img/MusicSelect/levelmask.png");
 
-		//ジャンルアイコン
+		// ジャンルアイコン
 		TextureAsset::Register(U"genre_level1", U"Resource/Img/MusicSelect/icon/level1.png");
 		TextureAsset::Register(U"genre_level2", U"Resource/Img/MusicSelect/icon/level2.png");
 		TextureAsset::Register(U"genre_level3", U"Resource/Img/MusicSelect/icon/level3.png");
@@ -77,7 +77,7 @@ namespace
 		// dl_file
 		TextureAsset::Register(U"dl_file", U"Resource/Img/MusicSelect/icon/dl_file.png");
 
-		//リザルトシーン
+		// リザルトシーン
 		TextureAsset::Register(U"AAA", U"Resource/Img/Result/rank/AAA.png");
 		TextureAsset::Register(U"AA", U"Resource/Img/Result/rank/AA.png");
 		TextureAsset::Register(U"A", U"Resource/Img/Result/rank/A.png");
@@ -92,8 +92,8 @@ namespace
 
 		TextureAsset::Register(U"newRecord", U"Resource/Img/Result/newrecord.png");
 
-		//メイン
-		//portrait
+		// メイン
+		// portrait
 		TextureAsset::Register(U"tapEffect2", U"Resource/Img/Main/tapeffect2.png");
 
 		TextureAsset::Register(U"portrait_notes9", U"Resource/Img/Main/ノーツ/portrait/portrait_notes.png");
@@ -153,6 +153,8 @@ namespace
 
 		TextureAsset::Register(U"combo", U"Resource/Img/Main/combo.png");
 
+		TextureAsset::Register(U"ready_label", U"Resource/Img/Main/ready_label.png");
+
 		// main start
 		TextureAsset::Register(U"start01", U"Resource/Img/Main/start/01.png");
 		TextureAsset::Register(U"start02", U"Resource/Img/Main/start/02.png");
@@ -205,6 +207,7 @@ namespace
 		FontAsset(U"s-o-12").setBufferThickness(3);
 		FontAsset::Register(U"s-b-15", 15, straightPath, FontStyle::Bold);
 		FontAsset::Register(U"s-b-20", 20 + 20, straightPath, FontStyle::Bold);
+		FontAsset::Register(U"s-b-40", 25 + 25, straightPath, FontStyle::Bold);
 
 		FontAsset::Register(U"r-12", 12 + 5);
 		FontAsset::Register(U"r-13", 13 + 5);

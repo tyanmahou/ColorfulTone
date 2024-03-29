@@ -34,6 +34,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Analysis\Analyzer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Analysis\LvPredictor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Anime\ReadyAnime\ReadyAnime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Anime\StartAnime\StartAnime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\CourseData\CourceEntry.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\CourseData\CourseData.hpp" />
@@ -215,6 +216,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Analysis\Analyzer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Analysis\LvPredictor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\ApAnime\ApAnime.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\ReadyAnime\ReadyAnime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Anime\StartAnime\StartAnime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\CourseData\CourceEntry.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\CourseData\CourseData.cpp" />
