@@ -117,7 +117,7 @@ namespace ct
         Array<std::pair<int64, double>> notesRatings;
         notesRatings.reserve(notes.size());
         {
-            Array<std::pair<int64, double>> cache;
+            Array<std::pair<int32, double>> cache;
             int64 lastSample = 0;
             std::array<int64, 3> lastSampleBits{ 0,0,0 };
 
