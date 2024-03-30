@@ -24,6 +24,7 @@ namespace ct
         NoteType m_type;
         s3d::Color m_color;
         std::function<bool(void)> m_judge;
+        std::function<s3d::int64(void)> m_clickTimeOffset;
 
         void tapUpdate(Score::Judge judge, s3d::int64 diff);
         void tapMiss(s3d::int64 diff);

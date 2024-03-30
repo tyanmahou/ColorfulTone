@@ -82,6 +82,12 @@ namespace ct
 				}
 				return m_isClicked[ColorIndex::Red];
 				};
+			m_clickTimeOffset = [&]()->int64 {
+				if (!m_isClicked[ColorIndex::Red]) {
+					return InputManager::RedClickedTimeOffset();
+				}
+				return 0;
+				};
 			break;
 		case 2:
 		case 12:
@@ -92,6 +98,12 @@ namespace ct
 				}
 				return m_isClicked[ColorIndex::Blue];
 				};
+			m_clickTimeOffset = [&]()->int64 {
+				if (!m_isClicked[ColorIndex::Blue]) {
+					return InputManager::BlueClickedTimeOffset();
+				}
+				return 0;
+				};
 			break;
 		case 3:
 		case 13:
@@ -101,6 +113,12 @@ namespace ct
 					m_isClicked[ColorIndex::Yellow] = true;
 				}
 				return m_isClicked[ColorIndex::Yellow];
+				};
+			m_clickTimeOffset = [&]()->int64 {
+				if (!m_isClicked[ColorIndex::Yellow]) {
+					return InputManager::YellowClickedTimeOffset();
+				}
+				return 0;
 				};
 			break;
 		case 4:
@@ -116,6 +134,16 @@ namespace ct
 				}
 				return m_isClicked[ColorIndex::Blue] && m_isClicked[ColorIndex::Yellow];
 				};
+			m_clickTimeOffset = [&]()->int64 {
+				Optional<int64> max;
+				if (!m_isClicked[ColorIndex::Blue]) {
+					max = Max(max.value_or(std::numeric_limits<int64>::min()), InputManager::BlueClickedTimeOffset());
+				}
+				if (!m_isClicked[ColorIndex::Yellow]) {
+					max = Max(max.value_or(std::numeric_limits<int64>::min()), InputManager::YellowClickedTimeOffset());
+				}
+				return max.value_or(0);
+			};
 			break;
 		case 5:
 		case 15:
@@ -130,6 +158,16 @@ namespace ct
 				}
 				return m_isClicked[ColorIndex::Red] && m_isClicked[ColorIndex::Yellow];
 				};
+			m_clickTimeOffset = [&]()->int64 {
+				Optional<int64> max;
+				if (!m_isClicked[ColorIndex::Red]) {
+					max = Max(max.value_or(std::numeric_limits<int64>::min()), InputManager::RedClickedTimeOffset());
+				}
+				if (!m_isClicked[ColorIndex::Yellow]) {
+					max = Max(max.value_or(std::numeric_limits<int64>::min()), InputManager::YellowClickedTimeOffset());
+				}
+				return max.value_or(0);
+				};
 			break;
 		case 6:
 		case 16:
@@ -143,6 +181,16 @@ namespace ct
 					m_isClicked[ColorIndex::Blue] = true;
 				}
 				return m_isClicked[ColorIndex::Red] && m_isClicked[ColorIndex::Blue];
+				};
+			m_clickTimeOffset = [&]()->int64 {
+				Optional<int64> max;
+				if (!m_isClicked[ColorIndex::Blue]) {
+					max = Max(max.value_or(std::numeric_limits<int64>::min()), InputManager::BlueClickedTimeOffset());
+				}
+				if (!m_isClicked[ColorIndex::Yellow]) {
+					max = Max(max.value_or(std::numeric_limits<int64>::min()), InputManager::YellowClickedTimeOffset());
+				}
+				return max.value_or(0);
 				};
 			break;
 		case 7:
@@ -162,6 +210,19 @@ namespace ct
 				}
 				return m_isClicked[ColorIndex::Red] && m_isClicked[ColorIndex::Blue] && m_isClicked[ColorIndex::Yellow];
 				};
+			m_clickTimeOffset = [&]()->int64 {
+				Optional<int64> max;
+				if (!m_isClicked[ColorIndex::Red]) {
+					max = Max(max.value_or(std::numeric_limits<int64>::min()), InputManager::RedClickedTimeOffset());
+				}
+				if (!m_isClicked[ColorIndex::Blue]) {
+					max = Max(max.value_or(std::numeric_limits<int64>::min()), InputManager::BlueClickedTimeOffset());
+				}
+				if (!m_isClicked[ColorIndex::Yellow]) {
+					max = Max(max.value_or(std::numeric_limits<int64>::min()), InputManager::YellowClickedTimeOffset());
+				}
+				return max.value_or(0);
+				};
 			break;
 		case 18:
 			m_judge = [&]() {
@@ -179,6 +240,19 @@ namespace ct
 				}
 				return m_isClicked[ColorIndex::Red] || m_isClicked[ColorIndex::Blue] || m_isClicked[ColorIndex::Yellow];
 				};
+			m_clickTimeOffset = [&]()->int64 {
+				Optional<int64> max;
+				if (!m_isClicked[ColorIndex::Red]) {
+					max = Min(max.value_or(std::numeric_limits<int64>::max()), InputManager::RedClickedTimeOffset());
+				}
+				if (!m_isClicked[ColorIndex::Blue]) {
+					max = Min(max.value_or(std::numeric_limits<int64>::max()), InputManager::BlueClickedTimeOffset());
+				}
+				if (!m_isClicked[ColorIndex::Yellow]) {
+					max = Min(max.value_or(std::numeric_limits<int64>::max()), InputManager::YellowClickedTimeOffset());
+				}
+				return max.value_or(0);
+				};
 			break;
 		case 9:
 			m_judge = [&]() {
@@ -193,9 +267,23 @@ namespace ct
 				}
 				return m_isClicked[ColorIndex::Red] || m_isClicked[ColorIndex::Blue] || m_isClicked[ColorIndex::Yellow];
 				};
+			m_clickTimeOffset = [&]()->int64 {
+				Optional<int64> max;
+				if (!m_isClicked[ColorIndex::Red]) {
+					max = Min(max.value_or(std::numeric_limits<int64>::max()), InputManager::RedClickedTimeOffset());
+				}
+				if (!m_isClicked[ColorIndex::Blue]) {
+					max = Min(max.value_or(std::numeric_limits<int64>::max()), InputManager::BlueClickedTimeOffset());
+				}
+				if (!m_isClicked[ColorIndex::Yellow]) {
+					max = Min(max.value_or(std::numeric_limits<int64>::max()), InputManager::YellowClickedTimeOffset());
+				}
+				return max.value_or(0);
+				};
 			break;
 		default:
-			m_judge = []() {return false; };
+			m_judge = [] {return false; };
+			m_clickTimeOffset = [] {return 0; };
 		}
 	}
 
@@ -267,7 +355,8 @@ namespace ct
 				AutoPlayManager::Input(m_type);
 			return true;
 		}
-		const auto timing = m_timingSample - state.samplePos;
+		int64 timeOffset = m_clickTimeOffset();
+		const auto timing = m_timingSample - state.samplePos + timeOffset;
 
 		//ミス
 		if (timing < -JudgeRange(Judge::Good) || (m_type == 9 && timing <= 0)) {
