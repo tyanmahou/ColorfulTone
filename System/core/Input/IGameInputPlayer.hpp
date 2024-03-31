@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <core/Types.hpp>
+#include <Siv3D/InputGroup.hpp>
 
 namespace ct
 {
@@ -23,21 +24,27 @@ namespace ct
         /// </summary>
         /// <param name="kind"></param>
         /// <returns></returns>
-        virtual bool isClicked(GameInputKind kind) = 0;
+        virtual bool isClicked(GameInputKind kind) const = 0;
 
         /// <summary>
         /// Pressed判定
         /// </summary>
         /// <param name="kind"></param>
         /// <returns></returns>
-        virtual bool isPressed(GameInputKind kind) = 0;
+        virtual bool isPressed(GameInputKind kind)  const = 0;
+
+        /// <summary>
+        /// 入力のポップ
+        /// </summary>
+        /// <param name="kind"></param>
+        virtual void pop(GameInputKind kind) = 0;
 
         /// <summary>
         /// クリックオフセット
         /// </summary>
         /// <param name="kind"></param>
         /// <returns></returns>
-        virtual s3d::int64 clickedTimeOffset(GameInputKind kind) = 0;
+        virtual s3d::int64 clickedTimeOffset(GameInputKind kind)  const = 0;
 
         /// <summary>
         /// 強制入力
@@ -50,4 +57,6 @@ namespace ct
         /// </summary>
         virtual void update() = 0;
     };
+
+    [[nodiscard]] const s3d::InputGroup& GetPlayKey(GameInputKind kind);
 }
