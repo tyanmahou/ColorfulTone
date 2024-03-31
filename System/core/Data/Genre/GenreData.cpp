@@ -35,7 +35,9 @@ namespace ct
 					return s3d::TextureAsset(U"genre_level1");
 				}
 			case GenreType::StarLv:
-				if (m_order >= 9) {
+				if (m_order >= 10) {
+					return s3d::TextureAsset(U"genre_missing");
+				} else if (m_order >= 9) {
 					return s3d::TextureAsset(U"genre_level_star6");
 				} else if (m_order >= 8) {
 					return s3d::TextureAsset(U"genre_level_star5");
