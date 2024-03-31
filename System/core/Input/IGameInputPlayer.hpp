@@ -44,7 +44,7 @@ namespace ct
         /// </summary>
         /// <param name="kind"></param>
         /// <returns></returns>
-        virtual s3d::int64 clickedTimeOffset(GameInputKind kind)  const = 0;
+        virtual s3d::int64 clickedMillisecOffset(GameInputKind kind)  const = 0;
 
         /// <summary>
         /// 強制入力
@@ -59,4 +59,5 @@ namespace ct
     };
 
     [[nodiscard]] const s3d::InputGroup& GetPlayKey(GameInputKind kind);
+    [[nodiscard]] const s3d::InputGroup& GetPlayKey(size_t kind);
 }

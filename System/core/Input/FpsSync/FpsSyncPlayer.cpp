@@ -19,7 +19,7 @@ namespace ct
     {
         m_isClicked[static_cast<size_t>(kind)] = false;
     }
-    s3d::int64 FpsSyncPlayer::clickedTimeOffset([[maybe_unused]]GameInputKind kind) const
+    s3d::int64 FpsSyncPlayer::clickedMillisecOffset([[maybe_unused]]GameInputKind kind) const
     {
         return 0;
     }
@@ -30,7 +30,7 @@ namespace ct
     void FpsSyncPlayer::update()
     {
         for (size_t index = 0; index < 3; ++index) {
-            m_isClicked[index] = GetPlayKey(static_cast<GameInputKind>(index)).down();
+            m_isClicked[index] = GetPlayKey(index).down();
         }
     }
 }

@@ -4,12 +4,12 @@
 namespace ct
 {
     /// <summary>
-    /// FPS同期の入力
+    /// 高精度入力 (FPS以上の入力判定)
     /// </summary>
-    class FpsSyncPlayer : public IGameInputPlayer
+    class HighPrecisionPlayer : public IGameInputPlayer
     {
     public:
-        FpsSyncPlayer();
+        HighPrecisionPlayer();
         bool isClicked(GameInputKind kind) const override;
         bool isPressed(GameInputKind kind)const override;
 
@@ -20,6 +20,9 @@ namespace ct
 
         void update() override;
     private:
-        bool m_isClicked[3];
+        std::queue<s3d::uint64> m_clickTimes[3];
+
+        s3d::uint64 m_time = 0;
+        s3d::uint64 m_eventIndex = 0;
     };
 }

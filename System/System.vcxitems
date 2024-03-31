@@ -73,6 +73,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\SpecialResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\TapSE\TapSE.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\FpsSync\FpsSyncPlayer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\HighPrecision\HighPrecisionPlayer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\IGameInputPlayer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Object\ObjectSorter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\ColorFx\ColorFx.hpp" />
@@ -243,6 +244,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\Score.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\TapSE\TapSE.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\FpsSync\FpsSyncPlayer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\HighPrecision\HighPrecisionPlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\IGameInputPlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Object\ObjectSorter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\ColorFx\ColorFx.cpp" />

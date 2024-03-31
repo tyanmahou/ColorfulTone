@@ -18,4 +18,8 @@ namespace ct
         }
         return PlayKey::Red();
     }
+    const s3d::InputGroup& GetPlayKey(size_t kind)
+    {
+        return GetPlayKey(static_cast<GameInputKind>(kind));
+    }
 }
