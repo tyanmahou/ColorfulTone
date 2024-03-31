@@ -355,8 +355,8 @@ namespace ct
 				AutoPlayManager::Input(m_type);
 			return true;
 		}
-		int64 timeOffset = m_clickTimeOffset();
-		const auto timing = m_timingSample - state.samplePos + timeOffset;
+		int64 sampleOffset = m_clickTimeOffset() * 44100 / 1000;
+		const auto timing = m_timingSample - state.samplePos + sampleOffset;
 
 		//ミス
 		if (timing < -JudgeRange(Judge::Good) || (m_type == 9 && timing <= 0)) {
