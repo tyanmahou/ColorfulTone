@@ -23,7 +23,7 @@ namespace ct
     {
         return 0;
     }
-    void FpsSyncPlayer::forceInput(GameInputKind kind)
+    void FpsSyncPlayer::forceInput(GameInputKind kind, [[maybe_unused]]bool isLong)
     {
         m_isClicked[static_cast<size_t>(kind)] = true;
     }

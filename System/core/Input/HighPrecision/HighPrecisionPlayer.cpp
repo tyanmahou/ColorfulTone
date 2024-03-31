@@ -32,7 +32,7 @@ namespace ct
         return 0;
     }
 
-    void HighPrecisionPlayer::forceInput(GameInputKind kind)
+    void HighPrecisionPlayer::forceInput(GameInputKind kind, [[maybe_unused]] bool isLong)
     {
         size_t index = static_cast<size_t>(kind);
         if (m_clickTimes[index].empty()) {

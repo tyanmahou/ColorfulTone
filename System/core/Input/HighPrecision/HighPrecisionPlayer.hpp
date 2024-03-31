@@ -16,7 +16,7 @@ namespace ct
         void pop(GameInputKind kind) override;
         s3d::int64 clickedMillisecOffset(GameInputKind kind) const override;
 
-        void forceInput(GameInputKind kind) override;
+        void forceInput(GameInputKind kind, bool isLong) override;
 
         void update() override;
     private:

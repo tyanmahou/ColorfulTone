@@ -4,12 +4,20 @@
 namespace ct
 {
     /// <summary>
-    /// FPS同期の入力
+    /// Auto入力
     /// </summary>
-    class FpsSyncPlayer : public IGameInputPlayer
+    class AutoPlayer : public IGameInputPlayer
     {
+        struct FrameCount
+        {
+            FrameCount() = default;
+            FrameCount(s3d::int32 _c = 15) :
+                count(_c)
+            {}
+            s3d::int32 count = 0;
+        };
     public:
-        FpsSyncPlayer();
+        AutoPlayer();
         bool isClicked(GameInputKind kind) const override;
         bool isPressed(GameInputKind kind)const override;
 
@@ -20,6 +28,6 @@ namespace ct
 
         void update() override;
     private:
-        bool m_isClicked[3];
+        std::array<FrameCount, 3> m_isPressed;
     };
 }
