@@ -23,11 +23,6 @@ namespace
         }
     }
 
-    bool isInput(bool autoPlay, bool userPlay)
-    {
-        return PlayContext::IsAutoPlay() ? autoPlay : userPlay;
-    }
-
     Stopwatch g_startTimer;
 }
 namespace ct
@@ -143,16 +138,13 @@ namespace ct
             m_isStart = true;
             return;
         }
-        //オートプレイのキー入力更新
-        if (PlayContext::IsAutoPlay()) {
-            AutoPlayManager::Update();
-        } else {
-            InputManager::Update();
-        }
-        //ノーツ処理
+        // キー入力更新
+        InputManager::Update();
+
+        // ノーツ処理
         m_playNotesData.update(m_sound, m_nowCount, m_score);
 
-        //フルコン演出
+        // フルコン演出
         if (m_score.m_maxCombo >= m_totalNotes && !m_FCAPAnime.isStart()) {
             m_FCAPAnime.play(m_score);
         }
@@ -264,9 +256,9 @@ namespace ct
                 Rect(800, 0, -w, 600).draw({ c1,c2, c2,c1 });
             }
             //入力アクション
-            const bool redInput = !m_isDead && isInput(AutoPlayManager::IsRedPressed(), PlayKey::Red().pressed());
-            const bool blueInput = !m_isDead && isInput(AutoPlayManager::IsBluePressed(), PlayKey::Blue().pressed());
-            const bool yellowInput = !m_isDead && isInput(AutoPlayManager::IsYellowPressed(), PlayKey::Yellow().pressed());
+            const bool redInput = !m_isDead && InputManager::IsRedPressed();
+            const bool blueInput = !m_isDead && InputManager::IsBluePressed();
+            const bool yellowInput = !m_isDead && InputManager::IsYellowPressed();
 
             PlayStyle::Instance()->drawFrame(redInput, blueInput, yellowInput,
                 [&] {

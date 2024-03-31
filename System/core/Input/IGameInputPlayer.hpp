@@ -50,7 +50,7 @@ namespace ct
         /// 強制入力
         /// </summary>
         /// <param name="kind"></param>
-        virtual void forceInput(GameInputKind kind) = 0;
+        virtual void forceInput(GameInputKind kind, bool isLong) = 0;
 
         /// <summary>
         /// 更新

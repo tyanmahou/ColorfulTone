@@ -352,10 +352,10 @@ namespace ct
 		//ロング用 始点が押されてたらそのままつぎののーつの判定に
 		if (isFirstTap()) {
 			if (PlayContext::IsAutoPlay())
-				AutoPlayManager::Input(m_type);
+				InputManager::ForceInput(m_type);
 			return true;
 		}
-		int64 sampleOffset = m_clickTimeOffset() * 44100 / 1000;
+		int64 sampleOffset = InputManager::IsHighPrecision() ? m_clickTimeOffset() * 44100 / 1000 : 0;
 		const auto timing = m_timingSample - state.samplePos + sampleOffset;
 
 		//ミス
@@ -384,7 +384,7 @@ namespace ct
 				}
 				this->tapUpdate(Score::Perfect, timing);
 
-				AutoPlayManager::Input(type);
+				InputManager::ForceInput(type);
 				return false;
 			}
 			return true;

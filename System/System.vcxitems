@@ -72,6 +72,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\Score.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Score\SpecialResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\TapSE\TapSE.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\Auto\AutoPlayer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\FpsSync\FpsSyncPlayer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\HighPrecision\HighPrecisionPlayer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\IGameInputPlayer.hpp" />
@@ -80,7 +81,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\Context\PlayContext.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\Effects\JudgeEffect.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\Effects\TapEffect.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\AutoPlayManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\InputManager.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Input\PlayKey.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Judge\Judge.hpp" />
@@ -243,6 +243,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\ResultRank.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Score\Score.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\TapSE\TapSE.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\Auto\AutoPlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\FpsSync\FpsSyncPlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\HighPrecision\HighPrecisionPlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\IGameInputPlayer.cpp" />
@@ -251,7 +252,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\Context\PlayContext.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\Effects\JudgeEffect.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\Effects\TapEffect.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\AutoPlayManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\InputManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Input\PlayKey.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Judge\Judge.cpp" />

@@ -1,180 +1,145 @@
 ﻿#include <core/Input/InputManager.hpp>
-#include <core/Input/PlayKey.hpp>
+#include <core/Input/Auto/AutoPlayer.hpp>
+#include <core/Input/FpsSync/FpsSyncPlayer.hpp>
 #include <Siv3D.hpp>
 
+namespace
+{
+    enum PlayerKind
+    {
+        FpsSync,
+        AutoPlay,
+    };
+}
 namespace ct
 {
-    class InputManager::Impl
+    InputManager::InputManager()
     {
-    public:
-        void update()
-        {
-            std::queue<uint64>().swap(m_red);
-            std::queue<uint64>().swap(m_blue);
-            std::queue<uint64>().swap(m_yellow);
+        m_players << std::make_unique<FpsSyncPlayer>();
+        m_players << std::make_unique<AutoPlayer>();
+    }
 
-            m_time = Time::GetMillisec();
+    IGameInputPlayer* InputManager::getPlayer() const
+    {
+        if (PlayContext::IsAutoPlay()) {
+            return m_players[AutoPlay].get();
+        }
+        return m_players[FpsSync].get();
+    }
 
-            bool redDown = PlayKey::Red().down();
-            bool blueDown = PlayKey::Blue().down();
-            bool yellowDown = PlayKey::Yellow().down();
-
-            for (const auto& event : Platform::Windows::Keyboard::GetEvents()) {
-                if (event.down && m_eventIndex < event.eventIndex) {
-                    m_eventIndex = event.eventIndex;
-
-                    if (redDown) {
-                        for (auto& input : PlayKey::Red().inputs()) {
-                            if (input.deviceType() == InputDeviceType::Keyboard && input.code() == event.code) {
-                                m_red.push(event.timeMillisec);
-                            }
-                        }
-                    }
-                    if (blueDown) {
-                        for (auto& input : PlayKey::Blue().inputs()) {
-                            if (input.deviceType() == InputDeviceType::Keyboard && input.code() == event.code) {
-                                m_blue.push(event.timeMillisec);
-                            }
-                        }
-                    }
-                    if (yellowDown) {
-                        for (auto& input : PlayKey::Yellow().inputs()) {
-                            if (input.deviceType() == InputDeviceType::Keyboard && input.code() == event.code) {
-                                m_yellow.push(event.timeMillisec);
-                            }
-                        }
-                    }
-                }
-            }
-            if (redDown && m_red.empty()) {
-                m_red.push(m_time);
-            }
-            if (blueDown && m_blue.empty()) {
-                m_blue.push(m_time);
-            }
-            if (yellowDown && m_yellow.empty()) {
-                m_yellow.push(m_time);
-            }
-        }
-
-        bool isRedClicked() const
-        {
-            return !m_red.empty();
-        }
-
-        void popRed()
-        {
-            m_red.pop();
-        }
-        int64 redClickedTimeOffset() const
-        {
-            if (this->isRedClicked()) {
-                return -static_cast<int64>(m_time - m_red.front());
-            }
-            return 0;
-        }
-        bool isBlueClicked() const
-        {
-            return !m_blue.empty();
-        }
-
-        void popBlue()
-        {
-            m_blue.pop();
-        }
-
-        int64 blueClickedTimeOffset() const
-        {
-            if (this->isBlueClicked()) {
-                return -static_cast<int64>(m_time - m_blue.front());
-            }
-            return 0;
-        }
-
-        bool isYellowClicked() const
-        {
-            return !m_yellow.empty();
-        }
-
-        void popYellow()
-        {
-            m_yellow.pop();
-        }
-        int64 yellowClickedTimeOffset() const
-        {
-            if (this->isYellowClicked()) {
-                return -static_cast<int64>(m_time - m_yellow.front());
-            }
-            return 0;
-        }
-        bool isAnyClicked() const
-        {
-            return this->isRedClicked() || this->isBlueClicked() || this->isYellowClicked();
-        }
-    private:
-        std::queue<uint64> m_red;
-        std::queue<uint64> m_blue;
-        std::queue<uint64> m_yellow;
-
-        uint64 m_time = 0;
-        uint64 m_eventIndex = 0;
-    };
-    InputManager::InputManager() :
-        m_pImpl(std::make_unique<Impl>())
-    {}
+    bool InputManager::IsHighPrecision()
+    {
+        // ひとまずfalse
+        return false;
+    }
 
     bool InputManager::IsRedClicked()
     {
-        return Instance()->m_pImpl->isRedClicked();
+        return Instance()->getPlayer()->isClicked(GameInputKind::Red);
+    }
+
+    bool InputManager::IsRedPressed()
+    {
+        return Instance()->getPlayer()->isPressed(GameInputKind::Red);
     }
 
     void InputManager::PopRed()
     {
-        Instance()->m_pImpl->popRed();
+        Instance()->getPlayer()->pop(GameInputKind::Red);
     }
 
     s3d::int64 InputManager::RedClickedTimeOffset()
     {
-        return Instance()->m_pImpl->redClickedTimeOffset();
+        return Instance()->getPlayer()->clickedMillisecOffset(GameInputKind::Red);
     }
 
     bool InputManager::IsBlueClicked()
     {
-        return Instance()->m_pImpl->isBlueClicked();
+        return Instance()->getPlayer()->isClicked(GameInputKind::Blue);
+    }
+
+    bool InputManager::IsBluePressed()
+    {
+        return Instance()->getPlayer()->isPressed(GameInputKind::Blue);
     }
 
     void InputManager::PopBlue()
     {
-        Instance()->m_pImpl->popBlue();
+        Instance()->getPlayer()->pop(GameInputKind::Blue);
     }
 
     s3d::int64 InputManager::BlueClickedTimeOffset()
     {
-        return Instance()->m_pImpl->blueClickedTimeOffset();
+        return Instance()->getPlayer()->clickedMillisecOffset(GameInputKind::Blue);
     }
 
     bool InputManager::IsYellowClicked()
     {
-        return Instance()->m_pImpl->isYellowClicked();
+        return Instance()->getPlayer()->isClicked(GameInputKind::Yellow);
+    }
+
+    bool InputManager::IsYellowPressed()
+    {
+        return Instance()->getPlayer()->isPressed(GameInputKind::Yellow);
     }
 
     void InputManager::PopYellow()
     {
-        Instance()->m_pImpl->popYellow();
+        Instance()->getPlayer()->pop(GameInputKind::Yellow);
     }
 
     s3d::int64 InputManager::YellowClickedTimeOffset()
     {
-        return Instance()->m_pImpl->yellowClickedTimeOffset();
+        return Instance()->getPlayer()->clickedMillisecOffset(GameInputKind::Yellow);
     }
 
     bool InputManager::IsAnyClicked()
     {
-        return Instance()->m_pImpl->isAnyClicked();
+        return IsRedClicked() || IsBlueClicked() || IsYellowClicked();
     }
 
     void InputManager::Update()
     {
-        Instance()->m_pImpl->update();
+        Instance()->getPlayer()->update();
+    }
+    void InputManager::ForceInput(NoteType type)
+    {
+        auto* player = Instance()->getPlayer();
+        const bool isLong = type >= 11 && type <= 17;
+        switch (type) {
+        case 1:
+        case 11:
+            player->forceInput(GameInputKind::Red, isLong);
+            break;
+        case 2:
+        case 12:
+            player->forceInput(GameInputKind::Blue, isLong);
+            break;
+        case 3:
+        case 13:
+            player->forceInput(GameInputKind::Yellow, isLong);
+            break;
+        case 4:
+        case 14:
+            player->forceInput(GameInputKind::Blue, isLong);
+            player->forceInput(GameInputKind::Yellow, isLong);
+            break;
+        case 5:
+        case 15:
+            player->forceInput(GameInputKind::Red, isLong);
+            player->forceInput(GameInputKind::Yellow, isLong);
+            break;
+        case 6:
+        case 16:
+            player->forceInput(GameInputKind::Red, isLong);
+            player->forceInput(GameInputKind::Blue, isLong);
+            break;
+        case 7:
+        case 17:
+            player->forceInput(GameInputKind::Red, isLong);
+            player->forceInput(GameInputKind::Blue, isLong);
+            player->forceInput(GameInputKind::Yellow, isLong);
+            break;
+        }
     }
 }

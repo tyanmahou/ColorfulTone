@@ -13,7 +13,6 @@
 #include <core/Data/CourseGenre/CourseGenre.hpp>
 
 #include <core/Input/PlayKey.hpp>
-#include <core/Input/AutoPlayManager.hpp>
 #include <core/Play/Context/PlayContext.hpp>
 
 #include <scenes/Fade/Fade.hpp>

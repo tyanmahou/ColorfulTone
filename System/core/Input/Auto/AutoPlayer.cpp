@@ -9,8 +9,8 @@ namespace ct
     }
     bool AutoPlayer::isClicked([[maybe_unused]]GameInputKind kind) const
     {
-        // 使わない
-        return false;
+        // 使わないはずだけど、Pressedと同じにしておく
+        return this->isPressed(kind);
     }
     bool AutoPlayer::isPressed(GameInputKind kind) const
     {
