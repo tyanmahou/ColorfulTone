@@ -165,7 +165,7 @@ namespace ct
 			}
 			const double offset = easingAnime.isMoving() ?
 				easingAnime.easeInOut() :
-				easingAnime.done();
+				easingAnime.getB();
 
 			// リスト表示
 			if (action == Action::GenreSelect) {

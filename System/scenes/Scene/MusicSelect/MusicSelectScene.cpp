@@ -210,7 +210,7 @@ namespace ct
                 m_highSpeedDemo.update(m_data->m_scrollRate);
 
             m_moveSelect = isHighSpeedUpdate ? 0 : SharedLogic::MoveSelectV();
-            if (m_moveSelect) {
+            if (m_moveSelect != 0) {
                 if (m_moveSelect < 0) {
                     ++target;
                 } else {
