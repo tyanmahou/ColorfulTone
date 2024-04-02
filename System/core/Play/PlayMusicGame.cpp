@@ -176,6 +176,7 @@ namespace ct
         m_isDead = false;
         m_usePostProcess = false;
         m_interruptProcess.clear();
+        m_flush.reset();
     }
 
     const PlayNotesData& PlayMusicGame::getPlayNotesData() const

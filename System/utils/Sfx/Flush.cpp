@@ -18,6 +18,10 @@ namespace ct::Sfx
 	{
 		return m_fade.isFadeOutEnd();
 	}
+	void Flush::reset()
+	{
+		m_fade.reset();
+	}
 	bool Flush::isActive() const
 	{
 		return !isFadeInEnd() || !isFadeOutEnd();

@@ -13,6 +13,8 @@ namespace ct::Sfx
 		bool isFadeInEnd() const;
 		bool isFadeOutEnd() const;
 
+		void reset();
+
 		void update(double dt);
 		void draw() const;
 	private:

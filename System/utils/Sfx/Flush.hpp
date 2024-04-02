@@ -11,6 +11,8 @@ namespace ct::Sfx
 		bool isFadeInEnd() const;
 		bool isFadeOutEnd() const;
 
+		void reset();
+
 		bool isActive() const;
 	public:
 		void update(double dt);

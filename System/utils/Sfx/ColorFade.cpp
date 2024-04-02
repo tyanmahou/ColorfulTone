@@ -22,6 +22,12 @@ namespace ct::Sfx
 	{
 		return m_fadeOutTimer.isEnd();
 	}
+	void ColorFade::reset()
+	{
+		m_fadeInTimer.reset();
+		m_fadeOutTimer.reset();
+		m_fadeColor.a = 0;
+	}
 	void ColorFade::update(double dt)
 	{
 		dt = m_fadeInTimer.update(dt);
