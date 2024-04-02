@@ -37,6 +37,7 @@ namespace ct
             for (const auto& iconFont : m_iconFonts) {
                 m_font.addFallback(iconFont);
             }
+            m_musicGame.setPreviewMode(true);
         }
         void init()
         {
@@ -542,7 +543,7 @@ namespace ct
 
             return true;
         }
-        Coro::Fiber<void>  onReloadNotesAsync()
+        Coro::Fiber<void> onReloadNotesAsync()
         {
             bool isSuccess = co_await loadingProcess([this] {return this->onReloadNotes(); });
             if (isSuccess) {

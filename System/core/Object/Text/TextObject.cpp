@@ -20,10 +20,9 @@ namespace ct
         //停止初期化
         if (!m_isDraw && timing <= 0) {
             m_isDraw = true;
-            m_beginTimeSample = samplePos;
         }
         if (m_isDraw) {
-            if (static_cast<s3d::uint64>(samplePos) >= m_beginTimeSample + m_drawTimeSample) {
+            if (static_cast<s3d::uint64>(samplePos) >= m_timingSample + m_drawTimeSample) {
                 m_isDraw = false;
                 m_isActive = false;
             }

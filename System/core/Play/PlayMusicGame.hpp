@@ -61,7 +61,10 @@ namespace ct
 		const PlayNotesData& getPlayNotesData() const;
 
 		void setCourseMode(const Score& score);
-
+		void setPreviewMode(bool isPreview)
+		{
+			m_isPreview = isPreview;
+		}
 		double getSoundLengthSec() const
 		{
 			return m_soundLengthSec;
@@ -85,7 +88,7 @@ namespace ct
 		PlayNotesData m_playNotesData;
 
 		bool m_isCourse = false;
-
+		bool m_isPreview = false;
 		s3d::Audio m_sound;				// 再生する曲
 		s3d::String m_soundNameID;
 

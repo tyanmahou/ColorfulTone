@@ -171,6 +171,7 @@ namespace ct
         //譜面の初期化
         m_playNotesData.reset();
         m_score = Score();
+        m_isStart = false;
         m_isFinish = false;
         m_isDead = false;
         m_usePostProcess = false;
@@ -345,6 +346,9 @@ namespace ct
     }
     Coro::Fiber<> PlayMusicGame::onReadyProcess()
     {
+        if (m_isPreview) {
+            co_return;
+        }
         co_await Coro::FiberUtil::WaitForSeconds(1.0s);
 
         m_readyAnime.playIn();
@@ -420,19 +424,21 @@ namespace ct
             TextureAsset(U"bar1").draw(m_barXEasing.easeInOut(), barY);
         }
 
-        //FCアニメ
-        if (m_FCAPAnime.isStart()) {
-            if (!m_FCAPAnime.isEnd()) {
-                m_FCAPAnime.draw();
+        if (!m_isPreview) {
+            //FCアニメ
+            if (m_FCAPAnime.isStart()) {
+                if (!m_FCAPAnime.isEnd()) {
+                    m_FCAPAnime.draw();
+                }
             }
-        }
-        // Readyアニメ
-        if (m_readyAnime.isPlaying()) {
-            m_readyAnime.draw();
-        }
-        // スタートアニメ
-        if (!preview && g_startTimer.ms() <= 1500) {
-            StartAnime::Draw(g_startTimer.ms() / 1500.0);
+            // Readyアニメ
+            if (m_readyAnime.isPlaying()) {
+                m_readyAnime.draw();
+            }
+            // スタートアニメ
+            if (!preview && g_startTimer.ms() <= 1500) {
+                StartAnime::Draw(g_startTimer.ms() / 1500.0);
+            }
         }
 
         this->drawMusicTitle(preview);
