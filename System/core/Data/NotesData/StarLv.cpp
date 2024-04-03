@@ -104,6 +104,7 @@ namespace ct
 		case StarLv::AsteOne:
 		case StarLv::WhiteOne:
 		case StarLv::BlackOne:
+		case StarLv::Other:
 			return 1;
 		case StarLv::AsteTwo:
 		case StarLv::WhiteTwo:
