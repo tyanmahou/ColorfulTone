@@ -26,7 +26,7 @@ namespace
 		// ジャンル予約用
 		s3d::HashSet<int32> lvSet;
 		s3d::HashSet<StarLv> starLvSet;
-		s3d::HashSet<String> folderSet;
+		s3d::HashSet<std::pair<String, bool>> folderSet;
 
 		Array<MusicData>& musics = Game::Musics();
 		SivAssetUtil::UnregisterByTag<AudioAsset>(U"MusicData");
@@ -88,7 +88,7 @@ namespace
 
 			if (foundMusic) {
 				// ジャンル登録
-				folderSet.insert(genreName);
+				folderSet.emplace(genreName, isOfficial);
 			}
 		}
 
@@ -101,8 +101,8 @@ namespace
 			for (StarLv starLv : starLvSet) {
 				genreRserves << GenreData::CreateStarLv(starLv);
 			}
-			for (const s3d::String& folder : folderSet) {
-				genreRserves << GenreData::CreateFolder(folder);
+			for (const auto&[ folder, isOfficial] : folderSet) {
+				genreRserves << GenreData::CreateFolder(folder, isOfficial);
 			}
 			//カスタムフォルダ読み込み
 			genreRserves.append(::LoadCustomFolder(stopToken));

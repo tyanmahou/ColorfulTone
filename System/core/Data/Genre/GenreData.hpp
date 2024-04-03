@@ -16,6 +16,7 @@ namespace ct
 		MusicName,
 		ArtistName,
 		Folder,
+		UserFolder,
 		Custom,
 		Favorite,
 	};
@@ -29,7 +30,7 @@ namespace ct
 	public:
 		static GenreData CreateAll();
 		static GenreData CreateFavorite();
-		static GenreData CreateFolder(const s3d::String& folderName);
+		static GenreData CreateFolder(const s3d::String& folderName, bool isOfficial = true);
 		static GenreData CreateLv(s3d::int32 lv);
 		static GenreData CreateStarLv(StarLv starLv);
 		static GenreData CreateCustom(const CTCFReader& ctcf);

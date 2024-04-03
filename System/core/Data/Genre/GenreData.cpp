@@ -22,6 +22,8 @@ namespace ct
 				return s3d::TextureAsset(U"genre_all");
 			case GenreType::Folder:
 				return s3d::TextureAsset(U"genre_file");
+			case GenreType::UserFolder:
+				return s3d::TextureAsset(U"genre_user_folder");
 			case GenreType::Lv:
 				if (m_order >= 12) {
 					return s3d::TextureAsset(U"genre_level5");
@@ -107,10 +109,10 @@ namespace ct
 		);
 	}
 
-	GenreData GenreData::CreateFolder(const s3d::String& folderName)
+	GenreData GenreData::CreateFolder(const s3d::String& folderName, bool isOfficial)
 	{
 		return std::make_shared<GenreHandle>(
-			GenreType::Folder, 
+			isOfficial ? GenreType::Folder : GenreType::UserFolder,
 			folderName, 
 			GenreFilter([folderName](const MusicData& music)->bool {return music.getGenreName() == folderName; })
 		);
