@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <core/Data/Score/Score.hpp>
+#include <core/Play/LifeGauge/LifeGaugeKind.hpp>
 
 namespace ct
 {

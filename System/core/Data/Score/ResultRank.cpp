@@ -79,6 +79,12 @@ namespace ct
 
 		ret.isClear = ret.clearRate >= 80;
 
+		if (score.judgeCountTotal() == totalNotes) {
+			// 最後までプレイしているかチェック
+
+			ret.isLifeClear = score.m_life > 0;
+			ret.gauge = score.m_gauge;
+		}
 		return ret;
 	}
 

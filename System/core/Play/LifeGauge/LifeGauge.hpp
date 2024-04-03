@@ -101,5 +101,6 @@ namespace ct
     {
     public:
         static s3d::Texture GetBadge(LifeGaugeKind kind);
+        static s3d::Texture GetTile(LifeGaugeKind kind);
     };
 }

@@ -3,6 +3,7 @@
 #include <Siv3D/Fwd.hpp>
 #include <Siv3D/Array.hpp>
 #include <core/Data/Score/SpecialResult.hpp>
+#include <core/Play/LifeGauge/LifeGaugeKind.hpp>
 
 namespace ct
 {
@@ -17,6 +18,8 @@ namespace ct
 
             TERM,
         };
+        LifeGaugeKind m_gauge;
+
         size_t	m_currentCombo;
         size_t m_maxCombo;
         std::array<size_t, Judge::TERM> m_judgeCount{ 0 };
@@ -29,7 +32,10 @@ namespace ct
         s3d::Array<s3d::int32> m_lifeHistory;
 
         Score();
+        Score(LifeGaugeKind gauge);
         void add(Judge judge, s3d::int64 diff);
+
+        size_t judgeCountTotal() const;
     };
 
     s3d::StringView JudgeStr(Score::Judge judge);
@@ -39,5 +45,8 @@ namespace ct
         bool isClear = 0;
         SpecialResult specialResult = SpecialResult::None;
         float clearRate = 0.0f;
+
+        bool isLifeClear = false;
+        LifeGaugeKind gauge = LifeGaugeKind::None;
     };
 }

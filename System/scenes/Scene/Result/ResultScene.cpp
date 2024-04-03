@@ -32,6 +32,14 @@ namespace
 			srcScore.clearRate = score.clearRate;
 			isNewRecord = true;
 		}
+		if (score.isLifeClear && !srcScore.isLifeClear) {
+			srcScore.isLifeClear = true;
+			isNewRecord = true;
+		}
+		if (score.isLifeClear && score.gauge > srcScore.gauge) {
+			srcScore.gauge = score.gauge;
+			isNewRecord = true;
+		}
 		if (isNewRecord)
 		{
 			srcNotes.setScore(srcScore);

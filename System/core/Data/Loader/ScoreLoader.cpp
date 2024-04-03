@@ -19,6 +19,13 @@ namespace ct
 		ret.specialResult = static_cast<SpecialResult>(ui_spResult);
 		reader.read<float>(ret.clearRate);
 
+		reader.read<bool>(ret.isLifeClear);
+		int32 g;
+		reader.read<int32>(g);
+		ret.gauge = static_cast<LifeGaugeKind>(g);
+		if (!ret.isLifeClear) {
+			ret.gauge = LifeGaugeKind::None;
+		}
 		return ret;
 	}
 
@@ -33,6 +40,8 @@ namespace ct
 		writer.write(newScore.isClear);
 		writer.write(static_cast<uint32>(newScore.specialResult));
 		writer.write(newScore.clearRate);
+		writer.write(newScore.isLifeClear);
+		writer.write(static_cast<int32>(newScore.gauge));
 	}
 
 	CourseScore CourseScoreLoader::Load(const s3d::FilePath& path)

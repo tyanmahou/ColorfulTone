@@ -101,7 +101,7 @@ namespace ct
         //譜面の初期化
         m_playNotesData.reset();
 
-        m_score = Score();
+        m_score = Score(Game::Config().m_lifeGauge);
 
         m_playBG = PlayBGFactory::CreateBG(Game::Config().m_bgType);
         PlayStyle::Instance()->setStyle(Game::Config().m_styleType);
@@ -170,7 +170,7 @@ namespace ct
     {
         //譜面の初期化
         m_playNotesData.reset();
-        m_score = Score();
+        m_score = Score(Game::Config().m_lifeGauge);
         m_isStart = false;
         m_isFinish = false;
         m_isDead = false;
@@ -190,6 +190,7 @@ namespace ct
         m_score.m_lifeHistory[0] = score.m_life;
         m_score.m_initLife = score.m_life;
         m_score.m_life = score.m_life;
+        m_score.m_gauge = score.m_gauge;
     }
 
     void PlayMusicGame::ScoreUpdate(Score::Judge judge, s3d::int64 diff, NoteType type, NoteType baseType, bool playSe)

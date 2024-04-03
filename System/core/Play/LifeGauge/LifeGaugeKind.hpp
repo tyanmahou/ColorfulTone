@@ -5,8 +5,9 @@ namespace ct
     /// <summary>
     /// ゲージ種類
     /// </summary>
-    enum class LifeGaugeKind
+    enum class LifeGaugeKind : s3d::int32
     {
+        None = -99999,
         Invincible = -3,
         Safety = -2,
         Support = -1,

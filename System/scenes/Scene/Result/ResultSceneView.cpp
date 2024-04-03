@@ -2,6 +2,7 @@
 #include <scenes/Scene/Result/ResultSceneView.hpp>
 #include <Useful.hpp>
 #include <core/Data/Score/ResultRank.hpp>
+#include <core/Play/LifeGauge/LifeGauge.hpp>
 #include <utils/Easing/EasingSequence.hpp>
 #include <Siv3D.hpp>
 
@@ -189,8 +190,11 @@ namespace
         }
         TextureAsset(ResultRank::GetRankTextureName(score.clearRate))
             .scaled(0.4)
-            .drawAt(400, 250 - (1.0 - t2) * 10, alpha);
+            .drawAt(400, 240 - (1.0 - t2) * 10, alpha);
 
+        if (score.isLifeClear) {
+            LifeGauge::GetTile(score.gauge).drawAt(Vec2{400, 305}, alpha);
+        }
         constexpr Vec2 clearIconPos{ 715 ,100 };
         constexpr Vec2 fcIconPos = clearIconPos + Vec2{ 0, 60 };
         if (score.isClear) {
