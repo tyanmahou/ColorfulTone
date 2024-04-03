@@ -264,6 +264,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Object\RepeatNote\RepeatNote.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Object\Text\TextObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\HighSpeed\HighSpeedDemo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\LifeGauge\LifeGauge.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Blur\BlurBG.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Default\DefaultBG.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Monochro\MonochroBG.cpp" />

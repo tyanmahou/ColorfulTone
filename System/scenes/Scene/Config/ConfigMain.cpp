@@ -1,6 +1,7 @@
 ﻿#include <scenes/Scene/Config/ConfigMain.hpp>
 #include <Useful.hpp>
 #include <scenes/Scene/Config/KeyConfigManager.hpp>
+#include <core/Play/LifeGauge/LifeGauge.hpp>
 
 namespace ct
 {
@@ -245,7 +246,7 @@ namespace ct
             }
             config.setExtention([&](size_t index, double y) {
                 TextureAsset(U"playstyle_icon")(static_cast<int32>(list[index].second) * 50, 0, 50, 50).drawAt(500 - 85, y, Palette::Orange);
-            });
+                });
         }
 
         //プレイスケール
@@ -308,9 +309,44 @@ namespace ct
             }
             config.init(static_cast<size_t>(Game::Config().m_random));
         }
+        void LifeGaugeInit(Config& config)
+        {
+            config.setName(U"ライフゲージ");
+
+            static Array<std::pair<StringView, LifeGaugeKind>> list
+            {
+                {U"INVINCIBLE", LifeGaugeKind::Invincible},
+                {U"SAFETY", LifeGaugeKind::Safety},
+                {U"SUPPORT", LifeGaugeKind::Support},
+                {U"NORMAL", LifeGaugeKind::Normal},
+                {U"CHALLENGE", LifeGaugeKind::Challenge},
+                {U"DANGER"     , LifeGaugeKind::Danger},
+                {U"SUDDENDEATH", LifeGaugeKind::SuddenDeath},
+            };
+            for (auto&& [title, kind] : list) {
+                String str{ title };
+                auto event = [kind] {
+                    Game::Config().m_lifeGauge = kind;
+                    };
+                auto gauge = LifeRecoverySet::FromKind(kind);
+                String detail = U"[PERFECT] {:+}, [GREAT] {:+}, [GOOD] {:+}, [MISS] {:+}"_fmt(
+                    gauge.perfect,
+                    gauge.great,
+                    gauge.good,
+                    gauge.miss
+                );
+                config.add(str, std::move(event));
+                if (Game::Config().m_lifeGauge == kind) {
+                    config.init(str);
+                }
+            }
+            config.setExtention([&](size_t index, double y) {
+                LifeGauge::GetBadge(list[index].second).drawAt(500 - 90, y);
+                });
+        }
         void LifeDeadInit(Config& config)
         {
-            config.setName(U"ライフ制モード");
+            config.setName(U"FREE PLAY ライフモード");
             config.add(U"OFF", []() {Game::Config().m_isLifeDead = false; });
             config.add(U"ON", []() {Game::Config().m_isLifeDead = true; }, U"FREE PLAY中もライフが0になると強制終了となります");
 
@@ -356,6 +392,7 @@ namespace ct
                 ClearRate,
                 ViewConfig,
                 Random,
+                LifeGauge,
                 LifeDead,
                 TimingAdjust,
                 OffsetAdjust,
@@ -372,8 +409,9 @@ namespace ct
                 m_configs[ViewConfig].setName(U"背景詳細");
                 m_configs[ViewConfig].applyOnEnterd([this]() {
                     this->changePush<PlayViewConfig>();
-                });
+                    });
                 RandomInit(m_configs[Random]);
+                LifeGaugeInit(m_configs[LifeGauge]);
                 LifeDeadInit(m_configs[LifeDead]);
                 TimingAdjustInit(m_configs[TimingAdjust]);
                 OffsetAdjustInit(m_configs[OffsetAdjust]);

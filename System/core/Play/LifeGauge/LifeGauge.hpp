@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <Siv3D/Types.hpp>
+#include <Siv3D/Texture.hpp>
 #include <core/Play/LifeGauge/LifeGaugeKind.hpp>
 
 namespace ct
@@ -99,6 +100,6 @@ namespace ct
     class LifeGauge
     {
     public:
-
+        static s3d::Texture GetBadge(LifeGaugeKind kind);
     };
 }
