@@ -329,13 +329,13 @@ namespace ct
                     Game::Config().m_lifeGauge = kind;
                     };
                 auto gauge = LifeRecoverySet::FromKind(kind);
-                String detail = U"[PERFECT] {:+}, [GREAT] {:+}, [GOOD] {:+}, [MISS] {:+}"_fmt(
-                    gauge.perfect,
-                    gauge.great,
-                    gauge.good,
-                    gauge.miss
+                String detail = U"[PERFECT] {:+.2f}%, [GREAT] {:+.2f}%, [GOOD] {:+.2f}%, [MISS] {:+.2f}%"_fmt(
+                    static_cast<double>(gauge.perfect) / 100.0,
+                    static_cast<double>(gauge.great) / 100.0,
+                    static_cast<double>(gauge.good) / 100.0,
+                    static_cast<double>(gauge.miss) / 100.0
                 );
-                config.add(str, std::move(event));
+                config.add(str, std::move(event), detail);
                 if (Game::Config().m_lifeGauge == kind) {
                     config.init(str);
                 }
