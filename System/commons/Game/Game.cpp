@@ -93,6 +93,22 @@ namespace
 
 		TextureAsset::Register(U"newRecord", U"Resource/Img/Result/newrecord.png");
 
+		TextureAsset::Register(U"SD_badge", U"Resource/Img/Result/guage/gauge_badge_sd.png");
+		TextureAsset::Register(U"DG_badge", U"Resource/Img/Result/guage/gauge_badge_dg.png");
+		TextureAsset::Register(U"CH_badge", U"Resource/Img/Result/guage/gauge_badge_ch.png");
+		TextureAsset::Register(U"NM_badge", U"Resource/Img/Result/guage/gauge_badge_nm.png");
+		TextureAsset::Register(U"SP_badge", U"Resource/Img/Result/guage/gauge_badge_sp.png");
+		TextureAsset::Register(U"SF_badge", U"Resource/Img/Result/guage/gauge_badge_sf.png");
+		TextureAsset::Register(U"IV_badge", U"Resource/Img/Result/guage/gauge_badge_iv.png");
+
+		TextureAsset::Register(U"SD_tile", U"Resource/Img/Result/guage/gauge_tile_sd.png");
+		TextureAsset::Register(U"DG_tile", U"Resource/Img/Result/guage/gauge_tile_dg.png");
+		TextureAsset::Register(U"CH_tile", U"Resource/Img/Result/guage/gauge_tile_ch.png");
+		TextureAsset::Register(U"NM_tile", U"Resource/Img/Result/guage/gauge_tile_nm.png");
+		TextureAsset::Register(U"SP_tile", U"Resource/Img/Result/guage/gauge_tile_sp.png");
+		TextureAsset::Register(U"SF_tile", U"Resource/Img/Result/guage/gauge_tile_sf.png");
+		TextureAsset::Register(U"IV_tile", U"Resource/Img/Result/guage/gauge_tile_iv.png");
+
 		// メイン
 		// portrait
 		TextureAsset::Register(U"tapEffect2", U"Resource/Img/Main/tapeffect2.png");

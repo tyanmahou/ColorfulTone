@@ -4,6 +4,7 @@
 #include <core/Play/PlayBG/BGType.hpp>
 #include <core/Play/PlayStyle/PlayStyleType.hpp>
 #include <core/Play/Random/RandomNoteType.hpp>
+#include <core/Play/LifeGauge/LifeGaugeKind.hpp>
 #include <core/Data/TapSE/TapSE.hpp>
 #include <scenes/Scene/MusicSelect/SelectMusicsInfo.hpp>
 
@@ -60,6 +61,7 @@ namespace ct
         // タイミング調整
         s3d::int8 m_timingAdjust = 0;
         s3d::int8 m_offsetAdjust = 0;
+        LifeGaugeKind m_lifeGauge = LifeGaugeKind::Normal;
         bool m_isLifeDead = false;
 
         //タップ音

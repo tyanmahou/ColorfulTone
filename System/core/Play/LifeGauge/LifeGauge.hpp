@@ -1,20 +1,32 @@
 ﻿#pragma once
 #include <Siv3D/Types.hpp>
+#include <core/Play/LifeGauge/LifeGaugeKind.hpp>
 
 namespace ct
 {
-    enum class LifeGaugeKind
-    {
-        Invincible  = -3,
-        Safety      = -2,
-        Support     = -1,
-        Default     =  0,
-        Challenge   =  1,
-        Danger      =  2,
-        SuddenDeath =  3,
-    };
     struct LifeRecoverySet
     {
+        static constexpr LifeRecoverySet FromKind(LifeGaugeKind kind)
+        {
+            switch (kind) {
+            case LifeGaugeKind::Invincible:
+                return LifeRecoverySet::Invincible();
+            case LifeGaugeKind::Safety:
+                return LifeRecoverySet::Safety();
+            case LifeGaugeKind::Support:
+                return LifeRecoverySet::Support();
+            case LifeGaugeKind::Normal:
+                return LifeRecoverySet::Normal();
+            case LifeGaugeKind::Challenge:
+                return LifeRecoverySet::Challenge();
+            case LifeGaugeKind::Danger:
+                return LifeRecoverySet::Danger();
+            case LifeGaugeKind::SuddenDeath:
+                return LifeRecoverySet::SuddenDeath();
+            default:
+                return LifeRecoverySet::Normal();
+            }
+        }
         static constexpr LifeRecoverySet SuddenDeath()
         {
             return LifeRecoverySet{
@@ -42,7 +54,7 @@ namespace ct
                 .miss = -750,
             };
         }
-        static constexpr LifeRecoverySet Default()
+        static constexpr LifeRecoverySet Normal()
         {
             return LifeRecoverySet{
                 .perfect = 5,
