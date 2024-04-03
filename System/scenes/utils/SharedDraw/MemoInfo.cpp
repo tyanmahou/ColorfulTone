@@ -2,6 +2,7 @@
 #include <scenes/utils/Util.hpp>
 #include <core/Data/NotesData/NotesData.hpp>
 #include <core/Data/CourseData/CourseData.hpp>
+#include <core/Play/LifeGauge/LifeGauge.hpp>
 #include <commons/FontName.hpp>
 #include <Siv3D.hpp>
 
@@ -54,6 +55,11 @@ namespace ct::SharedDraw
 		// クリア情報
 		constexpr Vec2 clearIconPos{ 90, -48 };
 		constexpr Vec2 fcIconPos = clearIconPos + Vec2{ 0, 60 };
+
+		if (auto gauge = notes.clearLifeGauge()) {
+			constexpr Vec2 tilePos = Vec2{ 0, -98 };//Vec2{ 60, -88 };
+			LifeGauge::GetTile(*gauge).drawAt(tilePos);
+		}
 		if (score.isClear) {
 			TextureAsset(U"iconClear").scaled(0.5).drawAt(clearIconPos);
 		}

@@ -235,7 +235,7 @@ namespace ct
 			} else if (action == Action::LevelSelect) {
 				SharedDraw::Select<NotesData>()
 					.setOffset(offset)
-					.setWidth(206)
+					.setWidth(226)
 					.setColorCallBack([](const NotesData& n) {
 					    return n.getColor();
 					})
@@ -271,7 +271,7 @@ namespace ct
 					    		50
 					    	);
 					    }
-					    TextureAsset(ResultRank::GetRankTextureName(n.getScore().clearRate)).scaled(0.1).drawAt(pos + Vec2{ 320, 25 });
+					    TextureAsset(ResultRank::GetRankTextureName(n.getScore().clearRate)).scaled(0.117).drawAt(pos + Vec2{ 340, 30 });
 					})
 					.draw(
 						*pNotes,

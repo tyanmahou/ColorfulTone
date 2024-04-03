@@ -167,6 +167,17 @@ namespace ct
     {
         return m_handle->saveScore(score);
     }
+    s3d::Optional<LifeGaugeKind> NotesData::clearLifeGauge() const
+    {
+        auto score = this->getScore();
+        if (!score.isLifeClear) {
+            return s3d::none;
+        }
+        if (score.gauge == LifeGaugeKind::None) {
+            return s3d::none;
+        }
+        return score.gauge;
+    }
     MusicData NotesData::getMusic() const
     {
         return m_handle->getMusic();

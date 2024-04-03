@@ -93,6 +93,8 @@ namespace ct
         void setScore(const ScoreModel& newScore);
         void saveScore(const ScoreModel& score) const;
 
+        s3d::Optional<LifeGaugeKind> clearLifeGauge() const;
+
         MusicData getMusic() const;
 
         void reload();
