@@ -25,9 +25,9 @@ namespace ct
 			case GenreType::UserFolder:
 				return s3d::TextureAsset(U"genre_user_folder");
 			case GenreType::Lv:
-				if (m_order >= 12) {
+				if (m_order >= 13) {
 					return s3d::TextureAsset(U"genre_level5");
-				} else if (m_order >= 9) {
+				} else if (m_order >= 10) {
 					return s3d::TextureAsset(U"genre_level4");
 				} else if (m_order >= 7) {
 					return s3d::TextureAsset(U"genre_level3");
