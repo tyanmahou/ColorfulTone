@@ -41,45 +41,45 @@ namespace ct
         {
             return LifeRecoverySet{
                 .perfect = 3,
-                .great = -50,
-                .good = -400,
-                .miss = -1000,
+                .great = -50,  // 17
+                .good = -400,  // 134
+                .miss = -1000, // 334
             };
         }
         static constexpr LifeRecoverySet Challenge()
         {
             return LifeRecoverySet{
                 .perfect = 5,
-                .great = -30,
-                .good = -200,
-                .miss = -750,
+                .great = -30, // 6
+                .good = -200, // 40
+                .miss = -750, // 150
             };
         }
         static constexpr LifeRecoverySet Normal()
         {
             return LifeRecoverySet{
                 .perfect = 5,
-                .great = -15,
-                .good = -100,
-                .miss = -500,
+                .great = -15,  // 3
+                .good = -100,  // 20
+                .miss = -500,  // 100
             };
         }
         static constexpr LifeRecoverySet Support()
         {
             return LifeRecoverySet{
                 .perfect = 5,
-                .great = -7,
-                .good = -50,
-                .miss = -250,
+                .great = -7,  // 2
+                .good = -50,  // 10
+                .miss = -250, // 50
             };
         }
         static constexpr LifeRecoverySet Safety()
         {
             return LifeRecoverySet{
                 .perfect = 10,
-                .great = 1,
-                .good = -25,
-                .miss = -100,
+                .great = 0,
+                .good = -50,  //  5
+                .miss = -200, // 20
             };
         }
         static constexpr LifeRecoverySet Invincible()
