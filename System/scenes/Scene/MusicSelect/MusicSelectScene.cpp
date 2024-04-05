@@ -149,17 +149,7 @@ namespace
     // シーン情報のメッセージを取得
     String GetSceneInfoMsg()
     {
-        const uint64 timer = Time::GetMillisec();
-
-        s3d::int32 timerMod = timer % 6000;
-        if (timerMod <= 2000) {
-            return U"Enter:決定　BackSpace:絞り込み,戻る　F2:ソート　Esc:タイトルに戻る";
-        }
-        if (timerMod <= 4000) {
-            return U"F10:お気に入り　F11:コンフィグ";
-        }
-
-        return U"Shift:表示モード切替　F1:オート　F12:練習モード　Ctrl+↑↓:ハイスピード変更";
+        return U"Shift:表示切替　F1:オート　F12:練習モード F2:ソート Ctrl+↑↓:ハイスピード変更 Enter:決定　BackSpace:戻る";
     }
 }
 namespace ct
@@ -418,7 +408,9 @@ namespace ct
     {
         m_view.draw();
         // シーン情報
-        SceneInfo::Draw(::GetSceneInfoMsg());
+        SceneInfo::DrawBack();
+        SceneInfo::Header(U"\U000F1563 F10 \U000F0493 F11");
+        SceneInfo::Draw(::GetSceneInfoMsg());        
     }
 
     void MusicSelectScene::drawFadeIn(double t) const

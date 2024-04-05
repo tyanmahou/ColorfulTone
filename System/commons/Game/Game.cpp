@@ -51,6 +51,7 @@ namespace
 
 		TextureAsset::Register(U"levelbg", U"Resource/Img/MusicSelect/select.png");
 		TextureAsset::Register(U"levelMask", U"Resource/Img/MusicSelect/levelmask.png");
+		TextureAsset::Register(U"backIcon", U"Resource/Img/MusicSelect/back_icon.png");
 
 		// ジャンルアイコン
 		TextureAsset::Register(U"genre_level1", U"Resource/Img/MusicSelect/icon/level1.png");
@@ -237,6 +238,14 @@ namespace
 		FontAsset::Register(U"fallback", FontMethod::MSDF, 18);
 		FontAsset fallback(U"fallback");
 		Print.getFont().addFallback(fallback);
+
+
+		FontAsset::Register(U"icon0", 10 + 5, Typeface::Icon_Awesome_Solid, FontStyle::Bold);
+		FontAsset::Register(U"icon1", 10 + 5, Typeface::Icon_MaterialDesign, FontStyle::Bold);
+		FontAsset i0(U"icon0");
+		FontAsset(U"b-10").addFallback(i0);
+		FontAsset i1(U"icon1");
+		FontAsset(U"b-10").addFallback(i1);
 	}
 
 	void AssetLoad()

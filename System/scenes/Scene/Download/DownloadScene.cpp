@@ -141,7 +141,8 @@ namespace ct
 		m_view.draw();
 		// シーン情報
 		if (!m_pModel->isDownloading()) {
-			SceneInfo::Draw(U"Enter:決定 Esc:タイトル戻る");
+			SceneInfo::DrawBack(s3d::Palette::Black);
+			SceneInfo::Draw(U"Enter:決定");
 		}
 	}
 

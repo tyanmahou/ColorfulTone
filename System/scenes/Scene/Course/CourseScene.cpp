@@ -143,9 +143,9 @@ namespace ct
 		String GetSceneInfo(bool isStart)
 		{
 			if (isStart) {
-				return U"F11:コンフィグ　Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc,BackSpace:コース選択に戻る";
+				return U"Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc,BackSpace:コース選択に戻る";
 			}
-			return U"F11:コンフィグ　Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc長押し:コース選択に戻る";
+			return U"Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc長押し:コース選択に戻る";
 		}
 	}
 	void CourseScene::draw() const
@@ -156,6 +156,7 @@ namespace ct
 		if (!isStart) {
 			SharedDraw::LongPressBack(PlayKey::BigBack(), U"Esc長押しで戻る");
 		}
+		SceneInfo::Header(U"\U000F0493 F11");
 		SceneInfo::Draw(::GetSceneInfo(isStart));
 	}
 

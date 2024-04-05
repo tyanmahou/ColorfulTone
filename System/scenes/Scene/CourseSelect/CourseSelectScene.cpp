@@ -262,7 +262,9 @@ namespace ct
 	{
 		m_view.draw();
 		// シーン情報
-		SceneInfo::Draw(U"F11:コンフィグ Enter:決定 Esc:タイトル戻る");
+		SceneInfo::DrawBack(s3d::Palette::Black);
+		SceneInfo::Header(U"\U000F0493 F11");
+		SceneInfo::Draw(U"Enter:決定");
 	}
 
 	void CourseSelectScene::drawFadeIn(double t) const
