@@ -4,6 +4,8 @@
 
 namespace ct
 {
+	struct GameData;
+
 	class Config
 	{
 	public:
@@ -30,6 +32,10 @@ namespace ct
 		{
 			m_extention = extention;
 		}
+		void setActive(bool isActive)
+		{
+			m_isActive = isActive;
+		}
 		void update();
 
 		bool add(const String& text, std::function<void()> func, const String& detail = U"");
@@ -43,6 +49,7 @@ namespace ct
 
 		void drawDetail() const;
 	private:
+		bool m_isActive = true;
 		size_t m_select = 0;
 		size_t m_default = 0;
 		bool m_hasOnEnterd = false;
@@ -76,12 +83,15 @@ namespace ct
 		{
 			return 0.8;
 		}
+	protected:
+		GameData* getGameData() const;
 	};
 	class ConfigManager
 	{
 	private:
 		std::shared_ptr<IConfigHierchy> m_config;
 		std::stack<std::shared_ptr<IConfigHierchy>> m_stack;
+		GameData* m_gameData = nullptr;
 	public:
 		bool update();
 		void draw()const
@@ -103,10 +113,24 @@ namespace ct
 		void clear();
 		void reset();
 		bool isRoot()const;
+
+		GameData* getGameData() const
+		{
+			return m_gameData;
+		}
+		void setGameData(GameData* gameData)
+		{
+			m_gameData = gameData;
+		}
 	};
 	template<class T>
 	inline void IConfigHierchy::changePush()
 	{
 		m_manager->changePush<T>();
+	}
+
+	inline GameData* IConfigHierchy::getGameData() const
+	{
+		return m_manager->getGameData();
 	}
 }

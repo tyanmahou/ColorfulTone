@@ -33,6 +33,7 @@ namespace ct
 		void setData(GameData& data)
 		{
 			m_data = &data;
+			m_config.setGameData(m_data);
 		}
 		const NotesData& nowNotes()const
 		{

@@ -21,6 +21,11 @@ namespace ct
         }
         void reset();
         bool isRoot()const;
+
+        void setGameData(GameData* gameData)
+        {
+            m_config.setGameData(gameData);
+        }
     private:
         ConfigManager m_config;
         bool m_isActive = true;

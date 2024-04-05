@@ -1,6 +1,7 @@
 ﻿#include <scenes/Scene/Config/ConfigMain.hpp>
 #include <Useful.hpp>
 #include <scenes/Scene/Config/KeyConfigManager.hpp>
+#include <scenes/Scene/ISceneBase.hpp>
 #include <core/Play/LifeGauge/LifeGauge.hpp>
 
 namespace ct
@@ -335,6 +336,9 @@ namespace ct
                     static_cast<double>(gauge.good) / 100.0,
                     static_cast<double>(gauge.miss) / 100.0
                 );
+                if (kind == LifeGaugeKind::Invincible) {
+                    detail += U"(※コース合格になりません)";
+                }
                 config.add(str, std::move(event), detail);
                 if (Game::Config().m_lifeGauge == kind) {
                     config.init(str);
@@ -416,6 +420,14 @@ namespace ct
                 TimingAdjustInit(m_configs[TimingAdjust]);
                 OffsetAdjustInit(m_configs[OffsetAdjust]);
                 JudgeAlgoInit(m_configs[JudgeAlgo]);
+            }
+
+            bool update()override
+            {
+                if (auto* data = this->getGameData()) {
+                    m_configs[LifeGauge].setActive(!data->m_course.isActive());
+                }
+                return IConfigHierchy::update();
             }
         };
 

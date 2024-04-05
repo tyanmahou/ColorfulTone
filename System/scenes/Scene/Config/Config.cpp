@@ -14,6 +14,9 @@ namespace ct
 	{}
 	void Config::update()
 	{
+		if (!m_isActive) {
+			return;
+		}
 		if (m_actions.empty()) {
 			return;
 		}
@@ -94,21 +97,26 @@ namespace ct
 	{
 		const double alpha = isSelect ? 1 : 0.5;
 
-		RectF(150, y - 50, 500, 90).draw({ ColorF(1,0.6,0.2, alpha),ColorF(0.2, alpha),ColorF(0, alpha),ColorF(0, alpha) });
+		RectF rect(150, y - 50, 500, 90);
+		rect.draw({ ColorF(1,0.6,0.2, alpha),ColorF(0.2, alpha),ColorF(0, alpha),ColorF(0, alpha) });
 		FontAsset(FontName::ConfigTitle)(m_name).draw(160, y - 40, ColorF(1, alpha));
 
+		if (!m_isActive) {
+			rect.draw(ColorF(0, 0.8 * alpha));
+		}
 		if (m_hasOnEnterd)return;
 
 		if (m_actions.empty()) {
 			return;
 		}
+		if (m_isActive) {
+			if (m_select > 0) {
+				FontAsset(FontName::ConfigSelect)(U"←").drawAt(500 - 130, y);
+			}
 
-		if (m_select > 0) {
-			FontAsset(FontName::ConfigSelect)(U"←").drawAt(500 - 130, y);
-		}
-
-		if (m_select + 1 < m_actions.size()) {
-			FontAsset(FontName::ConfigSelect)(U"→").drawAt(500 + 130, y);
+			if (m_select + 1 < m_actions.size()) {
+				FontAsset(FontName::ConfigSelect)(U"→").drawAt(500 + 130, y);
+			}
 		}
 
 		if (m_select < m_actions.size()) {
