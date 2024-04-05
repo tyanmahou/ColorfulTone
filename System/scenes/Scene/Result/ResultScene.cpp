@@ -211,9 +211,9 @@ namespace ct
 	void ResultScene::draw() const
 	{
 		m_view.draw();
-		SceneInfo::DrawBack();
-		SceneInfo::Header(U"\U000F1563 F10");
-		SceneInfo::Draw(U"T:リザルトをツイート Enter:戻る");
+		SceneInfo::DrawEsc();
+		SceneInfo::Header(U"\U000F0544 T \U000F1563 F10");
+		SceneInfo::Draw(U"Enter:戻る　BackSpace:戻る");
 	}
 
 	void ResultScene::drawFadeIn(double t) const

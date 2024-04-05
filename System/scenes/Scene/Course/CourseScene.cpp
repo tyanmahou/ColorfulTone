@@ -142,10 +142,13 @@ namespace ct
 	{
 		String GetSceneInfo(bool isStart)
 		{
-			if (isStart) {
-				return U"Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc,BackSpace:コース選択に戻る";
+			if (KeyControl.pressed()) {
+				return U"Ctrl+↑↓:ハイスピード変更";
 			}
-			return U"Ctrl+↑↓:ハイスピード変更　Enter:開始 Esc長押し:コース選択に戻る";
+			if (isStart) {
+				return U"Ctrl:オプション　Enter:開始　BackSpace:戻る";
+			}
+			return U"Ctrl:オプション　Enter:開始　Esc長押し:戻る";
 		}
 	}
 	void CourseScene::draw() const
@@ -155,6 +158,9 @@ namespace ct
 		const bool isStart = getData().m_course.isStart();
 		if (!isStart) {
 			SharedDraw::LongPressBack(PlayKey::BigBack(), U"Esc長押しで戻る");
+		}
+		if (isStart) {
+			SceneInfo::DrawEsc();
 		}
 		SceneInfo::Header(U"\U000F0493 F11");
 		SceneInfo::Draw(::GetSceneInfo(isStart));

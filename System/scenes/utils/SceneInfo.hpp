@@ -9,7 +9,7 @@ namespace ct
 		static void Header(const s3d::String& str);
 		static void Draw(const s3d::String& str);
 
-		static void DrawBack(const s3d::ColorF& color = s3d::Palette::White);
+		static void DrawEsc(const s3d::ColorF& color = s3d::Palette::White);
 	private:
 		SceneInfo() = delete;
 	};

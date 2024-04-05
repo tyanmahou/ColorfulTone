@@ -18,7 +18,7 @@ namespace ct
 		const auto width = FontAsset(FontName::Info)(str).region().w;
 		FontAsset(FontName::Info)(str).draw(790 - width, 600 - h + 10);
 	}
-	void SceneInfo::DrawBack(const s3d::ColorF& color)
+	void SceneInfo::DrawEsc(const s3d::ColorF& color)
 	{
 		TextureAsset(U"backIcon").draw(color);
 		auto d = FontAsset(FontName::Info)(U"ESC");

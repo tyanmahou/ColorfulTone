@@ -45,7 +45,7 @@ namespace ct
 		static const String title = U"CONFIG";
 		SharedDraw::Sticky(&title, nullptr);
 
-		SceneInfo::DrawBack(s3d::Palette::Black);
+		SceneInfo::DrawEsc(s3d::Palette::Black);
 		SceneInfo::Draw(U"Enter:決定 BackSpace:戻る");
 	}
 

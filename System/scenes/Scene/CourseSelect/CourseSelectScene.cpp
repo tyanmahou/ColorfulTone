@@ -262,7 +262,7 @@ namespace ct
 	{
 		m_view.draw();
 		// シーン情報
-		SceneInfo::DrawBack(s3d::Palette::Black);
+		SceneInfo::DrawEsc(s3d::Palette::Black);
 		SceneInfo::Header(U"\U000F0493 F11");
 		SceneInfo::Draw(U"Enter:決定");
 	}

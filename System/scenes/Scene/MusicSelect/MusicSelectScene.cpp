@@ -149,7 +149,12 @@ namespace
     // シーン情報のメッセージを取得
     String GetSceneInfoMsg()
     {
-        return U"Shift:表示切替　F1:オート　F12:練習モード F2:ソート Ctrl+↑↓:ハイスピード変更 Enter:決定　BackSpace:戻る";
+        // Shift:表示切替
+        if (KeyControl.pressed()) {
+            return U"F1:オート　F12:練習モード　Ctrl+↑↓:ハイスピード変更";
+        } else {
+            return U"Ctrl:オプション　F2:ソート　Enter:決定　BackSpace:戻る";
+        }
     }
 }
 namespace ct
@@ -408,7 +413,7 @@ namespace ct
     {
         m_view.draw();
         // シーン情報
-        SceneInfo::DrawBack();
+        SceneInfo::DrawEsc();
         SceneInfo::Header(U"\U000F1563 F10 \U000F0493 F11");
         SceneInfo::Draw(::GetSceneInfoMsg());        
     }
