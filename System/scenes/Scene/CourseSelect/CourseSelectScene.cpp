@@ -264,7 +264,7 @@ namespace ct
 		// シーン情報
 		SceneInfo::DrawEsc(s3d::Palette::Black);
 		SceneInfo::Header(U"\U000F0493 F11");
-		SceneInfo::Draw(U"Enter:決定");
+		SceneInfo::Draw(U"Enter:決定　BackSpace:戻る");
 	}
 
 	void CourseSelectScene::drawFadeIn(double t) const
