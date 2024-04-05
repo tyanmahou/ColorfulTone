@@ -40,10 +40,10 @@ namespace ct
         static constexpr LifeRecoverySet Danger()
         {
             return LifeRecoverySet{
-                .perfect = 3,
-                .great = -50,  // 17
-                .good = -400,  // 134
-                .miss = -1000, // 334
+                .perfect = 2,
+                .great = -50,  // 25
+                .good = -400,  // 200
+                .miss = -2000, // 1000
             };
         }
         static constexpr LifeRecoverySet Challenge()
@@ -52,7 +52,7 @@ namespace ct
                 .perfect = 5,
                 .great = -30, // 6
                 .good = -200, // 40
-                .miss = -750, // 150
+                .miss = -1000, // 200
             };
         }
         static constexpr LifeRecoverySet Normal()
