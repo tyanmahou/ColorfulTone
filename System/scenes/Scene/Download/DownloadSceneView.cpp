@@ -63,7 +63,7 @@ namespace ct
 			}
 			const double offset = easingAnime.isMoving() ?
 				easingAnime.easeInOut() :
-				easingAnime.done();
+				easingAnime.getB();
 
 			SharedDraw::Select<DownloadContent>()
 				.setOffset(offset)
