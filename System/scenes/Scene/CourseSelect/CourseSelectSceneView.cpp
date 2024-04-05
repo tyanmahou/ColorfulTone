@@ -9,13 +9,15 @@ namespace
 	using namespace ct;
 	using Action = CourseSelectScene::Action;
 
+	constexpr double yOffset = 0;
+
 	void DrawBG()
 	{
 		const TextureRegion tex = TextureAsset(U"memo2")(75, 22, 400, 110);
 		for (size_t index = 0; index < 4; ++index)
 		{
 			tex
-				.draw(10, static_cast<double>(index * 115 + 95))
+				.draw(10, static_cast<double>(index * 115 + 95) + yOffset)
 				.drawFrame(0, 1, Color(224, 209, 173));
 		}
 	}
@@ -52,10 +54,10 @@ namespace
 			);
 		}
 	}
-	void DrawMusicInfo(size_t index, s3d::int32 y, const CourceEntry& entry)
+	void DrawMusicInfo([[maybe_unused]]size_t index, s3d::int32 y, const CourceEntry& entry)
 	{
 		if (!entry.canPlay()) {
-			RectF(10, static_cast<double>(index * 115 + 95), 400, 110).draw(ColorF(0, 0.1));
+			RectF(10, y + 5, 400, 110).draw(ColorF(0, 0.1));
 		}
 		DrawMusicInfo(
 			y,
@@ -67,7 +69,7 @@ namespace
 		if (!entry.canPlay()) {
 			TextureAsset(U"warn_icon")
 				.resized(30,30)
-				.draw(Vec2{10, static_cast<double>(index * 115 + 95)});
+				.draw(Vec2{10, static_cast<double>(y + 5)});
 		}
 	}
 
@@ -80,7 +82,7 @@ namespace
 		size_t entrySize = pCourse->getEntrySize();
 		for (size_t i = 0; (i < 4 && page * 4 + i < entrySize); ++i) {
 			size_t entryIndex = page * 4 + i;
-			::DrawMusicInfo(i, static_cast<int32>(i * 115 + 90), (*pCourse)[entryIndex]);
+			::DrawMusicInfo(i, static_cast<int32>(i * 115 + 90 + yOffset), (*pCourse)[entryIndex]);
 		}
 	}
 	void DrawTitle(const CourseGenre*const genre)
@@ -151,7 +153,7 @@ namespace ct
 					if (pageSize > 1) {
 						const FontAsset font16b(FontName::SelectMusic);
 						font16b(U"{}/{}"_fmt(page + 1, pageSize)).draw(
-							Arg::bottomRight = Vec2{400, 550},
+							Arg::bottomRight = Vec2{400, 95},
 							Palette::Black
 						);
 					}
@@ -194,6 +196,10 @@ namespace ct
 						[](const CourseData& c)->decltype(auto) {return c.getTitle(); }
 					);
 			}
+
+
+			//SharedDraw::JacketInfo jacketInfo;
+			//jacketInfo.drawLabel();
 
 			// memo
 			if (pCourse) {
