@@ -11,7 +11,7 @@ namespace
 
 namespace ct
 {
-	class  PlayCourse::Impl
+	class PlayCourse::Impl
 	{
 	private:
 		bool m_isActive = false;
@@ -26,6 +26,7 @@ namespace ct
 		size_t m_apCount = 0;
 
 		Array<CourceSelectedNotes> m_selectedNotes;
+		LifeGaugeKind m_guage = LifeGaugeKind::Normal;
 	public:
 		const CourseData& currentCourse()const
 		{
@@ -36,15 +37,17 @@ namespace ct
 			m_currentNotesIndex = 0;
 			m_score = CourseScore();
 			m_score.life = 100.0;
+			m_score.gauge = m_guage;
 			m_rankAAACount = 0;
 			m_apCount = 0;
 			m_selectedNotes.clear();
 		}
-		void init(const CourseData& course)
+		void init(const CourseData& course, LifeGaugeKind guage)
 		{
 			m_isActive = true;
 			m_nowCourseIndex = course.getIndex();
 			m_state = State::Playing;
+			m_guage = guage;
 			this->clear();
 			for (const auto& entry : course.getEntries()) {
 				m_selectedNotes.push_back(entry.choice());
@@ -90,7 +93,8 @@ namespace ct
 				m_state = State::Failure;
 			} else if (life > 0 && this->isLastNotes()) {
 				m_state = State::Success;
-				m_score.isClear = true;
+				m_score.isClear = !this->isInvincible();
+				m_score.isLifeClear = true;
 				if (m_apCount >= m_currentNotesIndex + 1) {
 					m_score.special = CourseSpecialResult::AP;
 				} else if (m_rankAAACount >= m_currentNotesIndex + 1) {
@@ -115,15 +119,23 @@ namespace ct
 		{
 			return m_selectedNotes;
 		}
+		LifeGaugeKind getGaugeKind() const
+		{
+			return m_guage;
+		}
+		bool isInvincible() const
+		{
+			return m_guage == LifeGaugeKind::Invincible;
+		}
 	};
 
 	PlayCourse::PlayCourse() :
 		m_pImpl(std::make_shared<Impl>())
 	{}
 
-	void PlayCourse::init(const CourseData& course) const
+	void PlayCourse::init(const CourseData& course, LifeGaugeKind guage) const
 	{
-		m_pImpl->init(course);
+		m_pImpl->init(course, guage);
 	}
 
 	void PlayCourse::exit() const
@@ -194,6 +206,16 @@ namespace ct
 	const CourseScore& PlayCourse::getScore()const
 	{
 		return m_pImpl->getScore();
+	}
+
+	LifeGaugeKind PlayCourse::getGaugeKind() const
+	{
+		return m_pImpl->getGaugeKind();
+	}
+
+	bool PlayCourse::isInvincible() const
+	{
+		return  m_pImpl->isInvincible();
 	}
 
 	void PlayCourse::updateScoreAndState(float addRate, float life) const

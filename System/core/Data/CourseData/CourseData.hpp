@@ -19,6 +19,9 @@ namespace ct
 		CourseSpecialResult special = CourseSpecialResult::None;
 		float totalRate = 0.0;
 		float life = 0.0;
+
+		bool isLifeClear = false;
+		LifeGaugeKind gauge = LifeGaugeKind::None;
 	};
 
 	class CourseData
@@ -80,6 +83,10 @@ namespace ct
 		bool isClear() const
 		{
 			return m_score.isClear;
+		}
+		bool isLifeClear() const
+		{
+			return m_score.isLifeClear;
 		}
 		const CourseScore& getScore()const
 		{

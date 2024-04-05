@@ -337,7 +337,7 @@ namespace ct
                     static_cast<double>(gauge.miss) / 100.0
                 );
                 if (kind == LifeGaugeKind::Invincible) {
-                    detail += U"(※コース合格になりません)";
+                    detail = U"変動なし(※コース合格になりません)";
                 }
                 config.add(str, std::move(event), detail);
                 if (Game::Config().m_lifeGauge == kind) {
@@ -345,8 +345,9 @@ namespace ct
                 }
             }
             config.setExtention([&](size_t index, double y) {
-                LifeGauge::GetBadge(list[index].second).drawAt(500 - 90, y);
-                });
+                ColorF color = config.isActive() ? ColorF(Palette::White) : ColorF(1, 0.8);
+                LifeGauge::GetBadge(list[index].second).drawAt(500 - 90, y, color);
+           });
         }
         void LifeDeadInit(Config& config)
         {

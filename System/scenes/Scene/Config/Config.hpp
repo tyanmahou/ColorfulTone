@@ -32,6 +32,10 @@ namespace ct
 		{
 			m_extention = extention;
 		}
+		bool isActive() const
+		{
+			return m_isActive;
+		}
 		void setActive(bool isActive)
 		{
 			m_isActive = isActive;

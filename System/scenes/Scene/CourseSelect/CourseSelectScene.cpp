@@ -247,9 +247,9 @@ namespace ct
 		if (getData().m_toScene == SceneName::Course) {
 			SoundManager::StopBgm(U"title", 1s);
 			// データ運搬
-			getData().m_course.init(m_pModel->getSelectCourse());
+			getData().m_course.init(m_pModel->getSelectCourse(), Game::Config().m_lifeGauge);
 			// ライフ引継ぎがあるためスコアを初期化しておく
-			getData().m_resultScore = Score();
+			getData().m_resultScore = Score(Game::Config().m_lifeGauge);
 
 			// 絶対Autoは解除する
 			PlayContext::Revert();

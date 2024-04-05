@@ -208,7 +208,7 @@ namespace
     }
     void DrawCourseResult(const PlayCourse& course, const EasingSequence& timer)
     {
-        if (!course.isEnd() || !timer[U"score"].done()) {
+        if (!course.isEnd() || !timer[U"score"].done() || course.isInvincible()) {
             return;
         }
         const auto t = timer[U"course"].easeIn();

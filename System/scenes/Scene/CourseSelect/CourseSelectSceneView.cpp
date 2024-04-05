@@ -185,7 +185,9 @@ namespace ct
 					.setDrawble([](const CourseData& c, Vec2 pos) {
       					if (c.isClear()) {
 		    				FontAsset(AssetNameView(FontName::SelectMusic))(U"★").drawAt(pos + Vec2{ 37, 30 }, c.getStarColor());
-			    		}
+						} else if (c.isLifeClear()) {
+							FontAsset(AssetNameView(FontName::SelectMusic))(U"☆").drawAt(pos + Vec2{ 37, 30 }, c.getStarColor());
+						}
 					})
 					.setColorCallBack([](const CourseData& c) {
 						return c.getColor();

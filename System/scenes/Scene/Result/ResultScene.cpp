@@ -70,8 +70,18 @@ namespace
 			isNewRecord = true;
 
 		}
-		if (score.life > srcScore.life)
+		if (score.life > srcScore.life && (score.gauge == srcScore.gauge) || srcScore.gauge == LifeGaugeKind::None)
 		{
+			srcScore.gauge = score.gauge;
+			srcScore.life = score.life;
+			isNewRecord = true;
+		}
+		if (score.isLifeClear && !srcScore.isLifeClear) {
+			srcScore.isLifeClear = true;
+			isNewRecord = true;
+		}
+		if (score.isLifeClear && score.gauge > srcScore.gauge) {
+			srcScore.gauge = score.gauge;
 			srcScore.life = score.life;
 			isNewRecord = true;
 		}

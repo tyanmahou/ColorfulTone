@@ -69,6 +69,15 @@ namespace ct
 		if (!reader.read<float>(ret.life)) {
 			ret.life = 0.0;
 		}
+		reader.read<bool>(ret.isLifeClear);
+		// クリア済みなら絶対ライフクリアしてる
+		ret.isLifeClear |= ret.isClear;
+		int32 g;
+		reader.read<int32>(g);
+		ret.gauge = static_cast<LifeGaugeKind>(g);
+		if (!ret.isLifeClear) {
+			ret.gauge = LifeGaugeKind::None;
+		}
 		return ret;
 	}
 
@@ -84,5 +93,7 @@ namespace ct
 		writer.write(static_cast<uint8>(newScore.special));
 		writer.write(newScore.totalRate);
 		writer.write(newScore.life);
+		writer.write(newScore.isLifeClear);
+		writer.write(static_cast<int32>(newScore.gauge));
 	}
 }

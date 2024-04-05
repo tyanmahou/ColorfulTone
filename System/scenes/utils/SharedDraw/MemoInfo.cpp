@@ -57,7 +57,7 @@ namespace ct::SharedDraw
 		constexpr Vec2 fcIconPos = clearIconPos + Vec2{ 0, 60 };
 
 		if (auto gauge = notes.clearLifeGauge()) {
-			constexpr Vec2 tilePos = Vec2{ 0, -98 };//Vec2{ 60, -88 };
+			constexpr Vec2 tilePos = Vec2{ 0, -102 };
 			LifeGauge::GetTile(*gauge).drawAt(tilePos);
 		}
 		if (score.isClear) {
@@ -76,10 +76,13 @@ namespace ct::SharedDraw
 			ScopedRenderStates2D sampler(SamplerState::ClampLinear);
 			TextureAsset(U"memoCourse").drawAt({ 0, 0 });
 		}
-
+		if (courseScore.isLifeClear && courseScore.gauge > LifeGaugeKind::None) {
+			constexpr Vec2 tilePos = Vec2{ 0, -102 };
+			LifeGauge::GetTile(courseScore.gauge).drawAt(tilePos);
+		}
 		if (courseScore.isClear) {
 			TextureAsset(U"pass").scaled(0.3).drawAt({ 80, 10 });
-		} else if (drawFailure && courseScore.totalRate > 0) {
+		} else if (drawFailure && courseScore.totalRate > 0 && courseScore.gauge > LifeGaugeKind::Invincible) {
 			TextureAsset(U"noPass").scaled(0.3).drawAt({ 80, 10 });
 		}
 		FontAsset font12os = FontAsset(FontName::Level);

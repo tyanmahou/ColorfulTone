@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <memory>
 #include <Siv3D/Fwd.hpp>
+#include <core/Play/LifeGauge/LifeGaugeKind.hpp>
 
 namespace  ct
 {
@@ -21,7 +22,7 @@ namespace  ct
         };
     public:
         PlayCourse();
-        void init(const CourseData& course) const;
+        void init(const CourseData& course, LifeGaugeKind guage) const;
         void exit() const;
 
         bool isActive()const;
@@ -42,6 +43,8 @@ namespace  ct
 
         const CourseScore& getScore() const;
 
+        LifeGaugeKind getGaugeKind() const;
+        bool isInvincible() const;
     private:
         class Impl;
         std::shared_ptr<Impl> m_pImpl;
