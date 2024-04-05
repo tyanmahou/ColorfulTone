@@ -1,6 +1,7 @@
 ﻿#include <scenes/Scene/CourseSelect/CourseSelectSceneView.hpp>
 #include <scenes/Scene/CourseSelect/CourseSelectScene.hpp>
 #include <Useful.hpp>
+#include <scenes/Scene/Config/ConfigMain.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -204,7 +205,7 @@ namespace ct
 			::DrawTitle(pGenre);
 
 			if (!m_pScene->getConfig().isActive()) {
-				SharedDraw::DrawPlayContextHeader();
+				// SharedDraw::DrawPlayContextHeader();
 
 				SharedDraw::DrawPlayStyleIcon();
 				SharedDraw::DrawRandomNoteType();

@@ -4,6 +4,7 @@
 
 namespace ct
 {
+	class ConfigMain;
 	class CourseSelectScene : public ISceneBase
 	{
 	public:

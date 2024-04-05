@@ -201,7 +201,7 @@ namespace ct
 		s3d::int32 m_moveSelect = 0;
 		Array<CourseData> m_courses;
 
-		bool m_isSelectedCourse;
+		bool m_isSelectedCourse = false;
 
 		Stopwatch m_stopwatch;
 
