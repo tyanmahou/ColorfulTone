@@ -1,5 +1,7 @@
 ﻿#include <scenes/Scene/CourseSelect/CourseSelectScene.hpp>
 #include <Useful.hpp>
+#include <scenes/Scene/Config/ConfigMain.hpp>
+
 #include <Siv3D.hpp>
 
 namespace
@@ -62,17 +64,11 @@ namespace ct
 {
 	class CourseSelectScene::Model
 	{
-	private:
-		GameData* m_data;
-		Action m_action = Action::GenreSelect;
-		Action m_prevAction = Action::GenreSelect;
-		s3d::int32 m_moveSelect = 0;
-		Array<CourseData> m_courses;
-
-		bool m_isSelectedCourse;
-
-		Stopwatch m_stopwatch;
 	public:
+		Model()
+		{
+			m_config.setActive(false);
+		}
 		void setData(GameData& data)
 		{
 			m_data = &data;
@@ -87,6 +83,20 @@ namespace ct
 		}
 		void update()
 		{
+			if (m_config.isActive()) {
+				if (!m_config.update() || KeyF11.down()) {
+					m_config.setActive(false);
+					m_config.reset();
+					SoundManager::PlaySe(U"cancel");
+				}
+				return;
+			} else {
+				if (KeyF11.down()) {
+					m_config.setActive(true);
+					SoundManager::PlaySe(U"desisionSmall");
+				}
+			}
+
 			if (!m_stopwatch.isStarted()) {
 				m_stopwatch.start();
 			}
@@ -179,6 +189,23 @@ namespace ct
 			size_t pageSize = entrySize == 0 ? 1 : (entrySize - 1) / 4 + 1;
 			return (m_stopwatch.s64() / 2) % pageSize;
 		}
+
+		const ConfigMain& getConfig()const
+		{
+			return m_config;
+		}
+	private:
+		GameData* m_data;
+		Action m_action = Action::GenreSelect;
+		Action m_prevAction = Action::GenreSelect;
+		s3d::int32 m_moveSelect = 0;
+		Array<CourseData> m_courses;
+
+		bool m_isSelectedCourse;
+
+		Stopwatch m_stopwatch;
+
+		ConfigMain m_config;
 	};
 
 	CourseSelectScene::CourseSelectScene(const InitData& init) :
@@ -235,7 +262,7 @@ namespace ct
 	{
 		m_view.draw();
 		// シーン情報
-		SceneInfo::Draw(U"Enter:決定 Esc:タイトル戻る");
+		SceneInfo::Draw(U"F11:コンフィグ Enter:決定 Esc:タイトル戻る");
 	}
 
 	void CourseSelectScene::drawFadeIn(double t) const
@@ -279,5 +306,9 @@ namespace ct
 	size_t CourseSelectScene::entryPage() const
 	{
 		return m_pModel->entryPage();
+	}
+	const ConfigMain& CourseSelectScene::getConfig() const
+	{
+		return m_pModel->getConfig();
 	}
 }

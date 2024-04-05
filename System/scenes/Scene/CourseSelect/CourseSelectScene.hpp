@@ -43,5 +43,7 @@ namespace ct
 		s3d::int32 getMoveSelect() const;
 
 		size_t entryPage() const;
+
+		const ConfigMain& getConfig() const;
 	};
 }

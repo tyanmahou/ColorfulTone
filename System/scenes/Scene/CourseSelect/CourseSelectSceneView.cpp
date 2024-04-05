@@ -202,6 +202,15 @@ namespace ct
 			}
 			// ジャンル名表示
 			::DrawTitle(pGenre);
+
+			if (!m_pScene->getConfig().isActive()) {
+				SharedDraw::DrawPlayContextHeader();
+
+				SharedDraw::DrawPlayStyleIcon();
+				SharedDraw::DrawRandomNoteType();
+			}
+			// コンフィグ
+			m_pScene->getConfig().drawWithBack();
 		}
 	};
 	CourseSelectSceneView::CourseSelectSceneView(const CourseSelectScene* const scene) :
