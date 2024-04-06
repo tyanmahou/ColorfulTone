@@ -345,7 +345,7 @@ namespace ct
                 }
             }
             config.setExtention([&](size_t index, double y) {
-                ColorF color = config.isActive() ? ColorF(Palette::White) : ColorF(1, 0.8);
+                ColorF color = config.isActive() ? ColorF(Palette::White) : ColorF(0.5, 1);
                 LifeGauge::GetBadge(list[index].second).drawAt(500 - 90, y, color);
            });
         }
