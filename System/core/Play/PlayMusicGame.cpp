@@ -336,7 +336,7 @@ namespace ct
 
     s3d::uint64 PlayMusicGame::finishSample() const
     {
-        return Min(m_audioEndSample, m_playNotesData.getLastSample() + 44100);
+        return Min(m_audioEndSample, m_playNotesData.getLastSample()) + 44100;
     }
     bool PlayMusicGame::isDead() const
     {
