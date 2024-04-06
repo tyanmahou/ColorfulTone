@@ -378,7 +378,7 @@ namespace ct
         }
         void LifeDeadInit(Config& config)
         {
-            config.setName(U"FREE PLAY ライフモード");
+            config.setName(U"FREE PLAY ライフ強制終了");
             config.add(U"OFF", []() {Game::Config().m_isLifeDead = false; });
             config.add(U"ON", []() {Game::Config().m_isLifeDead = true; }, U"FREE PLAY中もライフが0になると強制終了となります");
 
