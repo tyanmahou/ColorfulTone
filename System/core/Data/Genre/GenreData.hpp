@@ -18,6 +18,7 @@ namespace ct
 		Folder,
 		UserFolder,
 		Custom,
+		Random,
 		Favorite,
 	};
 	class GenreHandle;
@@ -29,6 +30,7 @@ namespace ct
 	{
 	public:
 		static GenreData CreateAll();
+		static GenreData CreateRandom();
 		static GenreData CreateFavorite();
 		static GenreData CreateFolder(const s3d::String& folderName, bool isOfficial = true);
 		static GenreData CreateLv(s3d::int32 lv);

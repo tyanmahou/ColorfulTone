@@ -108,6 +108,7 @@ namespace
 			genreRserves.append(::LoadCustomFolder(stopToken));
 
 			genreRserves << GenreData::CreateAll();
+			genreRserves << GenreData::CreateRandom();
 			genreRserves << GenreData::CreateFavorite();
 
 			GenreManager::Reflesh(genreRserves);

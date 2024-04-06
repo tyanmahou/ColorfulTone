@@ -58,6 +58,8 @@ namespace ct
 				} else {
 					return s3d::TextureAsset(U"genre_level_aste1");
 				}
+			case GenreType::Random:
+				return s3d::TextureAsset(U"genre_random");
 			case GenreType::Favorite:
 				return s3d::TextureAsset(U"genre_favorite");
 			case GenreType::Custom:
@@ -98,6 +100,33 @@ namespace ct
 			GenreType::All, 
 			U"ALL", 
 			GenreFilter([]([[maybe_unused]] const MusicData& music)->bool {return true; })
+		);
+	}
+
+	GenreData GenreData::CreateRandom()
+	{
+		class RandomFilter : public IGenreFilterImpl
+		{
+		public:
+			void onFilterStart(const s3d::Array<MusicData>& musics) override
+			{
+				m_choiced = musics.choice();
+			}
+			bool filter(const MusicData& music) const override
+			{
+				return m_choiced == music;
+			}
+			bool filter(const NotesData& notes) const override
+			{
+				return filter(notes.getMusic());
+			}
+		private:
+			MusicData m_choiced;
+		};
+		return std::make_shared<GenreHandle>(
+			GenreType::Random,
+			U"RANDOM",
+			GenreFilter(std::make_unique<RandomFilter>())
 		);
 	}
 

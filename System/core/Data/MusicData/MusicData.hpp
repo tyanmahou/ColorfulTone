@@ -147,7 +147,9 @@ namespace ct
         const NotesData& operator [](size_t level) const;
         NotesData& operator [](size_t level);
 
-        operator bool() const;
+        explicit operator bool() const;
+
+        [[nodiscard]] bool operator ==(const MusicData& other) const;
     private:
         std::shared_ptr<MusicHandle> m_handle;
     };

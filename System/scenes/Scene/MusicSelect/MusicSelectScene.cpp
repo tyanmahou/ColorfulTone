@@ -56,6 +56,7 @@ namespace
     // 楽曲リストソート
     void RefineMusics(Array<MusicData>& musics)
     {
+        GenreManager::GetFilter(g_selectInfo.genre).onFilterStart(musics);
         musics.remove_if([&](const MusicData& m) {
             return !GenreManager::GetFilter(g_selectInfo.genre)(m);
         });
@@ -70,11 +71,7 @@ namespace
     // 楽曲リスト初期化
     void InitMusics(Array<MusicData>& musics)
     {
-        musics.clear();
-        musics.reserve(Game::Musics().size());
-        for (MusicData& m : Game::Musics()) {
-            musics.emplace_back(m);
-        }
+        musics = Game::Musics();
         ::RefineMusics(musics);
         ::SortMusics(musics);
 

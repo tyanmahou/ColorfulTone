@@ -285,4 +285,8 @@ namespace ct
 	{
 		return m_handle != nullptr;
 	}
+	bool MusicData::operator==(const MusicData& other) const
+	{
+		return m_handle == other.m_handle;
+	}
 }
