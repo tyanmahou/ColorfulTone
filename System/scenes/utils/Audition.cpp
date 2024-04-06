@@ -29,40 +29,36 @@ namespace {
 		AssetNameView id;
 		s3d::HashTable<s3d::AssetName, s3d::int32>& counter;
 	};
-	Audio CreateAuditionSound(const std::stop_token& stopToken, AssetNameView id, const MusicData::ABLoop& loop)
+
+	constexpr size_t noSoundSample = 22050;
+	Wave CreateAuditionWave(const std::stop_token& stopToken, AudioAsset asset, const MusicData::ABLoop& loop)
 	{
 		if (stopToken.stop_requested()) {
 			return {};
 		}
-		AudioAsset asset(id);
-		Wave wav = [&stopToken](const Audio& sound)->Wave {
-			Array<WaveSample> wavSamples;
-			size_t sampleLength = sound.samples();
-			wavSamples.reserve(sampleLength);
+		size_t sampleLength = asset.samples();
+		size_t loopBegin = Min(static_cast<size_t>(44100 * loop.x), sampleLength);
+		size_t loopEnd = Clamp(static_cast<size_t>(44100 * loop.y), loopBegin, sampleLength);
+		Array<WaveSample> wavSamples;
+		wavSamples.reserve(noSoundSample + loopEnd - loopBegin);
 
-			const float* left = sound.getSamples(0);
-			const float* right = sound.getSamples(1);
-			for (size_t i = 0; i < sampleLength; ++i) {
-				if (stopToken.stop_requested()) {
-					return {};
-				}
-				wavSamples.emplace_back((*left), (*right));
-				++left;
-				++right;
-			}
-			return Wave{ std::move(wavSamples) };
-		}(asset);
+		// 無音追加
+		auto sam = WaveSample(0, 0);
+		wavSamples.insert(wavSamples.begin(), noSoundSample, sam);
+
 		if (stopToken.stop_requested()) {
 			return {};
 		}
-		const size_t sample = 22050 + wav.lengthSample();
-
-		//無音作成
-		auto sam = WaveSample(0, 0);
-		wav.reserve(sample);
-		//wavに4秒間のオフセット追加
-		wav.insert(wav.begin() + static_cast<size_t>(44100 * loop.x), 22050, sam);
-		return Audio(std::move(wav), static_cast<uint64>(44100 * (loop.x + 0.5)), static_cast<uint64>(44100 * (loop.y + 0.5)));
+		// ループサイズを追加
+		const float* left = asset.getSamples(0);
+		const float* right = asset.getSamples(1);
+		for (size_t i = loopBegin; i < loopEnd; ++i) {
+			if (stopToken.stop_requested()) {
+				return {};
+			}
+			wavSamples.emplace_back(left[i], right[i]);
+		}
+		return Wave{ std::move(wavSamples) };
 	}
 }
 
@@ -127,7 +123,8 @@ namespace ct
 		if (requestId != m_requestId) {
 			co_return;
 		}
-		Thread::Task loadTask{ ::CreateAuditionSound, id, loop };
+		AudioAsset audioBase(id);
+		Thread::Task loadTask{ ::CreateAuditionWave, audioBase, loop };
 		while (loadTask.isBusy()) {
 			if (requestId != m_requestId) {
 				// リクエストが変わった時点で停止
@@ -137,7 +134,7 @@ namespace ct
 			}
 			co_yield{};
 		}
-		Audio loadedAudio = loadTask.get();
+		Audio loadedAudio(loadTask.get(), Arg::loopBegin = noSoundSample);
 		if (!loadedAudio) {
 			co_return;
 		}
