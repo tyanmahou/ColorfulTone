@@ -15,6 +15,11 @@ namespace
 }
 namespace ct
 {
+	void ContractionDrawbleStringCL(const s3d::DrawableText& font, const s3d::Vec2& pos, double width, const s3d::Color& color)
+	{
+		Transformer2D t2d{ GetMat(font, pos, width) };
+		font.draw(Arg::leftCenter = pos, color);
+	}
 	void ContractionDrawbleStringBR(const s3d::DrawableText& font, const s3d::Vec2& pos, double width, const s3d::Color& color)
 	{
 		Transformer2D t2d{ GetMat(font, pos, width) };

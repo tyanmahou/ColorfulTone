@@ -40,12 +40,12 @@ namespace ct
 		lights.update();
 		lights.draw();
 
-		m_config.draw();
-
 		static const String title = U"CONFIG";
 		SharedDraw::Sticky(&title, nullptr);
 
-		SceneInfo::DrawEsc(s3d::Palette::Black);
+		m_config.drawWithBack();
+
+		SceneInfo::DrawEsc();
 		SceneInfo::Draw(U"Enter:決定 BackSpace:戻る");
 	}
 

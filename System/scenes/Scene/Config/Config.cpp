@@ -2,6 +2,7 @@
 #include <core/Input/PlayKey.hpp>
 #include <commons/Audio/SoundManager.hpp>
 #include <commons/FontName.hpp>
+#include <scenes/utils/Util.hpp>
 
 namespace ct
 {
@@ -97,9 +98,13 @@ namespace ct
 	{
 		const double alpha = isSelect ? 1 : 0.5;
 
-		RectF rect(150, y - 50, 500, 90);
-		rect.draw({ ColorF(1,0.6,0.2, alpha),ColorF(0.2, alpha),ColorF(0, alpha),ColorF(0, alpha) });
-		FontAsset(FontName::ConfigTitle)(m_name).draw(160, y - 40, ColorF(1, alpha));
+		RectF rect(150, y - 30, 500, 60);
+		rect.draw({ ColorF(0.2,0.5,0.4, alpha),ColorF(0.2, alpha),ColorF(0,alpha),ColorF(0, 0, 0.1, alpha) });
+		if (isSelect) {
+			rect.drawFrame(1, 1, ColorF(1.0, Periodic::Sine0_1(1s) * 0.5 + 0.5));
+		}
+		// タイトル
+		ContractionDrawbleStringCL(FontAsset(FontName::ConfigTitle)(m_name), Vec2{ 160, y - 5 }, 220, ColorF(1, alpha));
 
 		if (!m_isActive) {
 			rect.draw(ColorF(0, 0.8 * alpha));
@@ -111,16 +116,16 @@ namespace ct
 		}
 		if (m_isActive) {
 			if (m_select > 0) {
-				FontAsset(FontName::ConfigSelect)(U"←").drawAt(500 - 130, y);
+				FontAsset(FontName::ConfigSelect)(U"◀").drawAt(500 - 110, y);
 			}
 
 			if (m_select + 1 < m_actions.size()) {
-				FontAsset(FontName::ConfigSelect)(U"→").drawAt(500 + 130, y);
+				FontAsset(FontName::ConfigSelect)(U"▶").drawAt(500 + 110, y);
 			}
 		}
 
 		if (m_select < m_actions.size()) {
-			FontAsset(FontName::ConfigSelect)(m_actions.at(m_select).name).drawAt(500, y);
+			ContractionDrawbleString(FontAsset(FontName::ConfigSelect)(m_actions.at(m_select).name), { 500, y }, 210);
 		}
 		if (m_extention && m_select < m_actions.size()) {
 			m_extention(m_select, y);
@@ -162,13 +167,15 @@ namespace ct
 		size_t size = m_configs.size();
 		double offset = 0;
 
-		if (m_select + 4 < size) {
-			offset = 110.0 * m_select;
+		constexpr int32 viewMax = 5;
+		constexpr double yOffs = 80;
+		if (m_select + viewMax < size) {
+			offset = yOffs * m_select;
 		} else {
-			offset = 110.0 * Max<s3d::int32>(0, static_cast<s3d::int32>(size) - 4);
+			offset = yOffs * Max<s3d::int32>(0, static_cast<s3d::int32>(size) - viewMax);
 		}
 		for (size_t i = 0; i < size; ++i) {
-			m_configs[i].draw(150 + 110 * i - offset, static_cast<s3d::int32>(i) == m_select);
+			m_configs[i].draw(140 + yOffs * i - offset, static_cast<s3d::int32>(i) == m_select);
 		}
 		// 詳細
 		if (m_select < size) {

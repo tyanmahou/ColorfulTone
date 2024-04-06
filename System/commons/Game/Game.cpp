@@ -229,12 +229,12 @@ namespace
 		FontAsset::Register(U"s-b-40", 25 + 25, straightPath, FontStyle::Bold);
 
 		FontAsset::Register(U"r-12", 12 + 5);
-		FontAsset::Register(U"r-13", 13 + 5);
+		FontAsset::Register(U"r-13", 13 + 2);
 		FontAsset::Register(U"r-20", 20 + 10);
 		FontAsset::Register(U"r-30", 30 + 15);
 		FontAsset::Register(U"b-10", 10 + 5, Typeface::Regular, FontStyle::Bold);
 		FontAsset::Register(U"b-16", 16 + 7, Typeface::Bold);
-		FontAsset::Register(U"i-15", 15 + 5, Typeface::Regular, FontStyle::Italic);
+		FontAsset::Register(U"bi-15", 15 + 2, Typeface::Regular, FontStyle::BoldItalic);
 
 		FontAsset::Register(U"fallback", FontMethod::MSDF, 18);
 		FontAsset fallback(U"fallback");

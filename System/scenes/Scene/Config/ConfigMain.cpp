@@ -246,7 +246,7 @@ namespace ct
                 }
             }
             config.setExtention([&](size_t index, double y) {
-                TextureAsset(U"playstyle_icon")(static_cast<int32>(list[index].second) * 50, 0, 50, 50).drawAt(500 - 85, y, Palette::Orange);
+                TextureAsset(U"playstyle_icon")(static_cast<int32>(list[index].second) * 50, 0, 50, 50).drawAt(330, y, Palette::Orange);
                 });
         }
 
@@ -306,7 +306,7 @@ namespace ct
                 std::pair{RandomNoteType::SRandom, U"ノーツごとに配置をランダムに変更します"}
             };
             for (auto [type, detail] : list) {
-                config.add({ ToRandomNoteTypeStr(type) }, [type]() {Game::Config().m_random = type; }, { detail });
+                config.add(String{ ToRandomNoteTypeStr(type) }, [type]() {Game::Config().m_random = type; }, String{ detail });
             }
             config.init(static_cast<size_t>(Game::Config().m_random));
         }
@@ -373,7 +373,7 @@ namespace ct
             }
             config.setExtention([&](size_t index, double y) {
                 ColorF color = config.isActive() ? ColorF(Palette::White) : ColorF(0.5, 1);
-                LifeGauge::GetBadge(list[index].second).drawAt(500 - 90, y, color);
+                LifeGauge::GetBadge(list[index].second).drawAt(330, y, color);
            });
         }
         void LifeDeadInit(Config& config)
