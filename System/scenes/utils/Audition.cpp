@@ -135,9 +135,6 @@ namespace ct
 			co_yield{};
 		}
 		Audio loadedAudio(loadTask.get(), Arg::loopBegin = noSoundSample);
-		if (!loadedAudio) {
-			co_return;
-		}
 		if (requestId != m_requestId) {
 			co_return;
 		}
