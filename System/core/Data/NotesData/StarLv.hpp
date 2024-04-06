@@ -18,7 +18,7 @@ namespace ct
 		BlackOne,   // ★　　譜面
 		BlackTwo,   // ★★　譜面
 		BlackThree, // ★★★譜面
-		Other,      // ♯    譜面
+		Other,      // ？    譜面
 	};
 
 	[[nodiscard]] s3d::StringView ToStr(StarLv kind);
