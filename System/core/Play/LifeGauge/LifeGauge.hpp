@@ -41,18 +41,18 @@ namespace ct
         {
             return LifeRecoverySet{
                 .perfect = 2,
-                .great = -500, // 20, 250
-                .good = -1000, // 10, 500
-                .miss = -2500, // 4, 1250
+                .great = -200, // 50, 100
+                .good =  -800, // 13, 400
+                .miss = -2000, // 5, 1000
             };
         }
         static constexpr LifeRecoverySet Challenge()
         {
             return LifeRecoverySet{
-                .perfect = 5,
-                .great = -100, // 100,  20
-                .good = -500,  // 20,  100
-                .miss = -1000, // 10,  200
+                .perfect = 4,
+                .great = -80,  // 125,  20
+                .good = -400,  // 25,  100
+                .miss = -800,  // 13,  200
             };
         }
         static constexpr LifeRecoverySet Normal()
@@ -67,10 +67,10 @@ namespace ct
         static constexpr LifeRecoverySet Support()
         {
             return LifeRecoverySet{
-                .perfect = 5,
-                .great = -10, // 1000,  2
-                .good =  -80, // 125,  16
-                .miss = -250, // 40,   50
+                .perfect = 8,
+                .great =   0,
+                .good =  -80, // 125,  10
+                .miss = -400, // 25,   50
             };
         }
         static constexpr LifeRecoverySet Safety()
@@ -78,8 +78,8 @@ namespace ct
             return LifeRecoverySet{
                 .perfect = 10,
                 .great = 0,
-                .good = -50,  // 200, 5
-                .miss = -200, // 50, 20
+                .good = 0,
+                .miss = -200, // 50 20
             };
         }
         static constexpr LifeRecoverySet Invincible()
