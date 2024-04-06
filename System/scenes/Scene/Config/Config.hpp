@@ -20,9 +20,10 @@ namespace ct
 		Config();
 		Config(const String& name);
 
-		void setName(const String& name)
+		Config& setName(const String& name)
 		{
 			m_name = name;
+			return *this;
 		}
 		const String& getName()const
 		{

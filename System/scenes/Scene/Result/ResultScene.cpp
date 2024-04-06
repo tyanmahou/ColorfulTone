@@ -54,10 +54,12 @@ namespace
 
 		CourseScore srcScore = srcCourse.getScore();
 		bool isNewRecord = false;
+		bool isFirstClear = false;
 		if (score.isClear && !srcScore.isClear)
 		{
 			srcScore.isClear = true;
 			isNewRecord = true;
+			isFirstClear = true;
 		}
 		if (static_cast<uint8>(score.special) > static_cast<uint8>(srcScore.special))
 		{
@@ -70,17 +72,15 @@ namespace
 			isNewRecord = true;
 
 		}
-		if (score.life > srcScore.life && (score.gauge == srcScore.gauge) || srcScore.gauge == LifeGaugeKind::None)
-		{
-			srcScore.gauge = score.gauge;
-			srcScore.life = score.life;
-			isNewRecord = true;
-		}
 		if (score.isLifeClear && !srcScore.isLifeClear) {
 			srcScore.isLifeClear = true;
 			isNewRecord = true;
 		}
-		if (score.isLifeClear && score.gauge > srcScore.gauge) {
+
+		bool isLifeUpdate = score.life > srcScore.life && (score.gauge == srcScore.gauge) || srcScore.gauge == LifeGaugeKind::None;
+		bool isGaugeUpdate = score.gauge > srcScore.gauge;
+		if (isFirstClear || isLifeUpdate || isGaugeUpdate)
+		{
 			srcScore.gauge = score.gauge;
 			srcScore.life = score.life;
 			isNewRecord = true;

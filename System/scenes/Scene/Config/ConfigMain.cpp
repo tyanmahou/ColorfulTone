@@ -6,7 +6,7 @@
 
 namespace ct
 {
-
+    // TapSE
     namespace
     {
         void InitTapSE(Config& config)
@@ -65,6 +65,7 @@ namespace ct
         };
     }
 
+    // 音量
     namespace
     {
         //volume
@@ -134,6 +135,75 @@ namespace ct
             }
         };
     }
+
+    // サウンド設定
+    namespace
+    {
+        class SoundConfig :public IConfigHierchy
+        {
+            enum
+            {
+                Volume,
+                TapSE,
+                TOTAL_SIZE
+            };
+        public:
+            SoundConfig()
+            {
+                m_configs.resize(TOTAL_SIZE);
+
+                m_configs[Volume].setName(U"音量").applyOnEnterd([this]() {
+                    this->changePush<VolumeConfig>();
+                    });
+
+                m_configs[TapSE].setName(U"タップ音").applyOnEnterd([this]() {
+                    this->changePush<TapSEConfig>();
+                    });
+            }
+        };
+    }
+
+    // タイミング調整
+    namespace
+    {
+        void TimingAdjustInit(Config& config)
+        {
+            config.setName(U"タイミング調整");
+            for (int32 adjust : step_to(-10, 10)) {
+                config.add(Format(adjust), [=]() {Game::Config().m_timingAdjust = static_cast<int8>(adjust); }, U"判定のタイミングを調整します。(ノーツがラインと重なるタイミングは変りません。)");
+            }
+            config.setDefault(U"0");
+            config.init(Format(Game::Config().m_timingAdjust));
+        }
+        void OffsetAdjustInit(Config& config)
+        {
+            config.setName(U"オフセット調整");
+            for (int32 adjust : step_to(-10, 10)) {
+                config.add(Format(adjust), [=]() {Game::Config().m_offsetAdjust = static_cast<int8>(adjust); }, U"ノーツがラインと重なるタイミングを調整します。(判定のタイミングは変りません。)");
+            }
+            config.setDefault(U"0");
+            config.init(Format(Game::Config().m_offsetAdjust));
+        }
+        class TimmingConfig :public IConfigHierchy
+        {
+            enum
+            {
+                TimingAdjust,
+                OffsetAdjust,
+                TOTAL_SIZE
+            };
+        public:
+            TimmingConfig()
+            {
+                m_configs.resize(TOTAL_SIZE);
+                TimingAdjustInit(m_configs[TimingAdjust]);
+                OffsetAdjustInit(m_configs[OffsetAdjust]);
+            }
+        };
+
+    }
+
+    // 背景
     namespace
     {
         // 表示設定
@@ -219,6 +289,8 @@ namespace ct
             }
         };
     }
+
+    // プレイ画面
     namespace
     {
         //style
@@ -288,6 +360,35 @@ namespace ct
                 config.init(U"ライフゲージ");
             }
         }
+
+        class PlayConfig :public IConfigHierchy
+        {
+            enum Mode
+            {
+                Style,
+                PlayScale,
+                ClearRate,
+                ViewConfig,
+                TOTAL_CONFIG //コンフィグの数
+            };
+        public:
+            PlayConfig()
+            {
+                m_configs.resize(TOTAL_CONFIG);
+                PlayStyleInit(m_configs[Style]);
+                PlayScaleInit(m_configs[PlayScale]);
+                ClearRateInit(m_configs[ClearRate]);
+                m_configs[ViewConfig].setName(U"背景詳細").applyOnEnterd([this]() {
+                    this->changePush<PlayViewConfig>();
+                    });
+            }
+        };
+
+    }
+
+    // プレイオプション
+    namespace
+    {
 
         // ランダム
         void RandomInit(Config& config)
@@ -374,7 +475,7 @@ namespace ct
             config.setExtention([&](size_t index, double y) {
                 ColorF color = config.isActive() ? ColorF(Palette::White) : ColorF(0.5, 1);
                 LifeGauge::GetBadge(list[index].second).drawAt(330, y, color);
-           });
+                });
         }
         void LifeDeadInit(Config& config)
         {
@@ -388,24 +489,6 @@ namespace ct
                 config.init(U"OFF");
 
         }
-        void TimingAdjustInit(Config& config)
-        {
-            config.setName(U"タイミング調整");
-            for (int32 adjust : step_to(-10, 10)) {
-                config.add(Format(adjust), [=]() {Game::Config().m_timingAdjust = static_cast<int8>(adjust); }, U"判定のタイミングを調整します。(ノーツがラインと重なるタイミングは変りません。)");
-            }
-            config.setDefault(U"0");
-            config.init(Format(Game::Config().m_timingAdjust));
-        }
-        void OffsetAdjustInit(Config& config)
-        {
-            config.setName(U"オフセット調整");
-            for (int32 adjust : step_to(-10, 10)) {
-                config.add(Format(adjust), [=]() {Game::Config().m_offsetAdjust = static_cast<int8>(adjust); }, U"ノーツがラインと重なるタイミングを調整します。(判定のタイミングは変りません。)");
-            }
-            config.setDefault(U"0");
-            config.init(Format(Game::Config().m_offsetAdjust));
-        }
         // 判定アルゴリズム
         void JudgeAlgoInit(Config& config)
         {
@@ -415,38 +498,23 @@ namespace ct
 
             config.init(static_cast<size_t>(Game::Config().m_judgeAlgoKind));
         }
-        class PlayConfig :public IConfigHierchy
+        class OptionConfig :public IConfigHierchy
         {
             enum Mode
             {
-                Style,
-                PlayScale,
-                ClearRate,
-                ViewConfig,
                 Random,
                 LifeGauge,
                 LifeDead,
-                TimingAdjust,
-                OffsetAdjust,
                 JudgeAlgo,
                 TOTAL_CONFIG //コンフィグの数
             };
         public:
-            PlayConfig()
+            OptionConfig()
             {
                 m_configs.resize(TOTAL_CONFIG);
-                PlayStyleInit(m_configs[Style]);
-                PlayScaleInit(m_configs[PlayScale]);
-                ClearRateInit(m_configs[ClearRate]);
-                m_configs[ViewConfig].setName(U"背景詳細");
-                m_configs[ViewConfig].applyOnEnterd([this]() {
-                    this->changePush<PlayViewConfig>();
-                    });
                 RandomInit(m_configs[Random]);
                 LifeGaugeInit(m_configs[LifeGauge]);
                 LifeDeadInit(m_configs[LifeDead]);
-                TimingAdjustInit(m_configs[TimingAdjust]);
-                OffsetAdjustInit(m_configs[OffsetAdjust]);
                 JudgeAlgoInit(m_configs[JudgeAlgo]);
             }
 
@@ -458,12 +526,10 @@ namespace ct
                 return IConfigHierchy::update();
             }
         };
-
     }
+
     namespace
     {
-
-
         class MainConfig :public IConfigHierchy
         {
 
@@ -475,9 +541,10 @@ namespace ct
 
             enum Mode
             {
+                Option,
                 Play,
-                Volume,
-                TapSE,
+                Timming,
+                Sound,
                 KeyConfig,
                 TOTAL_CONFIG //コンフィグの数
             };
@@ -487,21 +554,19 @@ namespace ct
             {
 
                 m_configs.resize(TOTAL_CONFIG);
-                m_configs[Play].setName(U"プレイ画面");
-                m_configs[Play].applyOnEnterd([this]() {
+                m_configs[Option].setName(U"オプション設定").applyOnEnterd([this]() {
+                    this->changePush<OptionConfig>();
+                    });
+                m_configs[Play].setName(U"プレイ画面設定").applyOnEnterd([this]() {
                     this->changePush<PlayConfig>();
                     });
-                m_configs[Volume].setName(U"音量");
-                m_configs[Volume].applyOnEnterd([this]() {
-                    this->changePush<VolumeConfig>();
+                m_configs[Timming].setName(U"タイミング調整").applyOnEnterd([this]() {
+                    this->changePush<TimmingConfig>();
+                });
+                m_configs[Sound].setName(U"サウンド設定").applyOnEnterd([this]() {
+                    this->changePush<SoundConfig>();
                     });
-
-                m_configs[TapSE].setName(U"タップ音");
-                m_configs[TapSE].applyOnEnterd([this]() {
-                    this->changePush<TapSEConfig>();
-                    });
-                m_configs[KeyConfig].setName(U"キーコンフィグ");
-                m_configs[KeyConfig].applyOnEnterd([this]() {
+                m_configs[KeyConfig].setName(U"キーコンフィグ").applyOnEnterd([this]() {
                     m_isKeyConfig = true;
                     m_keyConfigEasing.start();
                     });
