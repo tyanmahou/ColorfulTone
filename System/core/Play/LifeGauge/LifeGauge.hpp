@@ -32,45 +32,45 @@ namespace ct
         {
             return LifeRecoverySet{
                 .perfect = 0,
-                .great = -1000,
-                .good = -3000,
-                .miss = -10000,
+                .great = -1000, // 10
+                .good = -3000,  // 4
+                .miss = -10000, // 1
             };
         }
         static constexpr LifeRecoverySet Danger()
         {
             return LifeRecoverySet{
                 .perfect = 2,
-                .great = -50,  // 25
-                .good = -400,  // 200
-                .miss = -2000, // 1000
+                .great = -500, // 20, 250
+                .good = -1000, // 10, 500
+                .miss = -2500, // 4, 1250
             };
         }
         static constexpr LifeRecoverySet Challenge()
         {
             return LifeRecoverySet{
                 .perfect = 5,
-                .great = -30, // 6
-                .good = -200, // 40
-                .miss = -1000, // 200
+                .great = -100, // 100,  20
+                .good = -500,  // 20,  100
+                .miss = -1000, // 10,  200
             };
         }
         static constexpr LifeRecoverySet Normal()
         {
             return LifeRecoverySet{
                 .perfect = 5,
-                .great = -15,  // 3
-                .good = -100,  // 20
-                .miss = -500,  // 100
+                .great = -15,  // 667,  3
+                .good = -100,  // 100, 20
+                .miss = -500,  // 20, 100
             };
         }
         static constexpr LifeRecoverySet Support()
         {
             return LifeRecoverySet{
                 .perfect = 5,
-                .great = -7,  // 2
-                .good = -50,  // 10
-                .miss = -250, // 50
+                .great = -10, // 1000,  2
+                .good =  -80, // 125,  16
+                .miss = -250, // 40,   50
             };
         }
         static constexpr LifeRecoverySet Safety()
@@ -78,8 +78,8 @@ namespace ct
             return LifeRecoverySet{
                 .perfect = 10,
                 .great = 0,
-                .good = -50,  //  5
-                .miss = -200, // 20
+                .good = -50,  // 200, 5
+                .miss = -200, // 50, 20
             };
         }
         static constexpr LifeRecoverySet Invincible()
