@@ -215,7 +215,11 @@ namespace
         const double scale = s3d::EaseIn(s3d::Easing::Back, 2.0, 0.4, t);
         const Vec2 pos = s3d::EaseIn(s3d::Easing::Expo, Vec2{ 400, 300 }, Vec2{ 435,450 }, t);
         if (course.isSuccess()) {
-            TextureAsset(U"pass").scaled(scale).drawAt(pos);
+            if (course.isMainPassableGauge()) {
+                TextureAsset(U"pass").scaled(scale).drawAt(pos);
+            } else {
+                TextureAsset(U"kariPass").scaled(scale).drawAt(pos);
+            }
         } else if (course.isFailure()) {
             TextureAsset(U"noPass").scaled(scale).drawAt(pos);
         }

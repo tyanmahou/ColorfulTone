@@ -45,6 +45,11 @@ namespace  ct
 
         LifeGaugeKind getGaugeKind() const;
         bool isInvincible() const;
+        /// <summary>
+        /// 本合格が可能なゲージか
+        /// </summary>
+        /// <returns></returns>
+        bool isMainPassableGauge() const;
     private:
         class Impl;
         std::shared_ptr<Impl> m_pImpl;

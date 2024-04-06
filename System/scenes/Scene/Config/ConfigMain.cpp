@@ -330,15 +330,42 @@ namespace ct
                     Game::Config().m_lifeGauge = kind;
                     };
                 auto gauge = LifeRecoverySet::FromKind(kind);
-                String detail = U"[PERFECT] {:+.2f}%, [GREAT] {:+.2f}%, [GOOD] {:+.2f}%, [MISS] {:+.2f}%"_fmt(
-                    static_cast<double>(gauge.perfect) / 100.0,
-                    static_cast<double>(gauge.great) / 100.0,
-                    static_cast<double>(gauge.good) / 100.0,
-                    static_cast<double>(gauge.miss) / 100.0
-                );
-                if (kind == LifeGaugeKind::Invincible) {
-                    detail = U"変動なし(※コース合格になりません)";
+                String detail;
+                bool isFirst = true;
+                if (gauge.perfect != 0) {
+                    detail += U"[PERFECT] {:+.2f}%"_fmt(static_cast<double>(gauge.perfect) / 100.0);
+                    isFirst = false;
                 }
+                if (gauge.great != 0) {
+                    if (!isFirst) {
+                        detail += U", ";
+                    }
+                    detail += U"[GREAT] {:+.2f}%"_fmt(static_cast<double>(gauge.great) / 100.0);
+                    isFirst = false;
+                }
+                if (gauge.good != 0) {
+                    if (!isFirst) {
+                        detail += U", ";
+                    }
+                    detail += U"[GOOD] {:+.2f}%"_fmt(static_cast<double>(gauge.good) / 100.0);
+                    isFirst = false;
+                }
+                if (gauge.miss != 0) {
+                    if (!isFirst) {
+                        detail += U", ";
+                    }
+                    detail += U"[MISS] {:+.2f}%"_fmt(static_cast<double>(gauge.miss) / 100.0);
+                    isFirst = false;
+                }
+                if (isFirst) {
+                    detail += U"変動なし";
+                }
+                if (kind == LifeGaugeKind::Invincible) {
+                    detail += U"(※コース合格になりません)";
+                } else if (kind < LifeGaugeKind::Normal) {
+                    detail += U"(※コースは仮合格になります)";
+                }
+
                 config.add(str, std::move(event), detail);
                 if (Game::Config().m_lifeGauge == kind) {
                     config.init(str);

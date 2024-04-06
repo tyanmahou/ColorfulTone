@@ -22,6 +22,11 @@ namespace ct
 
 		bool isLifeClear = false;
 		LifeGaugeKind gauge = LifeGaugeKind::None;
+
+		bool isMainClear() const
+		{
+			return isClear && gauge >= LifeGaugeKind::Normal;
+		}
 	};
 
 	class CourseData
@@ -83,6 +88,10 @@ namespace ct
 		bool isClear() const
 		{
 			return m_score.isClear;
+		}
+		bool isMainClear() const
+		{
+			return m_score.isMainClear();
 		}
 		bool isLifeClear() const
 		{

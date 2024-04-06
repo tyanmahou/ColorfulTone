@@ -1,7 +1,6 @@
 ﻿#include <core/Play/PlayCourse.hpp>
 #include <Useful.hpp>
 #include <Siv3D.hpp>
-#include "PlayCourse.hpp"
 
 namespace
 {
@@ -127,6 +126,10 @@ namespace ct
 		{
 			return m_guage == LifeGaugeKind::Invincible;
 		}
+		bool isMainPassableGauge() const
+		{
+			return m_guage >= LifeGaugeKind::Normal;
+		}
 	};
 
 	PlayCourse::PlayCourse() :
@@ -216,6 +219,11 @@ namespace ct
 	bool PlayCourse::isInvincible() const
 	{
 		return  m_pImpl->isInvincible();
+	}
+
+	bool PlayCourse::isMainPassableGauge() const
+	{
+		return m_pImpl->isMainPassableGauge();
 	}
 
 	void PlayCourse::updateScoreAndState(float addRate, float life) const

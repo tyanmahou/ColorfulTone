@@ -80,8 +80,10 @@ namespace ct::SharedDraw
 			constexpr Vec2 tilePos = Vec2{ 0, -102 };
 			LifeGauge::GetTile(courseScore.gauge).drawAt(tilePos);
 		}
-		if (courseScore.isClear) {
+		if (courseScore.isMainClear()) {
 			TextureAsset(U"pass").scaled(0.3).drawAt({ 80, 10 });
+		} else if (courseScore.isClear) {
+			TextureAsset(U"kariPass").scaled(0.3).drawAt({ 80, 10 });
 		} else if (drawFailure && courseScore.totalRate > 0 && courseScore.gauge > LifeGaugeKind::Invincible) {
 			TextureAsset(U"noPass").scaled(0.3).drawAt({ 80, 10 });
 		}
