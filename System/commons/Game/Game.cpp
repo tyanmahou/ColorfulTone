@@ -162,9 +162,6 @@ namespace
 		TextureAsset::Register(U"center_7", U"Resource/Img/Main/center/white.png");
 
 		//バー
-		TextureAsset::Register(U"barBase", U"Resource/Img/Main/bar/base.png");
-		TextureAsset::Register(U"bar1", U"Resource/Img/Main/bar/bar1.png");
-		TextureAsset::Register(U"bar2", U"Resource/Img/Main/bar/bar2.png");
 		TextureAsset::Register(U"streamPosBase", U"Resource/Img/Main/bar/streamPosBase.png");
 
 		TextureAsset::Register(U"tapEffct", U"Resource/Img/Main/prasma.png");

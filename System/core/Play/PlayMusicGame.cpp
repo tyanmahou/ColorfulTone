@@ -7,6 +7,7 @@
 #include <core/Play/PlayStyle/PlayStyle.hpp>
 #include <core/Play/Random/RandomNote.hpp>
 #include <core/Play/ColorFx/ColorFx.hpp>
+#include <core/Play/UI/GaugeView.hpp>
 #include <utils/Coro/Fiber/FiberUtil.hpp>
 #include <Siv3D.hpp>
 
@@ -34,7 +35,7 @@ namespace ct
         m_isFinish(false),
         m_isStart(false),
         m_isDead(false),
-        m_barXEasing(780, 730, Easing::Linear, 250),
+        m_barXEasing(0, 1.0, Easing::Linear, 250),
         m_spectrum(300),
         m_postProcessTex(Scene::Size()),
         m_usePostProcess(false)
@@ -409,21 +410,34 @@ namespace ct
         PlayStyle::Instance()->drawComboAndRate(m_score.m_currentCombo, rate);
 
         //曲の現在地
+        const double invBarXRate = (1.0 - m_barXEasing.easeInOut());
         const s3d::int32 barY = 50;
         {
-            TextureAsset(U"streamPosBase").draw(725 - m_barXEasing.easeInOut(), barY);
+            double offsX = -invBarXRate * 50;
+            TextureAsset(U"streamPosBase").draw(-5 + offsX, barY);
             double barScale = Saturate(GetSamplePos(m_sound) / static_cast<double>(finishSample()));
 
             const auto size = (barY + 454 - 10) - (barY + 11);
-
-            Line({ 725 - m_barXEasing.easeInOut() + 13.5,barY + 11 + size * barScale }, { 725 - m_barXEasing.easeInOut() + 13.5,barY + 11 + 10 + size * barScale }).draw(3, Palette::Orange);
+            Line({ -5 + offsX + 13.5,barY + 11 + size * barScale }, { -5 + offsX + 13.5,barY + 11 + 10 + size * barScale }).draw(3, Palette::Orange);
         }
+        // ゲージ
         {
-            TextureAsset(U"barBase").draw(m_barXEasing.easeInOut(), barY);
-            float barScale = rate / 100.f;
-            const auto h = TextureAsset(U"bar2").height();
-            TextureAsset(U"bar2").uv(0, 1 - barScale, 1, barScale).draw(m_barXEasing.easeInOut(), barY + h * (1 - barScale));
-            TextureAsset(U"bar1").draw(m_barXEasing.easeInOut(), barY);
+            const float clearRate = rateType == IndicateRate::Down ? ResultRank::CalcClearRateAsDownType(m_score, m_totalNotes) :
+                ResultRank::CalcClearRate(m_score, m_totalNotes);
+            const float lifeRate = ResultRank::CalcLifeRate(m_score);
+
+            s3d::int32 beat = NotesData::RESOLUTION / 4;
+            double f = Abs(static_cast<double>(static_cast<s3d::int32>(m_nowCount) % beat))
+                / static_cast<double>(beat);
+
+            GaugeView{}
+                .setOffs(invBarXRate * 60.0)
+                .setClearRate(clearRate)
+                .setLifeRate(lifeRate)
+                .setGaugeKind(m_score.m_gauge)
+                .setBeatRate(f)
+                .draw()
+                ;
         }
 
         if (!m_isPreview) {

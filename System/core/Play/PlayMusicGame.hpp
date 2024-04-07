@@ -106,7 +106,7 @@ namespace ct
 		bool m_isStart;
 		bool m_isFinish;
 		bool m_isDead;
-		s3d::EasingAB<s3d::int32> m_barXEasing;
+		s3d::EasingAB<double> m_barXEasing;
 
 		double m_nowCount;			    // 現在のカウント
 

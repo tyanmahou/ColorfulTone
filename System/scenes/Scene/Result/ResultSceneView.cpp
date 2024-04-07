@@ -125,7 +125,7 @@ namespace
         }
         SharedDraw::JacketInfo infoView;
         infoView
-            .setPos({ 500,140 })
+            .setPos({ 500,130 })
             .drawLabel(music.getTexture(), t)
             .drawLabel()
             .drawLine()
