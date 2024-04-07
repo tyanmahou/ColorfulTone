@@ -13,12 +13,12 @@ namespace ct
         }
         GaugeView& setClearRate(float percent)
         {
-            m_clearRate = static_cast<double>(percent / 100.0f);
+            m_clearRate = static_cast<double>(percent);
             return *this;
         }
         GaugeView& setLifeRate(float percent)
         {
-            m_lifeRate = static_cast<double>(percent / 100.0f);
+            m_lifeRate = static_cast<double>(percent);
             return *this;
         }
         GaugeView& setGaugeKind(LifeGaugeKind kind)
@@ -32,11 +32,13 @@ namespace ct
             return *this;
         }
         void draw() const;
-
+    private:
+        s3d::ColorF getClearColor() const;
+        std::pair<s3d::ColorF, s3d::ColorF> getLifeColor() const;
     private:
         double m_xOffs = 0.0;
-        double m_clearRate = 1.0;
-        double m_lifeRate = 1.0;
+        double m_clearRate = 100.0;
+        double m_lifeRate = 100.0;
         LifeGaugeKind m_kind = {};
 
         double m_beatRate = 0.0;
