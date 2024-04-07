@@ -16,31 +16,32 @@ namespace
 
 		ScoreModel srcScore = srcNotes.getScore();
 		bool isNewRecord = false;
+		bool isUpdate = false;
 		if (score.isClear && !srcScore.isClear)
 		{
 			srcScore.isClear = true;
-			isNewRecord = true;
+			isUpdate = true;
 		}
 		if (score.specialResult > srcScore.specialResult)
 		{
 			srcScore.specialResult = score.specialResult;
-			isNewRecord = true;
-
+			isUpdate = true;
 		}
 		if (score.clearRate > srcScore.clearRate)
 		{
 			srcScore.clearRate = score.clearRate;
 			isNewRecord = true;
+			isUpdate = true;
 		}
 		if (score.isLifeClear && !srcScore.isLifeClear) {
 			srcScore.isLifeClear = true;
-			isNewRecord = true;
+			isUpdate = true;
 		}
 		if (score.isLifeClear && score.gauge > srcScore.gauge) {
 			srcScore.gauge = score.gauge;
-			isNewRecord = true;
+			isUpdate = true;
 		}
-		if (isNewRecord)
+		if (isUpdate)
 		{
 			srcNotes.setScore(srcScore);
 			srcNotes.saveScore(srcScore);
