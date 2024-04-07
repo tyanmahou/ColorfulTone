@@ -58,6 +58,19 @@ namespace
 		}
 		return 0;
 	}
+	// シーン情報のメッセージを取得
+	String GetSceneInfoMsg(bool isConfig)
+	{
+		if (isConfig) {
+			return U"[Enter]決定 [BackSpace]戻る";
+		}
+		// Shift:表示切替
+		if (KeyControl.pressed()) {
+			return U"[1]プレイモード [2]配置変更 [3]ライフゲージ";
+		} else {
+			return U"[Ctrl]オプション [Enter]決定 [BackSpace]戻る";
+		}
+	}
 }
 
 namespace ct
@@ -146,6 +159,9 @@ namespace ct
 				size_t size2 = ::GetTargetSize(m_action, m_courses);
 				target2 = size2 ? target2 % size2 : 0;
 			}
+			SharedLogic::ChangeLifeGauge();
+			SharedLogic::ChangeRandomNoteType();
+			SharedLogic::ChangePlayStyle();
 		}
 		bool onChangeAction()
 		{
@@ -263,8 +279,8 @@ namespace ct
 		m_view.draw();
 		// シーン情報
 		SceneInfo::DrawEsc(s3d::Palette::Black);
-		SceneInfo::Header(U"\U000F0493 F11");
-		SceneInfo::Draw(U"Enter:決定　BackSpace:戻る");
+		SceneInfo::Header(U"[F11]\U000F0493");
+		SceneInfo::Draw(GetSceneInfoMsg(m_pModel->getConfig().isActive()));
 	}
 
 	void CourseSelectScene::drawFadeIn(double t) const

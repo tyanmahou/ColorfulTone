@@ -46,7 +46,7 @@ namespace ct
 		m_config.drawWithBack();
 
 		SceneInfo::DrawEsc();
-		SceneInfo::Draw(U"Enter:決定 BackSpace:戻る");
+		SceneInfo::Draw(U"[Enter]決定 [BackSpace]戻る");
 	}
 
 	//--------------------------------------------------------------------------------

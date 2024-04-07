@@ -84,6 +84,8 @@ namespace ct
 				}
 				return;
 			}
+			SharedLogic::ChangeRandomNoteType();
+			SharedLogic::ChangePlayStyle();
 		}
 		void postUpdate()
 		{
@@ -141,15 +143,18 @@ namespace ct
 
 	namespace
 	{
-		String GetSceneInfo(bool isStart)
+		String GetSceneInfo(bool isStart, bool isConfig)
 		{
+			if (isConfig) {
+				return U"[Enter]決定 [BackSpace]戻る";
+			}
 			if (KeyControl.pressed()) {
-				return U"Ctrl+↑↓:ハイスピード変更";
+				return U"[1]プレイモード [2]配置変更 [Ctrl+↑↓]ハイスピード";
 			}
 			if (isStart) {
-				return U"Ctrl:オプション　Enter:開始　BackSpace:戻る";
+				return U"[Ctrl]オプション [Enter]開始 [BackSpace]戻る";
 			}
-			return U"Ctrl:オプション　Enter:開始　Esc長押し:戻る";
+			return U"[Ctrl]オプション [Enter]開始 [Esc長押し]戻る";
 		}
 	}
 	void CourseScene::draw() const
@@ -163,8 +168,8 @@ namespace ct
 		if (isStart) {
 			SceneInfo::DrawEsc();
 		}
-		SceneInfo::Header(U"\U000F0493 F11");
-		SceneInfo::Draw(::GetSceneInfo(isStart));
+		SceneInfo::Header(U"[F11]\U000F0493");
+		SceneInfo::Draw(::GetSceneInfo(isStart, m_pModel->getConfig().isActive()));
 	}
 
 	//--------------------------------------------------------------------------------

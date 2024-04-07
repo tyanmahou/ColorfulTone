@@ -97,10 +97,13 @@ namespace ct
                 }
             }
             //プレイモード
-            if (KeyF1.down()) {
-                SoundManager::PlaySe(U"desisionSmall");
-                PlayContext::ChangeAutoPlay(); 
+            SharedLogic::ChangeAutoPlay();
+            if (!m_isPlay) {
+                SharedLogic::ChangeLifeGauge();
+                SharedLogic::ChangeRandomNoteType();
+                SharedLogic::ChangePlayStyle();
             }
+
             if (KeyF5.down()) {
                 if (!m_isPlay) {
                     this->reload();
@@ -152,19 +155,23 @@ namespace ct
                     double x = 5;
                     const double topY = 70;
                     const double d = 22;
-                    constexpr std::array<StringView, 6> commands{
-                        U"F1:AutoPlay",
-                        U"F2:現在の位置から再生/停止",
-                        U"F3:曲の初めから再生/停止",
-                        U"F5:更新",
-                        U"F11:コンフィグ画面",
-                        U"Ctrl:ハイスピの変更"
+                    constexpr std::array<StringView, 9> commands{
+                        U"[F1]AutoPlay",
+                        U"[F2]現在の位置から再生/停止",
+                        U"[F3]曲の初めから再生/停止",
+                        U"[F5]更新",
+                        U"[F11]コンフィグ画面",
+                        U"[Ctrl]ハイスピの変更",
+                        U"[1]プレイモード変更",
+                        U"[2]配置変更",
+                        U"[3]ゲージ変更"
                     };
                     for (const auto& [index, str] : Indexed(commands)) {
                         PutText(String(str), Arg::topLeft = Vec2{ x, topY + d * index });
                     }
                 }
                 m_musicGame.playModeDraw();
+                SharedDraw::DrawPlayOptionSets();
                 return;
             }
 
@@ -172,6 +179,7 @@ namespace ct
                 m_musicGame.draw(m_isShowGUI);
             } else {
                 m_musicGame.previewDraw(m_count);
+                SharedDraw::DrawPlayOptionSets();
             }
             if (m_isPlay) {
                 SharedDraw::HighSpeedPlay(

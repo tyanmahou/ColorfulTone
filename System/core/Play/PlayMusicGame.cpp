@@ -284,7 +284,6 @@ namespace ct
     void PlayMusicGame::playModeDraw() const
     {
         this->drawAutoPlay(true);
-        this->drawRandomMode();
     }
 
     void PlayMusicGame::previewDraw(const double count) const
@@ -301,7 +300,6 @@ namespace ct
         this->drawMusicTitle(true);
         this->drawAutoPlay(true);
         this->drawNotesLevel();
-        this->drawRandomMode();
     }
 
     void PlayMusicGame::drawCurrentBPM() const
@@ -350,6 +348,7 @@ namespace ct
     Coro::Fiber<> PlayMusicGame::onReadyProcess()
     {
         if (m_isPreview) {
+            m_barXEasing.jumpToB();
             co_return;
         }
         co_await Coro::FiberUtil::WaitForSeconds(1.0s);

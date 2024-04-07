@@ -144,13 +144,16 @@ namespace
         target = static_cast<uint32>(validIndexes[0]);
     }
     // シーン情報のメッセージを取得
-    String GetSceneInfoMsg()
+    String GetSceneInfoMsg(bool isConfig)
     {
+        if (isConfig) {
+            return U"[Enter]決定 [BackSpace]戻る";
+        }
         // Shift:表示切替
         if (KeyControl.pressed()) {
-            return U"F1:オート　F12:練習モード　Ctrl+↑↓:ハイスピード変更";
+            return U"[1]プレイモード [2]配置変更 [3]ライフゲージ  [F1]オート [F12]練習モード [Ctrl+↑↓]ハイスピード";
         } else {
-            return U"Ctrl:オプション　F2:ソート　Enter:決定　BackSpace:戻る";
+            return U"[Ctrl]オプション [F2]ソート [Enter]決定 [BackSpace]戻る";
         }
     }
 }
@@ -242,14 +245,12 @@ namespace ct
                 }
             }
             //プレイモード
-            if (KeyF1.down()) {
-                PlayContext::ChangeAutoPlay();
-                SoundManager::PlaySe(U"desisionSmall");
-            }
-            if (KeyF12.down()) {
-                PlayContext::ChangePracticePlay();
-                SoundManager::PlaySe(U"desisionSmall");
-            }
+            SharedLogic::ChangeAutoPlay();
+            SharedLogic::ChangePracticePlay();
+            SharedLogic::ChangeLifeGauge();
+            SharedLogic::ChangeRandomNoteType();
+            SharedLogic::ChangePlayStyle();
+
             //情報切り替え
             if (KeyShift.down()) {
                 SoundManager::PlaySe(U"desisionSmall");
@@ -411,8 +412,8 @@ namespace ct
         m_view.draw();
         // シーン情報
         SceneInfo::DrawEsc();
-        SceneInfo::Header(U"\U000F1563 F10 \U000F0493 F11");
-        SceneInfo::Draw(::GetSceneInfoMsg());        
+        SceneInfo::Header(U"[F10]\U000F1563 [F11]\U000F0493");
+        SceneInfo::Draw(::GetSceneInfoMsg(m_pModel->getConfig().isActive()));
     }
 
     void MusicSelectScene::drawFadeIn(double t) const

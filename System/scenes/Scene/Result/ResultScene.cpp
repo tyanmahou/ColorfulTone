@@ -223,8 +223,8 @@ namespace ct
 	{
 		m_view.draw();
 		SceneInfo::DrawEsc();
-		SceneInfo::Header(U"\U000F0544 T \U000F1563 F10");
-		SceneInfo::Draw(U"Enter:戻る　BackSpace:戻る");
+		SceneInfo::Header(U"[T]\U000F0544 [F10]\U000F1563");
+		SceneInfo::Draw(U"[Enter]戻る [BackSpace]戻る");
 	}
 
 	void ResultScene::drawFadeIn(double t) const

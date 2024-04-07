@@ -8,4 +8,11 @@ namespace ct::SharedLogic
 
 
 	s3d::int32 MoveSelectV(bool& playSe);
+
+	bool ChangeAutoPlay();
+	bool ChangePracticePlay();
+
+	bool ChangeLifeGauge();
+	bool ChangeRandomNoteType();
+	bool ChangePlayStyle();
 }

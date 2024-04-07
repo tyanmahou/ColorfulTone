@@ -21,6 +21,9 @@ namespace ct
         Rotatee120Mirror = RYB,
         Rotate240 = YRB,
         Rotate240Mirror = BRY,
+
+        Min = RBY,
+        Max = SRandom,
     };
 
     inline constexpr s3d::StringView ToRandomNoteTypeStr(RandomNoteType type)

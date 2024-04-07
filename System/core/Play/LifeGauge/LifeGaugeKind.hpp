@@ -15,5 +15,8 @@ namespace ct
         Challenge = 1,
         Danger = 2,
         SuddenDeath = 3,
+
+        Min = -3,
+        Max = 3,
     };
 }

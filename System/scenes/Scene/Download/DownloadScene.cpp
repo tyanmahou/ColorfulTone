@@ -142,7 +142,7 @@ namespace ct
 		// シーン情報
 		if (!m_pModel->isDownloading()) {
 			SceneInfo::DrawEsc(s3d::Palette::Black);
-			SceneInfo::Draw(U"Enter:決定");
+			SceneInfo::Draw(U"[Enter]決定");
 		}
 	}
 
