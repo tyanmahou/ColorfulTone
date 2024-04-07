@@ -412,7 +412,7 @@ namespace ct
         m_view.draw();
         // シーン情報
         SceneInfo::DrawEsc();
-        SceneInfo::Header(U"[F10]\U000F1563 [F11]\U000F0493");
+        SceneInfo::Header(U"[F10] \U000F1563 [F11] \U000F0493");
         SceneInfo::Draw(::GetSceneInfoMsg(m_pModel->getConfig().isActive()));
     }
 

@@ -17,10 +17,12 @@ namespace
         constexpr Color Great{ 140, 255, 140 , 128 };
         constexpr Color Good{ 255, 255, 125 , 128 };
         constexpr Color Miss{ 255, 140, 140 , 128 };
+
+        constexpr Color Life{ 247, 110, 190, 128 };
     }
     constexpr RectF GraphRect()
     {
-        return { 90, 370, 370, 120 };
+        return { 90, 370 + 10, 370, 120 };
     }
     using Judges = Array<std::pair<RectF, Color>>;
     void CreateJudgeGrapgh(Judges& judges, const Score& result, size_t total)
@@ -277,11 +279,15 @@ namespace ct
 
             // グラフ
             ::DrawGraph(m_graphLife, m_graphJudge, animationTime);
-            if (animationTime >= 1.0) {
-                Vec2 p = m_graphLife.back();
-                p.y = ::GraphRect().bottomY() + 5.0;
-                FontAsset(FontName::ResultFastLateCount)(U"{:.2f}"_fmt(ResultRank::CalcLifeRate(m_pScene->getResult())))
-                    .draw(10, Arg::topCenter = p, Palette::Blue);
+            {
+                Vec2 p = ::GraphRect().pos + Vec2{-15, -20};
+                RectF(p + Vec2{ -5, 7 }, { 55, 7 }).draw(ResultMarker::Life);
+                String lifeStr = U"{:.2f}"_fmt(ResultRank::CalcLifeRate(m_pScene->getResult())).lpadded(7, U' ');
+                p.x = FontAsset(FontName::ResultFastLateCount)(U"LIFE"_fmt(lifeStr)).draw(p, Palette::Black).rightX();
+                p.y -= 1;
+                if (animationTime >= 1.0) {
+                    FontKinetic::DeleteSpace(FontAsset(FontName::ResultFastLateCount), U"{}%"_fmt(lifeStr), p, Palette::Black);
+                }
             }
 
             // リザルト

@@ -168,7 +168,7 @@ namespace ct
 		if (isStart) {
 			SceneInfo::DrawEsc();
 		}
-		SceneInfo::Header(U"[F11]\U000F0493");
+		SceneInfo::Header(U"[F11] \U000F0493");
 		SceneInfo::Draw(::GetSceneInfo(isStart, m_pModel->getConfig().isActive()));
 	}
 

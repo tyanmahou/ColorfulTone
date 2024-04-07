@@ -96,7 +96,7 @@ namespace ct
 	}
 	void Config::draw(double y, bool isSelect)const
 	{
-		const double alpha = isSelect ? 1 : 0.5;
+		const double alpha = m_isActive ? 1 : 0.5;
 
 		RectF rect(150, y - 30, 500, 60);
 		rect.draw({ ColorF(0.2,0.5,0.4, alpha),ColorF(0.2, alpha),ColorF(0,alpha),ColorF(0, 0, 0.1, alpha) });

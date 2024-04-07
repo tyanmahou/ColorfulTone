@@ -223,7 +223,7 @@ namespace ct
 	{
 		m_view.draw();
 		SceneInfo::DrawEsc();
-		SceneInfo::Header(U"[T]\U000F0544 [F10]\U000F1563");
+		SceneInfo::Header(U"[T] \U000F0544 [F10] \U000F1563");
 		SceneInfo::Draw(U"[Enter]戻る [BackSpace]戻る");
 	}
 
