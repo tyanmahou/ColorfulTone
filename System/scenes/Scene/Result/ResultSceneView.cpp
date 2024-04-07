@@ -303,8 +303,7 @@ namespace ct
             ::DrawCourseResult(course, m_timers);
 
             SharedDraw::DrawPlayContextHeader();
-            SharedDraw::DrawPlayStyleIcon();
-            SharedDraw::DrawRandomNoteType();
+            SharedDraw::DrawPlayOptionSets();
         }
     };
 

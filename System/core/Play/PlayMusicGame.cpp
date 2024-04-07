@@ -320,7 +320,7 @@ namespace ct
 
     void PlayMusicGame::drawRandomMode() const
     {
-        SharedDraw::DrawRandomNoteType();
+        SharedDraw::DrawRandomNoteType(Vec2{ 800 - 10, Scene::Height() - 55 });
     }
 
     void PlayMusicGame::drawMusicTitle(bool preview) const

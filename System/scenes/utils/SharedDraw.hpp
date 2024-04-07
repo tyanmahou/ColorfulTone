@@ -61,4 +61,8 @@ namespace ct::SharedDraw
 
     void DrawRandomNoteType();
     void DrawRandomNoteType(const s3d::Vec2& pos);
+
+    void DrawGaugeBadge();
+
+    void DrawPlayOptionSets();
 }

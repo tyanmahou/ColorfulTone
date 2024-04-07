@@ -2,7 +2,9 @@
 #include <Useful.hpp>
 #include <core/Play/HighSpeed/HighSpeedDemo.hpp>
 #include <core/Play/PlayNotesData.hpp>
+#include <core/Play/LifeGauge/LifeGauge.hpp>
 #include <Siv3D.hpp>
+#include "SharedDraw.hpp"
 
 namespace ct::SharedDraw
 {
@@ -128,7 +130,7 @@ namespace ct::SharedDraw
 	}
 	void DrawRandomNoteType()
 	{
-		DrawRandomNoteType(Vec2{ 800 - 10, Scene::Height() - 55 });
+		DrawRandomNoteType(Vec2{ 800 - 35, Scene::Height() - 55 });
 	}
 	void DrawRandomNoteType(const s3d::Vec2& pos)
 	{
@@ -139,6 +141,11 @@ namespace ct::SharedDraw
 			font(text).draw(Arg::rightCenter = pos, Palette::White);
 		}
 	}
+	void DrawGaugeBadge()
+	{
+		Vec2 pos{ 800 - 5, Scene::Height() - 55 };
+		LifeGauge::GetBadge(Game::Config().m_lifeGauge).scaled(0.5).draw(Arg::rightCenter = pos);
+	}
 	void DrawPlayStyleIcon()
 	{
 		DrawPlayStyleIcon({ 5, 533 });
@@ -146,5 +153,11 @@ namespace ct::SharedDraw
 	void DrawPlayStyleIcon(const s3d::Vec2& pos)
 	{
 		TextureAsset(U"playstyle_icon")(static_cast<int32>(Game::Config().m_styleType) * 50, 0, 50, 50).resized(25, 25).draw(pos, Palette::Orange);
+	}
+	void DrawPlayOptionSets()
+	{
+		DrawPlayStyleIcon();
+		DrawRandomNoteType();
+		DrawGaugeBadge();
 	}
 }

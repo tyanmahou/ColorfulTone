@@ -109,8 +109,7 @@ namespace ct
                 !m_pScene->getConfig().isActive()
             );
             if (!m_pScene->getConfig().isActive()) {
-                SharedDraw::DrawPlayStyleIcon();
-                SharedDraw::DrawRandomNoteType();
+                SharedDraw::DrawPlayOptionSets();
             }
             // コンフィグ
             m_pScene->getConfig().drawWithBack();
