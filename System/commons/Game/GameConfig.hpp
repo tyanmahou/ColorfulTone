@@ -57,6 +57,8 @@ namespace ct
         bool m_isCirleCut = true;
         //表示レート
         IndicateRate m_rateType = IndicateRate::Up;
+        bool useSubRate = false;
+
         double m_playScale = 1.0;
         // タイミング調整
         s3d::int8 m_timingAdjust = 0;
