@@ -60,7 +60,7 @@ namespace ct
         // 表示レート
         IndicateRate m_rateType = IndicateRate::Up;
         IndicateRate m_subRateType = IndicateRate::Life;
-        bool useSubRate = false;
+        bool m_useSubRate = false;
 
         double m_playScale = 1.0;
         // タイミング調整

@@ -86,6 +86,8 @@ namespace  ct
 
         m_isCirleCut = ini.getOr<bool>(U"Config.CirleCut", true);
         m_rateType = static_cast<IndicateRate>(ini.getOr<int32>(U"Config.IndicateRate", 0));
+        m_subRateType = static_cast<IndicateRate>(ini.getOr<int32>(U"Config.IndicateSubRate", 2));
+        m_useSubRate = ini.getOr<bool>(U"Config.UseSubRate", false);
 
         m_playScale = ini.getOr<double>(U"Config.PlayScale", 1.0);
         m_timingAdjust = ini.getOr<int8>(U"Config.TimingAdjust", 0);
@@ -168,6 +170,8 @@ namespace  ct
         ini.write(U"Config", U"OffsetAdjust", m_offsetAdjust);
         ini.write(U"Config", U"CirleCut", m_isCirleCut);
         ini.write(U"Config", U"IndicateRate", static_cast<int32>(m_rateType));
+        ini.write(U"Config", U"IndicateSubRate", static_cast<int32>(m_subRateType));
+        ini.write(U"Config", U"UseSubRate", m_useSubRate);
         ini.write(U"Config", U"LifeGauge", static_cast<int32>(m_lifeGauge));
         ini.write(U"Config", U"LifeDead", m_isLifeDead);
 
