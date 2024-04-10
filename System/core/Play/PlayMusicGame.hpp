@@ -81,6 +81,7 @@ namespace ct
 		s3d::uint64 finishSample() const;
 
 		[[maybe_unused]] bool isDead() const;
+		[[maybe_unused]] double beatRate() const;
 
 		Coro::Fiber<> onReadyProcess();
 		Coro::Fiber<> onDeadProcess();

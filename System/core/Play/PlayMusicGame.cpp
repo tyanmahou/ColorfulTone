@@ -8,6 +8,7 @@
 #include <core/Play/Random/RandomNote.hpp>
 #include <core/Play/ColorFx/ColorFx.hpp>
 #include <core/Play/UI/GaugeView.hpp>
+#include <core/Play/UI/SamplePosView.hpp>
 #include <utils/Coro/Fiber/FiberUtil.hpp>
 #include <Siv3D.hpp>
 
@@ -247,9 +248,7 @@ namespace ct
             this->drawBG(drawCount);
 
             {
-                s3d::int32 beat = NotesData::RESOLUTION / 4;
-                double f = Abs(static_cast<double>(static_cast<s3d::int32>(m_nowCount) % beat))
-                    / static_cast<double>(beat);
+                double f = beatRate();
 
                 constexpr s3d::int32 w = 80;
                 ColorF c1 = ColorF(0, 0, 0, 0.6 * (1 - f));
@@ -345,6 +344,11 @@ namespace ct
         // ライフ0以下
         return m_score.m_life <= 0;
     }
+    double PlayMusicGame::beatRate() const
+    {
+        s3d::int32 beat = NotesData::RESOLUTION / 4;
+        return Abs(static_cast<double>(static_cast<s3d::int32>(m_nowCount) % beat)) / static_cast<double>(beat);
+    }
     Coro::Fiber<> PlayMusicGame::onReadyProcess()
     {
         if (m_isPreview) {
@@ -410,14 +414,13 @@ namespace ct
 
         //曲の現在地
         const double invBarXRate = (1.0 - m_barXEasing.easeInOut());
-        const s3d::int32 barY = 50;
         {
-            double offsX = -invBarXRate * 50;
-            TextureAsset(U"streamPosBase").draw(-5 + offsX, barY);
-            double barScale = Saturate(GetSamplePos(m_sound) / static_cast<double>(finishSample()));
+            const double barRate = Saturate(GetSamplePos(m_sound) / static_cast<double>(finishSample()));
 
-            const auto size = (barY + 454 - 10) - (barY + 11);
-            Line({ -5 + offsX + 13.5,barY + 11 + size * barScale }, { -5 + offsX + 13.5,barY + 11 + 10 + size * barScale }).draw(3, Palette::Orange);
+            SamplePosView{}
+                .setOffs(-invBarXRate * 50)
+                .setRate(barRate)
+                .draw();
         }
         // ゲージ
         {
@@ -425,9 +428,7 @@ namespace ct
                 ResultRank::CalcClearRate(m_score, m_totalNotes);
             const float lifeRate = ResultRank::CalcLifeRate(m_score);
 
-            s3d::int32 beat = NotesData::RESOLUTION / 4;
-            double f = Abs(static_cast<double>(static_cast<s3d::int32>(m_nowCount) % beat))
-                / static_cast<double>(beat);
+            double f = beatRate();
 
             GaugeView{}
                 .setOffs(invBarXRate * 60.0)
