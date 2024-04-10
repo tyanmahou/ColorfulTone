@@ -11,6 +11,7 @@
 
 #include <core/Play/PlayMusicGame.hpp>
 #include <core/Play/ColorFx/ColorFx.hpp>
+#include <core/Play/UI/PlayInfoView.hpp>
 
 #include <Siv3D.hpp>
 
@@ -345,20 +346,11 @@ namespace ct
     }
     void LandscapeStyle::drawComboAndRate(size_t combo, float rate)
     {
-        const FontAsset font(FontName::Combo);
-        constexpr Vec2 comboPos{ g_pivotCore.x -100 , 298 + 10};
+        constexpr Vec2 comboPos{ g_pivotCore.x -100 , 300 + 10};
         constexpr Vec2 ratePos{ 600 ,300 + 10 };
-        if (combo) {
-            TextureAsset(U"combo").draw(comboPos.x + 121, comboPos.y + 1, Palette::White);
-            TextureAsset(U"combo").draw(comboPos.x + 120, comboPos.y, Palette::Black);
 
-            String comboText = Pad(combo, { 6, L' ' });
-            FontKinetic::DeleteSpace(font, comboText, Vec2{ comboPos.x, comboPos.y + 2 }, Palette::Black, Palette::White);
-        }
-        {
-            font(U"{:.2f}%"_fmt(rate)).draw(ratePos.x + 1, ratePos.y + 1, Palette::White);
-            font(U"{:.2f}%"_fmt(rate)).draw(ratePos.x, ratePos.y, Palette::Black);
-        }
+        PlayInfoView::DrawCombo(combo, comboPos);
+        PlayInfoView::DrawRate(rate, s3d::none, ratePos);
     }
     void LandscapeStyle::drawTapEffect(NoteType type, NoteType baseType)
     {

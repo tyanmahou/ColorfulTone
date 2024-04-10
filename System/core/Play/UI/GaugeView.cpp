@@ -1,7 +1,6 @@
 ﻿#include <core/Play/UI/GaugeView.hpp>
 #include <core/Play/LifeGauge/LifeGauge.hpp>
 #include <Siv3D.hpp>
-#include "GaugeView.hpp"
 
 namespace ct
 {

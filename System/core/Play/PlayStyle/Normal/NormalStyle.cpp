@@ -12,6 +12,7 @@
 
 #include <core/Play/PlayMusicGame.hpp>
 #include <core/Play/ColorFx/ColorFx.hpp>
+#include <core/Play/UI/PlayInfoView.hpp>
 
 namespace
 {
@@ -170,19 +171,8 @@ namespace ct
 
 	void NormalStyle::drawComboAndRate(size_t combo, float rate)
 	{
-		const FontAsset font(FontName::Combo);
-
-		if (combo) {
-			const s3d::int32 x = 115;
-			TextureAsset(U"combo").draw(x + 121, 299, Palette::White);
-			TextureAsset(U"combo").draw(x + 120, 298, Palette::Black);
-
-			String comboText = Pad(combo, { 6, L' ' });
-			FontKinetic::DeleteSpace(font, comboText, Vec2{ x, 300 }, Palette::Black, Palette::White);
-		}
-
-		font(U"{:.2f}%"_fmt(rate)).draw(501, 301, Palette::White);
-		font(U"{:.2f}%"_fmt(rate)).draw(500, 300, Palette::Black);
+		PlayInfoView::DrawCombo(combo, {115, 300});
+		PlayInfoView::DrawRate(rate, s3d::none, {500, 300});
 	}
 
 	void NormalStyle::drawTapEffect(NoteType type, NoteType baseType)
