@@ -35,7 +35,9 @@ namespace ct
         Default = Earliest,
     };
 
-    //コンフィグ設定変数
+    /// <summary>
+    /// コンフィグ設定変数
+    /// </summary>
     class GameConfig
     {
     public:
@@ -53,10 +55,11 @@ namespace ct
         s3d::Input m_up, m_down, m_right, m_left;
         s3d::Input m_start, m_smallBack, m_bigBack;
 
-        //円切り取り
+        // 円切り取り
         bool m_isCirleCut = true;
-        //表示レート
+        // 表示レート
         IndicateRate m_rateType = IndicateRate::Up;
+        IndicateRate m_subRateType = IndicateRate::Life;
         bool useSubRate = false;
 
         double m_playScale = 1.0;
@@ -66,13 +69,13 @@ namespace ct
         LifeGaugeKind m_lifeGauge = LifeGaugeKind::Normal;
         bool m_isLifeDead = false;
 
-        //タップ音
+        // タップ音
         TapSE m_tapSE;
 
-        //BGM SE音量
+        // BGM SE音量
         double m_bgmVolume, m_seVolume, m_inGameMusicVolume, m_inGameSeVolume, m_masterVolume;
 
-        //背景演出
+        // 背景演出
         BGType m_bgType = BGType::Default;
         bool m_useBgEffect = true;
         bool m_isSpectrum = true;
