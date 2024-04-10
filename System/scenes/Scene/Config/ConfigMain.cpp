@@ -344,23 +344,42 @@ namespace ct
             config.init(map.at(Game::Config().m_playScale));
         }
 
-        //表示クリアレート
-        void ClearRateInit(Config& config)
+        void IndicateRateInit(Config& config, const String& name, IndicateRate& rate)
         {
-            config.setName(U"表示するクリアレート");
-            config.add(U"加算式", []() {Game::Config().m_rateType = IndicateRate::Up; });
-            config.add(U"減算式", []() {Game::Config().m_rateType = IndicateRate::Down; });
-            config.add(U"ライフゲージ", []() {Game::Config().m_rateType = IndicateRate::Life; });
+            config.setName(name);
+            config.add(U"加算式", [&rate]{rate = IndicateRate::Up; });
+            config.add(U"減算式", [&rate]{rate = IndicateRate::Down; });
+            config.add(U"ライフゲージ", [&rate]{rate = IndicateRate::Life; });
 
-            if (Game::Config().m_rateType == IndicateRate::Up) {
+            if (rate == IndicateRate::Up) {
                 config.init(U"加算式");
-            } else if (Game::Config().m_rateType == IndicateRate::Down) {
+            } else if (rate == IndicateRate::Down) {
                 config.init(U"減算式");
-            } else if (Game::Config().m_rateType == IndicateRate::Life) {
+            } else if (rate == IndicateRate::Life) {
                 config.init(U"ライフゲージ");
             }
         }
+        //表示クリアレート
+        void ClearRateInit(Config& config)
+        {
+            IndicateRateInit(config, U"表示するクリアレート", Game::Config().m_rateType);
+        }
+        void ClearSubRateInit(Config& config)
+        {
+            IndicateRateInit(config, U"表示するサブレート", Game::Config().m_subRateType);
+        }
+        void UseSubRateInit(Config& config)
+        {
+            config.setName(U"サブレートの表示");
+            config.add(U"OFF", [] {Game::Config().m_useSubRate = false; });
+            config.add(U"ON", [] {Game::Config().m_useSubRate = true; });
 
+            if (Game::Config().m_useSubRate) {
+                config.init(U"ON");
+            } else {
+                config.init(U"OFF");
+            }
+        }
         class PlayConfig :public IConfigHierchy
         {
             enum Mode
@@ -368,6 +387,8 @@ namespace ct
                 Style,
                 PlayScale,
                 ClearRate,
+                UseSubRate,
+                SubRate,
                 ViewConfig,
                 TOTAL_CONFIG //コンフィグの数
             };
@@ -378,9 +399,17 @@ namespace ct
                 PlayStyleInit(m_configs[Style]);
                 PlayScaleInit(m_configs[PlayScale]);
                 ClearRateInit(m_configs[ClearRate]);
+                UseSubRateInit(m_configs[UseSubRate]);
+                ClearSubRateInit(m_configs[SubRate]);
                 m_configs[ViewConfig].setName(U"背景詳細").applyOnEnterd([this]() {
                     this->changePush<PlayViewConfig>();
                     });
+            }
+
+            bool update() override
+            {
+                m_configs[SubRate].setActive(Game::Config().m_useSubRate);
+                return IConfigHierchy::update();
             }
         };
 
