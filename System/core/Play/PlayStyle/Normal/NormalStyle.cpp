@@ -169,10 +169,10 @@ namespace ct
 		Circle(400, 300, 40).drawFrame(2, 2, judgeLineColor);
 	}
 
-	void NormalStyle::drawComboAndRate(size_t combo, float rate)
+	void NormalStyle::drawComboAndRate(size_t combo, float rate, const s3d::Optional<float>& subRate)
 	{
 		PlayInfoView::DrawCombo(combo, {115, 300});
-		PlayInfoView::DrawRate(rate, s3d::none, {500, 300});
+		PlayInfoView::DrawRate(rate, subRate, {500, 300});
 	}
 
 	void NormalStyle::drawTapEffect(NoteType type, NoteType baseType)

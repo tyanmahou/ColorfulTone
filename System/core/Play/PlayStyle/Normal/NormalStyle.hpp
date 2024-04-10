@@ -11,7 +11,7 @@ namespace ct
 
 		void drawFrame(bool red, bool blue, bool yellow, std::function<void()> drawCallback) const override;
 		void drawJudgeLine()const override;
-		void drawComboAndRate(size_t combo, float rate);
+		void drawComboAndRate(size_t combo, float rate, const s3d::Optional<float>& subRate);
 
 		void drawTapEffect(NoteType type, NoteType baseType);
 		void drawJudgeEffect(Score::Judge judge, NoteType type, s3d::int64 diff);

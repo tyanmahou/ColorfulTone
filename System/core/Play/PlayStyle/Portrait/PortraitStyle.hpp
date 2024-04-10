@@ -10,7 +10,7 @@ namespace ct
 		void drawPreview([[maybe_unused]] std::function<void()> drawCallback) const override;
 		void drawFrame(bool red, bool blue, bool yellow, std::function<void()> drawCallback) const override;
 		void drawJudgeLine()const override;
-		void drawComboAndRate(size_t combo, float rate);
+		void drawComboAndRate(size_t combo, float rate, const s3d::Optional<float>& subRate);
 
 		void drawTapEffect(NoteType type, NoteType baseType);
 		void drawJudgeEffect(Score::Judge judge, NoteType type, s3d::int64 diff);
@@ -26,7 +26,7 @@ namespace ct
 		void draw(const RepeatEnd& note, double count, double scrollRate)const override;
 
 		virtual bool canDraw(double y) const;
-		void drawComboAndRate(size_t combo, const s3d::Vec2& comboPos, float rate, const s3d::Vec2& ratePos) const;
+		void drawComboAndRate(size_t combo, const s3d::Vec2& comboPos, float rate, const s3d::Optional<float>& subRate, const s3d::Vec2& ratePos) const;
 	protected:
 		s3d::Effect m_effetcs[2];
 	};

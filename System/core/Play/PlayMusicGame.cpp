@@ -404,13 +404,33 @@ namespace ct
         //UI***************************************************************
 
         const IndicateRate rateType = Game::Config().m_rateType;
-        const auto rate = m_isCourse || Game::Config().m_isLifeDead || rateType == IndicateRate::Life ?
-            ResultRank::CalcLifeRate(m_score) :
-            rateType == IndicateRate::Down ?
-            ResultRank::CalcClearRateAsDownType(m_score, m_totalNotes) :
-            ResultRank::CalcClearRate(m_score, m_totalNotes);
+        IndicateRate subRateType = Game::Config().m_subRateType;
+        const IndicateRate clearRateType =
+            rateType != IndicateRate::Life    ? rateType :
+            subRateType != IndicateRate::Life ? subRateType :
+                                                IndicateRate::Up
+            ;
+        if (m_isCourse) {
+            subRateType = clearRateType;
+        }
+        const float lifeRate = ResultRank::CalcLifeRate(m_score);
+        const float upClearRate = ResultRank::CalcClearRate(m_score, m_totalNotes);
+        const float downClearRate = ResultRank::CalcClearRateAsDownType(m_score, m_totalNotes);
 
-        PlayStyle::Instance()->drawComboAndRate(m_score.m_currentCombo, rate);
+        const auto rate =
+            (m_isCourse || rateType == IndicateRate::Life) ? lifeRate :
+                          rateType == IndicateRate::Down ? downClearRate :
+                                                           upClearRate
+            ;
+        s3d::Optional<float> subRate = s3d::none;
+        if (Game::Config().m_useSubRate) {
+            subRate =
+                subRateType == IndicateRate::Life ? lifeRate :
+                subRateType == IndicateRate::Down ? downClearRate :
+                                                    upClearRate
+                ;
+        }
+        PlayStyle::Instance()->drawComboAndRate(m_score.m_currentCombo, rate, subRate);
 
         //曲の現在地
         const double invBarXRate = (1.0 - m_barXEasing.easeInOut());
@@ -424,18 +444,14 @@ namespace ct
         }
         // ゲージ
         {
-            const float clearRate = rateType == IndicateRate::Down ? ResultRank::CalcClearRateAsDownType(m_score, m_totalNotes) :
-                ResultRank::CalcClearRate(m_score, m_totalNotes);
-            const float lifeRate = ResultRank::CalcLifeRate(m_score);
-
-            double f = beatRate();
+            const float clearRate = clearRateType == IndicateRate::Down ? downClearRate : upClearRate;
 
             GaugeView{}
                 .setOffs(invBarXRate * 60.0)
                 .setClearRate(clearRate)
                 .setLifeRate(lifeRate)
                 .setGaugeKind(m_score.m_gauge)
-                .setBeatRate(f)
+                .setBeatRate(beatRate())
                 .draw()
                 ;
         }

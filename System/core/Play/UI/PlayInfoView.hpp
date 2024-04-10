@@ -13,7 +13,7 @@ namespace ct
         /// <param name="rate"></param>
         /// <param name="subRate"></param>
         /// <param name="ratePos"></param>
-        static void DrawRate(double rate, const s3d::Optional<double>& subRate, const s3d::Vec2& ratePos);
+        static void DrawRate(double rate, const s3d::Optional<float>& subRate, const s3d::Vec2& ratePos);
 
         /// <summary>
         /// コンボ

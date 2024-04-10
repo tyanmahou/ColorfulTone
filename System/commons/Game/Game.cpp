@@ -215,6 +215,8 @@ namespace
 		FontAsset::Register(U"s-o-8", 8 + 8, straightPath, FontStyle::Bold);
 		FontAsset(U"s-o-8").setBufferThickness(3);
 
+		FontAsset::Register(U"s-r-7", 7 + 7, straightPath);
+
 		FontAsset::Register(U"s-r-10", 10 + 10, straightPath);
 		FontAsset::Register(U"s-o-10", FontMethod::SDF, 10 + 10, straightPath, FontStyle::Bold);
 		FontAsset(U"s-o-10").setBufferThickness(3);
