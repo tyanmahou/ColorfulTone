@@ -9,7 +9,7 @@ namespace ct
 	//--------------------------------------------------------------------------------
 	TutorialScene::TutorialScene(const InitData& init) :
 		ISceneBase(init),
-		m_music(U"Sample", U"Sample/tutorial/", U"Sample/tutorial/tutorial.ini", true)
+		m_music(U"Sample", U"Resource/Sample/tutorial/", U"Resource/Sample/tutorial/tutorial.ini", true)
 	{
 
 		m_musicGame.init(m_music[0], getData().m_scrollRate);
