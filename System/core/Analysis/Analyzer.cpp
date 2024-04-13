@@ -78,6 +78,7 @@ namespace ct
     AnalyzeResult Analyzer::Analyze(const SheetMusic& sheet)
     {
         constexpr double BackFactor = 2.0;
+        constexpr double ZeroFactor = 2.2;
 
         // ノーツ1つにつき
         constexpr double BaseNoteRating = 1000.0;
@@ -159,7 +160,7 @@ namespace ct
                         double highSpeed = Max(speeds[index], speedBase);
                         double speedRatio = 0;
                         if (lowSpeed == 0) {
-                            speedRatio = 2;
+                            speedRatio = ZeroFactor;
                         } else {
                             speedRatio = highSpeed / lowSpeed;
                         }
@@ -212,7 +213,7 @@ namespace ct
                             }
                         }
                         if (trillCount >= axisTrillCount && trillCount >= 3) {
-                            double trillFactor = Math::Lerp(1.0, 0.4, Math::InvLerp(3, 16, static_cast<double>(trillCount)));
+                            double trillFactor = Math::Lerp(1.0, 0.5, Math::InvLerp(3, 16, static_cast<double>(trillCount)));
                             rating *= trillFactor;
                         } else if (axisTrillCount >= 5) {
                             double trillFactor = Math::Lerp(1.0, 0.6, Math::InvLerp(5, 16, static_cast<double>(axisTrillCount)));
@@ -337,7 +338,7 @@ namespace ct
                     if (notes[i].sample > endSample) {
                         break;
                     }
-                    double overlapFactor = 1.0;
+                    double overlapFactor = ZeroFactor;
                     if (isBack) {
                         if (notes[i].sample >= midSample) {
                             overlapFactor = notes[i].speed > 0 ? BackFactor : (1 / BackFactor);
