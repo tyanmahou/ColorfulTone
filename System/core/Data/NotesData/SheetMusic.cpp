@@ -174,14 +174,12 @@ namespace ct
                         m_starLv = ParseStarLv(*starKind);
                     } else {
                         if (m_lv == 16) {
-                            m_starLv = StarLv::WhiteTwo;
-                        } else if (m_lv == 17) {
                             m_starLv = StarLv::WhiteThree;
-                        } else if (m_lv == 18) {
+                        } else if (m_lv == 17) {
                             m_starLv = StarLv::BlackOne;
-                        } else if (m_lv == 19) {
+                        } else if (m_lv == 18) {
                             m_starLv = StarLv::BlackTwo;
-                        } else if (m_lv >= 20) {
+                        } else if (m_lv >= 19) {
                             m_starLv = StarLv::BlackThree;
                         }
                     }
