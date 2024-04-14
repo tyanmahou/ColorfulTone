@@ -47,7 +47,7 @@ namespace ct
             gaugeRect.draw(ColorF(0.0, 0.2));
             // ゲージ
             if (m_clearRate > 0) {
-                //ScopedRenderStates2D blend(BlendState::Additive);
+                ScopedRenderStates2D blend(BlendState::Additive);
                 uint8 gaugeA = 128;
                 if (m_clearRate >= 97) {
                     // AAA

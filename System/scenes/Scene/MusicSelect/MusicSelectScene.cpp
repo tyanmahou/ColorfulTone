@@ -56,6 +56,10 @@ namespace
     // 楽曲リストソート
     void RefineMusics(Array<MusicData>& musics)
     {
+        if (g_selectInfo.genre >= GenreManager::Size()) {
+            g_selectInfo.genre = 0;
+        }
+
         GenreManager::GetFilter(g_selectInfo.genre).onFilterStart(musics);
         musics.remove_if([&](const MusicData& m) {
             return !GenreManager::GetFilter(g_selectInfo.genre)(m);
