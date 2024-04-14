@@ -84,7 +84,7 @@ namespace ct::SharedDraw
 			TextureAsset(U"pass").scaled(0.3).drawAt({ 80, 10 });
 		} else if (courseScore.isClear) {
 			TextureAsset(U"kariPass").scaled(0.3).drawAt({ 80, 10 });
-		} else if (drawFailure && courseScore.totalRate > 0 && courseScore.gauge > LifeGaugeKind::Invincible) {
+		} else if (drawFailure && courseScore.totalRate > 0 && courseScore.life == 0.0f) {
 			TextureAsset(U"noPass").scaled(0.3).drawAt({ 80, 10 });
 		}
 		FontAsset font12os = FontAsset(FontName::Level);
