@@ -165,14 +165,16 @@ namespace ct
             lifeColor = ColorF(1.0, 0.2, 0.2, alpha);
             lifeColor2 = HSV(360.0, sFactor, 1).toColorF(alpha);
         } else if (m_lifeRate <= 50) {
+            alpha = 1.0;
             lifeColor = ColorF(1.0, 1.0, 0.2, alpha);
             HSV hsv = ColorF(1.0, 0.2, 0.2, alpha);
-            hsv.s *= sFactor;
+            //hsv.s *= sFactor;
             lifeColor2 = hsv.toColorF(alpha);
         } else if (m_lifeRate < 100) {
+            alpha = 1.0;
             lifeColor = ColorF(0.4, 1.0, 0.4, alpha);
             HSV hsv = ColorF(1.0, 1.0, 0.2, alpha);
-            hsv.s *= sFactor;
+            //hsv.s *= sFactor;
             lifeColor2 = hsv.toColorF(alpha);
         } else {
             lifeColor = HSV(Fmod(Scene::Time() / 2, 1.0) * 360, 0.5, 1).toColorF(alpha);
