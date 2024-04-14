@@ -78,8 +78,8 @@ namespace
 			isNewRecord = true;
 		}
 
-		bool isLifeUpdate = score.life > srcScore.life && (score.gauge == srcScore.gauge) || srcScore.gauge == LifeGaugeKind::None;
-		bool isGaugeUpdate = score.gauge > srcScore.gauge;
+		bool isLifeUpdate = score.life > srcScore.life && (score.gauge == srcScore.gauge || srcScore.gauge == LifeGaugeKind::None);
+		bool isGaugeUpdate = score.isLifeClear && score.gauge > srcScore.gauge;
 		if (isFirstClear || isLifeUpdate || isGaugeUpdate)
 		{
 			srcScore.gauge = score.gauge;
