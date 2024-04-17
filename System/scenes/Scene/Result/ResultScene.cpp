@@ -196,7 +196,7 @@ namespace ct
 			// ツイート
 			Twitter::OpenTweetWindow(m_model->getTweetText());
 		}
-		if (PlayKey::Start().down() || PlayKey::BigBack().down() || PlayKey::SmallBack().down()) {
+		if (PlayKey::Start().down() || PlayKey::BigBack().down()) {
 			SoundManager::PlaySe(U"desisionLarge");
 			if (getData().m_course.isActive()) {
 				if (getData().m_course.isEnd()) {
@@ -224,7 +224,7 @@ namespace ct
 		m_view.draw();
 		SceneInfo::DrawEsc();
 		SceneInfo::Header(U"[T] \U000F0544 [F10] \U000F1563");
-		SceneInfo::Draw(U"[Enter]戻る [BackSpace]戻る");
+		SceneInfo::Draw(U"[Enter]戻る");
 	}
 
 	void ResultScene::drawFadeIn(double t) const
