@@ -196,7 +196,7 @@ namespace ct
 			// ツイート
 			Twitter::OpenTweetWindow(m_model->getTweetText());
 		}
-		if (PlayKey::Start().down() || PlayKey::BigBack().down()) {
+		if (PlayKey::Start().down() || PlayKey::BigBack().down() || PlayKey::SmallBack().down()) {
 			SoundManager::PlaySe(U"desisionLarge");
 			if (getData().m_course.isActive()) {
 				if (getData().m_course.isEnd()) {
