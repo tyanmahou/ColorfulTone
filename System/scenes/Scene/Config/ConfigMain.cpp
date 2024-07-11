@@ -527,6 +527,14 @@ namespace ct
 
             config.init(static_cast<size_t>(Game::Config().m_judgeAlgoKind));
         }
+        void PlayerKindInit(Config& config)
+        {
+            config.setName(U"入力精度設定");
+            config.add(U"FPS同期", []() {Game::Config().m_playerKind = PlayerKind::FpsSync; }, U"モニターのリフレッシュレートと同じ頻度で判定します");
+            config.add(U"高精度", []() {Game::Config().m_playerKind = PlayerKind::HighPrecision; }, U"モニターのリフレッシュレート以上の頻度で判定します");
+
+            config.init(static_cast<size_t>(Game::Config().m_playerKind));
+        }
         class OptionConfig :public IConfigHierchy
         {
             enum Mode
@@ -535,6 +543,7 @@ namespace ct
                 LifeGauge,
                 LifeDead,
                 JudgeAlgo,
+                PlayerKind,
                 TOTAL_CONFIG //コンフィグの数
             };
         public:
@@ -545,6 +554,7 @@ namespace ct
                 LifeGaugeInit(m_configs[LifeGauge]);
                 LifeDeadInit(m_configs[LifeDead]);
                 JudgeAlgoInit(m_configs[JudgeAlgo]);
+                PlayerKindInit(m_configs[PlayerKind]);
             }
 
             bool update()override
