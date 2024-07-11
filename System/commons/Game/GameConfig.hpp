@@ -36,6 +36,16 @@ namespace ct
     };
 
     /// <summary>
+    /// プレイヤー種類
+    /// </summary>
+    enum class PlayerKind
+    {
+        FpsSync,
+        HighPrecision,
+        AutoPlay,
+    };
+
+    /// <summary>
     /// コンフィグ設定変数
     /// </summary>
     class GameConfig
@@ -88,5 +98,8 @@ namespace ct
 
         // 判定アルゴリズム
         JudgeAlgorithmKind m_judgeAlgoKind = JudgeAlgorithmKind::Default;
+
+        // プレイヤー種類
+        PlayerKind m_playerKind = PlayerKind::FpsSync;
     };
 }

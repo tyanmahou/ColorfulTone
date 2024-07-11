@@ -1,36 +1,35 @@
 ﻿#include <core/Input/InputManager.hpp>
 #include <core/Input/Auto/AutoPlayer.hpp>
 #include <core/Input/FpsSync/FpsSyncPlayer.hpp>
+#include <core/Input/HighPrecision/HighPrecisionPlayer.hpp>
+#include <core/Play/Context/PlayContext.hpp>
+#include <commons/Game/Game.hpp>
+#include <commons/Game/GameConfig.hpp>
 #include <Siv3D.hpp>
 
-namespace
-{
-    enum PlayerKind
-    {
-        FpsSync,
-        AutoPlay,
-    };
-}
 namespace ct
 {
     InputManager::InputManager()
     {
         m_players << std::make_unique<FpsSyncPlayer>();
+        m_players << std::make_unique<HighPrecisionPlayer>();
         m_players << std::make_unique<AutoPlayer>();
     }
 
     IGameInputPlayer* InputManager::getPlayer() const
     {
         if (PlayContext::IsAutoPlay()) {
-            return m_players[AutoPlay].get();
+            return m_players[static_cast<size_t>(PlayerKind::AutoPlay)].get();
         }
-        return m_players[FpsSync].get();
+        if (IsHighPrecision()) {
+            return m_players[static_cast<size_t>(PlayerKind::HighPrecision].get();
+        }
+        return m_players[static_cast<size_t>(PlayerKind::FpsSync)].get();
     }
 
     bool InputManager::IsHighPrecision()
     {
-        // ひとまずfalse
-        return false;
+        return Game::Config().m_playerKind == PlayerKind::HighPrecision;
     }
 
     bool InputManager::IsRedClicked()
