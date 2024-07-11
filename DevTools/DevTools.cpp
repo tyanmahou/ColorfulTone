@@ -3,6 +3,7 @@
 #include <core/Analysis/Analyzer.hpp>
 #include <core/Analysis/LvPredictor.hpp>
 #include <utils/Thread/Task.hpp>
+#include <utils/File/FileUtil.hpp>
 #include <utils/Math/StatisticsUtil.hpp>
 
 namespace ct::dev
@@ -128,7 +129,7 @@ namespace ct::dev
                             no,
                             sepPath[0],
                             sepPath[1],
-                            s3d::FileSystem::BaseName(sepPath[2]),
+                            FileUtil::BaseName(sepPath[2]),
                             d.level,
                             ToStr(d.star),
                             d.noteCount,

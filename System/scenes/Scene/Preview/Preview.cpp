@@ -474,7 +474,7 @@ namespace ct
                 return false;
             }
             const auto pos = m_musicGame.getSound().posSample();
-            const auto genre = FileSystem::BaseName(FileSystem::ParentPath(*path));
+            const auto genre = FileUtil::BaseName(FileSystem::ParentPath(*path));
 
             auto assets = FileSystem::DirectoryContents(*path);
             //iniファイルがあるか検索

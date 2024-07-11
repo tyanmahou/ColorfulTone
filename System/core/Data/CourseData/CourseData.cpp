@@ -2,6 +2,7 @@
 #include <core/Data/MusicData/MusicData.hpp>
 #include <core/Data/Loader/ScoreLoader.hpp>
 #include <commons/Game/Game.hpp>
+#include <utils/File/FileUtil.hpp>
 #include <Siv3D.hpp>
 namespace ct
 {
@@ -19,7 +20,7 @@ namespace ct
         if (!ini)
             return false;
 
-        m_fileName = FileSystem::BaseName(path);
+        m_fileName = FileUtil::BaseName(path);
         m_genre = FileSystem::FileName(FileSystem::ParentPath(path));
 
         m_score = CourseScoreLoader::Load(this->getScorePath());

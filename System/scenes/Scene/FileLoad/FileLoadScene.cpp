@@ -4,6 +4,7 @@
 #include <utils/Thread/Task.hpp>
 #include <utils/Coro/Fiber/FiberUtil.hpp>
 #include <utils/Asset/SivAssetUtil.hpp>
+#include <utils/File/FileUtil.hpp>
 
 #include <core/Data/Genre/CostumFolder.hpp>
 #include <core/Data/TapSE/TapSE.hpp>
@@ -50,7 +51,7 @@ namespace
 		for (const auto& gPath : genrePaths) {
 			bool foundMusic = false;
 			const auto musicPaths = FileSystem::DirectoryContents(gPath, Recursive::No);
-			const auto genreName = FileSystem::BaseName(gPath);
+			const auto genreName = FileUtil::BaseName(gPath);
 
 			const bool isOfficial = !U"^\\d{4}_\\d{2}"_re.match(genreName).isEmpty();
 			for (const auto& path : musicPaths) {
@@ -143,7 +144,7 @@ namespace
 		//ここから楽曲データ読み込み
 		size_t curIndex = 0;
 		for (const auto& gPath : genreFiles) {
-			const auto genreName = FileSystem::BaseName(gPath);
+			const auto genreName = FileUtil::BaseName(gPath);
 
 			const auto ctcPaths = FileSystem::DirectoryContents(gPath, Recursive::No);
 			for (const auto& path : ctcPaths) {
