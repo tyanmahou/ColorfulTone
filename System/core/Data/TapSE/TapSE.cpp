@@ -1,6 +1,7 @@
 ﻿#include <core/Data/TapSE/TapSE.hpp>
 #include <Siv3D.hpp>
-#include "TapSE.hpp"
+#include <utils/File/FileUtil.hpp>
+
 namespace
 {
     const FilePathView g_defaultPerfectPath = U"TapSE/デフォルト/tapP.mp3";
@@ -27,7 +28,7 @@ namespace ct
     {
     }
     TapSE::TapSE(const s3d::FilePath& dirPath) :
-        m_name(FileSystem::FileName(dirPath)),
+        m_name(FileUtil::FileName(dirPath)),
         m_perfectSE(dirPath + U"/tapP.mp3"),
         m_greatSE(dirPath + U"/tapGR.mp3"),
         m_goodSE(dirPath + U"/tapGD.mp3")

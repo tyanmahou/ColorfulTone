@@ -21,7 +21,7 @@ namespace ct
             return false;
 
         m_fileName = FileUtil::BaseName(path);
-        m_genre = FileSystem::FileName(FileSystem::ParentPath(path));
+        m_genre = FileUtil::ParentDirName(path);
 
         m_score = CourseScoreLoader::Load(this->getScorePath());
 

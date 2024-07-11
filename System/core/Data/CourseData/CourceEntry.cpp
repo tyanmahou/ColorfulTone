@@ -10,7 +10,7 @@ namespace
         auto& musics = Game::Musics();
 
         const String fileName = FileUtil::BaseName(notePath);
-        const String dirPath = notePath.removed(FileSystem::FileName(notePath));
+        const String dirPath = notePath.removed(FileUtil::FileName(notePath));
 
         size_t musicIndex = 0;
 

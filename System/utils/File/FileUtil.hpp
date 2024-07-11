@@ -8,5 +8,8 @@ namespace ct
     {
     public:
         static s3d::String BaseName(s3d::FilePathView path);
+        static s3d::String FileName(s3d::FilePathView path);
+
+        static s3d::String ParentDirName(s3d::FilePathView path);
     };
 }

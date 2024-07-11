@@ -1,6 +1,7 @@
 ﻿#include <core/Data/MusicData/MusicData.hpp>
 #include <core/Data/Loader/FavoriteLoader.hpp>
 #include <utils/Audio/Loop.hpp>
+#include <utils/File/FileUtil.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
@@ -14,7 +15,7 @@ namespace ct
 		{
 			m_index = Index;
 			Index++;
-			m_fileName = FileSystem::FileName(dirPath);
+			m_fileName = FileUtil::FileName(dirPath);
 			m_lastUpdateAt = FileSystem::WriteTime(dirPath).value_or(DateTime::Now());
 			m_genreName = genreName;
 
