@@ -22,7 +22,7 @@ namespace ct
             return m_players[static_cast<size_t>(PlayerKind::AutoPlay)].get();
         }
         if (IsHighPrecision()) {
-            return m_players[static_cast<size_t>(PlayerKind::HighPrecision].get();
+            return m_players[static_cast<size_t>(PlayerKind::HighPrecision)].get();
         }
         return m_players[static_cast<size_t>(PlayerKind::FpsSync)].get();
     }
