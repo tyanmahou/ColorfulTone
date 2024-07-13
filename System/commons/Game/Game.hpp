@@ -17,7 +17,7 @@ namespace ct
 	{
 		friend DynamicSingleton<Game>;
 	public:
-		static constexpr Version Version{4, 0 ,1};
+		static constexpr Version Version{4, 1 ,0};
 	public:
 		static s3d::Array<MusicData>& Musics();
 		static s3d::Array<CourseData>& Courses();
