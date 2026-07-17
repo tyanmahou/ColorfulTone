@@ -50,6 +50,7 @@ namespace ct
             static constexpr StringView name[] = {
                 U"FREE PLAY",
                 U"COURSE PLAY",
+                U"ENDLESS PLAY",
                 U"CONFIG",
                 U"DOWNLOAD",
                 U"RELOAD",

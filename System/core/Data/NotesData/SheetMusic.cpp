@@ -1,5 +1,6 @@
 ﻿#include <core/Data/NotesData/SheetMusic.hpp>
 #include <Siv3D.hpp>
+#include <ranges>
 
 namespace
 {

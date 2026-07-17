@@ -4,6 +4,7 @@
 #include <scenes/utils/Audition.hpp>
 #include <scenes/Scene/Config/ConfigMain.hpp>
 #include <Siv3D.hpp>
+#include <ranges>
 
 namespace
 {

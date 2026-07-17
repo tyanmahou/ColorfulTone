@@ -11,6 +11,7 @@ namespace ct
         {
             GameStart,
             Course,
+            Endless,
             KeyConfig,
             Download,
             Reload,

@@ -3,6 +3,7 @@
 #include <core/Data/NotesData/StarLv.hpp>
 #include <utils/Math/StatisticsUtil.hpp>
 #include <Siv3D.hpp>
+#include <ranges>
 
 namespace ct
 {
