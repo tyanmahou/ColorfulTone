@@ -8,6 +8,8 @@ namespace ct
 {
     void ContractionDrawbleStringCL(const s3d::DrawableText& font, const s3d::Vec2& pos, double width, const s3d::Color& color = s3d::Palette::White);
     void ContractionDrawbleStringBR(const s3d::DrawableText& font, const s3d::Vec2& pos, double width, const s3d::Color& color = s3d::Palette::White);
+    void ContractionDrawbleStringCR(const s3d::DrawableText& font, const s3d::Vec2& pos, double width, const s3d::Color& color = s3d::Palette::White);
+    void ContractionDrawbleStringCR(const s3d::TextStyle& style, const s3d::DrawableText& font, const s3d::Vec2& pos, double width, const s3d::Color& color = s3d::Palette::White);
 
     void ContractionDrawbleString(const s3d::DrawableText& font, const s3d::Vec2& pos, double width, const s3d::Color& color = s3d::Palette::White, bool drawCenter = true);
     void ContractionDrawbleString(const s3d::TextStyle& style, const s3d::DrawableText& font, const s3d::Vec2& pos, double width, const s3d::Color& color = s3d::Palette::White, bool drawCenter = true);

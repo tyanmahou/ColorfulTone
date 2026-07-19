@@ -29,9 +29,11 @@ namespace ct
 		s3d::String getScorePath() const;
 
 		s3d::Texture getTexture() const;
-		const s3d::ColorF& getColor() const;
+		const s3d::Color& getColor() const;
 		const s3d::String& getTitle() const;
 		s3d::String getDetail() const;
+
+		const EndlessGaugeScore& getScore(LifeGaugeKind gauge) const;
 	private:
 		size_t m_index;	//ID
 		s3d::String m_title;	// タイトル

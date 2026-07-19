@@ -106,6 +106,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\PlayBGFactory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Simple\SimpleBG.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayCourse.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayEndless.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayNotesData.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayMusicGame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Homography\HomographyStyle.hpp" />
@@ -282,6 +283,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\PlayBGFactory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayBG\Simple\SimpleBG.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayCourse.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayEndless.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayMusicGame.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayNotesData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Play\PlayStyle\Homography\HomographyStyle.cpp" />

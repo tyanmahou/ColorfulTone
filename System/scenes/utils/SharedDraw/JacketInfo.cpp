@@ -18,6 +18,27 @@ namespace ct::SharedDraw
 		return *this;
 	}
 
+	const JacketInfo& JacketInfo::drawJucket(const s3d::Texture& tex, const s3d::Color& color) const
+	{
+		const Vec2 pos = m_pos + Vec2{ 0, -225 };
+		const Vec2 size{ 310,310 };
+		RectF(pos - size / 2.0, size).draw(color);
+		tex
+			.resized(size)
+			.rotated(Math::ToRadians(-7.0))
+			.drawAt(pos);
+		return *this;
+	}
+
+	const JacketInfo& JacketInfo::drawFavorite(bool isFavorite) const
+	{
+		if (isFavorite) {
+			const Vec2 pos = m_pos + Vec2{ 0, -225 } + Vec2{ 155, -155 };
+			TextureAsset(U"favorite").drawAt(pos);
+		}
+		return *this;
+	}
+
 	const JacketInfo& JacketInfo::drawLabel(const Texture& tex, double t)const
 	{
 		tex.uv(0, 100.0 / 800.0, t, 30.0 / 800.0).resized(800 * t, 30).draw();

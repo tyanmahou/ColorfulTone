@@ -9,6 +9,9 @@ namespace ct::SharedDraw
 		JacketInfo();
 		JacketInfo& setPos(const s3d::Vec2& pos);
 
+		const JacketInfo& drawJucket(const s3d::Texture& tex, const s3d::Color& color = s3d::Palette::White) const;
+		const JacketInfo& drawFavorite(bool isFavorite = true) const;
+
 		const JacketInfo& drawLabel(const s3d::Texture& tex, double t = 1.0) const;
 		const JacketInfo& drawLabel() const;
 		const JacketInfo& drawLine() const;

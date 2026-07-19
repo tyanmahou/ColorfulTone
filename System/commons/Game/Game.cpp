@@ -48,6 +48,7 @@ namespace
 		TextureAsset::Register(U"line", U"Resource/Img/MusicSelect/line.png");
 		TextureAsset::Register(U"memo", U"Resource/Img/MusicSelect/memo.png");
 		TextureAsset::Register(U"memoCourse", U"Resource/Img/MusicSelect/memo_course.png");
+		TextureAsset::Register(U"memoEndless", U"Resource/Img/MusicSelect/memo_endless.png");
 		TextureAsset::Register(U"memoDL", U"Resource/Img/MusicSelect/memo_dl.png");
 		TextureAsset::Register(U"favorite", U"Resource/Img/MusicSelect/favorite.png");
 
@@ -213,11 +214,10 @@ namespace
 		const FilePathView straightPath = U"Resource/Font/Straightfont.ttf";
 
 		// NOTE: 旧Siv3D移植の都合でネーミングと数値に差異がある
+		FontAsset::Register(U"s-r-7", 7 + 7, straightPath);
 
 		FontAsset::Register(U"s-o-8", 8 + 8, straightPath, FontStyle::Bold);
 		FontAsset(U"s-o-8").setBufferThickness(3);
-
-		FontAsset::Register(U"s-r-7", 7 + 7, straightPath);
 
 		FontAsset::Register(U"s-r-10", 10 + 10, straightPath);
 		FontAsset::Register(U"s-o-10", FontMethod::SDF, 10 + 10, straightPath, FontStyle::Bold);

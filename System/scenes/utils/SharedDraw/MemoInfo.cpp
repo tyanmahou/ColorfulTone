@@ -2,6 +2,7 @@
 #include <scenes/utils/Util.hpp>
 #include <core/Data/NotesData/NotesData.hpp>
 #include <core/Data/CourseData/CourseData.hpp>
+#include <core/Data/EndlessData/EndlessData.hpp>
 #include <core/Play/LifeGauge/LifeGauge.hpp>
 #include <commons/FontName.hpp>
 #include <Siv3D.hpp>
@@ -94,5 +95,39 @@ namespace ct::SharedDraw
 		// ライフ
 		constexpr Vec2 lifePos = ratePos + Vec2{ 0, 60 };
 		font12os(U"{:.2f}%"_fmt(courseScore.life)).drawAt(style, lifePos, Palette::Black);
+	}
+	void MemoInfo::draw(const EndlessData& endless, LifeGaugeKind gauge) const
+	{
+		Transformer2D t2d(Mat3x2::Rotate(Math::ToRadians(8)).translated(m_pos));
+		{
+			ScopedRenderStates2D sampler(SamplerState::ClampLinear);
+			TextureAsset(U"memoEndless").drawAt({ 0, 0 });
+		}
+		const auto& font = FontAsset(FontName::ClearCount);
+		const EndlessGaugeScore& score = endless.getScore(gauge);
+		// クリア曲数
+		constexpr Vec2 countPos{ 85, -58 };
+		ContractionDrawbleStringCR(
+			style,
+			font(score.clearCount),
+			countPos,
+			188,
+			Palette::Black
+		);
+		// Maxコンポ
+		constexpr Vec2 combpPos = countPos + Vec2{ 0, 60 };
+		ContractionDrawbleStringCR(
+			style,
+			font(score.maxCombo),
+			combpPos,
+			188,
+			Palette::Black
+		);
+
+		// ゲージ
+		{
+			constexpr Vec2 tilePos = Vec2{ 0, -102 };
+			LifeGauge::GetTile(gauge).drawAt(tilePos);
+		}
 	}
 }

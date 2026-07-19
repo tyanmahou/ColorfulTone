@@ -104,7 +104,7 @@ namespace
 		return s3d::none;
 	}
 	//ジャケット描画
-	void DrawJacket(Action action, const GenreData* pGenre, const MusicData* pMusic, size_t level)
+	void DrawJacket(const SharedDraw::JacketInfo& infoView, Action action, const GenreData* pGenre, const MusicData* pMusic, size_t level)
 	{
 		const Optional<Texture> pTexture = ::GetJacketTexture(action, pGenre, pMusic);
 		if (!pTexture)
@@ -112,17 +112,11 @@ namespace
 			return;
 		}
 		const Color color = action == Action::LevelSelect ? (*pMusic)[level].getColor() : Palette::White;
+		bool isFavorite = action != Action::GenreSelect
+			&& pMusic && pMusic->isFavorite();
 		// ジャケ絵描画
-		const Vec2 pos{ Constants::JacketCenter, 250 };
-		const Vec2 size{ 310,310 };
-		RectF(pos - size / 2.0, size).draw(color);
-		pTexture
-			->resized(size)
-			.rotated(Math::ToRadians(-7.0))
-			.drawAt(pos);
-		if (action != Action::GenreSelect && pMusic && pMusic->isFavorite()) {
-			TextureAsset(U"favorite").drawAt(pos + Vec2{ 155, -155 });
-		}
+		infoView.drawJucket(*pTexture, color)
+			.drawFavorite(isFavorite);
 	}
 }
 
@@ -198,7 +192,7 @@ namespace ct
 			}
 
 			// ジャケ絵描画
-			::DrawJacket(action, pGenre, pMusic, select.level);
+			::DrawJacket(jacketInfo, action, pGenre, pMusic, select.level);
 
 			const s3d::int32 moveSelect = m_pScene->getMoveSelect();
 

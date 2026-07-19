@@ -1,15 +1,16 @@
 ﻿#pragma once
 #include <core/Play/LifeGauge/LifeGaugeKind.hpp>
+#include <array>
 
 namespace ct
 {
+    struct EndlessGaugeScore
+    {
+        size_t clearCount = 0;
+        size_t maxCombo = 0;
+    };
     struct EndlessScore
     {
-        struct Data
-        {
-            size_t clearCount = 0;
-            size_t maxCombo = 0;
-        };
-        Data gaugeData[static_cast<size_t>(LifeGaugeKind::Max)];
+        std::array<EndlessGaugeScore, static_cast<size_t>(LifeGaugeKind::Count)> gaugeData;
     };
 }

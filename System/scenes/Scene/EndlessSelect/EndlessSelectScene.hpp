@@ -8,15 +8,9 @@ namespace ct
 	class EndlessSelectScene : public ISceneBase
 	{
 	public:
-		enum class Action : s3d::uint8
+		struct SelectInfo
 		{
-			GenreSelect,
-			CourseSelect,
-		};
-		struct SelectCourseInfo
-		{
-			s3d::uint32 genre = 0;	// 選択中のジャンル
-			s3d::uint32 course = 0;	// 選択中のコース
+			s3d::uint32 endless = 0; // 選択中のエンドレス
 		};
 	private:
 
@@ -33,18 +27,12 @@ namespace ct
 		void drawFadeIn(double t) const override;
 		void drawFadeOut(double t) const override;
 
-		static SelectCourseInfo GetSelectInfo();
+		static SelectInfo GetSelectInfo();
 
-		const Array<CourseData>& getCourses()const;
-
-		Action getAction()const;
+		const Array<EndlessData>& getEndless() const;
 
 		// previous , current
-		std::pair<Action, Action> getChangeAction()const;
 		s3d::int32 getMoveSelect() const;
-
-		size_t entryPage() const;
-
 		const ConfigMain& getConfig() const;
 	};
 }

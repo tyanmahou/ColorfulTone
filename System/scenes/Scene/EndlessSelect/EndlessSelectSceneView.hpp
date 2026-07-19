@@ -15,7 +15,6 @@ namespace ct
 		~EndlessSelectSceneView() = default;
 
 		void update() const;
-		void onChangeAction()const;
 		void draw()const;
 	};
 }

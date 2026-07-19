@@ -2,6 +2,7 @@
 #include <Siv3D/SceneManager.hpp>
 #include <core/Data/NotesData/NotesData.hpp>
 #include <core/Play/PlayCourse.hpp>
+#include <core/Play/PlayEndless.hpp>
 
 namespace ct
 {
@@ -14,6 +15,7 @@ namespace ct
         Score m_resultScore;
 
         PlayCourse m_course;
+        PlayEndless m_endless;
 
         s3d::String m_fromScene;
         s3d::String m_toScene = U"load";

@@ -54,7 +54,7 @@ namespace ct
         }
         return s3d::TextureAsset(U"genre_random");
     }
-    const s3d::ColorF& EndlessData::getColor() const
+    const s3d::Color& EndlessData::getColor() const
     {
         return m_color;
     }
@@ -69,5 +69,9 @@ namespace ct
         } else {
             return U"条件にあう譜面がみつかりません\n" + m_detail.value_or(U"");
         }
+    }
+    const EndlessGaugeScore& EndlessData::getScore(LifeGaugeKind gauge) const
+    {
+        return m_score.gaugeData[static_cast<size_t>(gauge) - static_cast<size_t>(LifeGaugeKind::Min)];
     }
 }

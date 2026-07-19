@@ -25,6 +25,16 @@ namespace ct
 		Transformer2D t2d{ GetMat(font, pos, width) };
 		font.draw(Arg::bottomRight = pos, color);
 	}
+	void ContractionDrawbleStringCR(const s3d::DrawableText& font, const s3d::Vec2& pos, double width, const s3d::Color& color)
+	{
+		Transformer2D t2d{ GetMat(font, pos, width) };
+		font.draw(Arg::rightCenter = pos, color);
+	}
+	void ContractionDrawbleStringCR(const s3d::TextStyle& style, const s3d::DrawableText& font, const s3d::Vec2& pos, double width, const s3d::Color& color)
+	{
+		Transformer2D t2d{ GetMat(font, pos, width) };
+		font.draw(style, Arg::rightCenter = pos, color);
+	}
 	void ContractionDrawbleString(const s3d::DrawableText& font, const s3d::Vec2& pos, double width, const s3d::Color& color, bool drawCenter)
     {
 		Transformer2D t2d{ GetMat(font, pos, width) };

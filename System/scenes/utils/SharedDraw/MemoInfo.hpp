@@ -1,10 +1,13 @@
 ﻿#pragma once
+#include <core/Play/LifeGauge/LifeGaugeKind.hpp>
 #include <Siv3D/Vector2D.hpp>
 
 namespace ct
 {
 	class NotesData;
+	class EndlessData;
 	struct CourseScore;
+	struct EndlessGaugeScore;
 }
 namespace ct::SharedDraw
 {
@@ -19,6 +22,7 @@ namespace ct::SharedDraw
 		void draw(const NotesData& notes) const;
 
 		void draw(const CourseScore& courseScore, bool drawFailure = true) const;
+		void draw(const EndlessData& endless, LifeGaugeKind gauge) const;
 	private:
 		s3d::Vec2 m_pos;
 	};
