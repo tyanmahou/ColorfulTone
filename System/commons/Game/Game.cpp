@@ -141,16 +141,6 @@ namespace
 		TextureAsset::Register(U"note_purple", U"Resource/Img/Main/ノーツ/通常/murasaki.png");
 		TextureAsset::Register(U"note_white", U"Resource/Img/Main/ノーツ/通常/siro.png");
 		TextureAsset::Register(U"note_rainbow", U"Resource/Img/Main/ノーツ/通常/rainbow.png");
-		//彗星
-		TextureAsset::Register(U"comet_red", U"Resource/Img/Main/ノーツ/ロング/aka.png");
-		TextureAsset::Register(U"comet_blue", U"Resource/Img/Main/ノーツ/ロング/ao.png");
-		TextureAsset::Register(U"comet_yellow", U"Resource/Img/Main/ノーツ/ロング/ki.png");
-		TextureAsset::Register(U"comet_orange", U"Resource/Img/Main/ノーツ/ロング/daidai.png");
-		TextureAsset::Register(U"comet_green", U"Resource/Img/Main/ノーツ/ロング/midori.png");
-		TextureAsset::Register(U"comet_purple", U"Resource/Img/Main/ノーツ/ロング/murasaki.png");
-		TextureAsset::Register(U"comet_black", U"Resource/Img/Main/ノーツ/ロング/kuro.png");
-		TextureAsset::Register(U"comet_rainbow_head", U"Resource/Img/Main/ノーツ/ロング/rainbow_head.png");
-		TextureAsset::Register(U"comet_rainbow_tail", U"Resource/Img/Main/ノーツ/ロング/rainbow_tail.png");
 
 		//
 		TextureAsset::Register(U"center_base", U"Resource/Img/Main/center/base.png");

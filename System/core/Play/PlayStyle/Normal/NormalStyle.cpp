@@ -19,16 +19,19 @@ namespace
 	using namespace ct;
 	using s3d::Math::Pi;
 
+	constexpr Vec2 g_center{ 400,300 };
+	double GetRadius(double count, double scrollRate, double scrollSpeed)
+	{
+		return 40 + count / static_cast<double>(Object::RESOLUTION) * scrollRate * scrollSpeed;
+	}
+	s3d::Circular3 GetCircular(double angle, double count, double scrollRate, double scrollSpeed)
+	{
+		const double r = GetRadius( count, scrollRate, scrollSpeed);
+		return s3d::Circular3{ r, angle,};
+	}
 	const Vec2 GetPos(double angle, double count, double scrollRate, double scrollSpeed)
 	{
-		const double c = Cos(angle);
-		const double s = Sin(angle);
-
-		const double r = 40 + count / static_cast<double>(Object::RESOLUTION) * scrollRate * scrollSpeed;
-		Vec2 pos;
-		pos.x = 400 + r * c;
-		pos.y = 300 + r * s;
-		return pos;
+		return GetCircular(angle, count, scrollRate, scrollSpeed) + g_center;
 	}
 	//--------------------------------------------------------------------------------
 	//関数：GetAngle
@@ -92,13 +95,13 @@ namespace
 			{ 6, U"note_purple" },
 			{ 7, U"note_black" },
 			{ 9, U"note_white" },
-			{ 11,U"comet_red" },
-			{ 12,U"comet_blue" },
-			{ 13,U"comet_yellow" },
-			{ 14,U"comet_green" },
-			{ 15,U"comet_orange" },
-			{ 16,U"comet_purple" },
-			{ 17,U"comet_black" },
+			{ 11,U"note_red" },
+			{ 12,U"note_blue" },
+			{ 13,U"note_yellow" },
+			{ 14,U"note_green" },
+			{ 15,U"note_orange" },
+			{ 16,U"note_purple" },
+			{ 17,U"note_black" },
 			{ 18,U"note_rainbow" },
 		};
 		if (textureNameMap.count(type)) {
@@ -213,11 +216,11 @@ namespace ct
 
 	void NormalStyle::draw(const Bar& note, double count, double scrollRate) const
 	{
-		double x = 40 + count / static_cast<double>(Object::RESOLUTION) * scrollRate * note.getSpeed();
+		const double r = GetRadius(count, scrollRate, note.getSpeed());
 
-		if (x <= 0 || x > 1000)
+		if (r <= 0 || r > 1000)
 			return;
-		Circle(400, 300, x).drawFrame(2, 2, ColorF(0, 0.2));
+		Circle(g_center, r).drawFrame(2, 2, ColorF(0, 0.2));
 	}
 
 	void NormalStyle::draw(const Note& note, double count, double scrollRate)const
@@ -227,36 +230,43 @@ namespace ct
 		const double angle = GetAngle(type);
 		const double& speed = note.getSpeed();
 
-		if (type >= 11 && note.isFirstTap())
+		bool isLong = 11 <= type && type <= 17;
+		if (isLong && note.isFirstTap())
 			count = 0;
 
-		const auto pos = ::GetPos(angle, count, scrollRate, speed);
+		const auto circ = ::GetCircular(angle, count, scrollRate, speed);
+		const auto pos = circ + g_center;
 
 		if (!Note::CanDraw(pos))
 			return;
-		const auto& texture = TextureAsset(textureName);
+
+		const auto& texture = TextureAsset(textureName)(0, 0, 60, isLong ? 30 : 60);
 		if (type == 7 || type == 17) {
-			texture.rotated(-Pi / 3.0).drawAt(::GetPos((1 + (count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
-			texture.rotated(-5.0 * Pi / 3.0).drawAt(::GetPos((5 + (count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
-			texture.rotated(-Pi).drawAt(::GetPos((9 + (count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
+			Circle(g_center, circ.r).drawFrame(1, 1, ColorF(0.25, 0.5));
+			texture.rotatedAt({ 30, 30 }, -Pi / 3.0).drawAt(::GetPos((1 + (count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
+			texture.rotatedAt({ 30, 30 }, -5.0 * Pi / 3.0).drawAt(::GetPos((5 + (count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
+			texture.rotatedAt({ 30, 30 }, -Pi).drawAt(::GetPos((9 + (count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
 			return;
 		} else if (type == 18) {
+			ColorF c1 = HSV(static_cast<s3d::int32>(count / 10) % 360, 0.5, 1).toColorF(0.5);
+			Circle(g_center, circ.r).drawFrame(1, 1, c1);
 			texture.drawAt(GetPos((3 + (-count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
 			texture.rotated(-4.0 * Pi / 3.0).drawAt(GetPos((7 + (-count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
 			texture.rotated(-2.0 * Pi / 3.0).drawAt(GetPos((11 + (-count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
 			return;
 		} else if (type == 9) {
+			Circle(g_center, circ.r).drawFrame(1, 1, ColorF(1, 0.5));
 			TextureAsset(U"note_white").drawAt(::GetPos(Pi, count, scrollRate, speed));
 		}
 
 		double textureAngle = ::GetTextureAngle(type);
-		texture.rotated(textureAngle).drawAt(pos);
+		texture.rotatedAt({30, 30}, textureAngle).drawAt(pos);
 	}
 
 	namespace
 	{
 		template<class ColorType>
-		void DrawLongTail(double count, double pCount, double speed, double pSpeed, double scrollRate, double offset, const Texture& texture, const ColorType& color, bool isReturn = false)
+		void DrawLongTail(double count, double pCount, double speed, double pSpeed, double scrollRate, double offset, const TextureRegion& texture, const ColorType& color, bool isReturn = false, const Vec2& rotateAt = {30, 30})
 		{
 			const double scroll = isReturn ? -scrollRate : scrollRate;
 			const double rotate = isReturn ? Pi * (-(15 - offset) / 6.0)
@@ -274,7 +284,7 @@ namespace ct
 					.draw(4, color)
 					;
 			}
-			texture.rotated(rotate).drawAt(pos);
+			texture.rotatedAt(rotateAt, rotate).drawAt(pos);
 		}
 	}
 	void NormalStyle::draw(const LongNote& note, double count, double scrollRate) const
@@ -296,35 +306,42 @@ namespace ct
 		if (count >= 0 && !Note::CanDraw(pPos) && !Note::CanDraw(pos))
 			return;
 
+		const auto& texture = TextureAsset(textureName)(0, 0, 60, 30);
+
 		if (type == 17) {
-			const TextureAsset texture(textureName);
 			::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 1, texture, color);
 			::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 5, texture, color);
 			::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 9, texture, color);
 			return;
 		}
+
+
 		Line(pos, pPos).draw(8, ColorF(0, 0.5)).draw(4, color);
 
 		double textureAngle = ::GetTextureAngle(type) - Pi;
-		TextureAsset(textureName).rotated(textureAngle).drawAt(pos);
+		texture.rotatedAt({30, 30}, textureAngle).drawAt(pos);
 	}
 
 	void NormalStyle::draw(const RepeatNote& note, double count, double scrollRate) const
 	{
-		if (note.isFirstTap())
+		if (note.isFirstTap() && count <= 0)
 			count = 0;
 
 		auto speed = note.getSpeed();
-		const auto pos = GetPos(0, count, scrollRate, speed);
 
+		const auto circ = ::GetCircular(0, count, scrollRate, speed);
+		const auto pos = circ + g_center;
 		if (!Note::CanDraw(pos))
 			return;
 
 		{
-			const TextureAsset texture(U"comet_rainbow_head");
-			texture.drawAt(GetPos((3 + (-count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
-			texture.rotated(-4.0 * Pi / 3.0).drawAt(GetPos((7 + (-count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
-			texture.rotated(-2.0 * Pi / 3.0).drawAt(GetPos((11 + (-count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
+			ColorF c1 = HSV(static_cast<s3d::int32>(count / 10) % 360, 0.5, 1).toColorF(0.5);
+			Circle(g_center, circ.r).drawFrame(1, 1, c1);
+
+			const auto texture = TextureAsset(U"note_rainbow")(0, 0, 60, 30);
+			texture.rotatedAt({30, 30}, 0).drawAt(GetPos((3 + (-count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
+			texture.rotatedAt({30, 30}, -4.0 * Pi / 3.0).drawAt(GetPos((7 + (-count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
+			texture.rotatedAt({30, 30}, -2.0 * Pi / 3.0).drawAt(GetPos((11 + (-count * scrollRate) / 10000.0) * Pi / 6, count, scrollRate, speed));
 		}
 	}
 
@@ -337,7 +354,7 @@ namespace ct
 
 		const double nowCount = note.getDrawCount() - count;
 		auto pCount = parent->getDrawCount() - nowCount;
-		if (parent->isFirstTap())
+		if (parent->isFirstTap() && pCount <= 0)
 			pCount = 0;
 		auto pPos = GetPos(angle, pCount, scrollRate, parent->getSpeed());
 
@@ -348,11 +365,25 @@ namespace ct
 			Color c1 = HSV(static_cast<s3d::int32>(count / 10) % 360, 0.5, 1);
 			Color c2 = HSV((static_cast<s3d::int32>(count / 10) + 72) % 360, 0.5, 1);
 
-			const TextureAsset texture(U"comet_rainbow_tail");
+			const double offs = static_cast<double>(SheetMusic::RESOLUTION) / note.getInterval();
+			double countTmp = parent->getDrawCount() + offs;
+			double speed2 = s3d::Sqrt(speed * parent->getSpeed());
+			while (countTmp <= note.getDrawCount())
+			{
+				double diffCount = countTmp - nowCount;
+				if (diffCount > 0) {
+					double r = ::GetRadius(diffCount, scrollRate, speed2);
+					if (0 < r && r <= 1000) {
+						Circle(g_center, r).drawFrame(1, 1, c1.withA(64));
+					}
+				}
+				countTmp += offs;
+			}
+			const auto texture = TextureAsset(U"note_rainbow")(0, 30, 60, 30);
 			const Color(&color)[2] = { c1,c2 };
-			::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 3, texture, color, true);
-			::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 7, texture, color, true);
-			::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 11, texture, color, true);
+			::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 3, texture, color, true, {30, 0});
+			::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 7, texture, color, true, { 30, 0 });
+			::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 11, texture, color, true, { 30, 0 });
 		}
 	}
 

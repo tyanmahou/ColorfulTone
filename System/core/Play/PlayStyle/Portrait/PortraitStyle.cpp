@@ -332,7 +332,7 @@ void PortraitStyle::draw(const LongNote& note, double count, double scrollRate) 
 
 void PortraitStyle::draw(const RepeatNote& note, double count, double scrollRate) const
 {
-    if (note.isFirstTap())
+    if (note.isFirstTap() && count <= 0)
         count = 0;
 
     double y = GetY(count, scrollRate, note.getSpeed());
@@ -346,12 +346,12 @@ void PortraitStyle::draw(const RepeatNote& note, double count, double scrollRate
 void PortraitStyle::draw(const RepeatEnd& note, double count, double scrollRate) const
 {
     const auto parent = note.getParent();
-
-    double y = ::GetY(count, scrollRate, note.getSpeed());
+    double speed = note.getSpeed();
+    double y = ::GetY(count, scrollRate, speed);
 
     const double nowCount = note.getDrawCount() - count;
     auto pCount = parent->getDrawCount() - nowCount;
-    if (parent->isFirstTap())
+    if (parent->isFirstTap() && pCount <= 0)
         pCount = 0;
     auto pY = GetY(pCount, scrollRate, parent->getSpeed());
 
@@ -362,8 +362,23 @@ void PortraitStyle::draw(const RepeatEnd& note, double count, double scrollRate)
     Color c1 = HSV(static_cast<s3d::int32>(count / 20) % 360, 0.5, 1);
     Color c2 = HSV((static_cast<s3d::int32>(count / 20) + 72) % 360, 0.5, 1);
 
-    DrawLong(400, pY, 140, y - pY, c1, c2);
+    {
+        const double offs = static_cast<double>(SheetMusic::RESOLUTION) / note.getInterval();
+        double countTmp = parent->getDrawCount() + offs;
+        double speed2 = s3d::Sqrt(speed * parent->getSpeed());
+        while (countTmp <= note.getDrawCount()) {
+            double diffCount = countTmp - nowCount;
+            if (diffCount > 0) {
+                double y2 = GetY(diffCount, scrollRate, speed2);
+                if (canDraw(y2)) {
+                    Line({ 400 - g_width / 2, y2 }, { 400 + g_width / 2, y2 }).draw(4, c1.withA(64));
+                }
+            }
+            countTmp += offs;
+        }
+    }
 
+    DrawLong(400, pY, 140, y - pY, c1, c2);
 }
 
 bool PortraitStyle::canDraw(double y) const

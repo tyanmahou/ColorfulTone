@@ -48,6 +48,10 @@ namespace ct
         bool update(const PlaybackState& state)override;
         void diffDraw(double count, double scrollRate)const override;
 
+        double getInterval() const
+        {
+            return m_interval;
+        }
         ObjectOrder getOrder(s3d::int64 sample) const override
         {
             return ObjectOrder::Calc(this, sample);

@@ -43,10 +43,12 @@ namespace ct
             return true;
 
         bool judge = false;
-        if (timing <= JudgeRange(Judge::Perfect)) {
-            judge = PlayKey::Red().down() || PlayKey::Blue().down() || PlayKey::Yellow().down();
-        } else {
-            judge = InputManager::IsRedClicked() || InputManager::IsBlueClicked() || InputManager::IsYellowClicked();
+        if (!PlayContext::IsAutoPlay()) {
+            if (timing <= JudgeRange(Judge::Perfect)) {
+                judge = PlayKey::Red().down() || PlayKey::Blue().down() || PlayKey::Yellow().down();
+            } else {
+                judge = InputManager::IsRedClicked() || InputManager::IsBlueClicked() || InputManager::IsYellowClicked();
+            }
         }
 
         if ((judge || timing <= 0) && m_isStart == false) {

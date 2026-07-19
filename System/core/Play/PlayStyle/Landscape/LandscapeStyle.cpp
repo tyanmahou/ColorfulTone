@@ -61,14 +61,14 @@ namespace ct
                 { 6, U"note_purple" },
                 { 7, U"note_black" },
                 { 9, U"note_white" },
-                { 10,U"comet_rainbow_head" },
-                { 11,U"comet_red" },
-                { 12,U"comet_blue" },
-                { 13,U"comet_yellow" },
-                { 14,U"comet_green" },
-                { 15,U"comet_orange" },
-                { 16,U"comet_purple" },
-                { 17,U"comet_black" },
+                { 10,U"note_rainbow" },
+                { 11,U"note_red" },
+                { 12,U"note_blue" },
+                { 13,U"note_yellow" },
+                { 14,U"note_green" },
+                { 15,U"note_orange" },
+                { 16,U"note_purple" },
+                { 17,U"note_black" },
                 { 18,U"note_rainbow" },
             };
             if (textureNameMap.count(type)) {
@@ -80,7 +80,9 @@ namespace ct
         void Draw(double x, NoteType type, double count = 0)
         {
             const String textureName = GetTxetureName(type);
-            TextureAsset texture(textureName);
+            bool isLong = 11 <= type && type <= 17;
+            const auto& texture = TextureAsset(textureName);
+            const auto& textureRegion = texture(0, 0, 60, isLong ? 30 : 60);
 
             switch (type) {
             case 1:
@@ -89,28 +91,28 @@ namespace ct
             case 12:
             case 3:
             case 13:
-                texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(type % 10) });
+                textureRegion.rotatedAt({30, 30},- Math::HalfPi).drawAt(Vec2{x, GetY(type % 10)});
                 break;
             case 4:
             case 14:
-                texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
-                texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
+                textureRegion.rotatedAt({30, 30}, -Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
+                textureRegion.rotatedAt({30, 30}, -Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
                 break;
             case 5:
             case 15:
-                texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
-                texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
+                textureRegion.rotatedAt({30, 30}, -Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
+                textureRegion.rotatedAt({30, 30}, -Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
                 break;
             case 6:
             case 16:
-                texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
-                texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
+                textureRegion.rotatedAt({30, 30}, -Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
+                textureRegion.rotatedAt({30, 30}, -Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
                 break;
             case 7:
             case 17:
-                texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
-                texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
-                texture.rotated(-Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
+                textureRegion.rotatedAt({30, 30}, -Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
+                textureRegion.rotatedAt({30, 30}, -Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
+                textureRegion.rotatedAt({30, 30}, -Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
                 break;
             case 9:
                 Line(Vec2{ x, g_pivot.y - g_height / 2.0 }, Vec2{ x, g_pivot.y + g_height / 2.0 })
@@ -122,8 +124,8 @@ namespace ct
                 break;
             case 10:
             {
-                TextureAsset(U"comet_rainbow_head").rotated(-Math::Pi / 4).drawAt(Vec2{ x, GetY(1) });
-                TextureAsset(U"comet_rainbow_tail").rotated(Math::Pi / 4).drawAt(Vec2{ x, GetY(3) });
+                texture(0, 0, 60, 30).rotatedAt({30, 30}, - Math::Pi / 4).drawAt(Vec2{x, GetY(1)});
+                texture(0, 30, 60, 30).rotatedAt({ 30, 0 }, Math::Pi / 4).drawAt(Vec2{ x, GetY(3) });
             }
             break;
             case 18:
@@ -135,8 +137,8 @@ namespace ct
                     .draw(8, ColorF(0, 0.5))
                     .draw(4, color[0], color[1])
                     ;
-                TextureAsset(U"comet_rainbow_head").drawAt(Vec2{x, GetY(1)});
-                TextureAsset(U"comet_rainbow_tail").drawAt(Vec2{ x, GetY(3) });
+                texture(0, 0, 60, 30).rotatedAt({ 30, 30 }, 0).drawAt(Vec2{x, GetY(1)});
+                texture(0, 30, 60, 30).rotatedAt({ 30, 0 }, 0).drawAt(Vec2{ x, GetY(3) });
             }break;
             default:
                 break;
@@ -164,6 +166,7 @@ namespace ct
         {
             const String textureName = GetTxetureName(type);
             TextureAsset texture(textureName);
+            const auto& textureRegion = texture(0, 0, 60, 30);
 
             switch (type) {
             case 1:
@@ -173,28 +176,28 @@ namespace ct
             case 3:
             case 13:
                 DrawLongTail(x, pX, GetY(type % 10), color);
-                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(type % 10) });
+                textureRegion.rotatedAt({30, 30}, Math::HalfPi).drawAt(Vec2{ x, GetY(type % 10) });
                 break;
             case 4:
             case 14:
                 DrawLongTail(x, pX, GetY(2), color);
                 DrawLongTail(x, pX, GetY(3), color);
-                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
-                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
+                 textureRegion.rotatedAt({30, 30}, Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
+                 textureRegion.rotatedAt({30, 30}, Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
                 break;
             case 5:
             case 15:
                 DrawLongTail(x, pX, GetY(1), color);
                 DrawLongTail(x, pX, GetY(3), color);
-                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
-                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
+                textureRegion.rotatedAt({30, 30}, Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
+                textureRegion.rotatedAt({30, 30}, Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
                 break;
             case 6:
             case 16:
                 DrawLongTail(x, pX, GetY(1), color);
                 DrawLongTail(x, pX, GetY(2), color);
-                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
-                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
+                 textureRegion.rotatedAt({30, 30}, Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
+                 textureRegion.rotatedAt({30, 30}, Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
                 break;
             case 7:
             case 17:
@@ -202,9 +205,9 @@ namespace ct
                 DrawLongTail(x, pX, GetY(1), color);
                 DrawLongTail(x, pX, GetY(2), color);
                 DrawLongTail(x, pX, GetY(3), color);
-                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
-                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
-                texture.rotated(Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
+                 textureRegion.rotatedAt({30, 30}, Math::HalfPi).drawAt(Vec2{ x, GetY(1) });
+                 textureRegion.rotatedAt({30, 30}, Math::HalfPi).drawAt(Vec2{ x, GetY(2) });
+                 textureRegion.rotatedAt({30, 30}, Math::HalfPi).drawAt(Vec2{ x, GetY(3) });
                 break;
             case 10:
             case 18:
@@ -219,8 +222,8 @@ namespace ct
                         .draw({ color[0], color[1], color[1], color[0] })
                         ;
                 }
-                TextureAsset(U"comet_rainbow_head").rotated(type == 18 ? 0 : Math::Pi / 4).drawAt(Vec2{ x, GetY(1) });
-                TextureAsset(U"comet_rainbow_tail").rotated(type == 18 ? 0 : -Math::Pi / 4).drawAt(Vec2{ x, GetY(3) });
+                texture(0, 0, 60, 30).rotatedAt({ 30, 30 }, type == 18 ? 0 : Math::Pi / 4).drawAt(Vec2{ x, GetY(1) });
+                texture(0, 30, 60, 30).rotatedAt({ 30, 0 }, type == 18 ? 0 : -Math::Pi / 4).drawAt(Vec2{ x, GetY(3) });
             }
             default:
                 break;
@@ -458,7 +461,7 @@ namespace ct
     }
     void LandscapeStyle::draw(const RepeatNote& note, double count, double scrollRate) const
     {
-        if (note.isFirstTap()) {
+        if (note.isFirstTap() && count <= 0) {
             count = 0;
         }
 
@@ -473,11 +476,12 @@ namespace ct
     void LandscapeStyle::draw(const RepeatEnd& note, double count, double scrollRate) const
     {
         const auto parent = note.getParent();
-        double x = GetX(count, scrollRate, note.getSpeed());
+        double speed = note.getSpeed();
+        double x = GetX(count, scrollRate, speed);
 
         const double nowCount = note.getDrawCount() - count;
         auto pCount = parent->getDrawCount() - nowCount;
-        if (parent->isFirstTap()) {
+        if (parent->isFirstTap() && pCount <= 0) {
             pCount = 0;
         }
 
@@ -492,7 +496,23 @@ namespace ct
         }
         Color c1 = HSV(static_cast<s3d::int32>(count / 10) % 360, 0.5, 1);
         Color c2 = HSV((static_cast<s3d::int32>(count / 10) + 72) % 360, 0.5, 1);
+
         const Color(&color)[2] = { c1,c2 };
+        {
+            const double offs = static_cast<double>(SheetMusic::RESOLUTION) / note.getInterval();
+            double countTmp = parent->getDrawCount() + offs;
+            double speed2 = s3d::Sqrt(speed * parent->getSpeed());
+            while (countTmp <= note.getDrawCount()) {
+                double diffCount = countTmp - nowCount;
+                if (diffCount > 0) {
+                    double x2 = GetX(diffCount, scrollRate, speed2);
+                    if (CanDraw(x2)) {
+                        Line({ x2,  g_pivot.y - g_height / 2.0 }, { x2,  g_pivot.y + g_height / 2.0 }).draw(2, c1.withA(64));
+                    }
+                }
+                countTmp += offs;
+            }
+        }
         DrawLong(x, pX, 10, color);
     }
 }

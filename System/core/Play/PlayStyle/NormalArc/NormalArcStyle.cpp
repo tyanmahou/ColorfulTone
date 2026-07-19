@@ -32,16 +32,19 @@ namespace
         }
         return Palette::Black;
     }
+    constexpr Vec2 g_center{ 400,300 };
+    double GetRadius(double count, double scrollRate, double scrollSpeed)
+    {
+        return 40 + count / static_cast<double>(Object::RESOLUTION) * scrollRate * scrollSpeed;
+    }
+    s3d::Circular3 GetCircular(double angle, double count, double scrollRate, double scrollSpeed)
+    {
+        const double r = GetRadius(count, scrollRate, scrollSpeed);
+        return s3d::Circular3{ r, angle, };
+    }
     const Vec2 GetPos(double angle, double count, double scrollRate, double scrollSpeed)
     {
-        const double c = Cos(angle);
-        const double s = Sin(angle);
-
-        const double r = 40 + count / static_cast<double>(Object::RESOLUTION) * scrollRate * scrollSpeed;
-        Vec2 pos;
-        pos.x = 400 + r * c;
-        pos.y = 300 + r * s;
-        return pos;
+        return GetCircular(angle, count, scrollRate, scrollSpeed) + g_center;
     }
     //--------------------------------------------------------------------------------
     //関数：GetAngle
@@ -196,7 +199,7 @@ namespace ct
     void NormalArcStyle::draw(const RepeatNote& note, double count, double scrollRate) const
     {
         auto drawCount = count;
-        if (note.isFirstTap())
+        if (note.isFirstTap() && count <= 0)
             count = 0;
 
         auto speed = note.getSpeed();
@@ -237,7 +240,7 @@ namespace ct
 
         const double nowCount = note.getDrawCount() - count;
         auto pCount = parent->getDrawCount() - nowCount;
-        if (parent->isFirstTap())
+        if (parent->isFirstTap() && pCount <= 0)
             pCount = 0;
         auto pPos = GetPos(angle, pCount, scrollRate, parent->getSpeed());
 
@@ -247,6 +250,20 @@ namespace ct
         {
             Color c1 = HSV(static_cast<s3d::int32>(count / 10) % 360, 0.5, 1);
             Color c2 = HSV((static_cast<s3d::int32>(count / 10) + 72) % 360, 0.5, 1);
+
+            const double offs = static_cast<double>(SheetMusic::RESOLUTION) / note.getInterval();
+            double countTmp = parent->getDrawCount() + offs;
+            double speed2 = s3d::Sqrt(speed * parent->getSpeed());
+            while (countTmp <= note.getDrawCount()) {
+                double diffCount = countTmp - nowCount;
+                if (diffCount > 0) {
+                    double r = ::GetRadius(diffCount, scrollRate, speed2);
+                    if (0 < r && r <= 1000) {
+                        Circle(g_center, r).drawFrame(1, 1, c1.withA(64));
+                    }
+                }
+                countTmp += offs;
+            }
 
             const Color(&color)[2] = { c1,c2 };
             ::DrawLongTail(count, pCount, speed, parent->getSpeed(), scrollRate, 3, color, true);
