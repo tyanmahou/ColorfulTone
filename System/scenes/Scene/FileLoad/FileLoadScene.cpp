@@ -26,6 +26,7 @@ namespace
 		virtual bool load(const std::stop_token& stopToken) = 0;
 		virtual size_t current() const = 0;
 		virtual size_t total() const = 0;
+		virtual double loadingFactor() const = 0;
 	};
 	// MusicDataのロード
 	class MusicDataLoader : public IContentsLoader
@@ -135,6 +136,10 @@ namespace
 		{
 			return m_total;
 		}
+		double loadingFactor() const override
+		{
+			return 1.0;
+		}
 	private:
 		size_t m_current = 0;
 		size_t m_total = 0;
@@ -195,6 +200,10 @@ namespace
 		{
 			return m_total;
 		}
+		double loadingFactor() const override
+		{
+			return 0.1;
+		}
 	private:
 		size_t m_current = 0;
 		size_t m_total = 0;
@@ -239,6 +248,10 @@ namespace
 		size_t total() const override
 		{
 			return m_total;
+		}
+		double loadingFactor() const override
+		{
+			return 0.1;
 		}
 	private:
 		size_t m_current = 0;
@@ -293,6 +306,10 @@ namespace
 		{
 			return m_total;
 		}
+		double loadingFactor() const override
+		{
+			return 0.1;
+		}
 	private:
 		size_t m_current = 0;
 		size_t m_total = 0;
@@ -326,16 +343,17 @@ namespace ct
 		}
 		double progress() const
 		{
-			size_t current = 0;
-			size_t total = 0;
+			double current = 0;
+			double total = 0;
 			for (const auto& loader : m_loaders) {
-				current += loader->current();
-				total += loader->total();
+				double factor = loader->loadingFactor();
+				current += factor * loader->current();
+				total += factor * loader->total();
 			}
 			if (total <= 0) {
 				return 0;
 			}
-			return current / static_cast<double>(total);
+			return current / total;
 		}
 	private:
 		s3d::Array<std::shared_ptr<IContentsLoader>> m_loaders;
