@@ -123,6 +123,13 @@ namespace ct
                     if (type != 10)
                         totalNotes++;
 
+                    // 強拍計算
+                    //{
+                    //    s3d::int64 A = col * nowMeasure.denominator;
+                    //    s3d::int64 B = j * nowMeasure.numerator * 4;
+                    //    s3d::int64 g = std::gcd(A, B); 
+                    //    s3d::int64 fraction = A / g;
+                    //}
                     //カウント値
                     double count = nowCount + RESOLUTION * nowMeasure * j / col;
 
