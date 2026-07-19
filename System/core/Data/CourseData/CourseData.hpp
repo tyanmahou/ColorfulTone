@@ -31,18 +31,6 @@ namespace ct
 
 	class CourseData
 	{
-	private:
-		s3d::Array<CourceEntry> m_entries;
-
-		s3d::String m_title;	// コースタイトル
-		s3d::String m_genre;	// ジャンル名
-		size_t m_index;	//ID
-		CourseScore m_score;
-
-		s3d::String m_fileName;
-		s3d::Color m_color;		// 色
-
-		bool m_canPlay = true;
 	public:
 		static size_t Index;
 		CourseData(const s3d::String& path);
@@ -117,5 +105,18 @@ namespace ct
 		{
 			return m_entries[index];
 		}
+
+	private:
+		s3d::Array<CourceEntry> m_entries;
+
+		s3d::String m_title;	// コースタイトル
+		s3d::String m_genre;	// ジャンル名
+		size_t m_index;	//ID
+		CourseScore m_score;
+
+		s3d::String m_fileName;
+		s3d::Color m_color;		// 色
+
+		bool m_canPlay = true;
 	};
 }

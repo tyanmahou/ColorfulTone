@@ -215,7 +215,7 @@ namespace
 	public:
 		void setup() override
 		{
-			EndlessData::Index = 0;
+			EndlessData::ResetIndex();
 
 			Array<EndlessData>& endless = Game::Endless();
 			endless.clear();

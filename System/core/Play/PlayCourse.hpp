@@ -22,7 +22,7 @@ namespace  ct
         };
     public:
         PlayCourse();
-        void init(const CourseData& course, LifeGaugeKind guage) const;
+        void init(const CourseData& course, LifeGaugeKind gauge) const;
         void exit() const;
 
         bool isActive()const;

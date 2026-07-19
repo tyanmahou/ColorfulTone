@@ -1,15 +1,15 @@
 ﻿#pragma once
+#include <core/Data/MusicNotesIndex.hpp>
 #include <core/Data/Genre/CTCFReader.hpp>
 
 namespace ct
 {
-    using MusicNotesIndex = std::pair<size_t, size_t>;
-
     class NotesFinder
     {
     public:
         static s3d::Optional<MusicNotesIndex> FindIndex(const s3d::String& notePath);
 
+        static s3d::Array<MusicNotesIndex> FindIndexes(const CTCFReader& ctcf);
         static bool HasNotes(const CTCFReader& ctcf);
 
 

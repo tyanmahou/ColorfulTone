@@ -15,8 +15,9 @@
 #include <scenes/Scene/Main/MainScene.hpp>
 #include <scenes/Scene/Result/ResultScene.hpp>
 #include <scenes/Scene/CourseSelect/CourseSelectScene.hpp>
-#include <scenes/Scene/EndlessSelect/EndlessSelectScene.hpp>
 #include <scenes/Scene/Course/CourseScene.hpp>
+#include <scenes/Scene/EndlessSelect/EndlessSelectScene.hpp>
+#include <scenes/Scene/Endless/EndlessScene.hpp>
 #include <scenes/Scene/Download/DownloadScene.hpp>
 
 #include <utils/Addon/IntervalCounter.hpp>
@@ -297,7 +298,7 @@ namespace ct
 			m_scene.add<CourseSelectScene>(SceneName::CourseSelect);
 			m_scene.add<CourseScene>(SceneName::Course);
 			m_scene.add<EndlessSelectScene>(SceneName::EndlessSelect);
-			m_scene.add<CourseScene>(SceneName::Endless);
+			m_scene.add<EndlessScene>(SceneName::Endless);
 			m_scene.add<DownloadScene>(SceneName::Download);
 		}
 		void registerAddon()

@@ -12,20 +12,6 @@ namespace ct
 {
 	class PlayCourse::Impl
 	{
-	private:
-		bool m_isActive = false;
-
-		size_t m_nowCourseIndex = 0;
-
-		size_t m_currentNotesIndex = 0;
-		State m_state = State::None;
-		CourseScore m_score;
-
-		size_t m_rankAAACount = 0;
-		size_t m_apCount = 0;
-
-		Array<CourceSelectedNotes> m_selectedNotes;
-		LifeGaugeKind m_guage = LifeGaugeKind::Normal;
 	public:
 		const CourseData& currentCourse()const
 		{
@@ -36,17 +22,16 @@ namespace ct
 			m_currentNotesIndex = 0;
 			m_score = CourseScore();
 			m_score.life = 100.0;
-			m_score.gauge = m_guage;
+			m_score.gauge = m_gauge;
 			m_rankAAACount = 0;
 			m_apCount = 0;
 			m_selectedNotes.clear();
 		}
-		void init(const CourseData& course, LifeGaugeKind guage)
+		void init(const CourseData& course, LifeGaugeKind gauge)
 		{
-			m_isActive = true;
 			m_nowCourseIndex = course.getIndex();
 			m_state = State::Playing;
-			m_guage = guage;
+			m_gauge = gauge;
 			this->clear();
 			for (const auto& entry : course.getEntries()) {
 				m_selectedNotes.push_back(entry.choice());
@@ -54,13 +39,12 @@ namespace ct
 		}
 		void exit()
 		{
-			m_isActive = false;
 			m_state = State::None;
 			this->clear();
 		}
 		bool isActive() const
 		{
-			return m_isActive;
+			return m_state != State::None;
 		}
 		size_t getCurrentNotesIndex()const
 		{
@@ -120,25 +104,37 @@ namespace ct
 		}
 		LifeGaugeKind getGaugeKind() const
 		{
-			return m_guage;
+			return m_gauge;
 		}
 		bool isInvincible() const
 		{
-			return m_guage == LifeGaugeKind::Invincible;
+			return m_gauge == LifeGaugeKind::Invincible;
 		}
 		bool isMainPassableGauge() const
 		{
-			return m_guage >= LifeGaugeKind::Normal;
+			return m_gauge >= LifeGaugeKind::Normal;
 		}
+	private:
+		size_t m_nowCourseIndex = 0;
+
+		size_t m_currentNotesIndex = 0;
+		State m_state = State::None;
+		CourseScore m_score;
+
+		size_t m_rankAAACount = 0;
+		size_t m_apCount = 0;
+
+		Array<CourceSelectedNotes> m_selectedNotes;
+		LifeGaugeKind m_gauge = LifeGaugeKind::Normal;
 	};
 
 	PlayCourse::PlayCourse() :
 		m_pImpl(std::make_shared<Impl>())
 	{}
 
-	void PlayCourse::init(const CourseData& course, LifeGaugeKind guage) const
+	void PlayCourse::init(const CourseData& course, LifeGaugeKind gauge) const
 	{
-		m_pImpl->init(course, guage);
+		m_pImpl->init(course, gauge);
 	}
 
 	void PlayCourse::exit() const

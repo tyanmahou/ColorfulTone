@@ -68,6 +68,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Loader\FavoriteLoader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Loader\ScoreLoader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\MusicData\MusicData.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\MusicNotesIndex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\NotesData\NotesData.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\NotesData\SheetMusic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\NotesData\StarLv.hpp" />
@@ -134,6 +135,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Download\DownloadSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\EndlessSelect\EndlessSelectScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\EndlessSelect\EndlessSelectSceneView.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Endless\EndlessScene.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Endless\EndlessSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\ISceneBase.hpp" />
@@ -308,6 +311,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Download\DownloadSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\EndlessSelect\EndlessSelectScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\EndlessSelect\EndlessSelectSceneView.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Endless\EndlessScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Endless\EndlessSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Config\Config.cpp" />

@@ -29,19 +29,7 @@ namespace ct
         return none;
     }
 
-    bool NotesFinder::HasNotes(const CTCFReader& ctcf)
-    {
-        auto& musics = Game::Musics();
-        for (auto&& m : musics) {
-            for (auto&& notes : m.getNotesData()) {
-                if (ctcf.expression(notes)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    s3d::Optional<MusicNotesIndex> ct::NotesFinder::ChoiceIndex(const CTCFReader& ctcf)
+    s3d::Array<MusicNotesIndex> NotesFinder::FindIndexes(const CTCFReader& ctcf)
     {
         auto& musics = Game::Musics();
         size_t musicIndex = 0;
@@ -57,6 +45,24 @@ namespace ct
             }
             ++musicIndex;
         }
+        return candidate;
+    }
+
+    bool NotesFinder::HasNotes(const CTCFReader& ctcf)
+    {
+        auto& musics = Game::Musics();
+        for (auto&& m : musics) {
+            for (auto&& notes : m.getNotesData()) {
+                if (ctcf.expression(notes)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    s3d::Optional<MusicNotesIndex> ct::NotesFinder::ChoiceIndex(const CTCFReader& ctcf)
+    {
+        Array<MusicNotesIndex> candidate = FindIndexes(ctcf);
         if (candidate.isEmpty()) {
             return none;
         }
