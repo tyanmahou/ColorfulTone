@@ -1,0 +1,6 @@
+﻿[Data]
+TITLE = 超上級
+
+CONDITION = OFFICIAL && LEVEL >= 13 && LEVEL <= 15 && STAR < ＊
+DETAIL = LEVEL 13～15
+

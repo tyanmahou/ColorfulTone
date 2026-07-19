@@ -42,7 +42,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\DownloadContent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\Downloader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\DownloadHistory.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\EndlessData\EndlessData.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\EndlessData\EndlessScore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Favorite\FavoriteModel.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Finder\NotesFinder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Genre\CostumFolder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCFReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCF\AST\Expression\BinaryExpr.hpp" />
@@ -128,6 +131,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Course\CourseSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Download\DownloadScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\Download\DownloadSceneView.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\EndlessSelect\EndlessSelectScene.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\EndlessSelect\EndlessSelectSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadScene.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadSceneView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\Scene\ISceneBase.hpp" />
@@ -232,6 +237,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\DownloadContent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\Downloader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\DownloadContent\DownloadHistory.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\EndlessData\EndlessData.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Finder\NotesFinder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\CostumFolder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCFReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\Data\Genre\CTCF\Evaluator\Evaluator.cpp" />
@@ -297,6 +304,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Course\CourseSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Download\DownloadScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Download\DownloadSceneView.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\EndlessSelect\EndlessSelectScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\EndlessSelect\EndlessSelectSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\FileLoad\FileLoadSceneView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\Scene\Config\Config.cpp" />

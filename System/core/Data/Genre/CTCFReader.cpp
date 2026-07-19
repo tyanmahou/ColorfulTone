@@ -74,6 +74,9 @@ namespace ct
 
     CTCFReader::operator bool() const
     {
+        if (!m_pImpl) {
+            return false;
+        }
         return m_pImpl->operator bool();
     }
 

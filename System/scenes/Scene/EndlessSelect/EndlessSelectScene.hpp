@@ -1,0 +1,50 @@
+﻿#pragma once
+#include <scenes/Scene/ISceneBase.hpp>
+#include <scenes/Scene/EndlessSelect/EndlessSelectSceneView.hpp>
+
+namespace ct
+{
+	class ConfigMain;
+	class EndlessSelectScene : public ISceneBase
+	{
+	public:
+		enum class Action : s3d::uint8
+		{
+			GenreSelect,
+			CourseSelect,
+		};
+		struct SelectCourseInfo
+		{
+			s3d::uint32 genre = 0;	// 選択中のジャンル
+			s3d::uint32 course = 0;	// 選択中のコース
+		};
+	private:
+
+		class Model;
+		std::shared_ptr<Model> m_pModel;
+		EndlessSelectSceneView m_view;
+	public:
+		EndlessSelectScene(const InitData& init);
+		~EndlessSelectScene() = default;
+
+		void update() override;
+		void finally() override;
+		void draw() const override;
+		void drawFadeIn(double t) const override;
+		void drawFadeOut(double t) const override;
+
+		static SelectCourseInfo GetSelectInfo();
+
+		const Array<CourseData>& getCourses()const;
+
+		Action getAction()const;
+
+		// previous , current
+		std::pair<Action, Action> getChangeAction()const;
+		s3d::int32 getMoveSelect() const;
+
+		size_t entryPage() const;
+
+		const ConfigMain& getConfig() const;
+	};
+}

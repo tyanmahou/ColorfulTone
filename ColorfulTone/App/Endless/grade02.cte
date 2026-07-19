@@ -1,0 +1,4 @@
+[Data]
+TITLE = 初級
+CONDITION = OFFICIAL && LEVEL >= 4 && LEVEL <= 6 && STAR < ＊
+DETAIL = LEVEL 4～6

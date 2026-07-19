@@ -66,7 +66,7 @@ namespace ct
         static const std::unordered_map<Mode, ChangeSceneParam> sceneParams{
             {Mode::GameStart, {SceneName::Select, 1000, true}},
             {Mode::Course,{SceneName::CourseSelect, 1000, true}},
-            {Mode::Endless,{SceneName::CourseSelect, 1000, true}},
+            {Mode::Endless,{SceneName::EndlessSelect, 1000, true}},
             {Mode::KeyConfig, {SceneName::Config, 1000, true}},
             {Mode::Download, {SceneName::Download, 1000, true}},
             {Mode::Reload, {SceneName::Load, 1000, true}},

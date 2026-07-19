@@ -18,5 +18,6 @@ namespace ct
 
         Min = -3,
         Max = 3,
+        Count = Max - Min + 1,
     };
 }

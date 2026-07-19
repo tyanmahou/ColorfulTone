@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <core/Data/Genre/CTCFReader.hpp>
+#include <core/Data/Finder/NotesFinder.hpp>
 #include <variant>
 
 namespace ct
@@ -19,7 +19,6 @@ namespace ct
 		/// </summary>
 		Random,
 	};
-	using MusicNotesIndex = std::pair<size_t, size_t>;
 	
 	/// <summary>
 	/// 選ばれた譜面

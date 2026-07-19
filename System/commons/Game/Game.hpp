@@ -10,6 +10,7 @@ namespace ct
 	class GameConfig;
 	class MusicData;
 	class CourseData;
+	class EndlessData;
 	class TapSE;
 
 	//ゲームクラス
@@ -21,6 +22,7 @@ namespace ct
 	public:
 		static s3d::Array<MusicData>& Musics();
 		static s3d::Array<CourseData>& Courses();
+		static s3d::Array<EndlessData>& Endless();
 		static s3d::Array<TapSE>& TapSEs();
 		static GameConfig& Config();
 

@@ -2,74 +2,13 @@
 #include <Useful.hpp>
 #include <Siv3D.hpp>
 
-namespace
-{
-    using namespace ct;
-    Optional<MusicNotesIndex> FindNotes(const String& notePath)
-    {
-        auto& musics = Game::Musics();
-
-        const String fileName = FileUtil::BaseName(notePath);
-        const String dirPath = notePath.removed(FileUtil::FileName(notePath));
-
-        size_t musicIndex = 0;
-
-        for (auto&& m : musics) {
-            size_t notesIndex = 0;
-            const String mName = m.getGenreName() + U"/" + m.getFileName() + U"/";
-            if (mName == dirPath) {
-                for (auto&& notes : m.getNotesData()) {
-                    if (notes.getFileName() == fileName) {
-                        return std::make_pair(musicIndex, notesIndex);
-                    }
-                    ++notesIndex;
-                }
-            }
-            ++musicIndex;
-        }
-        return none;
-    }
-    bool FindhNotes(const CTCFReader& random)
-    {
-        auto& musics = Game::Musics();
-        for (auto&& m : musics) {
-            for (auto&& notes : m.getNotesData()) {
-                if (random.expression(notes)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    MusicNotesIndex ChoiceIndex(const CTCFReader& random)
-    {
-        auto& musics = Game::Musics();
-        size_t musicIndex = 0;
-        Array<MusicNotesIndex> candidate;
-
-        for (const auto& m : musics) {
-            size_t notesIndex = 0;
-            for (const auto& notes : m.getNotesData()) {
-                if (random.expression(notes)) {
-                    candidate.push_back(std::make_pair(musicIndex, notesIndex));
-                }
-                ++notesIndex;
-            }
-            ++musicIndex;
-        }
-        if (candidate.isEmpty()) {
-            return {0, 0};
-        }
-        return candidate.choice();
-    }
-}
 namespace ct
 {
     CourceEntry CourceEntry::CreateDefault(const s3d::String& path, const s3d::Optional<String>& detail)
     {
         CourceEntry ret;
         ret.m_kind = CourceEntryKind::Default;
-        auto index = ::FindNotes(path);
+        auto index = NotesFinder::FindIndex(path);
 
         ret.m_data = CourceEntryDefault{
             .path = path,
@@ -88,7 +27,7 @@ namespace ct
         ret.m_data = CourceEntryRandom{
             .condition = ctcf
         };
-        ret.m_canPlay = FindhNotes(ctcf);
+        ret.m_canPlay = NotesFinder::HasNotes(ctcf);
         ret.m_detail = detail;
         return ret;
     }
@@ -100,9 +39,9 @@ namespace ct
                 .isSecret = false,
             };
         }
-
+        auto index = NotesFinder::ChoiceIndex(std::get<CourceEntryRandom>(m_data).condition);
         return {
-            .index = ::ChoiceIndex(std::get<CourceEntryRandom>(m_data).condition),
+            .index = index.value_or(MusicNotesIndex{}),
             .isSecret = true,
         };
     }

@@ -47,6 +47,8 @@ namespace ct
         constexpr auto Result = U"result";
         constexpr auto CourseSelect = U"courseSelect";
         constexpr auto Course = U"course";
+        constexpr auto EndlessSelect = U"endlessSelect";
+        constexpr auto Endless = U"endless";
         constexpr auto Config = U"config";
         constexpr auto Tutorial = U"tutorial";
         constexpr auto Download = U"download";

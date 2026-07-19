@@ -4,6 +4,7 @@
 
 #include <core/Data/MusicData/MusicData.hpp>
 #include <core/Data/CourseData/CourseData.hpp>
+#include <core/Data/EndlessData/EndlessData.hpp>
 #include <core/Data/TapSE/TapSE.hpp>
 #include <utils/Audio/Loop.hpp>
 #include <scenes/Scene/Title/TitleScene.hpp>
@@ -14,6 +15,7 @@
 #include <scenes/Scene/Main/MainScene.hpp>
 #include <scenes/Scene/Result/ResultScene.hpp>
 #include <scenes/Scene/CourseSelect/CourseSelectScene.hpp>
+#include <scenes/Scene/EndlessSelect/EndlessSelectScene.hpp>
 #include <scenes/Scene/Course/CourseScene.hpp>
 #include <scenes/Scene/Download/DownloadScene.hpp>
 
@@ -278,6 +280,7 @@ namespace ct
     public:
         Array<MusicData> m_musics;
         Array<CourseData> m_courses;
+		Array<EndlessData> m_endless;
         Array<TapSE> m_tapSEs;
 
         GameConfig m_config;
@@ -293,6 +296,8 @@ namespace ct
 			m_scene.add<ResultScene>(SceneName::Result);
 			m_scene.add<CourseSelectScene>(SceneName::CourseSelect);
 			m_scene.add<CourseScene>(SceneName::Course);
+			m_scene.add<EndlessSelectScene>(SceneName::EndlessSelect);
+			m_scene.add<CourseScene>(SceneName::Endless);
 			m_scene.add<DownloadScene>(SceneName::Download);
 		}
 		void registerAddon()
@@ -343,6 +348,10 @@ namespace ct
     {
         return Instance()->m_pImpl->m_courses;
     }
+	s3d::Array<EndlessData>& Game::Endless()
+	{
+		return Instance()->m_pImpl->m_endless;
+	}
     Array<TapSE>& Game::TapSEs()
     {
         return Instance()->m_pImpl->m_tapSEs;

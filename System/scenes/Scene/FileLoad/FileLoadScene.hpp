@@ -5,6 +5,8 @@
 
 namespace ct
 {
+	class ContentLoadManager;
+
 	class FileLoadScene : public ISceneBase
 	{
 	private:
@@ -33,5 +35,6 @@ namespace ct
 		State m_state = State::Loading;
 		FileLoadSceneView m_view;	//ビュー
 		Coro::FiberHolder<void> m_asyncUpdater;
+		std::shared_ptr<ContentLoadManager> m_loader;
 	};
 }

@@ -1,0 +1,4 @@
+﻿[Data]
+TITLE = 入門級
+CONDITION = OFFICIAL && LEVEL >= 1 && LEVEL <= 3 && STAR < ＊
+DETAIL = LEVEL 1～3
