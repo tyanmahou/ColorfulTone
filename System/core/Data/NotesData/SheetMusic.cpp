@@ -1,4 +1,5 @@
 ﻿#include <core/Data/NotesData/SheetMusic.hpp>
+#include <utils/Math//Rational.hpp>
 #include <Siv3D.hpp>
 #include <ranges>
 
@@ -71,7 +72,7 @@ namespace ct
         size_t rows = csv.rows();			// 行数
         String head;						// 1列目のデータを文字列で
         std::queue<double> noteSpeed;		// ノーツのスピード変化を覚えておく
-        double nowMeasure = 1.0;			// 拍子の初期化
+        Rational nowMeasure{ 4, 4 };		// 拍子の初期化
         uint32 totalNotes = 0;				// ノーツ数
         double scrollBaseSpeed = 1.0;
         double repeatInterval = 8.0;		// 連打間隔
@@ -251,7 +252,7 @@ namespace ct
                         .rangeCount = range
                         });
                 } else if (head == U"#MEASURE") {
-                    nowMeasure = csv.getOr<double>(i, 1, 1.0) / csv.getOr<double>(i, 2, 1.0);
+                    nowMeasure = Rational::Parse(csv.getOr<String>(i, 1, U"1"), csv.getOr<String>(i, 2, U"1"));
                 } else if (head == U"#SCROLLBASE") {
                     scrollBaseSpeed = csv.getOr<double>(i, 1, 1.0);
                 } else if (head == U"#INTERVAL") {
