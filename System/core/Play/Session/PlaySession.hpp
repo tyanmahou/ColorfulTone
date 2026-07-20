@@ -66,6 +66,11 @@ namespace ct
         {
             return std::dynamic_pointer_cast<T>(m_impl);
         }
+
+        std::shared_ptr<IPlaySession> lock() const
+        {
+            return m_impl;
+        }
     private:
         std::shared_ptr<IPlaySession> m_impl;
     };

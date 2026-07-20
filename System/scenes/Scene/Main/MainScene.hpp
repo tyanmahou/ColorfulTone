@@ -26,11 +26,9 @@ namespace ct
 		void drawFadeOut(double t) const override;
 
 	private:
-		const PlaySession& session() const
-		{
-			return getData().session;
-		}
 		PlayMusicGame m_musicGame;
 		HighSpeedDemo m_highSpeed;
+
+		std::shared_ptr<IPlaySession> m_lock;
 	};
 }

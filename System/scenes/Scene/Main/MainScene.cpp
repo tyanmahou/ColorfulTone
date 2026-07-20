@@ -11,10 +11,13 @@ namespace ct
 		ISceneBase(init)
 	{
 		auto& data = getData();
-		m_musicGame.init(session().getNotes(), data.m_scrollRate);
+		// このシーン中はインスタンス破棄をしない
+		m_lock = data.session.lock();
 
-		if (session().keepScore()) {
-			m_musicGame.setCourseMode(session().getScore());
+		m_musicGame.init(m_lock->getNotes(), data.m_scrollRate);
+
+		if (m_lock->keepScore()) {
+			m_musicGame.setCourseMode(m_lock->getScore());
 		}
 	}
 
@@ -41,13 +44,13 @@ namespace ct
 		//****************
 		//シーン遷移
 		//****************
-		if (session().canForceFinishMusicGame() && PlayKey::SmallBack().pressedDuration() >= 1000ms || m_musicGame.isFinish()) {
-			session().updateScore(m_musicGame.getScore());
+		if (m_lock->canForceFinishMusicGame() && PlayKey::SmallBack().pressedDuration() >= 1000ms || m_musicGame.isFinish()) {
+			m_lock->updateScore(m_musicGame.getScore());
 			changeScene(SceneName::Result, 2000, CrossFade::No);
 		}
 		//選曲に戻る
 		if (PlayKey::BigBack().pressedDuration() >= 1000ms) {
-			changeScene(session().selectScene(), 2000, CrossFade::No);
+			changeScene(m_lock->selectScene(), 2000, CrossFade::No);
 			getData().session.exit();
 		}
 		double& scrollRate = getData().m_scrollRate;
@@ -65,7 +68,7 @@ namespace ct
 		m_musicGame.draw();
 
 		{
-			bool canForceFinish = session().canForceFinishMusicGame();
+			bool canForceFinish = m_lock->canForceFinishMusicGame();
 			PutText(
 				canForceFinish ? U"Press Esc or BackSpace" : U"Press Esc",
 				Arg::center = Vec2{ 100, Scene::Height() - 20 }
@@ -93,7 +96,7 @@ namespace ct
 	{
 		draw();
 		FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
-		session().getMusic().getTexture().resized(350, 350).drawAt(400, 300, ColorF(1, 1 - t));
+		m_lock->getNotes().getMusic().getTexture().resized(350, 350).drawAt(400, 300, ColorF(1, 1 - t));
 	}
 
 	//--------------------------------------------------------------------------------
