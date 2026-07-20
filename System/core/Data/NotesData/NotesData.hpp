@@ -92,7 +92,6 @@ namespace ct
         const SheetMusic& getSheet() const;
 
         const ScoreModel& getScore()const;
-        void setScore(const ScoreModel& newScore);
         void saveScore(const ScoreModel& score) const;
 
         s3d::Optional<LifeGaugeKind> clearLifeGauge() const;

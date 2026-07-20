@@ -38,11 +38,6 @@ namespace ct
         const s3d::String& getFileName()const { return m_fileName; }
         const s3d::FilePath& getFilePath() const { return m_filePath; }
         const ScoreModel& getScore()const { return m_score; }
-        void setScore(const ScoreModel& newScore)
-        {
-            m_score = newScore;
-        }
-
         MusicData getMusic() const
         {
             return MusicData(m_pMusic.lock());
@@ -63,8 +58,9 @@ namespace ct
                 + U".bin";
         }
 
-        void saveScore(const ScoreModel& score) const
+        void saveScore(const ScoreModel& score)
         {
+            m_score = score;
             ScoreLoader::Save(this->getScorePath(), score);
         }
         void reload()
@@ -163,10 +159,6 @@ namespace ct
     const ScoreModel& NotesData::getScore() const
     {
         return m_handle->getScore();
-    }
-    void NotesData::setScore(const ScoreModel& newScore)
-    {
-        return m_handle->setScore(newScore);
     }
     void NotesData::saveScore(const ScoreModel& score) const
     {

@@ -15,11 +15,7 @@ namespace
 	// スコアの更新　newRecordのばあいtrue
 	bool UpdateScore(const ScoreModel& score, const NotesData& notes)
 	{
-		const size_t musicIndex = notes.getMusic().getIndex();
-		const size_t notesIndex = notes.getIndex();
-		NotesData& srcNotes = Game::Musics()[musicIndex][notesIndex];
-
-		ScoreModel srcScore = srcNotes.getScore();
+		ScoreModel srcScore = notes.getScore();
 		bool isNewRecord = false;
 		bool isUpdate = false;
 		if (score.isClear && !srcScore.isClear)
@@ -48,8 +44,7 @@ namespace
 		}
 		if (isUpdate)
 		{
-			srcNotes.setScore(srcScore);
-			srcNotes.saveScore(srcScore);
+			notes.saveScore(srcScore);
 		}
 		return isNewRecord;
 	}
