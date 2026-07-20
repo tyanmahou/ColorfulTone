@@ -47,7 +47,7 @@ namespace ct
     }
     bool PlaySession::canChangeGauge() const
     {
-        if (!m_impl) {
+        if (m_impl) {
             return false;
         }
         return true;
