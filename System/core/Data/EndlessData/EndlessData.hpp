@@ -19,7 +19,7 @@ namespace ct
 
 		bool load(const s3d::String& path);
 
-		void saveScore(const EndlessScore& score)const;
+		void saveScore(LifeGaugeKind gauge, const EndlessGaugeScore& score)const;
 
 		bool canPlay() const;
 		size_t getIndex()const;

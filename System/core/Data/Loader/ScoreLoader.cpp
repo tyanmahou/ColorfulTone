@@ -1,11 +1,12 @@
 ﻿#include <core/Data/Loader/ScoreLoader.hpp>
 #include <core/Data/NotesData/NotesData.hpp>
-#include <core/Data/CourseData/CourseData.hpp>
+#include <core/Data/Score/CourseScore.hpp>
+#include <core/Data/Score/EndlessScore.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
 {
-	ScoreModel ScoreLoader::Load(const s3d::FilePath& path)
+	ScoreModel ScoreLoader::Load(s3d::FilePathView path)
 	{
 		ScoreModel ret;
 		BinaryReader reader(path);
@@ -29,7 +30,7 @@ namespace ct
 		return ret;
 	}
 
-	void ScoreLoader::Save(const s3d::FilePath& path, const ScoreModel& newScore)
+	void ScoreLoader::Save(s3d::FilePathView path, const ScoreModel& newScore)
 	{
 		BinaryWriter writer(path);
 
@@ -44,7 +45,7 @@ namespace ct
 		writer.write(static_cast<int32>(newScore.gauge));
 	}
 
-	CourseScore CourseScoreLoader::Load(const s3d::FilePath& path)
+	CourseScore CourseScoreLoader::Load(s3d::FilePathView path)
 	{
 		CourseScore ret;
 		BinaryReader reader(path);
@@ -81,7 +82,7 @@ namespace ct
 		return ret;
 	}
 
-	void CourseScoreLoader::Save(const s3d::FilePath& path, const CourseScore& newScore)
+	void CourseScoreLoader::Save(s3d::FilePathView path, const CourseScore& newScore)
 	{
 		BinaryWriter writer(path);
 
@@ -95,5 +96,26 @@ namespace ct
 		writer.write(newScore.life);
 		writer.write(newScore.isLifeClear);
 		writer.write(static_cast<int32>(newScore.gauge));
+	}
+	EndlessScore EndlessScoreLoader::Load(s3d::FilePathView path)
+	{
+		EndlessScore result{};
+
+		BinaryReader reader(path);
+		if (!reader) {
+			return result;
+		}
+
+		reader.read(result);
+		return result;
+	}
+	void EndlessScoreLoader::Save(s3d::FilePathView path, const EndlessScore& newScore)
+	{
+		BinaryWriter writer(path);
+
+		if (!writer) {
+			return;
+		}
+		writer.write(newScore);
 	}
 }

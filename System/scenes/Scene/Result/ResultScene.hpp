@@ -21,8 +21,9 @@ namespace ct
 		const ScoreModel& getResult()const;
 		const PlayingScore& getScore() const;
 		const s3d::Optional<CourseResult>& getCourseResult() const;
+		const s3d::Optional<EndlessResult>& getEndlessResult() const;
 
-		bool isNewRecord()const;
+		bool isNewRecord() const;
 
 		const s3d::Optional<s3d::String>& playlistName() const;
 

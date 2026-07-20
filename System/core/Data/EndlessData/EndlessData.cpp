@@ -1,4 +1,5 @@
 ﻿#include <core/Data/EndlessData/EndlessData.hpp>
+#include <core/Data/Loader/ScoreLoader.hpp>
 #include <utils/File/FileUtil.hpp>
 #include <Siv3D.hpp>
 
@@ -23,7 +24,6 @@ namespace ct
                 return false;
 
             m_fileName = FileUtil::BaseName(path);
-            m_score = {};
 
             //タイトル
             m_title = ini.getOr<String>(U"Data.TITLE", U"None");
@@ -40,12 +40,16 @@ namespace ct
             } else {
                 m_canPlay = false;
             }
+
+            // スコアロード
+            m_score = EndlessScoreLoader::Load(this->getScorePath());
             return false;
         }
 
-        void saveScore(const EndlessScore& score)const
+        void saveScore(LifeGaugeKind gauge, const EndlessGaugeScore& score)
         {
-            // TODO
+            m_score[gauge] = score;
+            EndlessScoreLoader::Save(this->getScorePath(), m_score);
         }
 
         bool canPlay()const
@@ -88,7 +92,7 @@ namespace ct
 
         const EndlessGaugeScore& getScore(LifeGaugeKind gauge) const
         {
-            return m_score.gaugeData[static_cast<size_t>(gauge) - static_cast<size_t>(LifeGaugeKind::Min)];
+            return m_score[gauge];
         }
         s3d::Array<MusicNotesIndex> candidates() const
         {
@@ -118,9 +122,9 @@ namespace ct
     {
         return m_handle->load(path);
     }
-    void EndlessData::saveScore(const EndlessScore& score) const
+    void EndlessData::saveScore(LifeGaugeKind gauge, const EndlessGaugeScore& score) const
     {
-        m_handle->saveScore(score);
+        m_handle->saveScore(gauge, score);
     }
     bool EndlessData::canPlay() const
     {

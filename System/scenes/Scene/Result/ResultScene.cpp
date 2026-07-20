@@ -1,7 +1,10 @@
 ﻿#include <scenes/Scene/Result/ResultScene.hpp>
-#include <core/Play/Score/CourseResult.hpp>
 #include <core/Play/Score/PlayingScore.hpp>
+#include <core/Play/Score/CourseResult.hpp>
+#include <core/Play/Score/EndlessResult.hpp>
 #include <core/Play/Session/Course/PlayCourse.hpp>
+#include <core/Play/Session/Endless/PlayEndless.hpp>
+#include <core/Data/EndlessData/EndlessData.hpp>
 #include <Useful.hpp>
 #include <Siv3D.hpp>
 
@@ -95,6 +98,26 @@ namespace
 		}
 		return isNewRecord;
 	}
+	bool UpdateEndlessScore(const EndlessResult& result, const EndlessData& endless)
+	{
+
+		const EndlessGaugeScore& newResult = result.score;
+		EndlessGaugeScore srcScore = endless.getScore(result.gauge);
+
+		bool isNewRecord = false;
+		if (newResult.clearCount > srcScore.clearCount) {
+			srcScore.clearCount = newResult.clearCount;
+			isNewRecord = true;
+		}
+		if (newResult.maxCombo > srcScore.maxCombo) {
+			srcScore.maxCombo = newResult.maxCombo;
+			isNewRecord = true;
+		}
+		if (isNewRecord) {
+			endless.saveScore(result.gauge, srcScore);
+		}
+		return isNewRecord;
+	}
 	String GetCourseTweetText(const s3d::Optional<CourseResult>& courseResult)
 	{
 		String playingText;
@@ -131,7 +154,9 @@ namespace ct
 			if (const auto* pCoureResult = m_data->session.getCourseResult()) {
 				m_courseResult = *pCoureResult;
 			}
-
+			if (const auto* pEndlessResult = m_data->session.getEndlessResult()) {
+				m_endlessResult = *pEndlessResult;
+			}
 			m_playlistName = m_data->session.playlistName();
 			saveScore();
 		}
@@ -146,10 +171,14 @@ namespace ct
 				return;
 			}
 			m_isNewRecord = ::UpdateScore(m_result, m_notes);
-			// コース
-			if (auto course = m_data->session.cast<PlayCourse>()) {
-				if (course->isEnd()) {
-					::UpdateCourseScore(course->getCourseResult()->score, course->getCourse());
+			if (m_data->session.isEnd()) {
+				// コース
+				if (auto course = m_data->session.cast<PlayCourse>()) {
+					::UpdateCourseScore(m_courseResult->score, course->getCourse());
+				}
+				// エンドレス
+				else if (auto endless = m_data->session.cast<PlayEndless>()) {
+					::UpdateEndlessScore(*m_endlessResult, endless->getEndless());
 				}
 			}
 		}
@@ -164,6 +193,23 @@ namespace ct
 				return s3d::Format(GetCourseTweetText(m_courseResult) , *m_playlistName, m_courseResult->score.totalRate);
 			}
 			const MusicData music = m_notes.getMusic();
+			if (m_endlessResult) {
+				StringView fmt;
+				if (m_endlessResult->isEnd) {
+					fmt = U"{}/{}で{:.2f}%達成\n{}で、{}曲連続クリア、{}コンボ達成\n#ColorfulTone";
+				}
+				else {
+					fmt = U"{}/{}で{:.2f}%達成\n{}で、{}曲連続プレイ中、{}コンボ達成\n#ColorfulTone";
+				}
+				return s3d::Format(fmt, 
+					music.getMusicName(),
+					m_notes.getLevelName(),
+					m_result.clearRate,
+					*m_playlistName,
+					m_endlessResult->score.clearCount,
+					m_endlessResult->score.maxCombo
+				);
+			}
 			return U"{}/{}で{:.2f}%達成\n#ColorfulTone"_fmt(
 				music.getMusicName(),
 				m_notes.getLevelName(),
@@ -187,6 +233,10 @@ namespace ct
 		{
 			return m_courseResult;
 		}
+		const s3d::Optional<EndlessResult>& getEndlessResult() const
+		{
+			return m_endlessResult;
+		}
 	private:
 		GameData* m_data;
 		s3d::Optional<s3d::String> m_playlistName;
@@ -195,6 +245,7 @@ namespace ct
 		PlayingScore m_score;
 		ScoreModel m_result;
 		s3d::Optional<CourseResult> m_courseResult;
+		s3d::Optional<EndlessResult> m_endlessResult;
 
 		bool m_isNewRecord = false;
 	};
@@ -280,7 +331,10 @@ namespace ct
 	{
 		return m_model->getCourseResult();
 	}
-
+	const s3d::Optional<EndlessResult>& ResultScene::getEndlessResult() const
+	{
+		return m_model->getEndlessResult();
+	}
 	bool ResultScene::isNewRecord() const
 	{
 		return m_model->isNewRecord();

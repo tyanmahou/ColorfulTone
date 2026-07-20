@@ -7,8 +7,8 @@ namespace ct
 	class ScoreLoader
 	{
 	public:
-		static ScoreModel Load(const s3d::FilePath& path);
-		static void Save(const s3d::FilePath& path, const ScoreModel& newScore);
+		static ScoreModel Load(s3d::FilePathView path);
+		static void Save(s3d::FilePathView path, const ScoreModel& newScore);
 	};
 
 	struct CourseScore;
@@ -16,7 +16,16 @@ namespace ct
 	class CourseScoreLoader
 	{
 	public:
-		static CourseScore Load(const s3d::FilePath& path);
-		static void Save(const s3d::FilePath& path, const CourseScore& newScore);
+		static CourseScore Load(s3d::FilePathView path);
+		static void Save(s3d::FilePathView path, const CourseScore& newScore);
+	};
+
+	struct EndlessScore;
+
+	class EndlessScoreLoader
+	{
+	public:
+		static EndlessScore Load(s3d::FilePathView path);
+		static void Save(s3d::FilePathView path, const EndlessScore& newScore);
 	};
 }
