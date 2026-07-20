@@ -18,11 +18,14 @@ namespace ct
 		void drawFadeOut(double t) const override;
 
 		const NotesData& getNotes() const;
-		const Score& getResult()const;
-		const ScoreModel& getScore() const;
+		const ScoreModel& getResult()const;
+		const PlayingScore& getScore() const;
+		const s3d::Optional<CourseResult>& getCourseResult() const;
+
 		bool isNewRecord()const;
 
-		const PlayCourse& getPlayCourse()const;
+		const s3d::Optional<s3d::String>& playlistName() const;
+
 	private:
 		class Model;
 		std::shared_ptr<Model> m_model;

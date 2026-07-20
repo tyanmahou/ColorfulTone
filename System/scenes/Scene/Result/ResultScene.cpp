@@ -1,5 +1,7 @@
 ﻿#include <scenes/Scene/Result/ResultScene.hpp>
-#include <core/Data/Score/ResultRank.hpp>
+#include <core/Play/Score/CourseResult.hpp>
+#include <core/Play/Score/PlayingScore.hpp>
+#include <core/Play/Session/Course/PlayCourse.hpp>
 #include <Useful.hpp>
 #include <Siv3D.hpp>
 
@@ -93,61 +95,63 @@ namespace
 		}
 		return isNewRecord;
 	}
-	String GetCourseStateTweetText(PlayCourse::State state)
+	String GetCourseTweetText(const s3d::Optional<CourseResult>& courseResult)
 	{
-		if (state == PlayCourse::State::Success)
-		{
-			return U"に合格!!!";
-		}else if (state == PlayCourse::State::Failure)
-		{
-			return U"に不合格…";
+		String playingText;
+		if (courseResult && !courseResult->isEnd) {
+			auto kind = courseResult->passKind();
+			if (kind == CoursePassKind::Pass) {
+				playingText = U"{}に合格!!!";
+			} else if (kind == CoursePassKind::KariPass) {
+				playingText = U"{}に仮合格!!!";
+			} else {
+				playingText = U"{}に不合格…";
+			}
+		} else {
+			playingText = U"{}をプレイ中";
 		}
-		return U"をプレイ中";
+
+		return playingText + U"\n{:.2f}%達成\n#ColorfulTone";
 	}
 }
 namespace ct
 {
 	class ResultScene::Model
 	{
-	private:
-		GameData* m_data;
-
-		ScoreModel m_score;
-		bool m_isNewRecord = false;
 	public:
 
-		Model() {}
-
-		void setData(GameData& data)
+		Model(GameData& data)
 		{
 			m_data = &data;
-		}
 
+			// sessionは破棄されるかもしれないので、コピーする
+			m_notes = m_data->session.getNotes();
+			m_score = m_data->session.getScore();
+			m_result = m_data->session.getResult();
+			if (const auto* pCoureResult = m_data->session.getCourseResult()) {
+				m_courseResult = *pCoureResult;
+			}
+
+			m_playlistName = m_data->session.playlistName();
+			saveScore();
+		}
+		const s3d::Optional<s3d::String>& playlistName() const
+		{
+			return m_playlistName;
+		}
 		void saveScore()
 		{
-			const NotesData& notes = m_data->m_nowNotes;
-
-			m_score = ResultRank::CalcScore(m_data->m_resultScore, notes.getTotalNotes());
-
 			// autoのばあいセーブしない
 			if (PlayContext::CanNotUpdateScore()) {
 				return;
 			}
-			m_isNewRecord = ::UpdateScore(m_score, notes);
+			m_isNewRecord = ::UpdateScore(m_result, m_notes);
 			// コース
-			auto& course = m_data->m_course;
-			if (course.isActive()) {
-				const float life = ResultRank::CalcLifeRate(m_data->m_resultScore);
-				course.updateScoreAndState(m_score.clearRate, life);
-
-				if (course.isEnd()) {
-					::UpdateCourseScore(course.getScore(), course.getCourse());
+			if (auto course = m_data->session.cast<PlayCourse>()) {
+				if (course->isEnd()) {
+					::UpdateCourseScore(course->getCourseResult()->score, course->getCourse());
 				}
 			}
-		}
-		const ScoreModel& getScore()const
-		{
-			return m_score;
 		}
 		bool isNewRecord()const
 		{
@@ -156,37 +160,58 @@ namespace ct
 
 		String getTweetText()const
 		{
-			auto& course = m_data->m_course;
-			if (course.isActive()) {
-				return course.getCourse().getTitle()
-					+ ::GetCourseStateTweetText(course.getState()) + U"/"
-					+ U"{:.2f}%達成\n#ColorfulTone"_fmt(course.getScore().totalRate);
+			if (m_courseResult) {
+				return s3d::Format(GetCourseTweetText(m_courseResult) , *m_playlistName, m_courseResult->score.totalRate);
 			}
-			const MusicData music = m_data->m_nowNotes.getMusic();
-			return
-				music.getMusicName() + U"/"
-				+ m_data->m_nowNotes.getLevelName() + U"で"
-				+ U"{:.2f}%達成\n#ColorfulTone"_fmt(m_score.clearRate);
+			const MusicData music = m_notes.getMusic();
+			return U"{}/{}で{:.2f}%達成\n#ColorfulTone"_fmt(
+				music.getMusicName(),
+				m_notes.getLevelName(),
+				m_result.clearRate
+			);
 		}
+		const NotesData& getNotes() const
+		{
+			return m_notes;
+		}
+
+		const PlayingScore& getScore()const
+		{
+			return m_score;
+		}
+		const ScoreModel& getResult() const
+		{
+			return m_result;
+		}
+		const s3d::Optional<CourseResult>& getCourseResult() const
+		{
+			return m_courseResult;
+		}
+	private:
+		GameData* m_data;
+		s3d::Optional<s3d::String> m_playlistName;
+
+		NotesData m_notes;
+		PlayingScore m_score;
+		ScoreModel m_result;
+		s3d::Optional<CourseResult> m_courseResult;
+
+		bool m_isNewRecord = false;
 	};
 
 	ResultScene::ResultScene(const InitData& init) :
 		ISceneBase(init),
-		m_model(std::make_shared<Model>()),
+		m_model(std::make_shared<Model>(getData())),
 		m_view(this)
 	{
 		SoundManager::PlayBgm(U"result", 1s);
-		m_model->setData(getData());
-
-		// スコアのセーブ
-		m_model->saveScore();
 		m_view.init();
 	}
 	void ResultScene::finally()
 	{
 		SoundManager::StopBgm(U"result", 1s);
-		if (getData().m_toScene == SceneName::Course) {
-			getData().m_course.next();
+		if (!getData().session.isEnd()) {
+			getData().session.next();
 		}
 	}
 
@@ -198,18 +223,16 @@ namespace ct
 		}
 		if (PlayKey::Start().down() || PlayKey::BigBack().down()) {
 			SoundManager::PlaySe(U"desisionLarge");
-			if (getData().m_course.isActive()) {
-				if (getData().m_course.isEnd()) {
-					this->changeScene(SceneName::CourseSelect, 1000);
-				} else {
-					this->changeScene(SceneName::Course, 1000);
-				}
-			} else {
-				this->changeScene(SceneName::Select, 1000);
+			if (getData().session.isEnd()) {
+				this->changeScene(getData().session.selectScene(), 1000);
+				getData().session.exit();
+			}
+			else {
+				this->changeScene(getData().session.playlistScene(), 1000);
 			}
 		}
 		if (KeyF10.down()) {
-			const MusicData selectMusic = getData().m_nowNotes.getMusic();
+			const MusicData selectMusic = getData().session.getMusic();
 			bool isFavorite = !selectMusic.isFavorite();
 			size_t index = selectMusic.getIndex();
 			MusicData& sourceMusic = Game::Musics()[index];
@@ -240,26 +263,30 @@ namespace ct
 
 	const NotesData& ResultScene::getNotes() const
 	{
-		return getData().m_nowNotes;
+		return m_model->getNotes();
 	}
 
-	const Score& ResultScene::getResult() const
+	const ScoreModel& ResultScene::getResult() const
 	{
-		return getData().m_resultScore;
+		return m_model->getResult();
 	}
 
-	const ScoreModel& ResultScene::getScore() const
+	const PlayingScore& ResultScene::getScore() const
 	{
 		return m_model->getScore();
+	}
+
+	const s3d::Optional<CourseResult>& ResultScene::getCourseResult() const
+	{
+		return m_model->getCourseResult();
 	}
 
 	bool ResultScene::isNewRecord() const
 	{
 		return m_model->isNewRecord();
 	}
-
-	const PlayCourse& ResultScene::getPlayCourse()const
+	const s3d::Optional<s3d::String>& ResultScene::playlistName() const
 	{
-		return getData().m_course;
+		return m_model->playlistName();
 	}
 }

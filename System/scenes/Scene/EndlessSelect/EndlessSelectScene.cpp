@@ -2,7 +2,7 @@
 #include <Useful.hpp>
 #include <scenes/Scene/Config/ConfigMain.hpp>
 #include <core/Data/EndlessData/EndlessData.hpp>
-
+#include <core/Play/Session/Endless/PlayEndless.hpp>
 #include <Siv3D.hpp>
 
 namespace
@@ -153,7 +153,7 @@ namespace ct
 	{
 		m_pModel->update();
 		if (m_pModel->isSelectedEndless()) {
-			this->changeScene(SceneName::Endless, 1000);
+			this->changeScene(SceneName::Playlist, 1000);
 			SoundManager::PlaySe(U"desisionLarge");
 		} else if (PlayKey::BigBack().down()) {
 			this->changeScene(U"title", 1000);
@@ -164,17 +164,13 @@ namespace ct
 
 	void EndlessSelectScene::finally()
 	{
-		if (getData().m_toScene == SceneName::Endless) {
+		if (getData().m_toScene == SceneName::Playlist) {
 			SoundManager::StopBgm(U"title", 1s);
 			// データ運搬
-			getData().m_endless.init(m_pModel->getSelectEndless(), Game::Config().m_lifeGauge);
-			// ライフ引継ぎがあるためスコアを初期化しておく
-			getData().m_resultScore = Score(Game::Config().m_lifeGauge);
+			getData().session.start<PlayEndless>(m_pModel->getSelectEndless(), Game::Config().m_lifeGauge);
 
 			// 絶対Autoは解除する
 			PlayContext::Revert();
-		} else {
-			getData().m_course.exit();
 		}
 	}
 
@@ -189,7 +185,7 @@ namespace ct
 
 	void EndlessSelectScene::drawFadeIn(double t) const
 	{
-		if (getData().m_fromScene == SceneName::Endless) {
+		if (getData().m_fromScene == SceneName::Playlist) {
 			FadeOut(Fade::FlipPage, t, [this]() {draw(); }, false);
 		} else {
 			FadeIn(Fade::FlipPage, t, [this]() {draw(); }, true);

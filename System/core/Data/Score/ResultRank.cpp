@@ -25,15 +25,15 @@ namespace ct
 		return U"F";
 	}
 
-	float ResultRank::CalcBaseRate(const std::array<size_t, Score::TERM>& judges, size_t total)
+	float ResultRank::CalcBaseRate(const std::array<size_t, ScoreJudge::TERM>& judges, size_t total)
 	{
 		if (total == 0) {
 			return 1.0f;
 		}
-		return (judges[Score::Perfect] + judges[Score::Great] * 0.7f + judges[Score::Good] * 0.5f) / static_cast<float>(total);
+		return (judges[ScoreJudge::Perfect] + judges[ScoreJudge::Great] * 0.7f + judges[ScoreJudge::Good] * 0.5f) / static_cast<float>(total);
 	}
 
-	float ResultRank::CalcClearRate(const Score& score, size_t totalNotes)
+	float ResultRank::CalcClearRate(const PlayingScore& score, size_t totalNotes)
 	{
 		float clearRate;
 		auto& judges = score.m_judgeCount;
@@ -43,12 +43,12 @@ namespace ct
 		return clearRate;
 	}
 
-	float ResultRank::CalcClearRateAsDownType(const Score& score, size_t totalNotes)
+	float ResultRank::CalcClearRateAsDownType(const PlayingScore& score, size_t totalNotes)
 	{
 		float clearRate;
 		auto& judges = score.m_judgeCount;
 		if (totalNotes != 0)
-			clearRate = 1.0f - (judges[Score::Great] * 0.3f + judges[Score::Good] * 0.5f + judges[Score::Miss] * 1) / static_cast<float>(totalNotes);
+			clearRate = 1.0f - (judges[ScoreJudge::Great] * 0.3f + judges[ScoreJudge::Good] * 0.5f + judges[ScoreJudge::Miss] * 1) / static_cast<float>(totalNotes);
 		else
 			clearRate = 1.0f;
 		int32 tmpRate = static_cast<int32>(clearRate * 10000);
@@ -56,18 +56,18 @@ namespace ct
 		return clearRate;
 	}
 
-	float ResultRank::CalcLifeRate(const Score& score)
+	float ResultRank::CalcLifeRate(const PlayingScore& score)
 	{
 		//率
 		return static_cast<float>(score.m_life) / 100.0f;
 	}
 
-	ScoreModel ResultRank::CalcScore(const Score& score, size_t totalNotes)
+	ScoreModel ResultRank::CalcScore(const PlayingScore& score, size_t totalNotes)
 	{
 		ScoreModel ret;
 		const auto& judges = score.m_judgeCount;
 		//ＡＰ処理
-		if (judges[Score::Perfect] == totalNotes) {
+		if (judges[ScoreJudge::Perfect] == totalNotes) {
 			ret.specialResult = SpecialResult::All_Perfect;
 		}
 		//フルコン処理

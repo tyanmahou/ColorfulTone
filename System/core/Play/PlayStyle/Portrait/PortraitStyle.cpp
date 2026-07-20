@@ -139,7 +139,7 @@ void PortraitStyle::drawTapEffect(NoteType type, NoteType baseType)
     }
 }
 
-void PortraitStyle::drawJudgeEffect(Score::Judge judge, NoteType type, s3d::int64 diff)
+void PortraitStyle::drawJudgeEffect(ScoreJudge judge, NoteType type, s3d::int64 diff)
 {
     m_effetcs[0].add<JudgeEffect>(judge, diff, Vec2{ GetX(type),400 });
 }

@@ -3,6 +3,7 @@
 #include <Useful.hpp>
 #include <core/Data/Score/ResultRank.hpp>
 #include <core/Play/LifeGauge/LifeGauge.hpp>
+#include <core/Play/Score/CourseResult.hpp>
 #include <utils/Easing/EasingSequence.hpp>
 #include <Siv3D.hpp>
 
@@ -25,7 +26,7 @@ namespace
         return { 90, 370 + 10, 370, 120 };
     }
     using Judges = Array<std::pair<RectF, Color>>;
-    void CreateJudgeGrapgh(Judges& judges, const Score& result, size_t total)
+    void CreateJudgeGrapgh(Judges& judges, const PlayingScore& result, size_t total)
     {
         constexpr auto graphRect = ::GraphRect();
 
@@ -37,7 +38,7 @@ namespace
         constexpr uint8 divide = 20;
 
         for (uint8 row = 0; row < divide; ++row) {
-            std::array<size_t, Score::TERM> rowJudges{ 0 };
+            std::array<size_t, ScoreJudge::TERM> rowJudges{ 0 };
             size_t start = total * row / divide;
             size_t end = total * (row + 1) / divide;
 
@@ -53,11 +54,11 @@ namespace
             const Vec2 pos{ graphRect.x + graphRect.w * row / divide,graphRect.y + graphRect.h - height };
             const Vec2 size{ graphRect.w / divide - 1.0, height };
             Color color;
-            if (rowJudges[Score::Miss]) {
+            if (rowJudges[ScoreJudge::Miss]) {
                 color = ResultMarker::Miss;
-            } else if (rowJudges[Score::Good]) {
+            } else if (rowJudges[ScoreJudge::Good]) {
                 color = ResultMarker::Good;
-            } else if (rowJudges[Score::Great]) {
+            } else if (rowJudges[ScoreJudge::Great]) {
                 color = ResultMarker::Great;
             } else {
                 color = ResultMarker::Perfect;
@@ -66,7 +67,7 @@ namespace
             judges.push_back(std::make_pair(RectF{ pos, size }, color));
         }
     }
-    void CreateLifeGraph(LineString& lifes, const Score& result, size_t total)
+    void CreateLifeGraph(LineString& lifes, const PlayingScore& result, size_t total)
     {
         constexpr auto graphRect = ::GraphRect();
 
@@ -149,7 +150,7 @@ namespace
     {
         DrawCountF(FontName::ResultNoteCount, pos - Vec2{ offsetX, 0 }, name, Vec2{ 150 + offsetX, 0 }, count);
     }
-    void DrawResult(const Score& result, const size_t total, double t)
+    void DrawResult(const PlayingScore& result, const size_t total, double t)
     {
         // コンボと判定
         constexpr Vec2 basePos{ 530, 270 };
@@ -171,10 +172,10 @@ namespace
         RectF(basePos + Vec2{ -10,offset + 30 + 10 }, { 120,10 }).draw(ResultMarker::Great);
         RectF(basePos + Vec2{ -10,offset + 60 + 10 }, { 120,10 }).draw(ResultMarker::Good);
         RectF(basePos + Vec2{ -10,offset + 90 + 10 }, { 120,10 }).draw(ResultMarker::Miss);
-        ::DrawCountF(basePos + Vec2{ 0, offset }, U"PERFECT", judgeCount[Score::Perfect] * t);
-        ::DrawCountF(basePos + Vec2{ 0, offset + 30 }, U"GREAT", judgeCount[Score::Great] * t);
-        ::DrawCountF(basePos + Vec2{ 0, offset + 60 }, U"GOOD", judgeCount[Score::Good] * t);
-        ::DrawCountF(basePos + Vec2{ 0, offset + 90 }, U"MISS", judgeCount[Score::Miss] * t);
+        ::DrawCountF(basePos + Vec2{ 0, offset }, U"PERFECT", judgeCount[ScoreJudge::Perfect] * t);
+        ::DrawCountF(basePos + Vec2{ 0, offset + 30 }, U"GREAT", judgeCount[ScoreJudge::Great] * t);
+        ::DrawCountF(basePos + Vec2{ 0, offset + 60 }, U"GOOD", judgeCount[ScoreJudge::Good] * t);
+        ::DrawCountF(basePos + Vec2{ 0, offset + 90 }, U"MISS", judgeCount[ScoreJudge::Miss] * t);
         ::DrawCountF(basePos + Vec2{ 0, offset + 120 }, U"TOTAL", total * t);
     }
 
@@ -208,21 +209,23 @@ namespace
             TextureAsset(U"iconFC").scaled(0.5).drawAt(fcIconPos, alpha);
         }
     }
-    void DrawCourseResult(const PlayCourse& course, const EasingSequence& timer)
+    void DrawCourseResult(const s3d::Optional<CourseResult>& course, const EasingSequence& timer)
     {
-        if (!course.isEnd() || !timer[U"score"].done() || course.isInvincible()) {
+        if (!course || !course->isEnd || !timer[U"score"].done() || course->isInvincibleGauge()) {
             return;
         }
         const auto t = timer[U"course"].easeIn();
         const double scale = s3d::EaseIn(s3d::Easing::Back, 2.0, 0.4, t);
         const Vec2 pos = s3d::EaseIn(s3d::Easing::Expo, Vec2{ 400, 300 }, Vec2{ 435,450 }, t);
-        if (course.isSuccess()) {
-            if (course.isMainPassableGauge()) {
-                TextureAsset(U"pass").scaled(scale).drawAt(pos);
-            } else {
-                TextureAsset(U"kariPass").scaled(scale).drawAt(pos);
-            }
-        } else if (course.isFailure()) {
+
+        CoursePassKind kind = course->passKind();
+        if (kind == CoursePassKind::Pass)             {
+            TextureAsset(U"pass").scaled(scale).drawAt(pos);
+        }
+        else if (kind == CoursePassKind::KariPass) {
+            TextureAsset(U"kariPass").scaled(scale).drawAt(pos);
+        }
+        else {
             TextureAsset(U"noPass").scaled(scale).drawAt(pos);
         }
     }
@@ -250,12 +253,12 @@ namespace ct
         {
             ::CreateLifeGraph(
                 m_graphLife,
-                m_pScene->getResult(),
+                m_pScene->getScore(),
                 m_pScene->getNotes().getTotalNotes()
             );
             ::CreateJudgeGrapgh(
                 m_graphJudge,
-                m_pScene->getResult(),
+                m_pScene->getScore(),
                 m_pScene->getNotes().getTotalNotes()
             );
         }
@@ -271,7 +274,6 @@ namespace ct
             TextureAsset(U"canvasBg").draw();
             m_lights.draw();
 
-            const ScoreModel& score = m_pScene->getScore();
             const NotesData& notes = m_pScene->getNotes();
             const double animationTime = m_timers[U"rate"].easeOut();
             const double scoreAnimeTime = m_timers[U"score"].easeOut();
@@ -282,7 +284,7 @@ namespace ct
             {
                 Vec2 p = ::GraphRect().pos + Vec2{-15, -20};
                 RectF(p + Vec2{ -5, 7 }, { 55, 7 }).draw(ResultMarker::Life);
-                String lifeStr = U"{:.2f}"_fmt(ResultRank::CalcLifeRate(m_pScene->getResult())).lpadded(7, U' ');
+                String lifeStr = U"{:.2f}"_fmt(ResultRank::CalcLifeRate(m_pScene->getScore())).lpadded(7, U' ');
                 p.x = FontAsset(FontName::ResultFastLateCount)(U"LIFE"_fmt(lifeStr)).draw(p, Palette::Black).rightX();
                 p.y -= 1;
                 if (animationTime >= 1.0) {
@@ -292,21 +294,23 @@ namespace ct
 
             // リザルト
             ::DrawResult(
-                m_pScene->getResult(),
+                m_pScene->getScore(),
                 notes.getTotalNotes(),
                 animationTime
             );
             // スコア
-            ::DrawScore(score, m_pScene->isNewRecord(), animationTime, scoreAnimeTime);
+            const ScoreModel& result = m_pScene->getResult();
+            ::DrawScore(result, m_pScene->isNewRecord(), animationTime, scoreAnimeTime);
 
-            const auto& course = m_pScene->getPlayCourse();
             static const String sceneName = U"RESULT";
+            const String* playlistName = m_pScene->playlistName().has_value() ? &m_pScene->playlistName().value() : nullptr;
             SharedDraw::Sticky(
                 &sceneName,
-                course.isActive() ? &course.getCourse().getTitle() : nullptr // コースの場合はコース名を表示
+                playlistName // コースの場合はコース名を表示
             );
             // 合格印
-            ::DrawCourseResult(course, m_timers);
+            const auto& courseResult = m_pScene->getCourseResult();
+            ::DrawCourseResult(courseResult, m_timers);
 
             SharedDraw::DrawPlayContextHeader();
             SharedDraw::DrawPlayOptionSets();

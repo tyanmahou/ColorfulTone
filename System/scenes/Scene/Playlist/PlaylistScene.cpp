@@ -1,4 +1,4 @@
-﻿#include <scenes/Scene/Course/CourseScene.hpp>
+﻿#include <scenes/Scene/Playlist/PlaylistScene.hpp>
 #include <Useful.hpp>
 
 #include <core/Play/HighSpeed/HighSpeedDemo.hpp>
@@ -9,35 +9,30 @@
 namespace
 {
 	using namespace ct;
-	using MemoInfo = CourseScene::MemoInfo;
+	using MemoInfo = PlaylistScene::MemoInfo;
 
-	MemoInfo g_selectInfo = MemoInfo::Course;
+	MemoInfo g_selectInfo = MemoInfo::Other;
 }
 namespace ct
 {
-	class CourseScene::Model
+	class PlaylistScene::Model
 	{
-	private:
-		GameData* m_data;
-		Audition m_audition;
-		HighSpeedDemo m_highSpeed;
-		ConfigMain m_config;
-
-		std::function<void()> m_onStart;
-		std::function<void()> m_onBack;
 	public:
-		Model()
+		Model(GameData& data)
 		{
 			m_config.setActive(false);
-		}
-		void setData(GameData& data)
-		{
+
 			m_data = &data;
+			m_title = m_data->session.playlistName();
 			m_config.setGameData(m_data);
+		}
+		const s3d::Optional<s3d::String>& title() const
+		{
+			return m_title;
 		}
 		const NotesData& nowNotes()const
 		{
-			return m_data->m_course.getCurrentNotes();
+			return m_data->session.getNotes();
 		}
 		void init()
 		{
@@ -61,13 +56,13 @@ namespace ct
 
 			if (KeyShift.down()) {
 				SoundManager::PlaySe(U"desisionSmall");
-				g_selectInfo = g_selectInfo == MemoInfo::Course
-					? MemoInfo::Notes : MemoInfo::Course;
+				g_selectInfo = g_selectInfo == MemoInfo::Other
+					? MemoInfo::Notes : MemoInfo::Other;
 			}
 			m_highSpeed.update(m_data->m_scrollRate);
 
 			// 1曲目でバックまたはバック長押し
-			if ((PlayKey::BigBack().down() || PlayKey::SmallBack().down()) && m_data->m_course.isStart() ||
+			if ((PlayKey::BigBack().down() || PlayKey::SmallBack().down()) && m_data->session.isFristTrack() ||
 				PlayKey::BigBack().pressedDuration() >= 1000ms
 				) {
 				SoundManager::PlaySe(U"desisionLarge");
@@ -77,7 +72,6 @@ namespace ct
 				return;
 			}
 			if (PlayKey::Start().down()) {
-				m_data->m_nowNotes = this->nowNotes();
 				SoundManager::PlaySe(U"desisionLarge2");
 				if (m_onStart) {
 					m_onStart();
@@ -113,22 +107,31 @@ namespace ct
 		{
 			m_onBack = std::move(callback);
 		}
+
+	private:
+		GameData* m_data;
+		s3d::Optional<s3d::String> m_title;
+		Audition m_audition;
+		HighSpeedDemo m_highSpeed;
+		ConfigMain m_config;
+
+		std::function<void()> m_onStart;
+		std::function<void()> m_onBack;
 	};
-	CourseScene::CourseScene(const InitData& init) :
+	PlaylistScene::PlaylistScene(const InitData& init) :
 		ISceneBase(init),
-		m_pModel(std::make_shared<Model>()),
+		m_pModel(std::make_shared<Model>(getData())),
 		m_view(this)
 	{
-		m_pModel->setData(getData());
 		m_pModel->init();
 		m_pModel->subscribeOnStart([this] {
 			this->changeScene(SceneName::Main, 2000, CrossFade::No);
 			});
 		m_pModel->subscribeOnBack([this] {
-			this->changeScene(SceneName::CourseSelect, 1000);
+			this->changeScene(SceneName::EndlessSelect, 1000);
 			});
 	}
-	void CourseScene::update()
+	void PlaylistScene::update()
 	{
 		m_pModel->update();
 		m_pModel->postUpdate();
@@ -136,7 +139,7 @@ namespace ct
 		m_view.update();
 	}
 
-	void CourseScene::finally()
+	void PlaylistScene::finally()
 	{
 		m_pModel->finally();
 	}
@@ -157,11 +160,11 @@ namespace ct
 			return U"[Ctrl]オプション [Enter]開始 [Esc長押し]戻る";
 		}
 	}
-	void CourseScene::draw() const
+	void PlaylistScene::draw() const
 	{
 		m_view.draw();
 
-		const bool isStart = getData().m_course.isStart();
+		const bool isStart = getData().session.isFristTrack();
 		if (!isStart) {
 			SharedDraw::LongPressBack(PlayKey::BigBack(), U"Esc長押しで戻る");
 		}
@@ -175,7 +178,7 @@ namespace ct
 	//--------------------------------------------------------------------------------
 	//関数：drawFadeIn
 	//--------------------------------------------------------------------------------
-	void CourseScene::drawFadeIn(double t) const
+	void PlaylistScene::drawFadeIn(double t) const
 	{
 		FadeIn(Fade::FlipPage, t, [this]() {this->draw(); }, true);
 	}
@@ -183,10 +186,10 @@ namespace ct
 	//--------------------------------------------------------------------------------
 	//関数：drawFadeOut
 	//--------------------------------------------------------------------------------
-	void CourseScene::drawFadeOut(double t) const
+	void PlaylistScene::drawFadeOut(double t) const
 	{
 		if (getData().m_toScene == SceneName::Main) {
-			const MusicData music = getData().m_course.getCurrentNotes().getMusic();
+			const MusicData music = getData().session.getMusic();
 			this->draw();
 			FadeOut(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
 			const double size = EaseOut(Easing::Cubic, 300.0, 350.0, t);
@@ -195,23 +198,26 @@ namespace ct
 			this->draw();
 		}
 	}
-
-	const PlayCourse& CourseScene::getPlay() const
+	const s3d::Optional<s3d::String>& PlaylistScene::title() const
 	{
-		return getData().m_course;
+		return m_pModel->title();
+	}
+	const PlaySession& PlaylistScene::getPlay() const
+	{
+		return getData().session;
 	}
 
-	const HighSpeedDemo& CourseScene::getHighSpeedDemo() const
+	const HighSpeedDemo& PlaylistScene::getHighSpeedDemo() const
 	{
 		return m_pModel->getHighSpeedDemo();
 	}
 
-	const ConfigMain& CourseScene::getConfig() const
+	const ConfigMain& PlaylistScene::getConfig() const
 	{
 		return m_pModel->getConfig();
 	}
 
-	MemoInfo CourseScene::GetMemoInfo()
+	MemoInfo PlaylistScene::GetMemoInfo()
 	{
 		return g_selectInfo;
 	}

@@ -15,12 +15,12 @@
 namespace
 {
     using namespace ct;
-    Score* g_pScore;
+    PlayingScore* g_pScore;
 
-    void HandleAddJudgeEffect(Score::Judge judge, int64 diff, NoteType type, NoteType baseType)
+    void HandleAddJudgeEffect(ScoreJudge judge, int64 diff, NoteType type, NoteType baseType)
     {
         PlayStyle::Instance()->drawJudgeEffect(judge, type, diff);
-        if (judge != Score::Miss) {
+        if (judge != ScoreJudge::Miss) {
             PlayStyle::Instance()->drawTapEffect(type, baseType);
         }
     }
@@ -103,7 +103,7 @@ namespace ct
         //譜面の初期化
         m_playNotesData.reset();
 
-        m_score = Score(Game::Config().m_lifeGauge);
+        m_score = PlayingScore(Game::Config().m_lifeGauge);
 
         m_playBG = PlayBGFactory::CreateBG(Game::Config().m_bgType);
         PlayStyle::Instance()->setStyle(Game::Config().m_styleType);
@@ -172,7 +172,7 @@ namespace ct
     {
         //譜面の初期化
         m_playNotesData.reset();
-        m_score = Score(Game::Config().m_lifeGauge);
+        m_score = PlayingScore(Game::Config().m_lifeGauge);
         m_isStart = false;
         m_isFinish = false;
         m_isDead = false;
@@ -186,16 +186,18 @@ namespace ct
         return m_playNotesData;
     }
 
-    void PlayMusicGame::setCourseMode(const Score& score)
+    void PlayMusicGame::setCourseMode(const PlayingScore& score)
     {
         m_isCourse = true;
         m_score.m_lifeHistory[0] = score.m_life;
         m_score.m_initLife = score.m_life;
         m_score.m_life = score.m_life;
         m_score.m_gauge = score.m_gauge;
+        m_score.m_currentTotalCombo = score.m_currentTotalCombo;
+        m_score.m_maxTotalCombo = score.m_maxTotalCombo;
     }
 
-    void PlayMusicGame::ScoreUpdate(Score::Judge judge, s3d::int64 diff, NoteType type, NoteType baseType, bool playSe)
+    void PlayMusicGame::ScoreUpdate(ScoreJudge judge, s3d::int64 diff, NoteType type, NoteType baseType, bool playSe)
     {
         if (!g_pScore) {
             Print << U"Warning: Missing Score";
@@ -204,7 +206,7 @@ namespace ct
         g_pScore->add(judge, diff);
         ::HandleAddJudgeEffect(judge, diff, type, baseType);
 
-        if (playSe && judge != Score::Miss) {
+        if (playSe && judge != ScoreJudge::Miss) {
             SoundManager::PlayInGameSe(JudgeStr(judge));
         }
     }

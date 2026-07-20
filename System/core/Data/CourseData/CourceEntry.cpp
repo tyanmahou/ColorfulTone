@@ -31,7 +31,7 @@ namespace ct
         ret.m_detail = detail;
         return ret;
     }
-    CourceSelectedNotes CourceEntry::choice() const
+    PlayTrack CourceEntry::choice() const
     {
         if (m_kind == CourceEntryKind::Default) {
             return {

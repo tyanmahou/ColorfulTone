@@ -202,7 +202,7 @@ namespace ct
 		}
 	}
 
-	void NormalStyle::drawJudgeEffect(Score::Judge judge, NoteType type, s3d::int64 diff)
+	void NormalStyle::drawJudgeEffect(ScoreJudge judge, NoteType type, s3d::int64 diff)
 	{
 		if (type == 9) {
 			 m_effetcs[0].add<JudgeEffect>(judge, diff, GetPos(3 * Pi / 2, 2400, 1.0f, 1.0));

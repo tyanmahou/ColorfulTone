@@ -21,14 +21,14 @@ namespace ct
     //
     void LongNote::perfect(s3d::int64 diff)
     {
-        PlayMusicGame::ScoreUpdate(Score::Perfect, diff, m_parent->getType(), m_parent->getType(), false);
+        PlayMusicGame::ScoreUpdate(ScoreJudge::Perfect, diff, m_parent->getType(), m_parent->getType(), false);
         m_isActive = false;
         m_parent->setActive(false);
     }
 
     void LongNote::miss(s3d::int64 diff)
     {
-        PlayMusicGame::ScoreUpdate(Score::Miss, diff, m_parent->getType(), m_parent->getType(), false);
+        PlayMusicGame::ScoreUpdate(ScoreJudge::Miss, diff, m_parent->getType(), m_parent->getType(), false);
         m_isActive = false;
         m_parent->setActive(false);
     }

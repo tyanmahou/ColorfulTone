@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <core/Object/Object.hpp>
-#include <core/Data/Score/Score.hpp>
+#include <core/Play/Score/ScoreJudge.hpp>
 #include <functional>
 #include <Siv3D/Color.hpp>
 
@@ -26,7 +26,7 @@ namespace ct
         std::function<bool(void)> m_judge;
         std::function<s3d::int64(void)> m_clickTimeOffset;
 
-        void tapUpdate(Score::Judge judge, s3d::int64 diff);
+        void tapUpdate(ScoreJudge judge, s3d::int64 diff);
         void tapMiss(s3d::int64 diff);
     protected:
 

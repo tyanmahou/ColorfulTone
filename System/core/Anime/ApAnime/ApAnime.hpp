@@ -3,7 +3,7 @@
 
 namespace ct
 {
-	struct Score;
+	struct PlayingScore;
 
 	class ApAnime
 	{
@@ -12,7 +12,7 @@ namespace ct
 		~ApAnime();
 		bool isStart() const;
 		bool isEnd() const;
-		void play(const Score& score) const;
+		void play(const PlayingScore& score) const;
 		void update() const;
 		void draw()const;
 

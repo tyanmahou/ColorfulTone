@@ -3,6 +3,7 @@
 #include <functional>
 #include <Siv3D/Fwd.hpp>
 #include <Siv3D/Optional.hpp>
+#include <core/Play/Score/ScoreJudge.hpp>
 
 namespace ct
 {
@@ -31,7 +32,7 @@ namespace ct
         virtual void drawTapEffect([[maybe_unused]] NoteType type, [[maybe_unused]] NoteType baseType)
         {
         };
-        virtual void drawJudgeEffect([[maybe_unused]] Score::Judge judge, [[maybe_unused]] NoteType type, [[maybe_unused]] s3d::int64 diff)
+        virtual void drawJudgeEffect([[maybe_unused]] ScoreJudge judge, [[maybe_unused]] NoteType type, [[maybe_unused]] s3d::int64 diff)
         {
         };
 

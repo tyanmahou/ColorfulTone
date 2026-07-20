@@ -101,6 +101,11 @@ namespace ct
         return m_handle->getIndex();
     }
 
+    MusicNotesIndex NotesData::getMusicIndex() const
+    {
+        return std::make_pair(getMusic().getIndex(), getIndex());
+    }
+
     s3d::int32 NotesData::getLevel() const
     {
         return getSheet().getLv();

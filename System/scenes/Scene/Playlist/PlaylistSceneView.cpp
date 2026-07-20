@@ -1,21 +1,25 @@
-﻿#include <scenes/Scene/Course/CourseSceneView.hpp>
-#include <scenes/Scene/Course/CourseScene.hpp>
-#include <Useful.hpp>
+﻿#include <scenes/Scene/Playlist/PlaylistSceneView.hpp>
+#include <scenes/Scene/Playlist/PlaylistScene.hpp>
+#include <core/Data/CourseData/CourseData.hpp>
+#include <core/Data/EndlessData/EndlessData.hpp>
+#include <core/Play/Score/CourseResult.hpp>
+#include <core/Play/Score/EndlessResult.hpp>
 #include <utils/Easing/EasingSequence.hpp>
 #include <scenes/Scene/Config/ConfigMain.hpp>
+#include <Useful.hpp>
 #include <Siv3D.hpp>
 
 namespace ct
 {
 
-    class CourseSceneView::Impl
+    class PlaylistSceneView::Impl
     {
     private:
-        const CourseScene* const m_pScene;
+        const PlaylistScene* const m_pScene;
         SharedDraw::DrawBGLight m_lights;
         EasingSequence m_timers;
     public:
-        Impl(const CourseScene* const scene) :
+        Impl(const PlaylistScene* const scene) :
             m_pScene(scene)
         {
             m_timers.regist(U"label", { 0,1,Easing::Circ, 1000 });
@@ -34,25 +38,15 @@ namespace ct
             m_lights.draw();
 
             const auto& playing = m_pScene->getPlay();
-            const auto& notes = playing.getCurrentNotes();
-            const MusicData music =notes.getMusic();
+            const auto& notes = playing.getNotes();
+            const MusicData music = notes.getMusic();
 
             const auto animeTime = m_timers[U"label"].easeOut();
-            // ジャケ絵描画
-            const Vec2 pos{ Constants::JacketCenter, 250 };
-            const Vec2 size{ 310,310 };
-            RectF(pos - size / 2.0, size).draw(notes.getColor());
-            music
-                .getTexture()
-                .resized(size)
-                .rotated(Math::ToRadians(-7.0))
-                .drawAt(Constants::JacketCenter, 250);
-            if (music.isFavorite()) {
-                TextureAsset(U"favorite").drawAt(pos + Vec2{ 155, -155 });
-            }
             // 曲情報
             SharedDraw::JacketInfo infoView;
             infoView
+                .drawJucket(music.getTexture(), notes.getColor())
+                .drawFavorite(music.isFavorite())
                 .drawLabel(music.getTexture(), animeTime)
                 .drawLabel()
                 .drawLine()
@@ -63,42 +57,49 @@ namespace ct
             // track
             const auto& musics = Game::Musics();
             static const String randomName = U"？？？";
-            SharedDraw::Select<CourceSelectedNotes>()
+            SharedDraw::Select<PlayTrack>()
                 .setLoop(false)
                 .setOffset(-30.0)
-                .setDrawble([&](size_t index, const CourceSelectedNotes& d, Vec2 pos) {
+                .setDrawble([&](size_t index, const PlayTrack& d, Vec2 pos) {
                     if (!d.isSecret || index <= playing.getTrackIndex()) {
-                        musics[d.musicIndex()].getTexture().resized(50, 50).drawAt(pos + Vec2{ 37, 30 });
+                        musics[d.musicIndex].getTexture().resized(50, 50).drawAt(pos + Vec2{ 37, 30 });
                     } else {
                         TextureAsset(U"genre_random").resized(50, 50).drawAt(pos + Vec2{ 37, 30 });
                     }
                 })
-                .setColorCallBack([&](const CourceSelectedNotes& d) {return musics[d.musicIndex()][d.notesIndex()].getColor(); })
+                .setColorCallBack([&](const PlayTrack& d) {return musics[d.musicIndex][d.notesIndex].getColor(); })
                 .draw(
-                    playing.getSelectedNotes(),
+                    playing.playlist(),
                     playing.getTrackIndex(),
-                    [&](size_t index, const CourceSelectedNotes& d)->const String& {
+                    [&](size_t index, const PlayTrack& d)->const String& {
                         if (!d.isSecret || index <= playing.getTrackIndex()) {
-                            return musics[d.musicIndex()].getMusicName();
+                            return musics[d.musicIndex].getMusicName();
                         } else {
                             return randomName;
                         }
                     }
-                 );
+                );
 
             // 譜面情報
             SharedDraw::MemoInfo memoInfo;
             memoInfo
                 .setPos(SharedDraw::MemoInfo::DefaultPos + Vec2{ 0, 300 * (1.0 - m_timers[U"memo"].easeOut()) });
-            if (CourseScene::GetMemoInfo() == CourseScene::MemoInfo::Course) {
-                memoInfo.draw(playing.getScore(), false);
+            if (PlaylistScene::GetMemoInfo() == PlaylistScene::MemoInfo::Other) {
+                if (const auto* coureResult = playing.getCourseResult()) {
+                    memoInfo.draw(coureResult->score, false);
+                }
+                else if (const auto* endlessResult = playing.getEndlessResult()) {
+                    memoInfo.draw(*endlessResult);
+                }
             } else {
                 memoInfo.draw(notes);
             }
             // 付箋
             String track = U"Track " + Format(playing.getTrackOrder());
+
+            const String* title = m_pScene->title().has_value() ? &m_pScene->title().value() : nullptr;
             SharedDraw::Sticky(
-                &playing.getCourse().getTitle(),
+                title,
                 &track
             );
             // ハイスピ
@@ -116,16 +117,17 @@ namespace ct
         }
     };
 
-    CourseSceneView::CourseSceneView(const CourseScene* const scene) :
+    PlaylistSceneView::PlaylistSceneView(const PlaylistScene* const scene) :
         m_pImpl(std::make_shared<Impl>(scene))
-    {}
+    {
+    }
 
-    void CourseSceneView::update() const
+    void PlaylistSceneView::update() const
     {
         m_pImpl->update();
     }
 
-    void CourseSceneView::draw() const
+    void PlaylistSceneView::draw() const
     {
         m_pImpl->draw();
     }

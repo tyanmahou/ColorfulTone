@@ -322,7 +322,7 @@ namespace ct
 	{
 	public:
 		template<class T, class... Args>
-		void add(Args... args)
+		void add(Args&&... args)
 		{
 			m_loaders.push_back(std::make_shared<T>(std::forward<Args>(args)...));
 		}

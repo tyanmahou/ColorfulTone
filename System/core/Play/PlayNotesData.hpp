@@ -3,7 +3,7 @@
 #include <core/Object/Object.hpp>
 #include <core/Object/BpmChanger/TempoInfo.hpp>
 #include <core/Object/Stop/Stop.hpp>
-#include <core/Data/Score/Score.hpp>
+#include <core/Play/Score/PlayingScore.hpp>
 
 namespace ct
 {
@@ -23,7 +23,7 @@ namespace ct
         void reset();
         void synchroCount(const s3d::Audio& sound, double& nowCount);	//カウントと同期
 
-        void update(const s3d::Audio& sound, double& nowCount, Score& score);
+        void update(const s3d::Audio& sound, double& nowCount, PlayingScore& score);
 
         void draw(double nowCount, double scrollRate)const;
         void previewDraw(double nowCount, double scrollRate) const;

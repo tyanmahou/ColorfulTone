@@ -1,26 +1,26 @@
 ﻿#pragma once
 #include <scenes/Scene/ISceneBase.hpp>
-#include <scenes/Scene/Course/CourseSceneView.hpp>
+#include <scenes/Scene/Playlist/PlaylistSceneView.hpp>
 
 namespace ct
 {
 	class HighSpeedDemo;
 	class ConfigMain;
 
-	class CourseScene :public ISceneBase
+	class PlaylistScene :public ISceneBase
 	{
 	public:
 		enum class MemoInfo : bool
 		{
-			Course,
 			Notes,
+			Other,
 		};
 	private:
 		class Model;
 		std::shared_ptr<Model> m_pModel;
-		CourseSceneView m_view;
+		PlaylistSceneView m_view;
 	public:
-		CourseScene(const InitData& init);
+		PlaylistScene(const InitData& init);
 
 		void update() override;
 		void finally() override;
@@ -28,7 +28,9 @@ namespace ct
 		void drawFadeIn(double t) const override;
 		void drawFadeOut(double t) const override;
 
-		const PlayCourse& getPlay() const;
+		const s3d::Optional<s3d::String>& title() const;
+
+		const PlaySession& getPlay() const;
 		const HighSpeedDemo& getHighSpeedDemo()const;
 		const ConfigMain& getConfig()const;
 

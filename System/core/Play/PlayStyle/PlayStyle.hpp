@@ -40,7 +40,7 @@ namespace ct
         {
             m_style->drawTapEffect(type, baseType);
         }
-        void drawJudgeEffect(Score::Judge judge, NoteType type, s3d::int64 diff)const
+        void drawJudgeEffect(ScoreJudge judge, NoteType type, s3d::int64 diff)const
         {
             m_style->drawJudgeEffect(judge, type, diff);
         }

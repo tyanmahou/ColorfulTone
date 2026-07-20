@@ -2,12 +2,13 @@
 #include <Siv3D/IEffect.hpp>
 #include <Siv3D/Vector2D.hpp>
 #include <Siv3D/String.hpp>
+#include <core/Play/Score/ScoreJudge.hpp>
 
 namespace ct
 {
 	struct JudgeEffect : s3d::IEffect
 	{
-		JudgeEffect(Score::Judge judge, s3d::int64 diff, const s3d::Vec2& from);
+		JudgeEffect(ScoreJudge judge, s3d::int64 diff, const s3d::Vec2& from);
 		JudgeEffect(s3d::StringView name, const s3d::Vec2& from, const s3d::ColorF& color = s3d::Palette::Black);
 
 		bool update(double t) override;

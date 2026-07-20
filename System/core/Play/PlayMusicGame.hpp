@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <core/Data/NotesData/NotesData.hpp>
 #include <core/Play/PlayNotesData.hpp>
-#include <core/Data/Score/Score.hpp>
+#include <core/Play/Score/PlayingScore.hpp>
 #include <utils/Audio/AudioSpectrum.hpp>
 #include <utils/Sfx/Flush.hpp>
 #include <utils/Coro/Fiber/FiberHolder.hpp>
@@ -39,7 +39,7 @@ namespace ct
 
 		bool isFinish()const;
 
-		inline const Score& getScore()const
+		inline const PlayingScore& getScore()const
 		{
 			return m_score;
 		}
@@ -60,7 +60,7 @@ namespace ct
 
 		const PlayNotesData& getPlayNotesData() const;
 
-		void setCourseMode(const Score& score);
+		void setCourseMode(const PlayingScore& score);
 		void setPreviewMode(bool isPreview)
 		{
 			m_isPreview = isPreview;
@@ -69,7 +69,7 @@ namespace ct
 		{
 			return m_soundLengthSec;
 		}
-		static void ScoreUpdate(Score::Judge judge, s3d::int64 diff, NoteType type, NoteType baseType, bool playSe);
+		static void ScoreUpdate(ScoreJudge judge, s3d::int64 diff, NoteType type, NoteType baseType, bool playSe);
 	private:
 		void uiDraw(bool preview)const;
 		void drawCurrentBPM()const;
@@ -94,7 +94,7 @@ namespace ct
 		s3d::String m_soundNameID;
 
 		ApAnime m_FCAPAnime;	        // フルコンAPアニメ
-		Score m_score;
+		PlayingScore m_score;
 
 		double m_scrollRate;			// スクロールレート
 		size_t m_totalNotes;		    // トータルノーツ数

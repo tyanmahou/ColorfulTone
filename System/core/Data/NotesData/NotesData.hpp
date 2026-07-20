@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <core/Data/Score/Score.hpp>
 #include <core/Data/NotesData/SheetMusic.hpp>
+#include <core/Data/MusicNotesIndex.hpp>
 
 namespace ct
 {
@@ -29,6 +30,7 @@ namespace ct
         /// </summary>
         /// <returns></returns>
         size_t getIndex() const;
+        MusicNotesIndex getMusicIndex() const;
 
         /// <summary>
         /// レベル取得

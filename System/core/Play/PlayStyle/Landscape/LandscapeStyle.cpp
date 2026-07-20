@@ -401,7 +401,7 @@ namespace ct
             break;
         };
     }
-    void LandscapeStyle::drawJudgeEffect(Score::Judge judge, [[maybe_unused]]NoteType type, s3d::int64 diff)
+    void LandscapeStyle::drawJudgeEffect(ScoreJudge judge, [[maybe_unused]]NoteType type, s3d::int64 diff)
     {
         m_effetcs[0].add<JudgeEffect>(judge, diff, g_pivotCore + Vec2{0, -120});
     }

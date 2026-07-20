@@ -1,6 +1,7 @@
 ﻿#include <scenes/Scene/MusicSelect/MusicSelectScene.hpp>
 #include <Useful.hpp>
 #include <core/Play/HighSpeed/HighSpeedDemo.hpp>
+#include <core/Play/Session/Free/PlayFree.hpp>
 #include <scenes/utils/Audition.hpp>
 #include <scenes/Scene/Config/ConfigMain.hpp>
 #include <Siv3D.hpp>
@@ -381,7 +382,7 @@ namespace ct
     {
         m_pModel->finally();
         if (getData().m_toScene == SceneName::Main) {
-            getData().m_nowNotes = m_pModel->getSelectNotes();
+            getData().session.start<PlayFree>(m_pModel->getSelectNotes(), Game::Config().m_lifeGauge);
         }
     }
 
@@ -437,7 +438,7 @@ namespace ct
             this->draw();
             FadeOut(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
             const double size = EaseOut(Easing::Cubic, 300.0, 350.0, t);
-            getData().m_nowNotes
+            getData().session
                 .getMusic()
                 .getTexture()
                 .resized(size, size)

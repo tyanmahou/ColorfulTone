@@ -5,10 +5,10 @@
 
 namespace ct
 {
-	JudgeEffect::JudgeEffect(Score::Judge judge, s3d::int64 diff, const s3d::Vec2& from)
+	JudgeEffect::JudgeEffect(ScoreJudge judge, s3d::int64 diff, const s3d::Vec2& from)
 		: JudgeEffect(JudgeStr(judge), from)
 	{
-		if (judge == Score::Judge::Good || judge == Score::Judge::Great) {
+		if (judge == ScoreJudge::Good || judge == ScoreJudge::Great) {
 			if (diff > 0) {
 				m_color.r = 160 / 255.0;
 			} else if (diff < 0) {

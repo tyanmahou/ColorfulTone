@@ -3,6 +3,7 @@
 #include <core/Data/NotesData/NotesData.hpp>
 #include <core/Data/CourseData/CourseData.hpp>
 #include <core/Data/EndlessData/EndlessData.hpp>
+#include <core/Play/Score/EndlessResult.hpp>
 #include <core/Play/LifeGauge/LifeGauge.hpp>
 #include <commons/FontName.hpp>
 #include <Siv3D.hpp>
@@ -98,13 +99,20 @@ namespace ct::SharedDraw
 	}
 	void MemoInfo::draw(const EndlessData& endless, LifeGaugeKind gauge) const
 	{
+		return this->draw(endless.getScore(gauge), gauge);
+	}
+	void MemoInfo::draw(const EndlessResult& result) const
+	{
+		return this->draw(result.score, result.gauge);
+	}
+	void MemoInfo::draw(const EndlessGaugeScore& score, LifeGaugeKind gauge) const
+	{
 		Transformer2D t2d(Mat3x2::Rotate(Math::ToRadians(8)).translated(m_pos));
 		{
 			ScopedRenderStates2D sampler(SamplerState::ClampLinear);
 			TextureAsset(U"memoEndless").drawAt({ 0, 0 });
 		}
 		const auto& font = FontAsset(FontName::ClearCount);
-		const EndlessGaugeScore& score = endless.getScore(gauge);
 		// クリア曲数
 		constexpr Vec2 countPos{ 85, -58 };
 		ContractionDrawbleStringCR(

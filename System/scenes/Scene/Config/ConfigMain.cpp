@@ -560,7 +560,7 @@ namespace ct
             bool update()override
             {
                 if (auto* data = this->getGameData()) {
-                    m_configs[LifeGauge].setActive(!data->m_course.isActive() && !data->m_endless.isActive());
+                    m_configs[LifeGauge].setActive(data->session.canChangeGauge());
                 }
                 return IConfigHierchy::update();
             }

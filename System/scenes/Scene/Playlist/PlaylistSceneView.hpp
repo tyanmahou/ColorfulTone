@@ -3,17 +3,17 @@
 
 namespace ct
 {
-	class CourseScene;
+	class PlaylistScene;
 
-	class CourseSceneView
+	class PlaylistSceneView
 	{
 	private:
 		class Impl;
 		std::shared_ptr<Impl> m_pImpl;
 	public:
-		CourseSceneView(const CourseScene* const scene);
+		PlaylistSceneView(const PlaylistScene* const scene);
 
-		~CourseSceneView() = default;
+		~PlaylistSceneView() = default;
 
 		void update() const;
 		void draw()const;

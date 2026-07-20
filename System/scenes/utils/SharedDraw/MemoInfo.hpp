@@ -8,6 +8,7 @@ namespace ct
 	class EndlessData;
 	struct CourseScore;
 	struct EndlessGaugeScore;
+	struct EndlessResult;
 }
 namespace ct::SharedDraw
 {
@@ -22,7 +23,10 @@ namespace ct::SharedDraw
 		void draw(const NotesData& notes) const;
 
 		void draw(const CourseScore& courseScore, bool drawFailure = true) const;
+
 		void draw(const EndlessData& endless, LifeGaugeKind gauge) const;
+		void draw(const EndlessResult& result) const;
+		void draw(const EndlessGaugeScore& score, LifeGaugeKind gauge) const;
 	private:
 		s3d::Vec2 m_pos;
 	};

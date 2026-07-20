@@ -169,7 +169,7 @@ namespace ct
 
         nowCount = NotesData::RESOLUTION * b.bar + NotesData::RESOLUTION * (b.f);
     }
-    void PlayNotesData::update(const s3d::Audio& sound, double& nowCount, [[maybe_unused]] Score& score)
+    void PlayNotesData::update(const s3d::Audio& sound, double& nowCount, [[maybe_unused]] PlayingScore& score)
     {
         this->synchroCount(sound, nowCount);
 

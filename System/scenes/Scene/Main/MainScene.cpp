@@ -11,11 +11,10 @@ namespace ct
 		ISceneBase(init)
 	{
 		auto& data = getData();
-		m_musicGame.init(data.m_nowNotes, data.m_scrollRate);
+		m_musicGame.init(session().getNotes(), data.m_scrollRate);
 
-		m_isCourse = data.m_course.isActive();
-		if (m_isCourse) {
-			m_musicGame.setCourseMode(data.m_resultScore);
+		if (session().keepScore()) {
+			m_musicGame.setCourseMode(session().getScore());
 		}
 	}
 
@@ -42,23 +41,18 @@ namespace ct
 		//****************
 		//シーン遷移
 		//****************
-		if (!m_isCourse && PlayKey::SmallBack().pressedDuration() >= 1000ms || m_musicGame.isFinish()) {
-			getData().m_resultScore = m_musicGame.getScore();
+		if (session().canForceFinishMusicGame() && PlayKey::SmallBack().pressedDuration() >= 1000ms || m_musicGame.isFinish()) {
+			session().updateScore(m_musicGame.getScore());
 			changeScene(SceneName::Result, 2000, CrossFade::No);
 		}
 		//選曲に戻る
-		if (!m_isCourse) {
-			if (PlayKey::BigBack().pressedDuration() >= 1000ms) {
-				changeScene(SceneName::Select, 2000, CrossFade::No);
-			}
-		} else {
-			if (PlayKey::BigBack().pressedDuration() >= 1000ms) {
-				changeScene(SceneName::CourseSelect, 2000, CrossFade::No);
-			}
+		if (PlayKey::BigBack().pressedDuration() >= 1000ms) {
+			changeScene(session().selectScene(), 2000, CrossFade::No);
+			getData().session.exit();
 		}
-
-		m_highSpeed.update(getData().m_scrollRate);
-		m_musicGame.setScrollRate(getData().m_scrollRate);
+		double& scrollRate = getData().m_scrollRate;
+		m_highSpeed.update(scrollRate);
+		m_musicGame.setScrollRate(scrollRate);
 	}
 
 
@@ -70,15 +64,19 @@ namespace ct
 	{
 		m_musicGame.draw();
 
-		if (!m_isCourse) {
-			PutText(U"Press Esc or BackSpace", Arg::center = Vec2{ 100, Scene::Height() - 20 });
-
-			SharedDraw::LongPressBack(PlayKey::BigBack(), U"Esc長押しで戻る");
-			SharedDraw::LongPressBack(PlayKey::SmallBack(), U"BackSpace長押しでリザルトへ");
-		} else {
-			PutText(U"Press Esc", Arg::center = Vec2{ 100, Scene::Height() - 20 });
-
-			SharedDraw::LongPressBack(PlayKey::BigBack(), U"Esc長押しで諦める");
+		{
+			bool canForceFinish = session().canForceFinishMusicGame();
+			PutText(
+				canForceFinish ? U"Press Esc or BackSpace" : U"Press Esc",
+				Arg::center = Vec2{ 100, Scene::Height() - 20 }
+			);
+			SharedDraw::LongPressBack(
+				PlayKey::BigBack(),
+				canForceFinish ? U"Esc長押しで戻る" : U"Esc長押しで諦める"
+			);
+			if (canForceFinish) {
+				SharedDraw::LongPressBack(PlayKey::SmallBack(), U"BackSpace長押しでリザルトへ");
+			}
 		}
 		SharedDraw::HighSpeedPlay(
 			m_highSpeed,
@@ -95,7 +93,7 @@ namespace ct
 	{
 		draw();
 		FadeIn(static_cast<FadeFunc_t>(Fade::DrawCanvas), t);
-		getData().m_nowNotes.getMusic().getTexture().resized(350, 350).drawAt(400, 300, ColorF(1, 1 - t));
+		session().getMusic().getTexture().resized(350, 350).drawAt(400, 300, ColorF(1, 1 - t));
 	}
 
 	//--------------------------------------------------------------------------------

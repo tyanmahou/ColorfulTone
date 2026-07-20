@@ -4,31 +4,10 @@
 #include <Siv3D/Array.hpp>
 #include <Siv3D/Color.hpp>
 #include <core/Data/CourseData/CourceEntry.hpp>
+#include <core/Data/Score/CourseScore.hpp>
 
 namespace ct
 {
-	enum class CourseSpecialResult : s3d::uint8
-	{
-		None = 0,
-		RankAAA = 1,
-		AP = 2
-	};
-	struct CourseScore
-	{
-		bool isClear = false;
-		CourseSpecialResult special = CourseSpecialResult::None;
-		float totalRate = 0.0;
-		float life = 0.0;
-
-		bool isLifeClear = false;
-		LifeGaugeKind gauge = LifeGaugeKind::None;
-
-		bool isMainClear() const
-		{
-			return isClear && gauge >= LifeGaugeKind::Normal;
-		}
-	};
-
 	class CourseData
 	{
 	public:

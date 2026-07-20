@@ -7,6 +7,12 @@ namespace ct
 {
 	class MainScene : public ISceneBase
 	{
+		enum class Mode
+		{
+			Free,
+			Cource,
+			Endless
+		};
 	public:
 		MainScene(const InitData& init);
 		~MainScene();
@@ -20,8 +26,10 @@ namespace ct
 		void drawFadeOut(double t) const override;
 
 	private:
-		bool m_isCourse = false;
-
+		const PlaySession& session() const
+		{
+			return getData().session;
+		}
 		PlayMusicGame m_musicGame;
 		HighSpeedDemo m_highSpeed;
 	};

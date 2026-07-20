@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <core/Data/Finder/NotesFinder.hpp>
+#include <core/Play/Session/PlayTrack.hpp>
 #include <variant>
 
 namespace ct
@@ -18,31 +19,6 @@ namespace ct
 		/// ランダム
 		/// </summary>
 		Random,
-	};
-	
-	/// <summary>
-	/// 選ばれた譜面
-	/// </summary>
-	struct CourceSelectedNotes
-	{
-		/// <summary>
-		/// インデックス
-		/// </summary>
-		MusicNotesIndex index;
-
-		/// <summary>
-		/// シークレットか
-		/// </summary>
-		bool isSecret;
-
-		size_t musicIndex() const
-		{
-			return index.first;
-		}
-		size_t notesIndex() const
-		{
-			return index.second;
-		}
 	};
 
 	struct CourceEntryDefault
@@ -70,7 +46,7 @@ namespace ct
 			return m_canPlay;
 		}
 
-		CourceSelectedNotes choice() const;
+		PlayTrack choice() const;
 
 		s3d::Texture getJucketTexture() const;
 		s3d::ColorF getJucketColor() const;

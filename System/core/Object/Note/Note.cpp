@@ -292,15 +292,15 @@ namespace ct
 	//--------------------------------------------------------------------------------
 	//概要：タップ成功時の処理
 	//--------------------------------------------------------------------------------
-	void Note::tapUpdate(Score::Judge judge, s3d::int64 diff)
+	void Note::tapUpdate(ScoreJudge judge, s3d::int64 diff)
 	{
 		// 白の場合ミス
 		if (m_type == 9) {
-			judge = Score::Miss;
+			judge = ScoreJudge::Miss;
 		}
 		//虹色単ノーツは必ずパフェ
 		if (m_type == 18) {
-			judge = Score::Perfect;
+			judge = ScoreJudge::Perfect;
 		}
 
 		if (m_type <= 7 || m_type == 9 || m_type == 18) {
@@ -325,10 +325,10 @@ namespace ct
 
 	void Note::tapMiss(s3d::int64 diff)
 	{
-		Score::Judge judge = Score::Miss;
+		ScoreJudge judge = ScoreJudge::Miss;
 		// 白の場合はパフェ
 		if (m_type == 9) {
-			judge = Score::Perfect;
+			judge = ScoreJudge::Perfect;
 		}
 
 		PlayMusicGame::ScoreUpdate(judge, diff, m_type, m_type, false);
@@ -382,7 +382,7 @@ namespace ct
 					m_isClicked[ColorIndex::Blue] = true;
 					m_isClicked[ColorIndex::Yellow] = true;
 				}
-				this->tapUpdate(Score::Perfect, timing);
+				this->tapUpdate(ScoreJudge::Perfect, timing);
 
 				InputManager::ForceInput(type);
 				return false;
@@ -397,11 +397,11 @@ namespace ct
 		if (m_judge()) {
 			int64 aTiming = s3d::Abs(timing);
 			if (aTiming <= JudgeRange(Judge::Perfect)) {
-				this->tapUpdate(Score::Perfect, timing);
+				this->tapUpdate(ScoreJudge::Perfect, timing);
 			} else if (aTiming <= JudgeRange(Judge::Great)) {
-				this->tapUpdate(Score::Great, timing);
+				this->tapUpdate(ScoreJudge::Great, timing);
 			} else if (aTiming <= JudgeRange(Judge::Good)) {
-				this->tapUpdate(Score::Good, timing);
+				this->tapUpdate(ScoreJudge::Good, timing);
 			}
 			RepeatEnd::notesTapSample = state.samplePos;
 

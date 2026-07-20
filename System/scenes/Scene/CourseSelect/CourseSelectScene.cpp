@@ -1,4 +1,5 @@
 ﻿#include <scenes/Scene/CourseSelect/CourseSelectScene.hpp>
+#include <core/Play/Session/Course/PlayCourse.hpp>
 #include <Useful.hpp>
 #include <scenes/Scene/Config/ConfigMain.hpp>
 
@@ -89,7 +90,7 @@ namespace ct
 		void init()
 		{
 			::InitCourses(m_courses);
-			if (m_data->m_fromScene == SceneName::Course ||
+			if (m_data->m_fromScene == SceneName::Playlist ||
 				m_data->m_fromScene == SceneName::Main) {
 				m_action = Action::CourseSelect;
 			}
@@ -236,7 +237,7 @@ namespace ct
 		if (!AudioAsset(U"title").isPlaying()) {
 			SoundManager::PlayBgm(U"title", 1s);
 		}
-		if (getData().m_fromScene == SceneName::Course ||
+		if (getData().m_fromScene == SceneName::Playlist ||
 			getData().m_fromScene == SceneName::Main) {
 			m_view.onChangeAction();
 		}
@@ -246,7 +247,7 @@ namespace ct
 	{
 		m_pModel->update();
 		if (m_pModel->isSelectedCourse()) {
-			this->changeScene(SceneName::Course, 1000);
+			this->changeScene(SceneName::Playlist, 1000);
 			SoundManager::PlaySe(U"desisionLarge");
 		} else if (PlayKey::BigBack().down()) {
 			this->changeScene(U"title", 1000);
@@ -260,17 +261,13 @@ namespace ct
 
 	void CourseSelectScene::finally()
 	{
-		if (getData().m_toScene == SceneName::Course) {
+		if (getData().m_toScene == SceneName::Playlist) {
 			SoundManager::StopBgm(U"title", 1s);
 			// データ運搬
-			getData().m_course.init(m_pModel->getSelectCourse(), Game::Config().m_lifeGauge);
-			// ライフ引継ぎがあるためスコアを初期化しておく
-			getData().m_resultScore = Score(Game::Config().m_lifeGauge);
+			getData().session.start<PlayCourse>(m_pModel->getSelectCourse(), Game::Config().m_lifeGauge);
 
 			// 絶対Autoは解除する
 			PlayContext::Revert();
-		} else {
-			getData().m_course.exit();
 		}
 	}
 
@@ -285,7 +282,7 @@ namespace ct
 
 	void CourseSelectScene::drawFadeIn(double t) const
 	{
-		if (getData().m_fromScene == SceneName::Course) {
+		if (getData().m_fromScene == SceneName::Playlist) {
 			FadeOut(Fade::FlipPage, t, [this]() {draw(); }, false);
 		} else {
 			FadeIn(Fade::FlipPage, t, [this]() {draw(); }, true);

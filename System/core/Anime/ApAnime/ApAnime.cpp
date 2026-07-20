@@ -1,5 +1,5 @@
 ﻿#include <core/Anime/ApAnime/ApAnime.hpp>
-#include <core/Data/Score/Score.hpp>
+#include <core/Play/Score/PlayingScore.hpp>
 #include <utils/Flipbook/Flipbook.hpp>
 #include <Siv3D.hpp>
 
@@ -36,10 +36,10 @@ namespace ct
 		{
 			return m_apAnime.isEnd() || m_fcAnime.isEnd();
 		}
-		void play(const Score& score)
+		void play(const PlayingScore& score)
 		{
 			m_isAnimeStart = true;
-			if (score.m_maxCombo == score.m_judgeCount[Score::Perfect]) {
+			if (score.m_maxCombo == score.m_judgeCount[ScoreJudge::Perfect]) {
 				m_type = Type::AP;
 			} else {
 				m_type = Type::FC;
@@ -83,7 +83,7 @@ namespace ct
 		return m_pImpl->isEnd();
 	}
 
-	void ApAnime::play(const Score& score) const
+	void ApAnime::play(const PlayingScore& score) const
 	{
 		m_pImpl->play(score);
 	}
