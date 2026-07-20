@@ -163,15 +163,16 @@ namespace ct
 				return;
 			}
 			m_isNewRecord = ::UpdateScore(m_result, m_notes);
-			if (m_data->session.isEnd()) {
-				// コース
-				if (auto course = m_data->session.cast<PlayCourse>()) {
+			// コース
+			if (auto course = m_data->session.cast<PlayCourse>()) {
+				if (m_data->session.isEnd()) {
 					::UpdateCourseScore(m_courseResult->score, course->getCourse());
 				}
-				// エンドレス
-				else if (auto endless = m_data->session.cast<PlayEndless>()) {
-					::UpdateEndlessScore(*m_endlessResult, endless->getEndless());
-				}
+			}
+			// エンドレス
+			else if (auto endless = m_data->session.cast<PlayEndless>()) {
+				// エンドレスは終わってなくても保存してよい
+				::UpdateEndlessScore(*m_endlessResult, endless->getEndless());
 			}
 		}
 		bool isNewRecord()const
@@ -188,7 +189,12 @@ namespace ct
 			if (m_endlessResult) {
 				s3d::StringView fmt;
 				if (m_endlessResult->isEnd) {
-					fmt = U"{}/{}で{:.2f}%達成\n{}で、{}曲連続クリア、{}コンボ達成\n#ColorfulTone";
+					if (m_endlessResult->score.clearCount > 0) {
+						fmt = U"{}/{}で{:.2f}%達成\n{}で、{}曲連続クリア、{}コンボ達成\n#ColorfulTone";
+					}
+					else {
+						fmt = U"{0}/{1}で{2:.2f}%達成\n{3}で、{5}コンボ達成\n#ColorfulTone";
+					}
 				}
 				else {
 					fmt = U"{}/{}で{:.2f}%達成\n{}で、{}曲連続プレイ中、{}コンボ達成\n#ColorfulTone";
