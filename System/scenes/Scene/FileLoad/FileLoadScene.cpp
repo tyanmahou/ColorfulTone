@@ -152,7 +152,7 @@ namespace
 		void setup() override
 		{
 			CourseGenreManager::Clear();
-			CourseData::Index = 0;
+			CourseData::ResetIndex();
 
 			Array<CourseData>& courses = Game::Courses();
 			courses.clear();
