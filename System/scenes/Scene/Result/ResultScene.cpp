@@ -110,7 +110,7 @@ namespace
 		}
 		return isNewRecord;
 	}
-	String GetCourseTweetText(const s3d::Optional<CourseResult>& courseResult)
+	detail::FormatHelper GetCourseTweetText(const s3d::Optional<CourseResult>& courseResult)
 	{
 		String playingText;
 		if (courseResult && !courseResult->isEnd) {
@@ -126,7 +126,7 @@ namespace
 			playingText = U"{}をプレイ中";
 		}
 
-		return playingText + U"\n{:.2f}%達成\n#ColorfulTone";
+		return s3d::Fmt(playingText + U"\n{:.2f}%達成\n#ColorfulTone");
 	}
 }
 namespace ct
@@ -182,18 +182,18 @@ namespace ct
 		String getTweetText()const
 		{
 			if (m_courseResult) {
-				return s3d::Format(GetCourseTweetText(m_courseResult) , *m_playlistName, m_courseResult->score.totalRate);
+				return GetCourseTweetText(m_courseResult)(*m_playlistName, m_courseResult->score.totalRate);
 			}
 			const MusicData music = m_notes.getMusic();
 			if (m_endlessResult) {
-				StringView fmt;
+				s3d::StringView fmt;
 				if (m_endlessResult->isEnd) {
 					fmt = U"{}/{}で{:.2f}%達成\n{}で、{}曲連続クリア、{}コンボ達成\n#ColorfulTone";
 				}
 				else {
 					fmt = U"{}/{}で{:.2f}%達成\n{}で、{}曲連続プレイ中、{}コンボ達成\n#ColorfulTone";
 				}
-				return s3d::Format(fmt, 
+				return s3d::Fmt(fmt)(
 					music.getMusicName(),
 					m_notes.getLevelName(),
 					m_result.clearRate,
