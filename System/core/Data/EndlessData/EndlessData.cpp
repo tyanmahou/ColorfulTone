@@ -1,5 +1,6 @@
 ﻿#include <core/Data/EndlessData/EndlessData.hpp>
 #include <core/Data/Loader/ScoreLoader.hpp>
+#include <core/Data/Finder/NotesFinder.hpp>
 #include <utils/File/FileUtil.hpp>
 #include <Siv3D.hpp>
 
@@ -16,8 +17,7 @@ namespace ct
         }
         bool load(const s3d::String& path)
         {
-            m_index = Index;
-            Index++;
+            m_index = Index++;
 
             INI ini(path);
             if (!ini)

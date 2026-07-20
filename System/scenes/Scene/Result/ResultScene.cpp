@@ -51,9 +51,7 @@ namespace
 	// コーススコアの更新　newRecordのばあいtrue
 	bool UpdateCourseScore(const CourseScore& score, const CourseData& course)
 	{
-		CourseData& srcCourse = Game::Courses()[course.getIndex()];
-
-		CourseScore srcScore = srcCourse.getScore();
+		CourseScore srcScore = course.getScore();
 		bool isNewRecord = false;
 		bool isFirstClear = false;
 		if (score.isClear && !srcScore.isClear)
@@ -88,8 +86,7 @@ namespace
 		}
 		if (isNewRecord)
 		{
-			srcCourse.setScore(srcScore);
-			srcCourse.saveScore(srcScore);
+			course.saveScore(srcScore);
 		}
 		return isNewRecord;
 	}

@@ -11,91 +11,42 @@ namespace ct
 	class CourseData
 	{
 	public:
-		static size_t Index;
+		/// <summary>
+		/// インデックスの初期化
+		/// </summary>
+		static void ResetIndex();
+	public:
+		CourseData() = default;
 		CourseData(const s3d::String& path);
-
 
 		bool load(const s3d::String& path);
 
 		void saveScore(const CourseScore& score)const;
 
-		bool canPlay()const
-		{
-			return m_canPlay;
-		}
+		bool canPlay() const;
 
-		const s3d::Array<CourceEntry>& getEntries()const
-		{
-			return m_entries;
-		}
-		size_t getEntrySize() const
-		{
-			return m_entries.size();
-		}
-		const s3d::String& getTitle()const
-		{
-			return m_title;
-		}
-		const s3d::String& getFileName()const
-		{
-			return m_fileName;
-		}
-		const s3d::String& getGenre()const
-		{
-			return m_genre;
-		}
+		const s3d::Array<CourceEntry>& getEntries()const;
+		size_t getEntrySize() const;
+		const s3d::String& getTitle()const;
+		const s3d::String& getFileName()const;
+		const s3d::String& getGenre()const;
 
-		size_t getIndex()const
-		{
-			return m_index;
-		}
+		size_t getIndex()const;
 
 		s3d::String getScorePath() const;
 
-		bool isClear() const
-		{
-			return m_score.isClear;
-		}
-		bool isMainClear() const
-		{
-			return m_score.isMainClear();
-		}
-		bool isLifeClear() const
-		{
-			return m_score.isLifeClear;
-		}
-		const CourseScore& getScore()const
-		{
-			return m_score;
-		}
-		void setScore(const CourseScore& score)
-		{
-			m_score = score;
-		}
+		bool isClear() const;
+		bool isMainClear() const;
+		bool isLifeClear() const;
+		const CourseScore& getScore()const;
 
 		s3d::Color getStarColor() const;
 
-		const s3d::Color& getColor() const
-		{
-			return m_color;
-		}
+		const s3d::Color& getColor() const;
 
-		const CourceEntry& operator[](size_t index) const
-		{
-			return m_entries[index];
-		}
-
+		const CourceEntry& operator[](size_t index) const;
 	private:
-		s3d::Array<CourceEntry> m_entries;
-
-		s3d::String m_title;	// コースタイトル
-		s3d::String m_genre;	// ジャンル名
-		size_t m_index;	//ID
-		CourseScore m_score;
-
-		s3d::String m_fileName;
-		s3d::Color m_color;		// 色
-
-		bool m_canPlay = true;
+		class CourseHandle;
+		std::shared_ptr<CourseHandle> m_handle;
 	};
 }

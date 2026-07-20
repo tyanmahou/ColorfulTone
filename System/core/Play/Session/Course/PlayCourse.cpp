@@ -19,7 +19,7 @@ namespace ct
 	public:
 		Impl(const CourseData& course, LifeGaugeKind gauge)
 		{
-			m_nowCourseIndex = course.getIndex();
+			m_course = course;
 			m_gauge = gauge;
 
 			m_trackIndex = 0;
@@ -79,7 +79,7 @@ namespace ct
 		}
 		const CourseData& getCourse() const
 		{
-			return Game::Courses()[m_nowCourseIndex];
+			return m_course;
 		}
 	private:
 		bool isLastNotes()const
@@ -87,7 +87,7 @@ namespace ct
 			return m_trackIndex + 1 >= m_playlist.size();
 		}
 	private:
-		size_t m_nowCourseIndex = 0;
+		CourseData m_course;
 		LifeGaugeKind m_gauge = LifeGaugeKind::Normal;
 
 		Array<PlayTrack> m_playlist;

@@ -2,7 +2,7 @@
 #include <Siv3D/String.hpp>
 #include <Siv3D/Color.hpp>
 #include <core/Data/Score/EndlessScore.hpp>
-#include <core/Data/Finder/NotesFinder.hpp>
+#include <core/Data/MusicNotesIndex.hpp>
 
 namespace ct 
 {
