@@ -31,9 +31,9 @@ namespace ct
             m_style->drawFrame(red, blue, yellow, drawCallback);
         }
 
-        void drawComboAndRate(size_t combo, float rate, const s3d::Optional<float>& subRate) const
+        void drawComboAndRate(size_t combo, const s3d::Optional<size_t>& totalCombo, float rate, const s3d::Optional<float>& subRate) const
         {
-            m_style->drawComboAndRate(combo, rate, subRate);
+            m_style->drawComboAndRate(combo, totalCombo, rate, subRate);
         }
 
         void drawTapEffect(NoteType type, NoteType baseType)const

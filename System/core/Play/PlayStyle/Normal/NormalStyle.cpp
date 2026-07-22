@@ -172,9 +172,9 @@ namespace ct
 		Circle(400, 300, 40).drawFrame(2, 2, judgeLineColor);
 	}
 
-	void NormalStyle::drawComboAndRate(size_t combo, float rate, const s3d::Optional<float>& subRate)
+	void NormalStyle::drawComboAndRate(size_t combo, const s3d::Optional<size_t>& totalCombo, float rate, const s3d::Optional<float>& subRate)
 	{
-		PlayInfoView::DrawCombo(combo, {115, 300});
+		PlayInfoView::DrawCombo(combo, totalCombo, {115, 300});
 		PlayInfoView::DrawRate(rate, subRate, {500, 300});
 	}
 

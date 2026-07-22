@@ -8,7 +8,7 @@ namespace ct
 	{
 		void drawPreview([[maybe_unused]] std::function<void()> drawCallback) const override;
 		void drawFrame(bool red, bool blue, bool yellow, std::function<void()> drawCallback) const override;
-		void drawComboAndRate(size_t combo, float rate, const s3d::Optional<float>& subRate) override;
+		void drawComboAndRate(size_t combo, const s3d::Optional<size_t>& totalCombo, float rate, const s3d::Optional<float>& subRate) override;
 		bool canDraw(double y) const override;
 	};
 }

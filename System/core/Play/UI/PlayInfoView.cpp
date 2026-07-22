@@ -16,7 +16,7 @@ namespace ct
             subDt.draw(Arg::topRight = br + Vec2{ -2, 5 }, Palette::Black);
         }
     }
-    void PlayInfoView::DrawCombo(size_t combo, const s3d::Vec2& comboPos)
+    void PlayInfoView::DrawCombo(size_t combo, const s3d::Optional<size_t>& totalCombo, const s3d::Vec2& comboPos)
     {
         const FontAsset font(FontName::Combo);
         TextureAsset comboTex(U"combo");
@@ -26,6 +26,12 @@ namespace ct
 
             String comboText = Pad(combo, { 6, L' ' });
             FontKinetic::DeleteSpace(font, comboText, Vec2{ comboPos.x, comboPos.y }, Palette::Black, Palette::White);
+        }
+        if (totalCombo && *totalCombo > combo) {
+            const auto subDt = FontAsset(FontName::SubRate)(U"{}"_fmt(*totalCombo));
+            subDt.draw(Arg::topRight = comboPos + Vec2{ 121 + 8, -1 + 30 }, Palette::White);
+            subDt.draw(Arg::topRight = comboPos + Vec2{ 120 + 8, -2 + 30 }, Palette::Black);
+            FontKinetic::Spacing(FontAsset(FontName::SubRate), U"TOTAL", comboPos + Vec2{ 121 + 8, -1 + 30 }, Vec2{ -4, 0 }, Palette::Black, Palette::White);
         }
     }
 }

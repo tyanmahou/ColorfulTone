@@ -347,12 +347,12 @@ namespace ct
         Circle({ x, g_pivot.y + 60}, 20).drawFrame(4, ColorF(0, 0.2));
         Line({ x,  g_pivot.y - g_height / 2.0 }, { x,  g_pivot.y + g_height / 2.0 }).draw(4, judgeLineColor);
     }
-    void LandscapeStyle::drawComboAndRate(size_t combo, float rate, const s3d::Optional<float>& subRate)
+    void LandscapeStyle::drawComboAndRate(size_t combo, const s3d::Optional<size_t>& totalCombo, float rate, const s3d::Optional<float>& subRate)
     {
         constexpr Vec2 comboPos{ g_pivotCore.x -100 , 300 + 10};
         constexpr Vec2 ratePos{ 600 ,300 + 10 };
 
-        PlayInfoView::DrawCombo(combo, comboPos);
+        PlayInfoView::DrawCombo(combo, totalCombo, comboPos);
         PlayInfoView::DrawRate(rate, subRate, ratePos);
     }
     void LandscapeStyle::drawTapEffect(NoteType type, NoteType baseType)

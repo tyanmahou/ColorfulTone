@@ -424,6 +424,10 @@ namespace ct
                           rateType == IndicateRate::Down ? downClearRate :
                                                            upClearRate
             ;
+        s3d::Optional<size_t> totalCombo = s3d::none;
+        if (m_isCourse) {
+            totalCombo = m_score.m_currentTotalCombo;
+        }
         s3d::Optional<float> subRate = s3d::none;
         if (Game::Config().m_useSubRate) {
             subRate =
@@ -432,7 +436,7 @@ namespace ct
                                                     upClearRate
                 ;
         }
-        PlayStyle::Instance()->drawComboAndRate(m_score.m_currentCombo, rate, subRate);
+        PlayStyle::Instance()->drawComboAndRate(m_score.m_currentCombo, totalCombo, rate, subRate);
 
         //曲の現在地
         const double invBarXRate = (1.0 - m_barXEasing.easeInOut());

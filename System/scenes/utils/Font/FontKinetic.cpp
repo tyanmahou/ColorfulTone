@@ -38,6 +38,29 @@ namespace ct
 
 		DeleteSpace(font, text, topLeft, color);
 	}
+	void FontKinetic::Spacing(const s3d::Font& font, s3d::StringView text, const Vec2& topLeft, const Vec2& space, const s3d::Color& color)
+	{
+		Vec2 penPos{ topLeft };
+		for (const Glyph& glyph : font.getGlyphs(text)) {
+			// 改行文字なら
+			if (glyph.codePoint == U'\n') {
+				// ペンの X 座標をリセット
+				penPos.x = topLeft.x;
+
+				// ペンの Y 座標をフォントの高さ分進める
+				penPos.y += font.height() + space.y;
+
+				continue;
+			}
+			glyph.texture.draw(Math::Round(penPos + glyph.getOffset()), color);
+			penPos.x += glyph.xAdvance + space.x;
+		}
+	}
+	void FontKinetic::Spacing(const s3d::Font& font, s3d::StringView text, const Vec2& topLeft, const Vec2& space, const s3d::Color& color, const s3d::Color& shadeColor)
+	{
+		FontKinetic::Spacing(font, text, topLeft + Vec2{ 1, 1 }, space, shadeColor);
+		FontKinetic::Spacing(font, text, topLeft, space, color);
+	}
 	void FontKinetic::LineSpacing(const s3d::Font& font, s3d::StringView text, const Vec2& topLeft, const s3d::Color& color, double lineSpacing)
 	{
 		Vec2 penPos{ topLeft };

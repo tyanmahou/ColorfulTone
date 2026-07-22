@@ -71,10 +71,10 @@ bool HomographyStyle::canDraw(double y) const
 
     return (top <= y && y <= bottom);
 }
-void HomographyStyle::drawComboAndRate(size_t combo, float rate, const s3d::Optional<float>& subRate)
+void HomographyStyle::drawComboAndRate(size_t combo, const s3d::Optional<size_t>& totalCombo, float rate, const s3d::Optional<float>& subRate)
 {
     constexpr Vec2 comboPos{ 65-50, 300 };
     constexpr Vec2 ratePos{ 550+50 ,300 };
 
-    PortraitStyle::drawComboAndRate(combo, comboPos, rate, subRate, ratePos);
+    PortraitStyle::drawComboAndRate(combo, totalCombo, comboPos, rate, subRate, ratePos);
 }

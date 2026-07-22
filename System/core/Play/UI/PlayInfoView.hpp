@@ -10,16 +10,11 @@ namespace ct
         /// <summary>
         /// レート
         /// </summary>
-        /// <param name="rate"></param>
-        /// <param name="subRate"></param>
-        /// <param name="ratePos"></param>
         static void DrawRate(double rate, const s3d::Optional<float>& subRate, const s3d::Vec2& ratePos);
 
         /// <summary>
         /// コンボ
         /// </summary>
-        /// <param name="combo"></param>
-        /// <param name="comboPos"></param>
-        static void DrawCombo(size_t combo, const s3d::Vec2& comboPos);
+        static void DrawCombo(size_t combo, const s3d::Optional<size_t>& totalCombo, const s3d::Vec2& comboPos);
     };
 }

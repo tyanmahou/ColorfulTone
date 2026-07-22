@@ -100,12 +100,12 @@ void PortraitStyle::drawJudgeLine() const
     Line({ 400 - g_width / 2,Y }, { 400 + g_width / 2,Y }).draw(15, judgeLineColor);
 }
 
-void PortraitStyle::drawComboAndRate(size_t combo, float rate, const s3d::Optional<float>& subRate)
+void PortraitStyle::drawComboAndRate(size_t combo, const s3d::Optional<size_t>& totalCombo, float rate, const s3d::Optional<float>& subRate)
 {
     constexpr Vec2 comboPos{ 65, 300 };
     constexpr Vec2 ratePos{ 550 ,300 };
 
-    this->drawComboAndRate(combo, comboPos, rate, subRate, ratePos);
+    this->drawComboAndRate(combo, totalCombo, comboPos, rate, subRate, ratePos);
 }
 
 void PortraitStyle::drawTapEffect(NoteType type, NoteType baseType)
@@ -393,8 +393,8 @@ bool PortraitStyle::canDraw(double y) const
     return (top <= y && y <= bottom);
 }
 
-void PortraitStyle::drawComboAndRate(size_t combo, const s3d::Vec2& comboPos, float rate, const s3d::Optional<float>& subRate, const s3d::Vec2& ratePos) const
+void PortraitStyle::drawComboAndRate(size_t combo, const s3d::Optional<size_t>& totalCombo, const s3d::Vec2& comboPos, float rate, const s3d::Optional<float>& subRate, const s3d::Vec2& ratePos) const
 {
-    PlayInfoView::DrawCombo(combo, comboPos);
+    PlayInfoView::DrawCombo(combo, totalCombo, comboPos);
     PlayInfoView::DrawRate(rate, subRate, ratePos);
 }
