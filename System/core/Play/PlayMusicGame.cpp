@@ -404,37 +404,37 @@ namespace ct
     void PlayMusicGame::uiDraw(bool preview) const
     {
         //UI***************************************************************
+        const auto& config = Game::Config();
+        const IndicateRate rateType = m_isCourse 
+            ? IndicateRate::Life
+            : config.m_rateType;
+        IndicateRate subRateType = m_isCourse
+            ? config.m_courseSubRateType
+            : config.m_subRateType;
 
-        const IndicateRate rateType = Game::Config().m_rateType;
-        IndicateRate subRateType = Game::Config().m_subRateType;
-        const IndicateRate clearRateType =
-            rateType != IndicateRate::Life    ? rateType :
-            subRateType != IndicateRate::Life ? subRateType :
-                                                IndicateRate::Up
-            ;
-        if (m_isCourse) {
-            subRateType = clearRateType;
-        }
         const float lifeRate = ResultRank::CalcLifeRate(m_score);
         const float upClearRate = ResultRank::CalcClearRate(m_score, m_totalNotes);
         const float downClearRate = ResultRank::CalcClearRateAsDownType(m_score, m_totalNotes);
+        const float bestClearRate = m_playNotesData.bestScore();
 
         const auto rate =
-            (m_isCourse || rateType == IndicateRate::Life) ? lifeRate :
-                          rateType == IndicateRate::Down ? downClearRate :
-                                                           upClearRate
+            rateType == IndicateRate::Life ? lifeRate :
+            rateType == IndicateRate::Down ? downClearRate :
+            rateType == IndicateRate::Up ? upClearRate :
+                                            bestClearRate;
             ;
         s3d::Optional<size_t> totalCombo = s3d::none;
         if (m_isCourse) {
             totalCombo = m_score.m_currentTotalCombo;
         }
         s3d::Optional<float> subRate = s3d::none;
-        if (Game::Config().m_useSubRate) {
+        if (config.m_useSubRate) {
             subRate =
                 subRateType == IndicateRate::Life ? lifeRate :
                 subRateType == IndicateRate::Down ? downClearRate :
-                                                    upClearRate
-                ;
+                subRateType == IndicateRate::Up ? upClearRate :
+                bestClearRate;
+            ;
         }
         PlayStyle::Instance()->drawComboAndRate(m_score.m_currentCombo, totalCombo, rate, subRate);
 
@@ -450,7 +450,26 @@ namespace ct
         }
         // ゲージ
         {
-            const float clearRate = clearRateType == IndicateRate::Down ? downClearRate : upClearRate;
+            bool isUp = true;
+            if (rateType == IndicateRate::Up) {
+                isUp = true;
+            }
+            else if (rateType == IndicateRate::Down) {
+                isUp = false;
+            }
+            else if (subRateType == IndicateRate::Up) {
+                isUp = true;
+            }
+            else if (subRateType == IndicateRate::Down) {
+                isUp = false;
+            }
+            else if (config.m_rateType == IndicateRate::Up) {
+                isUp = true;
+            }
+            else if (config.m_rateType == IndicateRate::Down) {
+                isUp = false;
+            }
+            const float clearRate = isUp ? upClearRate : downClearRate;
 
             GaugeView{}
                 .setOffs(invBarXRate * 60.0)

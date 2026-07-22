@@ -15,6 +15,7 @@ namespace ct
         Up = 0,
         Down = 1,
         Life = 2,
+        BestScore = 3,
     };
 
     /// <summary>
@@ -70,6 +71,7 @@ namespace ct
         // 表示レート
         IndicateRate m_rateType = IndicateRate::Up;
         IndicateRate m_subRateType = IndicateRate::Life;
+        IndicateRate m_courseSubRateType = IndicateRate::Up;
         bool m_useSubRate = false;
 
         double m_playScale = 1.0;

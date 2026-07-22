@@ -43,6 +43,10 @@ namespace ct
         {
             return m_totalNotes;
         }
+        float bestScore() const
+        {
+            return getNotesData().getScore().clearRate;
+        }
     private:
         void init(const SheetMusic& sheet, bool isPractice);
     private:

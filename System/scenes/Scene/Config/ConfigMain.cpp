@@ -350,13 +350,15 @@ namespace ct
             config.add(U"加算式", [&rate]{rate = IndicateRate::Up; });
             config.add(U"減算式", [&rate]{rate = IndicateRate::Down; });
             config.add(U"ライフゲージ", [&rate]{rate = IndicateRate::Life; });
-
+            config.add(U"ベストスコア", [&rate] {rate = IndicateRate::BestScore; });
             if (rate == IndicateRate::Up) {
                 config.init(U"加算式");
             } else if (rate == IndicateRate::Down) {
                 config.init(U"減算式");
             } else if (rate == IndicateRate::Life) {
                 config.init(U"ライフゲージ");
+            } else if (rate == IndicateRate::BestScore) {
+                config.init(U"ベストスコア");
             }
         }
         //表示クリアレート
@@ -367,6 +369,10 @@ namespace ct
         void ClearSubRateInit(Config& config)
         {
             IndicateRateInit(config, U"表示するサブレート", Game::Config().m_subRateType);
+        }
+        void CourseSubRateInit(Config& config)
+        {
+            IndicateRateInit(config, U"表示するサブレート(コース/エンドレス)", Game::Config().m_courseSubRateType);
         }
         void UseSubRateInit(Config& config)
         {
@@ -389,6 +395,7 @@ namespace ct
                 ClearRate,
                 UseSubRate,
                 SubRate,
+                CourseSubRate,
                 ViewConfig,
                 TOTAL_CONFIG //コンフィグの数
             };
@@ -401,6 +408,7 @@ namespace ct
                 ClearRateInit(m_configs[ClearRate]);
                 UseSubRateInit(m_configs[UseSubRate]);
                 ClearSubRateInit(m_configs[SubRate]);
+                CourseSubRateInit(m_configs[CourseSubRate]);
                 m_configs[ViewConfig].setName(U"背景詳細").applyOnEnterd([this]() {
                     this->changePush<PlayViewConfig>();
                     });
