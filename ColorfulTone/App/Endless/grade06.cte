@@ -1,7 +1,0 @@
-﻿[Data]
-TITLE = 破門級
-COLOR = #FFFF00
-
-CONDITION = OFFICIAL && (STAR >= ＊ && STAR <= ☆☆☆)
-DETAIL = LEVEL ☆～☆☆☆, ＊～＊＊＊
-

@@ -1,5 +1,0 @@
-﻿[Data]
-TITLE = 発狂級
-COLOR = #000000
-CONDITION = OFFICIAL && STAR >= ★ && STAR <= ★★★
-DETAIL = LEVEL ★～★★★

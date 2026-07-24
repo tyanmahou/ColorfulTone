@@ -180,6 +180,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\Select.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\SharedLogic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\Util.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\WarningInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Useful.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Addon\IntervalCounter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)utils\Asset\SivAssetUtil.hpp" />
@@ -356,6 +357,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\MemoInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedLogic.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\Util.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)scenes\utils\SharedDraw\WarningInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Addon\IntervalCounter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Audio\AudioSpectrum.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)utils\Clock\Clock.cpp" />

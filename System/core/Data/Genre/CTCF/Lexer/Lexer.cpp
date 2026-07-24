@@ -173,6 +173,10 @@ namespace ct::ctcf
 			m_options[U"ORDER"] = parses[1];
 		} else if (parses[0] == U"#EVAL" && parses.size() >= 2) {
 			m_options[U"EVAL"] = parses[1];
+		} else if (parses[0] == U"#COLOR" && parses.size() >= 2) {
+			m_options[U"COLOR"] = parses[1];
+		} else if (parses[0] == U"#DETAIL" && parses.size() >= 2) {
+			m_options[U"DETAIL"] = parses[1];
 		}
 	}
 }

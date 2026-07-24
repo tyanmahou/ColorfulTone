@@ -18,28 +18,22 @@ namespace ct
         bool load(const s3d::String& path)
         {
             m_index = Index++;
-
-            INI ini(path);
-            if (!ini)
+            m_condition = CTCFReader(path);
+            if (!m_condition) {
                 return false;
-
+            }
             m_fileName = FileUtil::BaseName(path);
 
+
             //タイトル
-            m_title = ini.getOr<String>(U"Data.TITLE", U"None");
+            m_title = m_condition.getTitle().value_or( U"None");
             // 詳細
-            m_detail = ini.getOpt<String>(U"Data.DETAIL");
+            m_detail = m_condition.getOption(U"DETAIL");
             // 色
-            if (auto colorHex = ini.getOpt<String>(U"Data.COLOR")) {
+            if (auto colorHex = m_condition.getOption(U"COLOR")) {
                 m_color = Color(*colorHex);
             }
-            String randomCond = ini.getOr<String>(U"Data.CONDITION", U"");
-            if (!randomCond.isEmpty()) {
-                m_condition = CTCFReader(Arg::code = randomCond);
-                m_canPlay = NotesFinder::HasNotes(m_condition);
-            } else {
-                m_canPlay = false;
-            }
+            m_canPlay = NotesFinder::HasNotes(m_condition);
 
             // スコアロード
             m_score = EndlessScoreLoader::Load(this->getScorePath());

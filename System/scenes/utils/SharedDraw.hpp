@@ -5,6 +5,7 @@
 #include <scenes/utils/SharedDraw/JacketInfo.hpp>
 #include <scenes/utils/SharedDraw/MemoInfo.hpp>
 #include <scenes/utils/SharedDraw/Select.hpp>
+#include <scenes/utils/SharedDraw/WarningInfo.hpp>
 
 namespace ct
 {

@@ -1,6 +1,0 @@
-﻿[Data]
-TITLE = 中級
-CONDITION = OFFICIAL && LEVEL >= 7 && LEVEL <= 9 && STAR < ＊
-DETAIL = LEVEL 7～9
-
-

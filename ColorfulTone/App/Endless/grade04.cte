@@ -1,5 +1,0 @@
-﻿[Data]
-TITLE = 上級
-CONDITION = OFFICIAL && LEVEL >= 10 && LEVEL <= 12 && STAR < ＊
-DETAIL = LEVEL 10～12
-
