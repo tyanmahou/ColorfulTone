@@ -85,6 +85,7 @@ namespace ct
         /// 譜面カラー
         /// </summary>
         const s3d::Color& getColor()const;
+        const s3d::Optional<s3d::Color>& getColorOpt() const;
 
         /// <summary>
         /// 楽譜取得

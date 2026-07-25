@@ -33,7 +33,7 @@ namespace ct
 
         s3d::uint64 getLastSample() const;
 
-        const s3d::Color& getColor() const;
+        s3d::Color getColor() const;
 
         s3d::String getLevelNameAndLevel() const;
 

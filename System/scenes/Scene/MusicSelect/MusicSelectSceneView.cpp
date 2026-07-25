@@ -178,6 +178,7 @@ namespace ct
 
             m_warning
                 .setStarLv(pLevel ? pLevel->getStarLv() : StarLv::None)
+                .setColor(pLevel ? pLevel->getColorOpt() : s3d::none)
                 .apply([&] {
                 TextureAsset(U"canvasBg").draw();
                 m_lights.draw();

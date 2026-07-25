@@ -41,6 +41,7 @@ namespace ct
 
             m_warning
                 .setStarLv(notes.getStarLv())
+                .setColor(notes.getColorOpt())
                 .apply([&] {
                 TextureAsset(U"canvasBg").draw();
                 m_lights.draw();

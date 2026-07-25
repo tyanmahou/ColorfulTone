@@ -53,7 +53,7 @@ namespace ct
         m_notesArtistName(U"None"),
         m_totalNotes(0),
         m_lastBarCount(0),
-        m_color(Palette::White)
+        m_color()
     {
     }
     SheetMusic::SheetMusic(s3d::FilePathView path) :

@@ -151,6 +151,10 @@ namespace ct
     {
         return getSheet().getColor();
     }
+    const s3d::Optional<s3d::Color>& NotesData::getColorOpt() const
+    {
+        return getSheet().getColorOpt();
+    }
 
     const SheetMusic& NotesData::getSheet() const
     {

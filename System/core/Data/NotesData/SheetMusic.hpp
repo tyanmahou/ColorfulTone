@@ -98,10 +98,15 @@ namespace ct
         {
             return m_notesArtistName;
         }
-        const s3d::Color& getColor() const
+       s3d::Color getColor() const
+        {
+            return m_color.value_or(s3d::Palette::White);
+        }
+        const s3d::Optional<s3d::Color>& getColorOpt() const
         {
             return m_color;
         }
+
         const s3d::Array<NoteEntity>& getNotes() const
         {
             return m_notes;
@@ -163,7 +168,7 @@ namespace ct
         StarLv m_starLv = StarLv::None;   // ★レベル
         s3d::String m_notesArtistName;    // 譜面製作者の名前
 
-        s3d::Color m_color;               // 譜面カラー
+        s3d::Optional<Color> m_color;     // 譜面カラー
 
         double m_lastBarCount;			  // 小節のカウント数
         s3d::int64 m_totalSample;		  // トータルサンプル

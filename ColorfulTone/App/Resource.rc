@@ -1,4 +1,4 @@
-# include <Siv3D/Windows/Resource.hpp>
+﻿# include <Siv3D/Windows/Resource.hpp>
 
 //////////////////////////////////////////////////////
 //
@@ -135,6 +135,7 @@ Resource(Shaders/gizi3d.vs)
 Resource(Shaders/grayglitch.ps)
 Resource(Shaders/mainBg.ps)
 Resource(Shaders/mask.ps)
+Resource(Shaders/warning.ps)
 
 /* examples 
 

@@ -11,34 +11,55 @@ namespace ct::SharedDraw
         {
             m_starLv = starLv;
         }
+        void setColor(const s3d::Optional<s3d::Color>& color)
+        {
+            m_color = color;
+        }
         void updateAlpha()
         {
             double targetAlpha = m_starLv == StarLv::None || m_starLv == StarLv::Other ? 0.0 : 1.0;
             double delta = Scene::DeltaTime();
-            if (m_alpha + delta < targetAlpha) {
-                m_alpha += delta;
+            if (m_blend + delta < targetAlpha) {
+                m_blend += delta;
             }
-            else if (m_alpha - delta > targetAlpha) {
-                m_alpha -= delta;
+            else if (m_blend - delta > targetAlpha) {
+                m_blend -= delta;
             }
             else {
-                m_alpha = targetAlpha;
+                m_blend = targetAlpha;
+            }
+        }
+        void updateNoise()
+        {
+            double target = m_starLv == StarLv::BlackThree ? 1.0
+                : m_starLv == StarLv::BlackTwo ? 0.5
+                : m_starLv == StarLv::BlackOne ? 0.25 
+                : 0.0;
+            double delta = Scene::DeltaTime();
+            if (m_noiseRate + delta < target) {
+                m_noiseRate += delta;
+            } else if (m_noiseRate - delta > target) {
+                m_noiseRate -= delta;
+            } else {
+                m_noiseRate = target;
             }
         }
         void apply(std::function<void()> draw)
         {
             updateAlpha();
-            if (m_alpha <= 0) {
+            updateNoise();
+            if (m_blend <= 0) {
                 draw();
                 return;
             }
 
-            ColorF baseColor = this->warnColor();
+            ColorF baseColor = m_color.value_or(this->warnColor());
             {
-                const double alpha = s3d::Periodic::Triangle0_1(2s);
-                const ColorF color = baseColor.withA(alpha * m_alpha);
-                Shaders::Blend()
-                    .setColor(color)
+                Shaders::Warning()
+                    .setColor(baseColor)
+                    .setBlend(m_blend)
+                    .setNoiseRate(m_noiseRate)
+                    .setTime(Scene::Time())
                     .apply(draw);
             }
             {
@@ -46,7 +67,7 @@ namespace ct::SharedDraw
                 auto drawable = FontAsset(FontName::Level)(this->warnText());
                 constexpr double thick = 3;
                 const double alpha = 0.2 + 0.3 * s3d::Periodic::Sine0_1(1s);
-                const ColorF color = baseColor.withA(alpha * m_alpha);;
+                const ColorF color = baseColor.withA(alpha * m_blend);;
                 constexpr double witdh = 180;
                 double move = witdh * s3d::Periodic::Sawtooth0_1(3s);
                 const Vec2 pivot0{ move, 35 };
@@ -67,9 +88,11 @@ namespace ct::SharedDraw
         {
             switch (m_starLv) {
             case StarLv::AsteOne:
+                return ColorF(0.5, 0.5, 1, 1);
             case StarLv::AsteTwo:
+                return ColorF(1, 0.5, 1, 1);
             case StarLv::AsteThree:
-                return ColorF(1, 0, 1, 1);
+                return ColorF(1, 0.5, 0, 1);
             case StarLv::WhiteOne:
             case StarLv::WhiteTwo:
             case StarLv::WhiteThree:
@@ -78,7 +101,7 @@ namespace ct::SharedDraw
             case StarLv::BlackTwo:
                 return ColorF(1, 0, 0, 1);
             case StarLv::BlackThree:
-                return ColorF(0, 0, 0, 1);
+                return ColorF(0.2, 1);
             default:
                 return ColorF(1, 1);
             }
@@ -87,16 +110,18 @@ namespace ct::SharedDraw
         {
             switch (m_starLv) {
             case StarLv::AsteOne:
-            case StarLv::AsteTwo:
-            case StarLv::AsteThree:
                 return U"CAUTION";
+            case StarLv::AsteTwo:
+                return U"WARNING";
+            case StarLv::AsteThree:
+                return U"DANGER";
             case StarLv::WhiteOne:
             case StarLv::WhiteTwo:
-            case StarLv::WhiteThree:
                 return U"WARNING";
+            case StarLv::WhiteThree:
+                return U"DANGER";
             case StarLv::BlackOne:
             case StarLv::BlackTwo:
-                return U"DANGER";
             case StarLv::BlackThree:
                 return U"FATAL";
             default:
@@ -104,8 +129,10 @@ namespace ct::SharedDraw
             }
         }
     private:
-        StarLv m_starLv;
-        double m_alpha = 0;
+        s3d::Optional<s3d::Color> m_color;
+        StarLv m_starLv{};
+        double m_blend = 0;
+        double m_noiseRate = 0;
     };
     WarningInfo::WarningInfo()
         :m_pImpl(std::make_shared<Impl>())
@@ -114,6 +141,11 @@ namespace ct::SharedDraw
     const WarningInfo& WarningInfo::setStarLv(StarLv starLv) const
     {
         m_pImpl->setStarLv(starLv);
+        return *this;
+    }
+    const WarningInfo& WarningInfo::setColor(const s3d::Optional<s3d::Color>& color) const
+    {
+        m_pImpl->setColor(color);
         return *this;
     }
     void WarningInfo::apply(std::function<void()> drawble) const

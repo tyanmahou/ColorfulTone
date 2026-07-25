@@ -221,7 +221,7 @@ namespace ct
     {
         return m_notesData.getSheet().getOffsetedTotalSample();
     }
-    const s3d::Color& PlayNotesData::getColor() const
+    s3d::Color PlayNotesData::getColor() const
     {
         return m_notesData.getColor();
     }

@@ -31,13 +31,18 @@ namespace ct
     {
         return Instance()->m_grayGlitch;
     }
+    const WarningShader& Shaders::Warning()
+    {
+        return Instance()->m_warning;
+    }
     Shaders::Shaders():
         m_maskShader(Scene::Size(), 4),
         m_flipPageShader(Scene::Size()),
         m_drawCanvasShader(),
         m_mainBgShader(),
         m_blendShader(Scene::Size()),
-        m_gizi3D(Scene::Size())
+        m_gizi3D(Scene::Size()),
+        m_warning(Scene::Size())
     {
     }
 }
