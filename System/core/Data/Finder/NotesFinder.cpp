@@ -32,18 +32,11 @@ namespace ct
     s3d::Array<MusicNotesIndex> NotesFinder::FindIndexes(const CTCFReader& ctcf)
     {
         auto& musics = Game::Musics();
-        size_t musicIndex = 0;
         Array<MusicNotesIndex> candidate;
-
         for (const auto& m : musics) {
-            size_t notesIndex = 0;
-            for (const auto& notes : m.getNotesData()) {
-                if (ctcf.expression(notes)) {
-                    candidate.push_back(std::make_pair(musicIndex, notesIndex));
-                }
-                ++notesIndex;
+            for (const auto& notes : ctcf.select(m)) {
+                candidate.push_back(notes.getMusicIndex());
             }
-            ++musicIndex;
         }
         return candidate;
     }
@@ -52,10 +45,8 @@ namespace ct
     {
         auto& musics = Game::Musics();
         for (auto&& m : musics) {
-            for (auto&& notes : m.getNotesData()) {
-                if (ctcf.expression(notes)) {
-                    return true;
-                }
+            if (ctcf.hasNotes(m)) {
+                return true;
             }
         }
         return false;

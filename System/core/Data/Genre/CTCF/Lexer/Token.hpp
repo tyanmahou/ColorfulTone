@@ -26,17 +26,42 @@ namespace ct::ctcf
 		FC,
 		Favorite,
 		Official,
+
+		All,
+		Any,
+		None,
+		Highest,
 	};
 	enum class TokenType : size_t
 	{
 		Invalid,
 
+		/// <summary>
+		/// (
+		/// </summary>
 		ParenL,
+
+		/// <summary>
+		/// )
+		/// </summary>
 		ParenR,
+
+		/// <summary>
+		/// [
+		/// </summary>
+		LBracket,
+
+		/// <summary>
+		/// ]
+		/// </summary>
+		RBracket,
+
 		Not,
 		Op,
 		And,
 		Or,
+
+		Colon,
 
 		// リテラル
 		Number,

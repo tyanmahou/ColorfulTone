@@ -7,6 +7,8 @@ namespace ct::ctcf::AST
 {
 	struct ExprStatement : IStatement
 	{
+		s3d::String type;
+		s3d::String mode;
 		std::shared_ptr<IExpression> expression;
 	};
 }

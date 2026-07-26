@@ -9,6 +9,8 @@ namespace ct::ctcf
 		{
 			{U"(", TokenType::ParenL},
 			{U")", TokenType::ParenR},
+			{U"[", TokenType::LBracket},
+			{U"]", TokenType::RBracket},
 			{U"!", TokenType::Not},
 			{U"==", TokenType::Op},
 			{U"!=", TokenType::Op},
@@ -19,6 +21,7 @@ namespace ct::ctcf
 			{U"in", TokenType::Op},
 			{U"&&", TokenType::And},
 			{U"||", TokenType::Or},
+			{U":", TokenType::Colon},
 		};
 		if (ids.find(str) != ids.end()) {
 			return ids.at(str);
@@ -51,6 +54,11 @@ namespace ct::ctcf
 			{U"AP",        IdentifierValueKind::AP},
 			{U"FAVORITE",  IdentifierValueKind::Favorite},
 			{U"OFFICIAL",  IdentifierValueKind::Official},
+
+			{U"ALL",      IdentifierValueKind::All},
+			{U"ANY",      IdentifierValueKind::Any},
+			{U"NONE",      IdentifierValueKind::None},
+			{U"HIGHEST",  IdentifierValueKind::Highest},
 		};
 		if (ids.find(str) != ids.end()) {
 			return ids.at(str);

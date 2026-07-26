@@ -6,6 +6,11 @@
 
 namespace ct 
 {
+	struct EndlessCandidate
+	{
+		s3d::Array<MusicNotesIndex> candidate;
+		double weight = 0;
+	};
 	class EndlessData
 	{
 	public:
@@ -32,7 +37,7 @@ namespace ct
 
 		const EndlessGaugeScore& getScore(LifeGaugeKind gauge) const;
 
-		s3d::Array<MusicNotesIndex> candidates() const;
+		s3d::Array<EndlessCandidate> candidates() const;
 	private:
 		class EndlessHandle;
 		std::shared_ptr<EndlessHandle> m_handle;

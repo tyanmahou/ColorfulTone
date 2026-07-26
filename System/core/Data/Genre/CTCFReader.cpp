@@ -15,11 +15,11 @@ namespace ct
     public:
         Impl(const s3d::FilePath& ctfolder) :
             m_lexer(ctfolder),
-            m_parser(m_lexer.getTokens())
+            m_parser(m_lexer)
         {}
         Impl(const s3d::Arg::code_<s3d::String>& script) :
             m_lexer(script),
-            m_parser(m_lexer.getTokens())
+            m_parser(m_lexer)
         {
 
         }
@@ -27,36 +27,100 @@ namespace ct
         {
             return m_lexer.getOption(option);
         }
-        GenreFilterEvalMode getEvalMode() const
+        bool expression(const NotesData& notes, ctcf::AST::INode* node)
         {
-            auto eval = this->getOption(U"EVAL").value_or(U"ANY");
-            return eval == U"ALL" ? GenreFilterEvalMode::All : GenreFilterEvalMode::Any;
-        }
-        bool expression(const NotesData& notes)
-        {
-            return ctcf::Evaluator(notes).eval(m_parser.root().get());
+            return ctcf::Evaluator(notes).eval(node);
         }
         bool expression(const MusicData& music)
         {
-            if (getEvalMode() == GenreFilterEvalMode::All) {
-                if (music.getNotesData().empty()) {
-                    return false;
-                }
+            auto statement = m_parser.root()->filter;
+            if (!statement) {
+                return false;
+            }
+            if (!statement->expression) {
+                return false;
+            }
+            auto mode = ctcf::FindIdentifierValueKind(statement->mode);
+            if (mode == ctcf::IdentifierValueKind::All) {
                 for (const auto& notes : music.getNotesData()) {
-                    if (!this->expression(notes)) {
+                    if (!this->expression(notes, statement.get())) {
                         return false;
                     }
                 }
                 return true;
-            } else {
+            } else if (mode == ctcf::IdentifierValueKind::Any) {
                 for (const auto& notes : music.getNotesData()) {
-                    if (this->expression(notes)) {
+                    if (this->expression(notes, statement.get())) {
                         return true;
                     }
+                }
+                return false;
+            } else if (mode == ctcf::IdentifierValueKind::None) {
+                for (const auto& notes : music.getNotesData()) {
+                    if (this->expression(notes, statement.get())) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+        bool hasNotes(const MusicData& music)
+        {
+            if (!expression(music)) {
+                // そもそも楽曲がフィルタされてる
+                return false;
+            }
+            auto* selector = m_parser.root()->selector.get();
+            for (const auto& notes : music.getNotesData()) {
+                if (this->expression(notes, selector)) {
+                    return true;
                 }
             }
             return false;
         }
+        s3d::Array<NotesData> select(const MusicData& music)
+        {
+            s3d::Array<NotesData> result;
+            if (!expression(music)) {
+                // そもそも楽曲がフィルタされてる
+                return result;
+            }
+            auto selector = m_parser.root()->selector;
+            if (!selector || !selector->expression) {
+                return result;
+            }
+            auto mode = ctcf::FindIdentifierValueKind(selector->mode);
+            if (mode == ctcf::IdentifierValueKind::All) {
+                result.reserve(music.getNotesData().size());
+                for (const auto& notes : music.getNotesData()) {
+                    if (this->expression(notes, selector.get())) {
+                        result.push_back(notes);
+                    }
+                }
+            } else if (mode == ctcf::IdentifierValueKind::Highest) {
+                NotesData highest;
+                auto comp = [](const NotesData& a, const NotesData& b) -> std::strong_ordering {
+                    if (auto cmp = a.getStarLv() <=> b.getStarLv(); cmp != 0) {
+                        return cmp;
+                    }
+
+                    return a.getLevel() <=> b.getLevel();
+                    };
+                for (const auto& notes : music.getNotesData()) {
+                    if (this->expression(notes, selector.get())) {
+                        if (!highest.isValid() || comp(highest, notes) <= 0) {
+                            highest = notes;
+                        }
+                    }
+                }
+                if (highest.isValid()) {
+                    result.push_back(highest);
+                }
+            }
+            return result;
+        }
+
         operator bool()const
         {
             return !m_lexer.getTokens().empty();
@@ -85,17 +149,16 @@ namespace ct
         return m_pImpl->getOption(option);
     }
 
-    GenreFilterEvalMode CTCFReader::getEvalMode() const
-    {
-        return m_pImpl->getEvalMode();
-    }
-
     bool CTCFReader::expression(const MusicData& music) const
     {
         return m_pImpl->expression(music);
     }
-    bool CTCFReader::expression(const NotesData& notes) const
+    bool CTCFReader::hasNotes(const MusicData& music)const
     {
-        return  m_pImpl->expression(notes);
+        return m_pImpl->hasNotes(music);
+    }
+    s3d::Array<NotesData> CTCFReader::select(const MusicData& music)const
+    {
+        return m_pImpl->select(music);
     }
 }

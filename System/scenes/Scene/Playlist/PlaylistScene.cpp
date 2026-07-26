@@ -128,7 +128,7 @@ namespace ct
 			this->changeScene(SceneName::Main, 2000, CrossFade::No);
 			});
 		m_pModel->subscribeOnBack([this] {
-			this->changeScene(SceneName::EndlessSelect, 1000);
+			this->changeScene(getData().session.selectScene(), 1000);
 			});
 	}
 	void PlaylistScene::update()

@@ -9,10 +9,128 @@
 
 namespace ct
 {
+    class EndlessCandidateLottery
+    {
+        struct Entry
+        {
+        public:
+            Entry(EndlessCandidate&& candidate)
+                : m_weight(candidate.weight)
+                , m_candidates(std::move(candidate.candidate))
+            {
+            }
+            PlayTrack choice(const Array<PlayTrack>& playlist)
+            {
+                if (m_table.isEmpty()) {
+                    m_table = m_candidates.shuffled(); // シャッフルする
+                    if (m_table.size() > 1 && playlist.size() > 0 && playlist.back().index == m_table.back()) {
+                        // 同じ譜面が出た場合はスキップ
+                        m_table.pop_back();
+                    }
+                }
+                PlayTrack result{
+                    .index = m_table.back(),
+                    .isSecret = true,
+                };
+                m_table.pop_back();
+                return result;
+            }
+            double weight() const
+            {
+                return m_weight;
+            }
+        private:
+            double m_weight;
+            Array<MusicNotesIndex> m_table;
+            Array<MusicNotesIndex> m_candidates;
+        };
+    public:
+        EndlessCandidateLottery(s3d::Array<EndlessCandidate> candidate)
+        {
+            m_entries.reserve(candidate.size());
+            for (auto& c : candidate) {
+                m_entries << Entry(std::move(c));
+            }
+            this->reset();
+        }
+        PlayTrack choice(const Array<PlayTrack>& playlist)
+        {
+            if (m_entries.size() <= 0) {
+                return PlayTrack{
+                    .index = {0, 0},
+                    .isSecret = true,
+                };
+            }
+            return choiceEntry().choice(playlist);
+        }
+    private:
+        void reset()
+        {
+            size_t count = m_entries.size();
+            if (count <= 0) {
+                return;
+            }
+            KahanSummation<double> sum;
+            for (const auto& e : m_entries) {
+                sum += e.weight();
+            }
+            double ave = sum.value() / count;
+            if (ave <= 0) {
+                return;
+            }
+            std::stack<size_t> largeIndexes;
+            std::stack<size_t> smallIndexes;
+            m_thresholds = m_entries.map([ave](const Entry& e) {return e.weight() / ave; });
+            for (size_t index = 0; index < count; ++index) {
+                if (m_thresholds[index] <= 1.0) {
+                    smallIndexes.push(index);
+                } else {
+                    largeIndexes.push(index);
+                }
+            }
+            m_indexes.clear();
+            m_indexes.reserve(count);
+            for (size_t index = 0; index < count; ++index) {
+                m_indexes.push_back(index);
+            }
+            while (smallIndexes.size() > 0 && largeIndexes.size() > 0) {
+   
+                size_t j = smallIndexes.top();
+                smallIndexes.pop();
+
+                size_t k = largeIndexes.top();
+                m_indexes[j] = k;
+                m_thresholds[k] -= (1 - m_thresholds[j]);
+                if (m_thresholds[k] <= 1.0) 
+                {
+                    smallIndexes.push(k);
+                    largeIndexes.pop();
+                }
+            }
+        }
+        size_t choiceIndex() const
+        {
+            size_t r = s3d::RandomOpen<size_t>(0, m_indexes.size());
+            if (m_thresholds[r] > s3d::Random()) {
+                return r;
+            }
+            return m_indexes[r];
+        }
+        Entry& choiceEntry()
+        {
+            size_t index = this->choiceIndex();
+            return m_entries[index];
+        }
+    private:
+        Array<Entry> m_entries;
+        Array<size_t> m_indexes;
+        Array<double> m_thresholds;
+    };
     class PlayEndless::Impl
     {
     public:
         Impl(const EndlessData& endless, LifeGaugeKind gauge)
+            :m_lottery(endless.candidates())
         {
             m_endless = endless;
             m_gauge = gauge;
@@ -21,7 +139,6 @@ namespace ct
             m_endlessResult.init(m_gauge);
 
             m_trackIndex = 0;
-            m_candidates = endless.candidates();
             for (size_t i = 0; i < 6; ++i) {
                 m_playlist << choice();
             }
@@ -37,19 +154,7 @@ namespace ct
         }
         PlayTrack choice()
         {
-            if (m_table.isEmpty()) {
-                m_table = m_candidates.shuffled(); // シャッフルする
-                if (m_table.size() > 1 && m_playlist.size() > 0 && m_playlist.back().index == m_table.back()) {
-                    // 同じ譜面が出た場合はスキップ
-                    m_table.pop_back();
-                }
-            }
-            PlayTrack result{ 
-                .index = m_table.back(),
-                .isSecret = true,
-            };
-            m_table.pop_back();
-            return result;
+            return m_lottery.choice(m_playlist);
         }
         const EndlessData& getEndless() const
         {
@@ -104,8 +209,7 @@ namespace ct
         size_t m_trackIndex = 0;
 
         Array<PlayTrack> m_playlist;
-        Array<MusicNotesIndex> m_table;
-        Array<MusicNotesIndex> m_candidates;
+        EndlessCandidateLottery m_lottery;
 
         PlayingScore m_score;
 

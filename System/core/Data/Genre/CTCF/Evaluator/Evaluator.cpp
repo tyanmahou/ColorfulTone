@@ -67,6 +67,12 @@ namespace
         int32 ib = static_cast<int32>(b);
         return Compare(ia, ib, op);
     }
+    template<class _T>
+    bool Compare(const _T& a, const _T& b, const String& op, bool swap)
+    {
+        if (swap) return Compare(b, a, op);
+        return Compare(a, b, op);
+    }
 #undef RETURN_COMPARE
 }
 namespace
@@ -85,7 +91,7 @@ namespace
         {
             // 文
             if (auto* root = dynamic_cast<Root*>(node)) {
-                return eval(root->statement.get());
+                return eval(root->filter.get());
             }
             if (auto* statement = dynamic_cast<ExprStatement*>(node)) {
                 return eval(statement->expression.get());
@@ -113,66 +119,66 @@ namespace
             }
             return this->eval(node->right.get());
         }
-        bool compare(IdentifierValue* lValue, const String& op, Value* rValue)
+        bool compare(IdentifierValue* lValue, const String& op, Value* rValue, bool swap)
         {
             auto kind = lValue->kind;
             const auto& value = rValue->token.token;
             const MusicData music = m_notes.getMusic();
             if (kind == IdentifierValueKind::Bpm) {
                 auto bpm = Parse<double>(value);
-                return ::Compare(music.getMinBPM(), bpm, op) || ::Compare(music.getMaxBPM(), bpm, op);
+                return ::Compare(music.getMinBPM(), bpm, op, swap) || ::Compare(music.getMaxBPM(), bpm, op, swap);
             }
             if (kind == IdentifierValueKind::MinBpm) {
-                return ::Compare(music.getMinBPM(), Parse<double>(value), op);
+                return ::Compare(music.getMinBPM(), Parse<double>(value), op, swap);
             }
             if (kind == IdentifierValueKind::MaxBpm) {
-                return ::Compare(music.getMaxBPM(), Parse<double>(value), op);
+                return ::Compare(music.getMaxBPM(), Parse<double>(value), op, swap);
             }
             if (kind == IdentifierValueKind::Artist) {
-                return ::Compare(music.getArtistName(), value, op);
+                return ::Compare(music.getArtistName(), value, op, swap);
             }
             if (kind == IdentifierValueKind::Authority) {
                 const auto& authority = music.getAuthority();
                 if (authority.has_value() && !authority.value().isEmpty()) {
-                    return ::Compare(authority.value(), value, op);
+                    return ::Compare(authority.value(), value, op, swap);
                 }
                 return false;
             }
             if (kind == IdentifierValueKind::MusicName) {
-                return ::Compare(music.getMusicName(), value, op);
+                return ::Compare(music.getMusicName(), value, op, swap);
             }
             if (kind == IdentifierValueKind::Genre) {
-                return ::Compare(music.getGenreName(), value, op);
+                return ::Compare(music.getGenreName(), value, op, swap);
             }
             if (kind == IdentifierValueKind::Level) {
                 int32 level = Parse<int32>(value);
-                return ::Compare(m_notes.getLevel(), level, op);
+                return ::Compare(m_notes.getLevel(), level, op, swap);
             }
             if (kind == IdentifierValueKind::LevelName) {
-                return ::Compare(m_notes.getLevelName(), value, op);
+                return ::Compare(m_notes.getLevelName(), value, op, swap);
             }
             if (kind == IdentifierValueKind::Star) {
-                return ::Compare(m_notes.getStarLv(), ParseStarLv(value), op);
+                return ::Compare(m_notes.getStarLv(), ParseStarLv(value), op, swap);
             }
             if (kind == IdentifierValueKind::Color) {
-                return ::Compare(m_notes.getColor(), Color(value), op);
+                return ::Compare(m_notes.getColor(), Color(value), op, swap);
             }
             if (kind == IdentifierValueKind::Note) {
-                return ::Compare(m_notes.getNotesArtistName(), value, op);
+                return ::Compare(m_notes.getNotesArtistName(), value, op, swap);
             }
             if (kind == IdentifierValueKind::TotalNote) {
                 size_t total = Parse<size_t>(value);
-                return ::Compare(m_notes.getTotalNotes(), total, op);
+                return ::Compare(m_notes.getTotalNotes(), total, op, swap);
             }
             if (kind == IdentifierValueKind::ClearRate) {
                 auto rateOpt = ParseOpt<float>(value);
                 if (!rateOpt) {
                     float rate = ResultRank::ToRate(value);
                     float rankBaseRate = ResultRank::ToRate(ResultRank::GetRankTextureName(m_notes.getScore().clearRate));
-                    return ::Compare(rankBaseRate, rate, op);
+                    return ::Compare(rankBaseRate, rate, op, swap);
                 } else {
                     float rate = rateOpt.value();
-                    return ::Compare(m_notes.getScore().clearRate, rate, op);
+                    return ::Compare(m_notes.getScore().clearRate, rate, op, swap);
                 }
             }
             return false;
@@ -185,18 +191,31 @@ namespace
             if (node->op == U"||") {
                 return this->eval(node->left.get()) || this->eval(node->right.get());
             }
-            auto valueL = dynamic_cast<IdentifierValue*>(node->left.get());
-            auto valueR = dynamic_cast<Value*>(node->right.get());
-            if (!valueL || !valueR) {
-                return false;
+            {
+                auto valueL = dynamic_cast<IdentifierValue*>(node->left.get());
+                auto valueR = dynamic_cast<Value*>(node->right.get());
+                if (valueL && valueR) {
+                    return this->compare(
+                        valueL,
+                        node->op,
+                        valueR,
+                        false
+                    );
+                }
             }
-            return {
-                this->compare(
-                valueL,
-                node->op,
-                valueR
-                )
-            };
+            {
+                auto valueL = dynamic_cast<Value*>(node->left.get());
+                auto valueR = dynamic_cast<IdentifierValue*>(node->right.get());
+                if (valueL && valueR) {
+                    return this->compare(
+                        valueR,
+                        node->op,
+                        valueL,
+                        true
+                    );
+                }
+            }
+            return false;
         }
         bool evalIdentiferValue(IdentifierValue* node)
         {

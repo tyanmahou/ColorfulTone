@@ -173,7 +173,7 @@ namespace ct
 		return std::make_shared<GenreHandle>(
 			GenreType::Custom, 
 			title,
-			GenreFilter([ctcf](const NotesData& notes)->bool {return ctcf.expression(notes); }, ctcf.getEvalMode()),
+			GenreFilter([ctcf](const MusicData& music)->bool {return ctcf.expression(music); }),
 			ctcf.getOrder()
 		);
 	}

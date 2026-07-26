@@ -6,6 +6,87 @@
 
 namespace ct
 {
+    struct CandidateGroup
+    {
+        double weight = 0;
+        CTCFReader condition;
+    };
+    class CTELeader
+    {
+    public:
+        CTELeader()
+        {
+            groups.push_back({});
+        }
+        bool load(const FilePath& ctfolder)
+        {
+            TextReader reader(ctfolder);
+            if (!reader) {
+                return false;
+            }
+            String line;
+            while (reader.readLine(line)) {
+                s3d::String trimedLine = line.trimmed();
+                if (trimedLine[0] == U'#') {
+                    // メタ
+                    this->parseMeta(trimedLine);
+                    continue;
+                } else if (trimedLine[0] == U'%') {
+                    // %はコメント
+                    continue;
+                }
+                else if (trimedLine == U"---") {
+                    // next block
+                    flashBuffer();
+                    groups.push_back({});
+                }
+                else if (trimedLine.starts_with(U"WEIGHT") && trimedLine.includes(U':')) {
+                    auto parses = trimedLine.split(U':');
+                    if (parses.size() >= 2) {
+                        groups.back().weight = s3d::Parse<double>(parses[1].trim());
+                    }
+                }
+                else {
+                    m_buffer += line;
+                }
+            }
+            flashBuffer();
+            groups.remove_if([](const CandidateGroup& group) {
+                return group.weight <= 0 || !group.condition;
+            });
+            return groups.size() > 0;
+        }
+        s3d::String title = U"None";
+        s3d::Optional<String> detail;
+        s3d::Color color = s3d::Palette::White;
+        s3d::Array<CandidateGroup> groups;
+
+    private:
+        void parseMeta(const String& option)
+        {
+            auto parses = option.split(U',');
+            const auto& opt = parses[0].trim();
+            if (opt == U"#TITLE" && parses.size() >= 2) {
+                title = parses[1].trim();
+            } else if (opt == U"#COLOR" && parses.size() >= 2) {
+                color = Color(parses[1].trim());
+            } else if (opt == U"#DETAIL" && parses.size() >= 2) {
+                detail = parses[1].trim();
+            }
+        }
+        bool flashBuffer()
+        {
+            m_buffer.trim();
+            if (m_buffer.isEmpty()) {
+                return false;
+            }
+            groups.back().condition = CTCFReader(Arg::code = m_buffer);
+            m_buffer.clear();
+            return true;
+        }
+    private:
+        String m_buffer;
+    };
     class EndlessData::EndlessHandle
     {
     public:
@@ -18,23 +99,24 @@ namespace ct
         bool load(const s3d::String& path)
         {
             m_index = Index++;
-            m_condition = CTCFReader(path);
-            if (!m_condition) {
+            m_fileName = FileUtil::BaseName(path);
+
+            CTELeader reader{};
+            if (!reader.load(path)) {
                 return false;
             }
-            m_fileName = FileUtil::BaseName(path);
 
 
             //タイトル
-            m_title = m_condition.getTitle().value_or( U"None");
+            m_title = std::move(reader.title);
             // 詳細
-            m_detail = m_condition.getOption(U"DETAIL");
+            m_detail = std::move(reader.detail);
             // 色
-            if (auto colorHex = m_condition.getOption(U"COLOR")) {
-                m_color = Color(*colorHex);
-            }
-            m_canPlay = NotesFinder::HasNotes(m_condition);
-
+            m_color = reader.color;
+            m_candidateGroups = std::move(reader.groups);
+            m_canPlay = m_candidateGroups.size() > 0 && m_candidateGroups.any([](const CandidateGroup& g) {
+                return NotesFinder::HasNotes(g.condition);
+            });
             // スコアロード
             m_score = EndlessScoreLoader::Load(this->getScorePath());
             return false;
@@ -88,9 +170,20 @@ namespace ct
         {
             return m_score[gauge];
         }
-        s3d::Array<MusicNotesIndex> candidates() const
+        s3d::Array<EndlessCandidate> candidates() const
         {
-            return NotesFinder::FindIndexes(m_condition);
+            s3d::Array<EndlessCandidate> result;
+            for (const auto& candidate : m_candidateGroups) {
+                Array<MusicNotesIndex> indexes = NotesFinder::FindIndexes(candidate.condition);
+                if (indexes.size() <= 0 || candidate.weight <= 0) {
+                    continue;
+                }
+                result << EndlessCandidate{
+                    .candidate = std::move(indexes),
+                    .weight = candidate.weight,
+                };
+            }
+            return result;
         }
     private:
         size_t m_index;	//ID
@@ -101,7 +194,7 @@ namespace ct
         EndlessScore m_score;
 
         bool m_canPlay = true;
-        CTCFReader m_condition;
+        s3d::Array<CandidateGroup> m_candidateGroups;
     };
     void EndlessData::ResetIndex()
     {
@@ -152,7 +245,7 @@ namespace ct
     {
         return m_handle->getScore(gauge);
     }
-    s3d::Array<MusicNotesIndex> ct::EndlessData::candidates() const
+    s3d::Array<EndlessCandidate> EndlessData::candidates() const
     {
         return m_handle->candidates();
     }

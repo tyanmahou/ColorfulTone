@@ -153,6 +153,12 @@ namespace ct::ctcf
 				} else if (line[pos] == U'(' || line[pos] == U')') {
 					m_tokens.emplace_back(String(1, line[pos]));
 					++pos;
+				} else if (line[pos] == U'[' || line[pos] == U']') {
+					m_tokens.emplace_back(String(1, line[pos]));
+					++pos;
+				} else if (line[pos] == U':') {
+					m_tokens.emplace_back(U":", TokenType::Colon);
+					++pos;
 				} else {
 					// そのほか
 					const size_t start = pos;
@@ -166,17 +172,18 @@ namespace ct::ctcf
 	}
 	void Lexer::pushOptions(const String& option)
 	{
-		auto parses = option.replaced(U" ", U"").split(U',');
-		if (parses[0] == U"#TITLE" && parses.size() >= 2) {
-			m_options[U"TITLE"] = parses[1];
-		} else if (parses[0] == U"#ORDER" && parses.size() >= 2) {
-			m_options[U"ORDER"] = parses[1];
-		} else if (parses[0] == U"#EVAL" && parses.size() >= 2) {
-			m_options[U"EVAL"] = parses[1];
-		} else if (parses[0] == U"#COLOR" && parses.size() >= 2) {
-			m_options[U"COLOR"] = parses[1];
-		} else if (parses[0] == U"#DETAIL" && parses.size() >= 2) {
-			m_options[U"DETAIL"] = parses[1];
+		auto parses = option.split(U',');
+		const auto& opt = parses[0].trim();
+		if (opt == U"#TITLE" && parses.size() >= 2) {
+			m_options[U"TITLE"] = parses[1].trim();
+		} else if (opt == U"#ORDER" && parses.size() >= 2) {
+			m_options[U"ORDER"] = parses[1].trim();
+		} else if (opt == U"#EVAL" && parses.size() >= 2) {
+			m_options[U"EVAL"] = parses[1].trim();
+		} else if (opt == U"#COLOR" && parses.size() >= 2) {
+			m_options[U"COLOR"] = parses[1].trim();
+		} else if (opt == U"#DETAIL" && parses.size() >= 2) {
+			m_options[U"DETAIL"] = parses[1].trim();
 		}
 	}
 }

@@ -3,7 +3,6 @@
 #include <Siv3D/Optional.hpp>
 #include <Siv3D/String.hpp>
 #include <Siv3D/Parse.hpp>
-#include <core/Data/Genre/GenreFilter.hpp>
 #include <memory>
 
 namespace ct
@@ -32,10 +31,9 @@ namespace ct
             return s3d::ParseOpt<s3d::int32>(this->getOption(U"ORDER").value_or(U"0")).value_or(0);
         }
 
-        GenreFilterEvalMode getEvalMode() const;
-
         bool expression(const MusicData& music)const;
-        bool expression(const NotesData& notes)const;
+        bool hasNotes(const MusicData& music)const;
+        s3d::Array<NotesData> select(const MusicData& music)const;
     private:
         class Impl;
         std::shared_ptr<Impl> m_pImpl;
