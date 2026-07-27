@@ -3,6 +3,7 @@
 #include <Siv3D/Color.hpp>
 #include <core/Data/Score/EndlessScore.hpp>
 #include <core/Data/MusicNotesIndex.hpp>
+#include <core/Data/NotesData/StarLv.hpp>
 
 namespace ct 
 {
@@ -34,6 +35,9 @@ namespace ct
 		const s3d::Color& getColor() const;
 		const s3d::String& getTitle() const;
 		s3d::String getDetail() const;
+
+		s3d::int32 getLv() const;
+		StarLv getStarLv() const;
 
 		const EndlessGaugeScore& getScore(LifeGaugeKind gauge) const;
 

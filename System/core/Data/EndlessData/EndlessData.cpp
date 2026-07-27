@@ -60,7 +60,8 @@ namespace ct
         s3d::Optional<String> detail;
         s3d::Color color = s3d::Palette::White;
         s3d::Array<CandidateGroup> groups;
-
+        s3d::int32 lv = 1;
+        StarLv starLv = StarLv::None;
     private:
         void parseMeta(const String& option)
         {
@@ -72,6 +73,13 @@ namespace ct
                 color = Color(parses[1].trim());
             } else if (opt == U"#DETAIL" && parses.size() >= 2) {
                 detail = parses[1].trim();
+            } else if (opt == U"#LEVEL" && parses.size() >= 2) {
+                lv = s3d::ParseOr<int32>(parses[1].trim(), 1);
+                if (parses.size() >= 3) {
+                    starLv = ParseStarLv(parses[2].trim());
+                } else {
+                    starLv = AutoStarLv(lv);
+                }
             }
         }
         bool flashBuffer()
@@ -113,6 +121,9 @@ namespace ct
             m_detail = std::move(reader.detail);
             // 色
             m_color = reader.color;
+            m_lv = reader.lv;
+            m_starLv = reader.starLv;
+
             m_candidateGroups = std::move(reader.groups);
             m_canPlay = m_candidateGroups.size() > 0 && m_candidateGroups.any([](const CandidateGroup& g) {
                 return NotesFinder::HasNotes(g.condition);
@@ -165,7 +176,14 @@ namespace ct
                 return U"条件にあう譜面がみつかりません\n" + m_detail.value_or(U"");
             }
         }
-
+        s3d::int32 getLv() const
+        {
+            return m_lv;
+        }
+        StarLv getStarLv() const
+        {
+            return m_starLv;
+        }
         const EndlessGaugeScore& getScore(LifeGaugeKind gauge) const
         {
             return m_score[gauge];
@@ -186,11 +204,14 @@ namespace ct
             return result;
         }
     private:
-        size_t m_index;	//ID
-        s3d::String m_title;	// タイトル
+        size_t m_index;	                //ID
+        s3d::String m_title;            // タイトル
         s3d::Optional<String> m_detail;	// 詳細
-        s3d::String m_fileName;
-        s3d::Color m_color;		// 色
+        s3d::String m_fileName;         // ファイル名
+        s3d::Color m_color;		        // 色
+        s3d::int32 m_lv;                // レベル
+        StarLv m_starLv = StarLv::None; // ★レベル
+
         EndlessScore m_score;
 
         bool m_canPlay = true;
@@ -240,6 +261,14 @@ namespace ct
     s3d::String EndlessData::getDetail() const
     {
         return m_handle->getDetail();
+    }
+    s3d::int32 EndlessData::getLv() const
+    {
+        return m_handle->getLv();
+    }
+    StarLv EndlessData::getStarLv() const
+    {
+        return m_handle->getStarLv();
     }
     const EndlessGaugeScore& EndlessData::getScore(LifeGaugeKind gauge) const
     {

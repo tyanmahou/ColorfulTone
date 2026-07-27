@@ -26,6 +26,7 @@ namespace ct
 	[[nodiscard]] s3d::int32 StarCount(StarLv kind);
 
 	[[nodiscard]] StarLv ParseStarLv(s3d::StringView str);
+	[[nodiscard]] StarLv AutoStarLv(s3d::int32 level);
 
 	[[nodiscard]] bool IsAsteStar(StarLv kind);
 	[[nodiscard]] bool IsWhiteStar(StarLv kind);

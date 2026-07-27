@@ -65,6 +65,19 @@ namespace ct
 		}
 		return StarLv::None;
 	}
+	StarLv AutoStarLv(s3d::int32 level)
+	{
+		if (level == 16) {
+			return StarLv::WhiteThree;
+		} else if (level == 17) {
+			return StarLv::BlackOne;
+		} else if (level == 18) {
+			return StarLv::BlackTwo;
+		} else if (level >= 19) {
+			return StarLv::BlackThree;
+		}
+		return StarLv::None;
+	}
 	bool IsAsteStar(StarLv kind)
 	{
 		switch (kind) {
